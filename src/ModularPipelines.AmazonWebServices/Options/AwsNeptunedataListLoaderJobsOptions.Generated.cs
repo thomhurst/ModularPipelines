@@ -27,7 +27,10 @@ public record AwsNeptunedataListLoaderJobsOptions : AwsOptions
     [CliOption("--limit")]
     public int? Limit { get; set; }
 
-    [CliFlag("--include-queued-loads")]
+    /// <summary>
+    /// An optional parameter that can be used to exclude the load IDs of queued load requests when requesting a list of load IDs by setting the parameter to FALSE . The default value is TRUE .
+    /// </summary>
+    [CliFlag("--include-queued-loads", NegatedName = "--no-include-queued-loads")]
     public bool? IncludeQueuedLoads { get; set; }
 
     [CliOption("--cli-input-json")]

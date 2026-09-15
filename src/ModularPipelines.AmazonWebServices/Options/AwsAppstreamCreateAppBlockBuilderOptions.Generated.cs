@@ -11,6 +11,8 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +22,76 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("appstream", "create-app-block-builder")]
-public record AwsAppstreamCreateAppBlockBuilderOptions : AwsOptions
+public record AwsAppstreamCreateAppBlockBuilderOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates an app block builder. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Name">The unique name for the app block builder. Constraints: o pattern: ^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$</param>
+    /// <param name="Platform">The platform of the app block builder. WINDOWS_SERVER_2019 is the only valid value. Possible values: o WINDOWS_SERVER_2019</param>
+    /// <param name="InstanceType">The instance type to use when launching the app block builder. The following instance types are available: o stream.standard.small o stream.standard.medium o stream.standard.large o stream.standard.xlarge o stream.standard.2xlarge Constraints: o min: 1</param>
+    /// <param name="VpcConfig">The VPC configuration for the app block builder. App block builders require that you specify at least two subnets in different availability zones. SubnetIds -&gt; (list) The identifiers of the subnets to which a network interface is attached from the fleet instance or image builder instance. Fleet instances use one or more subnets. Image builder instances use one subnet. (string) Constraints: o min: 1 SecurityGroupIds -&gt; (list) The identifiers of the security groups for the fleet or image builder. Constraints: o max: 5 (string) Constraints: o min: 1 Shorthand Syntax: SubnetIds=string,string,SecurityGroupIds=string,string JSON Syntax: { "SubnetIds": ["string", ...], "SecurityGroupIds": ["string", ...] }</param>
+    public AwsAppstreamCreateAppBlockBuilderOptions(
+        string Name,
+        AwsAppstreamCreateAppBlockBuilderPlatform Platform,
+        string InstanceType,
+        string VpcConfig
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(Platform);
+        this.Platform = Platform;
+        global::System.ArgumentNullException.ThrowIfNull(InstanceType);
+        this.InstanceType = InstanceType;
+        global::System.ArgumentNullException.ThrowIfNull(VpcConfig);
+        this.VpcConfig = VpcConfig;
+    }
+
+    private AwsAppstreamCreateAppBlockBuilderOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsAppstreamCreateAppBlockBuilderOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsAppstreamCreateAppBlockBuilderOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique name for the app block builder. Constraints: o pattern: ^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
+
+    /// <summary>
+    /// The platform of the app block builder. WINDOWS_SERVER_2019 is the only valid value. Possible values: o WINDOWS_SERVER_2019
+    /// </summary>
+    [CliOption("--platform")]
+    public AwsAppstreamCreateAppBlockBuilderPlatform? Platform { get; private init; }
+
+    /// <summary>
+    /// The instance type to use when launching the app block builder. The following instance types are available: o stream.standard.small o stream.standard.medium o stream.standard.large o stream.standard.xlarge o stream.standard.2xlarge Constraints: o min: 1
+    /// </summary>
+    [CliOption("--instance-type")]
+    public string? InstanceType { get; private init; }
+
+    /// <summary>
+    /// The VPC configuration for the app block builder. App block builders require that you specify at least two subnets in different availability zones. SubnetIds -&gt; (list) The identifiers of the subnets to which a network interface is attached from the fleet instance or image builder instance. Fleet instances use one or more subnets. Image builder instances use one subnet. (string) Constraints: o min: 1 SecurityGroupIds -&gt; (list) The identifiers of the security groups for the fleet or image builder. Constraints: o max: 5 (string) Constraints: o min: 1 Shorthand Syntax: SubnetIds=string,string,SecurityGroupIds=string,string JSON Syntax: { "SubnetIds": ["string", ...], "SecurityGroupIds": ["string", ...] }
+    /// </summary>
+    [CliOption("--vpc-config")]
+    public string? VpcConfig { get; private init; }
 
     /// <summary>
     /// The description of the app block builder. Constraints: o max: 256
@@ -43,16 +111,10 @@ public record AwsAppstreamCreateAppBlockBuilderOptions : AwsOptions
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
-    [CliOption("--platform")]
-    public string? Platform { get; set; }
-
-    [CliOption("--instance-type")]
-    public string? InstanceType { get; set; }
-
-    [CliOption("--vpc-config")]
-    public string? VpcConfig { get; set; }
-
-    [CliFlag("--enable-default-internet-access")]
+    /// <summary>
+    /// Enables or disables default internet access for the app block builder.
+    /// </summary>
+    [CliFlag("--enable-default-internet-access", NegatedName = "--no-enable-default-internet-access")]
     public bool? EnableDefaultInternetAccess { get; set; }
 
     /// <summary>
@@ -67,7 +129,10 @@ public record AwsAppstreamCreateAppBlockBuilderOptions : AwsOptions
     [CliOption("--access-endpoints", GroupValues = true)]
     public IEnumerable<string>? AccessEndpoints { get; set; }
 
-    [CliFlag("--disable-imdsv1")]
+    /// <summary>
+    /// Set to true to disable Instance Metadata Service Version 1 (IMDSv1) and enforce IMDSv2. Set to false to enable both IMDSv1 and IMDSv2.
+    /// </summary>
+    [CliFlag("--disable-imdsv1", NegatedName = "--no-disable-imdsv1")]
     public bool? DisableImdsv1 { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -75,5 +140,22 @@ public record AwsAppstreamCreateAppBlockBuilderOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

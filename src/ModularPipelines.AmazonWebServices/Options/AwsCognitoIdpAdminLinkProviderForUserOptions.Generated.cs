@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +20,88 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cognito-idp", "admin-link-provider-for-user")]
-public record AwsCognitoIdpAdminLinkProviderForUserOptions : AwsOptions
+public record AwsCognitoIdpAdminLinkProviderForUserOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Links an existing user account in a user pool, or DestinationUser , to an identity from an external IdP, or SourceUser , based on a specified attribute name and value from the external IdP. This operation connects a local user profile with a user identity who hasn't yet signed in from their third-party IdP. When the user signs in with their IdP, they get access-control configuration from the local user profile. Linked local users can also sign in with SDK-based API operations like InitiateAuth a...
+    /// </summary>
+    /// <param name="UserPoolId">The ID of the user pool where you want to link a federated identity. Constraints: o min: 0 o max: 131072</param>
+    /// <param name="DestinationUser">The existing user in the user pool that you want to assign to the external IdP user account. This user can be a local (Username + Password) Amazon Cognito user pools user or a federated user (for example, a SAML or Facebook user). If the user doesn't exist, Amazon Cognito generates an exception. Amazon Cognito returns this user when the new user (with the linked IdP attribute) signs in. For a native username + password user, the ProviderAttributeValue for the DestinationUser should be the username in the user pool. For a federated user, it should be the provider-specific user_id . The ProviderAttributeName of the DestinationUser is ignored. The ProviderName should be set to Cognito for users in Cognito user pools. ProviderName -&gt; (string) The name of the provider, such as Facebook, Google, or Login with Amazon. Constraints: o min: 1 o max: 32 o pattern: [\p{L}\p{M}\p{S}\p{N}\p{P}\p{Z}]+ ProviderAttributeName -&gt; (string) The name of the provider attribute to link to, such as NameID . Constraints: o min: 0 o max: 131072 ProviderAttributeValue -&gt; (string) The value of the provider attribute to link to, such as xxxxx_account . Constraints: o min: 0 o max: 131072 Shorthand Syntax: ProviderName=string,ProviderAttributeName=string,ProviderAttributeValue=string JSON Syntax: { "ProviderName": "string", "ProviderAttributeName": "string", "ProviderAttributeValue": "string" }</param>
+    /// <param name="SourceUser">An external IdP account for a user who doesn't exist yet in the user pool. This user must be a federated user (for example, a SAML or Facebook user), not another native user. If the SourceUser is using a federated social IdP, such as Facebook, Google, or Login with Amazon, you must set the ProviderAttributeName to Cognito_Subject . For social IdPs, the ProviderName will be Face- book , Google , or LoginWithAmazon , and Amazon Cognito will auto- matically parse the Facebook, Google, and Login with Amazon tokens for id , sub , and user_id , respectively. The ProviderAttribute- Value for the user must be the same value as the id , sub , or user_id value found in the social IdP token. For OIDC, the ProviderAttributeName can be any mapped value from a claim in the ID token, or that your app retrieves from the userInfo endpoint. For SAML, the ProviderAttributeName can be any mapped value from a claim in the SAML assertion. The following additional considerations apply to SourceUser for OIDC and SAML providers. o You must map the claim to a user pool attribute in your IdP con- figuration, and set the user pool attribute name as the value of ProviderAttributeName in your AdminLinkProviderForUser request. For example, email . o When you set ProviderAttributeName to Cognito_Subject , Amazon Cognito will automatically parse the default unique identifier found in the subject from the IdP token. ProviderName -&gt; (string) The name of the provider, such as Facebook, Google, or Login with Amazon. Constraints: o min: 1 o max: 32 o pattern: [\p{L}\p{M}\p{S}\p{N}\p{P}\p{Z}]+ ProviderAttributeName -&gt; (string) The name of the provider attribute to link to, such as NameID . Constraints: o min: 0 o max: 131072 ProviderAttributeValue -&gt; (string) The value of the provider attribute to link to, such as xxxxx_account . Constraints: o min: 0 o max: 131072 Shorthand Syntax: ProviderName=string,ProviderAttributeName=string,ProviderAttributeValue=string JSON Syntax: { "ProviderName": "string", "ProviderAttributeName": "string", "ProviderAttributeValue": "string" }</param>
+    public AwsCognitoIdpAdminLinkProviderForUserOptions(
+        string UserPoolId,
+        string DestinationUser,
+        string SourceUser
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(UserPoolId);
+        this.UserPoolId = UserPoolId;
+        global::System.ArgumentNullException.ThrowIfNull(DestinationUser);
+        this.DestinationUser = DestinationUser;
+        global::System.ArgumentNullException.ThrowIfNull(SourceUser);
+        this.SourceUser = SourceUser;
+    }
+
+    private AwsCognitoIdpAdminLinkProviderForUserOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCognitoIdpAdminLinkProviderForUserOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCognitoIdpAdminLinkProviderForUserOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the user pool where you want to link a federated identity. Constraints: o min: 0 o max: 131072
+    /// </summary>
     [CliOption("--user-pool-id")]
-    public string? UserPoolId { get; set; }
+    public string? UserPoolId { get; private init; }
 
+    /// <summary>
+    /// The existing user in the user pool that you want to assign to the external IdP user account. This user can be a local (Username + Password) Amazon Cognito user pools user or a federated user (for example, a SAML or Facebook user). If the user doesn't exist, Amazon Cognito generates an exception. Amazon Cognito returns this user when the new user (with the linked IdP attribute) signs in. For a native username + password user, the ProviderAttributeValue for the DestinationUser should be the username in the user pool. For a federated user, it should be the provider-specific user_id . The ProviderAttributeName of the DestinationUser is ignored. The ProviderName should be set to Cognito for users in Cognito user pools. ProviderName -&gt; (string) The name of the provider, such as Facebook, Google, or Login with Amazon. Constraints: o min: 1 o max: 32 o pattern: [\p{L}\p{M}\p{S}\p{N}\p{P}\p{Z}]+ ProviderAttributeName -&gt; (string) The name of the provider attribute to link to, such as NameID . Constraints: o min: 0 o max: 131072 ProviderAttributeValue -&gt; (string) The value of the provider attribute to link to, such as xxxxx_account . Constraints: o min: 0 o max: 131072 Shorthand Syntax: ProviderName=string,ProviderAttributeName=string,ProviderAttributeValue=string JSON Syntax: { "ProviderName": "string", "ProviderAttributeName": "string", "ProviderAttributeValue": "string" }
+    /// </summary>
     [CliOption("--destination-user")]
-    public string? DestinationUser { get; set; }
+    public string? DestinationUser { get; private init; }
 
+    /// <summary>
+    /// An external IdP account for a user who doesn't exist yet in the user pool. This user must be a federated user (for example, a SAML or Facebook user), not another native user. If the SourceUser is using a federated social IdP, such as Facebook, Google, or Login with Amazon, you must set the ProviderAttributeName to Cognito_Subject . For social IdPs, the ProviderName will be Face- book , Google , or LoginWithAmazon , and Amazon Cognito will auto- matically parse the Facebook, Google, and Login with Amazon tokens for id , sub , and user_id , respectively. The ProviderAttribute- Value for the user must be the same value as the id , sub , or user_id value found in the social IdP token. For OIDC, the ProviderAttributeName can be any mapped value from a claim in the ID token, or that your app retrieves from the userInfo endpoint. For SAML, the ProviderAttributeName can be any mapped value from a claim in the SAML assertion. The following additional considerations apply to SourceUser for OIDC and SAML providers. o You must map the claim to a user pool attribute in your IdP con- figuration, and set the user pool attribute name as the value of ProviderAttributeName in your AdminLinkProviderForUser request. For example, email . o When you set ProviderAttributeName to Cognito_Subject , Amazon Cognito will automatically parse the default unique identifier found in the subject from the IdP token. ProviderName -&gt; (string) The name of the provider, such as Facebook, Google, or Login with Amazon. Constraints: o min: 1 o max: 32 o pattern: [\p{L}\p{M}\p{S}\p{N}\p{P}\p{Z}]+ ProviderAttributeName -&gt; (string) The name of the provider attribute to link to, such as NameID . Constraints: o min: 0 o max: 131072 ProviderAttributeValue -&gt; (string) The value of the provider attribute to link to, such as xxxxx_account . Constraints: o min: 0 o max: 131072 Shorthand Syntax: ProviderName=string,ProviderAttributeName=string,ProviderAttributeValue=string JSON Syntax: { "ProviderName": "string", "ProviderAttributeName": "string", "ProviderAttributeValue": "string" }
+    /// </summary>
     [CliOption("--source-user")]
-    public string? SourceUser { get; set; }
+    public string? SourceUser { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

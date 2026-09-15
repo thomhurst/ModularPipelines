@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --scalingmode.
+/// Allowed values for --scaling-mode.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsSesv2CreateDedicatedIpPoolScalingMode
 {
-    [EnumValue("STANDARD")]
-    Standard = 1,
-
     [EnumValue("MANAGED")]
-    Managed = 2
+    Managed,
+
+    [EnumValue("STANDARD")]
+    Standard
 }

@@ -5,8 +5,8 @@
 
 #nullable enable
 
-using ModularPipelines.Context;
 using System.CodeDom.Compiler;
+using ModularPipelines.Context;
 using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
@@ -40,11 +40,11 @@ public class AwsAppintegrations : IAwsAppintegrations
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateApplicationAsync(
-        AwsAppintegrationsCreateApplicationOptions? options = null,
+        AwsAppintegrationsCreateApplicationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsAppintegrationsCreateApplicationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -55,11 +55,11 @@ public class AwsAppintegrations : IAwsAppintegrations
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateDataIntegrationAssociationAsync(
-        AwsAppintegrationsCreateDataIntegrationAssociationOptions? options = null,
+        AwsAppintegrationsCreateDataIntegrationAssociationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsAppintegrationsCreateDataIntegrationAssociationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -70,11 +70,11 @@ public class AwsAppintegrations : IAwsAppintegrations
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateDataIntegrationAsync(
-        AwsAppintegrationsCreateDataIntegrationOptions? options = null,
+        AwsAppintegrationsCreateDataIntegrationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsAppintegrationsCreateDataIntegrationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -85,26 +85,26 @@ public class AwsAppintegrations : IAwsAppintegrations
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateEventIntegrationAsync(
-        AwsAppintegrationsCreateEventIntegrationOptions? options = null,
+        AwsAppintegrationsCreateEventIntegrationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsAppintegrationsCreateEventIntegrationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
-    /// Deletes the Application. Only Applications that don't have any Applica- tion Associations can be deleted. See also: AWS API Documentation
+    /// Deletes an application. If the application has associations, you must delete them first. Alternatively, use the force option to delete the application and remove its associations. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteApplicationAsync(
-        AwsAppintegrationsDeleteApplicationOptions? options = null,
+        AwsAppintegrationsDeleteApplicationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsAppintegrationsDeleteApplicationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -115,11 +115,11 @@ public class AwsAppintegrations : IAwsAppintegrations
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteDataIntegrationAsync(
-        AwsAppintegrationsDeleteDataIntegrationOptions? options = null,
+        AwsAppintegrationsDeleteDataIntegrationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsAppintegrationsDeleteDataIntegrationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -130,11 +130,11 @@ public class AwsAppintegrations : IAwsAppintegrations
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteEventIntegrationAsync(
-        AwsAppintegrationsDeleteEventIntegrationOptions? options = null,
+        AwsAppintegrationsDeleteEventIntegrationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsAppintegrationsDeleteEventIntegrationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -145,11 +145,11 @@ public class AwsAppintegrations : IAwsAppintegrations
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetApplicationAsync(
-        AwsAppintegrationsGetApplicationOptions? options = null,
+        AwsAppintegrationsGetApplicationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsAppintegrationsGetApplicationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -160,11 +160,11 @@ public class AwsAppintegrations : IAwsAppintegrations
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetDataIntegrationAsync(
-        AwsAppintegrationsGetDataIntegrationOptions? options = null,
+        AwsAppintegrationsGetDataIntegrationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsAppintegrationsGetDataIntegrationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -175,11 +175,11 @@ public class AwsAppintegrations : IAwsAppintegrations
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetEventIntegrationAsync(
-        AwsAppintegrationsGetEventIntegrationOptions? options = null,
+        AwsAppintegrationsGetEventIntegrationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsAppintegrationsGetEventIntegrationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -190,11 +190,11 @@ public class AwsAppintegrations : IAwsAppintegrations
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListApplicationAssociationsAsync(
-        AwsAppintegrationsListApplicationAssociationsOptions? options = null,
+        AwsAppintegrationsListApplicationAssociationsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsAppintegrationsListApplicationAssociationsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -209,7 +209,7 @@ public class AwsAppintegrations : IAwsAppintegrations
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsAppintegrationsListApplicationsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsAppintegrationsListApplicationsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -220,11 +220,11 @@ public class AwsAppintegrations : IAwsAppintegrations
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListDataIntegrationAssociationsAsync(
-        AwsAppintegrationsListDataIntegrationAssociationsOptions? options = null,
+        AwsAppintegrationsListDataIntegrationAssociationsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsAppintegrationsListDataIntegrationAssociationsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -239,7 +239,7 @@ public class AwsAppintegrations : IAwsAppintegrations
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsAppintegrationsListDataIntegrationsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsAppintegrationsListDataIntegrationsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -250,11 +250,11 @@ public class AwsAppintegrations : IAwsAppintegrations
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListEventIntegrationAssociationsAsync(
-        AwsAppintegrationsListEventIntegrationAssociationsOptions? options = null,
+        AwsAppintegrationsListEventIntegrationAssociationsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsAppintegrationsListEventIntegrationAssociationsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -269,7 +269,7 @@ public class AwsAppintegrations : IAwsAppintegrations
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsAppintegrationsListEventIntegrationsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsAppintegrationsListEventIntegrationsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -280,11 +280,11 @@ public class AwsAppintegrations : IAwsAppintegrations
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListTagsForResourceAsync(
-        AwsAppintegrationsListTagsForResourceOptions? options = null,
+        AwsAppintegrationsListTagsForResourceOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsAppintegrationsListTagsForResourceOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -295,11 +295,11 @@ public class AwsAppintegrations : IAwsAppintegrations
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> TagResourceAsync(
-        AwsAppintegrationsTagResourceOptions? options = null,
+        AwsAppintegrationsTagResourceOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsAppintegrationsTagResourceOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -310,11 +310,11 @@ public class AwsAppintegrations : IAwsAppintegrations
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UntagResourceAsync(
-        AwsAppintegrationsUntagResourceOptions? options = null,
+        AwsAppintegrationsUntagResourceOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsAppintegrationsUntagResourceOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -325,11 +325,11 @@ public class AwsAppintegrations : IAwsAppintegrations
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateApplicationAsync(
-        AwsAppintegrationsUpdateApplicationOptions? options = null,
+        AwsAppintegrationsUpdateApplicationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsAppintegrationsUpdateApplicationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -340,11 +340,11 @@ public class AwsAppintegrations : IAwsAppintegrations
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateDataIntegrationAssociationAsync(
-        AwsAppintegrationsUpdateDataIntegrationAssociationOptions? options = null,
+        AwsAppintegrationsUpdateDataIntegrationAssociationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsAppintegrationsUpdateDataIntegrationAssociationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -355,11 +355,11 @@ public class AwsAppintegrations : IAwsAppintegrations
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateDataIntegrationAsync(
-        AwsAppintegrationsUpdateDataIntegrationOptions? options = null,
+        AwsAppintegrationsUpdateDataIntegrationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsAppintegrationsUpdateDataIntegrationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -370,11 +370,11 @@ public class AwsAppintegrations : IAwsAppintegrations
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateEventIntegrationAsync(
-        AwsAppintegrationsUpdateEventIntegrationOptions? options = null,
+        AwsAppintegrationsUpdateEventIntegrationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsAppintegrationsUpdateEventIntegrationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     #endregion

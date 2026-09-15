@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --publishoption.
+/// Allowed values for --publish-option.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsQuicksightUpdateTopicV2PublishOption
 {
     [EnumValue("DRAFT")]
-    Draft = 1,
+    Draft,
 
     [EnumValue("PUBLISH")]
-    Publish = 2
+    Publish
 }

@@ -5,8 +5,8 @@
 
 #nullable enable
 
-using ModularPipelines.Context;
 using System.CodeDom.Compiler;
+using ModularPipelines.Context;
 using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
@@ -40,11 +40,11 @@ public class AwsSagemakerA2IRuntime : IAwsSagemakerA2IRuntime
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteHumanLoopAsync(
-        AwsSagemakerA2iRuntimeDeleteHumanLoopOptions? options = null,
+        AwsSagemakerA2iRuntimeDeleteHumanLoopOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSagemakerA2iRuntimeDeleteHumanLoopOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -55,11 +55,11 @@ public class AwsSagemakerA2IRuntime : IAwsSagemakerA2IRuntime
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DescribeHumanLoopAsync(
-        AwsSagemakerA2iRuntimeDescribeHumanLoopOptions? options = null,
+        AwsSagemakerA2iRuntimeDescribeHumanLoopOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSagemakerA2iRuntimeDescribeHumanLoopOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -70,11 +70,11 @@ public class AwsSagemakerA2IRuntime : IAwsSagemakerA2IRuntime
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListHumanLoopsAsync(
-        AwsSagemakerA2iRuntimeListHumanLoopsOptions? options = null,
+        AwsSagemakerA2iRuntimeListHumanLoopsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSagemakerA2iRuntimeListHumanLoopsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -85,11 +85,11 @@ public class AwsSagemakerA2IRuntime : IAwsSagemakerA2IRuntime
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> StartHumanLoopAsync(
-        AwsSagemakerA2iRuntimeStartHumanLoopOptions? options = null,
+        AwsSagemakerA2iRuntimeStartHumanLoopOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSagemakerA2iRuntimeStartHumanLoopOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -100,11 +100,11 @@ public class AwsSagemakerA2IRuntime : IAwsSagemakerA2IRuntime
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> StopHumanLoopAsync(
-        AwsSagemakerA2iRuntimeStopHumanLoopOptions? options = null,
+        AwsSagemakerA2iRuntimeStopHumanLoopOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSagemakerA2iRuntimeStopHumanLoopOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     #endregion

@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,22 +22,72 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("connect", "create-test-case")]
-public record AwsConnectCreateTestCaseOptions : AwsOptions
+public record AwsConnectCreateTestCaseOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--instance-id")]
-    public string? InstanceId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates a test case with its content and metadata for the specified Amazon Connect instance. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="InstanceId">The identifier of the Amazon Connect instance. Constraints: o min: 1 o max: 250 o pattern: ^(arn:(aws|aws-us-gov):con- nect:[a-z]{2}-[a-z]+-[0-9]{1}:[0-9]{1,20}:in- stance/)?[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$</param>
+    /// <param name="Name">The name of the test. Constraints: o min: 1</param>
+    /// <param name="Content">The JSON string that represents the content of the test.</param>
+    public AwsConnectCreateTestCaseOptions(
+        string InstanceId,
+        string Name,
+        string Content
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(InstanceId);
+        this.InstanceId = InstanceId;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(Content);
+        this.Content = Content;
+    }
+
+    private AwsConnectCreateTestCaseOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsConnectCreateTestCaseOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsConnectCreateTestCaseOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the Amazon Connect instance. Constraints: o min: 1 o max: 250 o pattern: ^(arn:(aws|aws-us-gov):con- nect:[a-z]{2}-[a-z]+-[0-9]{1}:[0-9]{1,20}:in- stance/)?[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$
+    /// </summary>
+    [CliOption("--instance-id")]
+    public string? InstanceId { get; private init; }
+
+    /// <summary>
+    /// The name of the test. Constraints: o min: 1
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
+
+    /// <summary>
+    /// The JSON string that represents the content of the test.
+    /// </summary>
+    [CliOption("--content")]
+    public string? Content { get; private init; }
 
     /// <summary>
     /// The description of the test.
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
-
-    [CliOption("--content")]
-    public string? Content { get; set; }
 
     /// <summary>
     /// Defines the starting point for your test. Type -&gt; (string) The type of entry point. Possible values: o VOICE_CALL o CHAT VoiceCallEntryPointParameters -&gt; (structure) Parameters for voice call entry point. SourcePhoneNumber -&gt; (string) The source phone number for the test. Constraints: o pattern: \\+[1-9]\\d{1,14}$ DestinationPhoneNumber -&gt; (string) The destination phone number for the test. Constraints: o pattern: \\+[1-9]\\d{1,14}$ FlowId -&gt; (string) The flow identifier for the test. Constraints: o max: 500 ChatEntryPointParameters -&gt; (structure) Parameters for chat entry point. FlowId -&gt; (string) The flow identifier for the test. Constraints: o max: 500 Shorthand Syntax: Type=string,VoiceCallEntryPointParameters={SourcePhoneNumber=string,DestinationPhoneNumber=string,FlowId=string},ChatEntryPointParameters={FlowId=string} JSON Syntax: { "Type": "VOICE_CALL"|"CHAT", "VoiceCallEntryPointParameters": { "SourcePhoneNumber": "string", "DestinationPhoneNumber": "string", "FlowId": "string" }, "ChatEntryPointParameters": { "FlowId": "string" } }
@@ -85,5 +136,22 @@ public record AwsConnectCreateTestCaseOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

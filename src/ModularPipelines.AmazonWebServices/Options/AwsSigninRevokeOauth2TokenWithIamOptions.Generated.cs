@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,16 +21,69 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("signin", "revoke-oauth2-token-with-iam")]
-public record AwsSigninRevokeOauth2TokenWithIamOptions : AwsOptions
+public record AwsSigninRevokeOauth2TokenWithIamOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Grants permission to revoke an OAuth 2.0 refresh token and its associ- ated refresh tokens Revokes a refresh_token issued by AWS Sign-In, invalidating the entire token chain so that the refresh_token can no longer be used to mint new access_tokens. Idempotency: revoking an already-revoked, expired, or otherwise invalid token still returns 200 OK with an empty body. Only the refresh_token type is accepted. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Token">The refresh_token to revoke. Must be a refresh_token issued by AWS Sign-In (prefix "ASOR"); access_tokens are not accepted for revoca- tion. Constraints: o min: 1 o max: 4096 o pattern: ASOR[A-Za-z0-9+/=_\-]+</param>
+    public AwsSigninRevokeOauth2TokenWithIamOptions(
+        string Token
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Token);
+        this.Token = Token;
+    }
+
+    private AwsSigninRevokeOauth2TokenWithIamOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSigninRevokeOauth2TokenWithIamOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSigninRevokeOauth2TokenWithIamOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The refresh_token to revoke. Must be a refresh_token issued by AWS Sign-In (prefix "ASOR"); access_tokens are not accepted for revoca- tion. Constraints: o min: 1 o max: 4096 o pattern: ASOR[A-Za-z0-9+/=_\-]+
+    /// </summary>
     [SecretValue]
     [CliOption("--token")]
-    public string? Token { get; set; }
+    public string? Token { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

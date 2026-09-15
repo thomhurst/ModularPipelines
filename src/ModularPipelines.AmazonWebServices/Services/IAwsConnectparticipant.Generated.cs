@@ -28,7 +28,7 @@ public interface IAwsConnectparticipant
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CancelParticipantAuthenticationAsync(AwsConnectparticipantCancelParticipantAuthenticationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> CancelParticipantAuthenticationAsync(AwsConnectparticipantCancelParticipantAuthenticationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -38,7 +38,7 @@ public interface IAwsConnectparticipant
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CompleteAttachmentUploadAsync(AwsConnectparticipantCompleteAttachmentUploadOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> CompleteAttachmentUploadAsync(AwsConnectparticipantCompleteAttachmentUploadOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -48,7 +48,7 @@ public interface IAwsConnectparticipant
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateParticipantConnectionAsync(AwsConnectparticipantCreateParticipantConnectionOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> CreateParticipantConnectionAsync(AwsConnectparticipantCreateParticipantConnectionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -58,7 +58,7 @@ public interface IAwsConnectparticipant
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeViewAsync(AwsConnectparticipantDescribeViewOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> DescribeViewAsync(AwsConnectparticipantDescribeViewOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -68,7 +68,7 @@ public interface IAwsConnectparticipant
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DisconnectParticipantAsync(AwsConnectparticipantDisconnectParticipantOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> DisconnectParticipantAsync(AwsConnectparticipantDisconnectParticipantOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -78,7 +78,7 @@ public interface IAwsConnectparticipant
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetAttachmentAsync(AwsConnectparticipantGetAttachmentOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> GetAttachmentAsync(AwsConnectparticipantGetAttachmentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -88,7 +88,7 @@ public interface IAwsConnectparticipant
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetAuthenticationUrlAsync(AwsConnectparticipantGetAuthenticationUrlOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> GetAuthenticationUrlAsync(AwsConnectparticipantGetAuthenticationUrlOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -98,7 +98,7 @@ public interface IAwsConnectparticipant
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetTranscriptAsync(AwsConnectparticipantGetTranscriptOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> GetTranscriptAsync(AwsConnectparticipantGetTranscriptOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -108,7 +108,7 @@ public interface IAwsConnectparticipant
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> SendEventAsync(AwsConnectparticipantSendEventOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> SendEventAsync(AwsConnectparticipantSendEventOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -118,7 +118,7 @@ public interface IAwsConnectparticipant
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> SendMessageAsync(AwsConnectparticipantSendMessageOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> SendMessageAsync(AwsConnectparticipantSendMessageOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -128,7 +128,7 @@ public interface IAwsConnectparticipant
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartAttachmentUploadAsync(AwsConnectparticipantStartAttachmentUploadOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> StartAttachmentUploadAsync(AwsConnectparticipantStartAttachmentUploadOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
 }

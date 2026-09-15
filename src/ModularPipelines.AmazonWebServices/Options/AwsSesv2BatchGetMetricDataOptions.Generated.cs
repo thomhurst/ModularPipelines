@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,79 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sesv2", "batch-get-metric-data")]
-public record AwsSesv2BatchGetMetricDataOptions : AwsOptions
+public record AwsSesv2BatchGetMetricDataOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Retrieves batches of metric data collected based on your sending activ- ity. You can execute this operation no more than 16 times per second, and with at most 160 queries from the batches per second (cumulative). See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Queries">A list of queries for metrics to be retrieved. Constraints: o min: 1 o max: 10 (structure) Represents a single metric data query to include in a batch. Id -&gt; (string) [required] The query identifier. Constraints: o min: 1 o max: 255 Namespace -&gt; (string) [required] The query namespace - e.g. VDM Possible values: o VDM Metric -&gt; (string) [required] The queried metric. This can be one of the following: o SEND Emails sent eligible for tracking in the VDM dash- board. This excludes emails sent to the mailbox simulator and emails addressed to more than one recipient. o COMPLAINT Complaints received for your account. This ex- cludes complaints from the mailbox simulator, those origi- nating from your account-level suppression list (if en- abled), and those for emails addressed to more than one re- cipient o PERMANENT_BOUNCE Permanent bounces - i.e. feedback re- ceived for emails sent to non-existent mailboxes. Excludes bounces from the mailbox simulator, those originating from your account-level suppression list (if enabled), and those for emails addressed to more than one recipient. o TRANSIENT_BOUNCE Transient bounces - i.e. feedback re- ceived for delivery failures excluding issues with non-ex- istent mailboxes. Excludes bounces from the mailbox simula- tor, and those for emails addressed to more than one recip- ient. o OPEN Unique open events for emails including open track- ers. Excludes opens for emails addressed to more than one recipient. o CLICK Unique click events for emails including wrapped links. Excludes clicks for emails addressed to more than one recipient. o DELIVERY Successful deliveries for email sending attempts. Excludes deliveries to the mailbox simulator and for emails addressed to more than one recipient. o DELIVERY_OPEN Successful deliveries for email sending at- tempts. Excludes deliveries to the mailbox simulator, for emails addressed to more than one recipient, and emails without open trackers. o DELIVERY_CLICK Successful deliveries for email sending at- tempts. Excludes deliveries to the mailbox simulator, for emails addressed to more than one recipient, and emails without click trackers. o DELIVERY_COMPLAINT Successful deliveries for email sending attempts. Excludes deliveries to the mailbox simulator, for emails addressed to more than one recipient, and emails ad- dressed to recipients hosted by ISPs with which Amazon SES does not have a feedback loop agreement. Possible values: o SEND o COMPLAINT o PERMANENT_BOUNCE o TRANSIENT_BOUNCE o OPEN o CLICK o DELIVERY o DELIVERY_OPEN o DELIVERY_CLICK o DELIVERY_COMPLAINT Dimensions -&gt; (map) An object that contains mapping between MetricDimensionName and MetricDimensionValue to filter metrics by. Constraints: o min: 1 o max: 3 key -&gt; (string) The BatchGetMetricDataQuery dimension name. This can be one of the following: o EMAIL_IDENTITY The email identity used when sending messages. o CONFIGURATION_SET The configuration set used when sending messages (if one was used). o ISP The recipient ISP (e.g. Gmail , Yahoo , etc.). Possible values: o EMAIL_IDENTITY o CONFIGURATION_SET o ISP value -&gt; (string) A list of values associated with the MetricDimensionName to filter metrics by. Can either be * as a wildcard for all values or a list of up to 10 specific values. If one Dimension has the * value, other dimensions can only con- tain one value. StartDate -&gt; (timestamp) [required] Represents the start date for the query interval. EndDate -&gt; (timestamp) [required] Represents the end date for the query interval. Shorthand Syntax: Id=string,Namespace=string,Metric=string,Dimensions={KeyName1=string,KeyName2=string},StartDate=timestamp,EndDate=timestamp ... JSON Syntax: [ { "Id": "string", "Namespace": "VDM", "Metric": "SEND"|"COMPLAINT"|"PERMANENT_BOUNCE"|"TRANSIENT_BOUNCE"|"OPEN"|"CLICK"|"DELIVERY"|"DELIVERY_OPEN"|"DELIVERY_CLICK"|"DELIVERY_COMPLAINT", "Dimensions": {"EMAIL_IDENTITY"|"CONFIGURATION_SET"|"ISP": "string" ...}, "StartDate": timestamp, "EndDate": timestamp } ... ]</param>
+    public AwsSesv2BatchGetMetricDataOptions(
+        IEnumerable<string> Queries
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Queries);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Queries));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Queries));
+            }
+
+            Queries = materialized;
+        }
+        this.Queries = Queries;
+    }
+
+    private AwsSesv2BatchGetMetricDataOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSesv2BatchGetMetricDataOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSesv2BatchGetMetricDataOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A list of queries for metrics to be retrieved. Constraints: o min: 1 o max: 10 (structure) Represents a single metric data query to include in a batch. Id -&gt; (string) [required] The query identifier. Constraints: o min: 1 o max: 255 Namespace -&gt; (string) [required] The query namespace - e.g. VDM Possible values: o VDM Metric -&gt; (string) [required] The queried metric. This can be one of the following: o SEND Emails sent eligible for tracking in the VDM dash- board. This excludes emails sent to the mailbox simulator and emails addressed to more than one recipient. o COMPLAINT Complaints received for your account. This ex- cludes complaints from the mailbox simulator, those origi- nating from your account-level suppression list (if en- abled), and those for emails addressed to more than one re- cipient o PERMANENT_BOUNCE Permanent bounces - i.e. feedback re- ceived for emails sent to non-existent mailboxes. Excludes bounces from the mailbox simulator, those originating from your account-level suppression list (if enabled), and those for emails addressed to more than one recipient. o TRANSIENT_BOUNCE Transient bounces - i.e. feedback re- ceived for delivery failures excluding issues with non-ex- istent mailboxes. Excludes bounces from the mailbox simula- tor, and those for emails addressed to more than one recip- ient. o OPEN Unique open events for emails including open track- ers. Excludes opens for emails addressed to more than one recipient. o CLICK Unique click events for emails including wrapped links. Excludes clicks for emails addressed to more than one recipient. o DELIVERY Successful deliveries for email sending attempts. Excludes deliveries to the mailbox simulator and for emails addressed to more than one recipient. o DELIVERY_OPEN Successful deliveries for email sending at- tempts. Excludes deliveries to the mailbox simulator, for emails addressed to more than one recipient, and emails without open trackers. o DELIVERY_CLICK Successful deliveries for email sending at- tempts. Excludes deliveries to the mailbox simulator, for emails addressed to more than one recipient, and emails without click trackers. o DELIVERY_COMPLAINT Successful deliveries for email sending attempts. Excludes deliveries to the mailbox simulator, for emails addressed to more than one recipient, and emails ad- dressed to recipients hosted by ISPs with which Amazon SES does not have a feedback loop agreement. Possible values: o SEND o COMPLAINT o PERMANENT_BOUNCE o TRANSIENT_BOUNCE o OPEN o CLICK o DELIVERY o DELIVERY_OPEN o DELIVERY_CLICK o DELIVERY_COMPLAINT Dimensions -&gt; (map) An object that contains mapping between MetricDimensionName and MetricDimensionValue to filter metrics by. Constraints: o min: 1 o max: 3 key -&gt; (string) The BatchGetMetricDataQuery dimension name. This can be one of the following: o EMAIL_IDENTITY The email identity used when sending messages. o CONFIGURATION_SET The configuration set used when sending messages (if one was used). o ISP The recipient ISP (e.g. Gmail , Yahoo , etc.). Possible values: o EMAIL_IDENTITY o CONFIGURATION_SET o ISP value -&gt; (string) A list of values associated with the MetricDimensionName to filter metrics by. Can either be * as a wildcard for all values or a list of up to 10 specific values. If one Dimension has the * value, other dimensions can only con- tain one value. StartDate -&gt; (timestamp) [required] Represents the start date for the query interval. EndDate -&gt; (timestamp) [required] Represents the end date for the query interval. Shorthand Syntax: Id=string,Namespace=string,Metric=string,Dimensions={KeyName1=string,KeyName2=string},StartDate=timestamp,EndDate=timestamp ... JSON Syntax: [ { "Id": "string", "Namespace": "VDM", "Metric": "SEND"|"COMPLAINT"|"PERMANENT_BOUNCE"|"TRANSIENT_BOUNCE"|"OPEN"|"CLICK"|"DELIVERY"|"DELIVERY_OPEN"|"DELIVERY_CLICK"|"DELIVERY_COMPLAINT", "Dimensions": {"EMAIL_IDENTITY"|"CONFIGURATION_SET"|"ISP": "string" ...}, "StartDate": timestamp, "EndDate": timestamp } ... ]
+    /// </summary>
     [CliOption("--queries", GroupValues = true)]
-    public IEnumerable<string>? Queries { get; set; }
+    public IEnumerable<string>? Queries { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

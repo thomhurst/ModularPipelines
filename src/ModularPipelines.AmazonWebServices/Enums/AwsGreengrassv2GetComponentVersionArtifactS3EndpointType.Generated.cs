@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --s3endpointtype.
+/// Allowed values for --s3-endpoint-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsGreengrassv2GetComponentVersionArtifactS3EndpointType
 {
-    [EnumValue("REGIONAL")]
-    Regional = 1,
-
     [EnumValue("GLOBAL")]
-    Global = 2
+    Global,
+
+    [EnumValue("REGIONAL")]
+    Regional
 }

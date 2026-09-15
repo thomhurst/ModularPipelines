@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sagemaker", "describe-cluster-event")]
-public record AwsSagemakerDescribeClusterEventOptions : AwsOptions
+public record AwsSagemakerDescribeClusterEventOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--event-id")]
-    public string? EventId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Retrieves detailed information about a specific event for a given Hy- perPod cluster. This functionality is only supported when the NodePro- visioningMode is set to Continuous . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="EventId">The unique identifier (UUID) of the event to describe. This ID can be obtained from the ListClusterEvents operation. Constraints: o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}</param>
+    /// <param name="ClusterName">The name or Amazon Resource Name (ARN) of the HyperPod cluster asso- ciated with the event. Constraints: o min: 0 o max: 256 o pattern: (arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:clus- ter/[a-z0-9]{12})|([a-zA-Z0-9](-*[a-zA-Z0-9]){0,62})</param>
+    public AwsSagemakerDescribeClusterEventOptions(
+        string EventId,
+        string ClusterName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(EventId);
+        this.EventId = EventId;
+        global::System.ArgumentNullException.ThrowIfNull(ClusterName);
+        this.ClusterName = ClusterName;
+    }
+
+    private AwsSagemakerDescribeClusterEventOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSagemakerDescribeClusterEventOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSagemakerDescribeClusterEventOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier (UUID) of the event to describe. This ID can be obtained from the ListClusterEvents operation. Constraints: o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}
+    /// </summary>
+    [CliOption("--event-id")]
+    public string? EventId { get; private init; }
+
+    /// <summary>
+    /// The name or Amazon Resource Name (ARN) of the HyperPod cluster asso- ciated with the event. Constraints: o min: 0 o max: 256 o pattern: (arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:clus- ter/[a-z0-9]{12})|([a-zA-Z0-9](-*[a-zA-Z0-9]){0,62})
+    /// </summary>
     [CliOption("--cluster-name")]
-    public string? ClusterName { get; set; }
+    public string? ClusterName { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

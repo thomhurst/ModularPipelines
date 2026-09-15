@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("networkmanager", "create-transit-gateway-peering")]
-public record AwsNetworkmanagerCreateTransitGatewayPeeringOptions : AwsOptions
+public record AwsNetworkmanagerCreateTransitGatewayPeeringOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--core-network-id")]
-    public string? CoreNetworkId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates a transit gateway peering connection. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="CoreNetworkId">The ID of a core network. Constraints: o min: 0 o max: 50 o pattern: ^core-network-([0-9a-f]{8,17})$</param>
+    /// <param name="TransitGatewayArn">The ARN of the transit gateway for the peering request. Constraints: o min: 0 o max: 500 o pattern: [\s\S]*</param>
+    public AwsNetworkmanagerCreateTransitGatewayPeeringOptions(
+        string CoreNetworkId,
+        string TransitGatewayArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(CoreNetworkId);
+        this.CoreNetworkId = CoreNetworkId;
+        global::System.ArgumentNullException.ThrowIfNull(TransitGatewayArn);
+        this.TransitGatewayArn = TransitGatewayArn;
+    }
+
+    private AwsNetworkmanagerCreateTransitGatewayPeeringOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsNetworkmanagerCreateTransitGatewayPeeringOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsNetworkmanagerCreateTransitGatewayPeeringOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of a core network. Constraints: o min: 0 o max: 50 o pattern: ^core-network-([0-9a-f]{8,17})$
+    /// </summary>
+    [CliOption("--core-network-id")]
+    public string? CoreNetworkId { get; private init; }
+
+    /// <summary>
+    /// The ARN of the transit gateway for the peering request. Constraints: o min: 0 o max: 500 o pattern: [\s\S]*
+    /// </summary>
     [CliOption("--transit-gateway-arn")]
-    public string? TransitGatewayArn { get; set; }
+    public string? TransitGatewayArn { get; private init; }
 
     /// <summary>
     /// The list of key-value tags associated with the request. (structure) Describes a tag. Key -&gt; (string) The tag key. Constraints: Maximum length of 128 characters. Constraints: o min: 0 o max: 10000000 o pattern: [\s\S]* Value -&gt; (string) The tag value. Constraints: Maximum length of 256 characters. Constraints: o min: 0 o max: 10000000 o pattern: [\s\S]* Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
@@ -46,5 +90,22 @@ public record AwsNetworkmanagerCreateTransitGatewayPeeringOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,79 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("securityhub", "create-members")]
-public record AwsSecurityhubCreateMembersOptions : AwsOptions
+public record AwsSecurityhubCreateMembersOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a member association in Security Hub CSPM between the specified accounts and the account used to make the request, which is the admin- istrator account. If you are integrated with Organizations, then the administrator account is designated by the organization management ac- count. CreateMembers is always used to add accounts that are not organiza- tion members. For accounts that are managed using Organizations, CreateMembers is only used in the following cases: o Security Hub CSPM is not...
+    /// </summary>
+    /// <param name="AccountDetails">The list of accounts to associate with the Security Hub CSPM admin- istrator account. For each account, the list includes the account ID and optionally the email address. Constraints: o min: 1 o max: 50 (structure) The details of an Amazon Web Services account. AccountId -&gt; (string) [required] The ID of an Amazon Web Services account. Email -&gt; (string) The email of an Amazon Web Services account. Constraints: o pattern: .*\S.* Shorthand Syntax: AccountId=string,Email=string ... JSON Syntax: [ { "AccountId": "string", "Email": "string" } ... ]</param>
+    public AwsSecurityhubCreateMembersOptions(
+        IEnumerable<string> AccountDetails
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(AccountDetails);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(AccountDetails));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(AccountDetails));
+            }
+
+            AccountDetails = materialized;
+        }
+        this.AccountDetails = AccountDetails;
+    }
+
+    private AwsSecurityhubCreateMembersOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSecurityhubCreateMembersOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSecurityhubCreateMembersOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The list of accounts to associate with the Security Hub CSPM admin- istrator account. For each account, the list includes the account ID and optionally the email address. Constraints: o min: 1 o max: 50 (structure) The details of an Amazon Web Services account. AccountId -&gt; (string) [required] The ID of an Amazon Web Services account. Email -&gt; (string) The email of an Amazon Web Services account. Constraints: o pattern: .*\S.* Shorthand Syntax: AccountId=string,Email=string ... JSON Syntax: [ { "AccountId": "string", "Email": "string" } ... ]
+    /// </summary>
     [CliOption("--account-details", GroupValues = true)]
-    public IEnumerable<string>? AccountDetails { get; set; }
+    public IEnumerable<string>? AccountDetails { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

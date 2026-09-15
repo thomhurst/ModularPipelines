@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,8 +21,47 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("codeguruprofiler", "batch-get-frame-metric-data")]
-public record AwsCodeguruprofilerBatchGetFrameMetricDataOptions : AwsOptions
+public record AwsCodeguruprofilerBatchGetFrameMetricDataOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Returns the time series of values for a requested list of frame metrics from a time period. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ProfilingGroupName">The name of the profiling group associated with the the frame met- rics used to return the time series values. Constraints: o min: 1 o max: 255 o pattern: ^[\w-]+$</param>
+    public AwsCodeguruprofilerBatchGetFrameMetricDataOptions(
+        string ProfilingGroupName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ProfilingGroupName);
+        this.ProfilingGroupName = ProfilingGroupName;
+    }
+
+    private AwsCodeguruprofilerBatchGetFrameMetricDataOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCodeguruprofilerBatchGetFrameMetricDataOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCodeguruprofilerBatchGetFrameMetricDataOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the profiling group associated with the the frame met- rics used to return the time series values. Constraints: o min: 1 o max: 255 o pattern: ^[\w-]+$
+    /// </summary>
+    [CliOption("--profiling-group-name")]
+    public string? ProfilingGroupName { get; private init; }
+
     /// <summary>
     /// The end time of the time period for the returned time series values. This is specified using the ISO 8601 format. For example, 2020-06-01T13:15:02.001Z represents 1 millisecond past June 1, 2020 1:15:02 PM UTC.
     /// </summary>
@@ -40,9 +80,6 @@ public record AwsCodeguruprofilerBatchGetFrameMetricDataOptions : AwsOptions
     [CliOption("--period")]
     public string? Period { get; set; }
 
-    [CliOption("--profiling-group-name")]
-    public string? ProfilingGroupName { get; set; }
-
     /// <summary>
     /// The start time of the time period for the frame metrics used to re- turn the time series values. This is specified using the ISO 8601 format. For example, 2020-06-01T13:15:02.001Z represents 1 millisec- ond past June 1, 2020 1:15:02 PM UTC.
     /// </summary>
@@ -60,5 +97,22 @@ public record AwsCodeguruprofilerBatchGetFrameMetricDataOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

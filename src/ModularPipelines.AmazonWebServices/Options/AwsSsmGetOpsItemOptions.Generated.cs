@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ssm", "get-ops-item")]
-public record AwsSsmGetOpsItemOptions : AwsOptions
+public record AwsSsmGetOpsItemOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Get information about an OpsItem by using the ID. You must have permis- sion in Identity and Access Management (IAM) to view information about an OpsItem. For more information, see Set up OpsCenter in the Amazon Web Services Systems Manager User Guide . Operations engineers and IT professionals use Amazon Web Services Sys- tems Manager OpsCenter to view, investigate, and remediate operational issues impacting the performance and health of their Amazon Web Ser- vices resources. For more informati...
+    /// </summary>
+    /// <param name="OpsItemId">The ID of the OpsItem that you want to get. Constraints: o pattern: ^(oi)-[0-9a-f]{12}$</param>
+    public AwsSsmGetOpsItemOptions(
+        string OpsItemId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(OpsItemId);
+        this.OpsItemId = OpsItemId;
+    }
+
+    private AwsSsmGetOpsItemOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSsmGetOpsItemOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSsmGetOpsItemOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the OpsItem that you want to get. Constraints: o pattern: ^(oi)-[0-9a-f]{12}$
+    /// </summary>
     [CliOption("--ops-item-id")]
-    public string? OpsItemId { get; set; }
+    public string? OpsItemId { get; private init; }
 
     /// <summary>
     /// The OpsItem Amazon Resource Name (ARN). Constraints: o min: 20 o max: 2048 o pattern: arn:(aws[a-zA-Z-]*)?:ssm:[a-z0-9-\.]{0,63}:[0-9]{12}:op- sitem.*
@@ -35,5 +72,22 @@ public record AwsSsmGetOpsItemOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

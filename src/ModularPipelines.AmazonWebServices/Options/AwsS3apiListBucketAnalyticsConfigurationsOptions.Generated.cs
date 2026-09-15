@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("s3api", "list-bucket-analytics-configurations")]
-public record AwsS3apiListBucketAnalyticsConfigurationsOptions : AwsOptions
+public record AwsS3apiListBucketAnalyticsConfigurationsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// NOTE: This operation is not supported for directory buckets. Lists the analytics configurations for the bucket. You can have up to 1,000 analytics configurations per bucket. This action supports list pagination and does not return more than 100 configurations at a time. You should always check the IsTruncated ele- ment in the response. If there are no more configurations to list, IsTruncated is set to false. If there are more configurations to list, IsTruncated is set to true, and there will be ...
+    /// </summary>
+    /// <param name="Bucket">The name of the bucket from which analytics configurations are re- trieved.</param>
+    public AwsS3apiListBucketAnalyticsConfigurationsOptions(
+        string Bucket
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Bucket);
+        this.Bucket = Bucket;
+    }
+
+    private AwsS3apiListBucketAnalyticsConfigurationsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsS3apiListBucketAnalyticsConfigurationsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsS3apiListBucketAnalyticsConfigurationsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the bucket from which analytics configurations are re- trieved.
+    /// </summary>
     [CliOption("--bucket")]
-    public string? Bucket { get; set; }
+    public string? Bucket { get; private init; }
 
     /// <summary>
     /// The ContinuationToken that represents a placeholder from where this request should begin.
@@ -43,5 +80,22 @@ public record AwsS3apiListBucketAnalyticsConfigurationsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

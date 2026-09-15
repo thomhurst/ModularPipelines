@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("identitystore", "list-users")]
-public record AwsIdentitystoreListUsersOptions : AwsOptions
+public record AwsIdentitystoreListUsersOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Lists all users in the identity store. Returns a paginated list of com- plete User objects. Filtering for a User by the UserName attribute is deprecated. Instead, use the GetUserId API action. NOTE: If you have access to a member account, you can use this API opera- tion from the member account. For more information, see Limiting ac- cess to the identity store from member accounts in the IAM Identity Center User Guide . See also: AWS API Documentation list-users uses document type values. Docume...
+    /// </summary>
+    /// <param name="IdentityStoreId">The globally unique identifier for the identity store, such as d-1234567890 . In this example, d- is a fixed prefix, and 1234567890 is a randomly generated string that contains numbers and lower case letters. This value is generated at the time that a new identity store is created. Constraints: o min: 1 o max: 36 o pattern: d-[0-9a-f]{10}$|^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
+    public AwsIdentitystoreListUsersOptions(
+        string IdentityStoreId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(IdentityStoreId);
+        this.IdentityStoreId = IdentityStoreId;
+    }
+
+    private AwsIdentitystoreListUsersOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsIdentitystoreListUsersOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsIdentitystoreListUsersOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The globally unique identifier for the identity store, such as d-1234567890 . In this example, d- is a fixed prefix, and 1234567890 is a randomly generated string that contains numbers and lower case letters. This value is generated at the time that a new identity store is created. Constraints: o min: 1 o max: 36 o pattern: d-[0-9a-f]{10}$|^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
+    /// </summary>
     [CliOption("--identity-store-id")]
-    public string? IdentityStoreId { get; set; }
+    public string? IdentityStoreId { get; private init; }
 
     /// <summary>
     /// A collection of extension names indicating what extensions the ser- vice should retrieve alongside other user attributes. aws:identitys- tore:enterprise is the only supported extension name. Constraints: o min: 1 o max: 10 (string) Constraints: o min: 1 o max: 50 o pattern: aws:identitystore:[a-z]{1,20} Syntax: "string" "string" ...
@@ -61,5 +98,22 @@ public record AwsIdentitystoreListUsersOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -28,7 +28,7 @@ public interface IAwsMq
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateBrokerAsync(AwsMqCreateBrokerOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> CreateBrokerAsync(AwsMqCreateBrokerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -38,7 +38,7 @@ public interface IAwsMq
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateConfigurationAsync(AwsMqCreateConfigurationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> CreateConfigurationAsync(AwsMqCreateConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -48,7 +48,7 @@ public interface IAwsMq
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateTagsAsync(AwsMqCreateTagsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> CreateTagsAsync(AwsMqCreateTagsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -58,7 +58,7 @@ public interface IAwsMq
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateUserAsync(AwsMqCreateUserOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> CreateUserAsync(AwsMqCreateUserOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -68,7 +68,7 @@ public interface IAwsMq
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteBrokerAsync(AwsMqDeleteBrokerOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> DeleteBrokerAsync(AwsMqDeleteBrokerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -78,7 +78,7 @@ public interface IAwsMq
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteConfigurationAsync(AwsMqDeleteConfigurationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> DeleteConfigurationAsync(AwsMqDeleteConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -88,7 +88,7 @@ public interface IAwsMq
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteTagsAsync(AwsMqDeleteTagsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> DeleteTagsAsync(AwsMqDeleteTagsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -98,7 +98,7 @@ public interface IAwsMq
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteUserAsync(AwsMqDeleteUserOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> DeleteUserAsync(AwsMqDeleteUserOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -128,7 +128,7 @@ public interface IAwsMq
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeBrokerAsync(AwsMqDescribeBrokerOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> DescribeBrokerAsync(AwsMqDescribeBrokerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -138,7 +138,7 @@ public interface IAwsMq
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeConfigurationAsync(AwsMqDescribeConfigurationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> DescribeConfigurationAsync(AwsMqDescribeConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -148,7 +148,7 @@ public interface IAwsMq
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeConfigurationRevisionAsync(AwsMqDescribeConfigurationRevisionOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> DescribeConfigurationRevisionAsync(AwsMqDescribeConfigurationRevisionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -158,7 +158,7 @@ public interface IAwsMq
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeSharedResourcesAsync(AwsMqDescribeSharedResourcesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> DescribeSharedResourcesAsync(AwsMqDescribeSharedResourcesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -168,7 +168,7 @@ public interface IAwsMq
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeUserAsync(AwsMqDescribeUserOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> DescribeUserAsync(AwsMqDescribeUserOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -188,7 +188,7 @@ public interface IAwsMq
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListConfigurationRevisionsAsync(AwsMqListConfigurationRevisionsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> ListConfigurationRevisionsAsync(AwsMqListConfigurationRevisionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -208,7 +208,7 @@ public interface IAwsMq
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListTagsAsync(AwsMqListTagsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> ListTagsAsync(AwsMqListTagsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -218,7 +218,7 @@ public interface IAwsMq
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListUsersAsync(AwsMqListUsersOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> ListUsersAsync(AwsMqListUsersOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -228,7 +228,7 @@ public interface IAwsMq
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PromoteAsync(AwsMqPromoteOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> PromoteAsync(AwsMqPromoteOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -238,7 +238,7 @@ public interface IAwsMq
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> RebootBrokerAsync(AwsMqRebootBrokerOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> RebootBrokerAsync(AwsMqRebootBrokerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -248,7 +248,7 @@ public interface IAwsMq
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateBrokerAsync(AwsMqUpdateBrokerOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> UpdateBrokerAsync(AwsMqUpdateBrokerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -258,7 +258,7 @@ public interface IAwsMq
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateConfigurationAsync(AwsMqUpdateConfigurationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> UpdateConfigurationAsync(AwsMqUpdateConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -268,7 +268,7 @@ public interface IAwsMq
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateUserAsync(AwsMqUpdateUserOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> UpdateUserAsync(AwsMqUpdateUserOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
 }

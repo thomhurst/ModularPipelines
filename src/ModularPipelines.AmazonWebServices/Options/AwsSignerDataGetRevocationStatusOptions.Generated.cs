@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,27 +20,119 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("signer-data", "get-revocation-status")]
-public record AwsSignerDataGetRevocationStatusOptions : AwsOptions
+public record AwsSignerDataGetRevocationStatusOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Retrieves the revocation status for a signed artifact by checking if the signing profile, job, or certificate has been revoked. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="SignatureTimestamp">The timestamp when the artifact was signed, in ISO 8601 format.</param>
+    /// <param name="PlatformId">The platform identifier for the signing platform used. Constraints: o pattern: [a-zA-Z0-9_-]+</param>
+    /// <param name="ProfileVersionArn">The ARN of the signing profile version used to sign the artifact. Constraints: o min: 20 o max: 2048</param>
+    /// <param name="JobArn">The ARN of the signing job that produced the signature. Constraints: o min: 20 o max: 2048</param>
+    /// <param name="CertificateHashes">List of certificate hashes to check for revocation. (string) Constraints: o min: 1 o max: 2048 Syntax: "string" "string" ...</param>
+    public AwsSignerDataGetRevocationStatusOptions(
+        string SignatureTimestamp,
+        string PlatformId,
+        string ProfileVersionArn,
+        string JobArn,
+        IEnumerable<string> CertificateHashes
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SignatureTimestamp);
+        this.SignatureTimestamp = SignatureTimestamp;
+        global::System.ArgumentNullException.ThrowIfNull(PlatformId);
+        this.PlatformId = PlatformId;
+        global::System.ArgumentNullException.ThrowIfNull(ProfileVersionArn);
+        this.ProfileVersionArn = ProfileVersionArn;
+        global::System.ArgumentNullException.ThrowIfNull(JobArn);
+        this.JobArn = JobArn;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(CertificateHashes);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(CertificateHashes));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(CertificateHashes));
+            }
+
+            CertificateHashes = materialized;
+        }
+        this.CertificateHashes = CertificateHashes;
+    }
+
+    private AwsSignerDataGetRevocationStatusOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSignerDataGetRevocationStatusOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSignerDataGetRevocationStatusOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The timestamp when the artifact was signed, in ISO 8601 format.
+    /// </summary>
     [CliOption("--signature-timestamp")]
-    public string? SignatureTimestamp { get; set; }
+    public string? SignatureTimestamp { get; private init; }
 
+    /// <summary>
+    /// The platform identifier for the signing platform used. Constraints: o pattern: [a-zA-Z0-9_-]+
+    /// </summary>
     [CliOption("--platform-id")]
-    public string? PlatformId { get; set; }
+    public string? PlatformId { get; private init; }
 
+    /// <summary>
+    /// The ARN of the signing profile version used to sign the artifact. Constraints: o min: 20 o max: 2048
+    /// </summary>
     [CliOption("--profile-version-arn")]
-    public string? ProfileVersionArn { get; set; }
+    public string? ProfileVersionArn { get; private init; }
 
+    /// <summary>
+    /// The ARN of the signing job that produced the signature. Constraints: o min: 20 o max: 2048
+    /// </summary>
     [CliOption("--job-arn")]
-    public string? JobArn { get; set; }
+    public string? JobArn { get; private init; }
 
+    /// <summary>
+    /// List of certificate hashes to check for revocation. (string) Constraints: o min: 1 o max: 2048 Syntax: "string" "string" ...
+    /// </summary>
     [CliOption("--certificate-hashes", GroupValues = true)]
-    public IEnumerable<string>? CertificateHashes { get; set; }
+    public IEnumerable<string>? CertificateHashes { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

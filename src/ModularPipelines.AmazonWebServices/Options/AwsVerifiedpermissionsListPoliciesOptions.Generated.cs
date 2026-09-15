@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("verifiedpermissions", "list-policies")]
-public record AwsVerifiedpermissionsListPoliciesOptions : AwsOptions
+public record AwsVerifiedpermissionsListPoliciesOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Returns a paginated list of all policies stored in the specified policy store. See also: AWS API Documentation list-policies is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: policies
+    /// </summary>
+    /// <param name="PolicyStoreId">Specifies the ID of the policy store you want to list policies from. To specify a policy store, use its ID or alias name. When using an alias name, prefix it with policy-store-alias/ . For example: o ID: PSEXAMPLEabcdefg111111 o Alias name: policy-store-alias/example-policy-store To view aliases, use ListPolicyStoreAliases . Constraints: o min: 1 o max: 200 o pattern: [a-zA-Z0-9-/_]*</param>
+    public AwsVerifiedpermissionsListPoliciesOptions(
+        string PolicyStoreId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PolicyStoreId);
+        this.PolicyStoreId = PolicyStoreId;
+    }
+
+    private AwsVerifiedpermissionsListPoliciesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsVerifiedpermissionsListPoliciesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsVerifiedpermissionsListPoliciesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Specifies the ID of the policy store you want to list policies from. To specify a policy store, use its ID or alias name. When using an alias name, prefix it with policy-store-alias/ . For example: o ID: PSEXAMPLEabcdefg111111 o Alias name: policy-store-alias/example-policy-store To view aliases, use ListPolicyStoreAliases . Constraints: o min: 1 o max: 200 o pattern: [a-zA-Z0-9-/_]*
+    /// </summary>
     [CliOption("--policy-store-id")]
-    public string? PolicyStoreId { get; set; }
+    public string? PolicyStoreId { get; private init; }
 
     /// <summary>
     /// Specifies a filter that limits the response to only policies that match the specified criteria. For example, you list only the poli- cies that reference a specified principal. principal -&gt; (tagged union structure) Filters the output to only policies that reference the specified principal. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: unspecified, identifier. unspecified -&gt; (boolean) Used to indicate that a principal or resource is not speci- fied. This can be used to search for policies that are not associated with a specific principal or resource. identifier -&gt; (structure) The identifier of the entity. It can consist of either an En- tityType and EntityId, a principal, or a resource. entityType -&gt; (string) [required] The type of an entity. Example: "entityType":"*typeName* " Constraints: o min: 1 o max: 200 o pattern: .* entityId -&gt; (string) [required] The identifier of an entity. "entityId":"*identifier* " Constraints: o min: 1 o max: 612 o pattern: .* resource -&gt; (tagged union structure) Filters the output to only policies that reference the specified resource. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: unspecified, identifier. unspecified -&gt; (boolean) Used to indicate that a principal or resource is not speci- fied. This can be used to search for policies that are not associated with a specific principal or resource. identifier -&gt; (structure) The identifier of the entity. It can consist of either an En- tityType and EntityId, a principal, or a resource. entityType -&gt; (string) [required] The type of an entity. Example: "entityType":"*typeName* " Constraints: o min: 1 o max: 200 o pattern: .* entityId -&gt; (string) [required] The identifier of an entity. "entityId":"*identifier* " Constraints: o min: 1 o max: 612 o pattern: .* policyType -&gt; (string) Filters the output to only policies of the specified type. Possible values: o STATIC o TEMPLATE_LINKED policyTemplateId -&gt; (string) Filters the output to only template-linked policies that were instantiated from the specified policy template. Constraints: o min: 1 o max: 200 o pattern: [a-zA-Z0-9-/_]* Shorthand Syntax: principal={unspecified=boolean,identifier={entityType=string,entityId=string}},resource={unspecified=boolean,identifier={entityType=string,entityId=string}},policyType=string,policyTemplateId=string JSON Syntax: { "principal": { "unspecified": true|false, "identifier": { "entityType": "string", "entityId": "string" } }, "resource": { "unspecified": true|false, "identifier": { "entityType": "string", "entityId": "string" } }, "policyType": "STATIC"|"TEMPLATE_LINKED", "policyTemplateId": "string" }
@@ -55,5 +92,22 @@ public record AwsVerifiedpermissionsListPoliciesOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

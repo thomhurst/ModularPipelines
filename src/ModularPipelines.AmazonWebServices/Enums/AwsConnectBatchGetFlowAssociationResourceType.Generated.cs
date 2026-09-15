@@ -11,20 +11,23 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --resourcetype.
+/// Allowed values for --resource-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsConnectBatchGetFlowAssociationResourceType
 {
-    [EnumValue("VOICE_PHONE_NUMBER")]
-    VoicePhoneNumber = 1,
+    [EnumValue("ANALYTICS_CONNECTOR")]
+    AnalyticsConnector,
 
     [EnumValue("INBOUND_EMAIL")]
-    InboundEmail = 2,
+    InboundEmail,
 
     [EnumValue("OUTBOUND_EMAIL")]
-    OutboundEmail = 3,
+    OutboundEmail,
 
-    [EnumValue("ANALYTICS_CONNECTOR")]
-    AnalyticsConnector = 4
+    [EnumValue("VOICE_PHONE_NUMBER")]
+    VoicePhoneNumber,
+
+    [EnumValue("WHATSAPP_MESSAGING_PHONE_NUMBER")]
+    WhatsappMessagingPhoneNumber
 }

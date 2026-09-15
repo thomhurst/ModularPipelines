@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("rtbfabric", "disassociate-certificate")]
-public record AwsRtbfabricDisassociateCertificateOptions : AwsOptions
+public record AwsRtbfabricDisassociateCertificateOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--gateway-id")]
-    public string? GatewayId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Removes a certificate association from a responder gateway. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="GatewayId">The unique identifier of the gateway. Constraints: o min: 8 o max: 32 o pattern: rtb-gw-[a-z0-9-]{1,25}</param>
+    /// <param name="AcmCertificateArn">The Amazon Resource Name (ARN) of the ACM certificate to disassoci- ate. Constraints: o min: 75 o max: 256 o pattern: arn:(aws|aws-cn|aws-us-gov):acm:[a-z0-9-]+:[0-9]{12}:cer- tifi- cate/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
+    public AwsRtbfabricDisassociateCertificateOptions(
+        string GatewayId,
+        string AcmCertificateArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(GatewayId);
+        this.GatewayId = GatewayId;
+        global::System.ArgumentNullException.ThrowIfNull(AcmCertificateArn);
+        this.AcmCertificateArn = AcmCertificateArn;
+    }
+
+    private AwsRtbfabricDisassociateCertificateOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRtbfabricDisassociateCertificateOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRtbfabricDisassociateCertificateOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier of the gateway. Constraints: o min: 8 o max: 32 o pattern: rtb-gw-[a-z0-9-]{1,25}
+    /// </summary>
+    [CliOption("--gateway-id")]
+    public string? GatewayId { get; private init; }
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the ACM certificate to disassoci- ate. Constraints: o min: 75 o max: 256 o pattern: arn:(aws|aws-cn|aws-us-gov):acm:[a-z0-9-]+:[0-9]{12}:cer- tifi- cate/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
+    /// </summary>
     [CliOption("--acm-certificate-arn")]
-    public string? AcmCertificateArn { get; set; }
+    public string? AcmCertificateArn { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -5,8 +5,8 @@
 
 #nullable enable
 
-using ModularPipelines.Context;
 using System.CodeDom.Compiler;
+using ModularPipelines.Context;
 using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
@@ -50,11 +50,11 @@ public class AwsMediaconnect : IAwsMediaconnect
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AddBridgeOutputsAsync(
-        AwsMediaconnectAddBridgeOutputsOptions? options = null,
+        AwsMediaconnectAddBridgeOutputsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsMediaconnectAddBridgeOutputsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -65,11 +65,11 @@ public class AwsMediaconnect : IAwsMediaconnect
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AddBridgeSourcesAsync(
-        AwsMediaconnectAddBridgeSourcesOptions? options = null,
+        AwsMediaconnectAddBridgeSourcesOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsMediaconnectAddBridgeSourcesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -80,11 +80,11 @@ public class AwsMediaconnect : IAwsMediaconnect
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AddFlowMediaStreamsAsync(
-        AwsMediaconnectAddFlowMediaStreamsOptions? options = null,
+        AwsMediaconnectAddFlowMediaStreamsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsMediaconnectAddFlowMediaStreamsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -95,11 +95,11 @@ public class AwsMediaconnect : IAwsMediaconnect
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AddFlowOutputsAsync(
-        AwsMediaconnectAddFlowOutputsOptions? options = null,
+        AwsMediaconnectAddFlowOutputsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsMediaconnectAddFlowOutputsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -110,11 +110,11 @@ public class AwsMediaconnect : IAwsMediaconnect
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AddFlowSourcesAsync(
-        AwsMediaconnectAddFlowSourcesOptions? options = null,
+        AwsMediaconnectAddFlowSourcesOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsMediaconnectAddFlowSourcesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -125,11 +125,11 @@ public class AwsMediaconnect : IAwsMediaconnect
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AddFlowVpcInterfacesAsync(
-        AwsMediaconnectAddFlowVpcInterfacesOptions? options = null,
+        AwsMediaconnectAddFlowVpcInterfacesOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsMediaconnectAddFlowVpcInterfacesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -140,11 +140,11 @@ public class AwsMediaconnect : IAwsMediaconnect
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> BatchGetRouterInputAsync(
-        AwsMediaconnectBatchGetRouterInputOptions? options = null,
+        AwsMediaconnectBatchGetRouterInputOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsMediaconnectBatchGetRouterInputOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -155,11 +155,11 @@ public class AwsMediaconnect : IAwsMediaconnect
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> BatchGetRouterNetworkInterfaceAsync(
-        AwsMediaconnectBatchGetRouterNetworkInterfaceOptions? options = null,
+        AwsMediaconnectBatchGetRouterNetworkInterfaceOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsMediaconnectBatchGetRouterNetworkInterfaceOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -170,11 +170,11 @@ public class AwsMediaconnect : IAwsMediaconnect
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> BatchGetRouterOutputAsync(
-        AwsMediaconnectBatchGetRouterOutputOptions? options = null,
+        AwsMediaconnectBatchGetRouterOutputOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsMediaconnectBatchGetRouterOutputOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -185,11 +185,11 @@ public class AwsMediaconnect : IAwsMediaconnect
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateBridgeAsync(
-        AwsMediaconnectCreateBridgeOptions? options = null,
+        AwsMediaconnectCreateBridgeOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsMediaconnectCreateBridgeOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -200,11 +200,11 @@ public class AwsMediaconnect : IAwsMediaconnect
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateFlowAsync(
-        AwsMediaconnectCreateFlowOptions? options = null,
+        AwsMediaconnectCreateFlowOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsMediaconnectCreateFlowOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -215,11 +215,11 @@ public class AwsMediaconnect : IAwsMediaconnect
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateGatewayAsync(
-        AwsMediaconnectCreateGatewayOptions? options = null,
+        AwsMediaconnectCreateGatewayOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsMediaconnectCreateGatewayOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -230,11 +230,11 @@ public class AwsMediaconnect : IAwsMediaconnect
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateRouterInputAsync(
-        AwsMediaconnectCreateRouterInputOptions? options = null,
+        AwsMediaconnectCreateRouterInputOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsMediaconnectCreateRouterInputOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -245,11 +245,11 @@ public class AwsMediaconnect : IAwsMediaconnect
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateRouterNetworkInterfaceAsync(
-        AwsMediaconnectCreateRouterNetworkInterfaceOptions? options = null,
+        AwsMediaconnectCreateRouterNetworkInterfaceOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsMediaconnectCreateRouterNetworkInterfaceOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -260,11 +260,11 @@ public class AwsMediaconnect : IAwsMediaconnect
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateRouterOutputAsync(
-        AwsMediaconnectCreateRouterOutputOptions? options = null,
+        AwsMediaconnectCreateRouterOutputOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsMediaconnectCreateRouterOutputOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -275,11 +275,11 @@ public class AwsMediaconnect : IAwsMediaconnect
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteBridgeAsync(
-        AwsMediaconnectDeleteBridgeOptions? options = null,
+        AwsMediaconnectDeleteBridgeOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsMediaconnectDeleteBridgeOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -290,11 +290,11 @@ public class AwsMediaconnect : IAwsMediaconnect
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteFlowAsync(
-        AwsMediaconnectDeleteFlowOptions? options = null,
+        AwsMediaconnectDeleteFlowOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsMediaconnectDeleteFlowOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -305,11 +305,11 @@ public class AwsMediaconnect : IAwsMediaconnect
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteGatewayAsync(
-        AwsMediaconnectDeleteGatewayOptions? options = null,
+        AwsMediaconnectDeleteGatewayOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsMediaconnectDeleteGatewayOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -320,11 +320,11 @@ public class AwsMediaconnect : IAwsMediaconnect
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteRouterInputAsync(
-        AwsMediaconnectDeleteRouterInputOptions? options = null,
+        AwsMediaconnectDeleteRouterInputOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsMediaconnectDeleteRouterInputOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -335,11 +335,11 @@ public class AwsMediaconnect : IAwsMediaconnect
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteRouterNetworkInterfaceAsync(
-        AwsMediaconnectDeleteRouterNetworkInterfaceOptions? options = null,
+        AwsMediaconnectDeleteRouterNetworkInterfaceOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsMediaconnectDeleteRouterNetworkInterfaceOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -350,11 +350,11 @@ public class AwsMediaconnect : IAwsMediaconnect
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteRouterOutputAsync(
-        AwsMediaconnectDeleteRouterOutputOptions? options = null,
+        AwsMediaconnectDeleteRouterOutputOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsMediaconnectDeleteRouterOutputOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -365,11 +365,11 @@ public class AwsMediaconnect : IAwsMediaconnect
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeregisterGatewayInstanceAsync(
-        AwsMediaconnectDeregisterGatewayInstanceOptions? options = null,
+        AwsMediaconnectDeregisterGatewayInstanceOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsMediaconnectDeregisterGatewayInstanceOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -380,11 +380,11 @@ public class AwsMediaconnect : IAwsMediaconnect
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DescribeBridgeAsync(
-        AwsMediaconnectDescribeBridgeOptions? options = null,
+        AwsMediaconnectDescribeBridgeOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsMediaconnectDescribeBridgeOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -395,11 +395,11 @@ public class AwsMediaconnect : IAwsMediaconnect
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DescribeFlowAsync(
-        AwsMediaconnectDescribeFlowOptions? options = null,
+        AwsMediaconnectDescribeFlowOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsMediaconnectDescribeFlowOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -410,11 +410,11 @@ public class AwsMediaconnect : IAwsMediaconnect
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DescribeFlowSourceMetadataAsync(
-        AwsMediaconnectDescribeFlowSourceMetadataOptions? options = null,
+        AwsMediaconnectDescribeFlowSourceMetadataOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsMediaconnectDescribeFlowSourceMetadataOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -425,11 +425,11 @@ public class AwsMediaconnect : IAwsMediaconnect
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DescribeFlowSourceThumbnailAsync(
-        AwsMediaconnectDescribeFlowSourceThumbnailOptions? options = null,
+        AwsMediaconnectDescribeFlowSourceThumbnailOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsMediaconnectDescribeFlowSourceThumbnailOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -440,11 +440,11 @@ public class AwsMediaconnect : IAwsMediaconnect
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DescribeGatewayInstanceAsync(
-        AwsMediaconnectDescribeGatewayInstanceOptions? options = null,
+        AwsMediaconnectDescribeGatewayInstanceOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsMediaconnectDescribeGatewayInstanceOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -455,11 +455,11 @@ public class AwsMediaconnect : IAwsMediaconnect
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DescribeGatewayAsync(
-        AwsMediaconnectDescribeGatewayOptions? options = null,
+        AwsMediaconnectDescribeGatewayOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsMediaconnectDescribeGatewayOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -470,11 +470,11 @@ public class AwsMediaconnect : IAwsMediaconnect
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DescribeOfferingAsync(
-        AwsMediaconnectDescribeOfferingOptions? options = null,
+        AwsMediaconnectDescribeOfferingOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsMediaconnectDescribeOfferingOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -485,11 +485,11 @@ public class AwsMediaconnect : IAwsMediaconnect
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DescribeReservationAsync(
-        AwsMediaconnectDescribeReservationOptions? options = null,
+        AwsMediaconnectDescribeReservationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsMediaconnectDescribeReservationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -500,11 +500,11 @@ public class AwsMediaconnect : IAwsMediaconnect
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetRouterInputAsync(
-        AwsMediaconnectGetRouterInputOptions? options = null,
+        AwsMediaconnectGetRouterInputOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsMediaconnectGetRouterInputOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -515,11 +515,11 @@ public class AwsMediaconnect : IAwsMediaconnect
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetRouterInputSourceMetadataAsync(
-        AwsMediaconnectGetRouterInputSourceMetadataOptions? options = null,
+        AwsMediaconnectGetRouterInputSourceMetadataOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsMediaconnectGetRouterInputSourceMetadataOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -530,11 +530,11 @@ public class AwsMediaconnect : IAwsMediaconnect
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetRouterInputThumbnailAsync(
-        AwsMediaconnectGetRouterInputThumbnailOptions? options = null,
+        AwsMediaconnectGetRouterInputThumbnailOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsMediaconnectGetRouterInputThumbnailOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -545,11 +545,11 @@ public class AwsMediaconnect : IAwsMediaconnect
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetRouterNetworkInterfaceAsync(
-        AwsMediaconnectGetRouterNetworkInterfaceOptions? options = null,
+        AwsMediaconnectGetRouterNetworkInterfaceOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsMediaconnectGetRouterNetworkInterfaceOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -560,11 +560,11 @@ public class AwsMediaconnect : IAwsMediaconnect
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetRouterOutputAsync(
-        AwsMediaconnectGetRouterOutputOptions? options = null,
+        AwsMediaconnectGetRouterOutputOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsMediaconnectGetRouterOutputOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -575,11 +575,11 @@ public class AwsMediaconnect : IAwsMediaconnect
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GrantFlowEntitlementsAsync(
-        AwsMediaconnectGrantFlowEntitlementsOptions? options = null,
+        AwsMediaconnectGrantFlowEntitlementsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsMediaconnectGrantFlowEntitlementsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -594,7 +594,7 @@ public class AwsMediaconnect : IAwsMediaconnect
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsMediaconnectListBridgesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsMediaconnectListBridgesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -609,7 +609,7 @@ public class AwsMediaconnect : IAwsMediaconnect
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsMediaconnectListEntitlementsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsMediaconnectListEntitlementsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -624,7 +624,7 @@ public class AwsMediaconnect : IAwsMediaconnect
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsMediaconnectListFlowsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsMediaconnectListFlowsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -639,7 +639,7 @@ public class AwsMediaconnect : IAwsMediaconnect
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsMediaconnectListGatewayInstancesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsMediaconnectListGatewayInstancesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -654,7 +654,7 @@ public class AwsMediaconnect : IAwsMediaconnect
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsMediaconnectListGatewaysOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsMediaconnectListGatewaysOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -669,7 +669,7 @@ public class AwsMediaconnect : IAwsMediaconnect
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsMediaconnectListOfferingsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsMediaconnectListOfferingsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -684,7 +684,7 @@ public class AwsMediaconnect : IAwsMediaconnect
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsMediaconnectListReservationsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsMediaconnectListReservationsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -699,7 +699,7 @@ public class AwsMediaconnect : IAwsMediaconnect
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsMediaconnectListRouterInputsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsMediaconnectListRouterInputsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -714,7 +714,7 @@ public class AwsMediaconnect : IAwsMediaconnect
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsMediaconnectListRouterNetworkInterfacesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsMediaconnectListRouterNetworkInterfacesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -729,7 +729,7 @@ public class AwsMediaconnect : IAwsMediaconnect
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsMediaconnectListRouterOutputsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsMediaconnectListRouterOutputsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -740,11 +740,11 @@ public class AwsMediaconnect : IAwsMediaconnect
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListTagsForGlobalResourceAsync(
-        AwsMediaconnectListTagsForGlobalResourceOptions? options = null,
+        AwsMediaconnectListTagsForGlobalResourceOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsMediaconnectListTagsForGlobalResourceOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -755,11 +755,11 @@ public class AwsMediaconnect : IAwsMediaconnect
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListTagsForResourceAsync(
-        AwsMediaconnectListTagsForResourceOptions? options = null,
+        AwsMediaconnectListTagsForResourceOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsMediaconnectListTagsForResourceOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -770,11 +770,11 @@ public class AwsMediaconnect : IAwsMediaconnect
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> PurchaseOfferingAsync(
-        AwsMediaconnectPurchaseOfferingOptions? options = null,
+        AwsMediaconnectPurchaseOfferingOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsMediaconnectPurchaseOfferingOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -785,11 +785,11 @@ public class AwsMediaconnect : IAwsMediaconnect
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RemoveBridgeOutputAsync(
-        AwsMediaconnectRemoveBridgeOutputOptions? options = null,
+        AwsMediaconnectRemoveBridgeOutputOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsMediaconnectRemoveBridgeOutputOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -800,11 +800,11 @@ public class AwsMediaconnect : IAwsMediaconnect
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RemoveBridgeSourceAsync(
-        AwsMediaconnectRemoveBridgeSourceOptions? options = null,
+        AwsMediaconnectRemoveBridgeSourceOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsMediaconnectRemoveBridgeSourceOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -815,11 +815,11 @@ public class AwsMediaconnect : IAwsMediaconnect
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RemoveFlowMediaStreamAsync(
-        AwsMediaconnectRemoveFlowMediaStreamOptions? options = null,
+        AwsMediaconnectRemoveFlowMediaStreamOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsMediaconnectRemoveFlowMediaStreamOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -830,11 +830,11 @@ public class AwsMediaconnect : IAwsMediaconnect
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RemoveFlowOutputAsync(
-        AwsMediaconnectRemoveFlowOutputOptions? options = null,
+        AwsMediaconnectRemoveFlowOutputOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsMediaconnectRemoveFlowOutputOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -845,11 +845,11 @@ public class AwsMediaconnect : IAwsMediaconnect
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RemoveFlowSourceAsync(
-        AwsMediaconnectRemoveFlowSourceOptions? options = null,
+        AwsMediaconnectRemoveFlowSourceOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsMediaconnectRemoveFlowSourceOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -860,11 +860,11 @@ public class AwsMediaconnect : IAwsMediaconnect
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RemoveFlowVpcInterfaceAsync(
-        AwsMediaconnectRemoveFlowVpcInterfaceOptions? options = null,
+        AwsMediaconnectRemoveFlowVpcInterfaceOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsMediaconnectRemoveFlowVpcInterfaceOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -875,11 +875,11 @@ public class AwsMediaconnect : IAwsMediaconnect
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RestartRouterInputAsync(
-        AwsMediaconnectRestartRouterInputOptions? options = null,
+        AwsMediaconnectRestartRouterInputOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsMediaconnectRestartRouterInputOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -890,11 +890,11 @@ public class AwsMediaconnect : IAwsMediaconnect
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RestartRouterOutputAsync(
-        AwsMediaconnectRestartRouterOutputOptions? options = null,
+        AwsMediaconnectRestartRouterOutputOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsMediaconnectRestartRouterOutputOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -905,11 +905,11 @@ public class AwsMediaconnect : IAwsMediaconnect
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RevokeFlowEntitlementAsync(
-        AwsMediaconnectRevokeFlowEntitlementOptions? options = null,
+        AwsMediaconnectRevokeFlowEntitlementOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsMediaconnectRevokeFlowEntitlementOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -920,11 +920,11 @@ public class AwsMediaconnect : IAwsMediaconnect
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> StartFlowAsync(
-        AwsMediaconnectStartFlowOptions? options = null,
+        AwsMediaconnectStartFlowOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsMediaconnectStartFlowOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -935,11 +935,11 @@ public class AwsMediaconnect : IAwsMediaconnect
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> StartRouterInputAsync(
-        AwsMediaconnectStartRouterInputOptions? options = null,
+        AwsMediaconnectStartRouterInputOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsMediaconnectStartRouterInputOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -950,11 +950,11 @@ public class AwsMediaconnect : IAwsMediaconnect
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> StartRouterOutputAsync(
-        AwsMediaconnectStartRouterOutputOptions? options = null,
+        AwsMediaconnectStartRouterOutputOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsMediaconnectStartRouterOutputOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -965,11 +965,11 @@ public class AwsMediaconnect : IAwsMediaconnect
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> StopFlowAsync(
-        AwsMediaconnectStopFlowOptions? options = null,
+        AwsMediaconnectStopFlowOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsMediaconnectStopFlowOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -980,11 +980,11 @@ public class AwsMediaconnect : IAwsMediaconnect
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> StopRouterInputAsync(
-        AwsMediaconnectStopRouterInputOptions? options = null,
+        AwsMediaconnectStopRouterInputOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsMediaconnectStopRouterInputOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -995,11 +995,11 @@ public class AwsMediaconnect : IAwsMediaconnect
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> StopRouterOutputAsync(
-        AwsMediaconnectStopRouterOutputOptions? options = null,
+        AwsMediaconnectStopRouterOutputOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsMediaconnectStopRouterOutputOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1010,11 +1010,11 @@ public class AwsMediaconnect : IAwsMediaconnect
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> TagGlobalResourceAsync(
-        AwsMediaconnectTagGlobalResourceOptions? options = null,
+        AwsMediaconnectTagGlobalResourceOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsMediaconnectTagGlobalResourceOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1025,11 +1025,11 @@ public class AwsMediaconnect : IAwsMediaconnect
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> TagResourceAsync(
-        AwsMediaconnectTagResourceOptions? options = null,
+        AwsMediaconnectTagResourceOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsMediaconnectTagResourceOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1040,11 +1040,11 @@ public class AwsMediaconnect : IAwsMediaconnect
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> TakeRouterInputAsync(
-        AwsMediaconnectTakeRouterInputOptions? options = null,
+        AwsMediaconnectTakeRouterInputOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsMediaconnectTakeRouterInputOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1055,11 +1055,11 @@ public class AwsMediaconnect : IAwsMediaconnect
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UntagGlobalResourceAsync(
-        AwsMediaconnectUntagGlobalResourceOptions? options = null,
+        AwsMediaconnectUntagGlobalResourceOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsMediaconnectUntagGlobalResourceOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1070,11 +1070,11 @@ public class AwsMediaconnect : IAwsMediaconnect
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UntagResourceAsync(
-        AwsMediaconnectUntagResourceOptions? options = null,
+        AwsMediaconnectUntagResourceOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsMediaconnectUntagResourceOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1085,11 +1085,11 @@ public class AwsMediaconnect : IAwsMediaconnect
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateBridgeAsync(
-        AwsMediaconnectUpdateBridgeOptions? options = null,
+        AwsMediaconnectUpdateBridgeOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsMediaconnectUpdateBridgeOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1100,11 +1100,11 @@ public class AwsMediaconnect : IAwsMediaconnect
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateBridgeOutputAsync(
-        AwsMediaconnectUpdateBridgeOutputOptions? options = null,
+        AwsMediaconnectUpdateBridgeOutputOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsMediaconnectUpdateBridgeOutputOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1115,11 +1115,11 @@ public class AwsMediaconnect : IAwsMediaconnect
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateBridgeSourceAsync(
-        AwsMediaconnectUpdateBridgeSourceOptions? options = null,
+        AwsMediaconnectUpdateBridgeSourceOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsMediaconnectUpdateBridgeSourceOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1130,11 +1130,11 @@ public class AwsMediaconnect : IAwsMediaconnect
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateBridgeStateAsync(
-        AwsMediaconnectUpdateBridgeStateOptions? options = null,
+        AwsMediaconnectUpdateBridgeStateOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsMediaconnectUpdateBridgeStateOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1145,11 +1145,11 @@ public class AwsMediaconnect : IAwsMediaconnect
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateFlowEntitlementAsync(
-        AwsMediaconnectUpdateFlowEntitlementOptions? options = null,
+        AwsMediaconnectUpdateFlowEntitlementOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsMediaconnectUpdateFlowEntitlementOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1160,11 +1160,11 @@ public class AwsMediaconnect : IAwsMediaconnect
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateFlowMediaStreamAsync(
-        AwsMediaconnectUpdateFlowMediaStreamOptions? options = null,
+        AwsMediaconnectUpdateFlowMediaStreamOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsMediaconnectUpdateFlowMediaStreamOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1175,11 +1175,11 @@ public class AwsMediaconnect : IAwsMediaconnect
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateFlowAsync(
-        AwsMediaconnectUpdateFlowOptions? options = null,
+        AwsMediaconnectUpdateFlowOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsMediaconnectUpdateFlowOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1190,11 +1190,11 @@ public class AwsMediaconnect : IAwsMediaconnect
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateFlowOutputAsync(
-        AwsMediaconnectUpdateFlowOutputOptions? options = null,
+        AwsMediaconnectUpdateFlowOutputOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsMediaconnectUpdateFlowOutputOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1205,11 +1205,11 @@ public class AwsMediaconnect : IAwsMediaconnect
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateFlowSourceAsync(
-        AwsMediaconnectUpdateFlowSourceOptions? options = null,
+        AwsMediaconnectUpdateFlowSourceOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsMediaconnectUpdateFlowSourceOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1220,11 +1220,11 @@ public class AwsMediaconnect : IAwsMediaconnect
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateGatewayInstanceAsync(
-        AwsMediaconnectUpdateGatewayInstanceOptions? options = null,
+        AwsMediaconnectUpdateGatewayInstanceOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsMediaconnectUpdateGatewayInstanceOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1235,11 +1235,11 @@ public class AwsMediaconnect : IAwsMediaconnect
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateRouterInputAsync(
-        AwsMediaconnectUpdateRouterInputOptions? options = null,
+        AwsMediaconnectUpdateRouterInputOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsMediaconnectUpdateRouterInputOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1250,11 +1250,11 @@ public class AwsMediaconnect : IAwsMediaconnect
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateRouterNetworkInterfaceAsync(
-        AwsMediaconnectUpdateRouterNetworkInterfaceOptions? options = null,
+        AwsMediaconnectUpdateRouterNetworkInterfaceOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsMediaconnectUpdateRouterNetworkInterfaceOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1265,11 +1265,11 @@ public class AwsMediaconnect : IAwsMediaconnect
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateRouterOutputAsync(
-        AwsMediaconnectUpdateRouterOutputOptions? options = null,
+        AwsMediaconnectUpdateRouterOutputOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsMediaconnectUpdateRouterOutputOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     #endregion

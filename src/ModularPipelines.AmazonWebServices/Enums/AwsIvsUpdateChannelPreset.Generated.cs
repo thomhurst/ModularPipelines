@@ -16,6 +16,9 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsIvsUpdateChannelPreset
 {
+    [EnumValue("CONSTRAINED_BANDWIDTH_DELIVERY")]
+    ConstrainedBandwidthDelivery,
+
     [EnumValue("HIGHER_BANDWIDTH_DELIVERY")]
-    HigherBandwidthDelivery = 1
+    HigherBandwidthDelivery
 }

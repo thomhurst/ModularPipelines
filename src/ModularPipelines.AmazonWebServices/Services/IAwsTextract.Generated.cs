@@ -28,7 +28,7 @@ public interface IAwsTextract
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AnalyzeDocumentAsync(AwsTextractAnalyzeDocumentOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> AnalyzeDocumentAsync(AwsTextractAnalyzeDocumentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -38,7 +38,7 @@ public interface IAwsTextract
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AnalyzeExpenseAsync(AwsTextractAnalyzeExpenseOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> AnalyzeExpenseAsync(AwsTextractAnalyzeExpenseOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -48,7 +48,7 @@ public interface IAwsTextract
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AnalyzeIdAsync(AwsTextractAnalyzeIdOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> AnalyzeIdAsync(AwsTextractAnalyzeIdOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -58,7 +58,7 @@ public interface IAwsTextract
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateAdapterAsync(AwsTextractCreateAdapterOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> CreateAdapterAsync(AwsTextractCreateAdapterOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -68,7 +68,7 @@ public interface IAwsTextract
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateAdapterVersionAsync(AwsTextractCreateAdapterVersionOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> CreateAdapterVersionAsync(AwsTextractCreateAdapterVersionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -78,7 +78,7 @@ public interface IAwsTextract
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteAdapterAsync(AwsTextractDeleteAdapterOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> DeleteAdapterAsync(AwsTextractDeleteAdapterOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -88,7 +88,7 @@ public interface IAwsTextract
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteAdapterVersionAsync(AwsTextractDeleteAdapterVersionOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> DeleteAdapterVersionAsync(AwsTextractDeleteAdapterVersionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -98,7 +98,7 @@ public interface IAwsTextract
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DetectDocumentTextAsync(AwsTextractDetectDocumentTextOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> DetectDocumentTextAsync(AwsTextractDetectDocumentTextOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -108,7 +108,7 @@ public interface IAwsTextract
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetAdapterAsync(AwsTextractGetAdapterOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> GetAdapterAsync(AwsTextractGetAdapterOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -118,7 +118,7 @@ public interface IAwsTextract
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetAdapterVersionAsync(AwsTextractGetAdapterVersionOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> GetAdapterVersionAsync(AwsTextractGetAdapterVersionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -128,7 +128,7 @@ public interface IAwsTextract
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetDocumentAnalysisAsync(AwsTextractGetDocumentAnalysisOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> GetDocumentAnalysisAsync(AwsTextractGetDocumentAnalysisOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -138,7 +138,7 @@ public interface IAwsTextract
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetDocumentTextDetectionAsync(AwsTextractGetDocumentTextDetectionOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> GetDocumentTextDetectionAsync(AwsTextractGetDocumentTextDetectionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -148,7 +148,7 @@ public interface IAwsTextract
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetExpenseAnalysisAsync(AwsTextractGetExpenseAnalysisOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> GetExpenseAnalysisAsync(AwsTextractGetExpenseAnalysisOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -158,7 +158,7 @@ public interface IAwsTextract
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetLendingAnalysisAsync(AwsTextractGetLendingAnalysisOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> GetLendingAnalysisAsync(AwsTextractGetLendingAnalysisOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -168,7 +168,7 @@ public interface IAwsTextract
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetLendingAnalysisSummaryAsync(AwsTextractGetLendingAnalysisSummaryOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> GetLendingAnalysisSummaryAsync(AwsTextractGetLendingAnalysisSummaryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -198,7 +198,7 @@ public interface IAwsTextract
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListTagsForResourceAsync(AwsTextractListTagsForResourceOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> ListTagsForResourceAsync(AwsTextractListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -208,7 +208,7 @@ public interface IAwsTextract
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartDocumentAnalysisAsync(AwsTextractStartDocumentAnalysisOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> StartDocumentAnalysisAsync(AwsTextractStartDocumentAnalysisOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -218,7 +218,7 @@ public interface IAwsTextract
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartDocumentTextDetectionAsync(AwsTextractStartDocumentTextDetectionOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> StartDocumentTextDetectionAsync(AwsTextractStartDocumentTextDetectionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -228,7 +228,7 @@ public interface IAwsTextract
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartExpenseAnalysisAsync(AwsTextractStartExpenseAnalysisOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> StartExpenseAnalysisAsync(AwsTextractStartExpenseAnalysisOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -238,7 +238,7 @@ public interface IAwsTextract
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartLendingAnalysisAsync(AwsTextractStartLendingAnalysisOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> StartLendingAnalysisAsync(AwsTextractStartLendingAnalysisOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -248,7 +248,7 @@ public interface IAwsTextract
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> TagResourceAsync(AwsTextractTagResourceOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> TagResourceAsync(AwsTextractTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -258,7 +258,7 @@ public interface IAwsTextract
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UntagResourceAsync(AwsTextractUntagResourceOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> UntagResourceAsync(AwsTextractUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -268,7 +268,7 @@ public interface IAwsTextract
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateAdapterAsync(AwsTextractUpdateAdapterOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> UpdateAdapterAsync(AwsTextractUpdateAdapterOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
 }

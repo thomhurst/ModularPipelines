@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --apitype.
+/// Allowed values for --api-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsAppsyncCreateGraphqlApiApiType
 {
     [EnumValue("GRAPHQL")]
-    Graphql = 1,
+    Graphql,
 
     [EnumValue("MERGED")]
-    Merged = 2
+    Merged
 }

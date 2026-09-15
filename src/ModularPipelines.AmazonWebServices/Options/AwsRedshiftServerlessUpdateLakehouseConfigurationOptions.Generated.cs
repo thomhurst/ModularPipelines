@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,15 +21,57 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("redshift-serverless", "update-lakehouse-configuration")]
-public record AwsRedshiftServerlessUpdateLakehouseConfigurationOptions : AwsOptions
+public record AwsRedshiftServerlessUpdateLakehouseConfigurationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Modifies the lakehouse configuration for a namespace. This operation allows you to manage Amazon Redshift federated permissions and Amazon Web Services IAM Identity Center trusted identity propagation. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="NamespaceName">The name of the namespace whose lakehouse configuration you want to modify. Constraints: o min: 3 o max: 64 o pattern: ^[a-z0-9-]+$</param>
+    public AwsRedshiftServerlessUpdateLakehouseConfigurationOptions(
+        string NamespaceName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(NamespaceName);
+        this.NamespaceName = NamespaceName;
+    }
+
+    private AwsRedshiftServerlessUpdateLakehouseConfigurationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRedshiftServerlessUpdateLakehouseConfigurationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRedshiftServerlessUpdateLakehouseConfigurationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the namespace whose lakehouse configuration you want to modify. Constraints: o min: 3 o max: 64 o pattern: ^[a-z0-9-]+$
+    /// </summary>
+    [CliOption("--namespace-name")]
+    public string? NamespaceName { get; private init; }
+
     /// <summary>
     /// The name of the Glue Data Catalog that will be associated with the namespace enabled with Amazon Redshift federated permissions. Pattern: ^[a-z0-9_-]*[a-z]+[a-z0-9_-]*$ Constraints: o min: 1 o max: 64 o pattern: ^[a-z0-9_-]*[a-z]+[a-z0-9_-]*$
     /// </summary>
     [CliOption("--catalog-name")]
     public string? CatalogName { get; set; }
 
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// A boolean value that, if true , validates the request without actu- ally updating the lakehouse configuration. Use this to check for er- rors before making changes.
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     /// <summary>
@@ -49,13 +92,27 @@ public record AwsRedshiftServerlessUpdateLakehouseConfigurationOptions : AwsOpti
     [CliOption("--lakehouse-registration")]
     public AwsRedshiftServerlessUpdateLakehouseConfigurationLakehouseRegistration? LakehouseRegistration { get; set; }
 
-    [CliOption("--namespace-name")]
-    public string? NamespaceName { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

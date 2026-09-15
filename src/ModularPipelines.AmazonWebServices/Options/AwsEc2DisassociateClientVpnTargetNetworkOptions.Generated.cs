@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,61 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ec2", "disassociate-client-vpn-target-network")]
-public record AwsEc2DisassociateClientVpnTargetNetworkOptions : AwsOptions
+public record AwsEc2DisassociateClientVpnTargetNetworkOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Disassociates a target network from the specified Client VPN endpoint. When you disassociate the last target network from a Client VPN, the following happens: o The route that was automatically added for the VPC is deleted o All active client connections are terminated o New client connections are disallowed o The Client VPN endpoint's status changes to pending-associate See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ClientVpnEndpointId">The ID of the Client VPN endpoint from which to disassociate the target network.</param>
+    /// <param name="AssociationId">The ID of the target network association.</param>
+    public AwsEc2DisassociateClientVpnTargetNetworkOptions(
+        string ClientVpnEndpointId,
+        string AssociationId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ClientVpnEndpointId);
+        this.ClientVpnEndpointId = ClientVpnEndpointId;
+        global::System.ArgumentNullException.ThrowIfNull(AssociationId);
+        this.AssociationId = AssociationId;
+    }
+
+    private AwsEc2DisassociateClientVpnTargetNetworkOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEc2DisassociateClientVpnTargetNetworkOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEc2DisassociateClientVpnTargetNetworkOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the Client VPN endpoint from which to disassociate the target network.
+    /// </summary>
     [CliOption("--client-vpn-endpoint-id")]
-    public string? ClientVpnEndpointId { get; set; }
+    public string? ClientVpnEndpointId { get; private init; }
 
+    /// <summary>
+    /// The ID of the target network association.
+    /// </summary>
     [CliOption("--association-id")]
-    public string? AssociationId { get; set; }
+    public string? AssociationId { get; private init; }
 
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -35,5 +82,22 @@ public record AwsEc2DisassociateClientVpnTargetNetworkOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

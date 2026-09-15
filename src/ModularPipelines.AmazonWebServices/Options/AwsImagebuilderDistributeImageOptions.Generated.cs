@@ -12,6 +12,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -21,16 +22,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("imagebuilder", "distribute-image")]
-public record AwsImagebuilderDistributeImageOptions : AwsOptions
+public record AwsImagebuilderDistributeImageOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Distributes an existing AMI to target Regions and accounts without run- ning the full image build process. This operation only runs the distri- bution phase on an image that has already been built. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="SourceImage">The source image to distribute. Specify an AMI identifier, SSM para- meter path, or Image Builder image Amazon Resource Name (ARN). When you specify an Image Builder image Amazon Resource Name (ARN), the image must be in the AVAILABLE state. Constraints: o min: 1 o max: 1024</param>
+    /// <param name="DistributionConfigurationArn">The Amazon Resource Name (ARN) of the distribution configuration. The configuration defines target Regions, accounts, and AMI set- tings. The distribution configuration must be in the same Region as this operation. Constraints: o pattern: ^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws):dis- tribution-configuration/[a-z0-9-_]+$</param>
+    /// <param name="ExecutionRole">The name or Amazon Resource Name (ARN) of the IAM role that Image Builder assumes to distribute the image. Constraints: o min: 1 o max: 2048 o pattern: ^(?:arn:aws(?:-[a-z]+)*:iam::[0-9]{12}:role/)?[a-zA-Z_0-9+=,.@\-_/]+$</param>
+    public AwsImagebuilderDistributeImageOptions(
+        string SourceImage,
+        string DistributionConfigurationArn,
+        string ExecutionRole
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SourceImage);
+        this.SourceImage = SourceImage;
+        global::System.ArgumentNullException.ThrowIfNull(DistributionConfigurationArn);
+        this.DistributionConfigurationArn = DistributionConfigurationArn;
+        global::System.ArgumentNullException.ThrowIfNull(ExecutionRole);
+        this.ExecutionRole = ExecutionRole;
+    }
+
+    private AwsImagebuilderDistributeImageOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsImagebuilderDistributeImageOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsImagebuilderDistributeImageOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The source image to distribute. Specify an AMI identifier, SSM para- meter path, or Image Builder image Amazon Resource Name (ARN). When you specify an Image Builder image Amazon Resource Name (ARN), the image must be in the AVAILABLE state. Constraints: o min: 1 o max: 1024
+    /// </summary>
     [CliOption("--source-image")]
-    public string? SourceImage { get; set; }
+    public string? SourceImage { get; private init; }
 
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the distribution configuration. The configuration defines target Regions, accounts, and AMI set- tings. The distribution configuration must be in the same Region as this operation. Constraints: o pattern: ^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws):dis- tribution-configuration/[a-z0-9-_]+$
+    /// </summary>
     [CliOption("--distribution-configuration-arn")]
-    public string? DistributionConfigurationArn { get; set; }
+    public string? DistributionConfigurationArn { get; private init; }
 
+    /// <summary>
+    /// The name or Amazon Resource Name (ARN) of the IAM role that Image Builder assumes to distribute the image. Constraints: o min: 1 o max: 2048 o pattern: ^(?:arn:aws(?:-[a-z]+)*:iam::[0-9]{12}:role/)?[a-zA-Z_0-9+=,.@\-_/]+$
+    /// </summary>
     [CliOption("--execution-role")]
-    public string? ExecutionRole { get; set; }
+    public string? ExecutionRole { get; private init; }
 
     /// <summary>
     /// The tags to apply to the distributed image. Constraints: o min: 1 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ^(?!aws:)[a-zA-Z0-9\s_.:/=+\-@]*$ value -&gt; (string) Constraints: o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
@@ -39,7 +90,7 @@ public record AwsImagebuilderDistributeImageOptions : AwsOptions
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>
-    /// Unique, case-sensitive identifier you provide to ensure idempotency of the request. For more information, see Ensuring idempotency in the Amazon EC2 API Reference . Constraints: o min: 1 o max: 64
+    /// A unique, case-sensitive identifier you provide to ensure that the operation completes no more than one time. If this token matches a previous request, the service ignores the request, but does not re- turn an error. For more information, see Ensuring idempotency in the Amazon EC2 API Reference . Constraints: o min: 1 o max: 64
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
@@ -56,5 +107,22 @@ public record AwsImagebuilderDistributeImageOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

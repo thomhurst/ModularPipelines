@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --routingstrategytype.
+/// Allowed values for --routing-strategy-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsGameliftListAliasesRoutingStrategyType
 {
     [EnumValue("SIMPLE")]
-    Simple = 1,
+    Simple,
 
     [EnumValue("TERMINAL")]
-    Terminal = 2
+    Terminal
 }

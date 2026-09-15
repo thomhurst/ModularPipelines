@@ -11,17 +11,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --resourceregionscope.
+/// Allowed values for --resource-region-scope.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsRamListResourceTypesResourceRegionScope
 {
     [EnumValue("ALL")]
-    All = 1,
-
-    [EnumValue("REGIONAL")]
-    Regional = 2,
+    All,
 
     [EnumValue("GLOBAL")]
-    Global = 3
+    Global,
+
+    [EnumValue("REGIONAL")]
+    Regional
 }

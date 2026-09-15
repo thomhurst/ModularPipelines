@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,19 +22,76 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("partnercentral-account", "cancel-connection")]
-public record AwsPartnercentralAccountCancelConnectionOptions : AwsOptions
+public record AwsPartnercentralAccountCancelConnectionOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Cancels an existing connection between partners, terminating the part- nership relationship. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Catalog">The catalog identifier where the connection exists. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9-]+</param>
+    /// <param name="Identifier">The unique identifier of the connection to cancel. Constraints: o pattern: pac-[A-Za-z0-9]{13}</param>
+    /// <param name="ConnectionType">The type of connection to cancel (e.g., reseller, distributor, tech- nology partner). Possible values: o OPPORTUNITY_COLLABORATION o SUBSIDIARY</param>
+    /// <param name="Reason">The reason for canceling the connection, providing context for the termination. Constraints: o min: 0 o max: 256</param>
+    public AwsPartnercentralAccountCancelConnectionOptions(
+        string Catalog,
+        string Identifier,
+        AwsPartnercentralAccountCancelConnectionConnectionType ConnectionType,
+        string Reason
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Catalog);
+        this.Catalog = Catalog;
+        global::System.ArgumentNullException.ThrowIfNull(Identifier);
+        this.Identifier = Identifier;
+        global::System.ArgumentNullException.ThrowIfNull(ConnectionType);
+        this.ConnectionType = ConnectionType;
+        global::System.ArgumentNullException.ThrowIfNull(Reason);
+        this.Reason = Reason;
+    }
+
+    private AwsPartnercentralAccountCancelConnectionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsPartnercentralAccountCancelConnectionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsPartnercentralAccountCancelConnectionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The catalog identifier where the connection exists. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9-]+
+    /// </summary>
     [CliOption("--catalog")]
-    public string? Catalog { get; set; }
+    public string? Catalog { get; private init; }
 
+    /// <summary>
+    /// The unique identifier of the connection to cancel. Constraints: o pattern: pac-[A-Za-z0-9]{13}
+    /// </summary>
     [CliOption("--identifier")]
-    public string? Identifier { get; set; }
+    public string? Identifier { get; private init; }
 
+    /// <summary>
+    /// The type of connection to cancel (e.g., reseller, distributor, tech- nology partner). Possible values: o OPPORTUNITY_COLLABORATION o SUBSIDIARY
+    /// </summary>
     [CliOption("--connection-type")]
-    public string? ConnectionType { get; set; }
+    public AwsPartnercentralAccountCancelConnectionConnectionType? ConnectionType { get; private init; }
 
+    /// <summary>
+    /// The reason for canceling the connection, providing context for the termination. Constraints: o min: 0 o max: 256
+    /// </summary>
     [CliOption("--reason")]
-    public string? Reason { get; set; }
+    public string? Reason { get; private init; }
 
     /// <summary>
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Constraints: o min: 1 o max: 64 o pattern: [A-Za-z0-9-_]+
@@ -46,5 +105,22 @@ public record AwsPartnercentralAccountCancelConnectionOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

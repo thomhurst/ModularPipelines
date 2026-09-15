@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("elbv2", "modify-ip-pools")]
-public record AwsElbv2ModifyIpPoolsOptions : AwsOptions
+public record AwsElbv2ModifyIpPoolsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// [Application Load Balancers] Modify the IP pool associated to a load balancer. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="LoadBalancerArn">The Amazon Resource Name (ARN) of the load balancer.</param>
+    public AwsElbv2ModifyIpPoolsOptions(
+        string LoadBalancerArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(LoadBalancerArn);
+        this.LoadBalancerArn = LoadBalancerArn;
+    }
+
+    private AwsElbv2ModifyIpPoolsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsElbv2ModifyIpPoolsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsElbv2ModifyIpPoolsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the load balancer.
+    /// </summary>
     [CliOption("--load-balancer-arn")]
-    public string? LoadBalancerArn { get; set; }
+    public string? LoadBalancerArn { get; private init; }
 
     /// <summary>
     /// The IPAM pools to be modified. Ipv4IpamPoolId -&gt; (string) The ID of the IPv4 IPAM pool. Constraints: o max: 1000 o pattern: ^(ipam-pool-)[a-zA-Z0-9]+$ Shorthand Syntax: Ipv4IpamPoolId=string JSON Syntax: { "Ipv4IpamPoolId": "string" }
@@ -41,5 +78,22 @@ public record AwsElbv2ModifyIpPoolsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

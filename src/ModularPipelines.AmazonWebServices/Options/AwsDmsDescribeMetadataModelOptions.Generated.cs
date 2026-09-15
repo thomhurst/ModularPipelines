@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +20,88 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("dms", "describe-metadata-model")]
-public record AwsDmsDescribeMetadataModelOptions : AwsOptions
+public record AwsDmsDescribeMetadataModelOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Gets detailed information about the specified metadata model, including its definition and corresponding converted objects in the target data- base if applicable. Required permissions: dms:DescribeMetadataModel . For more informa- tion, see Actions, resources, and condition keys for Database Migra- tion Service . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="SelectionRules">A JSON string that identifies the metadata model to retrieve. For the selection rule format and examples, see Selection rules in DMS Schema Conversion . Usage: o Accepts source or target selection rules depending on the Origin parameter. The server-name in the object locator must match the corresponding data provider. o Supports only explicit rule actions. o Exactly one rule is allowed.</param>
+    /// <param name="MigrationProjectIdentifier">The migration project name or Amazon Resource Name (ARN). Constraints: o max: 255</param>
+    /// <param name="Origin">Specifies whether to retrieve metadata from the source or target tree. Valid values: SOURCE | TARGET Possible values: o SOURCE o TARGET</param>
+    public AwsDmsDescribeMetadataModelOptions(
+        string SelectionRules,
+        string MigrationProjectIdentifier,
+        string Origin
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SelectionRules);
+        this.SelectionRules = SelectionRules;
+        global::System.ArgumentNullException.ThrowIfNull(MigrationProjectIdentifier);
+        this.MigrationProjectIdentifier = MigrationProjectIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(Origin);
+        this.Origin = Origin;
+    }
+
+    private AwsDmsDescribeMetadataModelOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDmsDescribeMetadataModelOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDmsDescribeMetadataModelOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A JSON string that identifies the metadata model to retrieve. For the selection rule format and examples, see Selection rules in DMS Schema Conversion . Usage: o Accepts source or target selection rules depending on the Origin parameter. The server-name in the object locator must match the corresponding data provider. o Supports only explicit rule actions. o Exactly one rule is allowed.
+    /// </summary>
     [CliOption("--selection-rules")]
-    public string? SelectionRules { get; set; }
+    public string? SelectionRules { get; private init; }
 
+    /// <summary>
+    /// The migration project name or Amazon Resource Name (ARN). Constraints: o max: 255
+    /// </summary>
     [CliOption("--migration-project-identifier")]
-    public string? MigrationProjectIdentifier { get; set; }
+    public string? MigrationProjectIdentifier { get; private init; }
 
+    /// <summary>
+    /// Specifies whether to retrieve metadata from the source or target tree. Valid values: SOURCE | TARGET Possible values: o SOURCE o TARGET
+    /// </summary>
     [CliOption("--origin")]
-    public string? Origin { get; set; }
+    public string? Origin { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

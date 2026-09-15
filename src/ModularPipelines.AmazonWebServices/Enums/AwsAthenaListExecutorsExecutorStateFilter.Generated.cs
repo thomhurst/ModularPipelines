@@ -11,26 +11,26 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --executorstatefilter.
+/// Allowed values for --executor-state-filter.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsAthenaListExecutorsExecutorStateFilter
 {
-    [EnumValue("CREATING")]
-    Creating = 1,
-
     [EnumValue("CREATED")]
-    Created = 2,
+    Created,
 
-    [EnumValue("REGISTERED")]
-    Registered = 3,
-
-    [EnumValue("TERMINATING")]
-    Terminating = 4,
-
-    [EnumValue("TERMINATED")]
-    Terminated = 5,
+    [EnumValue("CREATING")]
+    Creating,
 
     [EnumValue("FAILED")]
-    Failed = 6
+    Failed,
+
+    [EnumValue("REGISTERED")]
+    Registered,
+
+    [EnumValue("TERMINATED")]
+    Terminated,
+
+    [EnumValue("TERMINATING")]
+    Terminating
 }

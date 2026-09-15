@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("observabilityadmin", "create-s3-table-integration")]
-public record AwsObservabilityadminCreateS3TableIntegrationOptions : AwsOptions
+public record AwsObservabilityadminCreateS3TableIntegrationOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--encryption")]
-    public string? Encryption { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates an integration between CloudWatch and S3 Tables for analytics. This integration enables querying CloudWatch telemetry data using ana- lytics engines like Amazon Athena, Amazon Redshift, and Apache Spark. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Encryption">The encryption configuration for the S3 Table integration, including the encryption algorithm and KMS key settings. SseAlgorithm -&gt; (string) [required] The server-side encryption algorithm used for encrypting data in the S3 Table integration. Possible values: o aws:kms o AES256 KmsKeyArn -&gt; (string) The Amazon Resource Name (ARN) of the KMS key used for encryp- tion when using customer-managed keys. Constraints: o min: 1 o max: 1011 o pattern: arn:aws([a-z0-9\-]+)?:([a-zA-Z0-9\-]+):([a-z0-9\-]+)?:([0-9]{12})?:(.+) Shorthand Syntax: SseAlgorithm=string,KmsKeyArn=string JSON Syntax: { "SseAlgorithm": "aws:kms"|"AES256", "KmsKeyArn": "string" }</param>
+    /// <param name="RoleArn">The Amazon Resource Name (ARN) of the IAM role that grants permis- sions for the S3 Table integration to access necessary resources. Constraints: o min: 1 o max: 1011 o pattern: arn:aws([a-z0-9\-]+)?:([a-zA-Z0-9\-]+):([a-z0-9\-]+)?:([0-9]{12})?:(.+)</param>
+    public AwsObservabilityadminCreateS3TableIntegrationOptions(
+        string Encryption,
+        string RoleArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Encryption);
+        this.Encryption = Encryption;
+        global::System.ArgumentNullException.ThrowIfNull(RoleArn);
+        this.RoleArn = RoleArn;
+    }
+
+    private AwsObservabilityadminCreateS3TableIntegrationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsObservabilityadminCreateS3TableIntegrationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsObservabilityadminCreateS3TableIntegrationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The encryption configuration for the S3 Table integration, including the encryption algorithm and KMS key settings. SseAlgorithm -&gt; (string) [required] The server-side encryption algorithm used for encrypting data in the S3 Table integration. Possible values: o aws:kms o AES256 KmsKeyArn -&gt; (string) The Amazon Resource Name (ARN) of the KMS key used for encryp- tion when using customer-managed keys. Constraints: o min: 1 o max: 1011 o pattern: arn:aws([a-z0-9\-]+)?:([a-zA-Z0-9\-]+):([a-z0-9\-]+)?:([0-9]{12})?:(.+) Shorthand Syntax: SseAlgorithm=string,KmsKeyArn=string JSON Syntax: { "SseAlgorithm": "aws:kms"|"AES256", "KmsKeyArn": "string" }
+    /// </summary>
+    [CliOption("--encryption")]
+    public string? Encryption { get; private init; }
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the IAM role that grants permis- sions for the S3 Table integration to access necessary resources. Constraints: o min: 1 o max: 1011 o pattern: arn:aws([a-z0-9\-]+)?:([a-zA-Z0-9\-]+):([a-z0-9\-]+)?:([0-9]{12})?:(.+)
+    /// </summary>
     [CliOption("--role-arn")]
-    public string? RoleArn { get; set; }
+    public string? RoleArn { get; private init; }
 
     /// <summary>
     /// The key-value pairs to associate with the S3 Table integration re- source for categorization and management purposes. Constraints: o min: 1 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) value -&gt; (string) Constraints: o min: 0 o max: 256 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
@@ -39,5 +83,22 @@ public record AwsObservabilityadminCreateS3TableIntegrationOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

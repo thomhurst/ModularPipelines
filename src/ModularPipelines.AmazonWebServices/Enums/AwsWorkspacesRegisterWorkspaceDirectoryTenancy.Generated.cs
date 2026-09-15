@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsWorkspacesRegisterWorkspaceDirectoryTenancy
 {
     [EnumValue("DEDICATED")]
-    Dedicated = 1,
+    Dedicated,
 
     [EnumValue("SHARED")]
-    Shared = 2
+    Shared
 }

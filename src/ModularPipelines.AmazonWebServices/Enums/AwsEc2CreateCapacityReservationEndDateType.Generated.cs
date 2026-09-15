@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --enddatetype.
+/// Allowed values for --end-date-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsEc2CreateCapacityReservationEndDateType
 {
-    [EnumValue("unlimited")]
-    Unlimited = 1,
-
     [EnumValue("limited")]
-    Limited = 2
+    Limited,
+
+    [EnumValue("unlimited")]
+    Unlimited
 }

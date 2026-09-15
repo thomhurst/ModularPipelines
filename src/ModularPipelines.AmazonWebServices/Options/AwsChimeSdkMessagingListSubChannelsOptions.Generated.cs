@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("chime-sdk-messaging", "list-sub-channels")]
-public record AwsChimeSdkMessagingListSubChannelsOptions : AwsOptions
+public record AwsChimeSdkMessagingListSubChannelsOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--channel-arn")]
-    public string? ChannelArn { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Lists all the SubChannels in an elastic channel when given a channel ID. Available only to the app instance admins and channel moderators of elastic channels. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ChannelArn">The ARN of elastic channel. Constraints: o min: 5 o max: 1600 o pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}</param>
+    /// <param name="ChimeBearer">The AppInstanceUserArn of the user making the API call. Constraints: o min: 5 o max: 1600 o pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}</param>
+    public AwsChimeSdkMessagingListSubChannelsOptions(
+        string ChannelArn,
+        string ChimeBearer
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ChannelArn);
+        this.ChannelArn = ChannelArn;
+        global::System.ArgumentNullException.ThrowIfNull(ChimeBearer);
+        this.ChimeBearer = ChimeBearer;
+    }
+
+    private AwsChimeSdkMessagingListSubChannelsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsChimeSdkMessagingListSubChannelsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsChimeSdkMessagingListSubChannelsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ARN of elastic channel. Constraints: o min: 5 o max: 1600 o pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}
+    /// </summary>
+    [CliOption("--channel-arn")]
+    public string? ChannelArn { get; private init; }
+
+    /// <summary>
+    /// The AppInstanceUserArn of the user making the API call. Constraints: o min: 5 o max: 1600 o pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}
+    /// </summary>
     [CliOption("--chime-bearer")]
-    public string? ChimeBearer { get; set; }
+    public string? ChimeBearer { get; private init; }
 
     /// <summary>
     /// The maximum number of sub-channels that you want to return. Constraints: o min: 1 o max: 50
@@ -46,5 +90,22 @@ public record AwsChimeSdkMessagingListSubChannelsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

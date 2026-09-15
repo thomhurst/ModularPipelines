@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,68 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("backup", "stop-backup-job")]
-public record AwsBackupStopBackupJobOptions : AwsOptions
+public record AwsBackupStopBackupJobOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Attempts to cancel a job to create a one-time backup of a resource. This action is not supported for the following services: o Amazon Aurora o Amazon DocumentDB (with MongoDB compatibility) o Amazon FSx for Lustre o Amazon FSx for NetApp ONTAP o Amazon FSx for OpenZFS o Amazon FSx for Windows File Server o Amazon Neptune o SAP HANA databases on Amazon EC2 instances o Amazon RDS See also: AWS API Documentation
+    /// </summary>
+    /// <param name="BackupJobId">Uniquely identifies a request to Backup to back up a resource.</param>
+    public AwsBackupStopBackupJobOptions(
+        string BackupJobId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(BackupJobId);
+        this.BackupJobId = BackupJobId;
+    }
+
+    private AwsBackupStopBackupJobOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsBackupStopBackupJobOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsBackupStopBackupJobOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Uniquely identifies a request to Backup to back up a resource.
+    /// </summary>
     [CliOption("--backup-job-id")]
-    public string? BackupJobId { get; set; }
+    public string? BackupJobId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

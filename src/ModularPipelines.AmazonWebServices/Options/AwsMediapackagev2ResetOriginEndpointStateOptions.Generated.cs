@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +20,88 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("mediapackagev2", "reset-origin-endpoint-state")]
-public record AwsMediapackagev2ResetOriginEndpointStateOptions : AwsOptions
+public record AwsMediapackagev2ResetOriginEndpointStateOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Resetting the origin endpoint can help to resolve unexpected behavior and other content packaging issues. It also helps to preserve special events when you don't want the previous content to be available for viewing. A reset clears out all previous content from the origin end- point. MediaPackage might return old content from this endpoint in the first 30 seconds after the endpoint reset. For best results, when possible, wait 30 seconds from endpoint reset to send playback requests to this endpo...
+    /// </summary>
+    /// <param name="ChannelGroupName">The name of the channel group that contains the channel with the origin endpoint that you are resetting. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9_-]+</param>
+    /// <param name="ChannelName">The name of the channel with the origin endpoint that you are reset- ting. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9_-]+</param>
+    /// <param name="OriginEndpointName">The name of the origin endpoint that you are resetting. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9_-]+</param>
+    public AwsMediapackagev2ResetOriginEndpointStateOptions(
+        string ChannelGroupName,
+        string ChannelName,
+        string OriginEndpointName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ChannelGroupName);
+        this.ChannelGroupName = ChannelGroupName;
+        global::System.ArgumentNullException.ThrowIfNull(ChannelName);
+        this.ChannelName = ChannelName;
+        global::System.ArgumentNullException.ThrowIfNull(OriginEndpointName);
+        this.OriginEndpointName = OriginEndpointName;
+    }
+
+    private AwsMediapackagev2ResetOriginEndpointStateOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsMediapackagev2ResetOriginEndpointStateOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsMediapackagev2ResetOriginEndpointStateOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the channel group that contains the channel with the origin endpoint that you are resetting. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9_-]+
+    /// </summary>
     [CliOption("--channel-group-name")]
-    public string? ChannelGroupName { get; set; }
+    public string? ChannelGroupName { get; private init; }
 
+    /// <summary>
+    /// The name of the channel with the origin endpoint that you are reset- ting. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9_-]+
+    /// </summary>
     [CliOption("--channel-name")]
-    public string? ChannelName { get; set; }
+    public string? ChannelName { get; private init; }
 
+    /// <summary>
+    /// The name of the origin endpoint that you are resetting. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9_-]+
+    /// </summary>
     [CliOption("--origin-endpoint-name")]
-    public string? OriginEndpointName { get; set; }
+    public string? OriginEndpointName { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -28,7 +28,7 @@ public interface IAwsComprehendmedical
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeEntitiesDetectionV2JobAsync(AwsComprehendmedicalDescribeEntitiesDetectionV2JobOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> DescribeEntitiesDetectionV2JobAsync(AwsComprehendmedicalDescribeEntitiesDetectionV2JobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -38,7 +38,7 @@ public interface IAwsComprehendmedical
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeIcd10CmInferenceJobAsync(AwsComprehendmedicalDescribeIcd10CmInferenceJobOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> DescribeIcd10CmInferenceJobAsync(AwsComprehendmedicalDescribeIcd10CmInferenceJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -48,7 +48,7 @@ public interface IAwsComprehendmedical
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribePhiDetectionJobAsync(AwsComprehendmedicalDescribePhiDetectionJobOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> DescribePhiDetectionJobAsync(AwsComprehendmedicalDescribePhiDetectionJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -58,7 +58,7 @@ public interface IAwsComprehendmedical
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeRxNormInferenceJobAsync(AwsComprehendmedicalDescribeRxNormInferenceJobOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> DescribeRxNormInferenceJobAsync(AwsComprehendmedicalDescribeRxNormInferenceJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -68,7 +68,7 @@ public interface IAwsComprehendmedical
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeSnomedctInferenceJobAsync(AwsComprehendmedicalDescribeSnomedctInferenceJobOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> DescribeSnomedctInferenceJobAsync(AwsComprehendmedicalDescribeSnomedctInferenceJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -78,7 +78,7 @@ public interface IAwsComprehendmedical
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DetectEntitiesV2Async(AwsComprehendmedicalDetectEntitiesV2Options? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> DetectEntitiesV2Async(AwsComprehendmedicalDetectEntitiesV2Options options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -88,7 +88,7 @@ public interface IAwsComprehendmedical
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DetectPhiAsync(AwsComprehendmedicalDetectPhiOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> DetectPhiAsync(AwsComprehendmedicalDetectPhiOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -98,7 +98,7 @@ public interface IAwsComprehendmedical
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> InferIcd10CmAsync(AwsComprehendmedicalInferIcd10CmOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> InferIcd10CmAsync(AwsComprehendmedicalInferIcd10CmOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -108,7 +108,7 @@ public interface IAwsComprehendmedical
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> InferRxNormAsync(AwsComprehendmedicalInferRxNormOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> InferRxNormAsync(AwsComprehendmedicalInferRxNormOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -118,7 +118,7 @@ public interface IAwsComprehendmedical
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> InferSnomedctAsync(AwsComprehendmedicalInferSnomedctOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> InferSnomedctAsync(AwsComprehendmedicalInferSnomedctOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -178,7 +178,7 @@ public interface IAwsComprehendmedical
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartEntitiesDetectionV2JobAsync(AwsComprehendmedicalStartEntitiesDetectionV2JobOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> StartEntitiesDetectionV2JobAsync(AwsComprehendmedicalStartEntitiesDetectionV2JobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -188,7 +188,7 @@ public interface IAwsComprehendmedical
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartIcd10CmInferenceJobAsync(AwsComprehendmedicalStartIcd10CmInferenceJobOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> StartIcd10CmInferenceJobAsync(AwsComprehendmedicalStartIcd10CmInferenceJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -198,7 +198,7 @@ public interface IAwsComprehendmedical
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartPhiDetectionJobAsync(AwsComprehendmedicalStartPhiDetectionJobOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> StartPhiDetectionJobAsync(AwsComprehendmedicalStartPhiDetectionJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -208,7 +208,7 @@ public interface IAwsComprehendmedical
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartRxNormInferenceJobAsync(AwsComprehendmedicalStartRxNormInferenceJobOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> StartRxNormInferenceJobAsync(AwsComprehendmedicalStartRxNormInferenceJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -218,7 +218,7 @@ public interface IAwsComprehendmedical
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartSnomedctInferenceJobAsync(AwsComprehendmedicalStartSnomedctInferenceJobOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> StartSnomedctInferenceJobAsync(AwsComprehendmedicalStartSnomedctInferenceJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -228,7 +228,7 @@ public interface IAwsComprehendmedical
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StopEntitiesDetectionV2JobAsync(AwsComprehendmedicalStopEntitiesDetectionV2JobOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> StopEntitiesDetectionV2JobAsync(AwsComprehendmedicalStopEntitiesDetectionV2JobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -238,7 +238,7 @@ public interface IAwsComprehendmedical
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StopIcd10CmInferenceJobAsync(AwsComprehendmedicalStopIcd10CmInferenceJobOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> StopIcd10CmInferenceJobAsync(AwsComprehendmedicalStopIcd10CmInferenceJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -248,7 +248,7 @@ public interface IAwsComprehendmedical
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StopPhiDetectionJobAsync(AwsComprehendmedicalStopPhiDetectionJobOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> StopPhiDetectionJobAsync(AwsComprehendmedicalStopPhiDetectionJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -258,7 +258,7 @@ public interface IAwsComprehendmedical
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StopRxNormInferenceJobAsync(AwsComprehendmedicalStopRxNormInferenceJobOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> StopRxNormInferenceJobAsync(AwsComprehendmedicalStopRxNormInferenceJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -268,7 +268,7 @@ public interface IAwsComprehendmedical
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StopSnomedctInferenceJobAsync(AwsComprehendmedicalStopSnomedctInferenceJobOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> StopSnomedctInferenceJobAsync(AwsComprehendmedicalStopSnomedctInferenceJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
 }

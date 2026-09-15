@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("marketplace-catalog", "list-assessments")]
-public record AwsMarketplaceCatalogListAssessmentsOptions : AwsOptions
+public record AwsMarketplaceCatalogListAssessmentsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Returns a paginated list of assessments associated with an entity or change set in AWS Marketplace. An assessment is the result of evaluat- ing a product or change set against a framework, such as AMI Security or Container Security. Use the AssessmentTargetFilter to scope results to a specific entity or change set, and use FrameworkFilters to scope results to a single framework. To retrieve detailed control-level results for an individual assessment, use the DescribeAssessment action. Results ar...
+    /// </summary>
+    /// <param name="Catalog">The catalog related to the request. Fixed value: AWSMarketplace Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z]+$</param>
+    public AwsMarketplaceCatalogListAssessmentsOptions(
+        string Catalog
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Catalog);
+        this.Catalog = Catalog;
+    }
+
+    private AwsMarketplaceCatalogListAssessmentsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsMarketplaceCatalogListAssessmentsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsMarketplaceCatalogListAssessmentsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The catalog related to the request. Fixed value: AWSMarketplace Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z]+$
+    /// </summary>
     [CliOption("--catalog")]
-    public string? Catalog { get; set; }
+    public string? Catalog { get; private init; }
 
     /// <summary>
     /// The unique identifier of a framework. When specified, only assess- ments performed against this framework are returned. For example, AMISecurity . Constraints: o min: 1 o max: 255 o pattern: ^[\w\-@]+$
@@ -67,5 +104,22 @@ public record AwsMarketplaceCatalogListAssessmentsOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -5,8 +5,8 @@
 
 #nullable enable
 
-using ModularPipelines.Context;
 using System.CodeDom.Compiler;
+using ModularPipelines.Context;
 using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
@@ -40,11 +40,11 @@ public class AwsInterconnectWait
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ConnectionAvailableAsync(
-        AwsInterconnectWaitConnectionAvailableOptions? options = null,
+        AwsInterconnectWaitConnectionAvailableOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsInterconnectWaitConnectionAvailableOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -55,11 +55,11 @@ public class AwsInterconnectWait
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ConnectionDeletedAsync(
-        AwsInterconnectWaitConnectionDeletedOptions? options = null,
+        AwsInterconnectWaitConnectionDeletedOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsInterconnectWaitConnectionDeletedOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     #endregion

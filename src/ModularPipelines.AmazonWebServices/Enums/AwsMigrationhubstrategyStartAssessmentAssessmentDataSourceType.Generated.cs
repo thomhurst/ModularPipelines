@@ -11,14 +11,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --assessmentdatasourcetype.
+/// Allowed values for --assessment-data-source-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsMigrationhubstrategyStartAssessmentAssessmentDataSourceType
 {
-    [EnumValue("ManualImport")]
-    ManualImport = 1,
-
     [EnumValue("ApplicationDiscoveryService")]
-    ApplicationDiscoveryService = 2
+    ApplicationDiscoveryService,
+
+    [EnumValue("ManualImport")]
+    ManualImport,
+
+    [EnumValue("StrategyRecommendationsApplicationDataCollector")]
+    StrategyRecommendationsApplicationDataCollector
 }

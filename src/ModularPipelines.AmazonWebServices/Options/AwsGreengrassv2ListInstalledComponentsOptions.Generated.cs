@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,10 +22,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("greengrassv2", "list-installed-components")]
-public record AwsGreengrassv2ListInstalledComponentsOptions : AwsOptions
+public record AwsGreengrassv2ListInstalledComponentsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Retrieves a paginated list of the components that a Greengrass core de- vice runs. By default, this list doesn't include components that are deployed as dependencies of other components. To include dependencies in the response, set the topologyFilter parameter to ALL . NOTE: IoT Greengrass relies on individual devices to send status updates to the Amazon Web Services Cloud. If the IoT Greengrass Core soft- ware isn't running on the device, or if device isn't connected to the Amazon Web Services ...
+    /// </summary>
+    /// <param name="CoreDeviceThingName">The name of the core device. This is also the name of the IoT thing. Constraints: o min: 1 o max: 128</param>
+    public AwsGreengrassv2ListInstalledComponentsOptions(
+        string CoreDeviceThingName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(CoreDeviceThingName);
+        this.CoreDeviceThingName = CoreDeviceThingName;
+    }
+
+    private AwsGreengrassv2ListInstalledComponentsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsGreengrassv2ListInstalledComponentsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsGreengrassv2ListInstalledComponentsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the core device. This is also the name of the IoT thing. Constraints: o min: 1 o max: 128
+    /// </summary>
     [CliOption("--core-device-thing-name")]
-    public string? CoreDeviceThingName { get; set; }
+    public string? CoreDeviceThingName { get; private init; }
 
     /// <summary>
     /// The filter for the list of components. Choose from the following op- tions: o ALL The list includes all components installed on the core de- vice. o ROOT The list includes only root components, which are components that you specify in a deployment. When you choose this option, the list doesn't include components that the core device installs as dependencies of other components. Default: ROOT Possible values: o ALL o ROOT
@@ -56,5 +93,22 @@ public record AwsGreengrassv2ListInstalledComponentsOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

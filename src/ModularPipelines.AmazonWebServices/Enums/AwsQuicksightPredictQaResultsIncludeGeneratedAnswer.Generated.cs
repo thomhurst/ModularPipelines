@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --includegeneratedanswer.
+/// Allowed values for --include-generated-answer.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsQuicksightPredictQaResultsIncludeGeneratedAnswer
 {
-    [EnumValue("INCLUDE")]
-    Include = 1,
-
     [EnumValue("EXCLUDE")]
-    Exclude = 2
+    Exclude,
+
+    [EnumValue("INCLUDE")]
+    Include
 }

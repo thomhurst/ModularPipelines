@@ -11,23 +11,23 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --failurecategory.
+/// Allowed values for --failure-category.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsResiliencehubv2ListFailureModeFindingsFailureCategory
 {
-    [EnumValue("SHARED_FATE")]
-    SharedFate = 1,
+    [EnumValue("EXCESSIVE_LATENCY")]
+    ExcessiveLatency,
 
     [EnumValue("EXCESSIVE_LOAD")]
-    ExcessiveLoad = 2,
-
-    [EnumValue("EXCESSIVE_LATENCY")]
-    ExcessiveLatency = 3,
+    ExcessiveLoad,
 
     [EnumValue("MISCONFIGURATION_AND_BUGS")]
-    MisconfigurationAndBugs = 4,
+    MisconfigurationAndBugs,
+
+    [EnumValue("SHARED_FATE")]
+    SharedFate,
 
     [EnumValue("SINGLE_POINT_OF_FAILURE")]
-    SinglePointOfFailure = 5
+    SinglePointOfFailure
 }

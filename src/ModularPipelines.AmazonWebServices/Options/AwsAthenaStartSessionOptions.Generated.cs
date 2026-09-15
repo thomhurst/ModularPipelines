@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,19 +21,62 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("athena", "start-session")]
-public record AwsAthenaStartSessionOptions : AwsOptions
+public record AwsAthenaStartSessionOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a session for running calculations within a workgroup. The ses- sion is ready when it reaches an IDLE state. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="WorkGroup">The workgroup to which the session belongs. Constraints: o pattern: [a-zA-Z0-9._-]{1,128}</param>
+    /// <param name="EngineConfiguration">Contains engine data processing unit (DPU) configuration settings and parameter mappings. CoordinatorDpuSize -&gt; (integer) The number of DPUs to use for the coordinator. A coordinator is a special executor that orchestrates processing work and manages other executors in a notebook session. The default is 1. Constraints: o min: 1 o max: 1 MaxConcurrentDpus -&gt; (integer) The maximum number of DPUs that can run concurrently. Constraints: o min: 2 o max: 5000 DefaultExecutorDpuSize -&gt; (integer) The default number of DPUs to use for executors. An executor is the smallest unit of compute that a notebook session can request from Athena. The default is 1. Constraints: o min: 1 o max: 1 AdditionalConfigs -&gt; (map) Contains additional notebook engine MAP&lt;string, string&gt; parame- ter mappings in the form of key-value pairs. To specify an Athena notebook that the Jupyter server will download and serve, specify a value for the StartSessionRequest$NotebookVersion field, and then add a key named NotebookId to AdditionalConfigs that has the value of the Athena notebook ID. key -&gt; (string) Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* value -&gt; (string) Constraints: o max: 51200 SparkProperties -&gt; (map) Specifies custom jar files and Spark properties for use cases like cluster encryption, table formats, and general Spark tun- ing. key -&gt; (string) Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* value -&gt; (string) Constraints: o max: 51200 Classifications -&gt; (list) The configuration classifications that can be specified for the engine. (structure) A classification refers to a set of specific configurations. Name -&gt; (string) The name of the configuration classification. Constraints: o min: 1 o max: 128 Properties -&gt; (map) A set of properties specified within a configuration classification. key -&gt; (string) Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* value -&gt; (string) Constraints: o max: 51200 JSON Syntax: { "CoordinatorDpuSize": integer, "MaxConcurrentDpus": integer, "DefaultExecutorDpuSize": integer, "AdditionalConfigs": {"string": "string" ...}, "SparkProperties": {"string": "string" ...}, "Classifications": [ { "Name": "string", "Properties": {"string": "string" ...} } ... ] }</param>
+    public AwsAthenaStartSessionOptions(
+        string WorkGroup,
+        string EngineConfiguration
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(WorkGroup);
+        this.WorkGroup = WorkGroup;
+        global::System.ArgumentNullException.ThrowIfNull(EngineConfiguration);
+        this.EngineConfiguration = EngineConfiguration;
+    }
+
+    private AwsAthenaStartSessionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsAthenaStartSessionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsAthenaStartSessionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The workgroup to which the session belongs. Constraints: o pattern: [a-zA-Z0-9._-]{1,128}
+    /// </summary>
+    [CliOption("--work-group")]
+    public string? WorkGroup { get; private init; }
+
+    /// <summary>
+    /// Contains engine data processing unit (DPU) configuration settings and parameter mappings. CoordinatorDpuSize -&gt; (integer) The number of DPUs to use for the coordinator. A coordinator is a special executor that orchestrates processing work and manages other executors in a notebook session. The default is 1. Constraints: o min: 1 o max: 1 MaxConcurrentDpus -&gt; (integer) The maximum number of DPUs that can run concurrently. Constraints: o min: 2 o max: 5000 DefaultExecutorDpuSize -&gt; (integer) The default number of DPUs to use for executors. An executor is the smallest unit of compute that a notebook session can request from Athena. The default is 1. Constraints: o min: 1 o max: 1 AdditionalConfigs -&gt; (map) Contains additional notebook engine MAP&lt;string, string&gt; parame- ter mappings in the form of key-value pairs. To specify an Athena notebook that the Jupyter server will download and serve, specify a value for the StartSessionRequest$NotebookVersion field, and then add a key named NotebookId to AdditionalConfigs that has the value of the Athena notebook ID. key -&gt; (string) Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* value -&gt; (string) Constraints: o max: 51200 SparkProperties -&gt; (map) Specifies custom jar files and Spark properties for use cases like cluster encryption, table formats, and general Spark tun- ing. key -&gt; (string) Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* value -&gt; (string) Constraints: o max: 51200 Classifications -&gt; (list) The configuration classifications that can be specified for the engine. (structure) A classification refers to a set of specific configurations. Name -&gt; (string) The name of the configuration classification. Constraints: o min: 1 o max: 128 Properties -&gt; (map) A set of properties specified within a configuration classification. key -&gt; (string) Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* value -&gt; (string) Constraints: o max: 51200 JSON Syntax: { "CoordinatorDpuSize": integer, "MaxConcurrentDpus": integer, "DefaultExecutorDpuSize": integer, "AdditionalConfigs": {"string": "string" ...}, "SparkProperties": {"string": "string" ...}, "Classifications": [ { "Name": "string", "Properties": {"string": "string" ...} } ... ] }
+    /// </summary>
+    [CliOption("--engine-configuration")]
+    public string? EngineConfiguration { get; private init; }
+
     /// <summary>
     /// The session description. Constraints: o min: 1 o max: 1024
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
-
-    [CliOption("--work-group")]
-    public string? WorkGroup { get; set; }
-
-    [CliOption("--engine-configuration")]
-    public string? EngineConfiguration { get; set; }
 
     /// <summary>
     /// The ARN of the execution role used to access user resources for Spark sessions and Identity Center enabled workgroups. This property applies only to Spark enabled workgroups and Identity Center enabled workgroups. Constraints: o min: 20 o max: 2048 o pattern: ^arn:aws[a-z\-]*:iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+$
@@ -71,7 +115,10 @@ public record AwsAthenaStartSessionOptions : AwsOptions
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
-    [CliFlag("--copy-work-group-tags")]
+    /// <summary>
+    /// Copies the tags from the Workgroup to the Session when.
+    /// </summary>
+    [CliFlag("--copy-work-group-tags", NegatedName = "--no-copy-work-group-tags")]
     public bool? CopyWorkGroupTags { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -79,5 +126,22 @@ public record AwsAthenaStartSessionOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

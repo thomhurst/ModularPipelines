@@ -5,8 +5,8 @@
 
 #nullable enable
 
-using ModularPipelines.Context;
 using System.CodeDom.Compiler;
+using ModularPipelines.Context;
 using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
@@ -44,7 +44,7 @@ public class AwsLambdaWizard
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLambdaWizardOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLambdaWizardOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -59,7 +59,7 @@ public class AwsLambdaWizard
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLambdaWizardNewFunctionOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLambdaWizardNewFunctionOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     #endregion

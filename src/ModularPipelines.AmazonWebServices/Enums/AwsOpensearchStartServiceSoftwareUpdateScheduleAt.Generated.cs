@@ -11,17 +11,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --scheduleat.
+/// Allowed values for --schedule-at.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsOpensearchStartServiceSoftwareUpdateScheduleAt
 {
     [EnumValue("NOW")]
-    Now = 1,
-
-    [EnumValue("TIMESTAMP")]
-    Timestamp = 2,
+    Now,
 
     [EnumValue("OFF_PEAK_WINDOW")]
-    OffPeakWindow = 3
+    OffPeakWindow,
+
+    [EnumValue("TIMESTAMP")]
+    Timestamp
 }

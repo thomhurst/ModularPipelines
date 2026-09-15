@@ -11,6 +11,8 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +22,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ssm", "send-automation-signal")]
-public record AwsSsmSendAutomationSignalOptions : AwsOptions
+public record AwsSsmSendAutomationSignalOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--automation-execution-id")]
-    public string? AutomationExecutionId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Sends a signal to an Automation execution to change the current behav- ior or status of the execution. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="AutomationExecutionId">The unique identifier for an existing Automation execution that you want to send the signal to. Constraints: o min: 36 o max: 36</param>
+    /// <param name="SignalType">The type of signal to send to an Automation execution. Possible values: o Approve o Reject o StartStep o StopStep o Resume o Revoke</param>
+    public AwsSsmSendAutomationSignalOptions(
+        string AutomationExecutionId,
+        AwsSsmSendAutomationSignalSignalType SignalType
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AutomationExecutionId);
+        this.AutomationExecutionId = AutomationExecutionId;
+        global::System.ArgumentNullException.ThrowIfNull(SignalType);
+        this.SignalType = SignalType;
+    }
+
+    private AwsSsmSendAutomationSignalOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSsmSendAutomationSignalOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSsmSendAutomationSignalOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier for an existing Automation execution that you want to send the signal to. Constraints: o min: 36 o max: 36
+    /// </summary>
+    [CliOption("--automation-execution-id")]
+    public string? AutomationExecutionId { get; private init; }
+
+    /// <summary>
+    /// The type of signal to send to an Automation execution. Possible values: o Approve o Reject o StartStep o StopStep o Resume o Revoke
+    /// </summary>
     [CliOption("--signal-type")]
-    public string? SignalType { get; set; }
+    public AwsSsmSendAutomationSignalSignalType? SignalType { get; private init; }
 
     /// <summary>
     /// The data sent with the signal. The data schema depends on the type of signal used in the request. For Approve and Reject signal types, the payload is an optional com- ment that you can send with the signal type. For example: Comment="Looks good" For StartStep and Resume signal types, you must send the name of the Automation step to start or resume as the payload. For example: StepName="step1" For the StopStep signal type, you must send the step execution ID as the payload. For example: StepExecutionId="97fff367-fc5a-4299-aed8-0123456789ab" Constraints: o min: 1 o max: 200 key -&gt; (string) Constraints: o min: 1 o max: 50 value -&gt; (list) Constraints: o min: 0 o max: 50 (string) Constraints: o min: 1 o max: 512 Shorthand Syntax: KeyName1=string,string,KeyName2=string,string JSON Syntax: {"string": ["string", ...] ...}
@@ -39,5 +84,22 @@ public record AwsSsmSendAutomationSignalOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("arc-region-switch", "list-plan-execution-events")]
-public record AwsArcRegionSwitchListPlanExecutionEventsOptions : AwsOptions
+public record AwsArcRegionSwitchListPlanExecutionEventsOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--plan-arn")]
-    public string? PlanArn { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Lists the events that occurred during a plan execution. These events provide a detailed timeline of the execution process. See also: AWS API Documentation list-plan-execution-events is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the ...
+    /// </summary>
+    /// <param name="PlanArn">The Amazon Resource Name (ARN) of the plan. Constraints: o pattern: arn:aws[a-zA-Z-]*:arc-re- gion-switch::[0-9]{12}:plan/([a-zA-Z0-9](?:[a-zA-Z0-9-]{0,30}[a-zA-Z0-9])?):([a-z0-9]{6})</param>
+    /// <param name="ExecutionId">The execution identifier of a plan execution.</param>
+    public AwsArcRegionSwitchListPlanExecutionEventsOptions(
+        string PlanArn,
+        string ExecutionId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PlanArn);
+        this.PlanArn = PlanArn;
+        global::System.ArgumentNullException.ThrowIfNull(ExecutionId);
+        this.ExecutionId = ExecutionId;
+    }
+
+    private AwsArcRegionSwitchListPlanExecutionEventsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsArcRegionSwitchListPlanExecutionEventsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsArcRegionSwitchListPlanExecutionEventsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the plan. Constraints: o pattern: arn:aws[a-zA-Z-]*:arc-re- gion-switch::[0-9]{12}:plan/([a-zA-Z0-9](?:[a-zA-Z0-9-]{0,30}[a-zA-Z0-9])?):([a-z0-9]{6})
+    /// </summary>
+    [CliOption("--plan-arn")]
+    public string? PlanArn { get; private init; }
+
+    /// <summary>
+    /// The execution identifier of a plan execution.
+    /// </summary>
     [CliOption("--execution-id")]
-    public string? ExecutionId { get; set; }
+    public string? ExecutionId { get; private init; }
 
     /// <summary>
     /// The name of the plan execution event.
@@ -58,5 +102,22 @@ public record AwsArcRegionSwitchListPlanExecutionEventsOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -12,6 +12,8 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -21,19 +23,86 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("chime-sdk-messaging", "send-channel-message")]
-public record AwsChimeSdkMessagingSendChannelMessageOptions : AwsOptions
+public record AwsChimeSdkMessagingSendChannelMessageOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Sends a message to a particular channel that the member is a part of. NOTE: The x-amz-chime-bearer request header is mandatory. Use the ARN of the AppInstanceUser or AppInstanceBot that makes the API call as the value in the header. Also, STANDARD messages can be up to 4KB in size and contain meta- data. Metadata is arbitrary, and you can use it in a variety of ways, such as containing a link to an attachment. CONTROL messages are limited to 30 bytes and do not contain metadata. See also: AWS AP...
+    /// </summary>
+    /// <param name="ChannelArn">The ARN of the channel. Constraints: o min: 5 o max: 1600 o pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}</param>
+    /// <param name="Content">The content of the channel message. Constraints: o min: 1 o pattern: [\s\S]*</param>
+    /// <param name="Type">The type of message, STANDARD or CONTROL . STANDARD messages can be up to 4KB in size and contain metadata. Metadata is arbitrary, and you can use it in a variety of ways, such as containing a link to an attachment. CONTROL messages are limited to 30 bytes and do not contain metadata. Possible values: o STANDARD o CONTROL</param>
+    /// <param name="Persistence">Boolean that controls whether the message is persisted on the back end. Required. Possible values: o PERSISTENT o NON_PERSISTENT</param>
+    /// <param name="ChimeBearer">The ARN of the AppInstanceUser or AppInstanceBot that makes the API call. Constraints: o min: 5 o max: 1600 o pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}</param>
+    public AwsChimeSdkMessagingSendChannelMessageOptions(
+        string ChannelArn,
+        string Content,
+        AwsChimeSdkMessagingSendChannelMessageType Type,
+        AwsChimeSdkMessagingSendChannelMessagePersistence Persistence,
+        string ChimeBearer
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ChannelArn);
+        this.ChannelArn = ChannelArn;
+        global::System.ArgumentNullException.ThrowIfNull(Content);
+        this.Content = Content;
+        global::System.ArgumentNullException.ThrowIfNull(Type);
+        this.Type = Type;
+        global::System.ArgumentNullException.ThrowIfNull(Persistence);
+        this.Persistence = Persistence;
+        global::System.ArgumentNullException.ThrowIfNull(ChimeBearer);
+        this.ChimeBearer = ChimeBearer;
+    }
+
+    private AwsChimeSdkMessagingSendChannelMessageOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsChimeSdkMessagingSendChannelMessageOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsChimeSdkMessagingSendChannelMessageOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ARN of the channel. Constraints: o min: 5 o max: 1600 o pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}
+    /// </summary>
     [CliOption("--channel-arn")]
-    public string? ChannelArn { get; set; }
+    public string? ChannelArn { get; private init; }
 
+    /// <summary>
+    /// The content of the channel message. Constraints: o min: 1 o pattern: [\s\S]*
+    /// </summary>
     [CliOption("--content")]
-    public string? Content { get; set; }
+    public string? Content { get; private init; }
 
+    /// <summary>
+    /// The type of message, STANDARD or CONTROL . STANDARD messages can be up to 4KB in size and contain metadata. Metadata is arbitrary, and you can use it in a variety of ways, such as containing a link to an attachment. CONTROL messages are limited to 30 bytes and do not contain metadata. Possible values: o STANDARD o CONTROL
+    /// </summary>
     [CliOption("--type")]
-    public string? Type { get; set; }
+    public AwsChimeSdkMessagingSendChannelMessageType? Type { get; private init; }
 
+    /// <summary>
+    /// Boolean that controls whether the message is persisted on the back end. Required. Possible values: o PERSISTENT o NON_PERSISTENT
+    /// </summary>
     [CliOption("--persistence")]
-    public string? Persistence { get; set; }
+    public AwsChimeSdkMessagingSendChannelMessagePersistence? Persistence { get; private init; }
+
+    /// <summary>
+    /// The ARN of the AppInstanceUser or AppInstanceBot that makes the API call. Constraints: o min: 5 o max: 1600 o pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}
+    /// </summary>
+    [CliOption("--chime-bearer")]
+    public string? ChimeBearer { get; private init; }
 
     /// <summary>
     /// The optional metadata for each message. Constraints: o min: 0 o max: 1024 o pattern: .*
@@ -47,9 +116,6 @@ public record AwsChimeSdkMessagingSendChannelMessageOptions : AwsOptions
     [SecretValue]
     [CliOption("--client-request-token")]
     public string? ClientRequestToken { get; set; }
-
-    [CliOption("--chime-bearer")]
-    public string? ChimeBearer { get; set; }
 
     /// <summary>
     /// The push notification configuration of the message. Title -&gt; (string) The title of the push notification. Constraints: o min: 1 o max: 50 o pattern: .* Body -&gt; (string) The body of the push notification. Constraints: o min: 1 o max: 150 o pattern: [\s\S]* Type -&gt; (string) Enum value that indicates the type of the push notification for a message. DEFAULT : Normal mobile push notification. VOIP : VOIP mobile push notification. Possible values: o DEFAULT o VOIP Shorthand Syntax: Title=string,Body=string,Type=string JSON Syntax: { "Title": "string", "Body": "string", "Type": "DEFAULT"|"VOIP" }
@@ -86,5 +152,22 @@ public record AwsChimeSdkMessagingSendChannelMessageOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

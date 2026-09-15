@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --recordstate.
+/// Allowed values for --record-state.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsSecurityhubUpdateFindingsRecordState
 {
     [EnumValue("ACTIVE")]
-    Active = 1,
+    Active,
 
     [EnumValue("ARCHIVED")]
-    Archived = 2
+    Archived
 }

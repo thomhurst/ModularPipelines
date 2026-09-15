@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --targetinstancetyperightsizingmethod.
+/// Allowed values for --target-instance-type-right-sizing-method.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsMgnUpdateLaunchConfigurationTemplateTargetInstanceTypeRightSizingMethod
 {
-    [EnumValue("NONE")]
-    None = 1,
-
     [EnumValue("BASIC")]
-    Basic = 2
+    Basic,
+
+    [EnumValue("NONE")]
+    None
 }

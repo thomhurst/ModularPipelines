@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +21,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("mq", "promote")]
-public record AwsMqPromoteOptions : AwsOptions
+public record AwsMqPromoteOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--broker-id")]
-    public string? BrokerId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Promotes a data replication replica broker to the primary broker role. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="BrokerId">The unique ID that Amazon MQ generates for the broker.</param>
+    /// <param name="Mode">The Promote mode requested. Note: Valid values for the parameter are SWITCHOVER, FAILOVER. Possible values: o SWITCHOVER o FAILOVER</param>
+    public AwsMqPromoteOptions(
+        string BrokerId,
+        AwsMqPromoteMode Mode
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(BrokerId);
+        this.BrokerId = BrokerId;
+        global::System.ArgumentNullException.ThrowIfNull(Mode);
+        this.Mode = Mode;
+    }
+
+    private AwsMqPromoteOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsMqPromoteOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsMqPromoteOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique ID that Amazon MQ generates for the broker.
+    /// </summary>
+    [CliOption("--broker-id")]
+    public string? BrokerId { get; private init; }
+
+    /// <summary>
+    /// The Promote mode requested. Note: Valid values for the parameter are SWITCHOVER, FAILOVER. Possible values: o SWITCHOVER o FAILOVER
+    /// </summary>
     [CliOption("--mode")]
-    public string? Mode { get; set; }
+    public AwsMqPromoteMode? Mode { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -5,8 +5,8 @@
 
 #nullable enable
 
-using ModularPipelines.Context;
 using System.CodeDom.Compiler;
+using ModularPipelines.Context;
 using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
@@ -40,11 +40,11 @@ public class AwsLambdaMicrovms : IAwsLambdaMicrovms
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateMicrovmAuthTokenAsync(
-        AwsLambdaMicrovmsCreateMicrovmAuthTokenOptions? options = null,
+        AwsLambdaMicrovmsCreateMicrovmAuthTokenOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLambdaMicrovmsCreateMicrovmAuthTokenOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -55,11 +55,11 @@ public class AwsLambdaMicrovms : IAwsLambdaMicrovms
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateMicrovmImageAsync(
-        AwsLambdaMicrovmsCreateMicrovmImageOptions? options = null,
+        AwsLambdaMicrovmsCreateMicrovmImageOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLambdaMicrovmsCreateMicrovmImageOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -70,11 +70,11 @@ public class AwsLambdaMicrovms : IAwsLambdaMicrovms
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateMicrovmShellAuthTokenAsync(
-        AwsLambdaMicrovmsCreateMicrovmShellAuthTokenOptions? options = null,
+        AwsLambdaMicrovmsCreateMicrovmShellAuthTokenOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLambdaMicrovmsCreateMicrovmShellAuthTokenOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -85,11 +85,11 @@ public class AwsLambdaMicrovms : IAwsLambdaMicrovms
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteMicrovmImageAsync(
-        AwsLambdaMicrovmsDeleteMicrovmImageOptions? options = null,
+        AwsLambdaMicrovmsDeleteMicrovmImageOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLambdaMicrovmsDeleteMicrovmImageOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -100,11 +100,11 @@ public class AwsLambdaMicrovms : IAwsLambdaMicrovms
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteMicrovmImageVersionAsync(
-        AwsLambdaMicrovmsDeleteMicrovmImageVersionOptions? options = null,
+        AwsLambdaMicrovmsDeleteMicrovmImageVersionOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLambdaMicrovmsDeleteMicrovmImageVersionOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -115,11 +115,11 @@ public class AwsLambdaMicrovms : IAwsLambdaMicrovms
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetMicrovmImageBuildAsync(
-        AwsLambdaMicrovmsGetMicrovmImageBuildOptions? options = null,
+        AwsLambdaMicrovmsGetMicrovmImageBuildOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLambdaMicrovmsGetMicrovmImageBuildOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -130,11 +130,11 @@ public class AwsLambdaMicrovms : IAwsLambdaMicrovms
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetMicrovmImageAsync(
-        AwsLambdaMicrovmsGetMicrovmImageOptions? options = null,
+        AwsLambdaMicrovmsGetMicrovmImageOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLambdaMicrovmsGetMicrovmImageOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -145,11 +145,11 @@ public class AwsLambdaMicrovms : IAwsLambdaMicrovms
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetMicrovmImageVersionAsync(
-        AwsLambdaMicrovmsGetMicrovmImageVersionOptions? options = null,
+        AwsLambdaMicrovmsGetMicrovmImageVersionOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLambdaMicrovmsGetMicrovmImageVersionOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -160,11 +160,11 @@ public class AwsLambdaMicrovms : IAwsLambdaMicrovms
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetMicrovmAsync(
-        AwsLambdaMicrovmsGetMicrovmOptions? options = null,
+        AwsLambdaMicrovmsGetMicrovmOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLambdaMicrovmsGetMicrovmOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -179,7 +179,7 @@ public class AwsLambdaMicrovms : IAwsLambdaMicrovms
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLambdaMicrovmsListManagedMicrovmImagesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLambdaMicrovmsListManagedMicrovmImagesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -190,11 +190,11 @@ public class AwsLambdaMicrovms : IAwsLambdaMicrovms
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListManagedMicrovmImageVersionsAsync(
-        AwsLambdaMicrovmsListManagedMicrovmImageVersionsOptions? options = null,
+        AwsLambdaMicrovmsListManagedMicrovmImageVersionsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLambdaMicrovmsListManagedMicrovmImageVersionsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -205,11 +205,11 @@ public class AwsLambdaMicrovms : IAwsLambdaMicrovms
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListMicrovmImageBuildsAsync(
-        AwsLambdaMicrovmsListMicrovmImageBuildsOptions? options = null,
+        AwsLambdaMicrovmsListMicrovmImageBuildsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLambdaMicrovmsListMicrovmImageBuildsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -224,7 +224,7 @@ public class AwsLambdaMicrovms : IAwsLambdaMicrovms
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLambdaMicrovmsListMicrovmImagesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLambdaMicrovmsListMicrovmImagesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -235,11 +235,11 @@ public class AwsLambdaMicrovms : IAwsLambdaMicrovms
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListMicrovmImageVersionsAsync(
-        AwsLambdaMicrovmsListMicrovmImageVersionsOptions? options = null,
+        AwsLambdaMicrovmsListMicrovmImageVersionsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLambdaMicrovmsListMicrovmImageVersionsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -254,7 +254,7 @@ public class AwsLambdaMicrovms : IAwsLambdaMicrovms
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLambdaMicrovmsListMicrovmsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLambdaMicrovmsListMicrovmsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -265,11 +265,11 @@ public class AwsLambdaMicrovms : IAwsLambdaMicrovms
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListTagsAsync(
-        AwsLambdaMicrovmsListTagsOptions? options = null,
+        AwsLambdaMicrovmsListTagsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLambdaMicrovmsListTagsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -280,11 +280,11 @@ public class AwsLambdaMicrovms : IAwsLambdaMicrovms
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ResumeMicrovmAsync(
-        AwsLambdaMicrovmsResumeMicrovmOptions? options = null,
+        AwsLambdaMicrovmsResumeMicrovmOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLambdaMicrovmsResumeMicrovmOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -295,11 +295,11 @@ public class AwsLambdaMicrovms : IAwsLambdaMicrovms
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RunMicrovmAsync(
-        AwsLambdaMicrovmsRunMicrovmOptions? options = null,
+        AwsLambdaMicrovmsRunMicrovmOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLambdaMicrovmsRunMicrovmOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -310,11 +310,11 @@ public class AwsLambdaMicrovms : IAwsLambdaMicrovms
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> SuspendMicrovmAsync(
-        AwsLambdaMicrovmsSuspendMicrovmOptions? options = null,
+        AwsLambdaMicrovmsSuspendMicrovmOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLambdaMicrovmsSuspendMicrovmOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -325,11 +325,11 @@ public class AwsLambdaMicrovms : IAwsLambdaMicrovms
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> TagResourceAsync(
-        AwsLambdaMicrovmsTagResourceOptions? options = null,
+        AwsLambdaMicrovmsTagResourceOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLambdaMicrovmsTagResourceOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -340,11 +340,11 @@ public class AwsLambdaMicrovms : IAwsLambdaMicrovms
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> TerminateMicrovmAsync(
-        AwsLambdaMicrovmsTerminateMicrovmOptions? options = null,
+        AwsLambdaMicrovmsTerminateMicrovmOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLambdaMicrovmsTerminateMicrovmOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -355,11 +355,11 @@ public class AwsLambdaMicrovms : IAwsLambdaMicrovms
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UntagResourceAsync(
-        AwsLambdaMicrovmsUntagResourceOptions? options = null,
+        AwsLambdaMicrovmsUntagResourceOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLambdaMicrovmsUntagResourceOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -370,11 +370,11 @@ public class AwsLambdaMicrovms : IAwsLambdaMicrovms
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateMicrovmImageAsync(
-        AwsLambdaMicrovmsUpdateMicrovmImageOptions? options = null,
+        AwsLambdaMicrovmsUpdateMicrovmImageOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLambdaMicrovmsUpdateMicrovmImageOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -385,11 +385,11 @@ public class AwsLambdaMicrovms : IAwsLambdaMicrovms
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateMicrovmImageVersionAsync(
-        AwsLambdaMicrovmsUpdateMicrovmImageVersionOptions? options = null,
+        AwsLambdaMicrovmsUpdateMicrovmImageVersionOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLambdaMicrovmsUpdateMicrovmImageVersionOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     #endregion

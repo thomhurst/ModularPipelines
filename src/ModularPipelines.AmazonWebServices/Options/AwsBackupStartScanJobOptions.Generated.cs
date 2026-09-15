@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,19 +22,102 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("backup", "start-scan-job")]
-public record AwsBackupStartScanJobOptions : AwsOptions
+public record AwsBackupStartScanJobOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Starts scanning jobs for specific resources. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="BackupVaultName">The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the Amazon Web Services Region where they are created. Pattern: ^[a-zA-Z0-9\-\_]{2,50}$</param>
+    /// <param name="IamRoleArn">Specifies the IAM role ARN used to create the target recovery point; for example, arn:aws:iam::123456789012:role/S3Access .</param>
+    /// <param name="MalwareScanner">Specifies the malware scanner used during the scan job. Currently only supports GUARDDUTY . Possible values: o GUARDDUTY</param>
+    /// <param name="RecoveryPointArn">An Amazon Resource Name (ARN) that uniquely identifies a recovery point. This is your target recovery point for a full scan. If you are running an incremental scan, this will be your a recovery point which has been created after your base recovery point selection.</param>
+    /// <param name="ScanMode">Specifies the scan type use for the scan job. Includes: o FULL_SCAN will scan the entire data lineage within the backup. o INCREMENTAL_SCAN will scan the data difference between the target recovery point and base recovery point ARN. Possible values: o FULL_SCAN o INCREMENTAL_SCAN</param>
+    /// <param name="ScannerRoleArn">Specified the IAM scanner role ARN.</param>
+    public AwsBackupStartScanJobOptions(
+        string BackupVaultName,
+        string IamRoleArn,
+        AwsBackupStartScanJobMalwareScanner MalwareScanner,
+        string RecoveryPointArn,
+        AwsBackupStartScanJobScanMode ScanMode,
+        string ScannerRoleArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(BackupVaultName);
+        this.BackupVaultName = BackupVaultName;
+        global::System.ArgumentNullException.ThrowIfNull(IamRoleArn);
+        this.IamRoleArn = IamRoleArn;
+        global::System.ArgumentNullException.ThrowIfNull(MalwareScanner);
+        this.MalwareScanner = MalwareScanner;
+        global::System.ArgumentNullException.ThrowIfNull(RecoveryPointArn);
+        this.RecoveryPointArn = RecoveryPointArn;
+        global::System.ArgumentNullException.ThrowIfNull(ScanMode);
+        this.ScanMode = ScanMode;
+        global::System.ArgumentNullException.ThrowIfNull(ScannerRoleArn);
+        this.ScannerRoleArn = ScannerRoleArn;
+    }
+
+    private AwsBackupStartScanJobOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsBackupStartScanJobOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsBackupStartScanJobOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the Amazon Web Services Region where they are created. Pattern: ^[a-zA-Z0-9\-\_]{2,50}$
+    /// </summary>
     [CliOption("--backup-vault-name")]
-    public string? BackupVaultName { get; set; }
+    public string? BackupVaultName { get; private init; }
+
+    /// <summary>
+    /// Specifies the IAM role ARN used to create the target recovery point; for example, arn:aws:iam::123456789012:role/S3Access .
+    /// </summary>
+    [CliOption("--iam-role-arn")]
+    public string? IamRoleArn { get; private init; }
+
+    /// <summary>
+    /// Specifies the malware scanner used during the scan job. Currently only supports GUARDDUTY . Possible values: o GUARDDUTY
+    /// </summary>
+    [CliOption("--malware-scanner")]
+    public AwsBackupStartScanJobMalwareScanner? MalwareScanner { get; private init; }
+
+    /// <summary>
+    /// An Amazon Resource Name (ARN) that uniquely identifies a recovery point. This is your target recovery point for a full scan. If you are running an incremental scan, this will be your a recovery point which has been created after your base recovery point selection.
+    /// </summary>
+    [CliOption("--recovery-point-arn")]
+    public string? RecoveryPointArn { get; private init; }
+
+    /// <summary>
+    /// Specifies the scan type use for the scan job. Includes: o FULL_SCAN will scan the entire data lineage within the backup. o INCREMENTAL_SCAN will scan the data difference between the target recovery point and base recovery point ARN. Possible values: o FULL_SCAN o INCREMENTAL_SCAN
+    /// </summary>
+    [CliOption("--scan-mode")]
+    public AwsBackupStartScanJobScanMode? ScanMode { get; private init; }
+
+    /// <summary>
+    /// Specified the IAM scanner role ARN.
+    /// </summary>
+    [CliOption("--scanner-role-arn")]
+    public string? ScannerRoleArn { get; private init; }
 
     /// <summary>
     /// The point in time the scan job will scan up to for a continuous backup.
     /// </summary>
     [CliOption("--continuous-scan-end-time")]
     public string? ContinuousScanEndTime { get; set; }
-
-    [CliOption("--iam-role-arn")]
-    public string? IamRoleArn { get; set; }
 
     /// <summary>
     /// A customer-chosen string that you can use to distinguish between otherwise identical calls to StartScanJob . Retrying a successful request with the same idempotency token results in a success message with no action taken.
@@ -41,28 +126,33 @@ public record AwsBackupStartScanJobOptions : AwsOptions
     [CliOption("--idempotency-token")]
     public string? IdempotencyToken { get; set; }
 
-    [CliOption("--malware-scanner")]
-    public string? MalwareScanner { get; set; }
-
-    [CliOption("--recovery-point-arn")]
-    public string? RecoveryPointArn { get; set; }
-
     /// <summary>
     /// An ARN that uniquely identifies the base recovery point to be used for incremental scanning.
     /// </summary>
     [CliOption("--scan-base-recovery-point-arn")]
     public string? ScanBaseRecoveryPointArn { get; set; }
 
-    [CliOption("--scan-mode")]
-    public string? ScanMode { get; set; }
-
-    [CliOption("--scanner-role-arn")]
-    public string? ScannerRoleArn { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

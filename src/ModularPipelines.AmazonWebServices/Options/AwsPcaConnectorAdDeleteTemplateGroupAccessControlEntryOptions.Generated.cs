@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("pca-connector-ad", "delete-template-group-access-control-entry")]
-public record AwsPcaConnectorAdDeleteTemplateGroupAccessControlEntryOptions : AwsOptions
+public record AwsPcaConnectorAdDeleteTemplateGroupAccessControlEntryOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--group-security-identifier")]
-    public string? GroupSecurityIdentifier { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Deletes a group access control entry. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="GroupSecurityIdentifier">Security identifier (SID) of the group object from Active Directory. The SID starts with "S-". Constraints: o min: 7 o max: 256 o pattern: ^S-[0-9]-([0-9]+-){1,14}[0-9]+$</param>
+    /// <param name="TemplateArn">The Amazon Resource Name (ARN) that was returned when you called CreateTemplate . Constraints: o min: 5 o max: 200 o pattern: ^arn:[\w-]+:pca-connector-ad:[\w-]+:[0-9]+:connec- tor\/[0-9a-f]{8}(-[0-9a-f]{4}){3}-[0-9a-f]{12}\/tem- plate\/[0-9a-f]{8}(-[0-9a-f]{4}){3}-[0-9a-f]{12}$</param>
+    public AwsPcaConnectorAdDeleteTemplateGroupAccessControlEntryOptions(
+        string GroupSecurityIdentifier,
+        string TemplateArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(GroupSecurityIdentifier);
+        this.GroupSecurityIdentifier = GroupSecurityIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(TemplateArn);
+        this.TemplateArn = TemplateArn;
+    }
+
+    private AwsPcaConnectorAdDeleteTemplateGroupAccessControlEntryOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsPcaConnectorAdDeleteTemplateGroupAccessControlEntryOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsPcaConnectorAdDeleteTemplateGroupAccessControlEntryOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Security identifier (SID) of the group object from Active Directory. The SID starts with "S-". Constraints: o min: 7 o max: 256 o pattern: ^S-[0-9]-([0-9]+-){1,14}[0-9]+$
+    /// </summary>
+    [CliOption("--group-security-identifier")]
+    public string? GroupSecurityIdentifier { get; private init; }
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) that was returned when you called CreateTemplate . Constraints: o min: 5 o max: 200 o pattern: ^arn:[\w-]+:pca-connector-ad:[\w-]+:[0-9]+:connec- tor\/[0-9a-f]{8}(-[0-9a-f]{4}){3}-[0-9a-f]{12}\/tem- plate\/[0-9a-f]{8}(-[0-9a-f]{4}){3}-[0-9a-f]{12}$
+    /// </summary>
     [CliOption("--template-arn")]
-    public string? TemplateArn { get; set; }
+    public string? TemplateArn { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

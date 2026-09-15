@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,16 +22,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sagemaker", "create-action")]
-public record AwsSagemakerCreateActionOptions : AwsOptions
+public record AwsSagemakerCreateActionOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates an action . An action is a lineage tracking entity that repre- sents an action or activity. For example, a model deployment or an HPO job. Generally, an action involves at least one input or output arti- fact. For more information, see Amazon SageMaker ML Lineage Tracking . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ActionName">The name of the action. Must be unique to your account in an Amazon Web Services Region. Constraints: o min: 1 o max: 120 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,119}</param>
+    /// <param name="Source">The source type, ID, and URI. SourceUri -&gt; (string) [required] The URI of the source. Constraints: o min: 1 o max: 2048 o pattern: .* SourceType -&gt; (string) The type of the source. Constraints: o min: 0 o max: 256 SourceId -&gt; (string) The ID of the source. Constraints: o min: 0 o max: 256 Shorthand Syntax: SourceUri=string,SourceType=string,SourceId=string JSON Syntax: { "SourceUri": "string", "SourceType": "string", "SourceId": "string" }</param>
+    /// <param name="ActionType">The action type. Constraints: o min: 0 o max: 256</param>
+    public AwsSagemakerCreateActionOptions(
+        string ActionName,
+        string Source,
+        string ActionType
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ActionName);
+        this.ActionName = ActionName;
+        global::System.ArgumentNullException.ThrowIfNull(Source);
+        this.Source = Source;
+        global::System.ArgumentNullException.ThrowIfNull(ActionType);
+        this.ActionType = ActionType;
+    }
+
+    private AwsSagemakerCreateActionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSagemakerCreateActionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSagemakerCreateActionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the action. Must be unique to your account in an Amazon Web Services Region. Constraints: o min: 1 o max: 120 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,119}
+    /// </summary>
     [CliOption("--action-name")]
-    public string? ActionName { get; set; }
+    public string? ActionName { get; private init; }
 
+    /// <summary>
+    /// The source type, ID, and URI. SourceUri -&gt; (string) [required] The URI of the source. Constraints: o min: 1 o max: 2048 o pattern: .* SourceType -&gt; (string) The type of the source. Constraints: o min: 0 o max: 256 SourceId -&gt; (string) The ID of the source. Constraints: o min: 0 o max: 256 Shorthand Syntax: SourceUri=string,SourceType=string,SourceId=string JSON Syntax: { "SourceUri": "string", "SourceType": "string", "SourceId": "string" }
+    /// </summary>
     [CliOption("--source")]
-    public string? Source { get; set; }
+    public string? Source { get; private init; }
 
+    /// <summary>
+    /// The action type. Constraints: o min: 0 o max: 256
+    /// </summary>
     [CliOption("--action-type")]
-    public string? ActionType { get; set; }
+    public string? ActionType { get; private init; }
 
     /// <summary>
     /// The description of the action. Constraints: o min: 0 o max: 3072 o pattern: .*
@@ -67,5 +118,22 @@ public record AwsSagemakerCreateActionOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("notifications", "associate-channel")]
-public record AwsNotificationsAssociateChannelOptions : AwsOptions
+public record AwsNotificationsAssociateChannelOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--arn")]
-    public string? Arn { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Associates a delivery Channel with a particular NotificationConfigura- tion . Supported Channels include Amazon Q Developer in chat applica- tions, the Console Mobile Application, and emails (notifications-con- tacts). See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Arn">The Amazon Resource Name (ARN) of the Channel to associate with the NotificationConfiguration . Supported ARNs include Amazon Q Developer in chat applications, the Console Mobile Application, and notifications-contacts. Constraints: o pattern: arn:aws:(chatbot|consoleapp|notifications-con- tacts):[a-zA-Z0-9-]*:[0-9]{12}:[a-zA-Z0-9-_.@]+/[a-zA-Z0-9/_.@:-]+</param>
+    /// <param name="NotificationConfigurationArn">The ARN of the NotificationConfiguration to associate with the Chan- nel. Constraints: o pattern: arn:aws:notifications::[0-9]{12}:configura- tion/[a-z0-9]{27}</param>
+    public AwsNotificationsAssociateChannelOptions(
+        string Arn,
+        string NotificationConfigurationArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Arn);
+        this.Arn = Arn;
+        global::System.ArgumentNullException.ThrowIfNull(NotificationConfigurationArn);
+        this.NotificationConfigurationArn = NotificationConfigurationArn;
+    }
+
+    private AwsNotificationsAssociateChannelOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsNotificationsAssociateChannelOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsNotificationsAssociateChannelOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the Channel to associate with the NotificationConfiguration . Supported ARNs include Amazon Q Developer in chat applications, the Console Mobile Application, and notifications-contacts. Constraints: o pattern: arn:aws:(chatbot|consoleapp|notifications-con- tacts):[a-zA-Z0-9-]*:[0-9]{12}:[a-zA-Z0-9-_.@]+/[a-zA-Z0-9/_.@:-]+
+    /// </summary>
+    [CliOption("--arn")]
+    public string? Arn { get; private init; }
+
+    /// <summary>
+    /// The ARN of the NotificationConfiguration to associate with the Chan- nel. Constraints: o pattern: arn:aws:notifications::[0-9]{12}:configura- tion/[a-z0-9]{27}
+    /// </summary>
     [CliOption("--notification-configuration-arn")]
-    public string? NotificationConfigurationArn { get; set; }
+    public string? NotificationConfigurationArn { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

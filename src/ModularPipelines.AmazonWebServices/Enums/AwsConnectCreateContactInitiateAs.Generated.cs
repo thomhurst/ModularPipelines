@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --initiateas.
+/// Allowed values for --initiate-as.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsConnectCreateContactInitiateAs
 {
-    [EnumValue("CONNECTED_TO_USER")]
-    ConnectedToUser = 1,
-
     [EnumValue("COMPLETED")]
-    Completed = 2
+    Completed,
+
+    [EnumValue("CONNECTED_TO_USER")]
+    ConnectedToUser
 }

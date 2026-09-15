@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +20,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("rds", "create-db-cluster-snapshot")]
-public record AwsRdsCreateDbClusterSnapshotOptions : AwsOptions
+public record AwsRdsCreateDbClusterSnapshotOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--db-cluster-snapshot-identifier")]
-    public string? DbClusterSnapshotIdentifier { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates a snapshot of a DB cluster. For more information on Amazon Aurora, see What is Amazon Aurora? in the Amazon Aurora User Guide . For more information on Multi-AZ DB clusters, see Multi-AZ DB cluster deployments in the Amazon RDS User Guide . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DbClusterSnapshotIdentifier">The identifier of the DB cluster snapshot. This parameter is stored as a lowercase string. Constraints: o Must contain from 1 to 63 letters, numbers, or hyphens. o First character must be a letter. o Can't end with a hyphen or contain two consecutive hyphens. Example: my-cluster1-snapshot1</param>
+    /// <param name="DbClusterIdentifier">The identifier of the DB cluster to create a snapshot for. This pa- rameter isn't case-sensitive. Constraints: o Must match the identifier of an existing DBCluster. Example: my-cluster1</param>
+    public AwsRdsCreateDbClusterSnapshotOptions(
+        string DbClusterSnapshotIdentifier,
+        string DbClusterIdentifier
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DbClusterSnapshotIdentifier);
+        this.DbClusterSnapshotIdentifier = DbClusterSnapshotIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(DbClusterIdentifier);
+        this.DbClusterIdentifier = DbClusterIdentifier;
+    }
+
+    private AwsRdsCreateDbClusterSnapshotOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRdsCreateDbClusterSnapshotOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRdsCreateDbClusterSnapshotOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the DB cluster snapshot. This parameter is stored as a lowercase string. Constraints: o Must contain from 1 to 63 letters, numbers, or hyphens. o First character must be a letter. o Can't end with a hyphen or contain two consecutive hyphens. Example: my-cluster1-snapshot1
+    /// </summary>
+    [CliOption("--db-cluster-snapshot-identifier")]
+    public string? DbClusterSnapshotIdentifier { get; private init; }
+
+    /// <summary>
+    /// The identifier of the DB cluster to create a snapshot for. This pa- rameter isn't case-sensitive. Constraints: o Must match the identifier of an existing DBCluster. Example: my-cluster1
+    /// </summary>
     [CliOption("--db-cluster-identifier")]
-    public string? DbClusterIdentifier { get; set; }
+    public string? DbClusterIdentifier { get; private init; }
 
     /// <summary>
     /// The tags to be assigned to the DB cluster snapshot. (structure) Metadata assigned to an Amazon RDS resource consisting of a key-value pair. For more information, see Tagging Amazon RDS resources in the Amazon RDS User Guide or Tagging Amazon Aurora and Amazon RDS resources in the Amazon Aurora User Guide . Key -&gt; (string) A key is the required name of the tag. The string value can be from 1 to 128 Unicode characters in length and can't be prefixed with aws: or rds: . The string can only contain only the set of Unicode letters, digits, white-space, '_', '.', ':', '/', '=', '+', '-', '@' (Java regex: "^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$"). Value -&gt; (string) A value is the optional value of the tag. The string value can be from 1 to 256 Unicode characters in length and can't be prefixed with aws: or rds: . The string can only contain only the set of Unicode letters, digits, white-space, '_', '.', ':', '/', '=', '+', '-', '@' (Java regex: "^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$"). Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
@@ -38,5 +82,22 @@ public record AwsRdsCreateDbClusterSnapshotOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("eks", "describe-identity-provider-config")]
-public record AwsEksDescribeIdentityProviderConfigOptions : AwsOptions
+public record AwsEksDescribeIdentityProviderConfigOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--cluster-name")]
-    public string? ClusterName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Describes an identity provider configuration. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ClusterName">The name of your cluster.</param>
+    /// <param name="IdentityProviderConfig">An object representing an identity provider configuration. type -&gt; (string) [required] The type of the identity provider configuration. The only type available is oidc . name -&gt; (string) [required] The name of the identity provider configuration. Shorthand Syntax: type=string,name=string JSON Syntax: { "type": "string", "name": "string" }</param>
+    public AwsEksDescribeIdentityProviderConfigOptions(
+        string ClusterName,
+        string IdentityProviderConfig
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ClusterName);
+        this.ClusterName = ClusterName;
+        global::System.ArgumentNullException.ThrowIfNull(IdentityProviderConfig);
+        this.IdentityProviderConfig = IdentityProviderConfig;
+    }
+
+    private AwsEksDescribeIdentityProviderConfigOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEksDescribeIdentityProviderConfigOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEksDescribeIdentityProviderConfigOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of your cluster.
+    /// </summary>
+    [CliOption("--cluster-name")]
+    public string? ClusterName { get; private init; }
+
+    /// <summary>
+    /// An object representing an identity provider configuration. type -&gt; (string) [required] The type of the identity provider configuration. The only type available is oidc . name -&gt; (string) [required] The name of the identity provider configuration. Shorthand Syntax: type=string,name=string JSON Syntax: { "type": "string", "name": "string" }
+    /// </summary>
     [CliOption("--identity-provider-config")]
-    public string? IdentityProviderConfig { get; set; }
+    public string? IdentityProviderConfig { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

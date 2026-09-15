@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("deadline", "delete-fleet")]
-public record AwsDeadlineDeleteFleetOptions : AwsOptions
+public record AwsDeadlineDeleteFleetOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--farm-id")]
-    public string? FarmId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Deletes a fleet. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="FarmId">The farm ID of the farm to remove from the fleet. Constraints: o pattern: farm-[0-9a-f]{32}</param>
+    /// <param name="FleetId">The fleet ID of the fleet to delete. Constraints: o pattern: fleet-[0-9a-f]{32}</param>
+    public AwsDeadlineDeleteFleetOptions(
+        string FarmId,
+        string FleetId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(FarmId);
+        this.FarmId = FarmId;
+        global::System.ArgumentNullException.ThrowIfNull(FleetId);
+        this.FleetId = FleetId;
+    }
+
+    private AwsDeadlineDeleteFleetOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDeadlineDeleteFleetOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDeadlineDeleteFleetOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The farm ID of the farm to remove from the fleet. Constraints: o pattern: farm-[0-9a-f]{32}
+    /// </summary>
+    [CliOption("--farm-id")]
+    public string? FarmId { get; private init; }
+
+    /// <summary>
+    /// The fleet ID of the fleet to delete. Constraints: o pattern: fleet-[0-9a-f]{32}
+    /// </summary>
     [CliOption("--fleet-id")]
-    public string? FleetId { get; set; }
+    public string? FleetId { get; private init; }
 
     /// <summary>
     /// The unique token which the server uses to recognize retries of the same request. Constraints: o min: 1 o max: 64
@@ -40,5 +84,22 @@ public record AwsDeadlineDeleteFleetOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

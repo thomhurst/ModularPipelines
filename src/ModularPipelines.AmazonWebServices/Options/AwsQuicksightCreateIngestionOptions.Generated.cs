@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,16 +21,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("quicksight", "create-ingestion")]
-public record AwsQuicksightCreateIngestionOptions : AwsOptions
+public record AwsQuicksightCreateIngestionOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates and starts a new SPICE ingestion for a dataset. You can manu- ally refresh datasets in an Enterprise edition account 32 times in a 24-hour period. You can manually refresh datasets in a Standard edition account 8 times in a 24-hour period. Each 24-hour period is measured starting 24 hours before the current date and time. Any ingestions operating on tagged datasets inherit the same tags auto- matically for use in access control. For an example, see How do I cre- ate an IAM policy to cont...
+    /// </summary>
+    /// <param name="DataSetId">The ID of the dataset used in the ingestion.</param>
+    /// <param name="IngestionId">An ID for the ingestion. Constraints: o min: 1 o max: 128 o pattern: ^[a-zA-Z0-9-_]+$</param>
+    /// <param name="AwsAccountId">The Amazon Web Services account ID. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$</param>
+    public AwsQuicksightCreateIngestionOptions(
+        string DataSetId,
+        string IngestionId,
+        string AwsAccountId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DataSetId);
+        this.DataSetId = DataSetId;
+        global::System.ArgumentNullException.ThrowIfNull(IngestionId);
+        this.IngestionId = IngestionId;
+        global::System.ArgumentNullException.ThrowIfNull(AwsAccountId);
+        this.AwsAccountId = AwsAccountId;
+    }
+
+    private AwsQuicksightCreateIngestionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsQuicksightCreateIngestionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsQuicksightCreateIngestionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the dataset used in the ingestion.
+    /// </summary>
     [CliOption("--data-set-id")]
-    public string? DataSetId { get; set; }
+    public string? DataSetId { get; private init; }
 
+    /// <summary>
+    /// An ID for the ingestion. Constraints: o min: 1 o max: 128 o pattern: ^[a-zA-Z0-9-_]+$
+    /// </summary>
     [CliOption("--ingestion-id")]
-    public string? IngestionId { get; set; }
+    public string? IngestionId { get; private init; }
 
+    /// <summary>
+    /// The Amazon Web Services account ID. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$
+    /// </summary>
     [CliOption("--aws-account-id")]
-    public string? AwsAccountId { get; set; }
+    public string? AwsAccountId { get; private init; }
 
     /// <summary>
     /// The type of ingestion that you want to create. Possible values: o INCREMENTAL_REFRESH o FULL_REFRESH
@@ -42,5 +93,22 @@ public record AwsQuicksightCreateIngestionOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

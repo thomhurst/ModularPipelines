@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bedrock-data-automation-runtime", "invoke-data-automation")]
-public record AwsBedrockDataAutomationRuntimeInvokeDataAutomationOptions : AwsOptions
+public record AwsBedrockDataAutomationRuntimeInvokeDataAutomationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Sync API: Invoke data automation. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="InputConfiguration">Input configuration. bytes -&gt; (blob) Input data as bytes s3Uri -&gt; (string) S3 URI of the input data Constraints: o min: 1 o max: 1024 o pattern: s3://[a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9](/[^\x00-\x1F\x7F\{^}%`\]"&gt;\[~&lt;#|]*)? Shorthand Syntax: bytes=blob,s3Uri=string JSON Syntax: { "bytes": blob, "s3Uri": "string" }</param>
+    /// <param name="DataAutomationProfileArn">Data automation profile ARN Constraints: o min: 1 o max: 128 o pattern: arn:aws(|-cn|-iso|-iso-[a-z]|-us-gov):bedrock:[a-zA-Z0-9-]*:(aws|[0-9]{12}):data-au- tomation-profile/[a-zA-Z0-9-_.]+</param>
+    public AwsBedrockDataAutomationRuntimeInvokeDataAutomationOptions(
+        string InputConfiguration,
+        string DataAutomationProfileArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(InputConfiguration);
+        this.InputConfiguration = InputConfiguration;
+        global::System.ArgumentNullException.ThrowIfNull(DataAutomationProfileArn);
+        this.DataAutomationProfileArn = DataAutomationProfileArn;
+    }
+
+    private AwsBedrockDataAutomationRuntimeInvokeDataAutomationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsBedrockDataAutomationRuntimeInvokeDataAutomationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsBedrockDataAutomationRuntimeInvokeDataAutomationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Input configuration. bytes -&gt; (blob) Input data as bytes s3Uri -&gt; (string) S3 URI of the input data Constraints: o min: 1 o max: 1024 o pattern: s3://[a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9](/[^\x00-\x1F\x7F\{^}%`\]"&gt;\[~&lt;#|]*)? Shorthand Syntax: bytes=blob,s3Uri=string JSON Syntax: { "bytes": blob, "s3Uri": "string" }
+    /// </summary>
     [CliOption("--input-configuration")]
-    public string? InputConfiguration { get; set; }
+    public string? InputConfiguration { get; private init; }
+
+    /// <summary>
+    /// Data automation profile ARN Constraints: o min: 1 o max: 128 o pattern: arn:aws(|-cn|-iso|-iso-[a-z]|-us-gov):bedrock:[a-zA-Z0-9-]*:(aws|[0-9]{12}):data-au- tomation-profile/[a-zA-Z0-9-_.]+
+    /// </summary>
+    [CliOption("--data-automation-profile-arn")]
+    public string? DataAutomationProfileArn { get; private init; }
 
     /// <summary>
     /// Data automation configuration. dataAutomationProjectArn -&gt; (string) [required] Data automation project arn. Constraints: o min: 1 o max: 128 o pattern: arn:aws(|-cn|-iso|-iso-[a-z]|-us-gov):bedrock:[a-zA-Z0-9-]*:(aws|[0-9]{12}):data-au- tomation-project/[a-zA-Z0-9-_]+ stage -&gt; (string) Data automation stage. Possible values: o LIVE o DEVELOPMENT Shorthand Syntax: dataAutomationProjectArn=string,stage=string JSON Syntax: { "dataAutomationProjectArn": "string", "stage": "LIVE"|"DEVELOPMENT" }
@@ -35,9 +82,6 @@ public record AwsBedrockDataAutomationRuntimeInvokeDataAutomationOptions : AwsOp
     /// </summary>
     [CliOption("--blueprints", GroupValues = true)]
     public IEnumerable<string>? Blueprints { get; set; }
-
-    [CliOption("--data-automation-profile-arn")]
-    public string? DataAutomationProfileArn { get; set; }
 
     /// <summary>
     /// Encryption configuration. kmsKeyId -&gt; (string) [required] Customer KMS key used for encryption Constraints: o min: 1 o max: 2048 o pattern: [A-Za-z0-9][A-Za-z0-9:_/+=,@.-]+ kmsEncryptionContext -&gt; (map) KMS encryption context. Constraints: o min: 1 o max: 10 key -&gt; (string) Excryption context key. Constraints: o min: 1 o max: 2000 o pattern: .*\S.* value -&gt; (string) Encryption context value. Constraints: o min: 1 o max: 2000 o pattern: .*\S.* Shorthand Syntax: kmsKeyId=string,kmsEncryptionContext={KeyName1=string,KeyName2=string} JSON Syntax: { "kmsKeyId": "string", "kmsEncryptionContext": {"string": "string" ...} }
@@ -56,5 +100,22 @@ public record AwsBedrockDataAutomationRuntimeInvokeDataAutomationOptions : AwsOp
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

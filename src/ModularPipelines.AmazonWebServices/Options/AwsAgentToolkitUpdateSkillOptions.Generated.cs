@@ -21,8 +21,25 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("agent-toolkit", "update-skill")]
 public record AwsAgentToolkitUpdateSkillOptions : AwsOptions
 {
+    /// <summary>
+    /// Update an installed AWS skill to the latest version. Compares the lo- cally installed version against the available skills and downloads the newer version if available. By default the skill is updated for all de- tected agents, use --agent to update the skill for only a specific tool.
+    /// </summary>
+    /// <param name="SkillName"></param>
+    public AwsAgentToolkitUpdateSkillOptions(
+        string SkillName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SkillName);
+        this.SkillName = SkillName;
+    }
+
+    public void Deconstruct(out string SkillName)
+    {
+        SkillName = this.SkillName;
+    }
+
     [CliOption("--skill-name")]
-    public string? SkillName { get; set; }
+    public string SkillName { get; private init; }
 
     [CliOption("--agent")]
     public string? Agent { get; set; }

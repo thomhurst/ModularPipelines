@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,10 +22,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bedrock-agentcore-control", "list-registry-records")]
-public record AwsBedrockAgentcoreControlListRegistryRecordsOptions : AwsOptions
+public record AwsBedrockAgentcoreControlListRegistryRecordsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Lists registry records within a registry. You can optionally filter re- sults using the name , status , and descriptorType parameters. When multiple filters are specified, they are combined using AND logic. See also: AWS API Documentation list-registry-records is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a pagi...
+    /// </summary>
+    /// <param name="RegistryId">The identifier of the registry to list records from. You can specify either the Amazon Resource Name (ARN) or the ID of the registry. Constraints: o min: 1 o max: 2048 o pattern: (arn:aws(-[^:]+)?:bedrock-agent- core:[a-z0-9-]+:[0-9]{12}:registry/)?[a-zA-Z0-9]{12,16}</param>
+    public AwsBedrockAgentcoreControlListRegistryRecordsOptions(
+        string RegistryId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(RegistryId);
+        this.RegistryId = RegistryId;
+    }
+
+    private AwsBedrockAgentcoreControlListRegistryRecordsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsBedrockAgentcoreControlListRegistryRecordsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsBedrockAgentcoreControlListRegistryRecordsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the registry to list records from. You can specify either the Amazon Resource Name (ARN) or the ID of the registry. Constraints: o min: 1 o max: 2048 o pattern: (arn:aws(-[^:]+)?:bedrock-agent- core:[a-z0-9-]+:[0-9]{12}:registry/)?[a-zA-Z0-9]{12,16}
+    /// </summary>
     [CliOption("--registry-id")]
-    public string? RegistryId { get; set; }
+    public string? RegistryId { get; private init; }
 
     /// <summary>
     /// Filter registry records by name. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z0-9][a-zA-Z0-9_\-\.\/]*
@@ -68,5 +105,22 @@ public record AwsBedrockAgentcoreControlListRegistryRecordsOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

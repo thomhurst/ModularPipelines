@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,68 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("partnercentral-revenue-measurement", "list-tags-for-resource")]
-public record AwsPartnercentralRevenueMeasurementListTagsForResourceOptions : AwsOptions
+public record AwsPartnercentralRevenueMeasurementListTagsForResourceOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Returns the tags associated with the specified resource. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the resource to list tags for. Constraints: o min: 1 o max: 1011 o pattern: arn:aws:partnercentral:[a-z0-9-]+:[0-9]{12}:cata- log/[a-zA-Z]+/(revenue-attribution/[a-zA-Z0-9-]+|marketplace-rev- enue-share/prod-[a-z0-9]{13})</param>
+    public AwsPartnercentralRevenueMeasurementListTagsForResourceOptions(
+        string ResourceArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ResourceArn);
+        this.ResourceArn = ResourceArn;
+    }
+
+    private AwsPartnercentralRevenueMeasurementListTagsForResourceOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsPartnercentralRevenueMeasurementListTagsForResourceOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsPartnercentralRevenueMeasurementListTagsForResourceOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the resource to list tags for. Constraints: o min: 1 o max: 1011 o pattern: arn:aws:partnercentral:[a-z0-9-]+:[0-9]{12}:cata- log/[a-zA-Z]+/(revenue-attribution/[a-zA-Z0-9-]+|marketplace-rev- enue-share/prod-[a-z0-9]{13})
+    /// </summary>
     [CliOption("--resource-arn")]
-    public string? ResourceArn { get; set; }
+    public string? ResourceArn { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

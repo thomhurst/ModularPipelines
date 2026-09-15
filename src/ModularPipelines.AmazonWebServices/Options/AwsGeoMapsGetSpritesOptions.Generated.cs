@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -21,16 +22,71 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("geo-maps", "get-sprites")]
 public record AwsGeoMapsGetSpritesOptions : AwsOptions
 {
+    /// <summary>
+    /// GetSprites returns the map's sprites. For more information, see Style iconography with sprites in the Amazon Location Service Developer Guide . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="FileName">Sprites API: The name of the sprite le to retrieve, following pattern sprites(@2x)?\.(png|json) . Example: sprites.png Constraints: o pattern: sprites(@2x)?\.(png|json)</param>
+    /// <param name="Style">Style specifies the desired map style for the Sprites APIs. Possible values: o Standard o Monochrome o Hybrid o Satellite</param>
+    /// <param name="ColorScheme">Sets the color tone for the map sprites, such as dark and light. Example: Light Default value: Light NOTE: Valid values for ColorScheme are case sensitive. Possible values: o Light o Dark</param>
+    /// <param name="Variant">Optimizes map styles for specific use case or industry. You can choose allowed variant only with Standard map style. Example: Default NOTE: Valid values for Variant are case sensitive. Possible values: o Default outfile (string) [required] Filename where the content will be saved</param>
+    /// <param name="Outfile">The &lt;outfile&gt; operand.</param>
+    public AwsGeoMapsGetSpritesOptions(
+        string FileName,
+        AwsGeoMapsGetSpritesStyle Style,
+        AwsGeoMapsGetSpritesColorScheme ColorScheme,
+        string Variant,
+        string Outfile
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(FileName);
+        this.FileName = FileName;
+        global::System.ArgumentNullException.ThrowIfNull(Style);
+        this.Style = Style;
+        global::System.ArgumentNullException.ThrowIfNull(ColorScheme);
+        this.ColorScheme = ColorScheme;
+        global::System.ArgumentNullException.ThrowIfNull(Variant);
+        this.Variant = Variant;
+        global::System.ArgumentNullException.ThrowIfNull(Outfile);
+        this.Outfile = Outfile;
+    }
+
+    public void Deconstruct(out string FileName, out AwsGeoMapsGetSpritesStyle Style, out AwsGeoMapsGetSpritesColorScheme ColorScheme, out string Variant, out string Outfile)
+    {
+        FileName = this.FileName;
+        Style = this.Style;
+        ColorScheme = this.ColorScheme;
+        Variant = this.Variant;
+        Outfile = this.Outfile;
+    }
+
+    /// <summary>
+    /// Sprites API: The name of the sprite le to retrieve, following pattern sprites(@2x)?\.(png|json) . Example: sprites.png Constraints: o pattern: sprites(@2x)?\.(png|json)
+    /// </summary>
     [CliOption("--file-name")]
-    public string? FileName { get; set; }
+    public string FileName { get; private init; }
 
+    /// <summary>
+    /// Style specifies the desired map style for the Sprites APIs. Possible values: o Standard o Monochrome o Hybrid o Satellite
+    /// </summary>
     [CliOption("--style")]
-    public string? Style { get; set; }
+    public AwsGeoMapsGetSpritesStyle Style { get; private init; }
 
+    /// <summary>
+    /// Sets the color tone for the map sprites, such as dark and light. Example: Light Default value: Light NOTE: Valid values for ColorScheme are case sensitive. Possible values: o Light o Dark
+    /// </summary>
     [CliOption("--color-scheme")]
-    public string? ColorScheme { get; set; }
+    public AwsGeoMapsGetSpritesColorScheme ColorScheme { get; private init; }
 
+    /// <summary>
+    /// Optimizes map styles for specific use case or industry. You can choose allowed variant only with Standard map style. Example: Default NOTE: Valid values for Variant are case sensitive. Possible values: o Default outfile (string) [required] Filename where the content will be saved
+    /// </summary>
     [CliOption("--variant")]
-    public string? Variant { get; set; }
+    public string Variant { get; private init; }
+
+    /// <summary>
+    /// The &lt;outfile&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string Outfile { get; private init; }
 
 }

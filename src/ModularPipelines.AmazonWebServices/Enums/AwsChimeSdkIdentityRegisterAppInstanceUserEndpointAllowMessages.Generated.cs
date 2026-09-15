@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --allowmessages.
+/// Allowed values for --allow-messages.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsChimeSdkIdentityRegisterAppInstanceUserEndpointAllowMessages
 {
     [EnumValue("ALL")]
-    All = 1,
+    All,
 
     [EnumValue("NONE")]
-    None = 2
+    None
 }

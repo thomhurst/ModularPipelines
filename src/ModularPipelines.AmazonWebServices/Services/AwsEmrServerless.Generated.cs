@@ -5,8 +5,8 @@
 
 #nullable enable
 
-using ModularPipelines.Context;
 using System.CodeDom.Compiler;
+using ModularPipelines.Context;
 using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
@@ -40,11 +40,26 @@ public class AwsEmrServerless : IAwsEmrServerless
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CancelJobRunAsync(
-        AwsEmrServerlessCancelJobRunOptions? options = null,
+        AwsEmrServerlessCancelJobRunOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEmrServerlessCancelJobRunOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Creates an application. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> CreateApplicationAsync(
+        AwsEmrServerlessCreateApplicationOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -55,11 +70,11 @@ public class AwsEmrServerless : IAwsEmrServerless
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteApplicationAsync(
-        AwsEmrServerlessDeleteApplicationOptions? options = null,
+        AwsEmrServerlessDeleteApplicationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEmrServerlessDeleteApplicationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -70,11 +85,11 @@ public class AwsEmrServerless : IAwsEmrServerless
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetApplicationAsync(
-        AwsEmrServerlessGetApplicationOptions? options = null,
+        AwsEmrServerlessGetApplicationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEmrServerlessGetApplicationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -85,11 +100,11 @@ public class AwsEmrServerless : IAwsEmrServerless
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetDashboardForJobRunAsync(
-        AwsEmrServerlessGetDashboardForJobRunOptions? options = null,
+        AwsEmrServerlessGetDashboardForJobRunOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEmrServerlessGetDashboardForJobRunOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -100,11 +115,11 @@ public class AwsEmrServerless : IAwsEmrServerless
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetJobRunAsync(
-        AwsEmrServerlessGetJobRunOptions? options = null,
+        AwsEmrServerlessGetJobRunOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEmrServerlessGetJobRunOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -115,11 +130,11 @@ public class AwsEmrServerless : IAwsEmrServerless
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetResourceDashboardAsync(
-        AwsEmrServerlessGetResourceDashboardOptions? options = null,
+        AwsEmrServerlessGetResourceDashboardOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEmrServerlessGetResourceDashboardOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -130,11 +145,11 @@ public class AwsEmrServerless : IAwsEmrServerless
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetSessionEndpointAsync(
-        AwsEmrServerlessGetSessionEndpointOptions? options = null,
+        AwsEmrServerlessGetSessionEndpointOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEmrServerlessGetSessionEndpointOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -145,11 +160,11 @@ public class AwsEmrServerless : IAwsEmrServerless
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetSessionAsync(
-        AwsEmrServerlessGetSessionOptions? options = null,
+        AwsEmrServerlessGetSessionOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEmrServerlessGetSessionOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -164,7 +179,7 @@ public class AwsEmrServerless : IAwsEmrServerless
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEmrServerlessListApplicationsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEmrServerlessListApplicationsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -175,11 +190,11 @@ public class AwsEmrServerless : IAwsEmrServerless
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListJobRunAttemptsAsync(
-        AwsEmrServerlessListJobRunAttemptsOptions? options = null,
+        AwsEmrServerlessListJobRunAttemptsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEmrServerlessListJobRunAttemptsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -190,11 +205,11 @@ public class AwsEmrServerless : IAwsEmrServerless
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListJobRunsAsync(
-        AwsEmrServerlessListJobRunsOptions? options = null,
+        AwsEmrServerlessListJobRunsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEmrServerlessListJobRunsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -205,11 +220,11 @@ public class AwsEmrServerless : IAwsEmrServerless
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListSessionsAsync(
-        AwsEmrServerlessListSessionsOptions? options = null,
+        AwsEmrServerlessListSessionsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEmrServerlessListSessionsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -220,11 +235,11 @@ public class AwsEmrServerless : IAwsEmrServerless
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListTagsForResourceAsync(
-        AwsEmrServerlessListTagsForResourceOptions? options = null,
+        AwsEmrServerlessListTagsForResourceOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEmrServerlessListTagsForResourceOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -235,11 +250,11 @@ public class AwsEmrServerless : IAwsEmrServerless
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> StartApplicationAsync(
-        AwsEmrServerlessStartApplicationOptions? options = null,
+        AwsEmrServerlessStartApplicationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEmrServerlessStartApplicationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -250,11 +265,11 @@ public class AwsEmrServerless : IAwsEmrServerless
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> StartJobRunAsync(
-        AwsEmrServerlessStartJobRunOptions? options = null,
+        AwsEmrServerlessStartJobRunOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEmrServerlessStartJobRunOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -265,11 +280,11 @@ public class AwsEmrServerless : IAwsEmrServerless
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> StartSessionAsync(
-        AwsEmrServerlessStartSessionOptions? options = null,
+        AwsEmrServerlessStartSessionOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEmrServerlessStartSessionOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -280,11 +295,26 @@ public class AwsEmrServerless : IAwsEmrServerless
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> StopApplicationAsync(
-        AwsEmrServerlessStopApplicationOptions? options = null,
+        AwsEmrServerlessStopApplicationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEmrServerlessStopApplicationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Assigns tags to resources. A tag is a label that you assign to an Ama- zon Web Services resource. Each tag consists of a key and an optional value, both of which you define. Tags enable you to categorize your Amazon Web Services resources by attributes such as purpose, owner, or environment. When you have many resources of the same type, you can quickly identify a specific resource based on the tags you've assigned to it. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> TagResourceAsync(
+        AwsEmrServerlessTagResourceOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -295,11 +325,11 @@ public class AwsEmrServerless : IAwsEmrServerless
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> TerminateSessionAsync(
-        AwsEmrServerlessTerminateSessionOptions? options = null,
+        AwsEmrServerlessTerminateSessionOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEmrServerlessTerminateSessionOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -310,11 +340,26 @@ public class AwsEmrServerless : IAwsEmrServerless
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UntagResourceAsync(
-        AwsEmrServerlessUntagResourceOptions? options = null,
+        AwsEmrServerlessUntagResourceOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEmrServerlessUntagResourceOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Updates a specified application. An application has to be in a stopped or created state in order to be updated. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> UpdateApplicationAsync(
+        AwsEmrServerlessUpdateApplicationOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     #endregion

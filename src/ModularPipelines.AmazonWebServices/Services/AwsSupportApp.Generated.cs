@@ -5,8 +5,8 @@
 
 #nullable enable
 
-using ModularPipelines.Context;
 using System.CodeDom.Compiler;
+using ModularPipelines.Context;
 using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
@@ -40,11 +40,11 @@ public class AwsSupportApp : IAwsSupportApp
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateSlackChannelConfigurationAsync(
-        AwsSupportAppCreateSlackChannelConfigurationOptions? options = null,
+        AwsSupportAppCreateSlackChannelConfigurationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSupportAppCreateSlackChannelConfigurationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -59,7 +59,7 @@ public class AwsSupportApp : IAwsSupportApp
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSupportAppDeleteAccountAliasOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSupportAppDeleteAccountAliasOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -70,11 +70,11 @@ public class AwsSupportApp : IAwsSupportApp
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteSlackChannelConfigurationAsync(
-        AwsSupportAppDeleteSlackChannelConfigurationOptions? options = null,
+        AwsSupportAppDeleteSlackChannelConfigurationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSupportAppDeleteSlackChannelConfigurationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -85,11 +85,11 @@ public class AwsSupportApp : IAwsSupportApp
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteSlackWorkspaceConfigurationAsync(
-        AwsSupportAppDeleteSlackWorkspaceConfigurationOptions? options = null,
+        AwsSupportAppDeleteSlackWorkspaceConfigurationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSupportAppDeleteSlackWorkspaceConfigurationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -104,7 +104,7 @@ public class AwsSupportApp : IAwsSupportApp
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSupportAppGetAccountAliasOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSupportAppGetAccountAliasOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -119,7 +119,7 @@ public class AwsSupportApp : IAwsSupportApp
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSupportAppListSlackChannelConfigurationsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSupportAppListSlackChannelConfigurationsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -134,7 +134,7 @@ public class AwsSupportApp : IAwsSupportApp
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSupportAppListSlackWorkspaceConfigurationsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSupportAppListSlackWorkspaceConfigurationsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -145,11 +145,11 @@ public class AwsSupportApp : IAwsSupportApp
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> PutAccountAliasAsync(
-        AwsSupportAppPutAccountAliasOptions? options = null,
+        AwsSupportAppPutAccountAliasOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSupportAppPutAccountAliasOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -160,11 +160,11 @@ public class AwsSupportApp : IAwsSupportApp
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RegisterSlackWorkspaceForOrganizationAsync(
-        AwsSupportAppRegisterSlackWorkspaceForOrganizationOptions? options = null,
+        AwsSupportAppRegisterSlackWorkspaceForOrganizationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSupportAppRegisterSlackWorkspaceForOrganizationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -175,11 +175,11 @@ public class AwsSupportApp : IAwsSupportApp
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateSlackChannelConfigurationAsync(
-        AwsSupportAppUpdateSlackChannelConfigurationOptions? options = null,
+        AwsSupportAppUpdateSlackChannelConfigurationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSupportAppUpdateSlackChannelConfigurationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     #endregion

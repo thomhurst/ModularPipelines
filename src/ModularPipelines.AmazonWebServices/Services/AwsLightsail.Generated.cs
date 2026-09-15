@@ -5,8 +5,8 @@
 
 #nullable enable
 
-using ModularPipelines.Context;
 using System.CodeDom.Compiler;
+using ModularPipelines.Context;
 using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
@@ -40,11 +40,11 @@ public class AwsLightsail : IAwsLightsail
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AllocateStaticIpAsync(
-        AwsLightsailAllocateStaticIpOptions? options = null,
+        AwsLightsailAllocateStaticIpOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLightsailAllocateStaticIpOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -55,11 +55,11 @@ public class AwsLightsail : IAwsLightsail
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AttachCertificateToDistributionAsync(
-        AwsLightsailAttachCertificateToDistributionOptions? options = null,
+        AwsLightsailAttachCertificateToDistributionOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLightsailAttachCertificateToDistributionOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -70,11 +70,11 @@ public class AwsLightsail : IAwsLightsail
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AttachDiskAsync(
-        AwsLightsailAttachDiskOptions? options = null,
+        AwsLightsailAttachDiskOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLightsailAttachDiskOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -85,11 +85,11 @@ public class AwsLightsail : IAwsLightsail
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AttachInstancesToLoadBalancerAsync(
-        AwsLightsailAttachInstancesToLoadBalancerOptions? options = null,
+        AwsLightsailAttachInstancesToLoadBalancerOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLightsailAttachInstancesToLoadBalancerOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -100,11 +100,11 @@ public class AwsLightsail : IAwsLightsail
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AttachLoadBalancerTlsCertificateAsync(
-        AwsLightsailAttachLoadBalancerTlsCertificateOptions? options = null,
+        AwsLightsailAttachLoadBalancerTlsCertificateOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLightsailAttachLoadBalancerTlsCertificateOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -115,11 +115,11 @@ public class AwsLightsail : IAwsLightsail
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AttachStaticIpAsync(
-        AwsLightsailAttachStaticIpOptions? options = null,
+        AwsLightsailAttachStaticIpOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLightsailAttachStaticIpOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -130,11 +130,11 @@ public class AwsLightsail : IAwsLightsail
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CloseInstancePublicPortsAsync(
-        AwsLightsailCloseInstancePublicPortsOptions? options = null,
+        AwsLightsailCloseInstancePublicPortsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLightsailCloseInstancePublicPortsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -145,11 +145,11 @@ public class AwsLightsail : IAwsLightsail
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CopySnapshotAsync(
-        AwsLightsailCopySnapshotOptions? options = null,
+        AwsLightsailCopySnapshotOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLightsailCopySnapshotOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -160,11 +160,11 @@ public class AwsLightsail : IAwsLightsail
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateBucketAccessKeyAsync(
-        AwsLightsailCreateBucketAccessKeyOptions? options = null,
+        AwsLightsailCreateBucketAccessKeyOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLightsailCreateBucketAccessKeyOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -175,11 +175,11 @@ public class AwsLightsail : IAwsLightsail
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateBucketAsync(
-        AwsLightsailCreateBucketOptions? options = null,
+        AwsLightsailCreateBucketOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLightsailCreateBucketOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -190,11 +190,11 @@ public class AwsLightsail : IAwsLightsail
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateCertificateAsync(
-        AwsLightsailCreateCertificateOptions? options = null,
+        AwsLightsailCreateCertificateOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLightsailCreateCertificateOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -205,11 +205,11 @@ public class AwsLightsail : IAwsLightsail
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateCloudFormationStackAsync(
-        AwsLightsailCreateCloudFormationStackOptions? options = null,
+        AwsLightsailCreateCloudFormationStackOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLightsailCreateCloudFormationStackOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -220,11 +220,11 @@ public class AwsLightsail : IAwsLightsail
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateContactMethodAsync(
-        AwsLightsailCreateContactMethodOptions? options = null,
+        AwsLightsailCreateContactMethodOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLightsailCreateContactMethodOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -235,11 +235,11 @@ public class AwsLightsail : IAwsLightsail
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateContainerServiceDeploymentAsync(
-        AwsLightsailCreateContainerServiceDeploymentOptions? options = null,
+        AwsLightsailCreateContainerServiceDeploymentOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLightsailCreateContainerServiceDeploymentOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -250,11 +250,11 @@ public class AwsLightsail : IAwsLightsail
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateContainerServiceAsync(
-        AwsLightsailCreateContainerServiceOptions? options = null,
+        AwsLightsailCreateContainerServiceOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLightsailCreateContainerServiceOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -269,7 +269,7 @@ public class AwsLightsail : IAwsLightsail
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLightsailCreateContainerServiceRegistryLoginOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLightsailCreateContainerServiceRegistryLoginOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -280,11 +280,11 @@ public class AwsLightsail : IAwsLightsail
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateDiskFromSnapshotAsync(
-        AwsLightsailCreateDiskFromSnapshotOptions? options = null,
+        AwsLightsailCreateDiskFromSnapshotOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLightsailCreateDiskFromSnapshotOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -295,11 +295,11 @@ public class AwsLightsail : IAwsLightsail
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateDiskAsync(
-        AwsLightsailCreateDiskOptions? options = null,
+        AwsLightsailCreateDiskOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLightsailCreateDiskOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -310,11 +310,11 @@ public class AwsLightsail : IAwsLightsail
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateDiskSnapshotAsync(
-        AwsLightsailCreateDiskSnapshotOptions? options = null,
+        AwsLightsailCreateDiskSnapshotOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLightsailCreateDiskSnapshotOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -325,11 +325,26 @@ public class AwsLightsail : IAwsLightsail
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateDistributionAsync(
-        AwsLightsailCreateDistributionOptions? options = null,
+        AwsLightsailCreateDistributionOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLightsailCreateDistributionOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Creates one of the following domain name system (DNS) records in a do- main DNS zone: Address (A), canonical name (CNAME), mail exchanger (MX), name server (NS), start of authority (SOA), service locator (SRV), or text (TXT). The create domain entry operation supports tag-based access control via resource tags applied to the resource identified by domain name . For more information, see the Amazon Lightsail Developer Guide . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> CreateDomainEntryAsync(
+        AwsLightsailCreateDomainEntryOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -340,11 +355,11 @@ public class AwsLightsail : IAwsLightsail
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateDomainAsync(
-        AwsLightsailCreateDomainOptions? options = null,
+        AwsLightsailCreateDomainOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLightsailCreateDomainOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -355,11 +370,11 @@ public class AwsLightsail : IAwsLightsail
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateGuiSessionAccessDetailsAsync(
-        AwsLightsailCreateGuiSessionAccessDetailsOptions? options = null,
+        AwsLightsailCreateGuiSessionAccessDetailsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLightsailCreateGuiSessionAccessDetailsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -370,11 +385,11 @@ public class AwsLightsail : IAwsLightsail
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateInstancesFromSnapshotAsync(
-        AwsLightsailCreateInstancesFromSnapshotOptions? options = null,
+        AwsLightsailCreateInstancesFromSnapshotOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLightsailCreateInstancesFromSnapshotOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -385,11 +400,11 @@ public class AwsLightsail : IAwsLightsail
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateInstanceSnapshotAsync(
-        AwsLightsailCreateInstanceSnapshotOptions? options = null,
+        AwsLightsailCreateInstanceSnapshotOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLightsailCreateInstanceSnapshotOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -400,11 +415,11 @@ public class AwsLightsail : IAwsLightsail
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateInstancesAsync(
-        AwsLightsailCreateInstancesOptions? options = null,
+        AwsLightsailCreateInstancesOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLightsailCreateInstancesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -415,11 +430,11 @@ public class AwsLightsail : IAwsLightsail
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateKeyPairAsync(
-        AwsLightsailCreateKeyPairOptions? options = null,
+        AwsLightsailCreateKeyPairOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLightsailCreateKeyPairOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -430,11 +445,11 @@ public class AwsLightsail : IAwsLightsail
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateLoadBalancerAsync(
-        AwsLightsailCreateLoadBalancerOptions? options = null,
+        AwsLightsailCreateLoadBalancerOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLightsailCreateLoadBalancerOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -445,11 +460,11 @@ public class AwsLightsail : IAwsLightsail
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateLoadBalancerTlsCertificateAsync(
-        AwsLightsailCreateLoadBalancerTlsCertificateOptions? options = null,
+        AwsLightsailCreateLoadBalancerTlsCertificateOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLightsailCreateLoadBalancerTlsCertificateOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -460,11 +475,11 @@ public class AwsLightsail : IAwsLightsail
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateRelationalDatabaseFromSnapshotAsync(
-        AwsLightsailCreateRelationalDatabaseFromSnapshotOptions? options = null,
+        AwsLightsailCreateRelationalDatabaseFromSnapshotOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLightsailCreateRelationalDatabaseFromSnapshotOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -475,11 +490,11 @@ public class AwsLightsail : IAwsLightsail
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateRelationalDatabaseAsync(
-        AwsLightsailCreateRelationalDatabaseOptions? options = null,
+        AwsLightsailCreateRelationalDatabaseOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLightsailCreateRelationalDatabaseOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -490,11 +505,11 @@ public class AwsLightsail : IAwsLightsail
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateRelationalDatabaseSnapshotAsync(
-        AwsLightsailCreateRelationalDatabaseSnapshotOptions? options = null,
+        AwsLightsailCreateRelationalDatabaseSnapshotOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLightsailCreateRelationalDatabaseSnapshotOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -505,11 +520,11 @@ public class AwsLightsail : IAwsLightsail
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteAlarmAsync(
-        AwsLightsailDeleteAlarmOptions? options = null,
+        AwsLightsailDeleteAlarmOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLightsailDeleteAlarmOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -520,11 +535,11 @@ public class AwsLightsail : IAwsLightsail
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteAutoSnapshotAsync(
-        AwsLightsailDeleteAutoSnapshotOptions? options = null,
+        AwsLightsailDeleteAutoSnapshotOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLightsailDeleteAutoSnapshotOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -535,11 +550,11 @@ public class AwsLightsail : IAwsLightsail
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteBucketAccessKeyAsync(
-        AwsLightsailDeleteBucketAccessKeyOptions? options = null,
+        AwsLightsailDeleteBucketAccessKeyOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLightsailDeleteBucketAccessKeyOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -550,11 +565,11 @@ public class AwsLightsail : IAwsLightsail
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteBucketAsync(
-        AwsLightsailDeleteBucketOptions? options = null,
+        AwsLightsailDeleteBucketOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLightsailDeleteBucketOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -565,11 +580,11 @@ public class AwsLightsail : IAwsLightsail
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteCertificateAsync(
-        AwsLightsailDeleteCertificateOptions? options = null,
+        AwsLightsailDeleteCertificateOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLightsailDeleteCertificateOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -580,11 +595,11 @@ public class AwsLightsail : IAwsLightsail
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteContactMethodAsync(
-        AwsLightsailDeleteContactMethodOptions? options = null,
+        AwsLightsailDeleteContactMethodOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLightsailDeleteContactMethodOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -595,11 +610,11 @@ public class AwsLightsail : IAwsLightsail
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteContainerImageAsync(
-        AwsLightsailDeleteContainerImageOptions? options = null,
+        AwsLightsailDeleteContainerImageOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLightsailDeleteContainerImageOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -610,11 +625,11 @@ public class AwsLightsail : IAwsLightsail
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteContainerServiceAsync(
-        AwsLightsailDeleteContainerServiceOptions? options = null,
+        AwsLightsailDeleteContainerServiceOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLightsailDeleteContainerServiceOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -625,11 +640,11 @@ public class AwsLightsail : IAwsLightsail
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteDiskAsync(
-        AwsLightsailDeleteDiskOptions? options = null,
+        AwsLightsailDeleteDiskOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLightsailDeleteDiskOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -640,11 +655,11 @@ public class AwsLightsail : IAwsLightsail
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteDiskSnapshotAsync(
-        AwsLightsailDeleteDiskSnapshotOptions? options = null,
+        AwsLightsailDeleteDiskSnapshotOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLightsailDeleteDiskSnapshotOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -659,7 +674,22 @@ public class AwsLightsail : IAwsLightsail
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLightsailDeleteDistributionOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLightsailDeleteDistributionOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Deletes a specific domain entry. The delete domain entry operation supports tag-based access control via resource tags applied to the resource identified by domain name . For more information, see the Amazon Lightsail Developer Guide . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> DeleteDomainEntryAsync(
+        AwsLightsailDeleteDomainEntryOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -670,11 +700,11 @@ public class AwsLightsail : IAwsLightsail
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteDomainAsync(
-        AwsLightsailDeleteDomainOptions? options = null,
+        AwsLightsailDeleteDomainOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLightsailDeleteDomainOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -685,11 +715,11 @@ public class AwsLightsail : IAwsLightsail
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteInstanceAsync(
-        AwsLightsailDeleteInstanceOptions? options = null,
+        AwsLightsailDeleteInstanceOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLightsailDeleteInstanceOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -700,11 +730,11 @@ public class AwsLightsail : IAwsLightsail
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteInstanceSnapshotAsync(
-        AwsLightsailDeleteInstanceSnapshotOptions? options = null,
+        AwsLightsailDeleteInstanceSnapshotOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLightsailDeleteInstanceSnapshotOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -715,11 +745,11 @@ public class AwsLightsail : IAwsLightsail
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteKeyPairAsync(
-        AwsLightsailDeleteKeyPairOptions? options = null,
+        AwsLightsailDeleteKeyPairOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLightsailDeleteKeyPairOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -730,11 +760,11 @@ public class AwsLightsail : IAwsLightsail
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteKnownHostKeysAsync(
-        AwsLightsailDeleteKnownHostKeysOptions? options = null,
+        AwsLightsailDeleteKnownHostKeysOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLightsailDeleteKnownHostKeysOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -745,11 +775,11 @@ public class AwsLightsail : IAwsLightsail
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteLoadBalancerAsync(
-        AwsLightsailDeleteLoadBalancerOptions? options = null,
+        AwsLightsailDeleteLoadBalancerOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLightsailDeleteLoadBalancerOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -760,11 +790,11 @@ public class AwsLightsail : IAwsLightsail
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteLoadBalancerTlsCertificateAsync(
-        AwsLightsailDeleteLoadBalancerTlsCertificateOptions? options = null,
+        AwsLightsailDeleteLoadBalancerTlsCertificateOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLightsailDeleteLoadBalancerTlsCertificateOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -775,11 +805,11 @@ public class AwsLightsail : IAwsLightsail
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteRelationalDatabaseAsync(
-        AwsLightsailDeleteRelationalDatabaseOptions? options = null,
+        AwsLightsailDeleteRelationalDatabaseOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLightsailDeleteRelationalDatabaseOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -790,11 +820,11 @@ public class AwsLightsail : IAwsLightsail
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteRelationalDatabaseSnapshotAsync(
-        AwsLightsailDeleteRelationalDatabaseSnapshotOptions? options = null,
+        AwsLightsailDeleteRelationalDatabaseSnapshotOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLightsailDeleteRelationalDatabaseSnapshotOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -805,11 +835,11 @@ public class AwsLightsail : IAwsLightsail
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DetachCertificateFromDistributionAsync(
-        AwsLightsailDetachCertificateFromDistributionOptions? options = null,
+        AwsLightsailDetachCertificateFromDistributionOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLightsailDetachCertificateFromDistributionOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -820,11 +850,11 @@ public class AwsLightsail : IAwsLightsail
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DetachDiskAsync(
-        AwsLightsailDetachDiskOptions? options = null,
+        AwsLightsailDetachDiskOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLightsailDetachDiskOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -835,11 +865,11 @@ public class AwsLightsail : IAwsLightsail
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DetachInstancesFromLoadBalancerAsync(
-        AwsLightsailDetachInstancesFromLoadBalancerOptions? options = null,
+        AwsLightsailDetachInstancesFromLoadBalancerOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLightsailDetachInstancesFromLoadBalancerOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -850,11 +880,11 @@ public class AwsLightsail : IAwsLightsail
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DetachStaticIpAsync(
-        AwsLightsailDetachStaticIpOptions? options = null,
+        AwsLightsailDetachStaticIpOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLightsailDetachStaticIpOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -865,11 +895,11 @@ public class AwsLightsail : IAwsLightsail
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DisableAddOnAsync(
-        AwsLightsailDisableAddOnOptions? options = null,
+        AwsLightsailDisableAddOnOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLightsailDisableAddOnOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -884,7 +914,22 @@ public class AwsLightsail : IAwsLightsail
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLightsailDownloadDefaultKeyPairOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLightsailDownloadDefaultKeyPairOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Enables or modifies an add-on for an Amazon Lightsail resource. For more information, see the Amazon Lightsail Developer Guide . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> EnableAddOnAsync(
+        AwsLightsailEnableAddOnOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -895,11 +940,11 @@ public class AwsLightsail : IAwsLightsail
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ExportSnapshotAsync(
-        AwsLightsailExportSnapshotOptions? options = null,
+        AwsLightsailExportSnapshotOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLightsailExportSnapshotOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -914,7 +959,7 @@ public class AwsLightsail : IAwsLightsail
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLightsailGetActiveNamesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLightsailGetActiveNamesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -929,7 +974,7 @@ public class AwsLightsail : IAwsLightsail
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLightsailGetAlarmsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLightsailGetAlarmsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -940,11 +985,11 @@ public class AwsLightsail : IAwsLightsail
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetAutoSnapshotsAsync(
-        AwsLightsailGetAutoSnapshotsOptions? options = null,
+        AwsLightsailGetAutoSnapshotsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLightsailGetAutoSnapshotsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -959,7 +1004,7 @@ public class AwsLightsail : IAwsLightsail
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLightsailGetBlueprintsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLightsailGetBlueprintsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -970,11 +1015,11 @@ public class AwsLightsail : IAwsLightsail
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetBucketAccessKeysAsync(
-        AwsLightsailGetBucketAccessKeysOptions? options = null,
+        AwsLightsailGetBucketAccessKeysOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLightsailGetBucketAccessKeysOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -989,7 +1034,7 @@ public class AwsLightsail : IAwsLightsail
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLightsailGetBucketBundlesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLightsailGetBucketBundlesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1000,11 +1045,11 @@ public class AwsLightsail : IAwsLightsail
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetBucketMetricDataAsync(
-        AwsLightsailGetBucketMetricDataOptions? options = null,
+        AwsLightsailGetBucketMetricDataOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLightsailGetBucketMetricDataOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1019,7 +1064,7 @@ public class AwsLightsail : IAwsLightsail
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLightsailGetBucketsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLightsailGetBucketsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1034,7 +1079,7 @@ public class AwsLightsail : IAwsLightsail
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLightsailGetBundlesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLightsailGetBundlesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1049,7 +1094,7 @@ public class AwsLightsail : IAwsLightsail
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLightsailGetCertificatesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLightsailGetCertificatesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1064,7 +1109,7 @@ public class AwsLightsail : IAwsLightsail
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLightsailGetCloudFormationStackRecordsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLightsailGetCloudFormationStackRecordsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1079,7 +1124,7 @@ public class AwsLightsail : IAwsLightsail
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLightsailGetContactMethodsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLightsailGetContactMethodsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1094,7 +1139,7 @@ public class AwsLightsail : IAwsLightsail
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLightsailGetContainerApiMetadataOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLightsailGetContainerApiMetadataOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1105,11 +1150,11 @@ public class AwsLightsail : IAwsLightsail
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetContainerImagesAsync(
-        AwsLightsailGetContainerImagesOptions? options = null,
+        AwsLightsailGetContainerImagesOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLightsailGetContainerImagesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1120,11 +1165,11 @@ public class AwsLightsail : IAwsLightsail
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetContainerLogAsync(
-        AwsLightsailGetContainerLogOptions? options = null,
+        AwsLightsailGetContainerLogOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLightsailGetContainerLogOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1135,11 +1180,11 @@ public class AwsLightsail : IAwsLightsail
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetContainerServiceDeploymentsAsync(
-        AwsLightsailGetContainerServiceDeploymentsOptions? options = null,
+        AwsLightsailGetContainerServiceDeploymentsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLightsailGetContainerServiceDeploymentsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1150,11 +1195,11 @@ public class AwsLightsail : IAwsLightsail
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetContainerServiceMetricDataAsync(
-        AwsLightsailGetContainerServiceMetricDataOptions? options = null,
+        AwsLightsailGetContainerServiceMetricDataOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLightsailGetContainerServiceMetricDataOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1169,7 +1214,7 @@ public class AwsLightsail : IAwsLightsail
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLightsailGetContainerServicePowersOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLightsailGetContainerServicePowersOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1184,7 +1229,7 @@ public class AwsLightsail : IAwsLightsail
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLightsailGetContainerServicesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLightsailGetContainerServicesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1195,11 +1240,11 @@ public class AwsLightsail : IAwsLightsail
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetCostEstimateAsync(
-        AwsLightsailGetCostEstimateOptions? options = null,
+        AwsLightsailGetCostEstimateOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLightsailGetCostEstimateOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1210,11 +1255,11 @@ public class AwsLightsail : IAwsLightsail
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetDiskAsync(
-        AwsLightsailGetDiskOptions? options = null,
+        AwsLightsailGetDiskOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLightsailGetDiskOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1225,11 +1270,11 @@ public class AwsLightsail : IAwsLightsail
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetDiskSnapshotAsync(
-        AwsLightsailGetDiskSnapshotOptions? options = null,
+        AwsLightsailGetDiskSnapshotOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLightsailGetDiskSnapshotOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1244,7 +1289,7 @@ public class AwsLightsail : IAwsLightsail
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLightsailGetDiskSnapshotsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLightsailGetDiskSnapshotsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1259,7 +1304,7 @@ public class AwsLightsail : IAwsLightsail
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLightsailGetDisksOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLightsailGetDisksOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1274,7 +1319,7 @@ public class AwsLightsail : IAwsLightsail
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLightsailGetDistributionBundlesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLightsailGetDistributionBundlesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1289,7 +1334,7 @@ public class AwsLightsail : IAwsLightsail
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLightsailGetDistributionLatestCacheResetOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLightsailGetDistributionLatestCacheResetOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1300,11 +1345,11 @@ public class AwsLightsail : IAwsLightsail
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetDistributionMetricDataAsync(
-        AwsLightsailGetDistributionMetricDataOptions? options = null,
+        AwsLightsailGetDistributionMetricDataOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLightsailGetDistributionMetricDataOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1319,7 +1364,7 @@ public class AwsLightsail : IAwsLightsail
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLightsailGetDistributionsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLightsailGetDistributionsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1330,11 +1375,11 @@ public class AwsLightsail : IAwsLightsail
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetDomainAsync(
-        AwsLightsailGetDomainOptions? options = null,
+        AwsLightsailGetDomainOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLightsailGetDomainOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1349,7 +1394,7 @@ public class AwsLightsail : IAwsLightsail
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLightsailGetDomainsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLightsailGetDomainsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1364,7 +1409,7 @@ public class AwsLightsail : IAwsLightsail
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLightsailGetExportSnapshotRecordsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLightsailGetExportSnapshotRecordsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1375,11 +1420,11 @@ public class AwsLightsail : IAwsLightsail
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetInstanceAccessDetailsAsync(
-        AwsLightsailGetInstanceAccessDetailsOptions? options = null,
+        AwsLightsailGetInstanceAccessDetailsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLightsailGetInstanceAccessDetailsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1390,11 +1435,11 @@ public class AwsLightsail : IAwsLightsail
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetInstanceMetricDataAsync(
-        AwsLightsailGetInstanceMetricDataOptions? options = null,
+        AwsLightsailGetInstanceMetricDataOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLightsailGetInstanceMetricDataOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1405,11 +1450,11 @@ public class AwsLightsail : IAwsLightsail
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetInstanceAsync(
-        AwsLightsailGetInstanceOptions? options = null,
+        AwsLightsailGetInstanceOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLightsailGetInstanceOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1420,11 +1465,11 @@ public class AwsLightsail : IAwsLightsail
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetInstancePortStatesAsync(
-        AwsLightsailGetInstancePortStatesOptions? options = null,
+        AwsLightsailGetInstancePortStatesOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLightsailGetInstancePortStatesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1435,11 +1480,11 @@ public class AwsLightsail : IAwsLightsail
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetInstanceSnapshotAsync(
-        AwsLightsailGetInstanceSnapshotOptions? options = null,
+        AwsLightsailGetInstanceSnapshotOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLightsailGetInstanceSnapshotOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1454,7 +1499,7 @@ public class AwsLightsail : IAwsLightsail
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLightsailGetInstanceSnapshotsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLightsailGetInstanceSnapshotsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1469,7 +1514,7 @@ public class AwsLightsail : IAwsLightsail
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLightsailGetInstancesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLightsailGetInstancesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1480,11 +1525,11 @@ public class AwsLightsail : IAwsLightsail
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetInstanceStateAsync(
-        AwsLightsailGetInstanceStateOptions? options = null,
+        AwsLightsailGetInstanceStateOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLightsailGetInstanceStateOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1495,11 +1540,11 @@ public class AwsLightsail : IAwsLightsail
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetKeyPairAsync(
-        AwsLightsailGetKeyPairOptions? options = null,
+        AwsLightsailGetKeyPairOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLightsailGetKeyPairOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1514,7 +1559,7 @@ public class AwsLightsail : IAwsLightsail
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLightsailGetKeyPairsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLightsailGetKeyPairsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1525,11 +1570,11 @@ public class AwsLightsail : IAwsLightsail
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetLoadBalancerMetricDataAsync(
-        AwsLightsailGetLoadBalancerMetricDataOptions? options = null,
+        AwsLightsailGetLoadBalancerMetricDataOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLightsailGetLoadBalancerMetricDataOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1540,11 +1585,11 @@ public class AwsLightsail : IAwsLightsail
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetLoadBalancerAsync(
-        AwsLightsailGetLoadBalancerOptions? options = null,
+        AwsLightsailGetLoadBalancerOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLightsailGetLoadBalancerOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1559,7 +1604,7 @@ public class AwsLightsail : IAwsLightsail
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLightsailGetLoadBalancersOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLightsailGetLoadBalancersOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1570,11 +1615,11 @@ public class AwsLightsail : IAwsLightsail
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetLoadBalancerTlsCertificatesAsync(
-        AwsLightsailGetLoadBalancerTlsCertificatesOptions? options = null,
+        AwsLightsailGetLoadBalancerTlsCertificatesOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLightsailGetLoadBalancerTlsCertificatesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1589,7 +1634,7 @@ public class AwsLightsail : IAwsLightsail
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLightsailGetLoadBalancerTlsPoliciesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLightsailGetLoadBalancerTlsPoliciesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1600,11 +1645,11 @@ public class AwsLightsail : IAwsLightsail
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetOperationAsync(
-        AwsLightsailGetOperationOptions? options = null,
+        AwsLightsailGetOperationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLightsailGetOperationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1615,11 +1660,11 @@ public class AwsLightsail : IAwsLightsail
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetOperationsForResourceAsync(
-        AwsLightsailGetOperationsForResourceOptions? options = null,
+        AwsLightsailGetOperationsForResourceOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLightsailGetOperationsForResourceOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1634,7 +1679,22 @@ public class AwsLightsail : IAwsLightsail
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLightsailGetOperationsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLightsailGetOperationsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Returns information about the profile of the Amazon Lightsail account that makes the request. The response includes the profile type and, for accounts enrolled in the Lightsail partner program, the partner member- ship details. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> GetProfileAsync(
+        AwsLightsailGetProfileOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLightsailGetProfileOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1649,7 +1709,7 @@ public class AwsLightsail : IAwsLightsail
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLightsailGetRegionsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLightsailGetRegionsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1664,7 +1724,7 @@ public class AwsLightsail : IAwsLightsail
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLightsailGetRelationalDatabaseBlueprintsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLightsailGetRelationalDatabaseBlueprintsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1679,7 +1739,7 @@ public class AwsLightsail : IAwsLightsail
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLightsailGetRelationalDatabaseBundlesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLightsailGetRelationalDatabaseBundlesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1690,11 +1750,11 @@ public class AwsLightsail : IAwsLightsail
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetRelationalDatabaseEventsAsync(
-        AwsLightsailGetRelationalDatabaseEventsOptions? options = null,
+        AwsLightsailGetRelationalDatabaseEventsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLightsailGetRelationalDatabaseEventsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1705,11 +1765,11 @@ public class AwsLightsail : IAwsLightsail
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetRelationalDatabaseLogEventsAsync(
-        AwsLightsailGetRelationalDatabaseLogEventsOptions? options = null,
+        AwsLightsailGetRelationalDatabaseLogEventsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLightsailGetRelationalDatabaseLogEventsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1720,11 +1780,11 @@ public class AwsLightsail : IAwsLightsail
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetRelationalDatabaseLogStreamsAsync(
-        AwsLightsailGetRelationalDatabaseLogStreamsOptions? options = null,
+        AwsLightsailGetRelationalDatabaseLogStreamsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLightsailGetRelationalDatabaseLogStreamsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1735,11 +1795,11 @@ public class AwsLightsail : IAwsLightsail
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetRelationalDatabaseMasterUserPasswordAsync(
-        AwsLightsailGetRelationalDatabaseMasterUserPasswordOptions? options = null,
+        AwsLightsailGetRelationalDatabaseMasterUserPasswordOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLightsailGetRelationalDatabaseMasterUserPasswordOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1750,11 +1810,11 @@ public class AwsLightsail : IAwsLightsail
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetRelationalDatabaseMetricDataAsync(
-        AwsLightsailGetRelationalDatabaseMetricDataOptions? options = null,
+        AwsLightsailGetRelationalDatabaseMetricDataOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLightsailGetRelationalDatabaseMetricDataOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1765,11 +1825,11 @@ public class AwsLightsail : IAwsLightsail
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetRelationalDatabaseAsync(
-        AwsLightsailGetRelationalDatabaseOptions? options = null,
+        AwsLightsailGetRelationalDatabaseOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLightsailGetRelationalDatabaseOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1780,11 +1840,11 @@ public class AwsLightsail : IAwsLightsail
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetRelationalDatabaseParametersAsync(
-        AwsLightsailGetRelationalDatabaseParametersOptions? options = null,
+        AwsLightsailGetRelationalDatabaseParametersOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLightsailGetRelationalDatabaseParametersOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1795,11 +1855,11 @@ public class AwsLightsail : IAwsLightsail
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetRelationalDatabaseSnapshotAsync(
-        AwsLightsailGetRelationalDatabaseSnapshotOptions? options = null,
+        AwsLightsailGetRelationalDatabaseSnapshotOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLightsailGetRelationalDatabaseSnapshotOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1814,7 +1874,7 @@ public class AwsLightsail : IAwsLightsail
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLightsailGetRelationalDatabaseSnapshotsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLightsailGetRelationalDatabaseSnapshotsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1829,7 +1889,7 @@ public class AwsLightsail : IAwsLightsail
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLightsailGetRelationalDatabasesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLightsailGetRelationalDatabasesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1840,11 +1900,11 @@ public class AwsLightsail : IAwsLightsail
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetSetupHistoryAsync(
-        AwsLightsailGetSetupHistoryOptions? options = null,
+        AwsLightsailGetSetupHistoryOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLightsailGetSetupHistoryOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1855,11 +1915,11 @@ public class AwsLightsail : IAwsLightsail
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetStaticIpAsync(
-        AwsLightsailGetStaticIpOptions? options = null,
+        AwsLightsailGetStaticIpOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLightsailGetStaticIpOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1874,7 +1934,7 @@ public class AwsLightsail : IAwsLightsail
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLightsailGetStaticIpsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLightsailGetStaticIpsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1885,11 +1945,11 @@ public class AwsLightsail : IAwsLightsail
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ImportKeyPairAsync(
-        AwsLightsailImportKeyPairOptions? options = null,
+        AwsLightsailImportKeyPairOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLightsailImportKeyPairOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1904,7 +1964,7 @@ public class AwsLightsail : IAwsLightsail
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLightsailIsVpcPeeredOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLightsailIsVpcPeeredOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1915,11 +1975,11 @@ public class AwsLightsail : IAwsLightsail
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> OpenInstancePublicPortsAsync(
-        AwsLightsailOpenInstancePublicPortsOptions? options = null,
+        AwsLightsailOpenInstancePublicPortsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLightsailOpenInstancePublicPortsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1934,7 +1994,7 @@ public class AwsLightsail : IAwsLightsail
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLightsailPeerVpcOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLightsailPeerVpcOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1945,11 +2005,11 @@ public class AwsLightsail : IAwsLightsail
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> PushContainerImageAsync(
-        AwsLightsailPushContainerImageOptions? options = null,
+        AwsLightsailPushContainerImageOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLightsailPushContainerImageOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1960,11 +2020,11 @@ public class AwsLightsail : IAwsLightsail
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> PutAlarmAsync(
-        AwsLightsailPutAlarmOptions? options = null,
+        AwsLightsailPutAlarmOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLightsailPutAlarmOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1975,11 +2035,11 @@ public class AwsLightsail : IAwsLightsail
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> PutInstancePublicPortsAsync(
-        AwsLightsailPutInstancePublicPortsOptions? options = null,
+        AwsLightsailPutInstancePublicPortsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLightsailPutInstancePublicPortsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1990,11 +2050,11 @@ public class AwsLightsail : IAwsLightsail
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RebootInstanceAsync(
-        AwsLightsailRebootInstanceOptions? options = null,
+        AwsLightsailRebootInstanceOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLightsailRebootInstanceOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -2005,11 +2065,11 @@ public class AwsLightsail : IAwsLightsail
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RebootRelationalDatabaseAsync(
-        AwsLightsailRebootRelationalDatabaseOptions? options = null,
+        AwsLightsailRebootRelationalDatabaseOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLightsailRebootRelationalDatabaseOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -2020,11 +2080,11 @@ public class AwsLightsail : IAwsLightsail
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RegisterContainerImageAsync(
-        AwsLightsailRegisterContainerImageOptions? options = null,
+        AwsLightsailRegisterContainerImageOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLightsailRegisterContainerImageOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -2035,11 +2095,11 @@ public class AwsLightsail : IAwsLightsail
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ReleaseStaticIpAsync(
-        AwsLightsailReleaseStaticIpOptions? options = null,
+        AwsLightsailReleaseStaticIpOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLightsailReleaseStaticIpOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -2054,7 +2114,7 @@ public class AwsLightsail : IAwsLightsail
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLightsailResetDistributionCacheOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLightsailResetDistributionCacheOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -2065,11 +2125,11 @@ public class AwsLightsail : IAwsLightsail
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> SendContactMethodVerificationAsync(
-        AwsLightsailSendContactMethodVerificationOptions? options = null,
+        AwsLightsailSendContactMethodVerificationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLightsailSendContactMethodVerificationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -2080,11 +2140,11 @@ public class AwsLightsail : IAwsLightsail
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> SetIpAddressTypeAsync(
-        AwsLightsailSetIpAddressTypeOptions? options = null,
+        AwsLightsailSetIpAddressTypeOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLightsailSetIpAddressTypeOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -2095,11 +2155,11 @@ public class AwsLightsail : IAwsLightsail
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> SetResourceAccessForBucketAsync(
-        AwsLightsailSetResourceAccessForBucketOptions? options = null,
+        AwsLightsailSetResourceAccessForBucketOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLightsailSetResourceAccessForBucketOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -2110,11 +2170,11 @@ public class AwsLightsail : IAwsLightsail
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> SetupInstanceHttpsAsync(
-        AwsLightsailSetupInstanceHttpsOptions? options = null,
+        AwsLightsailSetupInstanceHttpsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLightsailSetupInstanceHttpsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -2125,11 +2185,11 @@ public class AwsLightsail : IAwsLightsail
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> StartGuiSessionAsync(
-        AwsLightsailStartGuiSessionOptions? options = null,
+        AwsLightsailStartGuiSessionOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLightsailStartGuiSessionOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -2140,11 +2200,11 @@ public class AwsLightsail : IAwsLightsail
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> StartInstanceAsync(
-        AwsLightsailStartInstanceOptions? options = null,
+        AwsLightsailStartInstanceOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLightsailStartInstanceOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -2155,11 +2215,11 @@ public class AwsLightsail : IAwsLightsail
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> StartRelationalDatabaseAsync(
-        AwsLightsailStartRelationalDatabaseOptions? options = null,
+        AwsLightsailStartRelationalDatabaseOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLightsailStartRelationalDatabaseOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -2170,11 +2230,11 @@ public class AwsLightsail : IAwsLightsail
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> StopGuiSessionAsync(
-        AwsLightsailStopGuiSessionOptions? options = null,
+        AwsLightsailStopGuiSessionOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLightsailStopGuiSessionOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -2185,11 +2245,11 @@ public class AwsLightsail : IAwsLightsail
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> StopInstanceAsync(
-        AwsLightsailStopInstanceOptions? options = null,
+        AwsLightsailStopInstanceOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLightsailStopInstanceOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -2200,11 +2260,11 @@ public class AwsLightsail : IAwsLightsail
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> StopRelationalDatabaseAsync(
-        AwsLightsailStopRelationalDatabaseOptions? options = null,
+        AwsLightsailStopRelationalDatabaseOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLightsailStopRelationalDatabaseOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -2215,11 +2275,11 @@ public class AwsLightsail : IAwsLightsail
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> TagResourceAsync(
-        AwsLightsailTagResourceOptions? options = null,
+        AwsLightsailTagResourceOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLightsailTagResourceOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -2230,11 +2290,11 @@ public class AwsLightsail : IAwsLightsail
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> TestAlarmAsync(
-        AwsLightsailTestAlarmOptions? options = null,
+        AwsLightsailTestAlarmOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLightsailTestAlarmOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -2249,7 +2309,7 @@ public class AwsLightsail : IAwsLightsail
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLightsailUnpeerVpcOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLightsailUnpeerVpcOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -2260,11 +2320,11 @@ public class AwsLightsail : IAwsLightsail
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UntagResourceAsync(
-        AwsLightsailUntagResourceOptions? options = null,
+        AwsLightsailUntagResourceOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLightsailUntagResourceOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -2275,11 +2335,11 @@ public class AwsLightsail : IAwsLightsail
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateBucketBundleAsync(
-        AwsLightsailUpdateBucketBundleOptions? options = null,
+        AwsLightsailUpdateBucketBundleOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLightsailUpdateBucketBundleOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -2290,11 +2350,11 @@ public class AwsLightsail : IAwsLightsail
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateBucketAsync(
-        AwsLightsailUpdateBucketOptions? options = null,
+        AwsLightsailUpdateBucketOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLightsailUpdateBucketOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -2305,11 +2365,11 @@ public class AwsLightsail : IAwsLightsail
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateContainerServiceAsync(
-        AwsLightsailUpdateContainerServiceOptions? options = null,
+        AwsLightsailUpdateContainerServiceOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLightsailUpdateContainerServiceOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -2324,7 +2384,7 @@ public class AwsLightsail : IAwsLightsail
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLightsailUpdateDistributionBundleOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLightsailUpdateDistributionBundleOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -2335,11 +2395,26 @@ public class AwsLightsail : IAwsLightsail
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateDistributionAsync(
-        AwsLightsailUpdateDistributionOptions? options = null,
+        AwsLightsailUpdateDistributionOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLightsailUpdateDistributionOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Updates a domain recordset after it is created. The update domain entry operation supports tag-based access control via resource tags applied to the resource identified by domain name . For more information, see the Amazon Lightsail Developer Guide . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> UpdateDomainEntryAsync(
+        AwsLightsailUpdateDomainEntryOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -2350,11 +2425,11 @@ public class AwsLightsail : IAwsLightsail
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateInstanceMetadataOptionsAsync(
-        AwsLightsailUpdateInstanceMetadataOptionsOptions? options = null,
+        AwsLightsailUpdateInstanceMetadataOptionsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLightsailUpdateInstanceMetadataOptionsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -2365,11 +2440,11 @@ public class AwsLightsail : IAwsLightsail
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateLoadBalancerAttributeAsync(
-        AwsLightsailUpdateLoadBalancerAttributeOptions? options = null,
+        AwsLightsailUpdateLoadBalancerAttributeOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLightsailUpdateLoadBalancerAttributeOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -2380,11 +2455,11 @@ public class AwsLightsail : IAwsLightsail
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateRelationalDatabaseAsync(
-        AwsLightsailUpdateRelationalDatabaseOptions? options = null,
+        AwsLightsailUpdateRelationalDatabaseOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLightsailUpdateRelationalDatabaseOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -2395,11 +2470,11 @@ public class AwsLightsail : IAwsLightsail
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateRelationalDatabaseParametersAsync(
-        AwsLightsailUpdateRelationalDatabaseParametersOptions? options = null,
+        AwsLightsailUpdateRelationalDatabaseParametersOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLightsailUpdateRelationalDatabaseParametersOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     #endregion

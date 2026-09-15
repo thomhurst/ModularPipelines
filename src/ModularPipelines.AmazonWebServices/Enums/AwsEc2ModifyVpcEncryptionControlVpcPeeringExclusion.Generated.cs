@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --vpcpeeringexclusion.
+/// Allowed values for --vpc-peering-exclusion.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsEc2ModifyVpcEncryptionControlVpcPeeringExclusion
 {
-    [EnumValue("enable")]
-    Enable = 1,
-
     [EnumValue("disable")]
-    Disable = 2
+    Disable,
+
+    [EnumValue("enable")]
+    Enable
 }

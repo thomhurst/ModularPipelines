@@ -52,7 +52,10 @@ public record AwsIotListAuditFindingsOptions : AwsOptions
     [CliOption("--end-time")]
     public string? EndTime { get; set; }
 
-    [CliFlag("--list-suppressed-findings")]
+    /// <summary>
+    /// Boolean flag indicating whether only the suppressed findings or the unsuppressed findings should be listed. If this parameter isn't pro- vided, the response will list both suppressed and unsuppressed find- ings.
+    /// </summary>
+    [CliFlag("--list-suppressed-findings", NegatedName = "--no-list-suppressed-findings")]
     public bool? ListSuppressedFindings { get; set; }
 
     [CliOption("--cli-input-json")]

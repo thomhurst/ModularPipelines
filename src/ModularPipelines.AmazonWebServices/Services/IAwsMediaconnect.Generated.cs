@@ -33,7 +33,7 @@ public interface IAwsMediaconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AddBridgeOutputsAsync(AwsMediaconnectAddBridgeOutputsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> AddBridgeOutputsAsync(AwsMediaconnectAddBridgeOutputsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -43,7 +43,7 @@ public interface IAwsMediaconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AddBridgeSourcesAsync(AwsMediaconnectAddBridgeSourcesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> AddBridgeSourcesAsync(AwsMediaconnectAddBridgeSourcesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -53,7 +53,7 @@ public interface IAwsMediaconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AddFlowMediaStreamsAsync(AwsMediaconnectAddFlowMediaStreamsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> AddFlowMediaStreamsAsync(AwsMediaconnectAddFlowMediaStreamsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -63,7 +63,7 @@ public interface IAwsMediaconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AddFlowOutputsAsync(AwsMediaconnectAddFlowOutputsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> AddFlowOutputsAsync(AwsMediaconnectAddFlowOutputsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -73,7 +73,7 @@ public interface IAwsMediaconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AddFlowSourcesAsync(AwsMediaconnectAddFlowSourcesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> AddFlowSourcesAsync(AwsMediaconnectAddFlowSourcesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -83,7 +83,7 @@ public interface IAwsMediaconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AddFlowVpcInterfacesAsync(AwsMediaconnectAddFlowVpcInterfacesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> AddFlowVpcInterfacesAsync(AwsMediaconnectAddFlowVpcInterfacesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -93,7 +93,7 @@ public interface IAwsMediaconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> BatchGetRouterInputAsync(AwsMediaconnectBatchGetRouterInputOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> BatchGetRouterInputAsync(AwsMediaconnectBatchGetRouterInputOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -103,7 +103,7 @@ public interface IAwsMediaconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> BatchGetRouterNetworkInterfaceAsync(AwsMediaconnectBatchGetRouterNetworkInterfaceOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> BatchGetRouterNetworkInterfaceAsync(AwsMediaconnectBatchGetRouterNetworkInterfaceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -113,7 +113,7 @@ public interface IAwsMediaconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> BatchGetRouterOutputAsync(AwsMediaconnectBatchGetRouterOutputOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> BatchGetRouterOutputAsync(AwsMediaconnectBatchGetRouterOutputOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -123,7 +123,7 @@ public interface IAwsMediaconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateBridgeAsync(AwsMediaconnectCreateBridgeOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> CreateBridgeAsync(AwsMediaconnectCreateBridgeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -133,7 +133,7 @@ public interface IAwsMediaconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateFlowAsync(AwsMediaconnectCreateFlowOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> CreateFlowAsync(AwsMediaconnectCreateFlowOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -143,7 +143,7 @@ public interface IAwsMediaconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateGatewayAsync(AwsMediaconnectCreateGatewayOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> CreateGatewayAsync(AwsMediaconnectCreateGatewayOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -153,7 +153,7 @@ public interface IAwsMediaconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateRouterInputAsync(AwsMediaconnectCreateRouterInputOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> CreateRouterInputAsync(AwsMediaconnectCreateRouterInputOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -163,7 +163,7 @@ public interface IAwsMediaconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateRouterNetworkInterfaceAsync(AwsMediaconnectCreateRouterNetworkInterfaceOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> CreateRouterNetworkInterfaceAsync(AwsMediaconnectCreateRouterNetworkInterfaceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -173,7 +173,7 @@ public interface IAwsMediaconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateRouterOutputAsync(AwsMediaconnectCreateRouterOutputOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> CreateRouterOutputAsync(AwsMediaconnectCreateRouterOutputOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -183,7 +183,7 @@ public interface IAwsMediaconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteBridgeAsync(AwsMediaconnectDeleteBridgeOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> DeleteBridgeAsync(AwsMediaconnectDeleteBridgeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -193,7 +193,7 @@ public interface IAwsMediaconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteFlowAsync(AwsMediaconnectDeleteFlowOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> DeleteFlowAsync(AwsMediaconnectDeleteFlowOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -203,7 +203,7 @@ public interface IAwsMediaconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteGatewayAsync(AwsMediaconnectDeleteGatewayOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> DeleteGatewayAsync(AwsMediaconnectDeleteGatewayOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -213,7 +213,7 @@ public interface IAwsMediaconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteRouterInputAsync(AwsMediaconnectDeleteRouterInputOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> DeleteRouterInputAsync(AwsMediaconnectDeleteRouterInputOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -223,7 +223,7 @@ public interface IAwsMediaconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteRouterNetworkInterfaceAsync(AwsMediaconnectDeleteRouterNetworkInterfaceOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> DeleteRouterNetworkInterfaceAsync(AwsMediaconnectDeleteRouterNetworkInterfaceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -233,7 +233,7 @@ public interface IAwsMediaconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteRouterOutputAsync(AwsMediaconnectDeleteRouterOutputOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> DeleteRouterOutputAsync(AwsMediaconnectDeleteRouterOutputOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -243,7 +243,7 @@ public interface IAwsMediaconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeregisterGatewayInstanceAsync(AwsMediaconnectDeregisterGatewayInstanceOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> DeregisterGatewayInstanceAsync(AwsMediaconnectDeregisterGatewayInstanceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -253,7 +253,7 @@ public interface IAwsMediaconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeBridgeAsync(AwsMediaconnectDescribeBridgeOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> DescribeBridgeAsync(AwsMediaconnectDescribeBridgeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -263,7 +263,7 @@ public interface IAwsMediaconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeFlowAsync(AwsMediaconnectDescribeFlowOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> DescribeFlowAsync(AwsMediaconnectDescribeFlowOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -273,7 +273,7 @@ public interface IAwsMediaconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeFlowSourceMetadataAsync(AwsMediaconnectDescribeFlowSourceMetadataOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> DescribeFlowSourceMetadataAsync(AwsMediaconnectDescribeFlowSourceMetadataOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -283,7 +283,7 @@ public interface IAwsMediaconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeFlowSourceThumbnailAsync(AwsMediaconnectDescribeFlowSourceThumbnailOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> DescribeFlowSourceThumbnailAsync(AwsMediaconnectDescribeFlowSourceThumbnailOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -293,7 +293,7 @@ public interface IAwsMediaconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeGatewayInstanceAsync(AwsMediaconnectDescribeGatewayInstanceOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> DescribeGatewayInstanceAsync(AwsMediaconnectDescribeGatewayInstanceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -303,7 +303,7 @@ public interface IAwsMediaconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeGatewayAsync(AwsMediaconnectDescribeGatewayOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> DescribeGatewayAsync(AwsMediaconnectDescribeGatewayOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -313,7 +313,7 @@ public interface IAwsMediaconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeOfferingAsync(AwsMediaconnectDescribeOfferingOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> DescribeOfferingAsync(AwsMediaconnectDescribeOfferingOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -323,7 +323,7 @@ public interface IAwsMediaconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeReservationAsync(AwsMediaconnectDescribeReservationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> DescribeReservationAsync(AwsMediaconnectDescribeReservationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -333,7 +333,7 @@ public interface IAwsMediaconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetRouterInputAsync(AwsMediaconnectGetRouterInputOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> GetRouterInputAsync(AwsMediaconnectGetRouterInputOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -343,7 +343,7 @@ public interface IAwsMediaconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetRouterInputSourceMetadataAsync(AwsMediaconnectGetRouterInputSourceMetadataOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> GetRouterInputSourceMetadataAsync(AwsMediaconnectGetRouterInputSourceMetadataOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -353,7 +353,7 @@ public interface IAwsMediaconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetRouterInputThumbnailAsync(AwsMediaconnectGetRouterInputThumbnailOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> GetRouterInputThumbnailAsync(AwsMediaconnectGetRouterInputThumbnailOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -363,7 +363,7 @@ public interface IAwsMediaconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetRouterNetworkInterfaceAsync(AwsMediaconnectGetRouterNetworkInterfaceOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> GetRouterNetworkInterfaceAsync(AwsMediaconnectGetRouterNetworkInterfaceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -373,7 +373,7 @@ public interface IAwsMediaconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetRouterOutputAsync(AwsMediaconnectGetRouterOutputOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> GetRouterOutputAsync(AwsMediaconnectGetRouterOutputOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -383,7 +383,7 @@ public interface IAwsMediaconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GrantFlowEntitlementsAsync(AwsMediaconnectGrantFlowEntitlementsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> GrantFlowEntitlementsAsync(AwsMediaconnectGrantFlowEntitlementsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -493,7 +493,7 @@ public interface IAwsMediaconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListTagsForGlobalResourceAsync(AwsMediaconnectListTagsForGlobalResourceOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> ListTagsForGlobalResourceAsync(AwsMediaconnectListTagsForGlobalResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -503,7 +503,7 @@ public interface IAwsMediaconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListTagsForResourceAsync(AwsMediaconnectListTagsForResourceOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> ListTagsForResourceAsync(AwsMediaconnectListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -513,7 +513,7 @@ public interface IAwsMediaconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PurchaseOfferingAsync(AwsMediaconnectPurchaseOfferingOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> PurchaseOfferingAsync(AwsMediaconnectPurchaseOfferingOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -523,7 +523,7 @@ public interface IAwsMediaconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> RemoveBridgeOutputAsync(AwsMediaconnectRemoveBridgeOutputOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> RemoveBridgeOutputAsync(AwsMediaconnectRemoveBridgeOutputOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -533,7 +533,7 @@ public interface IAwsMediaconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> RemoveBridgeSourceAsync(AwsMediaconnectRemoveBridgeSourceOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> RemoveBridgeSourceAsync(AwsMediaconnectRemoveBridgeSourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -543,7 +543,7 @@ public interface IAwsMediaconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> RemoveFlowMediaStreamAsync(AwsMediaconnectRemoveFlowMediaStreamOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> RemoveFlowMediaStreamAsync(AwsMediaconnectRemoveFlowMediaStreamOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -553,7 +553,7 @@ public interface IAwsMediaconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> RemoveFlowOutputAsync(AwsMediaconnectRemoveFlowOutputOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> RemoveFlowOutputAsync(AwsMediaconnectRemoveFlowOutputOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -563,7 +563,7 @@ public interface IAwsMediaconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> RemoveFlowSourceAsync(AwsMediaconnectRemoveFlowSourceOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> RemoveFlowSourceAsync(AwsMediaconnectRemoveFlowSourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -573,7 +573,7 @@ public interface IAwsMediaconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> RemoveFlowVpcInterfaceAsync(AwsMediaconnectRemoveFlowVpcInterfaceOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> RemoveFlowVpcInterfaceAsync(AwsMediaconnectRemoveFlowVpcInterfaceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -583,7 +583,7 @@ public interface IAwsMediaconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> RestartRouterInputAsync(AwsMediaconnectRestartRouterInputOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> RestartRouterInputAsync(AwsMediaconnectRestartRouterInputOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -593,7 +593,7 @@ public interface IAwsMediaconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> RestartRouterOutputAsync(AwsMediaconnectRestartRouterOutputOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> RestartRouterOutputAsync(AwsMediaconnectRestartRouterOutputOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -603,7 +603,7 @@ public interface IAwsMediaconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> RevokeFlowEntitlementAsync(AwsMediaconnectRevokeFlowEntitlementOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> RevokeFlowEntitlementAsync(AwsMediaconnectRevokeFlowEntitlementOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -613,7 +613,7 @@ public interface IAwsMediaconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartFlowAsync(AwsMediaconnectStartFlowOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> StartFlowAsync(AwsMediaconnectStartFlowOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -623,7 +623,7 @@ public interface IAwsMediaconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartRouterInputAsync(AwsMediaconnectStartRouterInputOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> StartRouterInputAsync(AwsMediaconnectStartRouterInputOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -633,7 +633,7 @@ public interface IAwsMediaconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartRouterOutputAsync(AwsMediaconnectStartRouterOutputOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> StartRouterOutputAsync(AwsMediaconnectStartRouterOutputOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -643,7 +643,7 @@ public interface IAwsMediaconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StopFlowAsync(AwsMediaconnectStopFlowOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> StopFlowAsync(AwsMediaconnectStopFlowOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -653,7 +653,7 @@ public interface IAwsMediaconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StopRouterInputAsync(AwsMediaconnectStopRouterInputOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> StopRouterInputAsync(AwsMediaconnectStopRouterInputOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -663,7 +663,7 @@ public interface IAwsMediaconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StopRouterOutputAsync(AwsMediaconnectStopRouterOutputOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> StopRouterOutputAsync(AwsMediaconnectStopRouterOutputOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -673,7 +673,7 @@ public interface IAwsMediaconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> TagGlobalResourceAsync(AwsMediaconnectTagGlobalResourceOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> TagGlobalResourceAsync(AwsMediaconnectTagGlobalResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -683,7 +683,7 @@ public interface IAwsMediaconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> TagResourceAsync(AwsMediaconnectTagResourceOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> TagResourceAsync(AwsMediaconnectTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -693,7 +693,7 @@ public interface IAwsMediaconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> TakeRouterInputAsync(AwsMediaconnectTakeRouterInputOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> TakeRouterInputAsync(AwsMediaconnectTakeRouterInputOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -703,7 +703,7 @@ public interface IAwsMediaconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UntagGlobalResourceAsync(AwsMediaconnectUntagGlobalResourceOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> UntagGlobalResourceAsync(AwsMediaconnectUntagGlobalResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -713,7 +713,7 @@ public interface IAwsMediaconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UntagResourceAsync(AwsMediaconnectUntagResourceOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> UntagResourceAsync(AwsMediaconnectUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -723,7 +723,7 @@ public interface IAwsMediaconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateBridgeAsync(AwsMediaconnectUpdateBridgeOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> UpdateBridgeAsync(AwsMediaconnectUpdateBridgeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -733,7 +733,7 @@ public interface IAwsMediaconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateBridgeOutputAsync(AwsMediaconnectUpdateBridgeOutputOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> UpdateBridgeOutputAsync(AwsMediaconnectUpdateBridgeOutputOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -743,7 +743,7 @@ public interface IAwsMediaconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateBridgeSourceAsync(AwsMediaconnectUpdateBridgeSourceOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> UpdateBridgeSourceAsync(AwsMediaconnectUpdateBridgeSourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -753,7 +753,7 @@ public interface IAwsMediaconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateBridgeStateAsync(AwsMediaconnectUpdateBridgeStateOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> UpdateBridgeStateAsync(AwsMediaconnectUpdateBridgeStateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -763,7 +763,7 @@ public interface IAwsMediaconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateFlowEntitlementAsync(AwsMediaconnectUpdateFlowEntitlementOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> UpdateFlowEntitlementAsync(AwsMediaconnectUpdateFlowEntitlementOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -773,7 +773,7 @@ public interface IAwsMediaconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateFlowMediaStreamAsync(AwsMediaconnectUpdateFlowMediaStreamOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> UpdateFlowMediaStreamAsync(AwsMediaconnectUpdateFlowMediaStreamOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -783,7 +783,7 @@ public interface IAwsMediaconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateFlowAsync(AwsMediaconnectUpdateFlowOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> UpdateFlowAsync(AwsMediaconnectUpdateFlowOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -793,7 +793,7 @@ public interface IAwsMediaconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateFlowOutputAsync(AwsMediaconnectUpdateFlowOutputOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> UpdateFlowOutputAsync(AwsMediaconnectUpdateFlowOutputOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -803,7 +803,7 @@ public interface IAwsMediaconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateFlowSourceAsync(AwsMediaconnectUpdateFlowSourceOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> UpdateFlowSourceAsync(AwsMediaconnectUpdateFlowSourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -813,7 +813,7 @@ public interface IAwsMediaconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateGatewayInstanceAsync(AwsMediaconnectUpdateGatewayInstanceOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> UpdateGatewayInstanceAsync(AwsMediaconnectUpdateGatewayInstanceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -823,7 +823,7 @@ public interface IAwsMediaconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateRouterInputAsync(AwsMediaconnectUpdateRouterInputOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> UpdateRouterInputAsync(AwsMediaconnectUpdateRouterInputOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -833,7 +833,7 @@ public interface IAwsMediaconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateRouterNetworkInterfaceAsync(AwsMediaconnectUpdateRouterNetworkInterfaceOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> UpdateRouterNetworkInterfaceAsync(AwsMediaconnectUpdateRouterNetworkInterfaceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -843,7 +843,7 @@ public interface IAwsMediaconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateRouterOutputAsync(AwsMediaconnectUpdateRouterOutputOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> UpdateRouterOutputAsync(AwsMediaconnectUpdateRouterOutputOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
 }

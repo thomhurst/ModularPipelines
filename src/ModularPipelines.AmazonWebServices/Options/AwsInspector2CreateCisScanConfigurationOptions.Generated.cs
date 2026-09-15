@@ -11,6 +11,8 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,19 +22,76 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("inspector2", "create-cis-scan-configuration")]
-public record AwsInspector2CreateCisScanConfigurationOptions : AwsOptions
+public record AwsInspector2CreateCisScanConfigurationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a CIS scan configuration. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ScanName">The scan name for the CIS scan configuration. Constraints: o min: 1 o max: 128</param>
+    /// <param name="SecurityLevel">The security level for the CIS scan configuration. Security level refers to the Benchmark levels that CIS assigns to a profile. Possible values: o LEVEL_1 o LEVEL_2</param>
+    /// <param name="Schedule">The schedule for the CIS scan configuration. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: oneTime, daily, weekly, monthly. oneTime -&gt; (structure) The schedule's one time. daily -&gt; (structure) The schedule's daily. startTime -&gt; (structure) [required] The schedule start time. timeOfDay -&gt; (string) [required] The time of day in 24-hour format (00:00). Constraints: o pattern: ([0-1]?[0-9]|2[0-3]):[0-5][0-9] timezone -&gt; (string) [required] The timezone. Constraints: o min: 1 o max: 50 weekly -&gt; (structure) The schedule's weekly. startTime -&gt; (structure) [required] The weekly schedule's start time. timeOfDay -&gt; (string) [required] The time of day in 24-hour format (00:00). Constraints: o pattern: ([0-1]?[0-9]|2[0-3]):[0-5][0-9] timezone -&gt; (string) [required] The timezone. Constraints: o min: 1 o max: 50 days -&gt; (list) [required] The weekly schedule's days. Constraints: o min: 1 o max: 7 (string) Possible values: o SUN o MON o TUE o WED o THU o FRI o SAT monthly -&gt; (structure) The schedule's monthly. startTime -&gt; (structure) [required] The monthly schedule's start time. timeOfDay -&gt; (string) [required] The time of day in 24-hour format (00:00). Constraints: o pattern: ([0-1]?[0-9]|2[0-3]):[0-5][0-9] timezone -&gt; (string) [required] The timezone. Constraints: o min: 1 o max: 50 day -&gt; (string) [required] The monthly schedule's day. Possible values: o SUN o MON o TUE o WED o THU o FRI o SAT Shorthand Syntax: oneTime={},daily={startTime={timeOfDay=string,timezone=string}},weekly={startTime={timeOfDay=string,timezone=string},days=[string,string]},monthly={startTime={timeOfDay=string,timezone=string},day=string} JSON Syntax: { "oneTime": { }, "daily": { "startTime": { "timeOfDay": "string", "timezone": "string" } }, "weekly": { "startTime": { "timeOfDay": "string", "timezone": "string" }, "days": ["SUN"|"MON"|"TUE"|"WED"|"THU"|"FRI"|"SAT", ...] }, "monthly": { "startTime": { "timeOfDay": "string", "timezone": "string" }, "day": "SUN"|"MON"|"TUE"|"WED"|"THU"|"FRI"|"SAT" } }</param>
+    /// <param name="Targets">The targets for the CIS scan configuration. accountIds -&gt; (list) [required] The CIS target account ids. Constraints: o min: 1 o max: 10000 (string) Constraints: o pattern: \d{12}|ALL_ACCOUNTS|SELF targetResourceTags -&gt; (map) [required] The CIS target resource tags. Constraints: o min: 1 o max: 5 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: [\p{L}\p{Z}\p{N}_.:/=\-@]* value -&gt; (list) Constraints: o min: 1 o max: 5 (string) Constraints: o min: 1 o max: 256 Shorthand Syntax: accountIds=string,string,targetResourceTags={KeyName1=[string,string],KeyName2=[string,string]} JSON Syntax: { "accountIds": ["string", ...], "targetResourceTags": {"string": ["string", ...] ...} }</param>
+    public AwsInspector2CreateCisScanConfigurationOptions(
+        string ScanName,
+        AwsInspector2CreateCisScanConfigurationSecurityLevel SecurityLevel,
+        string Schedule,
+        string Targets
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ScanName);
+        this.ScanName = ScanName;
+        global::System.ArgumentNullException.ThrowIfNull(SecurityLevel);
+        this.SecurityLevel = SecurityLevel;
+        global::System.ArgumentNullException.ThrowIfNull(Schedule);
+        this.Schedule = Schedule;
+        global::System.ArgumentNullException.ThrowIfNull(Targets);
+        this.Targets = Targets;
+    }
+
+    private AwsInspector2CreateCisScanConfigurationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsInspector2CreateCisScanConfigurationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsInspector2CreateCisScanConfigurationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The scan name for the CIS scan configuration. Constraints: o min: 1 o max: 128
+    /// </summary>
     [CliOption("--scan-name")]
-    public string? ScanName { get; set; }
+    public string? ScanName { get; private init; }
 
+    /// <summary>
+    /// The security level for the CIS scan configuration. Security level refers to the Benchmark levels that CIS assigns to a profile. Possible values: o LEVEL_1 o LEVEL_2
+    /// </summary>
     [CliOption("--security-level")]
-    public string? SecurityLevel { get; set; }
+    public AwsInspector2CreateCisScanConfigurationSecurityLevel? SecurityLevel { get; private init; }
 
+    /// <summary>
+    /// The schedule for the CIS scan configuration. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: oneTime, daily, weekly, monthly. oneTime -&gt; (structure) The schedule's one time. daily -&gt; (structure) The schedule's daily. startTime -&gt; (structure) [required] The schedule start time. timeOfDay -&gt; (string) [required] The time of day in 24-hour format (00:00). Constraints: o pattern: ([0-1]?[0-9]|2[0-3]):[0-5][0-9] timezone -&gt; (string) [required] The timezone. Constraints: o min: 1 o max: 50 weekly -&gt; (structure) The schedule's weekly. startTime -&gt; (structure) [required] The weekly schedule's start time. timeOfDay -&gt; (string) [required] The time of day in 24-hour format (00:00). Constraints: o pattern: ([0-1]?[0-9]|2[0-3]):[0-5][0-9] timezone -&gt; (string) [required] The timezone. Constraints: o min: 1 o max: 50 days -&gt; (list) [required] The weekly schedule's days. Constraints: o min: 1 o max: 7 (string) Possible values: o SUN o MON o TUE o WED o THU o FRI o SAT monthly -&gt; (structure) The schedule's monthly. startTime -&gt; (structure) [required] The monthly schedule's start time. timeOfDay -&gt; (string) [required] The time of day in 24-hour format (00:00). Constraints: o pattern: ([0-1]?[0-9]|2[0-3]):[0-5][0-9] timezone -&gt; (string) [required] The timezone. Constraints: o min: 1 o max: 50 day -&gt; (string) [required] The monthly schedule's day. Possible values: o SUN o MON o TUE o WED o THU o FRI o SAT Shorthand Syntax: oneTime={},daily={startTime={timeOfDay=string,timezone=string}},weekly={startTime={timeOfDay=string,timezone=string},days=[string,string]},monthly={startTime={timeOfDay=string,timezone=string},day=string} JSON Syntax: { "oneTime": { }, "daily": { "startTime": { "timeOfDay": "string", "timezone": "string" } }, "weekly": { "startTime": { "timeOfDay": "string", "timezone": "string" }, "days": ["SUN"|"MON"|"TUE"|"WED"|"THU"|"FRI"|"SAT", ...] }, "monthly": { "startTime": { "timeOfDay": "string", "timezone": "string" }, "day": "SUN"|"MON"|"TUE"|"WED"|"THU"|"FRI"|"SAT" } }
+    /// </summary>
     [CliOption("--schedule")]
-    public string? Schedule { get; set; }
+    public string? Schedule { get; private init; }
 
+    /// <summary>
+    /// The targets for the CIS scan configuration. accountIds -&gt; (list) [required] The CIS target account ids. Constraints: o min: 1 o max: 10000 (string) Constraints: o pattern: \d{12}|ALL_ACCOUNTS|SELF targetResourceTags -&gt; (map) [required] The CIS target resource tags. Constraints: o min: 1 o max: 5 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: [\p{L}\p{Z}\p{N}_.:/=\-@]* value -&gt; (list) Constraints: o min: 1 o max: 5 (string) Constraints: o min: 1 o max: 256 Shorthand Syntax: accountIds=string,string,targetResourceTags={KeyName1=[string,string],KeyName2=[string,string]} JSON Syntax: { "accountIds": ["string", ...], "targetResourceTags": {"string": ["string", ...] ...} }
+    /// </summary>
     [CliOption("--targets")]
-    public string? Targets { get; set; }
+    public string? Targets { get; private init; }
 
     /// <summary>
     /// The tags for the CIS scan configuration. key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
@@ -45,5 +104,22 @@ public record AwsInspector2CreateCisScanConfigurationOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

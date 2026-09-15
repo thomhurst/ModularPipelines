@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("timestream-query", "execute-scheduled-query")]
-public record AwsTimestreamQueryExecuteScheduledQueryOptions : AwsOptions
+public record AwsTimestreamQueryExecuteScheduledQueryOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--scheduled-query-arn")]
-    public string? ScheduledQueryArn { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// You can use this API to run a scheduled query manually. If you enabled QueryInsights , this API also returns insights and met- rics related to the query that you executed as part of an Amazon SNS notification. QueryInsights helps with performance tuning of your query. For more information about QueryInsights , see Using query in- sights to optimize queries in Amazon Timestream . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ScheduledQueryArn">ARN of the scheduled query. Constraints: o min: 1 o max: 2048</param>
+    /// <param name="InvocationTime">The timestamp in UTC. Query will be run as if it was invoked at this timestamp.</param>
+    public AwsTimestreamQueryExecuteScheduledQueryOptions(
+        string ScheduledQueryArn,
+        string InvocationTime
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ScheduledQueryArn);
+        this.ScheduledQueryArn = ScheduledQueryArn;
+        global::System.ArgumentNullException.ThrowIfNull(InvocationTime);
+        this.InvocationTime = InvocationTime;
+    }
+
+    private AwsTimestreamQueryExecuteScheduledQueryOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsTimestreamQueryExecuteScheduledQueryOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsTimestreamQueryExecuteScheduledQueryOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// ARN of the scheduled query. Constraints: o min: 1 o max: 2048
+    /// </summary>
+    [CliOption("--scheduled-query-arn")]
+    public string? ScheduledQueryArn { get; private init; }
+
+    /// <summary>
+    /// The timestamp in UTC. Query will be run as if it was invoked at this timestamp.
+    /// </summary>
     [CliOption("--invocation-time")]
-    public string? InvocationTime { get; set; }
+    public string? InvocationTime { get; private init; }
 
     /// <summary>
     /// Not used. Constraints: o min: 32 o max: 128
@@ -46,5 +90,22 @@ public record AwsTimestreamQueryExecuteScheduledQueryOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

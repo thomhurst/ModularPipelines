@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +20,99 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("autoscaling", "put-notification-configuration")]
-public record AwsAutoscalingPutNotificationConfigurationOptions : AwsOptions
+public record AwsAutoscalingPutNotificationConfigurationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Configures an Auto Scaling group to send notifications when specified events take place. Subscribers to the specified topic can have messages delivered to an endpoint such as a web server or an email address. This configuration overwrites any existing configuration. For more information, see Amazon SNS notification options for Amazon EC2 Auto Scaling in the Amazon EC2 Auto Scaling User Guide . If you exceed your maximum limit of SNS topics, which is 10 per Auto Scaling group, the call fails. See...
+    /// </summary>
+    /// <param name="AutoScalingGroupName">The name of the Auto Scaling group. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*</param>
+    /// <param name="TopicArn">The Amazon Resource Name (ARN) of the Amazon SNS topic. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*</param>
+    /// <param name="NotificationTypes">The type of event that causes the notification to be sent. To query the notification types supported by Amazon EC2 Auto Scaling, call the DescribeAutoScalingNotificationTypes API. (string) Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]* Syntax: "string" "string" ...</param>
+    public AwsAutoscalingPutNotificationConfigurationOptions(
+        string AutoScalingGroupName,
+        string TopicArn,
+        IEnumerable<string> NotificationTypes
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AutoScalingGroupName);
+        this.AutoScalingGroupName = AutoScalingGroupName;
+        global::System.ArgumentNullException.ThrowIfNull(TopicArn);
+        this.TopicArn = TopicArn;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(NotificationTypes);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(NotificationTypes));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(NotificationTypes));
+            }
+
+            NotificationTypes = materialized;
+        }
+        this.NotificationTypes = NotificationTypes;
+    }
+
+    private AwsAutoscalingPutNotificationConfigurationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsAutoscalingPutNotificationConfigurationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsAutoscalingPutNotificationConfigurationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the Auto Scaling group. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*
+    /// </summary>
     [CliOption("--auto-scaling-group-name")]
-    public string? AutoScalingGroupName { get; set; }
+    public string? AutoScalingGroupName { get; private init; }
 
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the Amazon SNS topic. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*
+    /// </summary>
     [CliOption("--topic-arn")]
-    public string? TopicArn { get; set; }
+    public string? TopicArn { get; private init; }
 
+    /// <summary>
+    /// The type of event that causes the notification to be sent. To query the notification types supported by Amazon EC2 Auto Scaling, call the DescribeAutoScalingNotificationTypes API. (string) Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]* Syntax: "string" "string" ...
+    /// </summary>
     [CliOption("--notification-types", GroupValues = true)]
-    public IEnumerable<string>? NotificationTypes { get; set; }
+    public IEnumerable<string>? NotificationTypes { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

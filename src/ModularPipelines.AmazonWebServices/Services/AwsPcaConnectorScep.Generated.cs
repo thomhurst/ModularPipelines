@@ -5,8 +5,8 @@
 
 #nullable enable
 
-using ModularPipelines.Context;
 using System.CodeDom.Compiler;
+using ModularPipelines.Context;
 using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
@@ -40,11 +40,11 @@ public class AwsPcaConnectorScep : IAwsPcaConnectorScep
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateChallengeAsync(
-        AwsPcaConnectorScepCreateChallengeOptions? options = null,
+        AwsPcaConnectorScepCreateChallengeOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPcaConnectorScepCreateChallengeOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -55,11 +55,11 @@ public class AwsPcaConnectorScep : IAwsPcaConnectorScep
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateConnectorAsync(
-        AwsPcaConnectorScepCreateConnectorOptions? options = null,
+        AwsPcaConnectorScepCreateConnectorOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPcaConnectorScepCreateConnectorOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -70,11 +70,11 @@ public class AwsPcaConnectorScep : IAwsPcaConnectorScep
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteChallengeAsync(
-        AwsPcaConnectorScepDeleteChallengeOptions? options = null,
+        AwsPcaConnectorScepDeleteChallengeOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPcaConnectorScepDeleteChallengeOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -85,11 +85,11 @@ public class AwsPcaConnectorScep : IAwsPcaConnectorScep
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteConnectorAsync(
-        AwsPcaConnectorScepDeleteConnectorOptions? options = null,
+        AwsPcaConnectorScepDeleteConnectorOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPcaConnectorScepDeleteConnectorOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -100,11 +100,11 @@ public class AwsPcaConnectorScep : IAwsPcaConnectorScep
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetChallengeMetadataAsync(
-        AwsPcaConnectorScepGetChallengeMetadataOptions? options = null,
+        AwsPcaConnectorScepGetChallengeMetadataOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPcaConnectorScepGetChallengeMetadataOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -115,11 +115,11 @@ public class AwsPcaConnectorScep : IAwsPcaConnectorScep
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetChallengePasswordAsync(
-        AwsPcaConnectorScepGetChallengePasswordOptions? options = null,
+        AwsPcaConnectorScepGetChallengePasswordOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPcaConnectorScepGetChallengePasswordOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -130,11 +130,11 @@ public class AwsPcaConnectorScep : IAwsPcaConnectorScep
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetConnectorAsync(
-        AwsPcaConnectorScepGetConnectorOptions? options = null,
+        AwsPcaConnectorScepGetConnectorOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPcaConnectorScepGetConnectorOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -145,11 +145,11 @@ public class AwsPcaConnectorScep : IAwsPcaConnectorScep
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListChallengeMetadataAsync(
-        AwsPcaConnectorScepListChallengeMetadataOptions? options = null,
+        AwsPcaConnectorScepListChallengeMetadataOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPcaConnectorScepListChallengeMetadataOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -164,7 +164,7 @@ public class AwsPcaConnectorScep : IAwsPcaConnectorScep
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPcaConnectorScepListConnectorsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPcaConnectorScepListConnectorsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -175,11 +175,11 @@ public class AwsPcaConnectorScep : IAwsPcaConnectorScep
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListTagsForResourceAsync(
-        AwsPcaConnectorScepListTagsForResourceOptions? options = null,
+        AwsPcaConnectorScepListTagsForResourceOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPcaConnectorScepListTagsForResourceOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -190,11 +190,11 @@ public class AwsPcaConnectorScep : IAwsPcaConnectorScep
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> TagResourceAsync(
-        AwsPcaConnectorScepTagResourceOptions? options = null,
+        AwsPcaConnectorScepTagResourceOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPcaConnectorScepTagResourceOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -205,11 +205,11 @@ public class AwsPcaConnectorScep : IAwsPcaConnectorScep
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UntagResourceAsync(
-        AwsPcaConnectorScepUntagResourceOptions? options = null,
+        AwsPcaConnectorScepUntagResourceOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPcaConnectorScepUntagResourceOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     #endregion

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,89 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ec2", "get-host-reservation-purchase-preview")]
-public record AwsEc2GetHostReservationPurchasePreviewOptions : AwsOptions
+public record AwsEc2GetHostReservationPurchasePreviewOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--host-id-set", GroupValues = true)]
-    public IEnumerable<string>? HostIdSet { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Preview a reservation purchase with configurations that match those of your Dedicated Host. You must have active Dedicated Hosts in your ac- count before you purchase a reservation. This is a preview of the PurchaseHostReservation action and does not result in the offering being purchased. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="HostIdSet">The IDs of the Dedicated Hosts with which the reservation is associ- ated. (string) Syntax: "string" "string" ...</param>
+    /// <param name="OfferingId">The offering ID of the reservation.</param>
+    public AwsEc2GetHostReservationPurchasePreviewOptions(
+        IEnumerable<string> HostIdSet,
+        string OfferingId
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(HostIdSet);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(HostIdSet));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(HostIdSet));
+            }
+
+            HostIdSet = materialized;
+        }
+        this.HostIdSet = HostIdSet;
+        global::System.ArgumentNullException.ThrowIfNull(OfferingId);
+        this.OfferingId = OfferingId;
+    }
+
+    private AwsEc2GetHostReservationPurchasePreviewOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEc2GetHostReservationPurchasePreviewOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEc2GetHostReservationPurchasePreviewOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The IDs of the Dedicated Hosts with which the reservation is associ- ated. (string) Syntax: "string" "string" ...
+    /// </summary>
+    [CliOption("--host-id-set", GroupValues = true)]
+    public IEnumerable<string>? HostIdSet { get; private init; }
+
+    /// <summary>
+    /// The offering ID of the reservation.
+    /// </summary>
     [CliOption("--offering-id")]
-    public string? OfferingId { get; set; }
+    public string? OfferingId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

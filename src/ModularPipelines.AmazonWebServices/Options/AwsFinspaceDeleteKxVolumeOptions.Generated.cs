@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("finspace", "delete-kx-volume")]
-public record AwsFinspaceDeleteKxVolumeOptions : AwsOptions
+public record AwsFinspaceDeleteKxVolumeOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--environment-id")]
-    public string? EnvironmentId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Deletes a volume. You can only delete a volume if it's not attached to a cluster or a dataview. When a volume is deleted, any data on the vol- ume is lost. This action is irreversible. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="EnvironmentId">A unique identifier for the kdb environment, whose clusters can at- tach to the volume. Constraints: o min: 1 o max: 32 o pattern: ^[a-z0-9]+$</param>
+    /// <param name="VolumeName">The name of the volume that you want to delete. Constraints: o min: 3 o max: 63 o pattern: ^[a-zA-Z0-9][a-zA-Z0-9-_]*[a-zA-Z0-9]$</param>
+    public AwsFinspaceDeleteKxVolumeOptions(
+        string EnvironmentId,
+        string VolumeName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(EnvironmentId);
+        this.EnvironmentId = EnvironmentId;
+        global::System.ArgumentNullException.ThrowIfNull(VolumeName);
+        this.VolumeName = VolumeName;
+    }
+
+    private AwsFinspaceDeleteKxVolumeOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsFinspaceDeleteKxVolumeOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsFinspaceDeleteKxVolumeOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A unique identifier for the kdb environment, whose clusters can at- tach to the volume. Constraints: o min: 1 o max: 32 o pattern: ^[a-z0-9]+$
+    /// </summary>
+    [CliOption("--environment-id")]
+    public string? EnvironmentId { get; private init; }
+
+    /// <summary>
+    /// The name of the volume that you want to delete. Constraints: o min: 3 o max: 63 o pattern: ^[a-zA-Z0-9][a-zA-Z0-9-_]*[a-zA-Z0-9]$
+    /// </summary>
     [CliOption("--volume-name")]
-    public string? VolumeName { get; set; }
+    public string? VolumeName { get; private init; }
 
     /// <summary>
     /// A token that ensures idempotency. This token expires in 10 minutes. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9-]+$
@@ -40,5 +84,22 @@ public record AwsFinspaceDeleteKxVolumeOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

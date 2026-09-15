@@ -11,17 +11,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --filtername.
+/// Allowed values for --filter-name.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsChimeSdkVoiceListPhoneNumbersFilterName
 {
-    [EnumValue("VoiceConnectorId")]
-    VoiceConnectorId = 1,
+    [EnumValue("SipRuleId")]
+    SipRuleId,
 
     [EnumValue("VoiceConnectorGroupId")]
-    VoiceConnectorGroupId = 2,
+    VoiceConnectorGroupId,
 
-    [EnumValue("SipRuleId")]
-    SipRuleId = 3
+    [EnumValue("VoiceConnectorId")]
+    VoiceConnectorId
 }

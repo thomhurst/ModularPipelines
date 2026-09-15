@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("pinpoint", "create-email-template")]
-public record AwsPinpointCreateEmailTemplateOptions : AwsOptions
+public record AwsPinpointCreateEmailTemplateOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--email-template-request")]
-    public string? EmailTemplateRequest { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates a message template for messages that are sent through the email channel. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="EmailTemplateRequest">Specifies the content and settings for a message template that can be used in messages that are sent through the email channel. DefaultSubstitutions -&gt; (string) A JSON object that specifies the default values to use for mes- sage variables in the message template. This object is a set of key-value pairs. Each key defines a message variable in the tem- plate. The corresponding value defines the default value for that variable. When you create a message that's based on the template, you can override these defaults with message-specific and address-specific variables and values. HtmlPart -&gt; (string) The message body, in HTML format, to use in email messages that are based on the message template. We recommend using HTML for- mat for email clients that render HTML content. You can include links, formatted text, and more in an HTML message. RecommenderId -&gt; (string) The unique identifier for the recommender model to use for the message template. Amazon Pinpoint uses this value to determine how to retrieve and process data from a recommender model when it sends messages that use the template, if the template con- tains message variables for recommendation data. Subject -&gt; (string) The subject line, or title, to use in email messages that are based on the message template. Headers -&gt; (list) The list of MessageHeaders for the email. You can have up to 15 Headers. (structure) Contains the name and value pair of an email header to add to your email. You can have up to 15 MessageHeaders. A header can contain information such as the sender, receiver, route, or timestamp. Name -&gt; (string) The name of the message header. The header name can con- tain up to 126 characters. Value -&gt; (string) The value of the message header. The header value can contain up to 870 characters, including the length of any rendered attributes. For example if you add the {Cre- ationDate} attribute, it renders as YYYY-MM-DDTHH:MM:SS.SSSZ and is 24 characters in length. tags -&gt; (map) NOTE: As of 22-05-2023 tags has been deprecated for update opera- tions. After this date any value in tags is not processed and an error code is not returned. To manage tags we recommend using either Tags in the API Reference for Amazon Pinpoint , resourcegroupstaggingapi commands in the AWS Command Line In- terface Documentation or resourcegroupstaggingapi in the AWS SDK . (Deprecated) A string-to-string map of key-value pairs that de- fines the tags to associate with the message template. Each tag consists of a required tag key and an associated tag value. key -&gt; (string) value -&gt; (string) TemplateDescription -&gt; (string) A custom description of the message template. TextPart -&gt; (string) The message body, in plain text format, to use in email messages that are based on the message template. We recommend using plain text format for email clients that don't render HTML content and clients that are connected to high-latency networks, such as mo- bile devices. Shorthand Syntax: DefaultSubstitutions=string,HtmlPart=string,RecommenderId=string,Subject=string,Headers=[{Name=string,Value=string},{Name=string,Value=string}],tags={KeyName1=string,KeyName2=string},TemplateDescription=string,TextPart=string JSON Syntax: { "DefaultSubstitutions": "string", "HtmlPart": "string", "RecommenderId": "string", "Subject": "string", "Headers": [ { "Name": "string", "Value": "string" } ... ], "tags": {"string": "string" ...}, "TemplateDescription": "string", "TextPart": "string" }</param>
+    /// <param name="TemplateName">The name of the message template. A template name must start with an alphanumeric character and can contain a maximum of 128 characters. The characters can be alphanumeric characters, underscores (_), or hyphens (-). Template names are case sensitive.</param>
+    public AwsPinpointCreateEmailTemplateOptions(
+        string EmailTemplateRequest,
+        string TemplateName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(EmailTemplateRequest);
+        this.EmailTemplateRequest = EmailTemplateRequest;
+        global::System.ArgumentNullException.ThrowIfNull(TemplateName);
+        this.TemplateName = TemplateName;
+    }
+
+    private AwsPinpointCreateEmailTemplateOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsPinpointCreateEmailTemplateOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsPinpointCreateEmailTemplateOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Specifies the content and settings for a message template that can be used in messages that are sent through the email channel. DefaultSubstitutions -&gt; (string) A JSON object that specifies the default values to use for mes- sage variables in the message template. This object is a set of key-value pairs. Each key defines a message variable in the tem- plate. The corresponding value defines the default value for that variable. When you create a message that's based on the template, you can override these defaults with message-specific and address-specific variables and values. HtmlPart -&gt; (string) The message body, in HTML format, to use in email messages that are based on the message template. We recommend using HTML for- mat for email clients that render HTML content. You can include links, formatted text, and more in an HTML message. RecommenderId -&gt; (string) The unique identifier for the recommender model to use for the message template. Amazon Pinpoint uses this value to determine how to retrieve and process data from a recommender model when it sends messages that use the template, if the template con- tains message variables for recommendation data. Subject -&gt; (string) The subject line, or title, to use in email messages that are based on the message template. Headers -&gt; (list) The list of MessageHeaders for the email. You can have up to 15 Headers. (structure) Contains the name and value pair of an email header to add to your email. You can have up to 15 MessageHeaders. A header can contain information such as the sender, receiver, route, or timestamp. Name -&gt; (string) The name of the message header. The header name can con- tain up to 126 characters. Value -&gt; (string) The value of the message header. The header value can contain up to 870 characters, including the length of any rendered attributes. For example if you add the {Cre- ationDate} attribute, it renders as YYYY-MM-DDTHH:MM:SS.SSSZ and is 24 characters in length. tags -&gt; (map) NOTE: As of 22-05-2023 tags has been deprecated for update opera- tions. After this date any value in tags is not processed and an error code is not returned. To manage tags we recommend using either Tags in the API Reference for Amazon Pinpoint , resourcegroupstaggingapi commands in the AWS Command Line In- terface Documentation or resourcegroupstaggingapi in the AWS SDK . (Deprecated) A string-to-string map of key-value pairs that de- fines the tags to associate with the message template. Each tag consists of a required tag key and an associated tag value. key -&gt; (string) value -&gt; (string) TemplateDescription -&gt; (string) A custom description of the message template. TextPart -&gt; (string) The message body, in plain text format, to use in email messages that are based on the message template. We recommend using plain text format for email clients that don't render HTML content and clients that are connected to high-latency networks, such as mo- bile devices. Shorthand Syntax: DefaultSubstitutions=string,HtmlPart=string,RecommenderId=string,Subject=string,Headers=[{Name=string,Value=string},{Name=string,Value=string}],tags={KeyName1=string,KeyName2=string},TemplateDescription=string,TextPart=string JSON Syntax: { "DefaultSubstitutions": "string", "HtmlPart": "string", "RecommenderId": "string", "Subject": "string", "Headers": [ { "Name": "string", "Value": "string" } ... ], "tags": {"string": "string" ...}, "TemplateDescription": "string", "TextPart": "string" }
+    /// </summary>
+    [CliOption("--email-template-request")]
+    public string? EmailTemplateRequest { get; private init; }
+
+    /// <summary>
+    /// The name of the message template. A template name must start with an alphanumeric character and can contain a maximum of 128 characters. The characters can be alphanumeric characters, underscores (_), or hyphens (-). Template names are case sensitive.
+    /// </summary>
     [CliOption("--template-name")]
-    public string? TemplateName { get; set; }
+    public string? TemplateName { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

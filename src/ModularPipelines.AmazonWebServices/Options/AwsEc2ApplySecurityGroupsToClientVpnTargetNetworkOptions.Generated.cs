@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,82 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ec2", "apply-security-groups-to-client-vpn-target-network")]
-public record AwsEc2ApplySecurityGroupsToClientVpnTargetNetworkOptions : AwsOptions
+public record AwsEc2ApplySecurityGroupsToClientVpnTargetNetworkOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Applies a security group to the association between the target network and the Client VPN endpoint. This action replaces the existing security groups with the specified security groups. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ClientVpnEndpointId">The ID of the Client VPN endpoint.</param>
+    /// <param name="VpcId">The ID of the VPC in which the associated target network is located.</param>
+    /// <param name="SecurityGroupIds">The IDs of the security groups to apply to the associated target network. Up to 5 security groups can be applied to an associated target network. (string) Syntax: "string" "string" ...</param>
+    public AwsEc2ApplySecurityGroupsToClientVpnTargetNetworkOptions(
+        string ClientVpnEndpointId,
+        string VpcId,
+        IEnumerable<string> SecurityGroupIds
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ClientVpnEndpointId);
+        this.ClientVpnEndpointId = ClientVpnEndpointId;
+        global::System.ArgumentNullException.ThrowIfNull(VpcId);
+        this.VpcId = VpcId;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(SecurityGroupIds);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(SecurityGroupIds));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(SecurityGroupIds));
+            }
+
+            SecurityGroupIds = materialized;
+        }
+        this.SecurityGroupIds = SecurityGroupIds;
+    }
+
+    private AwsEc2ApplySecurityGroupsToClientVpnTargetNetworkOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEc2ApplySecurityGroupsToClientVpnTargetNetworkOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEc2ApplySecurityGroupsToClientVpnTargetNetworkOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the Client VPN endpoint.
+    /// </summary>
     [CliOption("--client-vpn-endpoint-id")]
-    public string? ClientVpnEndpointId { get; set; }
+    public string? ClientVpnEndpointId { get; private init; }
 
+    /// <summary>
+    /// The ID of the VPC in which the associated target network is located.
+    /// </summary>
     [CliOption("--vpc-id")]
-    public string? VpcId { get; set; }
+    public string? VpcId { get; private init; }
 
+    /// <summary>
+    /// The IDs of the security groups to apply to the associated target network. Up to 5 security groups can be applied to an associated target network. (string) Syntax: "string" "string" ...
+    /// </summary>
     [CliOption("--security-group-ids", GroupValues = true)]
-    public IEnumerable<string>? SecurityGroupIds { get; set; }
+    public IEnumerable<string>? SecurityGroupIds { get; private init; }
 
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -38,5 +103,22 @@ public record AwsEc2ApplySecurityGroupsToClientVpnTargetNetworkOptions : AwsOpti
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

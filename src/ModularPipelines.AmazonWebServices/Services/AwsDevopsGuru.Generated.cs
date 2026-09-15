@@ -5,8 +5,8 @@
 
 #nullable enable
 
-using ModularPipelines.Context;
 using System.CodeDom.Compiler;
+using ModularPipelines.Context;
 using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
@@ -40,11 +40,11 @@ public class AwsDevopsGuru : IAwsDevopsGuru
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AddNotificationChannelAsync(
-        AwsDevopsGuruAddNotificationChannelOptions? options = null,
+        AwsDevopsGuruAddNotificationChannelOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsDevopsGuruAddNotificationChannelOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -55,11 +55,11 @@ public class AwsDevopsGuru : IAwsDevopsGuru
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteInsightAsync(
-        AwsDevopsGuruDeleteInsightOptions? options = null,
+        AwsDevopsGuruDeleteInsightOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsDevopsGuruDeleteInsightOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -74,7 +74,7 @@ public class AwsDevopsGuru : IAwsDevopsGuru
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsDevopsGuruDescribeAccountHealthOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsDevopsGuruDescribeAccountHealthOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -85,11 +85,11 @@ public class AwsDevopsGuru : IAwsDevopsGuru
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DescribeAccountOverviewAsync(
-        AwsDevopsGuruDescribeAccountOverviewOptions? options = null,
+        AwsDevopsGuruDescribeAccountOverviewOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsDevopsGuruDescribeAccountOverviewOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -100,11 +100,11 @@ public class AwsDevopsGuru : IAwsDevopsGuru
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DescribeAnomalyAsync(
-        AwsDevopsGuruDescribeAnomalyOptions? options = null,
+        AwsDevopsGuruDescribeAnomalyOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsDevopsGuruDescribeAnomalyOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -119,7 +119,7 @@ public class AwsDevopsGuru : IAwsDevopsGuru
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsDevopsGuruDescribeEventSourcesConfigOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsDevopsGuruDescribeEventSourcesConfigOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -134,7 +134,7 @@ public class AwsDevopsGuru : IAwsDevopsGuru
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsDevopsGuruDescribeFeedbackOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsDevopsGuruDescribeFeedbackOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -145,11 +145,11 @@ public class AwsDevopsGuru : IAwsDevopsGuru
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DescribeInsightAsync(
-        AwsDevopsGuruDescribeInsightOptions? options = null,
+        AwsDevopsGuruDescribeInsightOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsDevopsGuruDescribeInsightOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -164,7 +164,7 @@ public class AwsDevopsGuru : IAwsDevopsGuru
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsDevopsGuruDescribeOrganizationHealthOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsDevopsGuruDescribeOrganizationHealthOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -175,11 +175,11 @@ public class AwsDevopsGuru : IAwsDevopsGuru
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DescribeOrganizationOverviewAsync(
-        AwsDevopsGuruDescribeOrganizationOverviewOptions? options = null,
+        AwsDevopsGuruDescribeOrganizationOverviewOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsDevopsGuruDescribeOrganizationOverviewOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -190,11 +190,11 @@ public class AwsDevopsGuru : IAwsDevopsGuru
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DescribeOrganizationResourceCollectionHealthAsync(
-        AwsDevopsGuruDescribeOrganizationResourceCollectionHealthOptions? options = null,
+        AwsDevopsGuruDescribeOrganizationResourceCollectionHealthOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsDevopsGuruDescribeOrganizationResourceCollectionHealthOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -205,11 +205,11 @@ public class AwsDevopsGuru : IAwsDevopsGuru
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DescribeResourceCollectionHealthAsync(
-        AwsDevopsGuruDescribeResourceCollectionHealthOptions? options = null,
+        AwsDevopsGuruDescribeResourceCollectionHealthOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsDevopsGuruDescribeResourceCollectionHealthOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -224,7 +224,7 @@ public class AwsDevopsGuru : IAwsDevopsGuru
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsDevopsGuruDescribeServiceIntegrationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsDevopsGuruDescribeServiceIntegrationOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -239,7 +239,7 @@ public class AwsDevopsGuru : IAwsDevopsGuru
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsDevopsGuruGetCostEstimationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsDevopsGuruGetCostEstimationOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -250,11 +250,26 @@ public class AwsDevopsGuru : IAwsDevopsGuru
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetResourceCollectionAsync(
-        AwsDevopsGuruGetResourceCollectionOptions? options = null,
+        AwsDevopsGuruGetResourceCollectionOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsDevopsGuruGetResourceCollectionOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Returns a list of the anomalies that belong to an insight that you specify using its ID. See also: AWS API Documentation list-anomalies-for-insight is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: Rea...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListAnomaliesForInsightAsync(
+        AwsDevopsGuruListAnomaliesForInsightOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -265,11 +280,11 @@ public class AwsDevopsGuru : IAwsDevopsGuru
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListAnomalousLogGroupsAsync(
-        AwsDevopsGuruListAnomalousLogGroupsOptions? options = null,
+        AwsDevopsGuruListAnomalousLogGroupsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsDevopsGuruListAnomalousLogGroupsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -280,11 +295,11 @@ public class AwsDevopsGuru : IAwsDevopsGuru
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListEventsAsync(
-        AwsDevopsGuruListEventsOptions? options = null,
+        AwsDevopsGuruListEventsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsDevopsGuruListEventsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -295,11 +310,11 @@ public class AwsDevopsGuru : IAwsDevopsGuru
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListInsightsAsync(
-        AwsDevopsGuruListInsightsOptions? options = null,
+        AwsDevopsGuruListInsightsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsDevopsGuruListInsightsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -314,7 +329,7 @@ public class AwsDevopsGuru : IAwsDevopsGuru
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsDevopsGuruListMonitoredResourcesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsDevopsGuruListMonitoredResourcesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -329,7 +344,7 @@ public class AwsDevopsGuru : IAwsDevopsGuru
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsDevopsGuruListNotificationChannelsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsDevopsGuruListNotificationChannelsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -340,11 +355,11 @@ public class AwsDevopsGuru : IAwsDevopsGuru
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListOrganizationInsightsAsync(
-        AwsDevopsGuruListOrganizationInsightsOptions? options = null,
+        AwsDevopsGuruListOrganizationInsightsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsDevopsGuruListOrganizationInsightsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -355,11 +370,11 @@ public class AwsDevopsGuru : IAwsDevopsGuru
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListRecommendationsAsync(
-        AwsDevopsGuruListRecommendationsOptions? options = null,
+        AwsDevopsGuruListRecommendationsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsDevopsGuruListRecommendationsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -374,7 +389,7 @@ public class AwsDevopsGuru : IAwsDevopsGuru
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsDevopsGuruPutFeedbackOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsDevopsGuruPutFeedbackOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -385,11 +400,41 @@ public class AwsDevopsGuru : IAwsDevopsGuru
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RemoveNotificationChannelAsync(
-        AwsDevopsGuruRemoveNotificationChannelOptions? options = null,
+        AwsDevopsGuruRemoveNotificationChannelOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsDevopsGuruRemoveNotificationChannelOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Returns a list of insights in your Amazon Web Services account. You can specify which insights are returned by their start time, one or more statuses (ONGOING or CLOSED ), one or more severities (LOW , MEDIUM , and HIGH ), and type (REACTIVE or PROACTIVE ). Use the Filters parameter to specify status and severity search parame- ters. Use the Type parameter to specify REACTIVE or PROACTIVE in your search. See also: AWS API Documentation search-insights is a paginated operation. Multiple API calls...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> SearchInsightsAsync(
+        AwsDevopsGuruSearchInsightsOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Returns a list of insights in your organization. You can specify which insights are returned by their start time, one or more statuses (ONGO- ING , CLOSED , and CLOSED ), one or more severities (LOW , MEDIUM , and HIGH ), and type (REACTIVE or PROACTIVE ). Use the Filters parameter to specify status and severity search parame- ters. Use the Type parameter to specify REACTIVE or PROACTIVE in your search. See also: AWS API Documentation search-organization-insights is a paginated operation. Multip...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> SearchOrganizationInsightsAsync(
+        AwsDevopsGuruSearchOrganizationInsightsOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -400,11 +445,11 @@ public class AwsDevopsGuru : IAwsDevopsGuru
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> StartCostEstimationAsync(
-        AwsDevopsGuruStartCostEstimationOptions? options = null,
+        AwsDevopsGuruStartCostEstimationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsDevopsGuruStartCostEstimationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -419,7 +464,7 @@ public class AwsDevopsGuru : IAwsDevopsGuru
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsDevopsGuruUpdateEventSourcesConfigOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsDevopsGuruUpdateEventSourcesConfigOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -430,11 +475,11 @@ public class AwsDevopsGuru : IAwsDevopsGuru
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateResourceCollectionAsync(
-        AwsDevopsGuruUpdateResourceCollectionOptions? options = null,
+        AwsDevopsGuruUpdateResourceCollectionOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsDevopsGuruUpdateResourceCollectionOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -445,11 +490,11 @@ public class AwsDevopsGuru : IAwsDevopsGuru
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateServiceIntegrationAsync(
-        AwsDevopsGuruUpdateServiceIntegrationOptions? options = null,
+        AwsDevopsGuruUpdateServiceIntegrationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsDevopsGuruUpdateServiceIntegrationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     #endregion

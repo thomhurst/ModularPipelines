@@ -16,9 +16,9 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsDatazoneListLineageNodeHistoryDirection
 {
-    [EnumValue("UPSTREAM")]
-    Upstream = 1,
-
     [EnumValue("DOWNSTREAM")]
-    Downstream = 2
+    Downstream,
+
+    [EnumValue("UPSTREAM")]
+    Upstream
 }

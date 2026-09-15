@@ -22,8 +22,33 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("lambda", "invoke")]
 public record AwsLambdaInvokeOptions : AwsOptions
 {
+    /// <summary>
+    /// Invokes a Lambda function. You can invoke a function synchronously (and wait for the response), or asynchronously. By default, Lambda invokes your function synchronously (i.e. the``InvocationType`` is RequestRe- sponse ). To invoke a function asynchronously, set InvocationType to Event . Lambda passes the ClientContext object to your function for synchronous invocations only. For synchronous invocations, the maximum payload size is 6 MB. For asynchronous invocations, the maximum payload size is ...
+    /// </summary>
+    /// <param name="FunctionName">The name or ARN of the Lambda function, version, or alias. Name formats o Function name my-function (name-only), my-function:v1 (with alias). o Function ARN arn:aws:lambda:us-west-2:123456789012:func- tion:my-function . o Partial ARN 123456789012:function:my-function . You can append a version number or alias to any of the formats. The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length. Constraints: o min: 1 o max: 256 o pattern: (arn:(aws[a-zA-Z-]*)?:lambda:)?((eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\d{1}:)?(\d{12}:)?(func- tion:)?([a-zA-Z0-9-_\.]+)(:(\$LATEST(\.PUB- LISHED)?|[a-zA-Z0-9-_]+))?</param>
+    /// <param name="Outfile">The &lt;outfile&gt; operand.</param>
+    public AwsLambdaInvokeOptions(
+        string FunctionName,
+        string Outfile
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(FunctionName);
+        this.FunctionName = FunctionName;
+        global::System.ArgumentNullException.ThrowIfNull(Outfile);
+        this.Outfile = Outfile;
+    }
+
+    public void Deconstruct(out string FunctionName, out string Outfile)
+    {
+        FunctionName = this.FunctionName;
+        Outfile = this.Outfile;
+    }
+
+    /// <summary>
+    /// The name or ARN of the Lambda function, version, or alias. Name formats o Function name my-function (name-only), my-function:v1 (with alias). o Function ARN arn:aws:lambda:us-west-2:123456789012:func- tion:my-function . o Partial ARN 123456789012:function:my-function . You can append a version number or alias to any of the formats. The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length. Constraints: o min: 1 o max: 256 o pattern: (arn:(aws[a-zA-Z-]*)?:lambda:)?((eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\d{1}:)?(\d{12}:)?(func- tion:)?([a-zA-Z0-9-_\.]+)(:(\$LATEST(\.PUB- LISHED)?|[a-zA-Z0-9-_]+))?
+    /// </summary>
     [CliOption("--function-name")]
-    public string? FunctionName { get; set; }
+    public string FunctionName { get; private init; }
 
     /// <summary>
     /// Choose from the following options. o RequestResponse (default) Invoke the function synchronously. Keep the connection open until the function returns a response or times out. The API response includes the function response and addi- tional data. o Event Invoke the function asynchronously. Send events that fail multiple times to the function's dead-letter queue (if one is con- figured). The API response only includes a status code. o DryRun Validate parameter values and verify that the user or role has permission to invoke the function. Possible values: o Event o RequestResponse o DryRun
@@ -66,5 +91,11 @@ public record AwsLambdaInvokeOptions : AwsOptions
     /// </summary>
     [CliOption("--tenant-id")]
     public string? TenantId { get; set; }
+
+    /// <summary>
+    /// The &lt;outfile&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string Outfile { get; private init; }
 
 }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,25 +21,82 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("organizations", "invite-organization-to-transfer-responsibility")]
-public record AwsOrganizationsInviteOrganizationToTransferResponsibilityOptions : AwsOptions
+public record AwsOrganizationsInviteOrganizationToTransferResponsibilityOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--type")]
-    public string? Type { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Sends an invitation to another organization's management account to designate your account with the specified responsibilities for their organization. The invitation is implemented as a Handshake whose de- tails are in the response. You can only call this operation from the management account. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Type">The type of responsibility you want to designate to your organiza- tion. Currently, only BILLING is supported. Possible values: o BILLING</param>
+    /// <param name="Target">A HandshakeParty object. Contains details for the account you want to invite. Currently, only ACCOUNT and EMAIL are supported. Id -&gt; (string) [required] ID for the participant: Acccount ID, organization ID, or email address. The regex pattern for handshake ID string requires "h-" followed by from 8 to 32 lowercase letters or digits. Constraints: o min: 1 o max: 64 o pattern: [\s\S]* Type -&gt; (string) [required] The type of ID for the participant. NOTE: ORGANIZATION is valid only in the response context (identify- ing the inviting organization). Valid input values for the Target parameter are ACCOUNT and EMAIL only. Possible values: o ACCOUNT o ORGANIZATION o EMAIL Shorthand Syntax: Id=string,Type=string JSON Syntax: { "Id": "string", "Type": "ACCOUNT"|"ORGANIZATION"|"EMAIL" }</param>
+    /// <param name="StartTimestamp">Timestamp when the recipient will begin managing the specified re- sponsibilities.</param>
+    /// <param name="SourceName">Name you want to assign to the transfer. Constraints: o min: 1 o max: 128 o pattern: ^[ -~]+$</param>
+    public AwsOrganizationsInviteOrganizationToTransferResponsibilityOptions(
+        AwsOrganizationsInviteOrganizationToTransferResponsibilityType Type,
+        string Target,
+        string StartTimestamp,
+        string SourceName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Type);
+        this.Type = Type;
+        global::System.ArgumentNullException.ThrowIfNull(Target);
+        this.Target = Target;
+        global::System.ArgumentNullException.ThrowIfNull(StartTimestamp);
+        this.StartTimestamp = StartTimestamp;
+        global::System.ArgumentNullException.ThrowIfNull(SourceName);
+        this.SourceName = SourceName;
+    }
+
+    private AwsOrganizationsInviteOrganizationToTransferResponsibilityOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsOrganizationsInviteOrganizationToTransferResponsibilityOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsOrganizationsInviteOrganizationToTransferResponsibilityOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The type of responsibility you want to designate to your organiza- tion. Currently, only BILLING is supported. Possible values: o BILLING
+    /// </summary>
+    [CliOption("--type")]
+    public AwsOrganizationsInviteOrganizationToTransferResponsibilityType? Type { get; private init; }
+
+    /// <summary>
+    /// A HandshakeParty object. Contains details for the account you want to invite. Currently, only ACCOUNT and EMAIL are supported. Id -&gt; (string) [required] ID for the participant: Acccount ID, organization ID, or email address. The regex pattern for handshake ID string requires "h-" followed by from 8 to 32 lowercase letters or digits. Constraints: o min: 1 o max: 64 o pattern: [\s\S]* Type -&gt; (string) [required] The type of ID for the participant. NOTE: ORGANIZATION is valid only in the response context (identify- ing the inviting organization). Valid input values for the Target parameter are ACCOUNT and EMAIL only. Possible values: o ACCOUNT o ORGANIZATION o EMAIL Shorthand Syntax: Id=string,Type=string JSON Syntax: { "Id": "string", "Type": "ACCOUNT"|"ORGANIZATION"|"EMAIL" }
+    /// </summary>
     [CliOption("--target")]
-    public string? Target { get; set; }
+    public string? Target { get; private init; }
+
+    /// <summary>
+    /// Timestamp when the recipient will begin managing the specified re- sponsibilities.
+    /// </summary>
+    [CliOption("--start-timestamp")]
+    public string? StartTimestamp { get; private init; }
+
+    /// <summary>
+    /// Name you want to assign to the transfer. Constraints: o min: 1 o max: 128 o pattern: ^[ -~]+$
+    /// </summary>
+    [CliOption("--source-name")]
+    public string? SourceName { get; private init; }
 
     /// <summary>
     /// Additional information that you want to include in the invitation. Constraints: o max: 1024 o pattern: [\s\S]*
     /// </summary>
     [CliOption("--notes")]
     public string? Notes { get; set; }
-
-    [CliOption("--start-timestamp")]
-    public string? StartTimestamp { get; set; }
-
-    [CliOption("--source-name")]
-    public string? SourceName { get; set; }
 
     /// <summary>
     /// A list of tags that you want to attach to the transfer. For each tag in the list, you must specify both a tag key and a value. You can set the value to an empty string, but you can't set it to null . For more information about tagging, see Tagging Organizations resources in the Organizations User Guide. WARNING: Any tags in the request are checked for compliance with any ap- plicable tag policies when the request is made. The request is rejected if the tags in the request don't match the requirements of the policy at that time. Tag policy compliance is * not * checked again when the invitation is accepted and the tags are actually attached to the transfer. That means that if the tag policy changes between the invitation and the acceptance, then that tags could potentially be non-compliant. NOTE: If any one of the tags is not valid or if you exceed the allowed number of tags for a transfer, then the entire request fails and invitations are not sent. (structure) A custom key-value pair associated with a resource within your organization. You can attach tags to any of the following organization re- sources. o Amazon Web Services account o Organizational unit (OU) o Organization root o Policy Key -&gt; (string) [required] The key identifier, or name, of the tag. Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Value -&gt; (string) [required] The string value that's associated with the key of the tag. You can set the value of a tag to an empty string, but you can't set the value of a tag to null. Constraints: o min: 0 o max: 256 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
@@ -50,5 +109,22 @@ public record AwsOrganizationsInviteOrganizationToTransferResponsibilityOptions 
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

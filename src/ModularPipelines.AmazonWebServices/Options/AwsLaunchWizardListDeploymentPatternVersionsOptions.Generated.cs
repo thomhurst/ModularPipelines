@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("launch-wizard", "list-deployment-pattern-versions")]
-public record AwsLaunchWizardListDeploymentPatternVersionsOptions : AwsOptions
+public record AwsLaunchWizardListDeploymentPatternVersionsOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--workload-name")]
-    public string? WorkloadName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Lists the deployment pattern versions. See also: AWS API Documentation list-deployment-pattern-versions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: deploymentPatternVersions
+    /// </summary>
+    /// <param name="WorkloadName">The name of the workload. You can use the ` ListWorkloads https://docs.aws.amazon.com/launchwizard/latest/APIReference/API_ListWorkloads.html`__ operation to discover supported values for this parameter. Constraints: o min: 1 o max: 100 o pattern: [A-Za-z][a-zA-Z0-9-_]*</param>
+    /// <param name="DeploymentPatternName">The name of the deployment pattern. You can use the ` ListWorkload- DeploymentPatterns https://docs.aws.amazon.com/launchwizard/latest/APIReference/API_ListWorkloadDeploymentPatterns.html`__ operation to discover supported values for this parameter. Constraints: o min: 1 o max: 256 o pattern: [A-Za-z0-9][a-zA-Z0-9-]*</param>
+    public AwsLaunchWizardListDeploymentPatternVersionsOptions(
+        string WorkloadName,
+        string DeploymentPatternName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(WorkloadName);
+        this.WorkloadName = WorkloadName;
+        global::System.ArgumentNullException.ThrowIfNull(DeploymentPatternName);
+        this.DeploymentPatternName = DeploymentPatternName;
+    }
+
+    private AwsLaunchWizardListDeploymentPatternVersionsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsLaunchWizardListDeploymentPatternVersionsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsLaunchWizardListDeploymentPatternVersionsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the workload. You can use the ` ListWorkloads https://docs.aws.amazon.com/launchwizard/latest/APIReference/API_ListWorkloads.html`__ operation to discover supported values for this parameter. Constraints: o min: 1 o max: 100 o pattern: [A-Za-z][a-zA-Z0-9-_]*
+    /// </summary>
+    [CliOption("--workload-name")]
+    public string? WorkloadName { get; private init; }
+
+    /// <summary>
+    /// The name of the deployment pattern. You can use the ` ListWorkload- DeploymentPatterns https://docs.aws.amazon.com/launchwizard/latest/APIReference/API_ListWorkloadDeploymentPatterns.html`__ operation to discover supported values for this parameter. Constraints: o min: 1 o max: 256 o pattern: [A-Za-z0-9][a-zA-Z0-9-]*
+    /// </summary>
     [CliOption("--deployment-pattern-name")]
-    public string? DeploymentPatternName { get; set; }
+    public string? DeploymentPatternName { get; private init; }
 
     /// <summary>
     /// Filters to apply when listing deployment pattern versions. (structure) A filter for deployment pattern versions. Use this filter to specify criteria for querying deployment pattern versions in Launch Wizard. name -&gt; (string) [required] The name of the filter attribute. Specifies which attribute to filter on when querying deployment pattern versions. Possible values: o updateFromVersion values -&gt; (list) [required] The values to filter by. Contains the specific values to match against when filtering deployment pattern versions. (string) Constraints: o min: 1 o max: 100 o pattern: (0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*) Shorthand Syntax: name=string,values=string,string ... JSON Syntax: [ { "name": "updateFromVersion", "values": ["string", ...] } ... ]
@@ -58,5 +102,22 @@ public record AwsLaunchWizardListDeploymentPatternVersionsOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

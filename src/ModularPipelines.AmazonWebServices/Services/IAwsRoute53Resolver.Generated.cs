@@ -28,7 +28,7 @@ public interface IAwsRoute53Resolver
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AssociateFirewallRuleGroupAsync(AwsRoute53resolverAssociateFirewallRuleGroupOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> AssociateFirewallRuleGroupAsync(AwsRoute53resolverAssociateFirewallRuleGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -38,7 +38,7 @@ public interface IAwsRoute53Resolver
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AssociateResolverEndpointIpAddressAsync(AwsRoute53resolverAssociateResolverEndpointIpAddressOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> AssociateResolverEndpointIpAddressAsync(AwsRoute53resolverAssociateResolverEndpointIpAddressOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -48,7 +48,7 @@ public interface IAwsRoute53Resolver
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AssociateResolverQueryLogConfigAsync(AwsRoute53resolverAssociateResolverQueryLogConfigOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> AssociateResolverQueryLogConfigAsync(AwsRoute53resolverAssociateResolverQueryLogConfigOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -58,7 +58,7 @@ public interface IAwsRoute53Resolver
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AssociateResolverRuleAsync(AwsRoute53resolverAssociateResolverRuleOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> AssociateResolverRuleAsync(AwsRoute53resolverAssociateResolverRuleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -68,7 +68,7 @@ public interface IAwsRoute53Resolver
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> BatchCreateFirewallRuleAsync(AwsRoute53resolverBatchCreateFirewallRuleOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> BatchCreateFirewallRuleAsync(AwsRoute53resolverBatchCreateFirewallRuleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -78,7 +78,7 @@ public interface IAwsRoute53Resolver
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> BatchDeleteFirewallRuleAsync(AwsRoute53resolverBatchDeleteFirewallRuleOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> BatchDeleteFirewallRuleAsync(AwsRoute53resolverBatchDeleteFirewallRuleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -88,7 +88,7 @@ public interface IAwsRoute53Resolver
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> BatchUpdateFirewallRuleAsync(AwsRoute53resolverBatchUpdateFirewallRuleOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> BatchUpdateFirewallRuleAsync(AwsRoute53resolverBatchUpdateFirewallRuleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -98,7 +98,7 @@ public interface IAwsRoute53Resolver
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateFirewallDomainListAsync(AwsRoute53resolverCreateFirewallDomainListOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> CreateFirewallDomainListAsync(AwsRoute53resolverCreateFirewallDomainListOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -108,7 +108,7 @@ public interface IAwsRoute53Resolver
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateFirewallRuleGroupAsync(AwsRoute53resolverCreateFirewallRuleGroupOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> CreateFirewallRuleGroupAsync(AwsRoute53resolverCreateFirewallRuleGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -118,7 +118,7 @@ public interface IAwsRoute53Resolver
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateFirewallRuleAsync(AwsRoute53resolverCreateFirewallRuleOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> CreateFirewallRuleAsync(AwsRoute53resolverCreateFirewallRuleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -128,7 +128,7 @@ public interface IAwsRoute53Resolver
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateOutpostResolverAsync(AwsRoute53resolverCreateOutpostResolverOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> CreateOutpostResolverAsync(AwsRoute53resolverCreateOutpostResolverOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -138,7 +138,7 @@ public interface IAwsRoute53Resolver
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateResolverEndpointAsync(AwsRoute53resolverCreateResolverEndpointOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> CreateResolverEndpointAsync(AwsRoute53resolverCreateResolverEndpointOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -148,7 +148,7 @@ public interface IAwsRoute53Resolver
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateResolverQueryLogConfigAsync(AwsRoute53resolverCreateResolverQueryLogConfigOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> CreateResolverQueryLogConfigAsync(AwsRoute53resolverCreateResolverQueryLogConfigOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -158,7 +158,7 @@ public interface IAwsRoute53Resolver
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateResolverRuleAsync(AwsRoute53resolverCreateResolverRuleOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> CreateResolverRuleAsync(AwsRoute53resolverCreateResolverRuleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -168,7 +168,7 @@ public interface IAwsRoute53Resolver
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteFirewallDomainListAsync(AwsRoute53resolverDeleteFirewallDomainListOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> DeleteFirewallDomainListAsync(AwsRoute53resolverDeleteFirewallDomainListOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -178,7 +178,7 @@ public interface IAwsRoute53Resolver
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteFirewallRuleGroupAsync(AwsRoute53resolverDeleteFirewallRuleGroupOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> DeleteFirewallRuleGroupAsync(AwsRoute53resolverDeleteFirewallRuleGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -188,7 +188,7 @@ public interface IAwsRoute53Resolver
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteFirewallRuleAsync(AwsRoute53resolverDeleteFirewallRuleOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> DeleteFirewallRuleAsync(AwsRoute53resolverDeleteFirewallRuleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -198,7 +198,7 @@ public interface IAwsRoute53Resolver
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteOutpostResolverAsync(AwsRoute53resolverDeleteOutpostResolverOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> DeleteOutpostResolverAsync(AwsRoute53resolverDeleteOutpostResolverOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -208,7 +208,7 @@ public interface IAwsRoute53Resolver
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteResolverEndpointAsync(AwsRoute53resolverDeleteResolverEndpointOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> DeleteResolverEndpointAsync(AwsRoute53resolverDeleteResolverEndpointOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -218,7 +218,7 @@ public interface IAwsRoute53Resolver
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteResolverQueryLogConfigAsync(AwsRoute53resolverDeleteResolverQueryLogConfigOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> DeleteResolverQueryLogConfigAsync(AwsRoute53resolverDeleteResolverQueryLogConfigOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -228,7 +228,7 @@ public interface IAwsRoute53Resolver
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteResolverRuleAsync(AwsRoute53resolverDeleteResolverRuleOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> DeleteResolverRuleAsync(AwsRoute53resolverDeleteResolverRuleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -238,7 +238,7 @@ public interface IAwsRoute53Resolver
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DisassociateFirewallRuleGroupAsync(AwsRoute53resolverDisassociateFirewallRuleGroupOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> DisassociateFirewallRuleGroupAsync(AwsRoute53resolverDisassociateFirewallRuleGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -248,7 +248,7 @@ public interface IAwsRoute53Resolver
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DisassociateResolverEndpointIpAddressAsync(AwsRoute53resolverDisassociateResolverEndpointIpAddressOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> DisassociateResolverEndpointIpAddressAsync(AwsRoute53resolverDisassociateResolverEndpointIpAddressOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -258,7 +258,7 @@ public interface IAwsRoute53Resolver
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DisassociateResolverQueryLogConfigAsync(AwsRoute53resolverDisassociateResolverQueryLogConfigOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> DisassociateResolverQueryLogConfigAsync(AwsRoute53resolverDisassociateResolverQueryLogConfigOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -268,7 +268,7 @@ public interface IAwsRoute53Resolver
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DisassociateResolverRuleAsync(AwsRoute53resolverDisassociateResolverRuleOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> DisassociateResolverRuleAsync(AwsRoute53resolverDisassociateResolverRuleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -278,7 +278,7 @@ public interface IAwsRoute53Resolver
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetFirewallConfigAsync(AwsRoute53resolverGetFirewallConfigOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> GetFirewallConfigAsync(AwsRoute53resolverGetFirewallConfigOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -288,7 +288,7 @@ public interface IAwsRoute53Resolver
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetFirewallDomainListAsync(AwsRoute53resolverGetFirewallDomainListOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> GetFirewallDomainListAsync(AwsRoute53resolverGetFirewallDomainListOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -298,7 +298,7 @@ public interface IAwsRoute53Resolver
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetFirewallRuleGroupAssociationAsync(AwsRoute53resolverGetFirewallRuleGroupAssociationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> GetFirewallRuleGroupAssociationAsync(AwsRoute53resolverGetFirewallRuleGroupAssociationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -308,7 +308,7 @@ public interface IAwsRoute53Resolver
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetFirewallRuleGroupAsync(AwsRoute53resolverGetFirewallRuleGroupOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> GetFirewallRuleGroupAsync(AwsRoute53resolverGetFirewallRuleGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -318,7 +318,7 @@ public interface IAwsRoute53Resolver
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetFirewallRuleGroupPolicyAsync(AwsRoute53resolverGetFirewallRuleGroupPolicyOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> GetFirewallRuleGroupPolicyAsync(AwsRoute53resolverGetFirewallRuleGroupPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -328,7 +328,7 @@ public interface IAwsRoute53Resolver
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetOutpostResolverAsync(AwsRoute53resolverGetOutpostResolverOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> GetOutpostResolverAsync(AwsRoute53resolverGetOutpostResolverOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -338,7 +338,7 @@ public interface IAwsRoute53Resolver
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetResolverConfigAsync(AwsRoute53resolverGetResolverConfigOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> GetResolverConfigAsync(AwsRoute53resolverGetResolverConfigOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -348,7 +348,7 @@ public interface IAwsRoute53Resolver
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetResolverDnssecConfigAsync(AwsRoute53resolverGetResolverDnssecConfigOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> GetResolverDnssecConfigAsync(AwsRoute53resolverGetResolverDnssecConfigOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -358,7 +358,7 @@ public interface IAwsRoute53Resolver
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetResolverEndpointAsync(AwsRoute53resolverGetResolverEndpointOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> GetResolverEndpointAsync(AwsRoute53resolverGetResolverEndpointOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -368,7 +368,7 @@ public interface IAwsRoute53Resolver
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetResolverQueryLogConfigAssociationAsync(AwsRoute53resolverGetResolverQueryLogConfigAssociationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> GetResolverQueryLogConfigAssociationAsync(AwsRoute53resolverGetResolverQueryLogConfigAssociationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -378,7 +378,7 @@ public interface IAwsRoute53Resolver
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetResolverQueryLogConfigAsync(AwsRoute53resolverGetResolverQueryLogConfigOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> GetResolverQueryLogConfigAsync(AwsRoute53resolverGetResolverQueryLogConfigOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -388,7 +388,7 @@ public interface IAwsRoute53Resolver
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetResolverQueryLogConfigPolicyAsync(AwsRoute53resolverGetResolverQueryLogConfigPolicyOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> GetResolverQueryLogConfigPolicyAsync(AwsRoute53resolverGetResolverQueryLogConfigPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -398,7 +398,7 @@ public interface IAwsRoute53Resolver
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetResolverRuleAssociationAsync(AwsRoute53resolverGetResolverRuleAssociationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> GetResolverRuleAssociationAsync(AwsRoute53resolverGetResolverRuleAssociationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -408,7 +408,7 @@ public interface IAwsRoute53Resolver
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetResolverRuleAsync(AwsRoute53resolverGetResolverRuleOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> GetResolverRuleAsync(AwsRoute53resolverGetResolverRuleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -418,7 +418,7 @@ public interface IAwsRoute53Resolver
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetResolverRulePolicyAsync(AwsRoute53resolverGetResolverRulePolicyOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> GetResolverRulePolicyAsync(AwsRoute53resolverGetResolverRulePolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -428,7 +428,7 @@ public interface IAwsRoute53Resolver
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ImportFirewallDomainsAsync(AwsRoute53resolverImportFirewallDomainsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> ImportFirewallDomainsAsync(AwsRoute53resolverImportFirewallDomainsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -458,7 +458,7 @@ public interface IAwsRoute53Resolver
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListFirewallDomainsAsync(AwsRoute53resolverListFirewallDomainsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> ListFirewallDomainsAsync(AwsRoute53resolverListFirewallDomainsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -488,7 +488,7 @@ public interface IAwsRoute53Resolver
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListFirewallRulesAsync(AwsRoute53resolverListFirewallRulesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> ListFirewallRulesAsync(AwsRoute53resolverListFirewallRulesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -538,7 +538,7 @@ public interface IAwsRoute53Resolver
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListResolverEndpointIpAddressesAsync(AwsRoute53resolverListResolverEndpointIpAddressesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> ListResolverEndpointIpAddressesAsync(AwsRoute53resolverListResolverEndpointIpAddressesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -598,7 +598,7 @@ public interface IAwsRoute53Resolver
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListTagsForResourceAsync(AwsRoute53resolverListTagsForResourceOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> ListTagsForResourceAsync(AwsRoute53resolverListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -608,7 +608,7 @@ public interface IAwsRoute53Resolver
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutFirewallRuleGroupPolicyAsync(AwsRoute53resolverPutFirewallRuleGroupPolicyOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> PutFirewallRuleGroupPolicyAsync(AwsRoute53resolverPutFirewallRuleGroupPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -618,7 +618,7 @@ public interface IAwsRoute53Resolver
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutResolverQueryLogConfigPolicyAsync(AwsRoute53resolverPutResolverQueryLogConfigPolicyOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> PutResolverQueryLogConfigPolicyAsync(AwsRoute53resolverPutResolverQueryLogConfigPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -628,7 +628,7 @@ public interface IAwsRoute53Resolver
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutResolverRulePolicyAsync(AwsRoute53resolverPutResolverRulePolicyOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> PutResolverRulePolicyAsync(AwsRoute53resolverPutResolverRulePolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -638,7 +638,7 @@ public interface IAwsRoute53Resolver
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> TagResourceAsync(AwsRoute53resolverTagResourceOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> TagResourceAsync(AwsRoute53resolverTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -648,7 +648,7 @@ public interface IAwsRoute53Resolver
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UntagResourceAsync(AwsRoute53resolverUntagResourceOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> UntagResourceAsync(AwsRoute53resolverUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -658,7 +658,7 @@ public interface IAwsRoute53Resolver
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateFirewallConfigAsync(AwsRoute53resolverUpdateFirewallConfigOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> UpdateFirewallConfigAsync(AwsRoute53resolverUpdateFirewallConfigOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -668,7 +668,7 @@ public interface IAwsRoute53Resolver
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateFirewallDomainsAsync(AwsRoute53resolverUpdateFirewallDomainsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> UpdateFirewallDomainsAsync(AwsRoute53resolverUpdateFirewallDomainsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -678,7 +678,7 @@ public interface IAwsRoute53Resolver
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateFirewallRuleGroupAssociationAsync(AwsRoute53resolverUpdateFirewallRuleGroupAssociationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> UpdateFirewallRuleGroupAssociationAsync(AwsRoute53resolverUpdateFirewallRuleGroupAssociationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -688,7 +688,7 @@ public interface IAwsRoute53Resolver
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateFirewallRuleAsync(AwsRoute53resolverUpdateFirewallRuleOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> UpdateFirewallRuleAsync(AwsRoute53resolverUpdateFirewallRuleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -698,7 +698,7 @@ public interface IAwsRoute53Resolver
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateOutpostResolverAsync(AwsRoute53resolverUpdateOutpostResolverOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> UpdateOutpostResolverAsync(AwsRoute53resolverUpdateOutpostResolverOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -708,7 +708,7 @@ public interface IAwsRoute53Resolver
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateResolverConfigAsync(AwsRoute53resolverUpdateResolverConfigOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> UpdateResolverConfigAsync(AwsRoute53resolverUpdateResolverConfigOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -718,7 +718,7 @@ public interface IAwsRoute53Resolver
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateResolverDnssecConfigAsync(AwsRoute53resolverUpdateResolverDnssecConfigOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> UpdateResolverDnssecConfigAsync(AwsRoute53resolverUpdateResolverDnssecConfigOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -728,7 +728,7 @@ public interface IAwsRoute53Resolver
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateResolverEndpointAsync(AwsRoute53resolverUpdateResolverEndpointOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> UpdateResolverEndpointAsync(AwsRoute53resolverUpdateResolverEndpointOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -738,7 +738,7 @@ public interface IAwsRoute53Resolver
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateResolverRuleAsync(AwsRoute53resolverUpdateResolverRuleOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> UpdateResolverRuleAsync(AwsRoute53resolverUpdateResolverRuleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
 }

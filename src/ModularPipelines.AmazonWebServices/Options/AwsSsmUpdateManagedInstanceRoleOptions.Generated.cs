@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ssm", "update-managed-instance-role")]
-public record AwsSsmUpdateManagedInstanceRoleOptions : AwsOptions
+public record AwsSsmUpdateManagedInstanceRoleOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--instance-id")]
-    public string? InstanceId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Changes the Identity and Access Management (IAM) role that is assigned to the on-premises server, edge device, or virtual machines (VM). IAM roles are first assigned to these hybrid nodes during the activation process. For more information, see CreateActivation . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="InstanceId">The ID of the managed node where you want to update the role. Constraints: o min: 20 o max: 124 o pattern: (^mi-[0-9a-f]{17}$)|(^eks_c:[0-9A-Za-z][A-Za-z0-9\-_]{0,99}_\w{17}$)</param>
+    /// <param name="IamRole">The name of the Identity and Access Management (IAM) role that you want to assign to the managed node. This IAM role must provide As- sumeRole permissions for the Amazon Web Services Systems Manager service principal ssm.amazonaws.com . For more information, see Create the IAM service role required for Systems Manager in hybrid and multicloud environments in the Amazon Web Services Systems Man- ager User Guide . NOTE: You can't specify an IAM service-linked role for this parameter. You must create a unique role. Constraints: o max: 64</param>
+    public AwsSsmUpdateManagedInstanceRoleOptions(
+        string InstanceId,
+        string IamRole
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(InstanceId);
+        this.InstanceId = InstanceId;
+        global::System.ArgumentNullException.ThrowIfNull(IamRole);
+        this.IamRole = IamRole;
+    }
+
+    private AwsSsmUpdateManagedInstanceRoleOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSsmUpdateManagedInstanceRoleOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSsmUpdateManagedInstanceRoleOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the managed node where you want to update the role. Constraints: o min: 20 o max: 124 o pattern: (^mi-[0-9a-f]{17}$)|(^eks_c:[0-9A-Za-z][A-Za-z0-9\-_]{0,99}_\w{17}$)
+    /// </summary>
+    [CliOption("--instance-id")]
+    public string? InstanceId { get; private init; }
+
+    /// <summary>
+    /// The name of the Identity and Access Management (IAM) role that you want to assign to the managed node. This IAM role must provide As- sumeRole permissions for the Amazon Web Services Systems Manager service principal ssm.amazonaws.com . For more information, see Create the IAM service role required for Systems Manager in hybrid and multicloud environments in the Amazon Web Services Systems Man- ager User Guide . NOTE: You can't specify an IAM service-linked role for this parameter. You must create a unique role. Constraints: o max: 64
+    /// </summary>
     [CliOption("--iam-role")]
-    public string? IamRole { get; set; }
+    public string? IamRole { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

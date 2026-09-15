@@ -34,7 +34,10 @@ public record AwsApigatewayGetApiKeysOptions : AwsOptions
     [CliOption("--customer-id")]
     public string? CustomerId { get; set; }
 
-    [CliFlag("--include-values")]
+    /// <summary>
+    /// A boolean flag to specify whether (true ) or not (false ) the result contains key values.
+    /// </summary>
+    [CliFlag("--include-values", NegatedName = "--no-include-values")]
     public bool? IncludeValues { get; set; }
 
     [CliOption("--cli-input-json")]

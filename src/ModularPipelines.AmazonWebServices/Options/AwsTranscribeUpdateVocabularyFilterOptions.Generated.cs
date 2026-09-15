@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("transcribe", "update-vocabulary-filter")]
-public record AwsTranscribeUpdateVocabularyFilterOptions : AwsOptions
+public record AwsTranscribeUpdateVocabularyFilterOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates an existing custom vocabulary filter with a new list of words. The new list you provide overwrites all previous entries; you cannot append new terms onto an existing custom vocabulary filter. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="VocabularyFilterName">The name of the custom vocabulary filter you want to update. Custom vocabulary filter names are case sensitive. Constraints: o min: 1 o max: 200 o pattern: ^[0-9a-zA-Z._-]+</param>
+    public AwsTranscribeUpdateVocabularyFilterOptions(
+        string VocabularyFilterName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(VocabularyFilterName);
+        this.VocabularyFilterName = VocabularyFilterName;
+    }
+
+    private AwsTranscribeUpdateVocabularyFilterOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsTranscribeUpdateVocabularyFilterOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsTranscribeUpdateVocabularyFilterOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the custom vocabulary filter you want to update. Custom vocabulary filter names are case sensitive. Constraints: o min: 1 o max: 200 o pattern: ^[0-9a-zA-Z._-]+
+    /// </summary>
     [CliOption("--vocabulary-filter-name")]
-    public string? VocabularyFilterName { get; set; }
+    public string? VocabularyFilterName { get; private init; }
 
     /// <summary>
     /// Use this parameter if you want to update your custom vocabulary fil- ter by including all desired terms, as comma-separated values, within your request. The other option for updating your vocabulary filter is to save your entries in a text file and upload them to an Amazon S3 bucket, then specify the location of your file using the VocabularyFilterFileUri parameter. Note that if you include Words in your request, you cannot use Vo- cabularyFilterFileUri ; you must choose one or the other. Each language has a character set that contains all allowed charac- ters for that specific language. If you use unsupported characters, your custom vocabulary filter request fails. Refer to Character Sets for Custom Vocabularies to get the character set for your language. Constraints: o min: 1 (string) Constraints: o min: 1 o max: 256 Syntax: "string" "string" ...
@@ -47,5 +84,22 @@ public record AwsTranscribeUpdateVocabularyFilterOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

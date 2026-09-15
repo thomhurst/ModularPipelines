@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +20,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("glue", "update-column-statistics-task-settings")]
-public record AwsGlueUpdateColumnStatisticsTaskSettingsOptions : AwsOptions
+public record AwsGlueUpdateColumnStatisticsTaskSettingsOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--database-name")]
-    public string? DatabaseName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Updates settings for a column statistics task. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DatabaseName">The name of the database where the table resides. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*</param>
+    /// <param name="TableName">The name of the table for which to generate column statistics. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*</param>
+    public AwsGlueUpdateColumnStatisticsTaskSettingsOptions(
+        string DatabaseName,
+        string TableName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DatabaseName);
+        this.DatabaseName = DatabaseName;
+        global::System.ArgumentNullException.ThrowIfNull(TableName);
+        this.TableName = TableName;
+    }
+
+    private AwsGlueUpdateColumnStatisticsTaskSettingsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsGlueUpdateColumnStatisticsTaskSettingsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsGlueUpdateColumnStatisticsTaskSettingsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the database where the table resides. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
+    /// </summary>
+    [CliOption("--database-name")]
+    public string? DatabaseName { get; private init; }
+
+    /// <summary>
+    /// The name of the table for which to generate column statistics. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
+    /// </summary>
     [CliOption("--table-name")]
-    public string? TableName { get; set; }
+    public string? TableName { get; private init; }
 
     /// <summary>
     /// The role used for running the column statistics. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
@@ -68,5 +112,22 @@ public record AwsGlueUpdateColumnStatisticsTaskSettingsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

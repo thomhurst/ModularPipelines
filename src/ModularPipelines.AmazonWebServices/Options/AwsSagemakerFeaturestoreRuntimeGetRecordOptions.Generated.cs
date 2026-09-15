@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,13 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sagemaker-featurestore-runtime", "get-record")]
-public record AwsSagemakerFeaturestoreRuntimeGetRecordOptions : AwsOptions
+public record AwsSagemakerFeaturestoreRuntimeGetRecordOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--feature-group-name")]
-    public string? FeatureGroupName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Use for OnlineStore serving from a FeatureStore . Only the latest records stored in the OnlineStore can be retrieved. If no Record with RecordIdentifierValue is found, then an empty result is returned. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="FeatureGroupName">The name or Amazon Resource Name (ARN) of the feature group from which you want to retrieve a record. Constraints: o min: 1 o max: 150 o pattern: (arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:fea- ture-group/)?([a-zA-Z0-9]([-_]*[a-zA-Z0-9]){0,63})</param>
+    /// <param name="RecordIdentifierValueAsString">The value that corresponds to RecordIdentifier type and uniquely identifies the record in the FeatureGroup . Constraints: o max: 358400 o pattern: .*</param>
+    public AwsSagemakerFeaturestoreRuntimeGetRecordOptions(
+        string FeatureGroupName,
+        string RecordIdentifierValueAsString
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(FeatureGroupName);
+        this.FeatureGroupName = FeatureGroupName;
+        global::System.ArgumentNullException.ThrowIfNull(RecordIdentifierValueAsString);
+        this.RecordIdentifierValueAsString = RecordIdentifierValueAsString;
+    }
+
+    private AwsSagemakerFeaturestoreRuntimeGetRecordOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSagemakerFeaturestoreRuntimeGetRecordOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSagemakerFeaturestoreRuntimeGetRecordOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name or Amazon Resource Name (ARN) of the feature group from which you want to retrieve a record. Constraints: o min: 1 o max: 150 o pattern: (arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:fea- ture-group/)?([a-zA-Z0-9]([-_]*[a-zA-Z0-9]){0,63})
+    /// </summary>
+    [CliOption("--feature-group-name")]
+    public string? FeatureGroupName { get; private init; }
+
+    /// <summary>
+    /// The value that corresponds to RecordIdentifier type and uniquely identifies the record in the FeatureGroup . Constraints: o max: 358400 o pattern: .*
+    /// </summary>
     [CliOption("--record-identifier-value-as-string")]
-    public string? RecordIdentifierValueAsString { get; set; }
+    public string? RecordIdentifierValueAsString { get; private init; }
 
     /// <summary>
     /// List of names of Features to be retrieved. If not specified, the latest value for all the Features are returned. Constraints: o min: 1 (string) Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9]([-_]*[a-zA-Z0-9]){0,63} Syntax: "string" "string" ...
@@ -45,5 +89,22 @@ public record AwsSagemakerFeaturestoreRuntimeGetRecordOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

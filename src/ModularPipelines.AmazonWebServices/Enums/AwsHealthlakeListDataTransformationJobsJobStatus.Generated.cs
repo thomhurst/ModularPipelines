@@ -11,26 +11,26 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --jobstatus.
+/// Allowed values for --job-status.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsHealthlakeListDataTransformationJobsJobStatus
 {
-    [EnumValue("SUBMITTED")]
-    Submitted = 1,
-
-    [EnumValue("QUEUED")]
-    Queued = 2,
-
-    [EnumValue("IN_PROGRESS")]
-    InProgress = 3,
-
     [EnumValue("COMPLETED")]
-    Completed = 4,
+    Completed,
 
     [EnumValue("COMPLETED_WITH_ERRORS")]
-    CompletedWithErrors = 5,
+    CompletedWithErrors,
 
     [EnumValue("FAILED")]
-    Failed = 6
+    Failed,
+
+    [EnumValue("IN_PROGRESS")]
+    InProgress,
+
+    [EnumValue("QUEUED")]
+    Queued,
+
+    [EnumValue("SUBMITTED")]
+    Submitted
 }

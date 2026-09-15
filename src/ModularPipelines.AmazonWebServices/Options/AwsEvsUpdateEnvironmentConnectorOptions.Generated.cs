@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,20 +21,63 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("evs", "update-environment-connector")]
-public record AwsEvsUpdateEnvironmentConnectorOptions : AwsOptions
+public record AwsEvsUpdateEnvironmentConnectorOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates a connector for an Amazon EVS environment. You can update the Amazon Web Services Secrets Manager secret ARN or the appliance FQDN to reconfigure the connector metadata. NOTE: You cannot update both the secret and the FQDN in the same request. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="EnvironmentId">A unique ID for the environment that the connector belongs to. Constraints: o pattern: (env-[a-zA-Z0-9]{10})</param>
+    /// <param name="ConnectorId">A unique ID for the connector to update. Constraints: o pattern: (cnctr-[a-zA-Z0-9]{10})</param>
+    public AwsEvsUpdateEnvironmentConnectorOptions(
+        string EnvironmentId,
+        string ConnectorId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(EnvironmentId);
+        this.EnvironmentId = EnvironmentId;
+        global::System.ArgumentNullException.ThrowIfNull(ConnectorId);
+        this.ConnectorId = ConnectorId;
+    }
+
+    private AwsEvsUpdateEnvironmentConnectorOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEvsUpdateEnvironmentConnectorOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEvsUpdateEnvironmentConnectorOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A unique ID for the environment that the connector belongs to. Constraints: o pattern: (env-[a-zA-Z0-9]{10})
+    /// </summary>
+    [CliOption("--environment-id")]
+    public string? EnvironmentId { get; private init; }
+
+    /// <summary>
+    /// A unique ID for the connector to update. Constraints: o pattern: (cnctr-[a-zA-Z0-9]{10})
+    /// </summary>
+    [CliOption("--connector-id")]
+    public string? ConnectorId { get; private init; }
+
     /// <summary>
     /// NOTE: This parameter is not used in Amazon EVS currently. If you sup- ply input for this parameter, it will have no effect. A unique, case-sensitive identifier that you provide to ensure the idempotency of the connector update request. If you do not specify a client token, a randomly generated token is used for the request to ensure idempotency. Constraints: o min: 1 o max: 100 o pattern: [!-~]+
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
-
-    [CliOption("--environment-id")]
-    public string? EnvironmentId { get; set; }
-
-    [CliOption("--connector-id")]
-    public string? ConnectorId { get; set; }
 
     /// <summary>
     /// The new fully qualified domain name (FQDN) of the VCF appliance that the connector connects to. Constraints: o min: 1 o max: 253 o pattern: [a-zA-Z0-9]([a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(\.[a-zA-Z0-9]([a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*
@@ -44,7 +88,6 @@ public record AwsEvsUpdateEnvironmentConnectorOptions : AwsOptions
     /// <summary>
     /// The new ARN or name of the Amazon Web Services Secrets Manager se- cret that stores the credentials for the VCF appliance. Constraints: o min: 1 o max: 2048 o pattern: (arn:aws:secretsmanager:[a-z0-9-]+:[0-9]{12}:se- cret:[a-zA-Z0-9/_+=.@!-]+|[a-zA-Z0-9/_+=.@!-]+)
     /// </summary>
-    [SecretValue]
     [CliOption("--secret-identifier")]
     public string? SecretIdentifier { get; set; }
 
@@ -53,5 +96,22 @@ public record AwsEvsUpdateEnvironmentConnectorOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,16 +21,52 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("redshift-data", "list-databases")]
-public record AwsRedshiftDataListDatabasesOptions : AwsOptions
+public record AwsRedshiftDataListDatabasesOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// List the databases in a cluster. A token is returned to page through the database list. Depending on the authorization method, use one of the following combinations of request parameters: o Secrets Manager - when connecting to a cluster, provide the se- cret-arn of a secret stored in Secrets Manager which has username and password . The specified secret contains credentials to connect to the database you specify. When you are connecting to a cluster, you also supply the database name, If you pro...
+    /// </summary>
+    /// <param name="Database">The name of the database. This parameter is required when authenti- cating using either Secrets Manager or temporary credentials.</param>
+    public AwsRedshiftDataListDatabasesOptions(
+        string Database
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Database);
+        this.Database = Database;
+    }
+
+    private AwsRedshiftDataListDatabasesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRedshiftDataListDatabasesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRedshiftDataListDatabasesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the database. This parameter is required when authenti- cating using either Secrets Manager or temporary credentials.
+    /// </summary>
+    [CliOption("--database")]
+    public string? Database { get; private init; }
+
     /// <summary>
     /// The cluster identifier. This parameter is required when connecting to a cluster and authenticating using either Secrets Manager or tem- porary credentials. Constraints: o min: 1 o max: 63 o pattern: [a-z][a-z0-9]*(-[a-z0-9]+)*
     /// </summary>
     [CliOption("--cluster-identifier")]
     public string? ClusterIdentifier { get; set; }
-
-    [CliOption("--database")]
-    public string? Database { get; set; }
 
     /// <summary>
     /// The name or ARN of the secret that enables access to the database. This parameter is required when authenticating using Secrets Man- ager.
@@ -74,5 +111,22 @@ public record AwsRedshiftDataListDatabasesOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

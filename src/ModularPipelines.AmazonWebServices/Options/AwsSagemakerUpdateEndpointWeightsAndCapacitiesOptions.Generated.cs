@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,89 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sagemaker", "update-endpoint-weights-and-capacities")]
-public record AwsSagemakerUpdateEndpointWeightsAndCapacitiesOptions : AwsOptions
+public record AwsSagemakerUpdateEndpointWeightsAndCapacitiesOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--endpoint-name")]
-    public string? EndpointName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Updates variant weight of one or more variants associated with an ex- isting endpoint, or capacity of one variant associated with an existing endpoint. When it receives the request, SageMaker sets the endpoint status to Updating . After updating the endpoint, it sets the status to InService . To check the status of an endpoint, use the DescribeEndpoint API. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="EndpointName">The name of an existing SageMaker endpoint. Constraints: o min: 0 o max: 63 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}</param>
+    /// <param name="DesiredWeightsAndCapacities">An object that provides new capacity and weight values for a vari- ant. Constraints: o min: 1 (structure) Specifies weight and capacity values for a production variant. VariantName -&gt; (string) [required] The name of the variant to update. Constraints: o min: 0 o max: 63 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62} DesiredWeight -&gt; (float) The variant's weight. Constraints: o min: 0 DesiredInstanceCount -&gt; (integer) The variant's capacity. Constraints: o min: 0 ServerlessUpdateConfig -&gt; (structure) Specifies the serverless update concurrency configuration for an endpoint variant. MaxConcurrency -&gt; (integer) The updated maximum number of concurrent invocations your serverless endpoint can process. Constraints: o min: 1 o max: 200 ProvisionedConcurrency -&gt; (integer) The updated amount of provisioned concurrency to allocate for the serverless endpoint. Should be less than or equal to MaxConcurrency . Constraints: o min: 1 o max: 200 Shorthand Syntax: VariantName=string,DesiredWeight=float,DesiredInstanceCount=integer,ServerlessUpdateConfig={MaxConcurrency=integer,ProvisionedConcurrency=integer} ... JSON Syntax: [ { "VariantName": "string", "DesiredWeight": float, "DesiredInstanceCount": integer, "ServerlessUpdateConfig": { "MaxConcurrency": integer, "ProvisionedConcurrency": integer } } ... ]</param>
+    public AwsSagemakerUpdateEndpointWeightsAndCapacitiesOptions(
+        string EndpointName,
+        IEnumerable<string> DesiredWeightsAndCapacities
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(EndpointName);
+        this.EndpointName = EndpointName;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(DesiredWeightsAndCapacities);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(DesiredWeightsAndCapacities));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(DesiredWeightsAndCapacities));
+            }
+
+            DesiredWeightsAndCapacities = materialized;
+        }
+        this.DesiredWeightsAndCapacities = DesiredWeightsAndCapacities;
+    }
+
+    private AwsSagemakerUpdateEndpointWeightsAndCapacitiesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSagemakerUpdateEndpointWeightsAndCapacitiesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSagemakerUpdateEndpointWeightsAndCapacitiesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of an existing SageMaker endpoint. Constraints: o min: 0 o max: 63 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}
+    /// </summary>
+    [CliOption("--endpoint-name")]
+    public string? EndpointName { get; private init; }
+
+    /// <summary>
+    /// An object that provides new capacity and weight values for a vari- ant. Constraints: o min: 1 (structure) Specifies weight and capacity values for a production variant. VariantName -&gt; (string) [required] The name of the variant to update. Constraints: o min: 0 o max: 63 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62} DesiredWeight -&gt; (float) The variant's weight. Constraints: o min: 0 DesiredInstanceCount -&gt; (integer) The variant's capacity. Constraints: o min: 0 ServerlessUpdateConfig -&gt; (structure) Specifies the serverless update concurrency configuration for an endpoint variant. MaxConcurrency -&gt; (integer) The updated maximum number of concurrent invocations your serverless endpoint can process. Constraints: o min: 1 o max: 200 ProvisionedConcurrency -&gt; (integer) The updated amount of provisioned concurrency to allocate for the serverless endpoint. Should be less than or equal to MaxConcurrency . Constraints: o min: 1 o max: 200 Shorthand Syntax: VariantName=string,DesiredWeight=float,DesiredInstanceCount=integer,ServerlessUpdateConfig={MaxConcurrency=integer,ProvisionedConcurrency=integer} ... JSON Syntax: [ { "VariantName": "string", "DesiredWeight": float, "DesiredInstanceCount": integer, "ServerlessUpdateConfig": { "MaxConcurrency": integer, "ProvisionedConcurrency": integer } } ... ]
+    /// </summary>
     [CliOption("--desired-weights-and-capacities", GroupValues = true)]
-    public IEnumerable<string>? DesiredWeightsAndCapacities { get; set; }
+    public IEnumerable<string>? DesiredWeightsAndCapacities { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

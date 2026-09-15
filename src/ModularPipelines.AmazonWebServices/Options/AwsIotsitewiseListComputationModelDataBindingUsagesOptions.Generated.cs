@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iotsitewise", "list-computation-model-data-binding-usages")]
-public record AwsIotsitewiseListComputationModelDataBindingUsagesOptions : AwsOptions
+public record AwsIotsitewiseListComputationModelDataBindingUsagesOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Lists all data binding usages for computation models. This allows to identify where specific data bindings are being utilized across the computation models. This track dependencies between data sources and computation models. See also: AWS API Documentation list-computation-model-data-binding-usages is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-pagi- nate argument. When using --outp...
+    /// </summary>
+    /// <param name="DataBindingValueFilter">A filter used to limit the returned data binding usages based on specific data binding values. You can filter by asset, asset model, asset property, or asset model property to find all computation mod- els using these specific data sources. asset -&gt; (structure) Filter criteria for matching data bindings based on a specific asset. Used to list all data bindings referencing a particular asset or its properties. assetId -&gt; (string) [required] The ID of the asset to filter data bindings by. Only data bindings referencing this specific asset are matched. Constraints: o min: 36 o max: 36 o pattern: ^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$ assetModel -&gt; (structure) Filter criteria for matching data bindings based on a specific asset model. Used to list all data bindings referencing a par- ticular asset model or its properties. assetModelId -&gt; (string) [required] The ID of the asset model to filter data bindings by. Only data bindings referemncing this specific asset model are matched. Constraints: o min: 36 o max: 36 o pattern: ^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$ assetProperty -&gt; (structure) Filter criteria for matching data bindings based on a specific asset property. Used to list all data bindings referencing a particular property of an asset. assetId -&gt; (string) [required] The ID of the asset containing the property to filter by. This identifies the specific asset instance containing the property of interest. Constraints: o min: 36 o max: 36 o pattern: ^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$ propertyId -&gt; (string) [required] The ID of the property within the asset to filter by. Only data bindings referencing this specific property of the spec- ified asset are matched. Constraints: o min: 36 o max: 36 o pattern: ^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$ assetModelProperty -&gt; (structure) Filter criteria for matching data bindings based on a specific asset model property. Used to list all data bindings referencing a particular property of an asset model. assetModelId -&gt; (string) [required] The ID of the asset model containing the filter property. This identifies the specific asset model that contains the property of interest. Constraints: o min: 36 o max: 36 o pattern: ^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$ propertyId -&gt; (string) [required] The ID of the property within the asset model to filter by. Only data bindings referencing this specific property of the specified asset model are matched. Constraints: o min: 36 o max: 36 o pattern: ^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$ Shorthand Syntax: asset={assetId=string},assetModel={assetModelId=string},assetProperty={assetId=string,propertyId=string},assetModelProperty={assetModelId=string,propertyId=string} JSON Syntax: { "asset": { "assetId": "string" }, "assetModel": { "assetModelId": "string" }, "assetProperty": { "assetId": "string", "propertyId": "string" }, "assetModelProperty": { "assetModelId": "string", "propertyId": "string" } }</param>
+    public AwsIotsitewiseListComputationModelDataBindingUsagesOptions(
+        string DataBindingValueFilter
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DataBindingValueFilter);
+        this.DataBindingValueFilter = DataBindingValueFilter;
+    }
+
+    private AwsIotsitewiseListComputationModelDataBindingUsagesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsIotsitewiseListComputationModelDataBindingUsagesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsIotsitewiseListComputationModelDataBindingUsagesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A filter used to limit the returned data binding usages based on specific data binding values. You can filter by asset, asset model, asset property, or asset model property to find all computation mod- els using these specific data sources. asset -&gt; (structure) Filter criteria for matching data bindings based on a specific asset. Used to list all data bindings referencing a particular asset or its properties. assetId -&gt; (string) [required] The ID of the asset to filter data bindings by. Only data bindings referencing this specific asset are matched. Constraints: o min: 36 o max: 36 o pattern: ^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$ assetModel -&gt; (structure) Filter criteria for matching data bindings based on a specific asset model. Used to list all data bindings referencing a par- ticular asset model or its properties. assetModelId -&gt; (string) [required] The ID of the asset model to filter data bindings by. Only data bindings referemncing this specific asset model are matched. Constraints: o min: 36 o max: 36 o pattern: ^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$ assetProperty -&gt; (structure) Filter criteria for matching data bindings based on a specific asset property. Used to list all data bindings referencing a particular property of an asset. assetId -&gt; (string) [required] The ID of the asset containing the property to filter by. This identifies the specific asset instance containing the property of interest. Constraints: o min: 36 o max: 36 o pattern: ^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$ propertyId -&gt; (string) [required] The ID of the property within the asset to filter by. Only data bindings referencing this specific property of the spec- ified asset are matched. Constraints: o min: 36 o max: 36 o pattern: ^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$ assetModelProperty -&gt; (structure) Filter criteria for matching data bindings based on a specific asset model property. Used to list all data bindings referencing a particular property of an asset model. assetModelId -&gt; (string) [required] The ID of the asset model containing the filter property. This identifies the specific asset model that contains the property of interest. Constraints: o min: 36 o max: 36 o pattern: ^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$ propertyId -&gt; (string) [required] The ID of the property within the asset model to filter by. Only data bindings referencing this specific property of the specified asset model are matched. Constraints: o min: 36 o max: 36 o pattern: ^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$ Shorthand Syntax: asset={assetId=string},assetModel={assetModelId=string},assetProperty={assetId=string,propertyId=string},assetModelProperty={assetModelId=string,propertyId=string} JSON Syntax: { "asset": { "assetId": "string" }, "assetModel": { "assetModelId": "string" }, "assetProperty": { "assetId": "string", "propertyId": "string" }, "assetModelProperty": { "assetModelId": "string", "propertyId": "string" } }
+    /// </summary>
     [CliOption("--data-binding-value-filter")]
-    public string? DataBindingValueFilter { get; set; }
+    public string? DataBindingValueFilter { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
@@ -49,5 +86,22 @@ public record AwsIotsitewiseListComputationModelDataBindingUsagesOptions : AwsOp
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

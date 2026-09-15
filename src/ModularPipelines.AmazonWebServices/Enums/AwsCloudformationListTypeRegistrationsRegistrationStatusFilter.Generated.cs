@@ -11,17 +11,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --registrationstatusfilter.
+/// Allowed values for --registration-status-filter.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsCloudformationListTypeRegistrationsRegistrationStatusFilter
 {
     [EnumValue("COMPLETE")]
-    Complete = 1,
-
-    [EnumValue("IN_PROGRESS")]
-    InProgress = 2,
+    Complete,
 
     [EnumValue("FAILED")]
-    Failed = 3
+    Failed,
+
+    [EnumValue("IN_PROGRESS")]
+    InProgress
 }

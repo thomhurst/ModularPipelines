@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --texttype.
+/// Allowed values for --text-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsPollyStartSpeechSynthesisTaskTextType
 {
     [EnumValue("ssml")]
-    Ssml = 1,
+    Ssml,
 
     [EnumValue("text")]
-    Text = 2
+    Text
 }

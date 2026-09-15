@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,68 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storagegateway", "delete-volume")]
-public record AwsStoragegatewayDeleteVolumeOptions : AwsOptions
+public record AwsStoragegatewayDeleteVolumeOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Deletes the specified storage volume that you previously created using the CreateCachediSCSIVolume or CreateStorediSCSIVolume API. This op- eration is only supported in the cached volume and stored volume types. For stored volume gateways, the local disk that was configured as the storage volume is not deleted. You can reuse the local disk to create another storage volume. Before you delete a volume, make sure there are no iSCSI connections to the volume you are deleting. You should also make su...
+    /// </summary>
+    /// <param name="VolumeArn">The Amazon Resource Name (ARN) of the volume. Use the ListVolumes operation to return a list of gateway volumes. Constraints: o min: 50 o max: 500 o pattern: arn:(aws(|-cn|-us-gov|-iso[A-Za-z0-9_-]*|-eusc)):storage- gateway:[a-z\-0-9]+:[0-9]+:gateway\/(.+)\/volume\/vol-(\S+)</param>
+    public AwsStoragegatewayDeleteVolumeOptions(
+        string VolumeArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(VolumeArn);
+        this.VolumeArn = VolumeArn;
+    }
+
+    private AwsStoragegatewayDeleteVolumeOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsStoragegatewayDeleteVolumeOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsStoragegatewayDeleteVolumeOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the volume. Use the ListVolumes operation to return a list of gateway volumes. Constraints: o min: 50 o max: 500 o pattern: arn:(aws(|-cn|-us-gov|-iso[A-Za-z0-9_-]*|-eusc)):storage- gateway:[a-z\-0-9]+:[0-9]+:gateway\/(.+)\/volume\/vol-(\S+)
+    /// </summary>
     [CliOption("--volume-arn")]
-    public string? VolumeArn { get; set; }
+    public string? VolumeArn { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

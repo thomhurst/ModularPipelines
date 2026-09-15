@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bcm-dashboards", "create-scheduled-report")]
-public record AwsBcmDashboardsCreateScheduledReportOptions : AwsOptions
+public record AwsBcmDashboardsCreateScheduledReportOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a new scheduled report for a dashboard. A scheduled report au- tomatically generates and delivers dashboard snapshots on a recurring schedule. Reports are delivered within 15 minutes of the scheduled de- livery time. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ScheduledReport">The configuration for the scheduled report, including the dashboard to report on, the schedule, and the execution role that the service will use to generate the dashboard snapshot. name -&gt; (string) [required] The name of the scheduled report. Constraints: o min: 2 o max: 50 o pattern: (?!.* {2})[a-zA-Z][a-zA-Z0-9 _-]{0,48}[a-zA-Z0-9_-] dashboardArn -&gt; (string) [required] The ARN of the dashboard to generate the scheduled report from. Constraints: o min: 20 o max: 2048 o pattern: arn:aws[-a-z0-9]*:bcm-dashboards::[0-9]{12}:dash- board/(\*|[-a-z0-9]+) scheduledReportExecutionRoleArn -&gt; (string) [required] The ARN of the IAM role that the scheduled report uses to exe- cute. Amazon Web Services Billing and Cost Management Dashboards will assume this IAM role while executing the scheduled report. Constraints: o min: 20 o max: 2048 o pattern: arn:aws[-a-z0-9]*:iam::[0-9]{12}:role/[a-zA-Z0-9+=,.@_/-]+ scheduleConfig -&gt; (structure) [required] The schedule configuration that defines when and how often the report is generated. If the schedule state is not specified, it defaults to ENABLED . scheduleExpression -&gt; (string) The schedule expression that specifies when to trigger the scheduled report run. This value must be a cron expression consisting of six fields separated by white spaces: cron(min- utes hours day_of_month month day_of_week year) . Constraints: o min: 0 o max: 1024 o pattern: [\S\s]* scheduleExpressionTimeZone -&gt; (string) The time zone for the schedule expression, for example, UTC . Constraints: o min: 0 o max: 1024 o pattern: [\S\s]* schedulePeriod -&gt; (structure) The time period during which the schedule is active. startTime -&gt; (timestamp) The start time of the schedule period. If not specified, defaults to the time of the create or update request. The start time cannot be more than 5 minutes before the time of the request. endTime -&gt; (timestamp) The end time of the schedule period. If not specified, defaults to 3 years from the time of the create or update request. The maximum allowed value is 3 years from the current time. Setting an end time beyond this limit re- turns a ValidationException . state -&gt; (string) The state of the schedule. ENABLED means the scheduled report runs according to its schedule expression. DISABLED means the scheduled report is paused and will not run until re-enabled. Possible values: o ENABLED o DISABLED description -&gt; (string) A description of the scheduled report's purpose or contents. Constraints: o min: 1 o max: 200 o pattern: (?!.* {2})[ a-zA-Z0-9.,!?;:@#$%&amp;\-_/\\]* widgetIds -&gt; (list) The list of widget identifiers to include in the scheduled re- port. If not specified, all widgets in the dashboard are in- cluded. Constraints: o min: 0 o max: 1 (string) widgetDateRangeOverride -&gt; (structure) The date range override to apply to widgets in the scheduled re- port. startTime -&gt; (structure) [required] The start time of the date range for querying data. type -&gt; (string) [required] The type of date/time value: ABSOLUTE for specific dates or RELATIVE for dynamic time periods. Possible values: o ABSOLUTE o RELATIVE value -&gt; (string) [required] The actual date/time value. Constraints: o min: 0 o max: 1024 o pattern: [\S\s]* endTime -&gt; (structure) [required] The end time of the date range for querying data. type -&gt; (string) [required] The type of date/time value: ABSOLUTE for specific dates or RELATIVE for dynamic time periods. Possible values: o ABSOLUTE o RELATIVE value -&gt; (string) [required] The actual date/time value. Constraints: o min: 0 o max: 1024 o pattern: [\S\s]* Shorthand Syntax: name=string,dashboardArn=string,scheduledReportExecutionRoleArn=string,scheduleConfig={scheduleExpression=string,scheduleExpressionTimeZone=string,schedulePeriod={startTime=timestamp,endTime=timestamp},state=string},description=string,widgetIds=string,string,widgetDateRangeOverride={startTime={type=string,value=string},endTime={type=string,value=string}} JSON Syntax: { "name": "string", "dashboardArn": "string", "scheduledReportExecutionRoleArn": "string", "scheduleConfig": { "scheduleExpression": "string", "scheduleExpressionTimeZone": "string", "schedulePeriod": { "startTime": timestamp, "endTime": timestamp }, "state": "ENABLED"|"DISABLED" }, "description": "string", "widgetIds": ["string", ...], "widgetDateRangeOverride": { "startTime": { "type": "ABSOLUTE"|"RELATIVE", "value": "string" }, "endTime": { "type": "ABSOLUTE"|"RELATIVE", "value": "string" } } }</param>
+    public AwsBcmDashboardsCreateScheduledReportOptions(
+        string ScheduledReport
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ScheduledReport);
+        this.ScheduledReport = ScheduledReport;
+    }
+
+    private AwsBcmDashboardsCreateScheduledReportOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsBcmDashboardsCreateScheduledReportOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsBcmDashboardsCreateScheduledReportOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The configuration for the scheduled report, including the dashboard to report on, the schedule, and the execution role that the service will use to generate the dashboard snapshot. name -&gt; (string) [required] The name of the scheduled report. Constraints: o min: 2 o max: 50 o pattern: (?!.* {2})[a-zA-Z][a-zA-Z0-9 _-]{0,48}[a-zA-Z0-9_-] dashboardArn -&gt; (string) [required] The ARN of the dashboard to generate the scheduled report from. Constraints: o min: 20 o max: 2048 o pattern: arn:aws[-a-z0-9]*:bcm-dashboards::[0-9]{12}:dash- board/(\*|[-a-z0-9]+) scheduledReportExecutionRoleArn -&gt; (string) [required] The ARN of the IAM role that the scheduled report uses to exe- cute. Amazon Web Services Billing and Cost Management Dashboards will assume this IAM role while executing the scheduled report. Constraints: o min: 20 o max: 2048 o pattern: arn:aws[-a-z0-9]*:iam::[0-9]{12}:role/[a-zA-Z0-9+=,.@_/-]+ scheduleConfig -&gt; (structure) [required] The schedule configuration that defines when and how often the report is generated. If the schedule state is not specified, it defaults to ENABLED . scheduleExpression -&gt; (string) The schedule expression that specifies when to trigger the scheduled report run. This value must be a cron expression consisting of six fields separated by white spaces: cron(min- utes hours day_of_month month day_of_week year) . Constraints: o min: 0 o max: 1024 o pattern: [\S\s]* scheduleExpressionTimeZone -&gt; (string) The time zone for the schedule expression, for example, UTC . Constraints: o min: 0 o max: 1024 o pattern: [\S\s]* schedulePeriod -&gt; (structure) The time period during which the schedule is active. startTime -&gt; (timestamp) The start time of the schedule period. If not specified, defaults to the time of the create or update request. The start time cannot be more than 5 minutes before the time of the request. endTime -&gt; (timestamp) The end time of the schedule period. If not specified, defaults to 3 years from the time of the create or update request. The maximum allowed value is 3 years from the current time. Setting an end time beyond this limit re- turns a ValidationException . state -&gt; (string) The state of the schedule. ENABLED means the scheduled report runs according to its schedule expression. DISABLED means the scheduled report is paused and will not run until re-enabled. Possible values: o ENABLED o DISABLED description -&gt; (string) A description of the scheduled report's purpose or contents. Constraints: o min: 1 o max: 200 o pattern: (?!.* {2})[ a-zA-Z0-9.,!?;:@#$%&amp;\-_/\\]* widgetIds -&gt; (list) The list of widget identifiers to include in the scheduled re- port. If not specified, all widgets in the dashboard are in- cluded. Constraints: o min: 0 o max: 1 (string) widgetDateRangeOverride -&gt; (structure) The date range override to apply to widgets in the scheduled re- port. startTime -&gt; (structure) [required] The start time of the date range for querying data. type -&gt; (string) [required] The type of date/time value: ABSOLUTE for specific dates or RELATIVE for dynamic time periods. Possible values: o ABSOLUTE o RELATIVE value -&gt; (string) [required] The actual date/time value. Constraints: o min: 0 o max: 1024 o pattern: [\S\s]* endTime -&gt; (structure) [required] The end time of the date range for querying data. type -&gt; (string) [required] The type of date/time value: ABSOLUTE for specific dates or RELATIVE for dynamic time periods. Possible values: o ABSOLUTE o RELATIVE value -&gt; (string) [required] The actual date/time value. Constraints: o min: 0 o max: 1024 o pattern: [\S\s]* Shorthand Syntax: name=string,dashboardArn=string,scheduledReportExecutionRoleArn=string,scheduleConfig={scheduleExpression=string,scheduleExpressionTimeZone=string,schedulePeriod={startTime=timestamp,endTime=timestamp},state=string},description=string,widgetIds=string,string,widgetDateRangeOverride={startTime={type=string,value=string},endTime={type=string,value=string}} JSON Syntax: { "name": "string", "dashboardArn": "string", "scheduledReportExecutionRoleArn": "string", "scheduleConfig": { "scheduleExpression": "string", "scheduleExpressionTimeZone": "string", "schedulePeriod": { "startTime": timestamp, "endTime": timestamp }, "state": "ENABLED"|"DISABLED" }, "description": "string", "widgetIds": ["string", ...], "widgetDateRangeOverride": { "startTime": { "type": "ABSOLUTE"|"RELATIVE", "value": "string" }, "endTime": { "type": "ABSOLUTE"|"RELATIVE", "value": "string" } } }
+    /// </summary>
     [CliOption("--scheduled-report")]
-    public string? ScheduledReport { get; set; }
+    public string? ScheduledReport { get; private init; }
 
     /// <summary>
     /// The tags to apply to the scheduled report resource for organization and management. Constraints: o min: 0 o max: 200 (structure) A key-value pair that can be attached to a dashboard for organi- zation and management purposes. key -&gt; (string) [required] The key of the tag to be attached to the dashboard resource. Constraints: o min: 1 o max: 128 o pattern: [\S\s]* value -&gt; (string) [required] The value of the tag to be attached to the dashboard re- source. Constraints: o min: 0 o max: 256 o pattern: [\S\s]* Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
@@ -43,5 +80,22 @@ public record AwsBcmDashboardsCreateScheduledReportOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

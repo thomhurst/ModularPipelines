@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --heritagestatus.
+/// Allowed values for --heritage-status.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsTaxsettingsPutTaxInheritanceHeritageStatus
 {
     [EnumValue("OptIn")]
-    OptIn = 1,
+    OptIn,
 
     [EnumValue("OptOut")]
-    OptOut = 2
+    OptOut
 }

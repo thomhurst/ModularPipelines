@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("lightsail", "update-bucket")]
-public record AwsLightsailUpdateBucketOptions : AwsOptions
+public record AwsLightsailUpdateBucketOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates an existing Amazon Lightsail bucket. Use this action to update the configuration of an existing bucket, such as versioning, public accessibility, and the Amazon Web Services ac- counts that can access the bucket. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="BucketName">The name of the bucket to update. Constraints: o min: 3 o max: 54 o pattern: ^[a-z0-9][a-z0-9-]{1,52}[a-z0-9]$</param>
+    public AwsLightsailUpdateBucketOptions(
+        string BucketName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(BucketName);
+        this.BucketName = BucketName;
+    }
+
+    private AwsLightsailUpdateBucketOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsLightsailUpdateBucketOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsLightsailUpdateBucketOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the bucket to update. Constraints: o min: 3 o max: 54 o pattern: ^[a-z0-9][a-z0-9-]{1,52}[a-z0-9]$
+    /// </summary>
     [CliOption("--bucket-name")]
-    public string? BucketName { get; set; }
+    public string? BucketName { get; private init; }
 
     /// <summary>
     /// An object that sets the public accessibility of objects in the spec- ified bucket. getObject -&gt; (string) Specifies the anonymous access to all objects in a bucket. The following options can be specified: o public - Sets all objects in the bucket to public (read-only), making them readable by anyone in the world. If the getObject value is set to public , then all objects in the bucket de- fault to public regardless of the allowPublicOverrides value. o private - Sets all objects in the bucket to private, making them readable only by you or anyone you give access to. If the getObject value is set to private , and the allowPublicOver- rides value is set to true , then all objects in the bucket default to private unless they are configured with a pub- lic-read ACL. Individual objects with a public-read ACL are readable by anyone in the world. Possible values: o public o private allowPublicOverrides -&gt; (boolean) A Boolean value that indicates whether the access control list (ACL) permissions that are applied to individual objects over- ride the getObject option that is currently specified. When this is true, you can use the PutObjectAcl Amazon S3 API action to set individual objects to public (read-only) using the public-read ACL, or to private using the private ACL. Shorthand Syntax: getObject=string,allowPublicOverrides=boolean JSON Syntax: { "getObject": "public"|"private", "allowPublicOverrides": true|false }
@@ -59,5 +96,22 @@ public record AwsLightsailUpdateBucketOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

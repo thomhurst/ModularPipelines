@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,20 +21,63 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("acm", "import-certificate")]
-public record AwsAcmImportCertificateOptions : AwsOptions
+public record AwsAcmImportCertificateOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Imports a certificate into Certificate Manager (ACM) to use with ser- vices that are integrated with ACM. Note that integrated services allow only certificate types and keys they support to be associated with their resources. Further, their support differs depending on whether the certificate is imported into IAM or into ACM. For more information, see the documentation for each service. For more information about im- porting certificates into ACM, see Importing Certificates in the Cer- tificate ...
+    /// </summary>
+    /// <param name="Certificate">The certificate to import. Constraints: o min: 1 o max: 32768</param>
+    /// <param name="PrivateKey">The private key that matches the public key in the certificate. Constraints: o min: 1 o max: 5120</param>
+    public AwsAcmImportCertificateOptions(
+        string Certificate,
+        string PrivateKey
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Certificate);
+        this.Certificate = Certificate;
+        global::System.ArgumentNullException.ThrowIfNull(PrivateKey);
+        this.PrivateKey = PrivateKey;
+    }
+
+    private AwsAcmImportCertificateOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsAcmImportCertificateOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsAcmImportCertificateOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The certificate to import. Constraints: o min: 1 o max: 32768
+    /// </summary>
+    [CliOption("--certificate")]
+    public string? Certificate { get; private init; }
+
+    /// <summary>
+    /// The private key that matches the public key in the certificate. Constraints: o min: 1 o max: 5120
+    /// </summary>
+    [SecretValue]
+    [CliOption("--private-key")]
+    public string? PrivateKey { get; private init; }
+
     /// <summary>
     /// The Amazon Resource Name (ARN) of an imported certificate to re- place. To import a new certificate, omit this field. Constraints: o min: 20 o max: 2048 o pattern: arn:[\w+=/,.@-]+:acm:[\w+=/,.@-]*:[0-9]+:[\w+=,.@-]+(/[\w+=,.@-]+)*
     /// </summary>
     [CliOption("--certificate-arn")]
     public string? CertificateArn { get; set; }
-
-    [CliOption("--certificate")]
-    public string? Certificate { get; set; }
-
-    [SecretValue]
-    [CliOption("--private-key")]
-    public string? PrivateKey { get; set; }
 
     /// <summary>
     /// The PEM encoded certificate chain. Constraints: o min: 1 o max: 2097152
@@ -52,5 +96,22 @@ public record AwsAcmImportCertificateOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

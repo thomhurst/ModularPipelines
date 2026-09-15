@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("inspector-scan", "scan-sbom")]
-public record AwsInspectorScanScanSbomOptions : AwsOptions
+public record AwsInspectorScanScanSbomOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Scans a provided CycloneDX 1.5 SBOM and reports on any vulnerabilities discovered in that SBOM. You can generate compatible SBOMs for your re- sources using the Amazon Inspector SBOM generator . NOTE: The output of this action reports NVD and CVSS scores when NVD and CVSS scores are available. Because the output reports both scores, you might notice a discrepency between them. However, you can triage the severity of either score depending on the vendor of your choos- ing. See also: AWS API Docum...
+    /// </summary>
+    /// <param name="Sbom">The JSON file for the SBOM you want to scan. The SBOM must be in Cy- cloneDX 1.5 format. This format limits you to passing 2000 compo- nents before throwing a ValidException error. JSON Syntax: {...}</param>
+    public AwsInspectorScanScanSbomOptions(
+        string Sbom
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Sbom);
+        this.Sbom = Sbom;
+    }
+
+    private AwsInspectorScanScanSbomOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsInspectorScanScanSbomOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsInspectorScanScanSbomOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The JSON file for the SBOM you want to scan. The SBOM must be in Cy- cloneDX 1.5 format. This format limits you to passing 2000 compo- nents before throwing a ValidException error. JSON Syntax: {...}
+    /// </summary>
     [CliOption("--sbom")]
-    public string? Sbom { get; set; }
+    public string? Sbom { get; private init; }
 
     /// <summary>
     /// The output format for the vulnerability report. Possible values: o CYCLONE_DX_1_5 o INSPECTOR o INSPECTOR_ALT
@@ -36,5 +73,22 @@ public record AwsInspectorScanScanSbomOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --databaseinsightsmode.
+/// Allowed values for --database-insights-mode.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsRdsCreateDbClusterDatabaseInsightsMode
 {
-    [EnumValue("standard")]
-    Standard = 1,
-
     [EnumValue("advanced")]
-    Advanced = 2
+    Advanced,
+
+    [EnumValue("standard")]
+    Standard
 }

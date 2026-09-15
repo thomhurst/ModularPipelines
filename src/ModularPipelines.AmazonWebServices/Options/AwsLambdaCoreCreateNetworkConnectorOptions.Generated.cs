@@ -12,6 +12,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -21,13 +22,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("lambda-core", "create-network-connector")]
-public record AwsLambdaCoreCreateNetworkConnectorOptions : AwsOptions
+public record AwsLambdaCoreCreateNetworkConnectorOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--name")]
-    public string? Name { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates a network connector that enables Lambda compute resources to route outbound traffic through your Amazon VPC. The network connector provisions elastic network interfaces (ENIs) in the subnets you spec- ify, providing a managed network path to private resources such as databases, caches, and internal APIs. This operation is asynchronous. The network connector starts in PENDING state while ENIs are provisioned in your VPC (provisioning typically takes up to 10 minutes). Use GetNetworkConnec...
+    /// </summary>
+    /// <param name="Name">A unique name for the network connector within your account and Re- gion. You can use the name to identify the connector in subsequent API calls. Constraints: o min: 1 o max: 140 o pattern: (arn:aws[a-zA-Z-]*:lambda:(eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\d{1}:\d{12}:net- work-connec- tor:[a-zA-Z0-9-_]+(:[1-9]|[1-9][0-9]+)?)|[a-zA-Z0-9_-]{1,64}</param>
+    /// <param name="Configuration">The network configuration for the connector. Specify a VpcEgressCon- figuration to enable outbound traffic routing through your VPC. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: VpcEgressConfiguration. VpcEgressConfiguration -&gt; (structure) Configuration for a VPC egress network connector. Specifies the subnets, security groups, and network protocol for routing out- bound traffic through your VPC. SubnetIds -&gt; (list) The IDs of the VPC subnets where Lambda provisions elastic network interfaces (ENIs). Specify 1 to 16 subnets. All sub- nets must be in the same VPC. Constraints: o min: 1 o max: 16 (string) Constraints: o min: 0 o max: 1024 o pattern: subnet-[0-9a-z]* SecurityGroupIds -&gt; (list) The IDs of the VPC security groups to attach to the ENIs. Specify 0 to 5 security groups. All security groups must be in the same VPC as the subnets. Constraints: o min: 0 o max: 5 (string) Constraints: o min: 0 o max: 1024 o pattern: sg-[0-9a-zA-Z]* NetworkProtocol -&gt; (string) The network protocol for the connector. Specify IPv4 for IPv4-only networking, or DualStack for both IPv4 and IPv6. Possible values: o IPv4 o DualStack AssociatedComputeResourceTypes -&gt; (list) The types of Lambda compute resources that can use this con- nector. Currently, only MicroVm is supported. Constraints: o min: 1 o max: 1 (string) Possible values: o MicroVm Shorthand Syntax: VpcEgressConfiguration={SubnetIds=[string,string],SecurityGroupIds=[string,string],NetworkProtocol=string,AssociatedComputeResourceTypes=[string,string]} JSON Syntax: { "VpcEgressConfiguration": { "SubnetIds": ["string", ...], "SecurityGroupIds": ["string", ...], "NetworkProtocol": "IPv4"|"DualStack", "AssociatedComputeResourceTypes": ["MicroVm", ...] } }</param>
+    public AwsLambdaCoreCreateNetworkConnectorOptions(
+        string Name,
+        string Configuration
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(Configuration);
+        this.Configuration = Configuration;
+    }
+
+    private AwsLambdaCoreCreateNetworkConnectorOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsLambdaCoreCreateNetworkConnectorOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsLambdaCoreCreateNetworkConnectorOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A unique name for the network connector within your account and Re- gion. You can use the name to identify the connector in subsequent API calls. Constraints: o min: 1 o max: 140 o pattern: (arn:aws[a-zA-Z-]*:lambda:(eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\d{1}:\d{12}:net- work-connec- tor:[a-zA-Z0-9-_]+(:[1-9]|[1-9][0-9]+)?)|[a-zA-Z0-9_-]{1,64}
+    /// </summary>
+    [CliOption("--name")]
+    public string? Name { get; private init; }
+
+    /// <summary>
+    /// The network configuration for the connector. Specify a VpcEgressCon- figuration to enable outbound traffic routing through your VPC. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: VpcEgressConfiguration. VpcEgressConfiguration -&gt; (structure) Configuration for a VPC egress network connector. Specifies the subnets, security groups, and network protocol for routing out- bound traffic through your VPC. SubnetIds -&gt; (list) The IDs of the VPC subnets where Lambda provisions elastic network interfaces (ENIs). Specify 1 to 16 subnets. All sub- nets must be in the same VPC. Constraints: o min: 1 o max: 16 (string) Constraints: o min: 0 o max: 1024 o pattern: subnet-[0-9a-z]* SecurityGroupIds -&gt; (list) The IDs of the VPC security groups to attach to the ENIs. Specify 0 to 5 security groups. All security groups must be in the same VPC as the subnets. Constraints: o min: 0 o max: 5 (string) Constraints: o min: 0 o max: 1024 o pattern: sg-[0-9a-zA-Z]* NetworkProtocol -&gt; (string) The network protocol for the connector. Specify IPv4 for IPv4-only networking, or DualStack for both IPv4 and IPv6. Possible values: o IPv4 o DualStack AssociatedComputeResourceTypes -&gt; (list) The types of Lambda compute resources that can use this con- nector. Currently, only MicroVm is supported. Constraints: o min: 1 o max: 1 (string) Possible values: o MicroVm Shorthand Syntax: VpcEgressConfiguration={SubnetIds=[string,string],SecurityGroupIds=[string,string],NetworkProtocol=string,AssociatedComputeResourceTypes=[string,string]} JSON Syntax: { "VpcEgressConfiguration": { "SubnetIds": ["string", ...], "SecurityGroupIds": ["string", ...], "NetworkProtocol": "IPv4"|"DualStack", "AssociatedComputeResourceTypes": ["MicroVm", ...] } }
+    /// </summary>
     [CliOption("--configuration")]
-    public string? Configuration { get; set; }
+    public string? Configuration { get; private init; }
 
     /// <summary>
     /// The ARN of the IAM role that Lambda assumes to manage elastic net- work interfaces in your VPC. This role must have permissions for ec2:CreateNetworkInterface , ec2:DeleteNetworkInterface , and re- lated describe operations. Constraints: o min: 0 o max: 10000 o pattern: arn:(aws[a-zA-Z-]*)?:iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+
@@ -53,5 +97,22 @@ public record AwsLambdaCoreCreateNetworkConnectorOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

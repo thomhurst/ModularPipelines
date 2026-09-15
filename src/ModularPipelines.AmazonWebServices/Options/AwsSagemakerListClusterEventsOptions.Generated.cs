@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,10 +22,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sagemaker", "list-cluster-events")]
-public record AwsSagemakerListClusterEventsOptions : AwsOptions
+public record AwsSagemakerListClusterEventsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Retrieves a list of event summaries for a specified HyperPod cluster. The operation supports filtering, sorting, and pagination of results. This functionality is only supported when the NodeProvisioningMode is set to Continuous . See also: AWS API Documentation list-cluster-events is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --que...
+    /// </summary>
+    /// <param name="ClusterName">The name or Amazon Resource Name (ARN) of the HyperPod cluster for which to list events. Constraints: o min: 0 o max: 256 o pattern: (arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:clus- ter/[a-z0-9]{12})|([a-zA-Z0-9](-*[a-zA-Z0-9]){0,62})</param>
+    public AwsSagemakerListClusterEventsOptions(
+        string ClusterName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ClusterName);
+        this.ClusterName = ClusterName;
+    }
+
+    private AwsSagemakerListClusterEventsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSagemakerListClusterEventsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSagemakerListClusterEventsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name or Amazon Resource Name (ARN) of the HyperPod cluster for which to list events. Constraints: o min: 0 o max: 256 o pattern: (arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:clus- ter/[a-z0-9]{12})|([a-zA-Z0-9](-*[a-zA-Z0-9]){0,62})
+    /// </summary>
     [CliOption("--cluster-name")]
-    public string? ClusterName { get; set; }
+    public string? ClusterName { get; private init; }
 
     /// <summary>
     /// The name of the instance group to filter events. If specified, only events related to this instance group are returned. Constraints: o min: 1 o max: 63 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9])*
@@ -92,5 +129,22 @@ public record AwsSagemakerListClusterEventsOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,61 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cognito-idp", "describe-managed-login-branding")]
-public record AwsCognitoIdpDescribeManagedLoginBrandingOptions : AwsOptions
+public record AwsCognitoIdpDescribeManagedLoginBrandingOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Given the ID of a managed login branding style, returns detailed infor- mation about the style. See also: AWS API Documentation describe-managed-login-branding uses document type values. Document types follow the JSON data model where valid values are: strings, num- bers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
+    /// </summary>
+    /// <param name="UserPoolId">The ID of the user pool that contains the managed login branding style that you want to get information about. Constraints: o min: 1 o max: 55 o pattern: [\w-]+_[0-9a-zA-Z]+</param>
+    /// <param name="ManagedLoginBrandingId">The ID of the managed login branding style that you want to get more information about. Constraints: o pattern: ^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[4][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$</param>
+    public AwsCognitoIdpDescribeManagedLoginBrandingOptions(
+        string UserPoolId,
+        string ManagedLoginBrandingId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(UserPoolId);
+        this.UserPoolId = UserPoolId;
+        global::System.ArgumentNullException.ThrowIfNull(ManagedLoginBrandingId);
+        this.ManagedLoginBrandingId = ManagedLoginBrandingId;
+    }
+
+    private AwsCognitoIdpDescribeManagedLoginBrandingOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCognitoIdpDescribeManagedLoginBrandingOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCognitoIdpDescribeManagedLoginBrandingOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the user pool that contains the managed login branding style that you want to get information about. Constraints: o min: 1 o max: 55 o pattern: [\w-]+_[0-9a-zA-Z]+
+    /// </summary>
     [CliOption("--user-pool-id")]
-    public string? UserPoolId { get; set; }
+    public string? UserPoolId { get; private init; }
 
+    /// <summary>
+    /// The ID of the managed login branding style that you want to get more information about. Constraints: o pattern: ^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[4][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$
+    /// </summary>
     [CliOption("--managed-login-branding-id")]
-    public string? ManagedLoginBrandingId { get; set; }
+    public string? ManagedLoginBrandingId { get; private init; }
 
-    [CliFlag("--return-merged-resources")]
+    /// <summary>
+    /// When true , returns values for branding options that are unchanged from Amazon Cognito defaults. When false or when you omit this para- meter, returns only values that you customized in your branding style.
+    /// </summary>
+    [CliFlag("--return-merged-resources", NegatedName = "--no-return-merged-resources")]
     public bool? ReturnMergedResources { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -35,5 +82,22 @@ public record AwsCognitoIdpDescribeManagedLoginBrandingOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

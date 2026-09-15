@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,57 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("application-signals", "batch-update-exclusion-windows")]
-public record AwsApplicationSignalsBatchUpdateExclusionWindowsOptions : AwsOptions
+public record AwsApplicationSignalsBatchUpdateExclusionWindowsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Add or remove time window exclusions for one or more Service Level Ob- jectives (SLOs). See also: AWS API Documentation
+    /// </summary>
+    /// <param name="SloIds">The list of SLO IDs to add or remove exclusion windows from. Constraints: o min: 1 o max: 50 (string) Syntax: "string" "string" ...</param>
+    public AwsApplicationSignalsBatchUpdateExclusionWindowsOptions(
+        IEnumerable<string> SloIds
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(SloIds);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(SloIds));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(SloIds));
+            }
+
+            SloIds = materialized;
+        }
+        this.SloIds = SloIds;
+    }
+
+    private AwsApplicationSignalsBatchUpdateExclusionWindowsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsApplicationSignalsBatchUpdateExclusionWindowsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsApplicationSignalsBatchUpdateExclusionWindowsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The list of SLO IDs to add or remove exclusion windows from. Constraints: o min: 1 o max: 50 (string) Syntax: "string" "string" ...
+    /// </summary>
     [CliOption("--slo-ids", GroupValues = true)]
-    public IEnumerable<string>? SloIds { get; set; }
+    public IEnumerable<string>? SloIds { get; private init; }
 
     /// <summary>
     /// A list of exclusion windows to add to the specified SLOs. You can add up to 10 exclusion windows per SLO. Constraints: o min: 0 o max: 10 (structure) The core SLO time window exclusion object that includes Window, StartTime, RecurrenceRule, and Reason. Window -&gt; (structure) [required] The SLO time window exclusion . DurationUnit -&gt; (string) [required] The unit of time for the exclusion window duration. Valid values: MINUTE, HOUR, DAY, MONTH. Possible values: o MINUTE o HOUR o DAY o MONTH Duration -&gt; (integer) [required] The number of time units for the exclusion window length. Constraints: o min: 1 StartTime -&gt; (timestamp) The start of the SLO time window exclusion. Defaults to cur- rent time if not specified. RecurrenceRule -&gt; (structure) The recurrence rule for the SLO time window exclusion. Sup- ports both cron and rate expressions. Expression -&gt; (string) [required] A cron or rate expression that specifies the schedule for the exclusion window. Constraints: o min: 1 o max: 1024 Reason -&gt; (string) A description explaining why this time period should be ex- cluded from SLO calculations. Constraints: o min: 1 o max: 1024 Shorthand Syntax: Window={DurationUnit=string,Duration=integer},StartTime=timestamp,RecurrenceRule={Expression=string},Reason=string ... JSON Syntax: [ { "Window": { "DurationUnit": "MINUTE"|"HOUR"|"DAY"|"MONTH", "Duration": integer }, "StartTime": timestamp, "RecurrenceRule": { "Expression": "string" }, "Reason": "string" } ... ]
@@ -41,5 +89,22 @@ public record AwsApplicationSignalsBatchUpdateExclusionWindowsOptions : AwsOptio
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("glacier", "add-tags-to-vault")]
-public record AwsGlacierAddTagsToVaultOptions : AwsOptions
+public record AwsGlacierAddTagsToVaultOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--account-id")]
-    public string? AccountId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// This operation adds the specified tags to a vault. Each tag is composed of a key and a value. Each vault can have up to 10 tags. If your re- quest would cause the tag limit for the vault to be exceeded, the oper- ation throws the LimitExceededException error. If a tag already exists on the vault under a specified key, the existing key value will be overwritten. For more information about tags, see Tagging Amazon Glac- ier Resources . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="AccountId">The AccountId value is the AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '- ' (hyphen), in which case Amazon Glacier uses the AWS ac- count ID associated with the credentials used to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID.</param>
+    /// <param name="VaultName">The name of the vault.</param>
+    public AwsGlacierAddTagsToVaultOptions(
+        string AccountId,
+        string VaultName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AccountId);
+        this.AccountId = AccountId;
+        global::System.ArgumentNullException.ThrowIfNull(VaultName);
+        this.VaultName = VaultName;
+    }
+
+    private AwsGlacierAddTagsToVaultOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsGlacierAddTagsToVaultOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsGlacierAddTagsToVaultOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The AccountId value is the AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '- ' (hyphen), in which case Amazon Glacier uses the AWS ac- count ID associated with the credentials used to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID.
+    /// </summary>
+    [CliOption("--account-id")]
+    public string? AccountId { get; private init; }
+
+    /// <summary>
+    /// The name of the vault.
+    /// </summary>
     [CliOption("--vault-name")]
-    public string? VaultName { get; set; }
+    public string? VaultName { get; private init; }
 
     /// <summary>
     /// The tags to add to the vault. Each tag is composed of a key and a value. The value can be an empty string. key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
@@ -39,5 +83,22 @@ public record AwsGlacierAddTagsToVaultOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

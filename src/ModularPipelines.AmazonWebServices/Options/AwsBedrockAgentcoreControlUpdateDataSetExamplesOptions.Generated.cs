@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,67 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bedrock-agentcore-control", "update-dataset-examples")]
-public record AwsBedrockAgentcoreControlUpdateDataSetExamplesOptions : AwsOptions
+public record AwsBedrockAgentcoreControlUpdateDataSetExamplesOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates multiple existing examples in-place on DRAFT. All examples are validated against the dataset's schema type before any writes occur. If any example fails validation, the entire batch is rejected (all-or-nothing semantics). See also: AWS API Documentation update-dataset-examples uses document type values. Document types fol- low the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labele...
+    /// </summary>
+    /// <param name="DataSetId">The unique identifier of the dataset. Constraints: o pattern: [a-zA-Z0-9_-]{1,110}</param>
+    /// <param name="Examples">Examples to update. Each element is a JSON object containing a re- quired exampleId field identifying the existing example, plus the replacement fields. Maximum 1000 examples per call. Constraints: o min: 1 o max: 1000 (document) JSON Syntax: [ {...} ... ]</param>
+    public AwsBedrockAgentcoreControlUpdateDataSetExamplesOptions(
+        string DataSetId,
+        IEnumerable<string> Examples
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DataSetId);
+        this.DataSetId = DataSetId;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Examples);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Examples));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Examples));
+            }
+
+            Examples = materialized;
+        }
+        this.Examples = Examples;
+    }
+
+    private AwsBedrockAgentcoreControlUpdateDataSetExamplesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsBedrockAgentcoreControlUpdateDataSetExamplesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsBedrockAgentcoreControlUpdateDataSetExamplesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier of the dataset. Constraints: o pattern: [a-zA-Z0-9_-]{1,110}
+    /// </summary>
     [CliOption("--dataset-id")]
-    public string? DataSetId { get; set; }
+    public string? DataSetId { get; private init; }
+
+    /// <summary>
+    /// Examples to update. Each element is a JSON object containing a re- quired exampleId field identifying the existing example, plus the replacement fields. Maximum 1000 examples per call. Constraints: o min: 1 o max: 1000 (document) JSON Syntax: [ {...} ... ]
+    /// </summary>
+    [CliOption("--examples", GroupValues = true)]
+    public IEnumerable<string>? Examples { get; private init; }
 
     /// <summary>
     /// A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If you don't specify this field, a value is randomly generated for you. If this token matches a previ- ous request, the service ignores the request, but doesn't return an error. For more information, see Ensuring idempotency . Constraints: o min: 33 o max: 256 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,256}
@@ -32,13 +90,27 @@ public record AwsBedrockAgentcoreControlUpdateDataSetExamplesOptions : AwsOption
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CliOption("--examples", GroupValues = true)]
-    public IEnumerable<string>? Examples { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

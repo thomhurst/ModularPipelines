@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,43 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("greengrass", "list-core-definition-versions")]
-public record AwsGreengrassListCoreDefinitionVersionsOptions : AwsOptions
+public record AwsGreengrassListCoreDefinitionVersionsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Lists the versions of a core definition. See also: AWS API Documentation list-core-definition-versions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Versions
+    /// </summary>
+    /// <param name="CoreDefinitionId"></param>
+    public AwsGreengrassListCoreDefinitionVersionsOptions(
+        string CoreDefinitionId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(CoreDefinitionId);
+        this.CoreDefinitionId = CoreDefinitionId;
+    }
+
+    private AwsGreengrassListCoreDefinitionVersionsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsGreengrassListCoreDefinitionVersionsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsGreengrassListCoreDefinitionVersionsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
     [CliOption("--core-definition-id")]
-    public string? CoreDefinitionId { get; set; }
+    public string? CoreDefinitionId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
@@ -49,5 +83,22 @@ public record AwsGreengrassListCoreDefinitionVersionsOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public string? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

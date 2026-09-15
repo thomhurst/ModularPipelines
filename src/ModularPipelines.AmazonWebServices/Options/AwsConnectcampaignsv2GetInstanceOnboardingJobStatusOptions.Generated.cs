@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,68 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("connectcampaignsv2", "get-instance-onboarding-job-status")]
-public record AwsConnectcampaignsv2GetInstanceOnboardingJobStatusOptions : AwsOptions
+public record AwsConnectcampaignsv2GetInstanceOnboardingJobStatusOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Get the specific instance onboarding job status. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ConnectInstanceId">Amazon Connect Instance Id Constraints: o min: 1 o max: 256 o pattern: [-_.a-zA-Z0-9]+</param>
+    public AwsConnectcampaignsv2GetInstanceOnboardingJobStatusOptions(
+        string ConnectInstanceId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ConnectInstanceId);
+        this.ConnectInstanceId = ConnectInstanceId;
+    }
+
+    private AwsConnectcampaignsv2GetInstanceOnboardingJobStatusOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsConnectcampaignsv2GetInstanceOnboardingJobStatusOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsConnectcampaignsv2GetInstanceOnboardingJobStatusOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Amazon Connect Instance Id Constraints: o min: 1 o max: 256 o pattern: [-_.a-zA-Z0-9]+
+    /// </summary>
     [CliOption("--connect-instance-id")]
-    public string? ConnectInstanceId { get; set; }
+    public string? ConnectInstanceId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

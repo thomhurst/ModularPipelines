@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network-firewall", "create-proxy-configuration")]
-public record AwsNetworkFirewallCreateProxyConfigurationOptions : AwsOptions
+public record AwsNetworkFirewallCreateProxyConfigurationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates an Network Firewall ProxyConfiguration A Proxy Configuration defines the monitoring and protection behavior for a Proxy. The details of the behavior are defined in the rule groups that you add to your configuration. To manage a proxy configuration's tags, use the standard Amazon Web Services resource tagging operations, ListTagsForResource , TagRe- source , and UntagResource . To retrieve information about proxies, use ListProxyConfigurations and DescribeProxyConfiguration . See also: AW...
+    /// </summary>
+    /// <param name="ProxyConfigurationName">The descriptive name of the proxy configuration. You can't change the name of a proxy configuration after you create it. Constraints: o min: 1 o max: 128 o pattern: ^[a-zA-Z0-9-]+$</param>
+    /// <param name="DefaultRulePhaseActions">Evaluation points in the traffic flow where rules are applied. There are three phases in a traffic where the rule match is applied. PreDNS -&gt; (string) Before domain resolution. Possible values: o ALLOW o DENY o ALERT PreREQUEST -&gt; (string) After DNS, before request. Possible values: o ALLOW o DENY o ALERT PostRESPONSE -&gt; (string) After receiving response. Possible values: o ALLOW o DENY o ALERT Shorthand Syntax: PreDNS=string,PreREQUEST=string,PostRESPONSE=string JSON Syntax: { "PreDNS": "ALLOW"|"DENY"|"ALERT", "PreREQUEST": "ALLOW"|"DENY"|"ALERT", "PostRESPONSE": "ALLOW"|"DENY"|"ALERT" }</param>
+    public AwsNetworkFirewallCreateProxyConfigurationOptions(
+        string ProxyConfigurationName,
+        string DefaultRulePhaseActions
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ProxyConfigurationName);
+        this.ProxyConfigurationName = ProxyConfigurationName;
+        global::System.ArgumentNullException.ThrowIfNull(DefaultRulePhaseActions);
+        this.DefaultRulePhaseActions = DefaultRulePhaseActions;
+    }
+
+    private AwsNetworkFirewallCreateProxyConfigurationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsNetworkFirewallCreateProxyConfigurationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsNetworkFirewallCreateProxyConfigurationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The descriptive name of the proxy configuration. You can't change the name of a proxy configuration after you create it. Constraints: o min: 1 o max: 128 o pattern: ^[a-zA-Z0-9-]+$
+    /// </summary>
     [CliOption("--proxy-configuration-name")]
-    public string? ProxyConfigurationName { get; set; }
+    public string? ProxyConfigurationName { get; private init; }
+
+    /// <summary>
+    /// Evaluation points in the traffic flow where rules are applied. There are three phases in a traffic where the rule match is applied. PreDNS -&gt; (string) Before domain resolution. Possible values: o ALLOW o DENY o ALERT PreREQUEST -&gt; (string) After DNS, before request. Possible values: o ALLOW o DENY o ALERT PostRESPONSE -&gt; (string) After receiving response. Possible values: o ALLOW o DENY o ALERT Shorthand Syntax: PreDNS=string,PreREQUEST=string,PostRESPONSE=string JSON Syntax: { "PreDNS": "ALLOW"|"DENY"|"ALERT", "PreREQUEST": "ALLOW"|"DENY"|"ALERT", "PostRESPONSE": "ALLOW"|"DENY"|"ALERT" }
+    /// </summary>
+    [CliOption("--default-rule-phase-actions")]
+    public string? DefaultRulePhaseActions { get; private init; }
 
     /// <summary>
     /// A description of the proxy configuration. Constraints: o max: 512 o pattern: ^.*$
@@ -42,9 +89,6 @@ public record AwsNetworkFirewallCreateProxyConfigurationOptions : AwsOptions
     [CliOption("--rule-group-arns", GroupValues = true)]
     public IEnumerable<string>? RuleGroupArns { get; set; }
 
-    [CliOption("--default-rule-phase-actions")]
-    public string? DefaultRulePhaseActions { get; set; }
-
     /// <summary>
     /// The key:value pairs to associate with the resource. Constraints: o min: 1 o max: 200 (structure) A key:value pair associated with an Amazon Web Services re- source. The key:value pair can be anything you define. Typi- cally, the tag key represents a category (such as "environment") and the tag value represents a specific value within that cate- gory (such as "test," "development," or "production"). You can add up to 50 tags to each Amazon Web Services resource. Key -&gt; (string) [required] The part of the key:value pair that defines a tag. You can use a tag key to describe a category of information, such as "customer." Tag keys are case-sensitive. Constraints: o min: 1 o max: 128 o pattern: ^.*$ Value -&gt; (string) [required] The part of the key:value pair that defines a tag. You can use a tag value to describe a specific value within a cate- gory, such as "companyA" or "companyB." Tag values are case-sensitive. Constraints: o min: 0 o max: 256 o pattern: ^.*$ Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
@@ -56,5 +100,22 @@ public record AwsNetworkFirewallCreateProxyConfigurationOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

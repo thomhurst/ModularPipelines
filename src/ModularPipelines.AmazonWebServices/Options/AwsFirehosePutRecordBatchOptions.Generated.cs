@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,89 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("firehose", "put-record-batch")]
-public record AwsFirehosePutRecordBatchOptions : AwsOptions
+public record AwsFirehosePutRecordBatchOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--delivery-stream-name")]
-    public string? DeliveryStreamName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Writes multiple data records into a Firehose stream in a single call, which can achieve higher throughput per producer than when writing sin- gle records. To write single data records into a Firehose stream, use PutRecord . Applications using these operations are referred to as pro- ducers. Firehose accumulates and publishes a particular metric for a customer account in one minute intervals. It is possible that the bursts of in- coming bytes/records ingested to a Firehose stream last only for a ...
+    /// </summary>
+    /// <param name="DeliveryStreamName">The name of the Firehose stream. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_.-]+</param>
+    /// <param name="Records">One or more records. Constraints: o min: 1 o max: 500 (structure) The unit of data in a Firehose stream. Data -&gt; (blob) [required] The data blob, which is base64-encoded when the blob is seri- alized. The maximum size of the data blob, before base64-en- coding, is 1,000 KiB. Constraints: o min: 0 o max: 1024000 Shorthand Syntax: --records Data1 Data2 Data3 JSON Syntax: [ { "Data": blob } ... ]</param>
+    public AwsFirehosePutRecordBatchOptions(
+        string DeliveryStreamName,
+        IEnumerable<string> Records
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DeliveryStreamName);
+        this.DeliveryStreamName = DeliveryStreamName;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Records);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Records));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Records));
+            }
+
+            Records = materialized;
+        }
+        this.Records = Records;
+    }
+
+    private AwsFirehosePutRecordBatchOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsFirehosePutRecordBatchOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsFirehosePutRecordBatchOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the Firehose stream. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_.-]+
+    /// </summary>
+    [CliOption("--delivery-stream-name")]
+    public string? DeliveryStreamName { get; private init; }
+
+    /// <summary>
+    /// One or more records. Constraints: o min: 1 o max: 500 (structure) The unit of data in a Firehose stream. Data -&gt; (blob) [required] The data blob, which is base64-encoded when the blob is seri- alized. The maximum size of the data blob, before base64-en- coding, is 1,000 KiB. Constraints: o min: 0 o max: 1024000 Shorthand Syntax: --records Data1 Data2 Data3 JSON Syntax: [ { "Data": blob } ... ]
+    /// </summary>
     [CliOption("--records", GroupValues = true)]
-    public IEnumerable<string>? Records { get; set; }
+    public IEnumerable<string>? Records { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

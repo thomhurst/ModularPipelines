@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,23 +22,84 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("mailmanager", "create-traffic-policy")]
-public record AwsMailmanagerCreateTrafficPolicyOptions : AwsOptions
+public record AwsMailmanagerCreateTrafficPolicyOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Provision a new traffic policy resource. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="TrafficPolicyName">A user-friendly name for the traffic policy resource. Constraints: o min: 3 o max: 63 o pattern: [A-Za-z0-9_\-]+</param>
+    /// <param name="PolicyStatements">Conditional statements for filtering email traffic. (structure) The structure containing traffic policy conditions and actions. Conditions -&gt; (list) [required] The list of conditions to apply to incoming messages for fil- tering email traffic. Constraints: o min: 1 (tagged union structure) The email traffic filtering conditions which are con- tained in a traffic policy resource. NOTE: This is a Tagged Union structure. Only one of the fol- lowing top level keys can be set: StringExpression, IpExpression, Ipv6Expression, TlsExpression, Boolean- Expression. StringExpression -&gt; (structure) This represents a string based condition matching on the incoming mail. It performs the string operation configured in 'Operator' and evaluates the 'Protocol' object against the 'Value'. Evaluate -&gt; (tagged union structure) [required] The left hand side argument of a string condition expression. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: At- tribute, Analysis. Attribute -&gt; (string) The enum type representing the allowed at- tribute types for a string condition. Possible values: o RECIPIENT Analysis -&gt; (structure) The structure type for a string condition stat- ing the Add On ARN and its returned value. Analyzer -&gt; (string) [required] The Amazon Resource Name (ARN) of an Add On. Constraints: o pattern: [a-zA-Z0-9:_/+=,@.#-]+ ResultField -&gt; (string) [required] The returned value from an Add On. Constraints: o min: 1 o max: 256 o pattern: (addon\.)?[\sa-zA-Z0-9_]+ Operator -&gt; (string) [required] The matching operator for a string condition ex- pression. Possible values: o EQUALS o NOT_EQUALS o STARTS_WITH o ENDS_WITH o CONTAINS Values -&gt; (list) [required] The right hand side argument of a string condition expression. (string) IpExpression -&gt; (structure) This represents an IP based condition matching on the incoming mail. It performs the operation configured in 'Operator' and evaluates the 'Protocol' object against the 'Value'. Evaluate -&gt; (tagged union structure) [required] The left hand side argument of an IP condition ex- pression. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: At- tribute. Attribute -&gt; (string) An enum type representing the allowed attribute types for an IP condition. Possible values: o SENDER_IP Operator -&gt; (string) [required] The matching operator for an IP condition expres- sion. Possible values: o CIDR_MATCHES o NOT_CIDR_MATCHES Values -&gt; (list) [required] The right hand side argument of an IP condition expression. (string) Constraints: o pattern: ((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)/([0-9]|[12][0-9]|3[0-2]) Ipv6Expression -&gt; (structure) This represents an IPv6 based condition matching on the incoming mail. It performs the operation config- ured in 'Operator' and evaluates the 'Protocol' object against the 'Value'. Evaluate -&gt; (tagged union structure) [required] The left hand side argument of an IPv6 condition expression. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: At- tribute. Attribute -&gt; (string) An enum type representing the allowed attribute types for an IPv6 condition. Possible values: o SENDER_IPV6 Operator -&gt; (string) [required] The matching operator for an IPv6 condition ex- pression. Possible values: o CIDR_MATCHES o NOT_CIDR_MATCHES Values -&gt; (list) [required] The right hand side argument of an IPv6 condition expression. (string) Constraints: o min: 0 o max: 49 o pattern: (([0-9a-fA-F]{1,4}:){7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:))\/(12[0-8]|1[0-1][0-9]|[1-9][0-9]|[0-9]) TlsExpression -&gt; (structure) This represents a TLS based condition matching on the incoming mail. It performs the operation configured in 'Operator' and evaluates the 'Protocol' object against the 'Value'. Evaluate -&gt; (tagged union structure) [required] The left hand side argument of a TLS condition ex- pression. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: At- tribute. Attribute -&gt; (string) The enum type representing the allowed at- tribute types for the TLS condition. Possible values: o TLS_PROTOCOL Operator -&gt; (string) [required] The matching operator for a TLS condition expres- sion. Possible values: o MINIMUM_TLS_VERSION o IS Value -&gt; (string) [required] The right hand side argument of a TLS condition expression. Possible values: o TLS1_2 o TLS1_3 BooleanExpression -&gt; (structure) This represents a boolean type condition matching on the incoming mail. It performs the boolean operation configured in 'Operator' and evaluates the 'Protocol' object against the 'Value'. Evaluate -&gt; (tagged union structure) [required] The operand on which to perform a boolean condi- tion operation. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: Analy- sis, IsInAddressList. Analysis -&gt; (structure) The structure type for a boolean condition stating the Add On ARN and its returned value. Analyzer -&gt; (string) [required] The Amazon Resource Name (ARN) of an Add On. Constraints: o pattern: [a-zA-Z0-9:_/+=,@.#-]+ ResultField -&gt; (string) [required] The returned value from an Add On. Constraints: o min: 1 o max: 256 o pattern: (addon\.)?[\sa-zA-Z0-9_]+ IsInAddressList -&gt; (structure) The structure type for a boolean condition that provides the address lists to evaluate incoming traffic on. Attribute -&gt; (string) [required] The email attribute that needs to be evalu- ated against the address list. Possible values: o RECIPIENT AddressLists -&gt; (list) [required] The address lists that will be used for evaluation. Constraints: o min: 1 o max: 1 (string) Operator -&gt; (string) [required] The matching operator for a boolean condition ex- pression. Possible values: o IS_TRUE o IS_FALSE Action -&gt; (string) [required] The action that informs a traffic policy resource to either allow or block the email if it matches a condition in the policy statement. Possible values: o ALLOW o DENY JSON Syntax: [ { "Conditions": [ { "StringExpression": { "Evaluate": { "Attribute": "RECIPIENT", "Analysis": { "Analyzer": "string", "ResultField": "string" } }, "Operator": "EQUALS"|"NOT_EQUALS"|"STARTS_WITH"|"ENDS_WITH"|"CONTAINS", "Values": ["string", ...] }, "IpExpression": { "Evaluate": { "Attribute": "SENDER_IP" }, "Operator": "CIDR_MATCHES"|"NOT_CIDR_MATCHES", "Values": ["string", ...] }, "Ipv6Expression": { "Evaluate": { "Attribute": "SENDER_IPV6" }, "Operator": "CIDR_MATCHES"|"NOT_CIDR_MATCHES", "Values": ["string", ...] }, "TlsExpression": { "Evaluate": { "Attribute": "TLS_PROTOCOL" }, "Operator": "MINIMUM_TLS_VERSION"|"IS", "Value": "TLS1_2"|"TLS1_3" }, "BooleanExpression": { "Evaluate": { "Analysis": { "Analyzer": "string", "ResultField": "string" }, "IsInAddressList": { "Attribute": "RECIPIENT", "AddressLists": ["string", ...] } }, "Operator": "IS_TRUE"|"IS_FALSE" } } ... ], "Action": "ALLOW"|"DENY" } ... ]</param>
+    /// <param name="DefaultAction">Default action instructs the trac policy to either Allow or Deny (block) messages that fall outside of (or not addressed by) the con- ditions of your policy statements Possible values: o ALLOW o DENY</param>
+    public AwsMailmanagerCreateTrafficPolicyOptions(
+        string TrafficPolicyName,
+        IEnumerable<string> PolicyStatements,
+        AwsMailmanagerCreateTrafficPolicyDefaultAction DefaultAction
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(TrafficPolicyName);
+        this.TrafficPolicyName = TrafficPolicyName;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(PolicyStatements);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(PolicyStatements));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(PolicyStatements));
+            }
+
+            PolicyStatements = materialized;
+        }
+        this.PolicyStatements = PolicyStatements;
+        global::System.ArgumentNullException.ThrowIfNull(DefaultAction);
+        this.DefaultAction = DefaultAction;
+    }
+
+    private AwsMailmanagerCreateTrafficPolicyOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsMailmanagerCreateTrafficPolicyOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsMailmanagerCreateTrafficPolicyOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A user-friendly name for the traffic policy resource. Constraints: o min: 3 o max: 63 o pattern: [A-Za-z0-9_\-]+
+    /// </summary>
+    [CliOption("--traffic-policy-name")]
+    public string? TrafficPolicyName { get; private init; }
+
+    /// <summary>
+    /// Conditional statements for filtering email traffic. (structure) The structure containing traffic policy conditions and actions. Conditions -&gt; (list) [required] The list of conditions to apply to incoming messages for fil- tering email traffic. Constraints: o min: 1 (tagged union structure) The email traffic filtering conditions which are con- tained in a traffic policy resource. NOTE: This is a Tagged Union structure. Only one of the fol- lowing top level keys can be set: StringExpression, IpExpression, Ipv6Expression, TlsExpression, Boolean- Expression. StringExpression -&gt; (structure) This represents a string based condition matching on the incoming mail. It performs the string operation configured in 'Operator' and evaluates the 'Protocol' object against the 'Value'. Evaluate -&gt; (tagged union structure) [required] The left hand side argument of a string condition expression. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: At- tribute, Analysis. Attribute -&gt; (string) The enum type representing the allowed at- tribute types for a string condition. Possible values: o RECIPIENT Analysis -&gt; (structure) The structure type for a string condition stat- ing the Add On ARN and its returned value. Analyzer -&gt; (string) [required] The Amazon Resource Name (ARN) of an Add On. Constraints: o pattern: [a-zA-Z0-9:_/+=,@.#-]+ ResultField -&gt; (string) [required] The returned value from an Add On. Constraints: o min: 1 o max: 256 o pattern: (addon\.)?[\sa-zA-Z0-9_]+ Operator -&gt; (string) [required] The matching operator for a string condition ex- pression. Possible values: o EQUALS o NOT_EQUALS o STARTS_WITH o ENDS_WITH o CONTAINS Values -&gt; (list) [required] The right hand side argument of a string condition expression. (string) IpExpression -&gt; (structure) This represents an IP based condition matching on the incoming mail. It performs the operation configured in 'Operator' and evaluates the 'Protocol' object against the 'Value'. Evaluate -&gt; (tagged union structure) [required] The left hand side argument of an IP condition ex- pression. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: At- tribute. Attribute -&gt; (string) An enum type representing the allowed attribute types for an IP condition. Possible values: o SENDER_IP Operator -&gt; (string) [required] The matching operator for an IP condition expres- sion. Possible values: o CIDR_MATCHES o NOT_CIDR_MATCHES Values -&gt; (list) [required] The right hand side argument of an IP condition expression. (string) Constraints: o pattern: ((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)/([0-9]|[12][0-9]|3[0-2]) Ipv6Expression -&gt; (structure) This represents an IPv6 based condition matching on the incoming mail. It performs the operation config- ured in 'Operator' and evaluates the 'Protocol' object against the 'Value'. Evaluate -&gt; (tagged union structure) [required] The left hand side argument of an IPv6 condition expression. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: At- tribute. Attribute -&gt; (string) An enum type representing the allowed attribute types for an IPv6 condition. Possible values: o SENDER_IPV6 Operator -&gt; (string) [required] The matching operator for an IPv6 condition ex- pression. Possible values: o CIDR_MATCHES o NOT_CIDR_MATCHES Values -&gt; (list) [required] The right hand side argument of an IPv6 condition expression. (string) Constraints: o min: 0 o max: 49 o pattern: (([0-9a-fA-F]{1,4}:){7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:))\/(12[0-8]|1[0-1][0-9]|[1-9][0-9]|[0-9]) TlsExpression -&gt; (structure) This represents a TLS based condition matching on the incoming mail. It performs the operation configured in 'Operator' and evaluates the 'Protocol' object against the 'Value'. Evaluate -&gt; (tagged union structure) [required] The left hand side argument of a TLS condition ex- pression. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: At- tribute. Attribute -&gt; (string) The enum type representing the allowed at- tribute types for the TLS condition. Possible values: o TLS_PROTOCOL Operator -&gt; (string) [required] The matching operator for a TLS condition expres- sion. Possible values: o MINIMUM_TLS_VERSION o IS Value -&gt; (string) [required] The right hand side argument of a TLS condition expression. Possible values: o TLS1_2 o TLS1_3 BooleanExpression -&gt; (structure) This represents a boolean type condition matching on the incoming mail. It performs the boolean operation configured in 'Operator' and evaluates the 'Protocol' object against the 'Value'. Evaluate -&gt; (tagged union structure) [required] The operand on which to perform a boolean condi- tion operation. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: Analy- sis, IsInAddressList. Analysis -&gt; (structure) The structure type for a boolean condition stating the Add On ARN and its returned value. Analyzer -&gt; (string) [required] The Amazon Resource Name (ARN) of an Add On. Constraints: o pattern: [a-zA-Z0-9:_/+=,@.#-]+ ResultField -&gt; (string) [required] The returned value from an Add On. Constraints: o min: 1 o max: 256 o pattern: (addon\.)?[\sa-zA-Z0-9_]+ IsInAddressList -&gt; (structure) The structure type for a boolean condition that provides the address lists to evaluate incoming traffic on. Attribute -&gt; (string) [required] The email attribute that needs to be evalu- ated against the address list. Possible values: o RECIPIENT AddressLists -&gt; (list) [required] The address lists that will be used for evaluation. Constraints: o min: 1 o max: 1 (string) Operator -&gt; (string) [required] The matching operator for a boolean condition ex- pression. Possible values: o IS_TRUE o IS_FALSE Action -&gt; (string) [required] The action that informs a traffic policy resource to either allow or block the email if it matches a condition in the policy statement. Possible values: o ALLOW o DENY JSON Syntax: [ { "Conditions": [ { "StringExpression": { "Evaluate": { "Attribute": "RECIPIENT", "Analysis": { "Analyzer": "string", "ResultField": "string" } }, "Operator": "EQUALS"|"NOT_EQUALS"|"STARTS_WITH"|"ENDS_WITH"|"CONTAINS", "Values": ["string", ...] }, "IpExpression": { "Evaluate": { "Attribute": "SENDER_IP" }, "Operator": "CIDR_MATCHES"|"NOT_CIDR_MATCHES", "Values": ["string", ...] }, "Ipv6Expression": { "Evaluate": { "Attribute": "SENDER_IPV6" }, "Operator": "CIDR_MATCHES"|"NOT_CIDR_MATCHES", "Values": ["string", ...] }, "TlsExpression": { "Evaluate": { "Attribute": "TLS_PROTOCOL" }, "Operator": "MINIMUM_TLS_VERSION"|"IS", "Value": "TLS1_2"|"TLS1_3" }, "BooleanExpression": { "Evaluate": { "Analysis": { "Analyzer": "string", "ResultField": "string" }, "IsInAddressList": { "Attribute": "RECIPIENT", "AddressLists": ["string", ...] } }, "Operator": "IS_TRUE"|"IS_FALSE" } } ... ], "Action": "ALLOW"|"DENY" } ... ]
+    /// </summary>
+    [CliOption("--policy-statements", GroupValues = true)]
+    public IEnumerable<string>? PolicyStatements { get; private init; }
+
+    /// <summary>
+    /// Default action instructs the trac policy to either Allow or Deny (block) messages that fall outside of (or not addressed by) the con- ditions of your policy statements Possible values: o ALLOW o DENY
+    /// </summary>
+    [CliOption("--default-action")]
+    public AwsMailmanagerCreateTrafficPolicyDefaultAction? DefaultAction { get; private init; }
+
     /// <summary>
     /// A unique token that Amazon SES uses to recognize subsequent retries of the same request. Constraints: o min: 1 o max: 128
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
-
-    [CliOption("--traffic-policy-name")]
-    public string? TrafficPolicyName { get; set; }
-
-    [CliOption("--policy-statements", GroupValues = true)]
-    public IEnumerable<string>? PolicyStatements { get; set; }
-
-    [CliOption("--default-action")]
-    public string? DefaultAction { get; set; }
 
     /// <summary>
     /// The maximum message size in bytes of email which is allowed in by this traffic policyanything larger will be blocked. Constraints: o min: 1
@@ -55,5 +118,22 @@ public record AwsMailmanagerCreateTrafficPolicyOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -11,17 +11,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --outputformat.
+/// Allowed values for --output-format.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsInspectorScanScanSbomOutputFormat
 {
     [EnumValue("CYCLONE_DX_1_5")]
-    CycloneDx_1_5 = 1,
+    CycloneDx15,
 
     [EnumValue("INSPECTOR")]
-    Inspector = 2,
+    Inspector,
 
     [EnumValue("INSPECTOR_ALT")]
-    InspectorAlt = 3
+    InspectorAlt
 }

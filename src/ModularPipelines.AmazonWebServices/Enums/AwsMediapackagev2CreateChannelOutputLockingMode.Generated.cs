@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --outputlockingmode.
+/// Allowed values for --output-locking-mode.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsMediapackagev2CreateChannelOutputLockingMode
 {
     [EnumValue("EPOCH_LOCKED")]
-    EpochLocked = 1,
+    EpochLocked,
 
     [EnumValue("NON_EPOCH_LOCKED")]
-    NonEpochLocked = 2
+    NonEpochLocked
 }

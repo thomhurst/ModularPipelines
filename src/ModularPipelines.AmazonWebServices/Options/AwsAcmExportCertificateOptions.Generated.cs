@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,19 +21,79 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("acm", "export-certificate")]
-public record AwsAcmExportCertificateOptions : AwsOptions
+public record AwsAcmExportCertificateOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--certificate-arn")]
-    public string? CertificateArn { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Exports a private certificate issued by a private certificate authority (CA) or a public certificate for use anywhere. The exported file con- tains the certificate, the certificate chain, and the encrypted private key associated with the public key that is embedded in the certificate. For security, you must assign a passphrase for the private key when ex- porting it. For information about exporting and formatting a certificate using the ACM console or CLI, see Export a private certificate and Ex...
+    /// </summary>
+    /// <param name="CertificateArn">An Amazon Resource Name (ARN) of the issued certificate. This must be of the form: arn:aws:acm:region:account:certifi- cate/12345678-1234-1234-1234-123456789012 Constraints: o min: 20 o max: 2048 o pattern: arn:[\w+=/,.@-]+:acm:[\w+=/,.@-]*:[0-9]+:[\w+=,.@-]+(/[\w+=,.@-]+)*</param>
+    /// <param name="Passphrase">Passphrase to associate with the encrypted exported private key. NOTE: When creating your passphrase, you can use any ASCII character except #, $, or %. If you want to later decrypt the private key, you must have the passphrase. You can use the following OpenSSL command to decrypt a private key. After entering the command, you are prompted for the passphrase. openssl rsa -in encrypted_key.pem -out decrypted_key.pem Constraints: o min: 4 o max: 128</param>
+    public AwsAcmExportCertificateOptions(
+        string CertificateArn,
+        string Passphrase
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(CertificateArn);
+        this.CertificateArn = CertificateArn;
+        global::System.ArgumentNullException.ThrowIfNull(Passphrase);
+        this.Passphrase = Passphrase;
+    }
+
+    private AwsAcmExportCertificateOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsAcmExportCertificateOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsAcmExportCertificateOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// An Amazon Resource Name (ARN) of the issued certificate. This must be of the form: arn:aws:acm:region:account:certifi- cate/12345678-1234-1234-1234-123456789012 Constraints: o min: 20 o max: 2048 o pattern: arn:[\w+=/,.@-]+:acm:[\w+=/,.@-]*:[0-9]+:[\w+=,.@-]+(/[\w+=,.@-]+)*
+    /// </summary>
+    [CliOption("--certificate-arn")]
+    public string? CertificateArn { get; private init; }
+
+    /// <summary>
+    /// Passphrase to associate with the encrypted exported private key. NOTE: When creating your passphrase, you can use any ASCII character except #, $, or %. If you want to later decrypt the private key, you must have the passphrase. You can use the following OpenSSL command to decrypt a private key. After entering the command, you are prompted for the passphrase. openssl rsa -in encrypted_key.pem -out decrypted_key.pem Constraints: o min: 4 o max: 128
+    /// </summary>
     [SecretValue]
     [CliOption("--passphrase")]
-    public string? Passphrase { get; set; }
+    public string? Passphrase { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

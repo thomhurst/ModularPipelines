@@ -5,8 +5,8 @@
 
 #nullable enable
 
-using ModularPipelines.Context;
 using System.CodeDom.Compiler;
+using ModularPipelines.Context;
 using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
@@ -40,11 +40,11 @@ public class AwsPinpointEmail : IAwsPinpointEmail
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateConfigurationSetEventDestinationAsync(
-        AwsPinpointEmailCreateConfigurationSetEventDestinationOptions? options = null,
+        AwsPinpointEmailCreateConfigurationSetEventDestinationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPinpointEmailCreateConfigurationSetEventDestinationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -55,11 +55,11 @@ public class AwsPinpointEmail : IAwsPinpointEmail
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateConfigurationSetAsync(
-        AwsPinpointEmailCreateConfigurationSetOptions? options = null,
+        AwsPinpointEmailCreateConfigurationSetOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPinpointEmailCreateConfigurationSetOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -70,11 +70,11 @@ public class AwsPinpointEmail : IAwsPinpointEmail
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateDedicatedIpPoolAsync(
-        AwsPinpointEmailCreateDedicatedIpPoolOptions? options = null,
+        AwsPinpointEmailCreateDedicatedIpPoolOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPinpointEmailCreateDedicatedIpPoolOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -85,11 +85,11 @@ public class AwsPinpointEmail : IAwsPinpointEmail
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateDeliverabilityTestReportAsync(
-        AwsPinpointEmailCreateDeliverabilityTestReportOptions? options = null,
+        AwsPinpointEmailCreateDeliverabilityTestReportOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPinpointEmailCreateDeliverabilityTestReportOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -100,11 +100,11 @@ public class AwsPinpointEmail : IAwsPinpointEmail
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateEmailIdentityAsync(
-        AwsPinpointEmailCreateEmailIdentityOptions? options = null,
+        AwsPinpointEmailCreateEmailIdentityOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPinpointEmailCreateEmailIdentityOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -115,11 +115,11 @@ public class AwsPinpointEmail : IAwsPinpointEmail
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteConfigurationSetEventDestinationAsync(
-        AwsPinpointEmailDeleteConfigurationSetEventDestinationOptions? options = null,
+        AwsPinpointEmailDeleteConfigurationSetEventDestinationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPinpointEmailDeleteConfigurationSetEventDestinationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -130,11 +130,11 @@ public class AwsPinpointEmail : IAwsPinpointEmail
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteConfigurationSetAsync(
-        AwsPinpointEmailDeleteConfigurationSetOptions? options = null,
+        AwsPinpointEmailDeleteConfigurationSetOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPinpointEmailDeleteConfigurationSetOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -145,11 +145,11 @@ public class AwsPinpointEmail : IAwsPinpointEmail
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteDedicatedIpPoolAsync(
-        AwsPinpointEmailDeleteDedicatedIpPoolOptions? options = null,
+        AwsPinpointEmailDeleteDedicatedIpPoolOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPinpointEmailDeleteDedicatedIpPoolOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -160,11 +160,11 @@ public class AwsPinpointEmail : IAwsPinpointEmail
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteEmailIdentityAsync(
-        AwsPinpointEmailDeleteEmailIdentityOptions? options = null,
+        AwsPinpointEmailDeleteEmailIdentityOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPinpointEmailDeleteEmailIdentityOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -179,7 +179,7 @@ public class AwsPinpointEmail : IAwsPinpointEmail
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPinpointEmailGetAccountOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPinpointEmailGetAccountOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -190,11 +190,11 @@ public class AwsPinpointEmail : IAwsPinpointEmail
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetBlacklistReportsAsync(
-        AwsPinpointEmailGetBlacklistReportsOptions? options = null,
+        AwsPinpointEmailGetBlacklistReportsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPinpointEmailGetBlacklistReportsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -205,11 +205,11 @@ public class AwsPinpointEmail : IAwsPinpointEmail
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetConfigurationSetEventDestinationsAsync(
-        AwsPinpointEmailGetConfigurationSetEventDestinationsOptions? options = null,
+        AwsPinpointEmailGetConfigurationSetEventDestinationsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPinpointEmailGetConfigurationSetEventDestinationsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -220,11 +220,11 @@ public class AwsPinpointEmail : IAwsPinpointEmail
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetConfigurationSetAsync(
-        AwsPinpointEmailGetConfigurationSetOptions? options = null,
+        AwsPinpointEmailGetConfigurationSetOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPinpointEmailGetConfigurationSetOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -235,11 +235,11 @@ public class AwsPinpointEmail : IAwsPinpointEmail
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetDedicatedIpAsync(
-        AwsPinpointEmailGetDedicatedIpOptions? options = null,
+        AwsPinpointEmailGetDedicatedIpOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPinpointEmailGetDedicatedIpOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -254,7 +254,7 @@ public class AwsPinpointEmail : IAwsPinpointEmail
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPinpointEmailGetDedicatedIpsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPinpointEmailGetDedicatedIpsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -269,7 +269,7 @@ public class AwsPinpointEmail : IAwsPinpointEmail
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPinpointEmailGetDeliverabilityDashboardOptionsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPinpointEmailGetDeliverabilityDashboardOptionsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -280,11 +280,11 @@ public class AwsPinpointEmail : IAwsPinpointEmail
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetDeliverabilityTestReportAsync(
-        AwsPinpointEmailGetDeliverabilityTestReportOptions? options = null,
+        AwsPinpointEmailGetDeliverabilityTestReportOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPinpointEmailGetDeliverabilityTestReportOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -295,11 +295,11 @@ public class AwsPinpointEmail : IAwsPinpointEmail
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetDomainDeliverabilityCampaignAsync(
-        AwsPinpointEmailGetDomainDeliverabilityCampaignOptions? options = null,
+        AwsPinpointEmailGetDomainDeliverabilityCampaignOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPinpointEmailGetDomainDeliverabilityCampaignOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -310,11 +310,11 @@ public class AwsPinpointEmail : IAwsPinpointEmail
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetDomainStatisticsReportAsync(
-        AwsPinpointEmailGetDomainStatisticsReportOptions? options = null,
+        AwsPinpointEmailGetDomainStatisticsReportOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPinpointEmailGetDomainStatisticsReportOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -325,11 +325,11 @@ public class AwsPinpointEmail : IAwsPinpointEmail
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetEmailIdentityAsync(
-        AwsPinpointEmailGetEmailIdentityOptions? options = null,
+        AwsPinpointEmailGetEmailIdentityOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPinpointEmailGetEmailIdentityOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -344,7 +344,7 @@ public class AwsPinpointEmail : IAwsPinpointEmail
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPinpointEmailListConfigurationSetsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPinpointEmailListConfigurationSetsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -359,7 +359,7 @@ public class AwsPinpointEmail : IAwsPinpointEmail
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPinpointEmailListDedicatedIpPoolsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPinpointEmailListDedicatedIpPoolsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -374,7 +374,7 @@ public class AwsPinpointEmail : IAwsPinpointEmail
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPinpointEmailListDeliverabilityTestReportsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPinpointEmailListDeliverabilityTestReportsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -385,11 +385,11 @@ public class AwsPinpointEmail : IAwsPinpointEmail
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListDomainDeliverabilityCampaignsAsync(
-        AwsPinpointEmailListDomainDeliverabilityCampaignsOptions? options = null,
+        AwsPinpointEmailListDomainDeliverabilityCampaignsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPinpointEmailListDomainDeliverabilityCampaignsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -404,7 +404,7 @@ public class AwsPinpointEmail : IAwsPinpointEmail
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPinpointEmailListEmailIdentitiesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPinpointEmailListEmailIdentitiesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -415,11 +415,11 @@ public class AwsPinpointEmail : IAwsPinpointEmail
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListTagsForResourceAsync(
-        AwsPinpointEmailListTagsForResourceOptions? options = null,
+        AwsPinpointEmailListTagsForResourceOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPinpointEmailListTagsForResourceOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -434,7 +434,7 @@ public class AwsPinpointEmail : IAwsPinpointEmail
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPinpointEmailPutAccountDedicatedIpWarmupAttributesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPinpointEmailPutAccountDedicatedIpWarmupAttributesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -449,7 +449,7 @@ public class AwsPinpointEmail : IAwsPinpointEmail
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPinpointEmailPutAccountSendingAttributesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPinpointEmailPutAccountSendingAttributesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -460,11 +460,11 @@ public class AwsPinpointEmail : IAwsPinpointEmail
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> PutConfigurationSetDeliveryOptionsAsync(
-        AwsPinpointEmailPutConfigurationSetDeliveryOptionsOptions? options = null,
+        AwsPinpointEmailPutConfigurationSetDeliveryOptionsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPinpointEmailPutConfigurationSetDeliveryOptionsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -475,11 +475,11 @@ public class AwsPinpointEmail : IAwsPinpointEmail
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> PutConfigurationSetReputationOptionsAsync(
-        AwsPinpointEmailPutConfigurationSetReputationOptionsOptions? options = null,
+        AwsPinpointEmailPutConfigurationSetReputationOptionsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPinpointEmailPutConfigurationSetReputationOptionsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -490,11 +490,11 @@ public class AwsPinpointEmail : IAwsPinpointEmail
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> PutConfigurationSetSendingOptionsAsync(
-        AwsPinpointEmailPutConfigurationSetSendingOptionsOptions? options = null,
+        AwsPinpointEmailPutConfigurationSetSendingOptionsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPinpointEmailPutConfigurationSetSendingOptionsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -505,11 +505,11 @@ public class AwsPinpointEmail : IAwsPinpointEmail
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> PutConfigurationSetTrackingOptionsAsync(
-        AwsPinpointEmailPutConfigurationSetTrackingOptionsOptions? options = null,
+        AwsPinpointEmailPutConfigurationSetTrackingOptionsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPinpointEmailPutConfigurationSetTrackingOptionsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -520,11 +520,11 @@ public class AwsPinpointEmail : IAwsPinpointEmail
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> PutDedicatedIpInPoolAsync(
-        AwsPinpointEmailPutDedicatedIpInPoolOptions? options = null,
+        AwsPinpointEmailPutDedicatedIpInPoolOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPinpointEmailPutDedicatedIpInPoolOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -535,11 +535,11 @@ public class AwsPinpointEmail : IAwsPinpointEmail
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> PutDedicatedIpWarmupAttributesAsync(
-        AwsPinpointEmailPutDedicatedIpWarmupAttributesOptions? options = null,
+        AwsPinpointEmailPutDedicatedIpWarmupAttributesOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPinpointEmailPutDedicatedIpWarmupAttributesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -550,11 +550,11 @@ public class AwsPinpointEmail : IAwsPinpointEmail
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> PutDeliverabilityDashboardOptionAsync(
-        AwsPinpointEmailPutDeliverabilityDashboardOptionOptions? options = null,
+        AwsPinpointEmailPutDeliverabilityDashboardOptionOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPinpointEmailPutDeliverabilityDashboardOptionOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -565,11 +565,11 @@ public class AwsPinpointEmail : IAwsPinpointEmail
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> PutEmailIdentityDkimAttributesAsync(
-        AwsPinpointEmailPutEmailIdentityDkimAttributesOptions? options = null,
+        AwsPinpointEmailPutEmailIdentityDkimAttributesOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPinpointEmailPutEmailIdentityDkimAttributesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -580,11 +580,11 @@ public class AwsPinpointEmail : IAwsPinpointEmail
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> PutEmailIdentityFeedbackAttributesAsync(
-        AwsPinpointEmailPutEmailIdentityFeedbackAttributesOptions? options = null,
+        AwsPinpointEmailPutEmailIdentityFeedbackAttributesOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPinpointEmailPutEmailIdentityFeedbackAttributesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -595,11 +595,11 @@ public class AwsPinpointEmail : IAwsPinpointEmail
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> PutEmailIdentityMailFromAttributesAsync(
-        AwsPinpointEmailPutEmailIdentityMailFromAttributesOptions? options = null,
+        AwsPinpointEmailPutEmailIdentityMailFromAttributesOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPinpointEmailPutEmailIdentityMailFromAttributesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -610,11 +610,11 @@ public class AwsPinpointEmail : IAwsPinpointEmail
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> SendEmailAsync(
-        AwsPinpointEmailSendEmailOptions? options = null,
+        AwsPinpointEmailSendEmailOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPinpointEmailSendEmailOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -625,11 +625,11 @@ public class AwsPinpointEmail : IAwsPinpointEmail
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> TagResourceAsync(
-        AwsPinpointEmailTagResourceOptions? options = null,
+        AwsPinpointEmailTagResourceOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPinpointEmailTagResourceOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -640,11 +640,11 @@ public class AwsPinpointEmail : IAwsPinpointEmail
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UntagResourceAsync(
-        AwsPinpointEmailUntagResourceOptions? options = null,
+        AwsPinpointEmailUntagResourceOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPinpointEmailUntagResourceOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -655,11 +655,11 @@ public class AwsPinpointEmail : IAwsPinpointEmail
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateConfigurationSetEventDestinationAsync(
-        AwsPinpointEmailUpdateConfigurationSetEventDestinationOptions? options = null,
+        AwsPinpointEmailUpdateConfigurationSetEventDestinationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPinpointEmailUpdateConfigurationSetEventDestinationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     #endregion

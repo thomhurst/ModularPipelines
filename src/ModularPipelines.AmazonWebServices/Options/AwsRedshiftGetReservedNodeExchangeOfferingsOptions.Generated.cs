@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("redshift", "get-reserved-node-exchange-offerings")]
-public record AwsRedshiftGetReservedNodeExchangeOfferingsOptions : AwsOptions
+public record AwsRedshiftGetReservedNodeExchangeOfferingsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Returns an array of DC2 ReservedNodeOfferings that matches the payment type, term, and usage price of the given DC1 reserved node. See also: AWS API Documentation get-reserved-node-exchange-offerings is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data fr...
+    /// </summary>
+    /// <param name="ReservedNodeId">A string representing the node identifier for the DC1 Reserved Node to be exchanged. Constraints: o max: 2147483647</param>
+    public AwsRedshiftGetReservedNodeExchangeOfferingsOptions(
+        string ReservedNodeId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ReservedNodeId);
+        this.ReservedNodeId = ReservedNodeId;
+    }
+
+    private AwsRedshiftGetReservedNodeExchangeOfferingsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRedshiftGetReservedNodeExchangeOfferingsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRedshiftGetReservedNodeExchangeOfferingsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A string representing the node identifier for the DC1 Reserved Node to be exchanged. Constraints: o max: 2147483647
+    /// </summary>
     [CliOption("--reserved-node-id")]
-    public string? ReservedNodeId { get; set; }
+    public string? ReservedNodeId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
@@ -49,5 +86,22 @@ public record AwsRedshiftGetReservedNodeExchangeOfferingsOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

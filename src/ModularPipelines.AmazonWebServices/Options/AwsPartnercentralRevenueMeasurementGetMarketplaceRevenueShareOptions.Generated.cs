@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("partnercentral-revenue-measurement", "get-marketplace-revenue-share")]
-public record AwsPartnercentralRevenueMeasurementGetMarketplaceRevenueShareOptions : AwsOptions
+public record AwsPartnercentralRevenueMeasurementGetMarketplaceRevenueShareOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--catalog")]
-    public string? Catalog { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Retrieves the details of a specific marketplace revenue share. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Catalog">The catalog that the marketplace revenue share belongs to. Possible values: o AWS o Sandbox</param>
+    /// <param name="ProductId">The AWS Marketplace product identifier of the revenue share to re- trieve. Constraints: o min: 18 o max: 18 o pattern: prod-[a-z0-9]{13}</param>
+    public AwsPartnercentralRevenueMeasurementGetMarketplaceRevenueShareOptions(
+        AwsPartnercentralRevenueMeasurementGetMarketplaceRevenueShareCatalog Catalog,
+        string ProductId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Catalog);
+        this.Catalog = Catalog;
+        global::System.ArgumentNullException.ThrowIfNull(ProductId);
+        this.ProductId = ProductId;
+    }
+
+    private AwsPartnercentralRevenueMeasurementGetMarketplaceRevenueShareOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsPartnercentralRevenueMeasurementGetMarketplaceRevenueShareOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsPartnercentralRevenueMeasurementGetMarketplaceRevenueShareOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The catalog that the marketplace revenue share belongs to. Possible values: o AWS o Sandbox
+    /// </summary>
+    [CliOption("--catalog")]
+    public AwsPartnercentralRevenueMeasurementGetMarketplaceRevenueShareCatalog? Catalog { get; private init; }
+
+    /// <summary>
+    /// The AWS Marketplace product identifier of the revenue share to re- trieve. Constraints: o min: 18 o max: 18 o pattern: prod-[a-z0-9]{13}
+    /// </summary>
     [CliOption("--product-id")]
-    public string? ProductId { get; set; }
+    public string? ProductId { get; private init; }
 
     /// <summary>
     /// The revision of the marketplace revenue share to retrieve. Omit to return the latest revision. Constraints: o min: 1
@@ -38,5 +83,22 @@ public record AwsPartnercentralRevenueMeasurementGetMarketplaceRevenueShareOptio
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

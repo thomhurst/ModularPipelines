@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,24 +20,84 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("databrew", "update-schedule")]
-public record AwsDatabrewUpdateScheduleOptions : AwsOptions
+public record AwsDatabrewUpdateScheduleOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Modifies the definition of an existing DataBrew schedule. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="CronExpression">The date or dates and time or times when the jobs are to be run. For more information, see Cron expressions in the Glue DataBrew Devel- oper Guide . Constraints: o min: 1 o max: 512</param>
+    /// <param name="Name">The name of the schedule to update. Constraints: o min: 1 o max: 255</param>
+    public AwsDatabrewUpdateScheduleOptions(
+        string CronExpression,
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(CronExpression);
+        this.CronExpression = CronExpression;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    private AwsDatabrewUpdateScheduleOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDatabrewUpdateScheduleOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDatabrewUpdateScheduleOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The date or dates and time or times when the jobs are to be run. For more information, see Cron expressions in the Glue DataBrew Devel- oper Guide . Constraints: o min: 1 o max: 512
+    /// </summary>
+    [CliOption("--cron-expression")]
+    public string? CronExpression { get; private init; }
+
+    /// <summary>
+    /// The name of the schedule to update. Constraints: o min: 1 o max: 255
+    /// </summary>
+    [CliOption("--name")]
+    public string? Name { get; private init; }
+
     /// <summary>
     /// The name or names of one or more jobs to be run for this schedule. Constraints: o max: 50 (string) Constraints: o min: 1 o max: 240 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--job-names", GroupValues = true)]
     public IEnumerable<string>? JobNames { get; set; }
 
-    [CliOption("--cron-expression")]
-    public string? CronExpression { get; set; }
-
-    [CliOption("--name")]
-    public string? Name { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

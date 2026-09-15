@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,19 +22,76 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("datazone", "list-policy-grants")]
-public record AwsDatazoneListPolicyGrantsOptions : AwsOptions
+public record AwsDatazoneListPolicyGrantsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Lists policy grants. See also: AWS API Documentation list-policy-grants is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: grantList
+    /// </summary>
+    /// <param name="DomainIdentifier">The ID of the domain where you want to list policy grants. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}</param>
+    /// <param name="EntityType">The type of entity for which you want to list policy grants. Possible values: o DOMAIN_UNIT o ENVIRONMENT_BLUEPRINT_CONFIGURATION o ENVIRONMENT_PROFILE o ASSET_TYPE</param>
+    /// <param name="EntityIdentifier">The ID of the entity for which you want to list policy grants.</param>
+    /// <param name="PolicyType">The type of policy that you want to list. Possible values: o CREATE_DOMAIN_UNIT o OVERRIDE_DOMAIN_UNIT_OWNERS o ADD_TO_PROJECT_MEMBER_POOL o OVERRIDE_PROJECT_OWNERS o CREATE_GLOSSARY o CREATE_FORM_TYPE o CREATE_ASSET_TYPE o CREATE_PROJECT o CREATE_ENVIRONMENT_PROFILE o DELEGATE_CREATE_ENVIRONMENT_PROFILE o CREATE_ENVIRONMENT o CREATE_ENVIRONMENT_FROM_BLUEPRINT o CREATE_PROJECT_FROM_PROJECT_PROFILE o USE_ASSET_TYPE</param>
+    public AwsDatazoneListPolicyGrantsOptions(
+        string DomainIdentifier,
+        AwsDatazoneListPolicyGrantsEntityType EntityType,
+        string EntityIdentifier,
+        AwsDatazoneListPolicyGrantsPolicyType PolicyType
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DomainIdentifier);
+        this.DomainIdentifier = DomainIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(EntityType);
+        this.EntityType = EntityType;
+        global::System.ArgumentNullException.ThrowIfNull(EntityIdentifier);
+        this.EntityIdentifier = EntityIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(PolicyType);
+        this.PolicyType = PolicyType;
+    }
+
+    private AwsDatazoneListPolicyGrantsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDatazoneListPolicyGrantsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDatazoneListPolicyGrantsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the domain where you want to list policy grants. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}
+    /// </summary>
     [CliOption("--domain-identifier")]
-    public string? DomainIdentifier { get; set; }
+    public string? DomainIdentifier { get; private init; }
 
+    /// <summary>
+    /// The type of entity for which you want to list policy grants. Possible values: o DOMAIN_UNIT o ENVIRONMENT_BLUEPRINT_CONFIGURATION o ENVIRONMENT_PROFILE o ASSET_TYPE
+    /// </summary>
     [CliOption("--entity-type")]
-    public string? EntityType { get; set; }
+    public AwsDatazoneListPolicyGrantsEntityType? EntityType { get; private init; }
 
+    /// <summary>
+    /// The ID of the entity for which you want to list policy grants.
+    /// </summary>
     [CliOption("--entity-identifier")]
-    public string? EntityIdentifier { get; set; }
+    public string? EntityIdentifier { get; private init; }
 
+    /// <summary>
+    /// The type of policy that you want to list. Possible values: o CREATE_DOMAIN_UNIT o OVERRIDE_DOMAIN_UNIT_OWNERS o ADD_TO_PROJECT_MEMBER_POOL o OVERRIDE_PROJECT_OWNERS o CREATE_GLOSSARY o CREATE_FORM_TYPE o CREATE_ASSET_TYPE o CREATE_PROJECT o CREATE_ENVIRONMENT_PROFILE o DELEGATE_CREATE_ENVIRONMENT_PROFILE o CREATE_ENVIRONMENT o CREATE_ENVIRONMENT_FROM_BLUEPRINT o CREATE_PROJECT_FROM_PROJECT_PROFILE o USE_ASSET_TYPE
+    /// </summary>
     [CliOption("--policy-type")]
-    public string? PolicyType { get; set; }
+    public AwsDatazoneListPolicyGrantsPolicyType? PolicyType { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
@@ -58,5 +117,22 @@ public record AwsDatazoneListPolicyGrantsOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

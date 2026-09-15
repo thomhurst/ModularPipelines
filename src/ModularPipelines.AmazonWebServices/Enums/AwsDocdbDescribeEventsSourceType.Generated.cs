@@ -11,26 +11,26 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --sourcetype.
+/// Allowed values for --source-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsDocdbDescribeEventsSourceType
 {
-    [EnumValue("db-instance")]
-    DbInstance = 1,
-
-    [EnumValue("db-parameter-group")]
-    DbParameterGroup = 2,
-
-    [EnumValue("db-security-group")]
-    DbSecurityGroup = 3,
-
-    [EnumValue("db-snapshot")]
-    DbSnapshot = 4,
-
     [EnumValue("db-cluster")]
-    DbCluster = 5,
+    DbCluster,
 
     [EnumValue("db-cluster-snapshot")]
-    DbClusterSnapshot = 6
+    DbClusterSnapshot,
+
+    [EnumValue("db-instance")]
+    DbInstance,
+
+    [EnumValue("db-parameter-group")]
+    DbParameterGroup,
+
+    [EnumValue("db-security-group")]
+    DbSecurityGroup,
+
+    [EnumValue("db-snapshot")]
+    DbSnapshot
 }

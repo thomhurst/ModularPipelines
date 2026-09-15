@@ -11,11 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --lifecyclestatus.
+/// Allowed values for --lifecycle-status.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsDeadlineUpdateJobLifecycleStatus
 {
     [EnumValue("ARCHIVED")]
-    Archived = 1
+    Archived,
+
+    [EnumValue("o")]
+    O
 }

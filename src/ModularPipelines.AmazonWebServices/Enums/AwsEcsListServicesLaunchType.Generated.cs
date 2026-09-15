@@ -11,20 +11,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --launchtype.
+/// Allowed values for --launch-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsEcsListServicesLaunchType
 {
     [EnumValue("EC2")]
-    Ec2 = 1,
-
-    [EnumValue("FARGATE")]
-    Fargate = 2,
+    Ec2,
 
     [EnumValue("EXTERNAL")]
-    External = 3,
+    External,
+
+    [EnumValue("FARGATE")]
+    Fargate,
 
     [EnumValue("MANAGED_INSTANCES")]
-    ManagedInstances = 4
+    ManagedInstances
 }

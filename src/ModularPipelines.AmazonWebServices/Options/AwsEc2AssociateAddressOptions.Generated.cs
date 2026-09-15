@@ -39,7 +39,10 @@ public record AwsEc2AssociateAddressOptions : AwsOptions
     [CliOption("--public-ip")]
     public string? PublicIp { get; set; }
 
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     /// <summary>
@@ -54,7 +57,10 @@ public record AwsEc2AssociateAddressOptions : AwsOptions
     [CliOption("--private-ip-address")]
     public string? PrivateIpAddress { get; set; }
 
-    [CliFlag("--allow-reassociation")]
+    /// <summary>
+    /// Reassociation is automatic, but you can specify false to ensure the operation fails if the Elastic IP address is already associated with another resource.
+    /// </summary>
+    [CliFlag("--allow-reassociation", NegatedName = "--no-allow-reassociation")]
     public bool? AllowReassociation { get; set; }
 
     [CliOption("--cli-input-json")]

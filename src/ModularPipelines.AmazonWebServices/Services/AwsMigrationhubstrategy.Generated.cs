@@ -5,8 +5,8 @@
 
 #nullable enable
 
-using ModularPipelines.Context;
 using System.CodeDom.Compiler;
+using ModularPipelines.Context;
 using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
@@ -40,11 +40,11 @@ public class AwsMigrationhubstrategy : IAwsMigrationhubstrategy
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetApplicationComponentDetailsAsync(
-        AwsMigrationhubstrategyGetApplicationComponentDetailsOptions? options = null,
+        AwsMigrationhubstrategyGetApplicationComponentDetailsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsMigrationhubstrategyGetApplicationComponentDetailsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -55,11 +55,11 @@ public class AwsMigrationhubstrategy : IAwsMigrationhubstrategy
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetApplicationComponentStrategiesAsync(
-        AwsMigrationhubstrategyGetApplicationComponentStrategiesOptions? options = null,
+        AwsMigrationhubstrategyGetApplicationComponentStrategiesOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsMigrationhubstrategyGetApplicationComponentStrategiesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -70,11 +70,11 @@ public class AwsMigrationhubstrategy : IAwsMigrationhubstrategy
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetAssessmentAsync(
-        AwsMigrationhubstrategyGetAssessmentOptions? options = null,
+        AwsMigrationhubstrategyGetAssessmentOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsMigrationhubstrategyGetAssessmentOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -85,11 +85,11 @@ public class AwsMigrationhubstrategy : IAwsMigrationhubstrategy
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetImportFileTaskAsync(
-        AwsMigrationhubstrategyGetImportFileTaskOptions? options = null,
+        AwsMigrationhubstrategyGetImportFileTaskOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsMigrationhubstrategyGetImportFileTaskOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -104,7 +104,7 @@ public class AwsMigrationhubstrategy : IAwsMigrationhubstrategy
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsMigrationhubstrategyGetLatestAssessmentIdOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsMigrationhubstrategyGetLatestAssessmentIdOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -119,7 +119,7 @@ public class AwsMigrationhubstrategy : IAwsMigrationhubstrategy
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsMigrationhubstrategyGetPortfolioPreferencesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsMigrationhubstrategyGetPortfolioPreferencesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -134,7 +134,7 @@ public class AwsMigrationhubstrategy : IAwsMigrationhubstrategy
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsMigrationhubstrategyGetPortfolioSummaryOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsMigrationhubstrategyGetPortfolioSummaryOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -145,11 +145,11 @@ public class AwsMigrationhubstrategy : IAwsMigrationhubstrategy
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetRecommendationReportDetailsAsync(
-        AwsMigrationhubstrategyGetRecommendationReportDetailsOptions? options = null,
+        AwsMigrationhubstrategyGetRecommendationReportDetailsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsMigrationhubstrategyGetRecommendationReportDetailsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -160,11 +160,11 @@ public class AwsMigrationhubstrategy : IAwsMigrationhubstrategy
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetServerDetailsAsync(
-        AwsMigrationhubstrategyGetServerDetailsOptions? options = null,
+        AwsMigrationhubstrategyGetServerDetailsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsMigrationhubstrategyGetServerDetailsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -175,11 +175,11 @@ public class AwsMigrationhubstrategy : IAwsMigrationhubstrategy
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetServerStrategiesAsync(
-        AwsMigrationhubstrategyGetServerStrategiesOptions? options = null,
+        AwsMigrationhubstrategyGetServerStrategiesOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsMigrationhubstrategyGetServerStrategiesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -194,7 +194,7 @@ public class AwsMigrationhubstrategy : IAwsMigrationhubstrategy
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsMigrationhubstrategyListAnalyzableServersOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsMigrationhubstrategyListAnalyzableServersOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -209,7 +209,7 @@ public class AwsMigrationhubstrategy : IAwsMigrationhubstrategy
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsMigrationhubstrategyListApplicationComponentsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsMigrationhubstrategyListApplicationComponentsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -224,7 +224,7 @@ public class AwsMigrationhubstrategy : IAwsMigrationhubstrategy
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsMigrationhubstrategyListCollectorsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsMigrationhubstrategyListCollectorsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -239,7 +239,7 @@ public class AwsMigrationhubstrategy : IAwsMigrationhubstrategy
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsMigrationhubstrategyListImportFileTaskOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsMigrationhubstrategyListImportFileTaskOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -254,7 +254,7 @@ public class AwsMigrationhubstrategy : IAwsMigrationhubstrategy
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsMigrationhubstrategyListServersOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsMigrationhubstrategyListServersOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -269,7 +269,7 @@ public class AwsMigrationhubstrategy : IAwsMigrationhubstrategy
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsMigrationhubstrategyPutPortfolioPreferencesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsMigrationhubstrategyPutPortfolioPreferencesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -284,7 +284,7 @@ public class AwsMigrationhubstrategy : IAwsMigrationhubstrategy
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsMigrationhubstrategyStartAssessmentOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsMigrationhubstrategyStartAssessmentOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -295,11 +295,11 @@ public class AwsMigrationhubstrategy : IAwsMigrationhubstrategy
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> StartImportFileTaskAsync(
-        AwsMigrationhubstrategyStartImportFileTaskOptions? options = null,
+        AwsMigrationhubstrategyStartImportFileTaskOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsMigrationhubstrategyStartImportFileTaskOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -314,7 +314,7 @@ public class AwsMigrationhubstrategy : IAwsMigrationhubstrategy
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsMigrationhubstrategyStartRecommendationReportGenerationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsMigrationhubstrategyStartRecommendationReportGenerationOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -325,11 +325,11 @@ public class AwsMigrationhubstrategy : IAwsMigrationhubstrategy
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> StopAssessmentAsync(
-        AwsMigrationhubstrategyStopAssessmentOptions? options = null,
+        AwsMigrationhubstrategyStopAssessmentOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsMigrationhubstrategyStopAssessmentOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -340,11 +340,11 @@ public class AwsMigrationhubstrategy : IAwsMigrationhubstrategy
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateApplicationComponentConfigAsync(
-        AwsMigrationhubstrategyUpdateApplicationComponentConfigOptions? options = null,
+        AwsMigrationhubstrategyUpdateApplicationComponentConfigOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsMigrationhubstrategyUpdateApplicationComponentConfigOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -355,11 +355,11 @@ public class AwsMigrationhubstrategy : IAwsMigrationhubstrategy
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateServerConfigAsync(
-        AwsMigrationhubstrategyUpdateServerConfigOptions? options = null,
+        AwsMigrationhubstrategyUpdateServerConfigOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsMigrationhubstrategyUpdateServerConfigOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     #endregion

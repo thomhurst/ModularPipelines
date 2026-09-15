@@ -5,8 +5,8 @@
 
 #nullable enable
 
-using ModularPipelines.Context;
 using System.CodeDom.Compiler;
+using ModularPipelines.Context;
 using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
@@ -40,11 +40,11 @@ public class AwsIotwireless : IAwsIotwireless
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AssociateAwsAccountWithPartnerAccountAsync(
-        AwsIotwirelessAssociateAwsAccountWithPartnerAccountOptions? options = null,
+        AwsIotwirelessAssociateAwsAccountWithPartnerAccountOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotwirelessAssociateAwsAccountWithPartnerAccountOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -55,11 +55,11 @@ public class AwsIotwireless : IAwsIotwireless
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AssociateMulticastGroupWithFuotaTaskAsync(
-        AwsIotwirelessAssociateMulticastGroupWithFuotaTaskOptions? options = null,
+        AwsIotwirelessAssociateMulticastGroupWithFuotaTaskOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotwirelessAssociateMulticastGroupWithFuotaTaskOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -70,11 +70,11 @@ public class AwsIotwireless : IAwsIotwireless
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AssociateWirelessDeviceWithFuotaTaskAsync(
-        AwsIotwirelessAssociateWirelessDeviceWithFuotaTaskOptions? options = null,
+        AwsIotwirelessAssociateWirelessDeviceWithFuotaTaskOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotwirelessAssociateWirelessDeviceWithFuotaTaskOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -85,11 +85,11 @@ public class AwsIotwireless : IAwsIotwireless
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AssociateWirelessDeviceWithMulticastGroupAsync(
-        AwsIotwirelessAssociateWirelessDeviceWithMulticastGroupOptions? options = null,
+        AwsIotwirelessAssociateWirelessDeviceWithMulticastGroupOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotwirelessAssociateWirelessDeviceWithMulticastGroupOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -100,11 +100,11 @@ public class AwsIotwireless : IAwsIotwireless
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AssociateWirelessDeviceWithThingAsync(
-        AwsIotwirelessAssociateWirelessDeviceWithThingOptions? options = null,
+        AwsIotwirelessAssociateWirelessDeviceWithThingOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotwirelessAssociateWirelessDeviceWithThingOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -115,11 +115,11 @@ public class AwsIotwireless : IAwsIotwireless
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AssociateWirelessGatewayWithCertificateAsync(
-        AwsIotwirelessAssociateWirelessGatewayWithCertificateOptions? options = null,
+        AwsIotwirelessAssociateWirelessGatewayWithCertificateOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotwirelessAssociateWirelessGatewayWithCertificateOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -130,11 +130,11 @@ public class AwsIotwireless : IAwsIotwireless
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AssociateWirelessGatewayWithThingAsync(
-        AwsIotwirelessAssociateWirelessGatewayWithThingOptions? options = null,
+        AwsIotwirelessAssociateWirelessGatewayWithThingOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotwirelessAssociateWirelessGatewayWithThingOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -145,11 +145,11 @@ public class AwsIotwireless : IAwsIotwireless
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CancelMulticastGroupSessionAsync(
-        AwsIotwirelessCancelMulticastGroupSessionOptions? options = null,
+        AwsIotwirelessCancelMulticastGroupSessionOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotwirelessCancelMulticastGroupSessionOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -160,11 +160,11 @@ public class AwsIotwireless : IAwsIotwireless
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateDestinationAsync(
-        AwsIotwirelessCreateDestinationOptions? options = null,
+        AwsIotwirelessCreateDestinationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotwirelessCreateDestinationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -179,7 +179,7 @@ public class AwsIotwireless : IAwsIotwireless
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotwirelessCreateDeviceProfileOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotwirelessCreateDeviceProfileOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -190,11 +190,11 @@ public class AwsIotwireless : IAwsIotwireless
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateFuotaTaskAsync(
-        AwsIotwirelessCreateFuotaTaskOptions? options = null,
+        AwsIotwirelessCreateFuotaTaskOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotwirelessCreateFuotaTaskOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -205,11 +205,11 @@ public class AwsIotwireless : IAwsIotwireless
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateMulticastGroupAsync(
-        AwsIotwirelessCreateMulticastGroupOptions? options = null,
+        AwsIotwirelessCreateMulticastGroupOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotwirelessCreateMulticastGroupOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -220,11 +220,11 @@ public class AwsIotwireless : IAwsIotwireless
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateNetworkAnalyzerConfigurationAsync(
-        AwsIotwirelessCreateNetworkAnalyzerConfigurationOptions? options = null,
+        AwsIotwirelessCreateNetworkAnalyzerConfigurationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotwirelessCreateNetworkAnalyzerConfigurationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -239,7 +239,7 @@ public class AwsIotwireless : IAwsIotwireless
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotwirelessCreateServiceProfileOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotwirelessCreateServiceProfileOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -250,11 +250,11 @@ public class AwsIotwireless : IAwsIotwireless
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateWirelessDeviceAsync(
-        AwsIotwirelessCreateWirelessDeviceOptions? options = null,
+        AwsIotwirelessCreateWirelessDeviceOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotwirelessCreateWirelessDeviceOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -265,11 +265,11 @@ public class AwsIotwireless : IAwsIotwireless
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateWirelessGatewayAsync(
-        AwsIotwirelessCreateWirelessGatewayOptions? options = null,
+        AwsIotwirelessCreateWirelessGatewayOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotwirelessCreateWirelessGatewayOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -280,11 +280,11 @@ public class AwsIotwireless : IAwsIotwireless
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateWirelessGatewayTaskDefinitionAsync(
-        AwsIotwirelessCreateWirelessGatewayTaskDefinitionOptions? options = null,
+        AwsIotwirelessCreateWirelessGatewayTaskDefinitionOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotwirelessCreateWirelessGatewayTaskDefinitionOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -295,11 +295,11 @@ public class AwsIotwireless : IAwsIotwireless
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateWirelessGatewayTaskAsync(
-        AwsIotwirelessCreateWirelessGatewayTaskOptions? options = null,
+        AwsIotwirelessCreateWirelessGatewayTaskOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotwirelessCreateWirelessGatewayTaskOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -310,11 +310,11 @@ public class AwsIotwireless : IAwsIotwireless
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteDestinationAsync(
-        AwsIotwirelessDeleteDestinationOptions? options = null,
+        AwsIotwirelessDeleteDestinationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotwirelessDeleteDestinationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -325,11 +325,11 @@ public class AwsIotwireless : IAwsIotwireless
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteDeviceProfileAsync(
-        AwsIotwirelessDeleteDeviceProfileOptions? options = null,
+        AwsIotwirelessDeleteDeviceProfileOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotwirelessDeleteDeviceProfileOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -340,11 +340,11 @@ public class AwsIotwireless : IAwsIotwireless
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteFuotaTaskAsync(
-        AwsIotwirelessDeleteFuotaTaskOptions? options = null,
+        AwsIotwirelessDeleteFuotaTaskOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotwirelessDeleteFuotaTaskOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -355,11 +355,11 @@ public class AwsIotwireless : IAwsIotwireless
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteMulticastGroupAsync(
-        AwsIotwirelessDeleteMulticastGroupOptions? options = null,
+        AwsIotwirelessDeleteMulticastGroupOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotwirelessDeleteMulticastGroupOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -370,11 +370,11 @@ public class AwsIotwireless : IAwsIotwireless
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteNetworkAnalyzerConfigurationAsync(
-        AwsIotwirelessDeleteNetworkAnalyzerConfigurationOptions? options = null,
+        AwsIotwirelessDeleteNetworkAnalyzerConfigurationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotwirelessDeleteNetworkAnalyzerConfigurationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -385,11 +385,11 @@ public class AwsIotwireless : IAwsIotwireless
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteQueuedMessagesAsync(
-        AwsIotwirelessDeleteQueuedMessagesOptions? options = null,
+        AwsIotwirelessDeleteQueuedMessagesOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotwirelessDeleteQueuedMessagesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -400,11 +400,11 @@ public class AwsIotwireless : IAwsIotwireless
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteServiceProfileAsync(
-        AwsIotwirelessDeleteServiceProfileOptions? options = null,
+        AwsIotwirelessDeleteServiceProfileOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotwirelessDeleteServiceProfileOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -415,11 +415,11 @@ public class AwsIotwireless : IAwsIotwireless
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteWirelessDeviceImportTaskAsync(
-        AwsIotwirelessDeleteWirelessDeviceImportTaskOptions? options = null,
+        AwsIotwirelessDeleteWirelessDeviceImportTaskOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotwirelessDeleteWirelessDeviceImportTaskOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -430,11 +430,11 @@ public class AwsIotwireless : IAwsIotwireless
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteWirelessDeviceAsync(
-        AwsIotwirelessDeleteWirelessDeviceOptions? options = null,
+        AwsIotwirelessDeleteWirelessDeviceOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotwirelessDeleteWirelessDeviceOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -445,11 +445,11 @@ public class AwsIotwireless : IAwsIotwireless
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteWirelessGatewayAsync(
-        AwsIotwirelessDeleteWirelessGatewayOptions? options = null,
+        AwsIotwirelessDeleteWirelessGatewayOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotwirelessDeleteWirelessGatewayOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -460,11 +460,11 @@ public class AwsIotwireless : IAwsIotwireless
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteWirelessGatewayTaskDefinitionAsync(
-        AwsIotwirelessDeleteWirelessGatewayTaskDefinitionOptions? options = null,
+        AwsIotwirelessDeleteWirelessGatewayTaskDefinitionOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotwirelessDeleteWirelessGatewayTaskDefinitionOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -475,11 +475,11 @@ public class AwsIotwireless : IAwsIotwireless
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteWirelessGatewayTaskAsync(
-        AwsIotwirelessDeleteWirelessGatewayTaskOptions? options = null,
+        AwsIotwirelessDeleteWirelessGatewayTaskOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotwirelessDeleteWirelessGatewayTaskOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -490,11 +490,11 @@ public class AwsIotwireless : IAwsIotwireless
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeregisterWirelessDeviceAsync(
-        AwsIotwirelessDeregisterWirelessDeviceOptions? options = null,
+        AwsIotwirelessDeregisterWirelessDeviceOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotwirelessDeregisterWirelessDeviceOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -505,11 +505,11 @@ public class AwsIotwireless : IAwsIotwireless
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DisassociateAwsAccountFromPartnerAccountAsync(
-        AwsIotwirelessDisassociateAwsAccountFromPartnerAccountOptions? options = null,
+        AwsIotwirelessDisassociateAwsAccountFromPartnerAccountOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotwirelessDisassociateAwsAccountFromPartnerAccountOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -520,11 +520,11 @@ public class AwsIotwireless : IAwsIotwireless
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DisassociateMulticastGroupFromFuotaTaskAsync(
-        AwsIotwirelessDisassociateMulticastGroupFromFuotaTaskOptions? options = null,
+        AwsIotwirelessDisassociateMulticastGroupFromFuotaTaskOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotwirelessDisassociateMulticastGroupFromFuotaTaskOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -535,11 +535,11 @@ public class AwsIotwireless : IAwsIotwireless
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DisassociateWirelessDeviceFromFuotaTaskAsync(
-        AwsIotwirelessDisassociateWirelessDeviceFromFuotaTaskOptions? options = null,
+        AwsIotwirelessDisassociateWirelessDeviceFromFuotaTaskOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotwirelessDisassociateWirelessDeviceFromFuotaTaskOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -550,11 +550,11 @@ public class AwsIotwireless : IAwsIotwireless
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DisassociateWirelessDeviceFromMulticastGroupAsync(
-        AwsIotwirelessDisassociateWirelessDeviceFromMulticastGroupOptions? options = null,
+        AwsIotwirelessDisassociateWirelessDeviceFromMulticastGroupOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotwirelessDisassociateWirelessDeviceFromMulticastGroupOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -565,11 +565,11 @@ public class AwsIotwireless : IAwsIotwireless
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DisassociateWirelessDeviceFromThingAsync(
-        AwsIotwirelessDisassociateWirelessDeviceFromThingOptions? options = null,
+        AwsIotwirelessDisassociateWirelessDeviceFromThingOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotwirelessDisassociateWirelessDeviceFromThingOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -580,11 +580,11 @@ public class AwsIotwireless : IAwsIotwireless
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DisassociateWirelessGatewayFromCertificateAsync(
-        AwsIotwirelessDisassociateWirelessGatewayFromCertificateOptions? options = null,
+        AwsIotwirelessDisassociateWirelessGatewayFromCertificateOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotwirelessDisassociateWirelessGatewayFromCertificateOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -595,11 +595,11 @@ public class AwsIotwireless : IAwsIotwireless
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DisassociateWirelessGatewayFromThingAsync(
-        AwsIotwirelessDisassociateWirelessGatewayFromThingOptions? options = null,
+        AwsIotwirelessDisassociateWirelessGatewayFromThingOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotwirelessDisassociateWirelessGatewayFromThingOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -610,11 +610,11 @@ public class AwsIotwireless : IAwsIotwireless
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetDestinationAsync(
-        AwsIotwirelessGetDestinationOptions? options = null,
+        AwsIotwirelessGetDestinationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotwirelessGetDestinationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -625,11 +625,11 @@ public class AwsIotwireless : IAwsIotwireless
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetDeviceProfileAsync(
-        AwsIotwirelessGetDeviceProfileOptions? options = null,
+        AwsIotwirelessGetDeviceProfileOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotwirelessGetDeviceProfileOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -644,7 +644,7 @@ public class AwsIotwireless : IAwsIotwireless
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotwirelessGetEventConfigurationByResourceTypesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotwirelessGetEventConfigurationByResourceTypesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -655,11 +655,11 @@ public class AwsIotwireless : IAwsIotwireless
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetFuotaTaskAsync(
-        AwsIotwirelessGetFuotaTaskOptions? options = null,
+        AwsIotwirelessGetFuotaTaskOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotwirelessGetFuotaTaskOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -674,7 +674,7 @@ public class AwsIotwireless : IAwsIotwireless
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotwirelessGetLogLevelsByResourceTypesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotwirelessGetLogLevelsByResourceTypesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -689,7 +689,7 @@ public class AwsIotwireless : IAwsIotwireless
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotwirelessGetMetricConfigurationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotwirelessGetMetricConfigurationOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -704,7 +704,7 @@ public class AwsIotwireless : IAwsIotwireless
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotwirelessGetMetricsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotwirelessGetMetricsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -715,11 +715,11 @@ public class AwsIotwireless : IAwsIotwireless
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetMulticastGroupAsync(
-        AwsIotwirelessGetMulticastGroupOptions? options = null,
+        AwsIotwirelessGetMulticastGroupOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotwirelessGetMulticastGroupOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -730,11 +730,11 @@ public class AwsIotwireless : IAwsIotwireless
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetMulticastGroupSessionAsync(
-        AwsIotwirelessGetMulticastGroupSessionOptions? options = null,
+        AwsIotwirelessGetMulticastGroupSessionOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotwirelessGetMulticastGroupSessionOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -745,11 +745,11 @@ public class AwsIotwireless : IAwsIotwireless
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetNetworkAnalyzerConfigurationAsync(
-        AwsIotwirelessGetNetworkAnalyzerConfigurationOptions? options = null,
+        AwsIotwirelessGetNetworkAnalyzerConfigurationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotwirelessGetNetworkAnalyzerConfigurationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -760,11 +760,11 @@ public class AwsIotwireless : IAwsIotwireless
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetPartnerAccountAsync(
-        AwsIotwirelessGetPartnerAccountOptions? options = null,
+        AwsIotwirelessGetPartnerAccountOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotwirelessGetPartnerAccountOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -775,11 +775,11 @@ public class AwsIotwireless : IAwsIotwireless
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetPositionEstimateAsync(
-        AwsIotwirelessGetPositionEstimateOptions? options = null,
+        AwsIotwirelessGetPositionEstimateOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotwirelessGetPositionEstimateOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -790,11 +790,11 @@ public class AwsIotwireless : IAwsIotwireless
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetResourceEventConfigurationAsync(
-        AwsIotwirelessGetResourceEventConfigurationOptions? options = null,
+        AwsIotwirelessGetResourceEventConfigurationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotwirelessGetResourceEventConfigurationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -805,11 +805,11 @@ public class AwsIotwireless : IAwsIotwireless
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetResourceLogLevelAsync(
-        AwsIotwirelessGetResourceLogLevelOptions? options = null,
+        AwsIotwirelessGetResourceLogLevelOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotwirelessGetResourceLogLevelOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -820,11 +820,11 @@ public class AwsIotwireless : IAwsIotwireless
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetResourcePositionAsync(
-        AwsIotwirelessGetResourcePositionOptions? options = null,
+        AwsIotwirelessGetResourcePositionOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotwirelessGetResourcePositionOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -839,7 +839,7 @@ public class AwsIotwireless : IAwsIotwireless
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotwirelessGetServiceEndpointOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotwirelessGetServiceEndpointOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -850,11 +850,11 @@ public class AwsIotwireless : IAwsIotwireless
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetServiceProfileAsync(
-        AwsIotwirelessGetServiceProfileOptions? options = null,
+        AwsIotwirelessGetServiceProfileOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotwirelessGetServiceProfileOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -865,11 +865,11 @@ public class AwsIotwireless : IAwsIotwireless
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetWirelessDeviceImportTaskAsync(
-        AwsIotwirelessGetWirelessDeviceImportTaskOptions? options = null,
+        AwsIotwirelessGetWirelessDeviceImportTaskOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotwirelessGetWirelessDeviceImportTaskOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -880,11 +880,11 @@ public class AwsIotwireless : IAwsIotwireless
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetWirelessDeviceAsync(
-        AwsIotwirelessGetWirelessDeviceOptions? options = null,
+        AwsIotwirelessGetWirelessDeviceOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotwirelessGetWirelessDeviceOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -895,11 +895,11 @@ public class AwsIotwireless : IAwsIotwireless
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetWirelessDeviceStatisticsAsync(
-        AwsIotwirelessGetWirelessDeviceStatisticsOptions? options = null,
+        AwsIotwirelessGetWirelessDeviceStatisticsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotwirelessGetWirelessDeviceStatisticsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -910,11 +910,11 @@ public class AwsIotwireless : IAwsIotwireless
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetWirelessGatewayCertificateAsync(
-        AwsIotwirelessGetWirelessGatewayCertificateOptions? options = null,
+        AwsIotwirelessGetWirelessGatewayCertificateOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotwirelessGetWirelessGatewayCertificateOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -925,11 +925,11 @@ public class AwsIotwireless : IAwsIotwireless
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetWirelessGatewayFirmwareInformationAsync(
-        AwsIotwirelessGetWirelessGatewayFirmwareInformationOptions? options = null,
+        AwsIotwirelessGetWirelessGatewayFirmwareInformationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotwirelessGetWirelessGatewayFirmwareInformationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -940,11 +940,11 @@ public class AwsIotwireless : IAwsIotwireless
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetWirelessGatewayAsync(
-        AwsIotwirelessGetWirelessGatewayOptions? options = null,
+        AwsIotwirelessGetWirelessGatewayOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotwirelessGetWirelessGatewayOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -955,11 +955,11 @@ public class AwsIotwireless : IAwsIotwireless
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetWirelessGatewayStatisticsAsync(
-        AwsIotwirelessGetWirelessGatewayStatisticsOptions? options = null,
+        AwsIotwirelessGetWirelessGatewayStatisticsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotwirelessGetWirelessGatewayStatisticsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -970,11 +970,11 @@ public class AwsIotwireless : IAwsIotwireless
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetWirelessGatewayTaskDefinitionAsync(
-        AwsIotwirelessGetWirelessGatewayTaskDefinitionOptions? options = null,
+        AwsIotwirelessGetWirelessGatewayTaskDefinitionOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotwirelessGetWirelessGatewayTaskDefinitionOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -985,11 +985,11 @@ public class AwsIotwireless : IAwsIotwireless
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetWirelessGatewayTaskAsync(
-        AwsIotwirelessGetWirelessGatewayTaskOptions? options = null,
+        AwsIotwirelessGetWirelessGatewayTaskOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotwirelessGetWirelessGatewayTaskOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1004,7 +1004,7 @@ public class AwsIotwireless : IAwsIotwireless
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotwirelessListDestinationsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotwirelessListDestinationsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1019,7 +1019,7 @@ public class AwsIotwireless : IAwsIotwireless
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotwirelessListDeviceProfilesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotwirelessListDeviceProfilesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1030,11 +1030,11 @@ public class AwsIotwireless : IAwsIotwireless
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListDevicesForWirelessDeviceImportTaskAsync(
-        AwsIotwirelessListDevicesForWirelessDeviceImportTaskOptions? options = null,
+        AwsIotwirelessListDevicesForWirelessDeviceImportTaskOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotwirelessListDevicesForWirelessDeviceImportTaskOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1045,11 +1045,11 @@ public class AwsIotwireless : IAwsIotwireless
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListEventConfigurationsAsync(
-        AwsIotwirelessListEventConfigurationsOptions? options = null,
+        AwsIotwirelessListEventConfigurationsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotwirelessListEventConfigurationsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1064,7 +1064,7 @@ public class AwsIotwireless : IAwsIotwireless
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotwirelessListFuotaTasksOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotwirelessListFuotaTasksOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1075,11 +1075,11 @@ public class AwsIotwireless : IAwsIotwireless
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListMulticastGroupsByFuotaTaskAsync(
-        AwsIotwirelessListMulticastGroupsByFuotaTaskOptions? options = null,
+        AwsIotwirelessListMulticastGroupsByFuotaTaskOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotwirelessListMulticastGroupsByFuotaTaskOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1094,7 +1094,7 @@ public class AwsIotwireless : IAwsIotwireless
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotwirelessListMulticastGroupsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotwirelessListMulticastGroupsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1109,7 +1109,7 @@ public class AwsIotwireless : IAwsIotwireless
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotwirelessListNetworkAnalyzerConfigurationsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotwirelessListNetworkAnalyzerConfigurationsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1124,7 +1124,7 @@ public class AwsIotwireless : IAwsIotwireless
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotwirelessListPartnerAccountsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotwirelessListPartnerAccountsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1135,11 +1135,11 @@ public class AwsIotwireless : IAwsIotwireless
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListQueuedMessagesAsync(
-        AwsIotwirelessListQueuedMessagesOptions? options = null,
+        AwsIotwirelessListQueuedMessagesOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotwirelessListQueuedMessagesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1154,7 +1154,7 @@ public class AwsIotwireless : IAwsIotwireless
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotwirelessListServiceProfilesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotwirelessListServiceProfilesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1165,11 +1165,11 @@ public class AwsIotwireless : IAwsIotwireless
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListTagsForResourceAsync(
-        AwsIotwirelessListTagsForResourceOptions? options = null,
+        AwsIotwirelessListTagsForResourceOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotwirelessListTagsForResourceOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1184,7 +1184,7 @@ public class AwsIotwireless : IAwsIotwireless
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotwirelessListWirelessDeviceImportTasksOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotwirelessListWirelessDeviceImportTasksOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1199,7 +1199,7 @@ public class AwsIotwireless : IAwsIotwireless
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotwirelessListWirelessDevicesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotwirelessListWirelessDevicesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1214,7 +1214,7 @@ public class AwsIotwireless : IAwsIotwireless
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotwirelessListWirelessGatewaysOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotwirelessListWirelessGatewaysOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1229,7 +1229,7 @@ public class AwsIotwireless : IAwsIotwireless
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotwirelessListWirelessGatewayTaskDefinitionsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotwirelessListWirelessGatewayTaskDefinitionsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1240,11 +1240,11 @@ public class AwsIotwireless : IAwsIotwireless
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> PutResourceLogLevelAsync(
-        AwsIotwirelessPutResourceLogLevelOptions? options = null,
+        AwsIotwirelessPutResourceLogLevelOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotwirelessPutResourceLogLevelOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1259,7 +1259,7 @@ public class AwsIotwireless : IAwsIotwireless
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotwirelessResetAllResourceLogLevelsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotwirelessResetAllResourceLogLevelsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1270,11 +1270,11 @@ public class AwsIotwireless : IAwsIotwireless
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ResetResourceLogLevelAsync(
-        AwsIotwirelessResetResourceLogLevelOptions? options = null,
+        AwsIotwirelessResetResourceLogLevelOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotwirelessResetResourceLogLevelOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1285,11 +1285,11 @@ public class AwsIotwireless : IAwsIotwireless
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> SendDataToMulticastGroupAsync(
-        AwsIotwirelessSendDataToMulticastGroupOptions? options = null,
+        AwsIotwirelessSendDataToMulticastGroupOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotwirelessSendDataToMulticastGroupOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1300,11 +1300,11 @@ public class AwsIotwireless : IAwsIotwireless
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> SendDataToWirelessDeviceAsync(
-        AwsIotwirelessSendDataToWirelessDeviceOptions? options = null,
+        AwsIotwirelessSendDataToWirelessDeviceOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotwirelessSendDataToWirelessDeviceOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1315,11 +1315,11 @@ public class AwsIotwireless : IAwsIotwireless
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> StartBulkAssociateWirelessDeviceWithMulticastGroupAsync(
-        AwsIotwirelessStartBulkAssociateWirelessDeviceWithMulticastGroupOptions? options = null,
+        AwsIotwirelessStartBulkAssociateWirelessDeviceWithMulticastGroupOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotwirelessStartBulkAssociateWirelessDeviceWithMulticastGroupOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1330,11 +1330,11 @@ public class AwsIotwireless : IAwsIotwireless
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> StartBulkDisassociateWirelessDeviceFromMulticastGroupAsync(
-        AwsIotwirelessStartBulkDisassociateWirelessDeviceFromMulticastGroupOptions? options = null,
+        AwsIotwirelessStartBulkDisassociateWirelessDeviceFromMulticastGroupOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotwirelessStartBulkDisassociateWirelessDeviceFromMulticastGroupOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1345,11 +1345,11 @@ public class AwsIotwireless : IAwsIotwireless
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> StartFuotaTaskAsync(
-        AwsIotwirelessStartFuotaTaskOptions? options = null,
+        AwsIotwirelessStartFuotaTaskOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotwirelessStartFuotaTaskOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1360,11 +1360,11 @@ public class AwsIotwireless : IAwsIotwireless
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> StartMulticastGroupSessionAsync(
-        AwsIotwirelessStartMulticastGroupSessionOptions? options = null,
+        AwsIotwirelessStartMulticastGroupSessionOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotwirelessStartMulticastGroupSessionOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1375,11 +1375,11 @@ public class AwsIotwireless : IAwsIotwireless
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> StartSingleWirelessDeviceImportTaskAsync(
-        AwsIotwirelessStartSingleWirelessDeviceImportTaskOptions? options = null,
+        AwsIotwirelessStartSingleWirelessDeviceImportTaskOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotwirelessStartSingleWirelessDeviceImportTaskOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1390,11 +1390,11 @@ public class AwsIotwireless : IAwsIotwireless
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> StartWirelessDeviceImportTaskAsync(
-        AwsIotwirelessStartWirelessDeviceImportTaskOptions? options = null,
+        AwsIotwirelessStartWirelessDeviceImportTaskOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotwirelessStartWirelessDeviceImportTaskOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1405,11 +1405,11 @@ public class AwsIotwireless : IAwsIotwireless
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> TagResourceAsync(
-        AwsIotwirelessTagResourceOptions? options = null,
+        AwsIotwirelessTagResourceOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotwirelessTagResourceOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1420,11 +1420,11 @@ public class AwsIotwireless : IAwsIotwireless
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> TestWirelessDeviceAsync(
-        AwsIotwirelessTestWirelessDeviceOptions? options = null,
+        AwsIotwirelessTestWirelessDeviceOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotwirelessTestWirelessDeviceOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1435,11 +1435,11 @@ public class AwsIotwireless : IAwsIotwireless
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UntagResourceAsync(
-        AwsIotwirelessUntagResourceOptions? options = null,
+        AwsIotwirelessUntagResourceOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotwirelessUntagResourceOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1450,11 +1450,11 @@ public class AwsIotwireless : IAwsIotwireless
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateDestinationAsync(
-        AwsIotwirelessUpdateDestinationOptions? options = null,
+        AwsIotwirelessUpdateDestinationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotwirelessUpdateDestinationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1469,7 +1469,7 @@ public class AwsIotwireless : IAwsIotwireless
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotwirelessUpdateEventConfigurationByResourceTypesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotwirelessUpdateEventConfigurationByResourceTypesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1480,11 +1480,11 @@ public class AwsIotwireless : IAwsIotwireless
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateFuotaTaskAsync(
-        AwsIotwirelessUpdateFuotaTaskOptions? options = null,
+        AwsIotwirelessUpdateFuotaTaskOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotwirelessUpdateFuotaTaskOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1499,7 +1499,7 @@ public class AwsIotwireless : IAwsIotwireless
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotwirelessUpdateLogLevelsByResourceTypesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotwirelessUpdateLogLevelsByResourceTypesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1514,7 +1514,7 @@ public class AwsIotwireless : IAwsIotwireless
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotwirelessUpdateMetricConfigurationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotwirelessUpdateMetricConfigurationOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1525,11 +1525,11 @@ public class AwsIotwireless : IAwsIotwireless
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateMulticastGroupAsync(
-        AwsIotwirelessUpdateMulticastGroupOptions? options = null,
+        AwsIotwirelessUpdateMulticastGroupOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotwirelessUpdateMulticastGroupOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1540,11 +1540,11 @@ public class AwsIotwireless : IAwsIotwireless
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateNetworkAnalyzerConfigurationAsync(
-        AwsIotwirelessUpdateNetworkAnalyzerConfigurationOptions? options = null,
+        AwsIotwirelessUpdateNetworkAnalyzerConfigurationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotwirelessUpdateNetworkAnalyzerConfigurationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1555,11 +1555,11 @@ public class AwsIotwireless : IAwsIotwireless
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdatePartnerAccountAsync(
-        AwsIotwirelessUpdatePartnerAccountOptions? options = null,
+        AwsIotwirelessUpdatePartnerAccountOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotwirelessUpdatePartnerAccountOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1570,11 +1570,11 @@ public class AwsIotwireless : IAwsIotwireless
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateResourceEventConfigurationAsync(
-        AwsIotwirelessUpdateResourceEventConfigurationOptions? options = null,
+        AwsIotwirelessUpdateResourceEventConfigurationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotwirelessUpdateResourceEventConfigurationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1585,11 +1585,11 @@ public class AwsIotwireless : IAwsIotwireless
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateResourcePositionAsync(
-        AwsIotwirelessUpdateResourcePositionOptions? options = null,
+        AwsIotwirelessUpdateResourcePositionOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotwirelessUpdateResourcePositionOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1600,11 +1600,11 @@ public class AwsIotwireless : IAwsIotwireless
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateWirelessDeviceImportTaskAsync(
-        AwsIotwirelessUpdateWirelessDeviceImportTaskOptions? options = null,
+        AwsIotwirelessUpdateWirelessDeviceImportTaskOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotwirelessUpdateWirelessDeviceImportTaskOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1615,11 +1615,11 @@ public class AwsIotwireless : IAwsIotwireless
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateWirelessDeviceAsync(
-        AwsIotwirelessUpdateWirelessDeviceOptions? options = null,
+        AwsIotwirelessUpdateWirelessDeviceOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotwirelessUpdateWirelessDeviceOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1630,11 +1630,11 @@ public class AwsIotwireless : IAwsIotwireless
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateWirelessGatewayAsync(
-        AwsIotwirelessUpdateWirelessGatewayOptions? options = null,
+        AwsIotwirelessUpdateWirelessGatewayOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotwirelessUpdateWirelessGatewayOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     #endregion

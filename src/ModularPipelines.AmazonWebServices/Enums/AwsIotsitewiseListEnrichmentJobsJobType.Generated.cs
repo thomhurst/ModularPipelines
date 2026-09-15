@@ -11,11 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --jobtype.
+/// Allowed values for --job-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsIotsitewiseListEnrichmentJobsJobType
 {
     [EnumValue("EVENT_DETECTION")]
-    EventDetection = 1
+    EventDetection,
+
+    [EnumValue("o")]
+    O
 }

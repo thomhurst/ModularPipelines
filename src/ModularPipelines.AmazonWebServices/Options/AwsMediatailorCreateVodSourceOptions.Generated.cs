@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +21,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("mediatailor", "create-vod-source")]
-public record AwsMediatailorCreateVodSourceOptions : AwsOptions
+public record AwsMediatailorCreateVodSourceOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--http-package-configurations", GroupValues = true)]
-    public IEnumerable<string>? HttpPackageConfigurations { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// The VOD source configuration parameters. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="HttpPackageConfigurations">A list of HTTP package configuration parameters for this VOD source. (structure) The HTTP package configuration properties for the requested VOD source. Path -&gt; (string) [required] The relative path to the URL for this VOD source. This is combined with SourceLocation::HttpConfiguration::BaseUrl to form a valid URL. SourceGroup -&gt; (string) [required] The name of the source group. This has to match one of the Channel::Outputs::SourceGroup . Type -&gt; (string) [required] The streaming protocol for this package configuration. Sup- ported values are HLS and DASH . Possible values: o DASH o HLS Shorthand Syntax: Path=string,SourceGroup=string,Type=string ... JSON Syntax: [ { "Path": "string", "SourceGroup": "string", "Type": "DASH"|"HLS" } ... ]</param>
+    /// <param name="SourceLocationName">The name of the source location for this VOD source.</param>
+    /// <param name="VodSourceName">The name associated with the VOD source.&gt;</param>
+    public AwsMediatailorCreateVodSourceOptions(
+        IEnumerable<string> HttpPackageConfigurations,
+        string SourceLocationName,
+        string VodSourceName
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(HttpPackageConfigurations);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(HttpPackageConfigurations));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(HttpPackageConfigurations));
+            }
+
+            HttpPackageConfigurations = materialized;
+        }
+        this.HttpPackageConfigurations = HttpPackageConfigurations;
+        global::System.ArgumentNullException.ThrowIfNull(SourceLocationName);
+        this.SourceLocationName = SourceLocationName;
+        global::System.ArgumentNullException.ThrowIfNull(VodSourceName);
+        this.VodSourceName = VodSourceName;
+    }
+
+    private AwsMediatailorCreateVodSourceOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsMediatailorCreateVodSourceOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsMediatailorCreateVodSourceOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A list of HTTP package configuration parameters for this VOD source. (structure) The HTTP package configuration properties for the requested VOD source. Path -&gt; (string) [required] The relative path to the URL for this VOD source. This is combined with SourceLocation::HttpConfiguration::BaseUrl to form a valid URL. SourceGroup -&gt; (string) [required] The name of the source group. This has to match one of the Channel::Outputs::SourceGroup . Type -&gt; (string) [required] The streaming protocol for this package configuration. Sup- ported values are HLS and DASH . Possible values: o DASH o HLS Shorthand Syntax: Path=string,SourceGroup=string,Type=string ... JSON Syntax: [ { "Path": "string", "SourceGroup": "string", "Type": "DASH"|"HLS" } ... ]
+    /// </summary>
+    [CliOption("--http-package-configurations", GroupValues = true)]
+    public IEnumerable<string>? HttpPackageConfigurations { get; private init; }
+
+    /// <summary>
+    /// The name of the source location for this VOD source.
+    /// </summary>
     [CliOption("--source-location-name")]
-    public string? SourceLocationName { get; set; }
+    public string? SourceLocationName { get; private init; }
+
+    /// <summary>
+    /// The name associated with the VOD source.&gt;
+    /// </summary>
+    [CliOption("--vod-source-name")]
+    public string? VodSourceName { get; private init; }
 
     /// <summary>
     /// The tags to assign to the VOD source. Tags are key-value pairs that you can associate with Amazon resources to help with organization, access control, and cost tracking. For more information, see Tagging AWS Elemental MediaTailor Resources . key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
@@ -34,13 +99,27 @@ public record AwsMediatailorCreateVodSourceOptions : AwsOptions
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
-    [CliOption("--vod-source-name")]
-    public string? VodSourceName { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

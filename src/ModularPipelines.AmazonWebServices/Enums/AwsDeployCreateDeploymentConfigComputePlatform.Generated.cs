@@ -11,17 +11,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --computeplatform.
+/// Allowed values for --compute-platform.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsDeployCreateDeploymentConfigComputePlatform
 {
-    [EnumValue("Server")]
-    Server = 1,
+    [EnumValue("ECS")]
+    Ecs,
 
     [EnumValue("Lambda")]
-    Lambda = 2,
+    Lambda,
 
-    [EnumValue("ECS")]
-    Ecs = 3
+    [EnumValue("Server")]
+    Server
 }

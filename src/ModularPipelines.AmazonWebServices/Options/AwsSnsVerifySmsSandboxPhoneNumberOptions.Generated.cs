@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,19 +21,79 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sns", "verify-sms-sandbox-phone-number")]
-public record AwsSnsVerifySmsSandboxPhoneNumberOptions : AwsOptions
+public record AwsSnsVerifySmsSandboxPhoneNumberOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--phone-number")]
-    public string? PhoneNumber { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Verifies a destination phone number with a one-time password (OTP) for the calling Amazon Web Services account. When you start using Amazon SNS to send SMS messages, your Amazon Web Services account is in the SMS sandbox . The SMS sandbox provides a safe environment for you to try Amazon SNS features without risking your reputation as an SMS sender. While your Amazon Web Services ac- count is in the SMS sandbox, you can use all of the features of Amazon SNS. However, you can send SMS messages on...
+    /// </summary>
+    /// <param name="PhoneNumber">The destination phone number to verify. Constraints: o max: 20 o pattern: ^(\+[0-9]{8,}|[0-9]{0,9})$</param>
+    /// <param name="OneTimePassword">The OTP sent to the destination number from the CreateSMSSandBoxPho- neNumber call. Constraints: o min: 5 o max: 8 o pattern: ^[0-9]+$</param>
+    public AwsSnsVerifySmsSandboxPhoneNumberOptions(
+        string PhoneNumber,
+        string OneTimePassword
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PhoneNumber);
+        this.PhoneNumber = PhoneNumber;
+        global::System.ArgumentNullException.ThrowIfNull(OneTimePassword);
+        this.OneTimePassword = OneTimePassword;
+    }
+
+    private AwsSnsVerifySmsSandboxPhoneNumberOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSnsVerifySmsSandboxPhoneNumberOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSnsVerifySmsSandboxPhoneNumberOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The destination phone number to verify. Constraints: o max: 20 o pattern: ^(\+[0-9]{8,}|[0-9]{0,9})$
+    /// </summary>
+    [CliOption("--phone-number")]
+    public string? PhoneNumber { get; private init; }
+
+    /// <summary>
+    /// The OTP sent to the destination number from the CreateSMSSandBoxPho- neNumber call. Constraints: o min: 5 o max: 8 o pattern: ^[0-9]+$
+    /// </summary>
     [SecretValue]
     [CliOption("--one-time-password")]
-    public string? OneTimePassword { get; set; }
+    public string? OneTimePassword { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -11,17 +11,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --ipaddresstype.
+/// Allowed values for --ip-address-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsS3filesCreateMountTargetIpAddressType
 {
+    [EnumValue("DUAL_STACK")]
+    DualStack,
+
     [EnumValue("IPV4_ONLY")]
-    Ipv4Only = 1,
+    Ipv4Only,
 
     [EnumValue("IPV6_ONLY")]
-    Ipv6Only = 2,
-
-    [EnumValue("DUAL_STACK")]
-    DualStack = 3
+    Ipv6Only
 }

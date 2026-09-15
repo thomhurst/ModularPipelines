@@ -11,23 +11,23 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --authenticationtype.
+/// Allowed values for --authentication-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsIotUpdateDomainConfigurationAuthenticationType
 {
-    [EnumValue("CUSTOM_AUTH_X509")]
-    CustomAuthX509 = 1,
-
-    [EnumValue("CUSTOM_AUTH")]
-    CustomAuth = 2,
+    [EnumValue("AWS_SIGV4")]
+    AwsSigv4,
 
     [EnumValue("AWS_X509")]
-    AwsX509 = 3,
+    AwsX509,
 
-    [EnumValue("AWS_SIGV4")]
-    AwsSigv4 = 4,
+    [EnumValue("CUSTOM_AUTH")]
+    CustomAuth,
+
+    [EnumValue("CUSTOM_AUTH_X509")]
+    CustomAuthX509,
 
     [EnumValue("DEFAULT")]
-    Default = 5
+    Default
 }

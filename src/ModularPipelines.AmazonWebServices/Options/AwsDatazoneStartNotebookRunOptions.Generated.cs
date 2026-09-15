@@ -12,6 +12,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -21,16 +22,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("datazone", "start-notebook-run")]
-public record AwsDatazoneStartNotebookRunOptions : AwsOptions
+public record AwsDatazoneStartNotebookRunOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Starts a notebook run in Amazon SageMaker Unified Studio. A notebook run represents the execution of an Amazon SageMaker notebook within a project. You can configure compute, network, timeout, and environment settings for the run. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DomainIdentifier">The identifier of the Amazon SageMaker Unified Studio domain in which the notebook run is started. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}</param>
+    /// <param name="OwningProjectIdentifier">The identifier of the project that owns the notebook run. Constraints: o pattern: [a-zA-Z0-9_-]{1,36}</param>
+    /// <param name="NotebookIdentifier">The identifier of the notebook to run. Constraints: o pattern: [a-zA-Z0-9_-]{1,36}</param>
+    public AwsDatazoneStartNotebookRunOptions(
+        string DomainIdentifier,
+        string OwningProjectIdentifier,
+        string NotebookIdentifier
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DomainIdentifier);
+        this.DomainIdentifier = DomainIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(OwningProjectIdentifier);
+        this.OwningProjectIdentifier = OwningProjectIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(NotebookIdentifier);
+        this.NotebookIdentifier = NotebookIdentifier;
+    }
+
+    private AwsDatazoneStartNotebookRunOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDatazoneStartNotebookRunOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDatazoneStartNotebookRunOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the Amazon SageMaker Unified Studio domain in which the notebook run is started. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}
+    /// </summary>
     [CliOption("--domain-identifier")]
-    public string? DomainIdentifier { get; set; }
+    public string? DomainIdentifier { get; private init; }
 
+    /// <summary>
+    /// The identifier of the project that owns the notebook run. Constraints: o pattern: [a-zA-Z0-9_-]{1,36}
+    /// </summary>
     [CliOption("--owning-project-identifier")]
-    public string? OwningProjectIdentifier { get; set; }
+    public string? OwningProjectIdentifier { get; private init; }
 
+    /// <summary>
+    /// The identifier of the notebook to run. Constraints: o pattern: [a-zA-Z0-9_-]{1,36}
+    /// </summary>
     [CliOption("--notebook-identifier")]
-    public string? NotebookIdentifier { get; set; }
+    public string? NotebookIdentifier { get; private init; }
 
     /// <summary>
     /// The identifier of the schedule associated with the notebook run. Constraints: o pattern: [a-zA-Z0-9_-]{1,36}
@@ -86,5 +137,22 @@ public record AwsDatazoneStartNotebookRunOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

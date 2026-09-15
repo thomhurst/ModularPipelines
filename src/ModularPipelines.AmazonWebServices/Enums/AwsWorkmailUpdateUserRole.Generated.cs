@@ -16,15 +16,15 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsWorkmailUpdateUserRole
 {
-    [EnumValue("USER")]
-    User = 1,
+    [EnumValue("REMOTE_USER")]
+    RemoteUser,
 
     [EnumValue("RESOURCE")]
-    Resource = 2,
+    Resource,
 
     [EnumValue("SYSTEM_USER")]
-    SystemUser = 3,
+    SystemUser,
 
-    [EnumValue("REMOTE_USER")]
-    RemoteUser = 4
+    [EnumValue("USER")]
+    User
 }

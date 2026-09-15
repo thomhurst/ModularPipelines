@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("lambda", "send-durable-execution-callback-failure")]
-public record AwsLambdaSendDurableExecutionCallbackFailureOptions : AwsOptions
+public record AwsLambdaSendDurableExecutionCallbackFailureOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Sends a failure response for a callback operation in a durable execu- tion. Use this API when an external system cannot complete a callback operation successfully. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="CallbackId">The unique identifier for the callback operation. Constraints: o min: 1 o max: 1024 o pattern: [A-Za-z0-9+/]+={0,2}</param>
+    public AwsLambdaSendDurableExecutionCallbackFailureOptions(
+        string CallbackId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(CallbackId);
+        this.CallbackId = CallbackId;
+    }
+
+    private AwsLambdaSendDurableExecutionCallbackFailureOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsLambdaSendDurableExecutionCallbackFailureOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsLambdaSendDurableExecutionCallbackFailureOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier for the callback operation. Constraints: o min: 1 o max: 1024 o pattern: [A-Za-z0-9+/]+={0,2}
+    /// </summary>
     [CliOption("--callback-id")]
-    public string? CallbackId { get; set; }
+    public string? CallbackId { get; private init; }
 
     /// <summary>
     /// Error details describing why the callback operation failed. ErrorMessage -&gt; (string) A human-readable error message. ErrorType -&gt; (string) The error type. ErrorData -&gt; (string) Machine-readable error data. StackTrace -&gt; (list) Stack trace information for the error. (string) Shorthand Syntax: ErrorMessage=string,ErrorType=string,ErrorData=string,StackTrace=string,string JSON Syntax: { "ErrorMessage": "string", "ErrorType": "string", "ErrorData": "string", "StackTrace": ["string", ...] }
@@ -35,5 +72,22 @@ public record AwsLambdaSendDurableExecutionCallbackFailureOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

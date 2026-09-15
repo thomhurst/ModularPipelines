@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ec2", "get-transit-gateway-policy-table-associations")]
-public record AwsEc2GetTransitGatewayPolicyTableAssociationsOptions : AwsOptions
+public record AwsEc2GetTransitGatewayPolicyTableAssociationsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Gets a list of the transit gateway policy table associations. See also: AWS API Documentation get-transit-gateway-policy-table-associations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-pagi- nate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the re- sults of the following query expressions: Associati...
+    /// </summary>
+    /// <param name="TransitGatewayPolicyTableId">The ID of the transit gateway policy table.</param>
+    public AwsEc2GetTransitGatewayPolicyTableAssociationsOptions(
+        string TransitGatewayPolicyTableId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(TransitGatewayPolicyTableId);
+        this.TransitGatewayPolicyTableId = TransitGatewayPolicyTableId;
+    }
+
+    private AwsEc2GetTransitGatewayPolicyTableAssociationsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEc2GetTransitGatewayPolicyTableAssociationsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEc2GetTransitGatewayPolicyTableAssociationsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the transit gateway policy table.
+    /// </summary>
     [CliOption("--transit-gateway-policy-table-id")]
-    public string? TransitGatewayPolicyTableId { get; set; }
+    public string? TransitGatewayPolicyTableId { get; private init; }
 
     /// <summary>
     /// The filters associated with the transit gateway policy table. (structure) A filter name and value pair that is used to return a more spe- cific list of results from a describe operation. Filters can be used to match a set of resources by specific criteria, such as tags, attributes, or IDs. If you specify multiple filters, the filters are joined with an AND , and the request returns only results that match all of the specified filters. For more information, see List and filter using the CLI and API in the Amazon EC2 User Guide . Name -&gt; (string) The name of the filter. Filter names are case-sensitive. Values -&gt; (list) The filter values. Filter values are case-sensitive. If you specify multiple values for a filter, the values are joined with an OR , and the request returns all results that match any of the specified values. (string) Shorthand Syntax: Name=string,Values=string,string ... JSON Syntax: [ { "Name": "string", "Values": ["string", ...] } ... ]
@@ -31,7 +68,10 @@ public record AwsEc2GetTransitGatewayPolicyTableAssociationsOptions : AwsOptions
     [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -58,5 +98,22 @@ public record AwsEc2GetTransitGatewayPolicyTableAssociationsOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

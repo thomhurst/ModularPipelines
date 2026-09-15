@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("lambda", "list-functions-by-code-signing-config")]
-public record AwsLambdaListFunctionsByCodeSigningConfigOptions : AwsOptions
+public record AwsLambdaListFunctionsByCodeSigningConfigOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// List the functions that use the specified code signing configuration. You can use this method prior to deleting a code signing configuration, to verify that no functions are using it. See also: AWS API Documentation list-functions-by-code-signing-config is a paginated operation. Multi- ple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate ar- gument. When using --output text and the --query argument on a pagi- n...
+    /// </summary>
+    /// <param name="CodeSigningConfigArn">The The Amazon Resource Name (ARN) of the code signing configura- tion. Constraints: o min: 0 o max: 200 o pattern: arn:(aws[a-zA-Z-]*)?:lambda:(eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\d{1}:\d{12}:code-sign- ing-config:csc-[a-z0-9]{17}</param>
+    public AwsLambdaListFunctionsByCodeSigningConfigOptions(
+        string CodeSigningConfigArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(CodeSigningConfigArn);
+        this.CodeSigningConfigArn = CodeSigningConfigArn;
+    }
+
+    private AwsLambdaListFunctionsByCodeSigningConfigOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsLambdaListFunctionsByCodeSigningConfigOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsLambdaListFunctionsByCodeSigningConfigOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The The Amazon Resource Name (ARN) of the code signing configura- tion. Constraints: o min: 0 o max: 200 o pattern: arn:(aws[a-zA-Z-]*)?:lambda:(eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\d{1}:\d{12}:code-sign- ing-config:csc-[a-z0-9]{17}
+    /// </summary>
     [CliOption("--code-signing-config-arn")]
-    public string? CodeSigningConfigArn { get; set; }
+    public string? CodeSigningConfigArn { get; private init; }
 
     /// <summary>
     /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -49,5 +86,22 @@ public record AwsLambdaListFunctionsByCodeSigningConfigOptions : AwsOptions
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

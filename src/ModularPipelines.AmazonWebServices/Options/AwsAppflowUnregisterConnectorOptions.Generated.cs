@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,12 +20,51 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("appflow", "unregister-connector")]
-public record AwsAppflowUnregisterConnectorOptions : AwsOptions
+public record AwsAppflowUnregisterConnectorOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--connector-label")]
-    public string? ConnectorLabel { get; set; }
+    private readonly bool _requiresAlternateInput;
 
-    [CliFlag("--force-delete")]
+    /// <summary>
+    /// Unregisters the custom connector registered in your account that matches the connector label provided in the request. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ConnectorLabel">The label of the connector. The label is unique for each Connector- Registration in your Amazon Web Services account. Constraints: o max: 256 o pattern: [a-zA-Z0-9][\w!@#.-]+</param>
+    public AwsAppflowUnregisterConnectorOptions(
+        string ConnectorLabel
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ConnectorLabel);
+        this.ConnectorLabel = ConnectorLabel;
+    }
+
+    private AwsAppflowUnregisterConnectorOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsAppflowUnregisterConnectorOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsAppflowUnregisterConnectorOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The label of the connector. The label is unique for each Connector- Registration in your Amazon Web Services account. Constraints: o max: 256 o pattern: [a-zA-Z0-9][\w!@#.-]+
+    /// </summary>
+    [CliOption("--connector-label")]
+    public string? ConnectorLabel { get; private init; }
+
+    /// <summary>
+    /// Indicates whether Amazon AppFlow should unregister the connector, even if it is currently in use in one or more connector profiles. The default value is false.
+    /// </summary>
+    [CliFlag("--force-delete", NegatedName = "--no-force-delete")]
     public bool? ForceDelete { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -32,5 +72,22 @@ public record AwsAppflowUnregisterConnectorOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

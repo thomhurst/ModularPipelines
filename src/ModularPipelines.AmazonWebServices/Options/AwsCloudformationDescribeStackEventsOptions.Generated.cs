@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cloudformation", "describe-stack-events")]
-public record AwsCloudformationDescribeStackEventsOptions : AwsOptions
+public record AwsCloudformationDescribeStackEventsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Returns all stack related events for a specified stack in reverse chronological order. For more information about a stack's event his- tory, see Understand CloudFormation stack creation events in the Cloud- Formation User Guide . NOTE: You can list events for stacks that have failed to create or have been deleted by specifying the unique stack identifier (stack ID). See also: AWS API Documentation describe-stack-events is a paginated operation. Multiple API calls may be issued in order to retrie...
+    /// </summary>
+    /// <param name="StackName">The name or the unique stack ID that's associated with the stack, which aren't always interchangeable: o Running stacks: You can specify either the stack's name or its unique stack ID. o Deleted stacks: You must specify the unique stack ID.</param>
+    public AwsCloudformationDescribeStackEventsOptions(
+        string StackName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(StackName);
+        this.StackName = StackName;
+    }
+
+    private AwsCloudformationDescribeStackEventsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCloudformationDescribeStackEventsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCloudformationDescribeStackEventsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name or the unique stack ID that's associated with the stack, which aren't always interchangeable: o Running stacks: You can specify either the stack's name or its unique stack ID. o Deleted stacks: You must specify the unique stack ID.
+    /// </summary>
     [CliOption("--stack-name")]
-    public string? StackName { get; set; }
+    public string? StackName { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
@@ -43,5 +80,22 @@ public record AwsCloudformationDescribeStackEventsOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

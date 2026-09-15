@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("deadline", "update-monitor")]
-public record AwsDeadlineUpdateMonitorOptions : AwsOptions
+public record AwsDeadlineUpdateMonitorOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Modifies the settings for a Deadline Cloud monitor. You can modify one or all of the settings when you call UpdateMonitor . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="MonitorId">The unique identifier of the monitor to update. Constraints: o pattern: monitor-[0-9a-f]{32}</param>
+    public AwsDeadlineUpdateMonitorOptions(
+        string MonitorId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(MonitorId);
+        this.MonitorId = MonitorId;
+    }
+
+    private AwsDeadlineUpdateMonitorOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDeadlineUpdateMonitorOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDeadlineUpdateMonitorOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier of the monitor to update. Constraints: o pattern: monitor-[0-9a-f]{32}
+    /// </summary>
     [CliOption("--monitor-id")]
-    public string? MonitorId { get; set; }
+    public string? MonitorId { get; private init; }
 
     /// <summary>
     /// The new value of the subdomain to use when forming the monitor URL. Constraints: o pattern: [a-z0-9-]{1,100}
@@ -47,5 +84,22 @@ public record AwsDeadlineUpdateMonitorOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

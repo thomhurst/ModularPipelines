@@ -11,20 +11,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --statusequals.
+/// Allowed values for --status-equals.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsBedrockListProvisionedModelThroughputsStatusEquals
 {
     [EnumValue("Creating")]
-    Creating = 1,
-
-    [EnumValue("InService")]
-    InService = 2,
-
-    [EnumValue("Updating")]
-    Updating = 3,
+    Creating,
 
     [EnumValue("Failed")]
-    Failed = 4
+    Failed,
+
+    [EnumValue("InService")]
+    InService,
+
+    [EnumValue("Updating")]
+    Updating
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("neptune-graph", "get-query")]
-public record AwsNeptuneGraphGetQueryOptions : AwsOptions
+public record AwsNeptuneGraphGetQueryOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--graph-identifier")]
-    public string? GraphIdentifier { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Retrieves the status of a specified query. NOTE: When invoking this operation in a Neptune Analytics cluster, the IAM user or role making the request must have the neptune-graph:Get- QueryStatus IAM action attached. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="GraphIdentifier">The unique identifier of the Neptune Analytics graph. Constraints: o pattern: g-[a-z0-9]{10}</param>
+    /// <param name="QueryId">The ID of the query in question.</param>
+    public AwsNeptuneGraphGetQueryOptions(
+        string GraphIdentifier,
+        string QueryId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(GraphIdentifier);
+        this.GraphIdentifier = GraphIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(QueryId);
+        this.QueryId = QueryId;
+    }
+
+    private AwsNeptuneGraphGetQueryOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsNeptuneGraphGetQueryOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsNeptuneGraphGetQueryOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier of the Neptune Analytics graph. Constraints: o pattern: g-[a-z0-9]{10}
+    /// </summary>
+    [CliOption("--graph-identifier")]
+    public string? GraphIdentifier { get; private init; }
+
+    /// <summary>
+    /// The ID of the query in question.
+    /// </summary>
     [CliOption("--query-id")]
-    public string? QueryId { get; set; }
+    public string? QueryId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --conflictdetaillevel.
+/// Allowed values for --conflict-detail-level.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsCodecommitMergePullRequestBySquashConflictDetailLevel
 {
     [EnumValue("FILE_LEVEL")]
-    FileLevel = 1,
+    FileLevel,
 
     [EnumValue("LINE_LEVEL")]
-    LineLevel = 2
+    LineLevel
 }

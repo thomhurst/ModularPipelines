@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("kinesis", "register-stream-consumer")]
-public record AwsKinesisRegisterStreamConsumerOptions : AwsOptions
+public record AwsKinesisRegisterStreamConsumerOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--stream-arn")]
-    public string? StreamArn { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Registers a consumer with a Kinesis data stream. When you use this op- eration, the consumer you register can then call SubscribeToShard to receive data from the stream using enhanced fan-out, at a rate of up to 2 MiB per second for every shard you subscribe to. This rate is unaf- fected by the total number of consumers that read from the same stream. You can add tags to the registered consumer when making a Register- StreamConsumer request by setting the Tags parameter. If you pass the Tags par...
+    /// </summary>
+    /// <param name="StreamArn">The ARN of the Kinesis data stream that you want to register the consumer with. For more info, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces . Constraints: o min: 1 o max: 2048 o pattern: arn:aws.*:kinesis:.*:\d{12}:stream/\S+</param>
+    /// <param name="ConsumerName">For a given Kinesis data stream, each consumer must have a unique name. However, consumer names don't have to be unique across data streams. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_.-]+</param>
+    public AwsKinesisRegisterStreamConsumerOptions(
+        string StreamArn,
+        string ConsumerName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(StreamArn);
+        this.StreamArn = StreamArn;
+        global::System.ArgumentNullException.ThrowIfNull(ConsumerName);
+        this.ConsumerName = ConsumerName;
+    }
+
+    private AwsKinesisRegisterStreamConsumerOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsKinesisRegisterStreamConsumerOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsKinesisRegisterStreamConsumerOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ARN of the Kinesis data stream that you want to register the consumer with. For more info, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces . Constraints: o min: 1 o max: 2048 o pattern: arn:aws.*:kinesis:.*:\d{12}:stream/\S+
+    /// </summary>
+    [CliOption("--stream-arn")]
+    public string? StreamArn { get; private init; }
+
+    /// <summary>
+    /// For a given Kinesis data stream, each consumer must have a unique name. However, consumer names don't have to be unique across data streams. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_.-]+
+    /// </summary>
     [CliOption("--consumer-name")]
-    public string? ConsumerName { get; set; }
+    public string? ConsumerName { get; private init; }
 
     /// <summary>
     /// Not Implemented. Reserved for future use. Constraints: o min: 1 o max: 24 o pattern: [a-z0-9]{20}-[a-z0-9]{3}
@@ -45,5 +89,22 @@ public record AwsKinesisRegisterStreamConsumerOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

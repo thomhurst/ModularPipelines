@@ -28,7 +28,7 @@ public interface IAwsIotwireless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AssociateAwsAccountWithPartnerAccountAsync(AwsIotwirelessAssociateAwsAccountWithPartnerAccountOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> AssociateAwsAccountWithPartnerAccountAsync(AwsIotwirelessAssociateAwsAccountWithPartnerAccountOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -38,7 +38,7 @@ public interface IAwsIotwireless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AssociateMulticastGroupWithFuotaTaskAsync(AwsIotwirelessAssociateMulticastGroupWithFuotaTaskOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> AssociateMulticastGroupWithFuotaTaskAsync(AwsIotwirelessAssociateMulticastGroupWithFuotaTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -48,7 +48,7 @@ public interface IAwsIotwireless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AssociateWirelessDeviceWithFuotaTaskAsync(AwsIotwirelessAssociateWirelessDeviceWithFuotaTaskOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> AssociateWirelessDeviceWithFuotaTaskAsync(AwsIotwirelessAssociateWirelessDeviceWithFuotaTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -58,7 +58,7 @@ public interface IAwsIotwireless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AssociateWirelessDeviceWithMulticastGroupAsync(AwsIotwirelessAssociateWirelessDeviceWithMulticastGroupOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> AssociateWirelessDeviceWithMulticastGroupAsync(AwsIotwirelessAssociateWirelessDeviceWithMulticastGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -68,7 +68,7 @@ public interface IAwsIotwireless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AssociateWirelessDeviceWithThingAsync(AwsIotwirelessAssociateWirelessDeviceWithThingOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> AssociateWirelessDeviceWithThingAsync(AwsIotwirelessAssociateWirelessDeviceWithThingOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -78,7 +78,7 @@ public interface IAwsIotwireless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AssociateWirelessGatewayWithCertificateAsync(AwsIotwirelessAssociateWirelessGatewayWithCertificateOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> AssociateWirelessGatewayWithCertificateAsync(AwsIotwirelessAssociateWirelessGatewayWithCertificateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -88,7 +88,7 @@ public interface IAwsIotwireless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AssociateWirelessGatewayWithThingAsync(AwsIotwirelessAssociateWirelessGatewayWithThingOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> AssociateWirelessGatewayWithThingAsync(AwsIotwirelessAssociateWirelessGatewayWithThingOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -98,7 +98,7 @@ public interface IAwsIotwireless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CancelMulticastGroupSessionAsync(AwsIotwirelessCancelMulticastGroupSessionOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> CancelMulticastGroupSessionAsync(AwsIotwirelessCancelMulticastGroupSessionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -108,7 +108,7 @@ public interface IAwsIotwireless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateDestinationAsync(AwsIotwirelessCreateDestinationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> CreateDestinationAsync(AwsIotwirelessCreateDestinationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -128,7 +128,7 @@ public interface IAwsIotwireless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateFuotaTaskAsync(AwsIotwirelessCreateFuotaTaskOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> CreateFuotaTaskAsync(AwsIotwirelessCreateFuotaTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -138,7 +138,7 @@ public interface IAwsIotwireless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateMulticastGroupAsync(AwsIotwirelessCreateMulticastGroupOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> CreateMulticastGroupAsync(AwsIotwirelessCreateMulticastGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -148,7 +148,7 @@ public interface IAwsIotwireless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateNetworkAnalyzerConfigurationAsync(AwsIotwirelessCreateNetworkAnalyzerConfigurationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> CreateNetworkAnalyzerConfigurationAsync(AwsIotwirelessCreateNetworkAnalyzerConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -168,7 +168,7 @@ public interface IAwsIotwireless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateWirelessDeviceAsync(AwsIotwirelessCreateWirelessDeviceOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> CreateWirelessDeviceAsync(AwsIotwirelessCreateWirelessDeviceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -178,7 +178,7 @@ public interface IAwsIotwireless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateWirelessGatewayAsync(AwsIotwirelessCreateWirelessGatewayOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> CreateWirelessGatewayAsync(AwsIotwirelessCreateWirelessGatewayOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -188,7 +188,7 @@ public interface IAwsIotwireless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateWirelessGatewayTaskDefinitionAsync(AwsIotwirelessCreateWirelessGatewayTaskDefinitionOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> CreateWirelessGatewayTaskDefinitionAsync(AwsIotwirelessCreateWirelessGatewayTaskDefinitionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -198,7 +198,7 @@ public interface IAwsIotwireless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateWirelessGatewayTaskAsync(AwsIotwirelessCreateWirelessGatewayTaskOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> CreateWirelessGatewayTaskAsync(AwsIotwirelessCreateWirelessGatewayTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -208,7 +208,7 @@ public interface IAwsIotwireless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteDestinationAsync(AwsIotwirelessDeleteDestinationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> DeleteDestinationAsync(AwsIotwirelessDeleteDestinationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -218,7 +218,7 @@ public interface IAwsIotwireless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteDeviceProfileAsync(AwsIotwirelessDeleteDeviceProfileOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> DeleteDeviceProfileAsync(AwsIotwirelessDeleteDeviceProfileOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -228,7 +228,7 @@ public interface IAwsIotwireless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteFuotaTaskAsync(AwsIotwirelessDeleteFuotaTaskOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> DeleteFuotaTaskAsync(AwsIotwirelessDeleteFuotaTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -238,7 +238,7 @@ public interface IAwsIotwireless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteMulticastGroupAsync(AwsIotwirelessDeleteMulticastGroupOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> DeleteMulticastGroupAsync(AwsIotwirelessDeleteMulticastGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -248,7 +248,7 @@ public interface IAwsIotwireless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteNetworkAnalyzerConfigurationAsync(AwsIotwirelessDeleteNetworkAnalyzerConfigurationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> DeleteNetworkAnalyzerConfigurationAsync(AwsIotwirelessDeleteNetworkAnalyzerConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -258,7 +258,7 @@ public interface IAwsIotwireless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteQueuedMessagesAsync(AwsIotwirelessDeleteQueuedMessagesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> DeleteQueuedMessagesAsync(AwsIotwirelessDeleteQueuedMessagesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -268,7 +268,7 @@ public interface IAwsIotwireless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteServiceProfileAsync(AwsIotwirelessDeleteServiceProfileOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> DeleteServiceProfileAsync(AwsIotwirelessDeleteServiceProfileOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -278,7 +278,7 @@ public interface IAwsIotwireless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteWirelessDeviceImportTaskAsync(AwsIotwirelessDeleteWirelessDeviceImportTaskOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> DeleteWirelessDeviceImportTaskAsync(AwsIotwirelessDeleteWirelessDeviceImportTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -288,7 +288,7 @@ public interface IAwsIotwireless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteWirelessDeviceAsync(AwsIotwirelessDeleteWirelessDeviceOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> DeleteWirelessDeviceAsync(AwsIotwirelessDeleteWirelessDeviceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -298,7 +298,7 @@ public interface IAwsIotwireless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteWirelessGatewayAsync(AwsIotwirelessDeleteWirelessGatewayOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> DeleteWirelessGatewayAsync(AwsIotwirelessDeleteWirelessGatewayOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -308,7 +308,7 @@ public interface IAwsIotwireless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteWirelessGatewayTaskDefinitionAsync(AwsIotwirelessDeleteWirelessGatewayTaskDefinitionOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> DeleteWirelessGatewayTaskDefinitionAsync(AwsIotwirelessDeleteWirelessGatewayTaskDefinitionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -318,7 +318,7 @@ public interface IAwsIotwireless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteWirelessGatewayTaskAsync(AwsIotwirelessDeleteWirelessGatewayTaskOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> DeleteWirelessGatewayTaskAsync(AwsIotwirelessDeleteWirelessGatewayTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -328,7 +328,7 @@ public interface IAwsIotwireless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeregisterWirelessDeviceAsync(AwsIotwirelessDeregisterWirelessDeviceOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> DeregisterWirelessDeviceAsync(AwsIotwirelessDeregisterWirelessDeviceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -338,7 +338,7 @@ public interface IAwsIotwireless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DisassociateAwsAccountFromPartnerAccountAsync(AwsIotwirelessDisassociateAwsAccountFromPartnerAccountOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> DisassociateAwsAccountFromPartnerAccountAsync(AwsIotwirelessDisassociateAwsAccountFromPartnerAccountOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -348,7 +348,7 @@ public interface IAwsIotwireless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DisassociateMulticastGroupFromFuotaTaskAsync(AwsIotwirelessDisassociateMulticastGroupFromFuotaTaskOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> DisassociateMulticastGroupFromFuotaTaskAsync(AwsIotwirelessDisassociateMulticastGroupFromFuotaTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -358,7 +358,7 @@ public interface IAwsIotwireless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DisassociateWirelessDeviceFromFuotaTaskAsync(AwsIotwirelessDisassociateWirelessDeviceFromFuotaTaskOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> DisassociateWirelessDeviceFromFuotaTaskAsync(AwsIotwirelessDisassociateWirelessDeviceFromFuotaTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -368,7 +368,7 @@ public interface IAwsIotwireless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DisassociateWirelessDeviceFromMulticastGroupAsync(AwsIotwirelessDisassociateWirelessDeviceFromMulticastGroupOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> DisassociateWirelessDeviceFromMulticastGroupAsync(AwsIotwirelessDisassociateWirelessDeviceFromMulticastGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -378,7 +378,7 @@ public interface IAwsIotwireless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DisassociateWirelessDeviceFromThingAsync(AwsIotwirelessDisassociateWirelessDeviceFromThingOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> DisassociateWirelessDeviceFromThingAsync(AwsIotwirelessDisassociateWirelessDeviceFromThingOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -388,7 +388,7 @@ public interface IAwsIotwireless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DisassociateWirelessGatewayFromCertificateAsync(AwsIotwirelessDisassociateWirelessGatewayFromCertificateOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> DisassociateWirelessGatewayFromCertificateAsync(AwsIotwirelessDisassociateWirelessGatewayFromCertificateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -398,7 +398,7 @@ public interface IAwsIotwireless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DisassociateWirelessGatewayFromThingAsync(AwsIotwirelessDisassociateWirelessGatewayFromThingOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> DisassociateWirelessGatewayFromThingAsync(AwsIotwirelessDisassociateWirelessGatewayFromThingOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -408,7 +408,7 @@ public interface IAwsIotwireless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetDestinationAsync(AwsIotwirelessGetDestinationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> GetDestinationAsync(AwsIotwirelessGetDestinationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -418,7 +418,7 @@ public interface IAwsIotwireless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetDeviceProfileAsync(AwsIotwirelessGetDeviceProfileOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> GetDeviceProfileAsync(AwsIotwirelessGetDeviceProfileOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -438,7 +438,7 @@ public interface IAwsIotwireless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetFuotaTaskAsync(AwsIotwirelessGetFuotaTaskOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> GetFuotaTaskAsync(AwsIotwirelessGetFuotaTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -478,7 +478,7 @@ public interface IAwsIotwireless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetMulticastGroupAsync(AwsIotwirelessGetMulticastGroupOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> GetMulticastGroupAsync(AwsIotwirelessGetMulticastGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -488,7 +488,7 @@ public interface IAwsIotwireless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetMulticastGroupSessionAsync(AwsIotwirelessGetMulticastGroupSessionOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> GetMulticastGroupSessionAsync(AwsIotwirelessGetMulticastGroupSessionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -498,7 +498,7 @@ public interface IAwsIotwireless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetNetworkAnalyzerConfigurationAsync(AwsIotwirelessGetNetworkAnalyzerConfigurationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> GetNetworkAnalyzerConfigurationAsync(AwsIotwirelessGetNetworkAnalyzerConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -508,7 +508,7 @@ public interface IAwsIotwireless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetPartnerAccountAsync(AwsIotwirelessGetPartnerAccountOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> GetPartnerAccountAsync(AwsIotwirelessGetPartnerAccountOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -518,7 +518,7 @@ public interface IAwsIotwireless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetPositionEstimateAsync(AwsIotwirelessGetPositionEstimateOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> GetPositionEstimateAsync(AwsIotwirelessGetPositionEstimateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -528,7 +528,7 @@ public interface IAwsIotwireless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetResourceEventConfigurationAsync(AwsIotwirelessGetResourceEventConfigurationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> GetResourceEventConfigurationAsync(AwsIotwirelessGetResourceEventConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -538,7 +538,7 @@ public interface IAwsIotwireless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetResourceLogLevelAsync(AwsIotwirelessGetResourceLogLevelOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> GetResourceLogLevelAsync(AwsIotwirelessGetResourceLogLevelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -548,7 +548,7 @@ public interface IAwsIotwireless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetResourcePositionAsync(AwsIotwirelessGetResourcePositionOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> GetResourcePositionAsync(AwsIotwirelessGetResourcePositionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -568,7 +568,7 @@ public interface IAwsIotwireless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetServiceProfileAsync(AwsIotwirelessGetServiceProfileOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> GetServiceProfileAsync(AwsIotwirelessGetServiceProfileOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -578,7 +578,7 @@ public interface IAwsIotwireless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetWirelessDeviceImportTaskAsync(AwsIotwirelessGetWirelessDeviceImportTaskOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> GetWirelessDeviceImportTaskAsync(AwsIotwirelessGetWirelessDeviceImportTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -588,7 +588,7 @@ public interface IAwsIotwireless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetWirelessDeviceAsync(AwsIotwirelessGetWirelessDeviceOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> GetWirelessDeviceAsync(AwsIotwirelessGetWirelessDeviceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -598,7 +598,7 @@ public interface IAwsIotwireless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetWirelessDeviceStatisticsAsync(AwsIotwirelessGetWirelessDeviceStatisticsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> GetWirelessDeviceStatisticsAsync(AwsIotwirelessGetWirelessDeviceStatisticsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -608,7 +608,7 @@ public interface IAwsIotwireless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetWirelessGatewayCertificateAsync(AwsIotwirelessGetWirelessGatewayCertificateOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> GetWirelessGatewayCertificateAsync(AwsIotwirelessGetWirelessGatewayCertificateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -618,7 +618,7 @@ public interface IAwsIotwireless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetWirelessGatewayFirmwareInformationAsync(AwsIotwirelessGetWirelessGatewayFirmwareInformationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> GetWirelessGatewayFirmwareInformationAsync(AwsIotwirelessGetWirelessGatewayFirmwareInformationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -628,7 +628,7 @@ public interface IAwsIotwireless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetWirelessGatewayAsync(AwsIotwirelessGetWirelessGatewayOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> GetWirelessGatewayAsync(AwsIotwirelessGetWirelessGatewayOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -638,7 +638,7 @@ public interface IAwsIotwireless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetWirelessGatewayStatisticsAsync(AwsIotwirelessGetWirelessGatewayStatisticsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> GetWirelessGatewayStatisticsAsync(AwsIotwirelessGetWirelessGatewayStatisticsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -648,7 +648,7 @@ public interface IAwsIotwireless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetWirelessGatewayTaskDefinitionAsync(AwsIotwirelessGetWirelessGatewayTaskDefinitionOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> GetWirelessGatewayTaskDefinitionAsync(AwsIotwirelessGetWirelessGatewayTaskDefinitionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -658,7 +658,7 @@ public interface IAwsIotwireless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetWirelessGatewayTaskAsync(AwsIotwirelessGetWirelessGatewayTaskOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> GetWirelessGatewayTaskAsync(AwsIotwirelessGetWirelessGatewayTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -688,7 +688,7 @@ public interface IAwsIotwireless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListDevicesForWirelessDeviceImportTaskAsync(AwsIotwirelessListDevicesForWirelessDeviceImportTaskOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> ListDevicesForWirelessDeviceImportTaskAsync(AwsIotwirelessListDevicesForWirelessDeviceImportTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -698,7 +698,7 @@ public interface IAwsIotwireless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListEventConfigurationsAsync(AwsIotwirelessListEventConfigurationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> ListEventConfigurationsAsync(AwsIotwirelessListEventConfigurationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -718,7 +718,7 @@ public interface IAwsIotwireless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListMulticastGroupsByFuotaTaskAsync(AwsIotwirelessListMulticastGroupsByFuotaTaskOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> ListMulticastGroupsByFuotaTaskAsync(AwsIotwirelessListMulticastGroupsByFuotaTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -758,7 +758,7 @@ public interface IAwsIotwireless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListQueuedMessagesAsync(AwsIotwirelessListQueuedMessagesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> ListQueuedMessagesAsync(AwsIotwirelessListQueuedMessagesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -778,7 +778,7 @@ public interface IAwsIotwireless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListTagsForResourceAsync(AwsIotwirelessListTagsForResourceOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> ListTagsForResourceAsync(AwsIotwirelessListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -828,7 +828,7 @@ public interface IAwsIotwireless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutResourceLogLevelAsync(AwsIotwirelessPutResourceLogLevelOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> PutResourceLogLevelAsync(AwsIotwirelessPutResourceLogLevelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -848,7 +848,7 @@ public interface IAwsIotwireless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ResetResourceLogLevelAsync(AwsIotwirelessResetResourceLogLevelOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> ResetResourceLogLevelAsync(AwsIotwirelessResetResourceLogLevelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -858,7 +858,7 @@ public interface IAwsIotwireless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> SendDataToMulticastGroupAsync(AwsIotwirelessSendDataToMulticastGroupOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> SendDataToMulticastGroupAsync(AwsIotwirelessSendDataToMulticastGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -868,7 +868,7 @@ public interface IAwsIotwireless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> SendDataToWirelessDeviceAsync(AwsIotwirelessSendDataToWirelessDeviceOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> SendDataToWirelessDeviceAsync(AwsIotwirelessSendDataToWirelessDeviceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -878,7 +878,7 @@ public interface IAwsIotwireless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartBulkAssociateWirelessDeviceWithMulticastGroupAsync(AwsIotwirelessStartBulkAssociateWirelessDeviceWithMulticastGroupOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> StartBulkAssociateWirelessDeviceWithMulticastGroupAsync(AwsIotwirelessStartBulkAssociateWirelessDeviceWithMulticastGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -888,7 +888,7 @@ public interface IAwsIotwireless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartBulkDisassociateWirelessDeviceFromMulticastGroupAsync(AwsIotwirelessStartBulkDisassociateWirelessDeviceFromMulticastGroupOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> StartBulkDisassociateWirelessDeviceFromMulticastGroupAsync(AwsIotwirelessStartBulkDisassociateWirelessDeviceFromMulticastGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -898,7 +898,7 @@ public interface IAwsIotwireless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartFuotaTaskAsync(AwsIotwirelessStartFuotaTaskOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> StartFuotaTaskAsync(AwsIotwirelessStartFuotaTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -908,7 +908,7 @@ public interface IAwsIotwireless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartMulticastGroupSessionAsync(AwsIotwirelessStartMulticastGroupSessionOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> StartMulticastGroupSessionAsync(AwsIotwirelessStartMulticastGroupSessionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -918,7 +918,7 @@ public interface IAwsIotwireless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartSingleWirelessDeviceImportTaskAsync(AwsIotwirelessStartSingleWirelessDeviceImportTaskOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> StartSingleWirelessDeviceImportTaskAsync(AwsIotwirelessStartSingleWirelessDeviceImportTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -928,7 +928,7 @@ public interface IAwsIotwireless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartWirelessDeviceImportTaskAsync(AwsIotwirelessStartWirelessDeviceImportTaskOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> StartWirelessDeviceImportTaskAsync(AwsIotwirelessStartWirelessDeviceImportTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -938,7 +938,7 @@ public interface IAwsIotwireless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> TagResourceAsync(AwsIotwirelessTagResourceOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> TagResourceAsync(AwsIotwirelessTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -948,7 +948,7 @@ public interface IAwsIotwireless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> TestWirelessDeviceAsync(AwsIotwirelessTestWirelessDeviceOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> TestWirelessDeviceAsync(AwsIotwirelessTestWirelessDeviceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -958,7 +958,7 @@ public interface IAwsIotwireless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UntagResourceAsync(AwsIotwirelessUntagResourceOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> UntagResourceAsync(AwsIotwirelessUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -968,7 +968,7 @@ public interface IAwsIotwireless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateDestinationAsync(AwsIotwirelessUpdateDestinationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> UpdateDestinationAsync(AwsIotwirelessUpdateDestinationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -988,7 +988,7 @@ public interface IAwsIotwireless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateFuotaTaskAsync(AwsIotwirelessUpdateFuotaTaskOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> UpdateFuotaTaskAsync(AwsIotwirelessUpdateFuotaTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -1018,7 +1018,7 @@ public interface IAwsIotwireless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateMulticastGroupAsync(AwsIotwirelessUpdateMulticastGroupOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> UpdateMulticastGroupAsync(AwsIotwirelessUpdateMulticastGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -1028,7 +1028,7 @@ public interface IAwsIotwireless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateNetworkAnalyzerConfigurationAsync(AwsIotwirelessUpdateNetworkAnalyzerConfigurationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> UpdateNetworkAnalyzerConfigurationAsync(AwsIotwirelessUpdateNetworkAnalyzerConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -1038,7 +1038,7 @@ public interface IAwsIotwireless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdatePartnerAccountAsync(AwsIotwirelessUpdatePartnerAccountOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> UpdatePartnerAccountAsync(AwsIotwirelessUpdatePartnerAccountOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -1048,7 +1048,7 @@ public interface IAwsIotwireless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateResourceEventConfigurationAsync(AwsIotwirelessUpdateResourceEventConfigurationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> UpdateResourceEventConfigurationAsync(AwsIotwirelessUpdateResourceEventConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -1058,7 +1058,7 @@ public interface IAwsIotwireless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateResourcePositionAsync(AwsIotwirelessUpdateResourcePositionOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> UpdateResourcePositionAsync(AwsIotwirelessUpdateResourcePositionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -1068,7 +1068,7 @@ public interface IAwsIotwireless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateWirelessDeviceImportTaskAsync(AwsIotwirelessUpdateWirelessDeviceImportTaskOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> UpdateWirelessDeviceImportTaskAsync(AwsIotwirelessUpdateWirelessDeviceImportTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -1078,7 +1078,7 @@ public interface IAwsIotwireless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateWirelessDeviceAsync(AwsIotwirelessUpdateWirelessDeviceOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> UpdateWirelessDeviceAsync(AwsIotwirelessUpdateWirelessDeviceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -1088,7 +1088,7 @@ public interface IAwsIotwireless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateWirelessGatewayAsync(AwsIotwirelessUpdateWirelessGatewayOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> UpdateWirelessGatewayAsync(AwsIotwirelessUpdateWirelessGatewayOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
 }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +21,88 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iotwireless", "update-partner-account")]
-public record AwsIotwirelessUpdatePartnerAccountOptions : AwsOptions
+public record AwsIotwirelessUpdatePartnerAccountOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates properties of a partner account. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Sidewalk">The Sidewalk account credentials. AppServerPrivateKey -&gt; (string) The new Sidewalk application server private key. Constraints: o min: 1 o max: 4096 o pattern: [a-fA-F0-9]{64} Shorthand Syntax: AppServerPrivateKey=string JSON Syntax: { "AppServerPrivateKey": "string" }</param>
+    /// <param name="PartnerAccountId">The ID of the partner account to update. Constraints: o max: 256</param>
+    /// <param name="PartnerType">The partner type. Possible values: o Sidewalk</param>
+    public AwsIotwirelessUpdatePartnerAccountOptions(
+        string Sidewalk,
+        string PartnerAccountId,
+        AwsIotwirelessUpdatePartnerAccountPartnerType PartnerType
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Sidewalk);
+        this.Sidewalk = Sidewalk;
+        global::System.ArgumentNullException.ThrowIfNull(PartnerAccountId);
+        this.PartnerAccountId = PartnerAccountId;
+        global::System.ArgumentNullException.ThrowIfNull(PartnerType);
+        this.PartnerType = PartnerType;
+    }
+
+    private AwsIotwirelessUpdatePartnerAccountOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsIotwirelessUpdatePartnerAccountOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsIotwirelessUpdatePartnerAccountOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Sidewalk account credentials. AppServerPrivateKey -&gt; (string) The new Sidewalk application server private key. Constraints: o min: 1 o max: 4096 o pattern: [a-fA-F0-9]{64} Shorthand Syntax: AppServerPrivateKey=string JSON Syntax: { "AppServerPrivateKey": "string" }
+    /// </summary>
     [CliOption("--sidewalk")]
-    public string? Sidewalk { get; set; }
+    public string? Sidewalk { get; private init; }
 
+    /// <summary>
+    /// The ID of the partner account to update. Constraints: o max: 256
+    /// </summary>
     [CliOption("--partner-account-id")]
-    public string? PartnerAccountId { get; set; }
+    public string? PartnerAccountId { get; private init; }
 
+    /// <summary>
+    /// The partner type. Possible values: o Sidewalk
+    /// </summary>
     [CliOption("--partner-type")]
-    public string? PartnerType { get; set; }
+    public AwsIotwirelessUpdatePartnerAccountPartnerType? PartnerType { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --containerformat.
+/// Allowed values for --container-format.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsIvsUpdateChannelContainerFormat
 {
-    [EnumValue("TS")]
-    Ts = 1,
-
     [EnumValue("FRAGMENTED_MP4")]
-    FragmentedMp4 = 2
+    FragmentedMp4,
+
+    [EnumValue("TS")]
+    Ts
 }

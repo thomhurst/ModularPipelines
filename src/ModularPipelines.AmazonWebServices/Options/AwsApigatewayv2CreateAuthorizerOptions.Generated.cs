@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +22,87 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("apigatewayv2", "create-authorizer")]
-public record AwsApigatewayv2CreateAuthorizerOptions : AwsOptions
+public record AwsApigatewayv2CreateAuthorizerOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates an Authorizer for an API. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ApiId">The API identifier.</param>
+    /// <param name="AuthorizerType">The authorizer type. Specify REQUEST for a Lambda function using in- coming request parameters. Specify JWT to use JSON Web Tokens (sup- ported only for HTTP APIs). Possible values: o REQUEST o JWT</param>
+    /// <param name="IdentitySource">The identity source for which authorization is requested. For a REQUEST authorizer, this is optional. The value is a set of one or more mapping expressions of the specified request parameters. The identity source can be headers, query string parameters, stage variables, and context parameters. For example, if an Auth header and a Name query string parameter are defined as identity sources, this value is route.request.header.Auth, route.request.querys- tring.Name for WebSocket APIs. For HTTP APIs, use selection expres- sions prefixed with $, for example, $request.header.Auth, $re- quest.querystring.Name. These parameters are used to perform runtime validation for Lambda-based authorizers by verifying all of the identity-related request parameters are present in the request, not null, and non-empty. Only when this is true does the authorizer in- voke the authorizer Lambda function. Otherwise, it returns a 401 Unauthorized response without calling the Lambda function. For HTTP APIs, identity sources are also used as the cache key when caching is enabled. To learn more, see Working with AWS Lambda authorizers for HTTP APIs . For JWT, a single entry that specifies where to extract the JSON Web Token (JWT) from inbound requests. Currently only header-based and query parameter-based selections are supported, for example $re- quest.header.Authorization. (string) Syntax: "string" "string" ...</param>
+    /// <param name="Name">The name of the authorizer.</param>
+    public AwsApigatewayv2CreateAuthorizerOptions(
+        string ApiId,
+        AwsApigatewayv2CreateAuthorizerAuthorizerType AuthorizerType,
+        IEnumerable<string> IdentitySource,
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ApiId);
+        this.ApiId = ApiId;
+        global::System.ArgumentNullException.ThrowIfNull(AuthorizerType);
+        this.AuthorizerType = AuthorizerType;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(IdentitySource);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(IdentitySource));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(IdentitySource));
+            }
+
+            IdentitySource = materialized;
+        }
+        this.IdentitySource = IdentitySource;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    private AwsApigatewayv2CreateAuthorizerOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsApigatewayv2CreateAuthorizerOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsApigatewayv2CreateAuthorizerOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The API identifier.
+    /// </summary>
     [CliOption("--api-id")]
-    public string? ApiId { get; set; }
+    public string? ApiId { get; private init; }
+
+    /// <summary>
+    /// The authorizer type. Specify REQUEST for a Lambda function using in- coming request parameters. Specify JWT to use JSON Web Tokens (sup- ported only for HTTP APIs). Possible values: o REQUEST o JWT
+    /// </summary>
+    [CliOption("--authorizer-type")]
+    public AwsApigatewayv2CreateAuthorizerAuthorizerType? AuthorizerType { get; private init; }
+
+    /// <summary>
+    /// The identity source for which authorization is requested. For a REQUEST authorizer, this is optional. The value is a set of one or more mapping expressions of the specified request parameters. The identity source can be headers, query string parameters, stage variables, and context parameters. For example, if an Auth header and a Name query string parameter are defined as identity sources, this value is route.request.header.Auth, route.request.querys- tring.Name for WebSocket APIs. For HTTP APIs, use selection expres- sions prefixed with $, for example, $request.header.Auth, $re- quest.querystring.Name. These parameters are used to perform runtime validation for Lambda-based authorizers by verifying all of the identity-related request parameters are present in the request, not null, and non-empty. Only when this is true does the authorizer in- voke the authorizer Lambda function. Otherwise, it returns a 401 Unauthorized response without calling the Lambda function. For HTTP APIs, identity sources are also used as the cache key when caching is enabled. To learn more, see Working with AWS Lambda authorizers for HTTP APIs . For JWT, a single entry that specifies where to extract the JSON Web Token (JWT) from inbound requests. Currently only header-based and query parameter-based selections are supported, for example $re- quest.header.Authorization. (string) Syntax: "string" "string" ...
+    /// </summary>
+    [CliOption("--identity-source", GroupValues = true)]
+    public IEnumerable<string>? IdentitySource { get; private init; }
+
+    /// <summary>
+    /// The name of the authorizer.
+    /// </summary>
+    [CliOption("--name")]
+    public string? Name { get; private init; }
 
     /// <summary>
     /// Specifies the required credentials as an IAM role for API Gateway to invoke the authorizer. To specify an IAM role for API Gateway to as- sume, use the role's Amazon Resource Name (ARN). To use re- source-based permissions on the Lambda function, don't specify this parameter. Supported only for REQUEST authorizers.
@@ -44,20 +123,17 @@ public record AwsApigatewayv2CreateAuthorizerOptions : AwsOptions
     [CliOption("--authorizer-result-ttl-in-seconds")]
     public int? AuthorizerResultTtlInSeconds { get; set; }
 
-    [CliOption("--authorizer-type")]
-    public string? AuthorizerType { get; set; }
-
     /// <summary>
     /// The authorizer's Uniform Resource Identifier (URI). For REQUEST au- thorizers, this must be a well-formed Lambda function URI, for exam- ple, arn:aws:apigateway:us-west-2:lambda:path/2015-03-31/func- tions/arn:aws:lambda:us-west-2:{account_id}:function:{lambda_func- tion_name}/invocations. In general, the URI has this form: arn:aws:apigateway:{region}:lambda:path/{service_api}, where {re- gion} is the same as the region hosting the Lambda function, path indicates that the remaining substring in the URI should be treated as the path to the resource, including the initial /. For Lambda functions, this is usually of the form /2015-03-31/functions/[Func- tionARN]/invocations. Supported only for REQUEST authorizers.
     /// </summary>
     [CliOption("--authorizer-uri")]
     public string? AuthorizerUri { get; set; }
 
-    [CliFlag("--enable-simple-responses")]
+    /// <summary>
+    /// Specifies whether a Lambda authorizer returns a response in a simple format. By default, a Lambda authorizer must return an IAM policy. If enabled, the Lambda authorizer can return a boolean value instead of an IAM policy. Supported only for HTTP APIs. To learn more, see Working with AWS Lambda authorizers for HTTP APIs
+    /// </summary>
+    [CliFlag("--enable-simple-responses", NegatedName = "--no-enable-simple-responses")]
     public bool? EnableSimpleResponses { get; set; }
-
-    [CliOption("--identity-source", GroupValues = true)]
-    public IEnumerable<string>? IdentitySource { get; set; }
 
     /// <summary>
     /// This parameter is not used.
@@ -71,13 +147,27 @@ public record AwsApigatewayv2CreateAuthorizerOptions : AwsOptions
     [CliOption("--jwt-configuration")]
     public string? JwtConfiguration { get; set; }
 
-    [CliOption("--name")]
-    public string? Name { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

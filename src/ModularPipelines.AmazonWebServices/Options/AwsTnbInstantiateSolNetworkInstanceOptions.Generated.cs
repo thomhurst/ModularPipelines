@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,19 +21,58 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("tnb", "instantiate-sol-network-instance")]
-public record AwsTnbInstantiateSolNetworkInstanceOptions : AwsOptions
+public record AwsTnbInstantiateSolNetworkInstanceOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Instantiates a network instance. A network instance is a single network created in Amazon Web Services TNB that can be deployed and on which life-cycle operations (like ter- minate, update, and delete) can be performed. Before you can instantiate a network instance, you have to create a network instance. For more information, see CreateSolNetworkInstance . See also: AWS API Documentation instantiate-sol-network-instance uses document type values. Document types follow the JSON data model where v...
+    /// </summary>
+    /// <param name="NsInstanceId">ID of the network instance. Constraints: o pattern: ^ni-[a-f0-9]{17}$</param>
+    public AwsTnbInstantiateSolNetworkInstanceOptions(
+        string NsInstanceId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(NsInstanceId);
+        this.NsInstanceId = NsInstanceId;
+    }
+
+    private AwsTnbInstantiateSolNetworkInstanceOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsTnbInstantiateSolNetworkInstanceOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsTnbInstantiateSolNetworkInstanceOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// ID of the network instance. Constraints: o pattern: ^ni-[a-f0-9]{17}$
+    /// </summary>
+    [CliOption("--ns-instance-id")]
+    public string? NsInstanceId { get; private init; }
+
     /// <summary>
     /// Provides values for the configurable properties. JSON Syntax: {...}
     /// </summary>
     [CliOption("--additional-params-for-ns")]
     public string? AdditionalParamsForNs { get; set; }
 
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// A check for whether you have the required permissions for the action without actually making the request and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
-
-    [CliOption("--ns-instance-id")]
-    public string? NsInstanceId { get; set; }
 
     /// <summary>
     /// A tag is a label that you assign to an Amazon Web Services resource. Each tag consists of a key and an optional value. When you use this API, the tags are only applied to the network operation that is cre- ated. These tags are not applied to the network instance. Use tags to search and filter your resources or track your Amazon Web Ser- vices costs. Constraints: o min: 0 o max: 200 key -&gt; (string) Constraints: o pattern: ^(?!aws:).{1,128}$ value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
@@ -45,5 +85,22 @@ public record AwsTnbInstantiateSolNetworkInstanceOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

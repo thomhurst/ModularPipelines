@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,68 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("route53-recovery-readiness", "get-readiness-check")]
-public record AwsRoute53RecoveryReadinessGetReadinessCheckOptions : AwsOptions
+public record AwsRoute53RecoveryReadinessGetReadinessCheckOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Gets details about a readiness check. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ReadinessCheckName">Name of a readiness check.</param>
+    public AwsRoute53RecoveryReadinessGetReadinessCheckOptions(
+        string ReadinessCheckName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ReadinessCheckName);
+        this.ReadinessCheckName = ReadinessCheckName;
+    }
+
+    private AwsRoute53RecoveryReadinessGetReadinessCheckOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRoute53RecoveryReadinessGetReadinessCheckOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRoute53RecoveryReadinessGetReadinessCheckOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Name of a readiness check.
+    /// </summary>
     [CliOption("--readiness-check-name")]
-    public string? ReadinessCheckName { get; set; }
+    public string? ReadinessCheckName { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

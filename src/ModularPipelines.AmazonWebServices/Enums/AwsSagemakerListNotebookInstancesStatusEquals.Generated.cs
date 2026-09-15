@@ -11,35 +11,35 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --statusequals.
+/// Allowed values for --status-equals.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsSagemakerListNotebookInstancesStatusEquals
 {
-    [EnumValue("Pending")]
-    Pending = 1,
-
-    [EnumValue("InService")]
-    InService = 2,
-
-    [EnumValue("Stopping")]
-    Stopping = 3,
-
-    [EnumValue("Stopped")]
-    Stopped = 4,
+    [EnumValue("Deleting")]
+    Deleting,
 
     [EnumValue("Failed")]
-    Failed = 5,
-
-    [EnumValue("Deleting")]
-    Deleting = 6,
-
-    [EnumValue("Updating")]
-    Updating = 7,
-
-    [EnumValue("PendingMaintenance")]
-    PendingMaintenance = 8,
+    Failed,
 
     [EnumValue("InMaintenance")]
-    InMaintenance = 9
+    InMaintenance,
+
+    [EnumValue("InService")]
+    InService,
+
+    [EnumValue("Pending")]
+    Pending,
+
+    [EnumValue("PendingMaintenance")]
+    PendingMaintenance,
+
+    [EnumValue("Stopped")]
+    Stopped,
+
+    [EnumValue("Stopping")]
+    Stopping,
+
+    [EnumValue("Updating")]
+    Updating
 }

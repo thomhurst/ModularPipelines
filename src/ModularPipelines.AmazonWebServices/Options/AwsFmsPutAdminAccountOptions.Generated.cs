@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("fms", "put-admin-account")]
-public record AwsFmsPutAdminAccountOptions : AwsOptions
+public record AwsFmsPutAdminAccountOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates or updates an Firewall Manager administrator account. The ac- count must be a member of the organization that was onboarded to Fire- wall Manager by AssociateAdminAccount . Only the organization's man- agement account can create an Firewall Manager administrator account. When you create an Firewall Manager administrator account, the service checks to see if the account is already a delegated administrator within Organizations. If the account isn't a delegated administrator, Firewall Mana...
+    /// </summary>
+    /// <param name="AdminAccount">The Amazon Web Services account ID to add as an Firewall Manager ad- ministrator account. The account must be a member of the organiza- tion that was onboarded to Firewall Manager by AssociateAdminAc- count . For more information about Organizations, see Managing the Amazon Web Services Accounts in Your Organization . Constraints: o min: 1 o max: 1024 o pattern: ^[0-9]+$</param>
+    public AwsFmsPutAdminAccountOptions(
+        string AdminAccount
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AdminAccount);
+        this.AdminAccount = AdminAccount;
+    }
+
+    private AwsFmsPutAdminAccountOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsFmsPutAdminAccountOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsFmsPutAdminAccountOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Web Services account ID to add as an Firewall Manager ad- ministrator account. The account must be a member of the organiza- tion that was onboarded to Firewall Manager by AssociateAdminAc- count . For more information about Organizations, see Managing the Amazon Web Services Accounts in Your Organization . Constraints: o min: 1 o max: 1024 o pattern: ^[0-9]+$
+    /// </summary>
     [CliOption("--admin-account")]
-    public string? AdminAccount { get; set; }
+    public string? AdminAccount { get; private init; }
 
     /// <summary>
     /// Configures the resources that the specified Firewall Manager admin- istrator can manage. As a best practice, set the administrative scope according to the principles of least privilege. Only grant the administrator the specific resources or permissions that they need to perform the duties of their role. AccountScope -&gt; (structure) Defines the accounts that the specified Firewall Manager admin- istrator can apply policies to. Accounts -&gt; (list) The list of accounts within the organization that the speci- fied Firewall Manager administrator either can or cannot ap- ply policies to, based on the value of ExcludeSpecifiedAc- counts . If ExcludeSpecifiedAccounts is set to true , then the Firewall Manager administrator can apply policies to all members of the organization except for the accounts in this list. If ExcludeSpecifiedAccounts is set to false , then the Firewall Manager administrator can only apply policies to the accounts in this list. (string) Constraints: o min: 1 o max: 1024 o pattern: ^[0-9]+$ AllAccountsEnabled -&gt; (boolean) A boolean value that indicates if the administrator can apply policies to all accounts within an organization. If true, the administrator can apply policies to all accounts within the organization. You can either enable management of all ac- counts through this operation, or you can specify a list of accounts to manage in AccountScope$Accounts . You cannot specify both. ExcludeSpecifiedAccounts -&gt; (boolean) A boolean value that excludes the accounts in Ac- countScope$Accounts from the administrator's scope. If true, the Firewall Manager administrator can apply policies to all members of the organization except for the accounts listed in AccountScope$Accounts . You can either specify a list of ac- counts to exclude by AccountScope$Accounts , or you can en- able management of all accounts by AccountScope$AllAc- countsEnabled . You cannot specify both. OrganizationalUnitScope -&gt; (structure) Defines the Organizations organizational units that the speci- fied Firewall Manager administrator can apply policies to. For more information about OUs in Organizations, see Managing orga- nizational units (OUs) in the Organizations User Guide . OrganizationalUnits -&gt; (list) The list of OUs within the organization that the specified Firewall Manager administrator either can or cannot apply policies to, based on the value of OrganizationalU- nitScope$ExcludeSpecifiedOrganizationalUnits . If Organiza- tionalUnitScope$ExcludeSpecifiedOrganizationalUnits is set to true , then the Firewall Manager administrator can apply policies to all OUs in the organization except for the OUs in this list. If OrganizationalUnitScope$ExcludeSpecifiedOrgani- zationalUnits is set to false , then the Firewall Manager ad- ministrator can only apply policies to the OUs in this list. (string) Constraints: o min: 16 o max: 68 o pattern: ^ou-[0-9a-z]{4,32}-[a-z0-9]{8,32}$ AllOrganizationalUnitsEnabled -&gt; (boolean) A boolean value that indicates if the administrator can apply policies to all OUs within an organization. If true, the ad- ministrator can manage all OUs within the organization. You can either enable management of all OUs through this opera- tion, or you can specify OUs to manage in OrganizationalU- nitScope$OrganizationalUnits . You cannot specify both. ExcludeSpecifiedOrganizationalUnits -&gt; (boolean) A boolean value that excludes the OUs in OrganizationalU- nitScope$OrganizationalUnits from the administrator's scope. If true, the Firewall Manager administrator can apply poli- cies to all OUs in the organization except for the OUs listed in OrganizationalUnitScope$OrganizationalUnits . You can ei- ther specify a list of OUs to exclude by OrganizationalU- nitScope$OrganizationalUnits , or you can enable management of all OUs by OrganizationalUnitScope$AllOrganizationalUnit- sEnabled . You cannot specify both. RegionScope -&gt; (structure) Defines the Amazon Web Services Regions that the specified Fire- wall Manager administrator can perform actions in. Regions -&gt; (list) The Amazon Web Services Regions that the specified Firewall Manager administrator can perform actions in. Constraints: o min: 0 o max: 64 (string) Constraints: o min: 6 o max: 32 o pattern: ^(af|ap|ca|eu|il|me|mx|sa|us|cn|us-gov)-\w+-\d+$ AllRegionsEnabled -&gt; (boolean) Allows the specified Firewall Manager administrator to manage all Amazon Web Services Regions. PolicyTypeScope -&gt; (structure) Defines the Firewall Manager policy types that the specified Firewall Manager administrator can create and manage. PolicyTypes -&gt; (list) The list of policy types that the specified Firewall Manager administrator can manage. Constraints: o min: 0 o max: 32 (string) Possible values: o WAF o WAFV2 o SHIELD_ADVANCED o SECURITY_GROUPS_COMMON o SECURITY_GROUPS_CONTENT_AUDIT o SECURITY_GROUPS_USAGE_AUDIT o NETWORK_FIREWALL o DNS_FIREWALL o THIRD_PARTY_FIREWALL o IMPORT_NETWORK_FIREWALL o NETWORK_ACL_COMMON AllPolicyTypesEnabled -&gt; (boolean) Allows the specified Firewall Manager administrator to manage all Firewall Manager policy types, except for third-party policy types. Third-party policy types can only be managed by the Firewall Manager default administrator. Shorthand Syntax: AccountScope={Accounts=[string,string],AllAccountsEnabled=boolean,ExcludeSpecifiedAccounts=boolean},OrganizationalUnitScope={OrganizationalUnits=[string,string],AllOrganizationalUnitsEnabled=boolean,ExcludeSpecifiedOrganizationalUnits=boolean},RegionScope={Regions=[string,string],AllRegionsEnabled=boolean},PolicyTypeScope={PolicyTypes=[string,string],AllPolicyTypesEnabled=boolean} JSON Syntax: { "AccountScope": { "Accounts": ["string", ...], "AllAccountsEnabled": true|false, "ExcludeSpecifiedAccounts": true|false }, "OrganizationalUnitScope": { "OrganizationalUnits": ["string", ...], "AllOrganizationalUnitsEnabled": true|false, "ExcludeSpecifiedOrganizationalUnits": true|false }, "RegionScope": { "Regions": ["string", ...], "AllRegionsEnabled": true|false }, "PolicyTypeScope": { "PolicyTypes": ["WAF"|"WAFV2"|"SHIELD_ADVANCED"|"SECURITY_GROUPS_COMMON"|"SECURITY_GROUPS_CONTENT_AUDIT"|"SECURITY_GROUPS_USAGE_AUDIT"|"NETWORK_FIREWALL"|"DNS_FIREWALL"|"THIRD_PARTY_FIREWALL"|"IMPORT_NETWORK_FIREWALL"|"NETWORK_ACL_COMMON", ...], "AllPolicyTypesEnabled": true|false } }
@@ -35,5 +72,22 @@ public record AwsFmsPutAdminAccountOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

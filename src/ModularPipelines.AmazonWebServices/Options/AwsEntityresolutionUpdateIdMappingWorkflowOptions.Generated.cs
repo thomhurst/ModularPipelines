@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("entityresolution", "update-id-mapping-workflow")]
-public record AwsEntityresolutionUpdateIdMappingWorkflowOptions : AwsOptions
+public record AwsEntityresolutionUpdateIdMappingWorkflowOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates an existing IdMappingWorkflow . This method is identical to CreateIdMappingWorkflow, except it uses an HTTP PUT request instead of a POST request, and the IdMappingWorkflow must already exist for the method to succeed. WARNING: Incremental processing is not supported for ID mapping workflows. See also: AWS API Documentation update-id-mapping-workflow uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and ...
+    /// </summary>
+    /// <param name="WorkflowName">The name of the workflow. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z_0-9-]*</param>
+    /// <param name="InputSourceConfig">A list of InputSource objects, which have the fields InputSourceARN and SchemaName . Constraints: o min: 1 o max: 20 (structure) An object containing inputSourceARN , schemaName , and type . inputSourceARN -&gt; (string) [required] An Glue table Amazon Resource Name (ARN) or a matching work- flow ARN for the input source table. Constraints: o pattern: arn:(aws|aws-us-gov|aws-cn):entityresolu- tion:[a-z]{2}-[a-z]{1,10}-[0-9]:[0-9]{12}:(idname- space/[a-zA-Z_0-9-]{1,255})$|^arn:(aws|aws-us-gov|aws-cn):en- tityresolution:[a-z]{2}-[a-z]{1,10}-[0-9]:[0-9]{12}:(match- ingwork- flow/[a-zA-Z_0-9-]{1,255})$|^arn:(aws|aws-us-gov|aws-cn):glue:[a-z]{2}-[a-z]{1,10}-[0-9]:[0-9]{12}:(ta- ble/[a-zA-Z_0-9-]{1,255}/[a-zA-Z_0-9-]{1,255}) schemaName -&gt; (string) The name of the schema to be retrieved. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z_0-9-]* type -&gt; (string) The type of ID namespace. There are two types: SOURCE and TARGET . The SOURCE contains configurations for sourceId data that will be processed in an ID mapping workflow. The TARGET contains a configuration of targetId which all sourceIds will resolve to. Possible values: o SOURCE o TARGET Shorthand Syntax: inputSourceARN=string,schemaName=string,type=string ... JSON Syntax: [ { "inputSourceARN": "string", "schemaName": "string", "type": "SOURCE"|"TARGET" } ... ]</param>
+    /// <param name="IdMappingTechniques">An object which defines the ID mapping technique and any additional configurations. idMappingType -&gt; (string) [required] The type of ID mapping. Possible values: o PROVIDER o RULE_BASED ruleBasedProperties -&gt; (structure) An object which defines any additional configurations required by rule-based matching. rules -&gt; (list) The rules that can be used for ID mapping. Constraints: o min: 1 o max: 25 (structure) An object containing the ruleName and matchingKeys . ruleName -&gt; (string) [required] A name for the matching rule. Constraints: o min: 0 o max: 255 o pattern: [a-zA-Z_0-9- ]* matchingKeys -&gt; (list) [required] A list of MatchingKeys . The MatchingKeys must have been defined in the SchemaMapping . Two records are considered to match according to this rule if all of the MatchingKeys match. Constraints: o min: 0 o max: 15 (string) Constraints: o min: 0 o max: 255 o pattern: [a-zA-Z_0-9- ]* ruleDefinitionType -&gt; (string) [required] The set of rules you can use in an ID mapping workflow. The limitations specified for the source or target to define the match rules must be compatible. Possible values: o SOURCE o TARGET attributeMatchingModel -&gt; (string) [required] The comparison type. You can either choose ONE_TO_ONE or MANY_TO_MANY as the attributeMatchingModel . If you choose ONE_TO_ONE , the system can only match attrib- utes if the sub-types are an exact match. For example, for the Email attribute type, the system will only consider it a match if the value of the Email field of Profile A matches the value of the Email field of Profile B. If you choose MANY_TO_MANY , the system can match attributes across the sub-types of an attribute type. For example, if the value of the Email field of Profile A matches the value of the BusinessEmail field of Profile B, the two profiles are matched on the Email attribute type. Possible values: o ONE_TO_ONE o MANY_TO_MANY recordMatchingModel -&gt; (string) [required] The type of matching record that is allowed to be used in an ID mapping workflow. If the value is set to ONE_SOURCE_TO_ONE_TARGET , only one record in the source can be matched to the same record in the target. If the value is set to MANY_SOURCE_TO_ONE_TARGET , multiple records in the source can be matched to one record in the target. Possible values: o ONE_SOURCE_TO_ONE_TARGET o MANY_SOURCE_TO_ONE_TARGET providerProperties -&gt; (structure) An object which defines any additional configurations required by the provider service. providerServiceArn -&gt; (string) [required] The ARN of the provider service. Constraints: o min: 20 o max: 255 o pattern: arn:(aws|aws-us-gov|aws-cn):(entityresolu- tion):([a-z]{2}-[a-z]{1,10}-[0-9])::providerser- vice/([a-zA-Z0-9_-]{1,255})/([a-zA-Z0-9_-]{1,255}) providerConfiguration -&gt; (document) The required configuration fields to use with the provider service. intermediateSourceConfiguration -&gt; (structure) The Amazon S3 location that temporarily stores your data while it processes. Your information won't be saved perma- nently. intermediateS3Path -&gt; (string) [required] The Amazon S3 location (bucket and prefix). For example: s3://provider_bucket/DOC-EXAMPLE-BUCKET Constraints: o min: 1 o max: 1024 o pattern: s3://[a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9](/.*)? JSON Syntax: { "idMappingType": "PROVIDER"|"RULE_BASED", "ruleBasedProperties": { "rules": [ { "ruleName": "string", "matchingKeys": ["string", ...] } ... ], "ruleDefinitionType": "SOURCE"|"TARGET", "attributeMatchingModel": "ONE_TO_ONE"|"MANY_TO_MANY", "recordMatchingModel": "ONE_SOURCE_TO_ONE_TARGET"|"MANY_SOURCE_TO_ONE_TARGET" }, "providerProperties": { "providerServiceArn": "string", "providerConfiguration": {...}, "intermediateSourceConfiguration": { "intermediateS3Path": "string" } } }</param>
+    public AwsEntityresolutionUpdateIdMappingWorkflowOptions(
+        string WorkflowName,
+        IEnumerable<string> InputSourceConfig,
+        string IdMappingTechniques
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(WorkflowName);
+        this.WorkflowName = WorkflowName;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(InputSourceConfig);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(InputSourceConfig));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(InputSourceConfig));
+            }
+
+            InputSourceConfig = materialized;
+        }
+        this.InputSourceConfig = InputSourceConfig;
+        global::System.ArgumentNullException.ThrowIfNull(IdMappingTechniques);
+        this.IdMappingTechniques = IdMappingTechniques;
+    }
+
+    private AwsEntityresolutionUpdateIdMappingWorkflowOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEntityresolutionUpdateIdMappingWorkflowOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEntityresolutionUpdateIdMappingWorkflowOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the workflow. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z_0-9-]*
+    /// </summary>
     [CliOption("--workflow-name")]
-    public string? WorkflowName { get; set; }
+    public string? WorkflowName { get; private init; }
+
+    /// <summary>
+    /// A list of InputSource objects, which have the fields InputSourceARN and SchemaName . Constraints: o min: 1 o max: 20 (structure) An object containing inputSourceARN , schemaName , and type . inputSourceARN -&gt; (string) [required] An Glue table Amazon Resource Name (ARN) or a matching work- flow ARN for the input source table. Constraints: o pattern: arn:(aws|aws-us-gov|aws-cn):entityresolu- tion:[a-z]{2}-[a-z]{1,10}-[0-9]:[0-9]{12}:(idname- space/[a-zA-Z_0-9-]{1,255})$|^arn:(aws|aws-us-gov|aws-cn):en- tityresolution:[a-z]{2}-[a-z]{1,10}-[0-9]:[0-9]{12}:(match- ingwork- flow/[a-zA-Z_0-9-]{1,255})$|^arn:(aws|aws-us-gov|aws-cn):glue:[a-z]{2}-[a-z]{1,10}-[0-9]:[0-9]{12}:(ta- ble/[a-zA-Z_0-9-]{1,255}/[a-zA-Z_0-9-]{1,255}) schemaName -&gt; (string) The name of the schema to be retrieved. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z_0-9-]* type -&gt; (string) The type of ID namespace. There are two types: SOURCE and TARGET . The SOURCE contains configurations for sourceId data that will be processed in an ID mapping workflow. The TARGET contains a configuration of targetId which all sourceIds will resolve to. Possible values: o SOURCE o TARGET Shorthand Syntax: inputSourceARN=string,schemaName=string,type=string ... JSON Syntax: [ { "inputSourceARN": "string", "schemaName": "string", "type": "SOURCE"|"TARGET" } ... ]
+    /// </summary>
+    [CliOption("--input-source-config", GroupValues = true)]
+    public IEnumerable<string>? InputSourceConfig { get; private init; }
+
+    /// <summary>
+    /// An object which defines the ID mapping technique and any additional configurations. idMappingType -&gt; (string) [required] The type of ID mapping. Possible values: o PROVIDER o RULE_BASED ruleBasedProperties -&gt; (structure) An object which defines any additional configurations required by rule-based matching. rules -&gt; (list) The rules that can be used for ID mapping. Constraints: o min: 1 o max: 25 (structure) An object containing the ruleName and matchingKeys . ruleName -&gt; (string) [required] A name for the matching rule. Constraints: o min: 0 o max: 255 o pattern: [a-zA-Z_0-9- ]* matchingKeys -&gt; (list) [required] A list of MatchingKeys . The MatchingKeys must have been defined in the SchemaMapping . Two records are considered to match according to this rule if all of the MatchingKeys match. Constraints: o min: 0 o max: 15 (string) Constraints: o min: 0 o max: 255 o pattern: [a-zA-Z_0-9- ]* ruleDefinitionType -&gt; (string) [required] The set of rules you can use in an ID mapping workflow. The limitations specified for the source or target to define the match rules must be compatible. Possible values: o SOURCE o TARGET attributeMatchingModel -&gt; (string) [required] The comparison type. You can either choose ONE_TO_ONE or MANY_TO_MANY as the attributeMatchingModel . If you choose ONE_TO_ONE , the system can only match attrib- utes if the sub-types are an exact match. For example, for the Email attribute type, the system will only consider it a match if the value of the Email field of Profile A matches the value of the Email field of Profile B. If you choose MANY_TO_MANY , the system can match attributes across the sub-types of an attribute type. For example, if the value of the Email field of Profile A matches the value of the BusinessEmail field of Profile B, the two profiles are matched on the Email attribute type. Possible values: o ONE_TO_ONE o MANY_TO_MANY recordMatchingModel -&gt; (string) [required] The type of matching record that is allowed to be used in an ID mapping workflow. If the value is set to ONE_SOURCE_TO_ONE_TARGET , only one record in the source can be matched to the same record in the target. If the value is set to MANY_SOURCE_TO_ONE_TARGET , multiple records in the source can be matched to one record in the target. Possible values: o ONE_SOURCE_TO_ONE_TARGET o MANY_SOURCE_TO_ONE_TARGET providerProperties -&gt; (structure) An object which defines any additional configurations required by the provider service. providerServiceArn -&gt; (string) [required] The ARN of the provider service. Constraints: o min: 20 o max: 255 o pattern: arn:(aws|aws-us-gov|aws-cn):(entityresolu- tion):([a-z]{2}-[a-z]{1,10}-[0-9])::providerser- vice/([a-zA-Z0-9_-]{1,255})/([a-zA-Z0-9_-]{1,255}) providerConfiguration -&gt; (document) The required configuration fields to use with the provider service. intermediateSourceConfiguration -&gt; (structure) The Amazon S3 location that temporarily stores your data while it processes. Your information won't be saved perma- nently. intermediateS3Path -&gt; (string) [required] The Amazon S3 location (bucket and prefix). For example: s3://provider_bucket/DOC-EXAMPLE-BUCKET Constraints: o min: 1 o max: 1024 o pattern: s3://[a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9](/.*)? JSON Syntax: { "idMappingType": "PROVIDER"|"RULE_BASED", "ruleBasedProperties": { "rules": [ { "ruleName": "string", "matchingKeys": ["string", ...] } ... ], "ruleDefinitionType": "SOURCE"|"TARGET", "attributeMatchingModel": "ONE_TO_ONE"|"MANY_TO_MANY", "recordMatchingModel": "ONE_SOURCE_TO_ONE_TARGET"|"MANY_SOURCE_TO_ONE_TARGET" }, "providerProperties": { "providerServiceArn": "string", "providerConfiguration": {...}, "intermediateSourceConfiguration": { "intermediateS3Path": "string" } } }
+    /// </summary>
+    [CliOption("--id-mapping-techniques")]
+    public string? IdMappingTechniques { get; private init; }
 
     /// <summary>
     /// A description of the workflow. Constraints: o min: 0 o max: 255
@@ -30,17 +98,11 @@ public record AwsEntityresolutionUpdateIdMappingWorkflowOptions : AwsOptions
     [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CliOption("--input-source-config", GroupValues = true)]
-    public IEnumerable<string>? InputSourceConfig { get; set; }
-
     /// <summary>
     /// A list of OutputSource objects, each of which contains fields out- putS3Path and KMSArn . Constraints: o min: 1 o max: 1 (structure) The output source for the ID mapping workflow. KMSArn -&gt; (string) Customer KMS ARN for encryption at rest. If not provided, system will use an Entity Resolution managed KMS key. Constraints: o pattern: arn:aws:kms:.*:[0-9]+:.* outputS3Path -&gt; (string) [required] The S3 path to which Entity Resolution will write the output table. Constraints: o min: 1 o max: 1024 o pattern: s3://[a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9](/.*)? Shorthand Syntax: KMSArn=string,outputS3Path=string ... JSON Syntax: [ { "KMSArn": "string", "outputS3Path": "string" } ... ]
     /// </summary>
     [CliOption("--output-source-config", GroupValues = true)]
     public IEnumerable<string>? OutputSourceConfig { get; set; }
-
-    [CliOption("--id-mapping-techniques")]
-    public string? IdMappingTechniques { get; set; }
 
     /// <summary>
     /// The incremental run configuration for the update ID mapping work- flow. incrementalRunType -&gt; (string) The incremental run type for an ID mapping workflow. It takes only one value: ON_DEMAND . This setting runs the ID mapping workflow when it's manually triggered through the Star- tIdMappingJob API. Possible values: o ON_DEMAND Shorthand Syntax: incrementalRunType=string JSON Syntax: { "incrementalRunType": "ON_DEMAND" }
@@ -59,5 +121,22 @@ public record AwsEntityresolutionUpdateIdMappingWorkflowOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

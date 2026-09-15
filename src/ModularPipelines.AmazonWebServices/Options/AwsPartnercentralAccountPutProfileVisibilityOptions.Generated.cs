@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +21,88 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("partnercentral-account", "put-profile-visibility")]
-public record AwsPartnercentralAccountPutProfileVisibilityOptions : AwsOptions
+public record AwsPartnercentralAccountPutProfileVisibilityOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Sets the visibility level for a partner profile, controlling who can view the profile information. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Catalog">The catalog identifier for the partner account. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9-]+</param>
+    /// <param name="Identifier">The unique identifier of the partner account. Constraints: o min: 1 o max: 200 o pattern: (partner-[A-Za-z0-9]{13}|arn:[a-z-]+:partner- central:[a-z0-9-]+:[0-9]{12}:catalog/[A-Za-z-_]+/partner/part- ner-[A-Za-z0-9]{13})</param>
+    /// <param name="Visibility">The visibility setting to apply to the partner profile. Possible values: o PRIVATE o PUBLIC</param>
+    public AwsPartnercentralAccountPutProfileVisibilityOptions(
+        string Catalog,
+        string Identifier,
+        AwsPartnercentralAccountPutProfileVisibilityVisibility Visibility
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Catalog);
+        this.Catalog = Catalog;
+        global::System.ArgumentNullException.ThrowIfNull(Identifier);
+        this.Identifier = Identifier;
+        global::System.ArgumentNullException.ThrowIfNull(Visibility);
+        this.Visibility = Visibility;
+    }
+
+    private AwsPartnercentralAccountPutProfileVisibilityOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsPartnercentralAccountPutProfileVisibilityOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsPartnercentralAccountPutProfileVisibilityOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The catalog identifier for the partner account. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9-]+
+    /// </summary>
     [CliOption("--catalog")]
-    public string? Catalog { get; set; }
+    public string? Catalog { get; private init; }
 
+    /// <summary>
+    /// The unique identifier of the partner account. Constraints: o min: 1 o max: 200 o pattern: (partner-[A-Za-z0-9]{13}|arn:[a-z-]+:partner- central:[a-z0-9-]+:[0-9]{12}:catalog/[A-Za-z-_]+/partner/part- ner-[A-Za-z0-9]{13})
+    /// </summary>
     [CliOption("--identifier")]
-    public string? Identifier { get; set; }
+    public string? Identifier { get; private init; }
 
+    /// <summary>
+    /// The visibility setting to apply to the partner profile. Possible values: o PRIVATE o PUBLIC
+    /// </summary>
     [CliOption("--visibility")]
-    public string? Visibility { get; set; }
+    public AwsPartnercentralAccountPutProfileVisibilityVisibility? Visibility { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

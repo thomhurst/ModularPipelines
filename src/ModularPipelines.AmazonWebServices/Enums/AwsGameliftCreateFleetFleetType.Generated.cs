@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --fleettype.
+/// Allowed values for --fleet-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsGameliftCreateFleetFleetType
 {
     [EnumValue("ON_DEMAND")]
-    OnDemand = 1,
+    OnDemand,
 
     [EnumValue("SPOT")]
-    Spot = 2
+    Spot
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,12 +20,72 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("oam", "update-link")]
-public record AwsOamUpdateLinkOptions : AwsOptions
+public record AwsOamUpdateLinkOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--identifier")]
-    public string? Identifier { get; set; }
+    private readonly bool _requiresAlternateInput;
 
-    [CliFlag("--include-tags")]
+    /// <summary>
+    /// Use this operation to change what types of data are shared from a source account to its linked monitoring account sink. You can't change the sink or change the monitoring account with this operation. When you update a link, you can optionally specify filters that specify which metric namespaces and which log groups are shared from the source account to the monitoring account. To update the list of tags associated with the sink, use TagResource . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Identifier">The ARN of the link that you want to update. Constraints: o pattern: ^[a-zA-Z0-9][a-zA-Z0-9_:\.\-\/]{0,2047}$</param>
+    /// <param name="ResourceTypes">An array of strings that define which types of data that the source account will send to the monitoring account. Your input here replaces the current set of data types that are shared. Constraints: o min: 1 o max: 50 (string) Possible values: o AWS::CloudWatch::Metric o AWS::Logs::LogGroup o AWS::XRay::Trace o AWS::ApplicationInsights::Application o AWS::InternetMonitor::Monitor o AWS::ApplicationSignals::Service o AWS::ApplicationSignals::ServiceLevelObjective Syntax: "string" "string" ...</param>
+    public AwsOamUpdateLinkOptions(
+        string Identifier,
+        IEnumerable<string> ResourceTypes
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Identifier);
+        this.Identifier = Identifier;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(ResourceTypes);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(ResourceTypes));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(ResourceTypes));
+            }
+
+            ResourceTypes = materialized;
+        }
+        this.ResourceTypes = ResourceTypes;
+    }
+
+    private AwsOamUpdateLinkOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsOamUpdateLinkOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsOamUpdateLinkOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ARN of the link that you want to update. Constraints: o pattern: ^[a-zA-Z0-9][a-zA-Z0-9_:\.\-\/]{0,2047}$
+    /// </summary>
+    [CliOption("--identifier")]
+    public string? Identifier { get; private init; }
+
+    /// <summary>
+    /// An array of strings that define which types of data that the source account will send to the monitoring account. Your input here replaces the current set of data types that are shared. Constraints: o min: 1 o max: 50 (string) Possible values: o AWS::CloudWatch::Metric o AWS::Logs::LogGroup o AWS::XRay::Trace o AWS::ApplicationInsights::Application o AWS::InternetMonitor::Monitor o AWS::ApplicationSignals::Service o AWS::ApplicationSignals::ServiceLevelObjective Syntax: "string" "string" ...
+    /// </summary>
+    [CliOption("--resource-types", GroupValues = true)]
+    public IEnumerable<string>? ResourceTypes { get; private init; }
+
+    /// <summary>
+    /// Specifies whether to include the tags associated with the link in the response after the update operation. When IncludeTags is set to true and the caller has the required permission, oam:ListTagsForRe- source , the API will return the tags for the specified resource. If the caller doesn't have the required permission, oam:ListTagsForRe- source , the API will raise an exception. The default value is false .
+    /// </summary>
+    [CliFlag("--include-tags", NegatedName = "--no-include-tags")]
     public bool? IncludeTags { get; set; }
 
     /// <summary>
@@ -33,13 +94,27 @@ public record AwsOamUpdateLinkOptions : AwsOptions
     [CliOption("--link-configuration")]
     public string? LinkConfiguration { get; set; }
 
-    [CliOption("--resource-types", GroupValues = true)]
-    public IEnumerable<string>? ResourceTypes { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

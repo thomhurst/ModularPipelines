@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --aggregateby.
+/// Allowed values for --aggregate-by.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsRekognitionGetLabelDetectionAggregateBy
 {
-    [EnumValue("TIMESTAMPS")]
-    Timestamps = 1,
-
     [EnumValue("SEGMENTS")]
-    Segments = 2
+    Segments,
+
+    [EnumValue("TIMESTAMPS")]
+    Timestamps
 }

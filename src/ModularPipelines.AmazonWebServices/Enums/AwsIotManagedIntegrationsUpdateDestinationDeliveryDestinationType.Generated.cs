@@ -11,11 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --deliverydestinationtype.
+/// Allowed values for --delivery-destination-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsIotManagedIntegrationsUpdateDestinationDeliveryDestinationType
 {
     [EnumValue("KINESIS")]
-    Kinesis = 1
+    Kinesis,
+
+    [EnumValue("o")]
+    O
 }

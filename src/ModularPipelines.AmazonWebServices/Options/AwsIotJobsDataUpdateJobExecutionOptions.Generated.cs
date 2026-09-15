@@ -11,6 +11,8 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,16 +22,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iot-jobs-data", "update-job-execution")]
-public record AwsIotJobsDataUpdateJobExecutionOptions : AwsOptions
+public record AwsIotJobsDataUpdateJobExecutionOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates the status of a job execution. Requires permission to access the UpdateJobExecution action. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="JobId">The unique identifier assigned to this job when it was created. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_-]+</param>
+    /// <param name="ThingName">The name of the thing associated with the device. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9:_-]+</param>
+    /// <param name="Status">The new status for the job execution (IN_PROGRESS, FAILED, SUCCESS, or REJECTED). This must be specified on every update. Possible values: o QUEUED o IN_PROGRESS o SUCCEEDED o FAILED o TIMED_OUT o REJECTED o REMOVED o CANCELED</param>
+    public AwsIotJobsDataUpdateJobExecutionOptions(
+        string JobId,
+        string ThingName,
+        AwsIotJobsDataUpdateJobExecutionStatus Status
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(JobId);
+        this.JobId = JobId;
+        global::System.ArgumentNullException.ThrowIfNull(ThingName);
+        this.ThingName = ThingName;
+        global::System.ArgumentNullException.ThrowIfNull(Status);
+        this.Status = Status;
+    }
+
+    private AwsIotJobsDataUpdateJobExecutionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsIotJobsDataUpdateJobExecutionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsIotJobsDataUpdateJobExecutionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier assigned to this job when it was created. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_-]+
+    /// </summary>
     [CliOption("--job-id")]
-    public string? JobId { get; set; }
+    public string? JobId { get; private init; }
 
+    /// <summary>
+    /// The name of the thing associated with the device. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9:_-]+
+    /// </summary>
     [CliOption("--thing-name")]
-    public string? ThingName { get; set; }
+    public string? ThingName { get; private init; }
 
+    /// <summary>
+    /// The new status for the job execution (IN_PROGRESS, FAILED, SUCCESS, or REJECTED). This must be specified on every update. Possible values: o QUEUED o IN_PROGRESS o SUCCEEDED o FAILED o TIMED_OUT o REJECTED o REMOVED o CANCELED
+    /// </summary>
     [CliOption("--status")]
-    public string? Status { get; set; }
+    public AwsIotJobsDataUpdateJobExecutionStatus? Status { get; private init; }
 
     /// <summary>
     /// Optional. A collection of name/value pairs that describe the status of the job execution. If not specified, the statusDetails are un- changed. The maximum length of the value in the name/value pair is 1,024 characters. key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9:_-]+ value -&gt; (string) Constraints: o min: 1 o pattern: [^\p{C}]+ Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
@@ -49,10 +101,16 @@ public record AwsIotJobsDataUpdateJobExecutionOptions : AwsOptions
     [CliOption("--expected-version")]
     public int? ExpectedVersion { get; set; }
 
-    [CliFlag("--include-job-execution-state")]
+    /// <summary>
+    /// Optional. When included and set to true, the response contains the JobExecutionState data. The default is false.
+    /// </summary>
+    [CliFlag("--include-job-execution-state", NegatedName = "--no-include-job-execution-state")]
     public bool? IncludeJobExecutionState { get; set; }
 
-    [CliFlag("--include-job-document")]
+    /// <summary>
+    /// Optional. When set to true, the response contains the job document. The default is false.
+    /// </summary>
+    [CliFlag("--include-job-document", NegatedName = "--no-include-job-document")]
     public bool? IncludeJobDocument { get; set; }
 
     /// <summary>
@@ -66,5 +124,22 @@ public record AwsIotJobsDataUpdateJobExecutionOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

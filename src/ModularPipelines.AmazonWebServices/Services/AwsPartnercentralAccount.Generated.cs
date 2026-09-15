@@ -5,8 +5,8 @@
 
 #nullable enable
 
-using ModularPipelines.Context;
 using System.CodeDom.Compiler;
+using ModularPipelines.Context;
 using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
@@ -40,11 +40,11 @@ public class AwsPartnercentralAccount : IAwsPartnercentralAccount
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AcceptConnectionInvitationAsync(
-        AwsPartnercentralAccountAcceptConnectionInvitationOptions? options = null,
+        AwsPartnercentralAccountAcceptConnectionInvitationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPartnercentralAccountAcceptConnectionInvitationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -55,11 +55,11 @@ public class AwsPartnercentralAccount : IAwsPartnercentralAccount
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AssociateAwsTrainingCertificationEmailDomainAsync(
-        AwsPartnercentralAccountAssociateAwsTrainingCertificationEmailDomainOptions? options = null,
+        AwsPartnercentralAccountAssociateAwsTrainingCertificationEmailDomainOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPartnercentralAccountAssociateAwsTrainingCertificationEmailDomainOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -70,11 +70,11 @@ public class AwsPartnercentralAccount : IAwsPartnercentralAccount
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CancelConnectionInvitationAsync(
-        AwsPartnercentralAccountCancelConnectionInvitationOptions? options = null,
+        AwsPartnercentralAccountCancelConnectionInvitationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPartnercentralAccountCancelConnectionInvitationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -85,11 +85,11 @@ public class AwsPartnercentralAccount : IAwsPartnercentralAccount
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CancelConnectionAsync(
-        AwsPartnercentralAccountCancelConnectionOptions? options = null,
+        AwsPartnercentralAccountCancelConnectionOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPartnercentralAccountCancelConnectionOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -100,11 +100,11 @@ public class AwsPartnercentralAccount : IAwsPartnercentralAccount
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CancelProfileUpdateTaskAsync(
-        AwsPartnercentralAccountCancelProfileUpdateTaskOptions? options = null,
+        AwsPartnercentralAccountCancelProfileUpdateTaskOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPartnercentralAccountCancelProfileUpdateTaskOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -115,11 +115,11 @@ public class AwsPartnercentralAccount : IAwsPartnercentralAccount
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateConnectionInvitationAsync(
-        AwsPartnercentralAccountCreateConnectionInvitationOptions? options = null,
+        AwsPartnercentralAccountCreateConnectionInvitationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPartnercentralAccountCreateConnectionInvitationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -130,11 +130,11 @@ public class AwsPartnercentralAccount : IAwsPartnercentralAccount
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreatePartnerAsync(
-        AwsPartnercentralAccountCreatePartnerOptions? options = null,
+        AwsPartnercentralAccountCreatePartnerOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPartnercentralAccountCreatePartnerOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -145,11 +145,11 @@ public class AwsPartnercentralAccount : IAwsPartnercentralAccount
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DisassociateAwsTrainingCertificationEmailDomainAsync(
-        AwsPartnercentralAccountDisassociateAwsTrainingCertificationEmailDomainOptions? options = null,
+        AwsPartnercentralAccountDisassociateAwsTrainingCertificationEmailDomainOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPartnercentralAccountDisassociateAwsTrainingCertificationEmailDomainOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -160,11 +160,11 @@ public class AwsPartnercentralAccount : IAwsPartnercentralAccount
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetAllianceLeadContactAsync(
-        AwsPartnercentralAccountGetAllianceLeadContactOptions? options = null,
+        AwsPartnercentralAccountGetAllianceLeadContactOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPartnercentralAccountGetAllianceLeadContactOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -175,11 +175,11 @@ public class AwsPartnercentralAccount : IAwsPartnercentralAccount
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetConnectionInvitationAsync(
-        AwsPartnercentralAccountGetConnectionInvitationOptions? options = null,
+        AwsPartnercentralAccountGetConnectionInvitationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPartnercentralAccountGetConnectionInvitationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -190,11 +190,11 @@ public class AwsPartnercentralAccount : IAwsPartnercentralAccount
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetConnectionAsync(
-        AwsPartnercentralAccountGetConnectionOptions? options = null,
+        AwsPartnercentralAccountGetConnectionOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPartnercentralAccountGetConnectionOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -205,11 +205,11 @@ public class AwsPartnercentralAccount : IAwsPartnercentralAccount
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetConnectionPreferencesAsync(
-        AwsPartnercentralAccountGetConnectionPreferencesOptions? options = null,
+        AwsPartnercentralAccountGetConnectionPreferencesOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPartnercentralAccountGetConnectionPreferencesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -220,11 +220,11 @@ public class AwsPartnercentralAccount : IAwsPartnercentralAccount
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetPartnerAsync(
-        AwsPartnercentralAccountGetPartnerOptions? options = null,
+        AwsPartnercentralAccountGetPartnerOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPartnercentralAccountGetPartnerOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -235,11 +235,11 @@ public class AwsPartnercentralAccount : IAwsPartnercentralAccount
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetProfileUpdateTaskAsync(
-        AwsPartnercentralAccountGetProfileUpdateTaskOptions? options = null,
+        AwsPartnercentralAccountGetProfileUpdateTaskOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPartnercentralAccountGetProfileUpdateTaskOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -250,11 +250,11 @@ public class AwsPartnercentralAccount : IAwsPartnercentralAccount
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetProfileVisibilityAsync(
-        AwsPartnercentralAccountGetProfileVisibilityOptions? options = null,
+        AwsPartnercentralAccountGetProfileVisibilityOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPartnercentralAccountGetProfileVisibilityOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -265,11 +265,11 @@ public class AwsPartnercentralAccount : IAwsPartnercentralAccount
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetQualificationsAssociationDetailsAsync(
-        AwsPartnercentralAccountGetQualificationsAssociationDetailsOptions? options = null,
+        AwsPartnercentralAccountGetQualificationsAssociationDetailsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPartnercentralAccountGetQualificationsAssociationDetailsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -280,11 +280,11 @@ public class AwsPartnercentralAccount : IAwsPartnercentralAccount
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetQualificationsAssociationTaskAsync(
-        AwsPartnercentralAccountGetQualificationsAssociationTaskOptions? options = null,
+        AwsPartnercentralAccountGetQualificationsAssociationTaskOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPartnercentralAccountGetQualificationsAssociationTaskOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -295,11 +295,11 @@ public class AwsPartnercentralAccount : IAwsPartnercentralAccount
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetQualificationsDisassociationTaskAsync(
-        AwsPartnercentralAccountGetQualificationsDisassociationTaskOptions? options = null,
+        AwsPartnercentralAccountGetQualificationsDisassociationTaskOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPartnercentralAccountGetQualificationsDisassociationTaskOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -310,11 +310,11 @@ public class AwsPartnercentralAccount : IAwsPartnercentralAccount
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetVerificationAsync(
-        AwsPartnercentralAccountGetVerificationOptions? options = null,
+        AwsPartnercentralAccountGetVerificationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPartnercentralAccountGetVerificationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -325,11 +325,11 @@ public class AwsPartnercentralAccount : IAwsPartnercentralAccount
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListConnectionInvitationsAsync(
-        AwsPartnercentralAccountListConnectionInvitationsOptions? options = null,
+        AwsPartnercentralAccountListConnectionInvitationsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPartnercentralAccountListConnectionInvitationsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -340,11 +340,11 @@ public class AwsPartnercentralAccount : IAwsPartnercentralAccount
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListConnectionsAsync(
-        AwsPartnercentralAccountListConnectionsOptions? options = null,
+        AwsPartnercentralAccountListConnectionsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPartnercentralAccountListConnectionsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -355,11 +355,11 @@ public class AwsPartnercentralAccount : IAwsPartnercentralAccount
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListPartnersAsync(
-        AwsPartnercentralAccountListPartnersOptions? options = null,
+        AwsPartnercentralAccountListPartnersOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPartnercentralAccountListPartnersOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -370,11 +370,11 @@ public class AwsPartnercentralAccount : IAwsPartnercentralAccount
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListTagsForResourceAsync(
-        AwsPartnercentralAccountListTagsForResourceOptions? options = null,
+        AwsPartnercentralAccountListTagsForResourceOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPartnercentralAccountListTagsForResourceOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -385,11 +385,11 @@ public class AwsPartnercentralAccount : IAwsPartnercentralAccount
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> PutAllianceLeadContactAsync(
-        AwsPartnercentralAccountPutAllianceLeadContactOptions? options = null,
+        AwsPartnercentralAccountPutAllianceLeadContactOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPartnercentralAccountPutAllianceLeadContactOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -400,11 +400,11 @@ public class AwsPartnercentralAccount : IAwsPartnercentralAccount
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> PutProfileVisibilityAsync(
-        AwsPartnercentralAccountPutProfileVisibilityOptions? options = null,
+        AwsPartnercentralAccountPutProfileVisibilityOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPartnercentralAccountPutProfileVisibilityOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -415,11 +415,11 @@ public class AwsPartnercentralAccount : IAwsPartnercentralAccount
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RejectConnectionInvitationAsync(
-        AwsPartnercentralAccountRejectConnectionInvitationOptions? options = null,
+        AwsPartnercentralAccountRejectConnectionInvitationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPartnercentralAccountRejectConnectionInvitationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -430,11 +430,11 @@ public class AwsPartnercentralAccount : IAwsPartnercentralAccount
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> SendEmailVerificationCodeAsync(
-        AwsPartnercentralAccountSendEmailVerificationCodeOptions? options = null,
+        AwsPartnercentralAccountSendEmailVerificationCodeOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPartnercentralAccountSendEmailVerificationCodeOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -445,11 +445,11 @@ public class AwsPartnercentralAccount : IAwsPartnercentralAccount
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> StartProfileUpdateTaskAsync(
-        AwsPartnercentralAccountStartProfileUpdateTaskOptions? options = null,
+        AwsPartnercentralAccountStartProfileUpdateTaskOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPartnercentralAccountStartProfileUpdateTaskOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -460,11 +460,11 @@ public class AwsPartnercentralAccount : IAwsPartnercentralAccount
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> StartQualificationsAssociationTaskAsync(
-        AwsPartnercentralAccountStartQualificationsAssociationTaskOptions? options = null,
+        AwsPartnercentralAccountStartQualificationsAssociationTaskOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPartnercentralAccountStartQualificationsAssociationTaskOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -475,11 +475,11 @@ public class AwsPartnercentralAccount : IAwsPartnercentralAccount
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> StartQualificationsDisassociationTaskAsync(
-        AwsPartnercentralAccountStartQualificationsDisassociationTaskOptions? options = null,
+        AwsPartnercentralAccountStartQualificationsDisassociationTaskOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPartnercentralAccountStartQualificationsDisassociationTaskOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -494,7 +494,7 @@ public class AwsPartnercentralAccount : IAwsPartnercentralAccount
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPartnercentralAccountStartVerificationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPartnercentralAccountStartVerificationOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -505,11 +505,11 @@ public class AwsPartnercentralAccount : IAwsPartnercentralAccount
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> TagResourceAsync(
-        AwsPartnercentralAccountTagResourceOptions? options = null,
+        AwsPartnercentralAccountTagResourceOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPartnercentralAccountTagResourceOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -520,11 +520,11 @@ public class AwsPartnercentralAccount : IAwsPartnercentralAccount
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UntagResourceAsync(
-        AwsPartnercentralAccountUntagResourceOptions? options = null,
+        AwsPartnercentralAccountUntagResourceOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPartnercentralAccountUntagResourceOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -535,11 +535,11 @@ public class AwsPartnercentralAccount : IAwsPartnercentralAccount
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateConnectionPreferencesAsync(
-        AwsPartnercentralAccountUpdateConnectionPreferencesOptions? options = null,
+        AwsPartnercentralAccountUpdateConnectionPreferencesOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPartnercentralAccountUpdateConnectionPreferencesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     #endregion

@@ -12,6 +12,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -21,10 +22,97 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bedrock-agentcore", "create-ab-test")]
-public record AwsBedrockAgentcoreCreateAbTestOptions : AwsOptions
+public record AwsBedrockAgentcoreCreateAbTestOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates an A/B test for comparing agent configurations. A/B tests split traffic between a control variant and a treatment variant through a gateway, then evaluate performance using online evaluation configura- tions to determine which variant performs better. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Name">The name of the A/B test. Must be unique within your account. Constraints: o pattern: [a-zA-Z][a-zA-Z0-9_]{0,47}</param>
+    /// <param name="GatewayArn">The Amazon Resource Name (ARN) of the gateway to use for traffic splitting. Constraints: o pattern: arn:aws(|-cn|-us-gov):bedrock-agent- core:[a-z0-9-]{1,20}:[0-9]{12}:gate- way/([0-9a-z][-]?){1,48}-[a-z0-9]{10}</param>
+    /// <param name="Variants">The list of variants for the A/B test. Must contain exactly two variants: a control (C) and a treatment (T1), each with a configura- tion bundle or target reference and a traffic weight. Constraints: o min: 2 o max: 2 (structure) A variant in an A/B test, representing either the control (C) or treatment (T1) configuration. name -&gt; (string) [required] The name of the variant. Must be C for control or T1 for treatment. Constraints: o min: 1 o max: 2 o pattern: (C|T1) weight -&gt; (integer) [required] The percentage of traffic to route to this variant. Weights across all variants must sum to 100. Constraints: o min: 1 o max: 100 variantConfiguration -&gt; (structure) [required] The configuration for this variant, including the configura- tion bundle or target reference. configurationBundle -&gt; (structure) A reference to a configuration bundle version to use for this variant. bundleArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the configuration bundle. Constraints: o pattern: arn:aws[a-zA-Z-]*:bedrock-agent- core:[a-z0-9-]+:[0-9]{12}:configuration-bun- dle/[a-zA-Z][a-zA-Z0-9-_]{0,99}-[a-zA-Z0-9]{10} bundleVersion -&gt; (string) [required] The version of the configuration bundle. Constraints: o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12} target -&gt; (structure) A reference to a gateway target to route traffic to for this variant. name -&gt; (string) [required] The name of the gateway target. Constraints: o min: 1 o max: 100 Shorthand Syntax: name=string,weight=integer,variantConfiguration={configurationBundle={bundleArn=string,bundleVersion=string},target={name=string}} ... JSON Syntax: [ { "name": "string", "weight": integer, "variantConfiguration": { "configurationBundle": { "bundleArn": "string", "bundleVersion": "string" }, "target": { "name": "string" } } } ... ]</param>
+    /// <param name="EvaluationConfig">The evaluation configuration specifying which online evaluation con- figurations to use for measuring variant performance. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: onlineEvaluationConfigArn, perVariantOn- lineEvaluationConfig. onlineEvaluationConfigArn -&gt; (string) The Amazon Resource Name (ARN) of a single online evaluation configuration to use for both variants. Constraints: o pattern: arn:aws[a-zA-Z-]*:bedrock-agent- core:[a-z0-9-]+:[0-9]{12}:online-evaluation-con- fig\/[a-zA-Z][a-zA-Z0-9-_]{0,99}-[a-zA-Z0-9]{10} perVariantOnlineEvaluationConfig -&gt; (list) Per-variant online evaluation configurations, allowing different evaluation settings for each variant. Constraints: o min: 2 o max: 2 (structure) An online evaluation configuration associated with a specific A/B test variant. name -&gt; (string) [required] The name of the variant this evaluation configuration ap- plies to. Constraints: o min: 1 o max: 2 o pattern: (C|T1) onlineEvaluationConfigArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the online evaluation configuration for this variant. Constraints: o pattern: arn:aws[a-zA-Z-]*:bedrock-agent- core:[a-z0-9-]+:[0-9]{12}:online-evaluation-con- fig\/[a-zA-Z][a-zA-Z0-9-_]{0,99}-[a-zA-Z0-9]{10} Shorthand Syntax: onlineEvaluationConfigArn=string,perVariantOnlineEvaluationConfig=[{name=string,onlineEvaluationConfigArn=string},{name=string,onlineEvaluationConfigArn=string}] JSON Syntax: { "onlineEvaluationConfigArn": "string", "perVariantOnlineEvaluationConfig": [ { "name": "string", "onlineEvaluationConfigArn": "string" } ... ] }</param>
+    /// <param name="RoleArn">The IAM role ARN that grants permissions for the A/B test to access gateway and evaluation resources. Constraints: o min: 1 o max: 2048 o pattern: arn:aws(-[^:]+)?:iam::([0-9]{12})?:role/.+</param>
+    public AwsBedrockAgentcoreCreateAbTestOptions(
+        string Name,
+        string GatewayArn,
+        IEnumerable<string> Variants,
+        string EvaluationConfig,
+        string RoleArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(GatewayArn);
+        this.GatewayArn = GatewayArn;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Variants);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Variants));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Variants));
+            }
+
+            Variants = materialized;
+        }
+        this.Variants = Variants;
+        global::System.ArgumentNullException.ThrowIfNull(EvaluationConfig);
+        this.EvaluationConfig = EvaluationConfig;
+        global::System.ArgumentNullException.ThrowIfNull(RoleArn);
+        this.RoleArn = RoleArn;
+    }
+
+    private AwsBedrockAgentcoreCreateAbTestOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsBedrockAgentcoreCreateAbTestOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsBedrockAgentcoreCreateAbTestOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the A/B test. Must be unique within your account. Constraints: o pattern: [a-zA-Z][a-zA-Z0-9_]{0,47}
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the gateway to use for traffic splitting. Constraints: o pattern: arn:aws(|-cn|-us-gov):bedrock-agent- core:[a-z0-9-]{1,20}:[0-9]{12}:gate- way/([0-9a-z][-]?){1,48}-[a-z0-9]{10}
+    /// </summary>
+    [CliOption("--gateway-arn")]
+    public string? GatewayArn { get; private init; }
+
+    /// <summary>
+    /// The list of variants for the A/B test. Must contain exactly two variants: a control (C) and a treatment (T1), each with a configura- tion bundle or target reference and a traffic weight. Constraints: o min: 2 o max: 2 (structure) A variant in an A/B test, representing either the control (C) or treatment (T1) configuration. name -&gt; (string) [required] The name of the variant. Must be C for control or T1 for treatment. Constraints: o min: 1 o max: 2 o pattern: (C|T1) weight -&gt; (integer) [required] The percentage of traffic to route to this variant. Weights across all variants must sum to 100. Constraints: o min: 1 o max: 100 variantConfiguration -&gt; (structure) [required] The configuration for this variant, including the configura- tion bundle or target reference. configurationBundle -&gt; (structure) A reference to a configuration bundle version to use for this variant. bundleArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the configuration bundle. Constraints: o pattern: arn:aws[a-zA-Z-]*:bedrock-agent- core:[a-z0-9-]+:[0-9]{12}:configuration-bun- dle/[a-zA-Z][a-zA-Z0-9-_]{0,99}-[a-zA-Z0-9]{10} bundleVersion -&gt; (string) [required] The version of the configuration bundle. Constraints: o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12} target -&gt; (structure) A reference to a gateway target to route traffic to for this variant. name -&gt; (string) [required] The name of the gateway target. Constraints: o min: 1 o max: 100 Shorthand Syntax: name=string,weight=integer,variantConfiguration={configurationBundle={bundleArn=string,bundleVersion=string},target={name=string}} ... JSON Syntax: [ { "name": "string", "weight": integer, "variantConfiguration": { "configurationBundle": { "bundleArn": "string", "bundleVersion": "string" }, "target": { "name": "string" } } } ... ]
+    /// </summary>
+    [CliOption("--variants", GroupValues = true)]
+    public IEnumerable<string>? Variants { get; private init; }
+
+    /// <summary>
+    /// The evaluation configuration specifying which online evaluation con- figurations to use for measuring variant performance. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: onlineEvaluationConfigArn, perVariantOn- lineEvaluationConfig. onlineEvaluationConfigArn -&gt; (string) The Amazon Resource Name (ARN) of a single online evaluation configuration to use for both variants. Constraints: o pattern: arn:aws[a-zA-Z-]*:bedrock-agent- core:[a-z0-9-]+:[0-9]{12}:online-evaluation-con- fig\/[a-zA-Z][a-zA-Z0-9-_]{0,99}-[a-zA-Z0-9]{10} perVariantOnlineEvaluationConfig -&gt; (list) Per-variant online evaluation configurations, allowing different evaluation settings for each variant. Constraints: o min: 2 o max: 2 (structure) An online evaluation configuration associated with a specific A/B test variant. name -&gt; (string) [required] The name of the variant this evaluation configuration ap- plies to. Constraints: o min: 1 o max: 2 o pattern: (C|T1) onlineEvaluationConfigArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the online evaluation configuration for this variant. Constraints: o pattern: arn:aws[a-zA-Z-]*:bedrock-agent- core:[a-z0-9-]+:[0-9]{12}:online-evaluation-con- fig\/[a-zA-Z][a-zA-Z0-9-_]{0,99}-[a-zA-Z0-9]{10} Shorthand Syntax: onlineEvaluationConfigArn=string,perVariantOnlineEvaluationConfig=[{name=string,onlineEvaluationConfigArn=string},{name=string,onlineEvaluationConfigArn=string}] JSON Syntax: { "onlineEvaluationConfigArn": "string", "perVariantOnlineEvaluationConfig": [ { "name": "string", "onlineEvaluationConfigArn": "string" } ... ] }
+    /// </summary>
+    [CliOption("--evaluation-config")]
+    public string? EvaluationConfig { get; private init; }
+
+    /// <summary>
+    /// The IAM role ARN that grants permissions for the A/B test to access gateway and evaluation resources. Constraints: o min: 1 o max: 2048 o pattern: arn:aws(-[^:]+)?:iam::([0-9]{12})?:role/.+
+    /// </summary>
+    [CliOption("--role-arn")]
+    public string? RoleArn { get; private init; }
 
     /// <summary>
     /// The description of the A/B test. Constraints: o min: 1 o max: 200
@@ -32,25 +120,16 @@ public record AwsBedrockAgentcoreCreateAbTestOptions : AwsOptions
     [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CliOption("--gateway-arn")]
-    public string? GatewayArn { get; set; }
-
-    [CliOption("--variants", GroupValues = true)]
-    public IEnumerable<string>? Variants { get; set; }
-
     /// <summary>
     /// Optional filter to restrict which gateway target paths are included in the A/B test. targetPaths -&gt; (list) A list of target path patterns to include in the A/B test. Constraints: o min: 1 o max: 1 (string) Constraints: o min: 1 o max: 500 Shorthand Syntax: targetPaths=string,string JSON Syntax: { "targetPaths": ["string", ...] }
     /// </summary>
     [CliOption("--gateway-filter")]
     public string? GatewayFilter { get; set; }
 
-    [CliOption("--evaluation-config")]
-    public string? EvaluationConfig { get; set; }
-
-    [CliOption("--role-arn")]
-    public string? RoleArn { get; set; }
-
-    [CliFlag("--enable-on-create")]
+    /// <summary>
+    /// Whether to enable the A/B test immediately upon creation. If true, traffic splitting begins automatically.
+    /// </summary>
+    [CliFlag("--enable-on-create", NegatedName = "--no-enable-on-create")]
     public bool? EnableOnCreate { get; set; }
 
     /// <summary>
@@ -71,5 +150,22 @@ public record AwsBedrockAgentcoreCreateAbTestOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

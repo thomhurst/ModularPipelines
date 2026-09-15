@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,19 +21,62 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("apigatewayv2", "update-product-rest-endpoint-page")]
-public record AwsApigatewayv2UpdateProductRestEndpointPageOptions : AwsOptions
+public record AwsApigatewayv2UpdateProductRestEndpointPageOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates a product REST endpoint page. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="PortalProductId">The portal product identifier.</param>
+    /// <param name="ProductRestEndpointPageId">The product REST endpoint identifier.</param>
+    public AwsApigatewayv2UpdateProductRestEndpointPageOptions(
+        string PortalProductId,
+        string ProductRestEndpointPageId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PortalProductId);
+        this.PortalProductId = PortalProductId;
+        global::System.ArgumentNullException.ThrowIfNull(ProductRestEndpointPageId);
+        this.ProductRestEndpointPageId = ProductRestEndpointPageId;
+    }
+
+    private AwsApigatewayv2UpdateProductRestEndpointPageOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsApigatewayv2UpdateProductRestEndpointPageOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsApigatewayv2UpdateProductRestEndpointPageOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The portal product identifier.
+    /// </summary>
+    [CliOption("--portal-product-id")]
+    public string? PortalProductId { get; private init; }
+
+    /// <summary>
+    /// The product REST endpoint identifier.
+    /// </summary>
+    [CliOption("--product-rest-endpoint-page-id")]
+    public string? ProductRestEndpointPageId { get; private init; }
+
     /// <summary>
     /// The display content. None -&gt; (structure) If your product REST endpoint contains no overrides, the none object is returned. Overrides -&gt; (structure) The overrides for endpoint display content. Body -&gt; (string) By default, this is the documentation of your REST API from API Gateway. You can provide custom documentation to override this value. Constraints: o min: 1 o max: 32768 Endpoint -&gt; (string) The URL for your REST API. By default, API Gateway uses the default execute API endpoint. You can provide a custom domain to override this value. Constraints: o min: 1 o max: 1024 OperationName -&gt; (string) The operation name of the product REST endpoint. Constraints: o min: 1 o max: 255 Shorthand Syntax: None={},Overrides={Body=string,Endpoint=string,OperationName=string} JSON Syntax: { "None": { }, "Overrides": { "Body": "string", "Endpoint": "string", "OperationName": "string" } }
     /// </summary>
     [CliOption("--display-content")]
     public string? DisplayContent { get; set; }
-
-    [CliOption("--portal-product-id")]
-    public string? PortalProductId { get; set; }
-
-    [CliOption("--product-rest-endpoint-page-id")]
-    public string? ProductRestEndpointPageId { get; set; }
 
     /// <summary>
     /// The try it state of a product REST endpoint page. Possible values: o ENABLED o DISABLED
@@ -45,5 +89,22 @@ public record AwsApigatewayv2UpdateProductRestEndpointPageOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

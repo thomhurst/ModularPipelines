@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,30 +21,118 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sso-admin", "create-account-assignment")]
-public record AwsSsoAdminCreateAccountAssignmentOptions : AwsOptions
+public record AwsSsoAdminCreateAccountAssignmentOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Assigns access to a principal for a specified Amazon Web Services ac- count using a specified permission set. NOTE: The term principal here refers to a user or group that is defined in IAM Identity Center. NOTE: As part of a successful CreateAccountAssignment call, the specified permission set will automatically be provisioned to the account in the form of an IAM policy. That policy is attached to the IAM role created in IAM Identity Center. If the permission set is subse- quently updated, the c...
+    /// </summary>
+    /// <param name="InstanceArn">The ARN of the IAM Identity Center instance under which the opera- tion will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference . Constraints: o min: 10 o max: 1224 o pattern: arn:aws(-[a-z]{1,5}){0,3}:sso:::in- stance/(sso)?ins-[a-zA-Z0-9-.]{16}</param>
+    /// <param name="TargetId">TargetID is an Amazon Web Services account identifier, (For example, 123456789012). Constraints: o min: 12 o max: 12 o pattern: \d{12}</param>
+    /// <param name="TargetType">The entity type for which the assignment will be created. Possible values: o AWS_ACCOUNT</param>
+    /// <param name="PermissionSetArn">The ARN of the permission set that the admin wants to grant the principal access to. Constraints: o min: 10 o max: 1224 o pattern: arn:aws(-[a-z]{1,5}){0,3}:sso:::permission- Set/(sso)?ins-[a-zA-Z0-9-.]{16}/ps-[a-zA-Z0-9-./]{16}</param>
+    /// <param name="PrincipalType">The entity type for which the assignment will be created. Possible values: o USER o GROUP</param>
+    /// <param name="PrincipalId">An identifier for an object in IAM Identity Center, such as a user or group. PrincipalIds are GUIDs (For example, f81d4fae-7dec-11d0-a765-00a0c91e6bf6). For more information about PrincipalIds in IAM Identity Center, see the IAM Identity Center Identity Store API Reference . Constraints: o min: 1 o max: 47 o pattern: ([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12}</param>
+    public AwsSsoAdminCreateAccountAssignmentOptions(
+        string InstanceArn,
+        string TargetId,
+        AwsSsoAdminCreateAccountAssignmentTargetType TargetType,
+        string PermissionSetArn,
+        AwsSsoAdminCreateAccountAssignmentPrincipalType PrincipalType,
+        string PrincipalId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(InstanceArn);
+        this.InstanceArn = InstanceArn;
+        global::System.ArgumentNullException.ThrowIfNull(TargetId);
+        this.TargetId = TargetId;
+        global::System.ArgumentNullException.ThrowIfNull(TargetType);
+        this.TargetType = TargetType;
+        global::System.ArgumentNullException.ThrowIfNull(PermissionSetArn);
+        this.PermissionSetArn = PermissionSetArn;
+        global::System.ArgumentNullException.ThrowIfNull(PrincipalType);
+        this.PrincipalType = PrincipalType;
+        global::System.ArgumentNullException.ThrowIfNull(PrincipalId);
+        this.PrincipalId = PrincipalId;
+    }
+
+    private AwsSsoAdminCreateAccountAssignmentOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSsoAdminCreateAccountAssignmentOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSsoAdminCreateAccountAssignmentOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ARN of the IAM Identity Center instance under which the opera- tion will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference . Constraints: o min: 10 o max: 1224 o pattern: arn:aws(-[a-z]{1,5}){0,3}:sso:::in- stance/(sso)?ins-[a-zA-Z0-9-.]{16}
+    /// </summary>
     [CliOption("--instance-arn")]
-    public string? InstanceArn { get; set; }
+    public string? InstanceArn { get; private init; }
 
+    /// <summary>
+    /// TargetID is an Amazon Web Services account identifier, (For example, 123456789012). Constraints: o min: 12 o max: 12 o pattern: \d{12}
+    /// </summary>
     [CliOption("--target-id")]
-    public string? TargetId { get; set; }
+    public string? TargetId { get; private init; }
 
+    /// <summary>
+    /// The entity type for which the assignment will be created. Possible values: o AWS_ACCOUNT
+    /// </summary>
     [CliOption("--target-type")]
-    public string? TargetType { get; set; }
+    public AwsSsoAdminCreateAccountAssignmentTargetType? TargetType { get; private init; }
 
+    /// <summary>
+    /// The ARN of the permission set that the admin wants to grant the principal access to. Constraints: o min: 10 o max: 1224 o pattern: arn:aws(-[a-z]{1,5}){0,3}:sso:::permission- Set/(sso)?ins-[a-zA-Z0-9-.]{16}/ps-[a-zA-Z0-9-./]{16}
+    /// </summary>
     [CliOption("--permission-set-arn")]
-    public string? PermissionSetArn { get; set; }
+    public string? PermissionSetArn { get; private init; }
 
+    /// <summary>
+    /// The entity type for which the assignment will be created. Possible values: o USER o GROUP
+    /// </summary>
     [CliOption("--principal-type")]
-    public string? PrincipalType { get; set; }
+    public AwsSsoAdminCreateAccountAssignmentPrincipalType? PrincipalType { get; private init; }
 
+    /// <summary>
+    /// An identifier for an object in IAM Identity Center, such as a user or group. PrincipalIds are GUIDs (For example, f81d4fae-7dec-11d0-a765-00a0c91e6bf6). For more information about PrincipalIds in IAM Identity Center, see the IAM Identity Center Identity Store API Reference . Constraints: o min: 1 o max: 47 o pattern: ([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12}
+    /// </summary>
     [CliOption("--principal-id")]
-    public string? PrincipalId { get; set; }
+    public string? PrincipalId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --storagemode.
+/// Allowed values for --storage-mode.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsKafkaUpdateStorageStorageMode
 {
     [EnumValue("LOCAL")]
-    Local = 1,
+    Local,
 
     [EnumValue("TIERED")]
-    Tiered = 2
+    Tiered
 }

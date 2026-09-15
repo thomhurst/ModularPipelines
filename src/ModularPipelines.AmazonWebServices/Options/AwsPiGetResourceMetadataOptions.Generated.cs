@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +21,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("pi", "get-resource-metadata")]
-public record AwsPiGetResourceMetadataOptions : AwsOptions
+public record AwsPiGetResourceMetadataOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--service-type")]
-    public string? ServiceType { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Retrieve the metadata for different features. For example, the metadata might indicate that a feature is turned on or off on a specific DB in- stance. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ServiceType">The Amazon Web Services service for which Performance Insights re- turns metrics. Possible values: o RDS o DOCDB</param>
+    /// <param name="Identifier">An immutable identifier for a data source that is unique for an Ama- zon Web Services Region. Performance Insights gathers metrics from this data source. To use a DB instance as a data source, specify its DbiResourceId value. For example, specify db-ABCDE- FGHIJKLMNOPQRSTU1VW2X . Constraints: o min: 0 o max: 256 o pattern: ^[a-zA-Z0-9-]+$</param>
+    public AwsPiGetResourceMetadataOptions(
+        AwsPiGetResourceMetadataServiceType ServiceType,
+        string Identifier
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ServiceType);
+        this.ServiceType = ServiceType;
+        global::System.ArgumentNullException.ThrowIfNull(Identifier);
+        this.Identifier = Identifier;
+    }
+
+    private AwsPiGetResourceMetadataOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsPiGetResourceMetadataOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsPiGetResourceMetadataOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Web Services service for which Performance Insights re- turns metrics. Possible values: o RDS o DOCDB
+    /// </summary>
+    [CliOption("--service-type")]
+    public AwsPiGetResourceMetadataServiceType? ServiceType { get; private init; }
+
+    /// <summary>
+    /// An immutable identifier for a data source that is unique for an Ama- zon Web Services Region. Performance Insights gathers metrics from this data source. To use a DB instance as a data source, specify its DbiResourceId value. For example, specify db-ABCDE- FGHIJKLMNOPQRSTU1VW2X . Constraints: o min: 0 o max: 256 o pattern: ^[a-zA-Z0-9-]+$
+    /// </summary>
     [CliOption("--identifier")]
-    public string? Identifier { get; set; }
+    public string? Identifier { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

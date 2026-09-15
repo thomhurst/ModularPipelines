@@ -21,16 +21,55 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("location", "get-map-sprites")]
 public record AwsLocationGetMapSpritesOptions : AwsOptions
 {
-    [CliOption("--map-name")]
-    public string? MapName { get; set; }
+    /// <summary>
+    /// WARNING: This operation is no longer current and may be deprecated in the fu- ture. We recommend upgrading to ` GetSprites https://docs.aws.amazon.com/location/latest/APIReference/API_geomaps_GetSprites.html`__ unless you require Grab data. o GetMapSprites is part of a previous Amazon Location Service Maps API (version 1) which has been superseded by a more intuitive, powerful, and complete API (version 2). o The version 2 GetSprites operation gives a better user experience and is compatible wit...
+    /// </summary>
+    /// <param name="MapName">The map resource associated with the sprite le. Constraints: o min: 1 o max: 100 o pattern: [-._\w]+</param>
+    /// <param name="FileName">The name of the sprite le. Use the following le names for the sprite sheet: o sprites.png o sprites@2x.png for high pixel density displays For the JSON document containing image offsets. Use the following le names: o sprites.json o sprites@2x.json for high pixel density displays Constraints: o pattern: sprites(@2x)?\.(png|json)</param>
+    /// <param name="Outfile">The &lt;outfile&gt; operand.</param>
+    public AwsLocationGetMapSpritesOptions(
+        string MapName,
+        string FileName,
+        string Outfile
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(MapName);
+        this.MapName = MapName;
+        global::System.ArgumentNullException.ThrowIfNull(FileName);
+        this.FileName = FileName;
+        global::System.ArgumentNullException.ThrowIfNull(Outfile);
+        this.Outfile = Outfile;
+    }
 
+    public void Deconstruct(out string MapName, out string FileName, out string Outfile)
+    {
+        MapName = this.MapName;
+        FileName = this.FileName;
+        Outfile = this.Outfile;
+    }
+
+    /// <summary>
+    /// The map resource associated with the sprite le. Constraints: o min: 1 o max: 100 o pattern: [-._\w]+
+    /// </summary>
+    [CliOption("--map-name")]
+    public string MapName { get; private init; }
+
+    /// <summary>
+    /// The name of the sprite le. Use the following le names for the sprite sheet: o sprites.png o sprites@2x.png for high pixel density displays For the JSON document containing image offsets. Use the following le names: o sprites.json o sprites@2x.json for high pixel density displays Constraints: o pattern: sprites(@2x)?\.(png|json)
+    /// </summary>
     [CliOption("--file-name")]
-    public string? FileName { get; set; }
+    public string FileName { get; private init; }
 
     /// <summary>
     /// The optional API key to authorize the request. Constraints: o min: 0 o max: 1000 outfile (string) [required] Filename where the content will be saved
     /// </summary>
     [CliOption("--key")]
     public string? Key { get; set; }
+
+    /// <summary>
+    /// The &lt;outfile&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string Outfile { get; private init; }
 
 }

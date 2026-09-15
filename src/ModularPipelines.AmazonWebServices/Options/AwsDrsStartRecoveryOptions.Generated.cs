@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,12 +21,62 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("drs", "start-recovery")]
-public record AwsDrsStartRecoveryOptions : AwsOptions
+public record AwsDrsStartRecoveryOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--source-servers", GroupValues = true)]
-    public IEnumerable<string>? SourceServers { get; set; }
+    private readonly bool _requiresAlternateInput;
 
-    [CliFlag("--is-drill")]
+    /// <summary>
+    /// Launches Recovery Instances for the specified Source Servers. For each Source Server you may choose a point in time snapshot to launch from, or use an on demand snapshot. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="SourceServers">The Source Servers that we want to start a Recovery Job for. Constraints: o min: 1 o max: 200 (structure) An object representing the Source Server to recover. sourceServerID -&gt; (string) [required] The ID of the Source Server you want to recover. Constraints: o min: 19 o max: 19 o pattern: s-[0-9a-zA-Z]{17} recoverySnapshotID -&gt; (string) The ID of a Recovery Snapshot we want to recover from. Omit this field to launch from the latest data by taking an on-de- mand snapshot. Constraints: o min: 21 o max: 21 o pattern: pit-[0-9a-zA-Z]{17} Shorthand Syntax: sourceServerID=string,recoverySnapshotID=string ... JSON Syntax: [ { "sourceServerID": "string", "recoverySnapshotID": "string" } ... ]</param>
+    public AwsDrsStartRecoveryOptions(
+        IEnumerable<string> SourceServers
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(SourceServers);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(SourceServers));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(SourceServers));
+            }
+
+            SourceServers = materialized;
+        }
+        this.SourceServers = SourceServers;
+    }
+
+    private AwsDrsStartRecoveryOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDrsStartRecoveryOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDrsStartRecoveryOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Source Servers that we want to start a Recovery Job for. Constraints: o min: 1 o max: 200 (structure) An object representing the Source Server to recover. sourceServerID -&gt; (string) [required] The ID of the Source Server you want to recover. Constraints: o min: 19 o max: 19 o pattern: s-[0-9a-zA-Z]{17} recoverySnapshotID -&gt; (string) The ID of a Recovery Snapshot we want to recover from. Omit this field to launch from the latest data by taking an on-de- mand snapshot. Constraints: o min: 21 o max: 21 o pattern: pit-[0-9a-zA-Z]{17} Shorthand Syntax: sourceServerID=string,recoverySnapshotID=string ... JSON Syntax: [ { "sourceServerID": "string", "recoverySnapshotID": "string" } ... ]
+    /// </summary>
+    [CliOption("--source-servers", GroupValues = true)]
+    public IEnumerable<string>? SourceServers { get; private init; }
+
+    /// <summary>
+    /// Whether this Source Server Recovery operation is a drill or not.
+    /// </summary>
+    [CliFlag("--is-drill", NegatedName = "--no-is-drill")]
     public bool? IsDrill { get; set; }
 
     /// <summary>
@@ -39,5 +90,22 @@ public record AwsDrsStartRecoveryOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

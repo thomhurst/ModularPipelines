@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,89 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("globalaccelerator", "remove-custom-routing-endpoints")]
-public record AwsGlobalacceleratorRemoveCustomRoutingEndpointsOptions : AwsOptions
+public record AwsGlobalacceleratorRemoveCustomRoutingEndpointsOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--endpoint-ids", GroupValues = true)]
-    public IEnumerable<string>? EndpointIds { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Remove endpoints from a custom routing accelerator. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="EndpointIds">The IDs for the endpoints. For custom routing accelerators, endpoint IDs are the virtual private cloud (VPC) subnet IDs. (string) Constraints: o max: 255 Syntax: "string" "string" ...</param>
+    /// <param name="EndpointGroupArn">The Amazon Resource Name (ARN) of the endpoint group to remove end- points from. Constraints: o max: 255</param>
+    public AwsGlobalacceleratorRemoveCustomRoutingEndpointsOptions(
+        IEnumerable<string> EndpointIds,
+        string EndpointGroupArn
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(EndpointIds);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(EndpointIds));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(EndpointIds));
+            }
+
+            EndpointIds = materialized;
+        }
+        this.EndpointIds = EndpointIds;
+        global::System.ArgumentNullException.ThrowIfNull(EndpointGroupArn);
+        this.EndpointGroupArn = EndpointGroupArn;
+    }
+
+    private AwsGlobalacceleratorRemoveCustomRoutingEndpointsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsGlobalacceleratorRemoveCustomRoutingEndpointsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsGlobalacceleratorRemoveCustomRoutingEndpointsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The IDs for the endpoints. For custom routing accelerators, endpoint IDs are the virtual private cloud (VPC) subnet IDs. (string) Constraints: o max: 255 Syntax: "string" "string" ...
+    /// </summary>
+    [CliOption("--endpoint-ids", GroupValues = true)]
+    public IEnumerable<string>? EndpointIds { get; private init; }
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the endpoint group to remove end- points from. Constraints: o max: 255
+    /// </summary>
     [CliOption("--endpoint-group-arn")]
-    public string? EndpointGroupArn { get; set; }
+    public string? EndpointGroupArn { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -11,17 +11,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --confidencethreshold.
+/// Allowed values for --confidence-threshold.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsRoute53globalresolverUpdateFirewallRuleConfidenceThreshold
 {
+    [EnumValue("HIGH")]
+    High,
+
     [EnumValue("LOW")]
-    Low = 1,
+    Low,
 
     [EnumValue("MEDIUM")]
-    Medium = 2,
-
-    [EnumValue("HIGH")]
-    High = 3
+    Medium
 }

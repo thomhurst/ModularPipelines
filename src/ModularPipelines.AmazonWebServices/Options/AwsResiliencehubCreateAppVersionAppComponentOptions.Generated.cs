@@ -12,6 +12,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -21,16 +22,72 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("resiliencehub", "create-app-version-app-component")]
-public record AwsResiliencehubCreateAppVersionAppComponentOptions : AwsOptions
+public record AwsResiliencehubCreateAppVersionAppComponentOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a new Application Component in the Resilience Hub application. NOTE: This API updates the Resilience Hub application draft version. To use this Application Component for running assessments, you must publish the Resilience Hub application using the PublishAppVersion API. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="AppArn">Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition :resiliencehub:region :account :app/app-id . For more information about ARNs, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference guide. Constraints: o pattern: ^arn:(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:([a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-[0-9]):[0-9]{12}:[A-Za-z0-9/][A-Za-z0-9:_/+.-]{0,1023}$</param>
+    /// <param name="Name">Name of the Application Component. Constraints: o min: 1 o max: 255</param>
+    /// <param name="Type">Type of Application Component. For more information about the types of Application Component, see Grouping resources in an AppComponent . Constraints: o min: 1 o max: 255</param>
+    public AwsResiliencehubCreateAppVersionAppComponentOptions(
+        string AppArn,
+        string Name,
+        string Type
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AppArn);
+        this.AppArn = AppArn;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(Type);
+        this.Type = Type;
+    }
+
+    private AwsResiliencehubCreateAppVersionAppComponentOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsResiliencehubCreateAppVersionAppComponentOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsResiliencehubCreateAppVersionAppComponentOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition :resiliencehub:region :account :app/app-id . For more information about ARNs, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference guide. Constraints: o pattern: ^arn:(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:([a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-[0-9]):[0-9]{12}:[A-Za-z0-9/][A-Za-z0-9:_/+.-]{0,1023}$
+    /// </summary>
+    [CliOption("--app-arn")]
+    public string? AppArn { get; private init; }
+
+    /// <summary>
+    /// Name of the Application Component. Constraints: o min: 1 o max: 255
+    /// </summary>
+    [CliOption("--name")]
+    public string? Name { get; private init; }
+
+    /// <summary>
+    /// Type of Application Component. For more information about the types of Application Component, see Grouping resources in an AppComponent . Constraints: o min: 1 o max: 255
+    /// </summary>
+    [CliOption("--type")]
+    public string? Type { get; private init; }
+
     /// <summary>
     /// Currently, there is no supported additional information for Applica- tion Components. key -&gt; (string) Constraints: o pattern: ^\S{1,128}$ value -&gt; (list) Constraints: o min: 1 o max: 10 (string) Constraints: o min: 1 o max: 1024 Shorthand Syntax: KeyName1=string,string,KeyName2=string,string JSON Syntax: {"string": ["string", ...] ...}
     /// </summary>
     [CliOption("--additional-info", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? AdditionalInfo { get; set; }
-
-    [CliOption("--app-arn")]
-    public string? AppArn { get; set; }
 
     /// <summary>
     /// Used for an idempotency token. A client token is a unique, case-sen- sitive string of up to 64 ASCII characters. You should not reuse the same client token for other API requests. Constraints: o min: 1 o max: 63 o pattern: ^[A-Za-z0-9_.-]{0,63}$
@@ -45,16 +102,27 @@ public record AwsResiliencehubCreateAppVersionAppComponentOptions : AwsOptions
     [CliOption("--id")]
     public string? Id { get; set; }
 
-    [CliOption("--name")]
-    public string? Name { get; set; }
-
-    [CliOption("--type")]
-    public string? Type { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

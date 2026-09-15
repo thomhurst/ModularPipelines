@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,89 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bedrock", "tag-resource")]
-public record AwsBedrockTagResourceOptions : AwsOptions
+public record AwsBedrockTagResourceOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--resource-arn")]
-    public string? ResourceArn { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Associate tags with a resource. For more information, see Tagging re- sources in the Amazon Bedrock User Guide . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the resource to tag. Constraints: o min: 20 o max: 1011 o pattern: .*(^[a-zA-Z0-9][a-zA-Z0-9\-]*$)|(^arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:cus- tom-model/(im- ported)/[a-z0-9]{12}$)|(^arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:([0-9]{12}|)((:(fine-tun- ing-job|model-customization-job|cus- tom-model)/[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([a-z0-9-]{1,63}[.]){0,2}[a-z0-9-]{1,63}([:][a-z0-9-]{1,63}){0,2}(/[a-z0-9]{12})$)|(:guardrail/[a-z0-9]+$)|(:au- tomated-reasoning-policy/[a-zA-Z0-9]+(:[a-zA-Z0-9]+)?$)|(:(infer- ence-profile|application-inference-pro- file)/[a-zA-Z0-9-:.]+$)|(:(provisioned-model|model-invoca- tion-job|model-evaluation-job|evaluation-job|model-import-job|im- ported-model|async-invoke|provisioned-model-v2|provi- sioned-model-reservation|prompt-router|custom-model-deploy- ment)/[a-z0-9]{12}$))).*</param>
+    /// <param name="Tags">Tags to associate with the resource. Constraints: o min: 0 o max: 200 (structure) Definition of the key/value pair for a tag. key -&gt; (string) [required] Key for the tag. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9\s._:/=+@-]* value -&gt; (string) [required] Value for the tag. Constraints: o min: 0 o max: 256 o pattern: [a-zA-Z0-9\s._:/=+@-]* Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]</param>
+    public AwsBedrockTagResourceOptions(
+        string ResourceArn,
+        IEnumerable<string> Tags
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ResourceArn);
+        this.ResourceArn = ResourceArn;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Tags);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Tags));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Tags));
+            }
+
+            Tags = materialized;
+        }
+        this.Tags = Tags;
+    }
+
+    private AwsBedrockTagResourceOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsBedrockTagResourceOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsBedrockTagResourceOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the resource to tag. Constraints: o min: 20 o max: 1011 o pattern: .*(^[a-zA-Z0-9][a-zA-Z0-9\-]*$)|(^arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:cus- tom-model/(im- ported)/[a-z0-9]{12}$)|(^arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:([0-9]{12}|)((:(fine-tun- ing-job|model-customization-job|cus- tom-model)/[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([a-z0-9-]{1,63}[.]){0,2}[a-z0-9-]{1,63}([:][a-z0-9-]{1,63}){0,2}(/[a-z0-9]{12})$)|(:guardrail/[a-z0-9]+$)|(:au- tomated-reasoning-policy/[a-zA-Z0-9]+(:[a-zA-Z0-9]+)?$)|(:(infer- ence-profile|application-inference-pro- file)/[a-zA-Z0-9-:.]+$)|(:(provisioned-model|model-invoca- tion-job|model-evaluation-job|evaluation-job|model-import-job|im- ported-model|async-invoke|provisioned-model-v2|provi- sioned-model-reservation|prompt-router|custom-model-deploy- ment)/[a-z0-9]{12}$))).*
+    /// </summary>
+    [CliOption("--resource-arn")]
+    public string? ResourceArn { get; private init; }
+
+    /// <summary>
+    /// Tags to associate with the resource. Constraints: o min: 0 o max: 200 (structure) Definition of the key/value pair for a tag. key -&gt; (string) [required] Key for the tag. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9\s._:/=+@-]* value -&gt; (string) [required] Value for the tag. Constraints: o min: 0 o max: 256 o pattern: [a-zA-Z0-9\s._:/=+@-]* Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
+    /// </summary>
     [CliOption("--tags", GroupValues = true)]
-    public IEnumerable<string>? Tags { get; set; }
+    public IEnumerable<string>? Tags { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

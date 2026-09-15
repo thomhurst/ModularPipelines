@@ -11,6 +11,8 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +22,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cognito-idp", "initiate-auth")]
-public record AwsCognitoIdpInitiateAuthOptions : AwsOptions
+public record AwsCognitoIdpInitiateAuthOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Declares an authentication flow and initiates sign-in for a user in the Amazon Cognito user directory. Amazon Cognito might respond with an ad- ditional challenge or an AuthenticationResult that contains the outcome of a successful authentication. You can't sign in a user with a feder- ated IdP with InitiateAuth . For more information, see Authentication . NOTE: Amazon Cognito doesn't evaluate Identity and Access Management (IAM) policies in requests for this API operation. For this operation, y...
+    /// </summary>
+    /// <param name="AuthFlow">The authentication flow that you want to initiate. Each AuthFlow has linked AuthParameters that you must submit. The following are some example flows. USER_AUTH The entry point for choice-based authentication with passwords, one-time passwords, and WebAuthn authenticators. Request a preferred authentication type or review available authentication types. From the offered authentication types, select one in a challenge response and then authenticate with that method in an additional challenge response. To activate this setting, your user pool must be in the Essentials tier or higher. USER_SRP_AUTH Username-password authentication with the Secure Remote Password (SRP) protocol. For more information, see Use SRP password verifica- tion in custom authentication flow . REFRESH_TOKEN_AUTH and REFRESH_TOKEN Receive new ID and access tokens when you pass a REFRESH_TOKEN para- meter with a valid refresh token as the value. For more information, see Using the refresh token . CUSTOM_AUTH Custom authentication with Lambda triggers. For more information, see Custom authentication challenge Lambda triggers . USER_PASSWORD_AUTH Client-side username-password authentication with the password sent directly in the request. For more information about client-side and server-side authentication, see SDK authorization models . ADMIN_USER_PASSWORD_AUTH is a flow type of AdminInitiateAuth and isn't valid for InitiateAuth. ADMIN_NO_SRP_AUTH is a legacy server-side username-password flow and isn't valid for Initi- ateAuth. Possible values: o USER_SRP_AUTH o REFRESH_TOKEN_AUTH o REFRESH_TOKEN o CUSTOM_AUTH o ADMIN_NO_SRP_AUTH o USER_PASSWORD_AUTH o ADMIN_USER_PASSWORD_AUTH o USER_AUTH</param>
+    /// <param name="ClientId">The ID of the app client that your user wants to sign in to. Constraints: o min: 1 o max: 128 o pattern: [\w+]+</param>
+    public AwsCognitoIdpInitiateAuthOptions(
+        AwsCognitoIdpInitiateAuthAuthFlow AuthFlow,
+        string ClientId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AuthFlow);
+        this.AuthFlow = AuthFlow;
+        global::System.ArgumentNullException.ThrowIfNull(ClientId);
+        this.ClientId = ClientId;
+    }
+
+    private AwsCognitoIdpInitiateAuthOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCognitoIdpInitiateAuthOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCognitoIdpInitiateAuthOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The authentication flow that you want to initiate. Each AuthFlow has linked AuthParameters that you must submit. The following are some example flows. USER_AUTH The entry point for choice-based authentication with passwords, one-time passwords, and WebAuthn authenticators. Request a preferred authentication type or review available authentication types. From the offered authentication types, select one in a challenge response and then authenticate with that method in an additional challenge response. To activate this setting, your user pool must be in the Essentials tier or higher. USER_SRP_AUTH Username-password authentication with the Secure Remote Password (SRP) protocol. For more information, see Use SRP password verifica- tion in custom authentication flow . REFRESH_TOKEN_AUTH and REFRESH_TOKEN Receive new ID and access tokens when you pass a REFRESH_TOKEN para- meter with a valid refresh token as the value. For more information, see Using the refresh token . CUSTOM_AUTH Custom authentication with Lambda triggers. For more information, see Custom authentication challenge Lambda triggers . USER_PASSWORD_AUTH Client-side username-password authentication with the password sent directly in the request. For more information about client-side and server-side authentication, see SDK authorization models . ADMIN_USER_PASSWORD_AUTH is a flow type of AdminInitiateAuth and isn't valid for InitiateAuth. ADMIN_NO_SRP_AUTH is a legacy server-side username-password flow and isn't valid for Initi- ateAuth. Possible values: o USER_SRP_AUTH o REFRESH_TOKEN_AUTH o REFRESH_TOKEN o CUSTOM_AUTH o ADMIN_NO_SRP_AUTH o USER_PASSWORD_AUTH o ADMIN_USER_PASSWORD_AUTH o USER_AUTH
+    /// </summary>
     [CliOption("--auth-flow")]
-    public string? AuthFlow { get; set; }
+    public AwsCognitoIdpInitiateAuthAuthFlow? AuthFlow { get; private init; }
+
+    /// <summary>
+    /// The ID of the app client that your user wants to sign in to. Constraints: o min: 1 o max: 128 o pattern: [\w+]+
+    /// </summary>
+    [CliOption("--client-id")]
+    public string? ClientId { get; private init; }
 
     /// <summary>
     /// The authentication parameters. These are inputs corresponding to the AuthFlow that you're invoking. The following are some authentication flows and their parameters. Add a SECRET_HASH parameter if your app client has a client secret. Add DEVICE_KEY if you want to bypass multi-factor authentication with a remembered device. USER_AUTH o USERNAME (required) o PREFERRED_CHALLENGE . If you don't provide a value for PRE- FERRED_CHALLENGE , Amazon Cognito responds with the AvailableChal- lenges parameter that specifies the available sign-in methods. USER_SRP_AUTH o USERNAME (required) o SRP_A (required) USER_PASSWORD_AUTH o USERNAME (required) o PASSWORD (required) REFRESH_TOKEN_AUTH/REFRESH_TOKEN o REFRESH_TOKEN (required) CUSTOM_AUTH o USERNAME (required) o ChallengeName: SRP_A (when doing SRP authentication before custom challenges) o SRP_A: (An SRP_A value) (when doing SRP authentication before cus- tom challenges) For more information about SECRET_HASH , see Computing secret hash values . For information about DEVICE_KEY , see Working with user devices in your user pool . key -&gt; (string) Constraints: o min: 0 o max: 131072 value -&gt; (string) Constraints: o min: 0 o max: 131072 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
@@ -36,9 +84,6 @@ public record AwsCognitoIdpInitiateAuthOptions : AwsOptions
     /// </summary>
     [CliOption("--client-metadata", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? ClientMetadata { get; set; }
-
-    [CliOption("--client-id")]
-    public string? ClientId { get; set; }
 
     /// <summary>
     /// Information that supports analytics outcomes with Amazon Pinpoint, including the user's endpoint ID. The endpoint ID is a destination for Amazon Pinpoint push notifications, for example a device identi- fier, email address, or phone number. AnalyticsEndpointId -&gt; (string) The endpoint ID. Information that you want to pass to Amazon Pinpoint about where to send notifications. Constraints: o min: 0 o max: 131072 Shorthand Syntax: AnalyticsEndpointId=string JSON Syntax: { "AnalyticsEndpointId": "string" }
@@ -63,5 +108,22 @@ public record AwsCognitoIdpInitiateAuthOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

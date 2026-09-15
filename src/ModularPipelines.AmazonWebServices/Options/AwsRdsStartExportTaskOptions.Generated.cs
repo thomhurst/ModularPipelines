@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,22 +20,86 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("rds", "start-export-task")]
-public record AwsRdsStartExportTaskOptions : AwsOptions
+public record AwsRdsStartExportTaskOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Starts an export of DB snapshot or DB cluster data to Amazon S3. The provided IAM role must have access to the S3 bucket. You can't export snapshot data from RDS Custom DB instances. For more information, see Supported Regions and DB engines for exporting snap- shots to S3 in Amazon RDS . For more information on exporting DB snapshot data, see Exporting DB snapshot data to Amazon S3 in the Amazon RDS User Guide or Exporting DB cluster snapshot data to Amazon S3 in the Amazon Aurora User Guide . ...
+    /// </summary>
+    /// <param name="ExportTaskIdentifier">A unique identifier for the export task. This ID isn't an identifier for the Amazon S3 bucket where the data is to be exported.</param>
+    /// <param name="SourceArn">The Amazon Resource Name (ARN) of the snapshot or cluster to export to Amazon S3.</param>
+    /// <param name="S3BucketName">The name of the Amazon S3 bucket to export the snapshot or cluster data to.</param>
+    /// <param name="IamRoleArn">The name of the IAM role to use for writing to the Amazon S3 bucket when exporting a snapshot or cluster. In the IAM policy attached to your IAM role, include the following required actions to allow the transfer of files from Amazon RDS or Amazon Aurora to an S3 bucket: o s3:PutObject* o s3:GetObject* o s3:ListBucket o s3:DeleteObject* o s3:GetBucketLocation In the policy, include the resources to identify the S3 bucket and objects in the bucket. The following list of resources shows the Amazon Resource Name (ARN) format for accessing S3: o `` arn:aws:s3:::your-s3-bucket `` System Message: WARNING/2 (&lt;string&gt;:, line 134) Inline literal start-string without end-string. o arn:aws:s3:::*your-s3-bucket* /*</param>
+    /// <param name="KmsKeyId">The ID of the Amazon Web Services KMS key to use to encrypt the data exported to Amazon S3. The Amazon Web Services KMS key identifier is the key ARN, key ID, alias ARN, or alias name for the KMS key. The caller of this operation must be authorized to run the following op- erations. These can be set in the Amazon Web Services KMS key pol- icy: o kms:CreateGrant o kms:DescribeKey</param>
+    public AwsRdsStartExportTaskOptions(
+        string ExportTaskIdentifier,
+        string SourceArn,
+        string S3BucketName,
+        string IamRoleArn,
+        string KmsKeyId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ExportTaskIdentifier);
+        this.ExportTaskIdentifier = ExportTaskIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(SourceArn);
+        this.SourceArn = SourceArn;
+        global::System.ArgumentNullException.ThrowIfNull(S3BucketName);
+        this.S3BucketName = S3BucketName;
+        global::System.ArgumentNullException.ThrowIfNull(IamRoleArn);
+        this.IamRoleArn = IamRoleArn;
+        global::System.ArgumentNullException.ThrowIfNull(KmsKeyId);
+        this.KmsKeyId = KmsKeyId;
+    }
+
+    private AwsRdsStartExportTaskOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRdsStartExportTaskOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRdsStartExportTaskOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A unique identifier for the export task. This ID isn't an identifier for the Amazon S3 bucket where the data is to be exported.
+    /// </summary>
     [CliOption("--export-task-identifier")]
-    public string? ExportTaskIdentifier { get; set; }
+    public string? ExportTaskIdentifier { get; private init; }
 
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the snapshot or cluster to export to Amazon S3.
+    /// </summary>
     [CliOption("--source-arn")]
-    public string? SourceArn { get; set; }
+    public string? SourceArn { get; private init; }
 
+    /// <summary>
+    /// The name of the Amazon S3 bucket to export the snapshot or cluster data to.
+    /// </summary>
     [CliOption("--s3-bucket-name")]
-    public string? S3BucketName { get; set; }
+    public string? S3BucketName { get; private init; }
 
+    /// <summary>
+    /// The name of the IAM role to use for writing to the Amazon S3 bucket when exporting a snapshot or cluster. In the IAM policy attached to your IAM role, include the following required actions to allow the transfer of files from Amazon RDS or Amazon Aurora to an S3 bucket: o s3:PutObject* o s3:GetObject* o s3:ListBucket o s3:DeleteObject* o s3:GetBucketLocation In the policy, include the resources to identify the S3 bucket and objects in the bucket. The following list of resources shows the Amazon Resource Name (ARN) format for accessing S3: o `` arn:aws:s3:::your-s3-bucket `` System Message: WARNING/2 (&lt;string&gt;:, line 134) Inline literal start-string without end-string. o arn:aws:s3:::*your-s3-bucket* /*
+    /// </summary>
     [CliOption("--iam-role-arn")]
-    public string? IamRoleArn { get; set; }
+    public string? IamRoleArn { get; private init; }
 
+    /// <summary>
+    /// The ID of the Amazon Web Services KMS key to use to encrypt the data exported to Amazon S3. The Amazon Web Services KMS key identifier is the key ARN, key ID, alias ARN, or alias name for the KMS key. The caller of this operation must be authorized to run the following op- erations. These can be set in the Amazon Web Services KMS key pol- icy: o kms:CreateGrant o kms:DescribeKey
+    /// </summary>
     [CliOption("--kms-key-id")]
-    public string? KmsKeyId { get; set; }
+    public string? KmsKeyId { get; private init; }
 
     /// <summary>
     /// The Amazon S3 bucket prefix to use as the file name and path of the exported data.
@@ -53,5 +118,22 @@ public record AwsRdsStartExportTaskOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

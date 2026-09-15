@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("s3api", "get-bucket-policy-status")]
-public record AwsS3apiGetBucketPolicyStatusOptions : AwsOptions
+public record AwsS3apiGetBucketPolicyStatusOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// NOTE: This operation is not supported for directory buckets. Retrieves the policy status for an Amazon S3 bucket, indicating whether the bucket is public. In order to use this operation, you must have the s3:GetBucketPolicyStatus permission. For more information about Amazon S3 permissions, see Specifying Permissions in a Policy . For more information about when Amazon S3 considers a bucket public, see The Meaning of "Public" . The following operations are related to GetBucketPolicyStatus : o Us...
+    /// </summary>
+    /// <param name="Bucket">The name of the Amazon S3 bucket whose policy status you want to re- trieve.</param>
+    public AwsS3apiGetBucketPolicyStatusOptions(
+        string Bucket
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Bucket);
+        this.Bucket = Bucket;
+    }
+
+    private AwsS3apiGetBucketPolicyStatusOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsS3apiGetBucketPolicyStatusOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsS3apiGetBucketPolicyStatusOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the Amazon S3 bucket whose policy status you want to re- trieve.
+    /// </summary>
     [CliOption("--bucket")]
-    public string? Bucket { get; set; }
+    public string? Bucket { get; private init; }
 
     /// <summary>
     /// The account ID of the expected bucket owner. If the account ID that you provide does not match the actual owner of the bucket, the re- quest fails with the HTTP status code 403 Forbidden (access denied).
@@ -35,5 +72,22 @@ public record AwsS3apiGetBucketPolicyStatusOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

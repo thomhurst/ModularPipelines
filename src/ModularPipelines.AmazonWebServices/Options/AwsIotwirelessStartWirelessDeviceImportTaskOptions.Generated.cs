@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,10 +22,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iotwireless", "start-wireless-device-import-task")]
-public record AwsIotwirelessStartWirelessDeviceImportTaskOptions : AwsOptions
+public record AwsIotwirelessStartWirelessDeviceImportTaskOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Start import task for provisioning Sidewalk devices in bulk using an S3 CSV file. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DestinationName">The name of the Sidewalk destination that describes the IoT rule to route messages from the devices in the import task that are on- boarded to AWS IoT Wireless. Constraints: o max: 128 o pattern: [a-zA-Z0-9-_]+</param>
+    /// <param name="Sidewalk">The Sidewalk-related parameters for importing wireless devices that need to be provisioned in bulk. DeviceCreationFile -&gt; (string) The CSV file contained in an S3 bucket that's used for adding devices to an import task. Constraints: o max: 1024 Role -&gt; (string) The IAM role that allows AWS IoT Wireless to access the CSV file in the S3 bucket. Constraints: o max: 2048 Positioning -&gt; (structure) The Positioning object of the Sidewalk device. DestinationName -&gt; (string) The location destination name of the Sidewalk device. Constraints: o max: 128 o pattern: [a-zA-Z0-9-_]+ Shorthand Syntax: DeviceCreationFile=string,Role=string,Positioning={DestinationName=string} JSON Syntax: { "DeviceCreationFile": "string", "Role": "string", "Positioning": { "DestinationName": "string" } }</param>
+    public AwsIotwirelessStartWirelessDeviceImportTaskOptions(
+        string DestinationName,
+        string Sidewalk
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DestinationName);
+        this.DestinationName = DestinationName;
+        global::System.ArgumentNullException.ThrowIfNull(Sidewalk);
+        this.Sidewalk = Sidewalk;
+    }
+
+    private AwsIotwirelessStartWirelessDeviceImportTaskOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsIotwirelessStartWirelessDeviceImportTaskOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsIotwirelessStartWirelessDeviceImportTaskOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the Sidewalk destination that describes the IoT rule to route messages from the devices in the import task that are on- boarded to AWS IoT Wireless. Constraints: o max: 128 o pattern: [a-zA-Z0-9-_]+
+    /// </summary>
     [CliOption("--destination-name")]
-    public string? DestinationName { get; set; }
+    public string? DestinationName { get; private init; }
+
+    /// <summary>
+    /// The Sidewalk-related parameters for importing wireless devices that need to be provisioned in bulk. DeviceCreationFile -&gt; (string) The CSV file contained in an S3 bucket that's used for adding devices to an import task. Constraints: o max: 1024 Role -&gt; (string) The IAM role that allows AWS IoT Wireless to access the CSV file in the S3 bucket. Constraints: o max: 2048 Positioning -&gt; (structure) The Positioning object of the Sidewalk device. DestinationName -&gt; (string) The location destination name of the Sidewalk device. Constraints: o max: 128 o pattern: [a-zA-Z0-9-_]+ Shorthand Syntax: DeviceCreationFile=string,Role=string,Positioning={DestinationName=string} JSON Syntax: { "DeviceCreationFile": "string", "Role": "string", "Positioning": { "DestinationName": "string" } }
+    /// </summary>
+    [CliOption("--sidewalk")]
+    public string? Sidewalk { get; private init; }
 
     /// <summary>
     /// Each resource must have a unique client request token. The client token is used to implement idempotency. It ensures that the request completes no more than one time. If you retry a request with the same token and the same parameters, the request will complete suc- cessfully. However, if you try to create a new resource using the same token but different parameters, an HTTP 409 conflict occurs. If you omit this value, AWS SDKs will automatically generate a unique client request. For more information about idempotency, see Ensuring idempotency in Amazon EC2 API requests . Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9-_]+$
@@ -45,13 +92,27 @@ public record AwsIotwirelessStartWirelessDeviceImportTaskOptions : AwsOptions
     [CliOption("--positioning")]
     public AwsIotwirelessStartWirelessDeviceImportTaskPositioning? Positioning { get; set; }
 
-    [CliOption("--sidewalk")]
-    public string? Sidewalk { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

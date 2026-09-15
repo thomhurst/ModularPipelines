@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,65 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("medialive", "start-input-device-maintenance-window")]
-public record AwsMedialiveStartInputDeviceMaintenanceWindowOptions : AwsOptions
+public record AwsMedialiveStartInputDeviceMaintenanceWindowOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Start a maintenance window for the specified input device. Starting a maintenance window will give the device up to two hours to install software. If the device was streaming prior to the maintenance, it will resume streaming when the software is fully installed. Devices automat- ically install updates while they are powered on and their MediaLive channels are stopped. A maintenance window allows you to update a de- vice without having to stop MediaLive channels that use the device. The device m...
+    /// </summary>
+    /// <param name="InputDeviceId"></param>
+    public AwsMedialiveStartInputDeviceMaintenanceWindowOptions(
+        string InputDeviceId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(InputDeviceId);
+        this.InputDeviceId = InputDeviceId;
+    }
+
+    private AwsMedialiveStartInputDeviceMaintenanceWindowOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsMedialiveStartInputDeviceMaintenanceWindowOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsMedialiveStartInputDeviceMaintenanceWindowOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
     [CliOption("--input-device-id")]
-    public string? InputDeviceId { get; set; }
+    public string? InputDeviceId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

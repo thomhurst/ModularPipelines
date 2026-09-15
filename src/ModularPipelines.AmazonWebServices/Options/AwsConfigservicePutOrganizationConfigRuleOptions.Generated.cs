@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("configservice", "put-organization-config-rule")]
-public record AwsConfigservicePutOrganizationConfigRuleOptions : AwsOptions
+public record AwsConfigservicePutOrganizationConfigRuleOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Adds or updates an Config rule for your entire organization to evaluate if your Amazon Web Services resources comply with your desired configu- rations. For information on how many organization Config rules you can have per account, see ` Service Limits https://docs.aws.amazon.com/config/latest/developerguide/configlimits.html`__ in the Config Developer Guide . Only a management account and a delegated administrator can create or update an organization Config rule. When calling this API with a d...
+    /// </summary>
+    /// <param name="OrganizationConfigRuleName">The name that you assign to an organization Config rule. Constraints: o min: 1 o max: 64 o pattern: [A-Za-z0-9-_]+</param>
+    public AwsConfigservicePutOrganizationConfigRuleOptions(
+        string OrganizationConfigRuleName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(OrganizationConfigRuleName);
+        this.OrganizationConfigRuleName = OrganizationConfigRuleName;
+    }
+
+    private AwsConfigservicePutOrganizationConfigRuleOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsConfigservicePutOrganizationConfigRuleOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsConfigservicePutOrganizationConfigRuleOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name that you assign to an organization Config rule. Constraints: o min: 1 o max: 64 o pattern: [A-Za-z0-9-_]+
+    /// </summary>
     [CliOption("--organization-config-rule-name")]
-    public string? OrganizationConfigRuleName { get; set; }
+    public string? OrganizationConfigRuleName { get; private init; }
 
     /// <summary>
     /// An OrganizationManagedRuleMetadata object. This object specifies or- ganization managed rule metadata such as resource type and ID of Amazon Web Services resource along with the rule identifier. It also provides the frequency with which you want Config to run evaluations for the rule if the trigger type is periodic. Description -&gt; (string) The description that you provide for your organization Config rule. Constraints: o min: 0 o max: 256 RuleIdentifier -&gt; (string) [required] For organization config managed rules, a predefined identifier from a list. For example, IAM_PASSWORD_POLICY is a managed rule. To reference a managed rule, see Using Config managed rules . Constraints: o min: 1 o max: 256 InputParameters -&gt; (string) A string, in JSON format, that is passed to your organization Config rule Lambda function. Constraints: o min: 1 o max: 1024 MaximumExecutionFrequency -&gt; (string) The maximum frequency with which Config runs evaluations for a rule. This is for an Config managed rule that is triggered at a periodic frequency. NOTE: By default, rules with a periodic trigger are evaluated every 24 hours. To change the frequency, specify a valid value for the MaximumExecutionFrequency parameter. Possible values: o One_Hour o Three_Hours o Six_Hours o Twelve_Hours o TwentyFour_Hours ResourceTypesScope -&gt; (list) The type of the Amazon Web Services resource that was evaluated. Constraints: o min: 0 o max: 100 (string) Constraints: o min: 1 o max: 256 ResourceIdScope -&gt; (string) The ID of the Amazon Web Services resource that was evaluated. Constraints: o min: 1 o max: 768 TagKeyScope -&gt; (string) One part of a key-value pair that make up a tag. A key is a gen- eral label that acts like a category for more specific tag val- ues. Constraints: o min: 1 o max: 128 TagValueScope -&gt; (string) The optional part of a key-value pair that make up a tag. A value acts as a descriptor within a tag category (key). Constraints: o min: 1 o max: 256 Shorthand Syntax: Description=string,RuleIdentifier=string,InputParameters=string,MaximumExecutionFrequency=string,ResourceTypesScope=string,string,ResourceIdScope=string,TagKeyScope=string,TagValueScope=string JSON Syntax: { "Description": "string", "RuleIdentifier": "string", "InputParameters": "string", "MaximumExecutionFrequency": "One_Hour"|"Three_Hours"|"Six_Hours"|"Twelve_Hours"|"TwentyFour_Hours", "ResourceTypesScope": ["string", ...], "ResourceIdScope": "string", "TagKeyScope": "string", "TagValueScope": "string" }
@@ -59,5 +96,22 @@ public record AwsConfigservicePutOrganizationConfigRuleOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

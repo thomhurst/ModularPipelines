@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --isolinegeometryformat.
+/// Allowed values for --isoline-geometry-format.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsGeoRoutesCalculateIsolinesIsolineGeometryFormat
 {
     [EnumValue("FlexiblePolyline")]
-    FlexiblePolyline = 1,
+    FlexiblePolyline,
 
     [EnumValue("Simple")]
-    Simple = 2
+    Simple
 }

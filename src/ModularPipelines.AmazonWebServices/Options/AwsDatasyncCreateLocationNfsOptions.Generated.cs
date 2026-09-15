@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,16 +20,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("datasync", "create-location-nfs")]
-public record AwsDatasyncCreateLocationNfsOptions : AwsOptions
+public record AwsDatasyncCreateLocationNfsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a transfer location for a Network File System (NFS) file server. DataSync can use this location as a source or destination for transferring data. Before you begin, make sure that you understand how DataSync accesses NFS file servers . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Subdirectory">Specifies the export path in your NFS file server that you want DataSync to mount. This path (or a subdirectory of the path) is where DataSync trans- fers data to or from. For information on configuring an export for DataSync, see Accessing NFS file servers . Constraints: o max: 4096 o pattern: ^[a-zA-Z0-9_\-\+\./\(\)\p{Zs}]+$</param>
+    /// <param name="ServerHostname">Specifies the DNS name or IP address (IPv4 or IPv6) of the NFS file server that your DataSync agent connects to. Constraints: o max: 255 o pattern: ^(([a-zA-Z0-9\-]*[a-zA-Z0-9])\.)*([A-Za-z0-9\-:]*[A-Za-z0-9])$</param>
+    /// <param name="OnPremConfig">Specifies the Amazon Resource Name (ARN) of the DataSync agent that can connect to your NFS file server. You can specify more than one agent. For more information, see Using multiple DataSync agents . AgentArns -&gt; (list) [required] The Amazon Resource Names (ARNs) of the DataSync agents that can connect to your NFS file server. You can specify more than one agent. For more information, see Using multiple DataSync agents . Constraints: o min: 1 o max: 8 (string) Constraints: o max: 128 o pattern: ^arn:(aws|aws-cn|aws-us-gov|aws-eusc|aws-iso|aws-iso-b):data- sync:[a-z\-0-9]+:[0-9]{12}:agent/agent-[0-9a-z]{17}$ Shorthand Syntax: AgentArns=string,string JSON Syntax: { "AgentArns": ["string", ...] }</param>
+    public AwsDatasyncCreateLocationNfsOptions(
+        string Subdirectory,
+        string ServerHostname,
+        string OnPremConfig
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Subdirectory);
+        this.Subdirectory = Subdirectory;
+        global::System.ArgumentNullException.ThrowIfNull(ServerHostname);
+        this.ServerHostname = ServerHostname;
+        global::System.ArgumentNullException.ThrowIfNull(OnPremConfig);
+        this.OnPremConfig = OnPremConfig;
+    }
+
+    private AwsDatasyncCreateLocationNfsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDatasyncCreateLocationNfsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDatasyncCreateLocationNfsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Specifies the export path in your NFS file server that you want DataSync to mount. This path (or a subdirectory of the path) is where DataSync trans- fers data to or from. For information on configuring an export for DataSync, see Accessing NFS file servers . Constraints: o max: 4096 o pattern: ^[a-zA-Z0-9_\-\+\./\(\)\p{Zs}]+$
+    /// </summary>
     [CliOption("--subdirectory")]
-    public string? Subdirectory { get; set; }
+    public string? Subdirectory { get; private init; }
 
+    /// <summary>
+    /// Specifies the DNS name or IP address (IPv4 or IPv6) of the NFS file server that your DataSync agent connects to. Constraints: o max: 255 o pattern: ^(([a-zA-Z0-9\-]*[a-zA-Z0-9])\.)*([A-Za-z0-9\-:]*[A-Za-z0-9])$
+    /// </summary>
     [CliOption("--server-hostname")]
-    public string? ServerHostname { get; set; }
+    public string? ServerHostname { get; private init; }
 
+    /// <summary>
+    /// Specifies the Amazon Resource Name (ARN) of the DataSync agent that can connect to your NFS file server. You can specify more than one agent. For more information, see Using multiple DataSync agents . AgentArns -&gt; (list) [required] The Amazon Resource Names (ARNs) of the DataSync agents that can connect to your NFS file server. You can specify more than one agent. For more information, see Using multiple DataSync agents . Constraints: o min: 1 o max: 8 (string) Constraints: o max: 128 o pattern: ^arn:(aws|aws-cn|aws-us-gov|aws-eusc|aws-iso|aws-iso-b):data- sync:[a-z\-0-9]+:[0-9]{12}:agent/agent-[0-9a-z]{17}$ Shorthand Syntax: AgentArns=string,string JSON Syntax: { "AgentArns": ["string", ...] }
+    /// </summary>
     [CliOption("--on-prem-config")]
-    public string? OnPremConfig { get; set; }
+    public string? OnPremConfig { get; private init; }
 
     /// <summary>
     /// Specifies the options that DataSync can use to mount your NFS file server. Version -&gt; (string) Specifies the NFS version that you want DataSync to use when mounting your NFS share. If the server refuses to use the ver- sion specified, the task fails. You can specify the following options: o AUTOMATIC (default): DataSync chooses NFS version 4.1. o NFS3 : Stateless protocol version that allows for asynchronous writes on the server. o NFSv4_0 : Stateful, firewall-friendly protocol version that supports delegations and pseudo file systems. o NFSv4_1 : Stateful protocol version that supports sessions, directory delegations, and parallel data processing. NFS ver- sion 4.1 also includes all features available in version 4.0. NOTE: DataSync currently only supports NFS version 3 with Amazon FSx for NetApp ONTAP locations. Possible values: o AUTOMATIC o NFS3 o NFS4_0 o NFS4_1 Shorthand Syntax: Version=string JSON Syntax: { "Version": "AUTOMATIC"|"NFS3"|"NFS4_0"|"NFS4_1" }
@@ -47,5 +98,22 @@ public record AwsDatasyncCreateLocationNfsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

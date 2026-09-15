@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,16 +21,52 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("codepipeline", "list-deploy-action-execution-targets")]
-public record AwsCodepipelineListDeployActionExecutionTargetsOptions : AwsOptions
+public record AwsCodepipelineListDeployActionExecutionTargetsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Lists the targets for the deploy action. See also: AWS API Documentation list-deploy-action-execution-targets is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: targets
+    /// </summary>
+    /// <param name="ActionExecutionId">The execution ID for the deploy action.</param>
+    public AwsCodepipelineListDeployActionExecutionTargetsOptions(
+        string ActionExecutionId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ActionExecutionId);
+        this.ActionExecutionId = ActionExecutionId;
+    }
+
+    private AwsCodepipelineListDeployActionExecutionTargetsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCodepipelineListDeployActionExecutionTargetsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCodepipelineListDeployActionExecutionTargetsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The execution ID for the deploy action.
+    /// </summary>
+    [CliOption("--action-execution-id")]
+    public string? ActionExecutionId { get; private init; }
+
     /// <summary>
     /// The name of the pipeline with the deploy action. Constraints: o min: 1 o max: 100 o pattern: [A-Za-z0-9.@\-_]+
     /// </summary>
     [CliOption("--pipeline-name")]
     public string? PipelineName { get; set; }
-
-    [CliOption("--action-execution-id")]
-    public string? ActionExecutionId { get; set; }
 
     /// <summary>
     /// Filters the targets for a specified deploy action. (structure) Filters the list of targets. name -&gt; (string) The name on which to filter. Possible values: o TARGET_STATUS values -&gt; (list) The values on which to filter. (string) Constraints: o min: 1 Shorthand Syntax: name=string,values=string,string ... JSON Syntax: [ { "name": "TARGET_STATUS", "values": ["string", ...] } ... ]
@@ -61,5 +98,22 @@ public record AwsCodepipelineListDeployActionExecutionTargetsOptions : AwsOption
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

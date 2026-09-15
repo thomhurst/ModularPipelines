@@ -12,6 +12,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -22,13 +23,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iot", "update-package-version")]
-public record AwsIotUpdatePackageVersionOptions : AwsOptions
+public record AwsIotUpdatePackageVersionOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--package-name")]
-    public string? PackageName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Updates the supported fields for a specific package version. Requires permission to access the UpdatePackageVersion and GetIndexingConfiguration actions. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="PackageName">The name of the associated software package. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9-_.]+</param>
+    /// <param name="VersionName">The name of the target package version. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9-_.]+</param>
+    public AwsIotUpdatePackageVersionOptions(
+        string PackageName,
+        string VersionName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PackageName);
+        this.PackageName = PackageName;
+        global::System.ArgumentNullException.ThrowIfNull(VersionName);
+        this.VersionName = VersionName;
+    }
+
+    private AwsIotUpdatePackageVersionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsIotUpdatePackageVersionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsIotUpdatePackageVersionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the associated software package. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9-_.]+
+    /// </summary>
+    [CliOption("--package-name")]
+    public string? PackageName { get; private init; }
+
+    /// <summary>
+    /// The name of the target package version. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9-_.]+
+    /// </summary>
     [CliOption("--version-name")]
-    public string? VersionName { get; set; }
+    public string? VersionName { get; private init; }
 
     /// <summary>
     /// The package version description. Constraints: o min: 0 o max: 1024 o pattern: [^\p{C}]+
@@ -72,5 +116,22 @@ public record AwsIotUpdatePackageVersionOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -11,17 +11,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --scheduletype.
+/// Allowed values for --schedule-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsMediatailorListPrefetchSchedulesScheduleType
 {
-    [EnumValue("SINGLE")]
-    Single = 1,
+    [EnumValue("ALL")]
+    All,
 
     [EnumValue("RECURRING")]
-    Recurring = 2,
+    Recurring,
 
-    [EnumValue("ALL")]
-    All = 3
+    [EnumValue("SINGLE")]
+    Single
 }

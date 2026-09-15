@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("kinesis", "create-stream")]
-public record AwsKinesisCreateStreamOptions : AwsOptions
+public record AwsKinesisCreateStreamOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a Kinesis data stream. A stream captures and transports data records that are continuously emitted from different data sources or producers . Scale-out within a stream is explicitly supported by means of shards, which are uniquely identified groups of data records in a stream. You can create your data stream using either on-demand or provisioned capacity mode. Data streams with an on-demand mode require no capacity planning and automatically scale to handle gigabytes of write and read th...
+    /// </summary>
+    /// <param name="StreamName">A name to identify the stream. The stream name is scoped to the Ama- zon Web Services account used by the application that creates the stream. It is also scoped by Amazon Web Services Region. That is, two streams in two different Amazon Web Services accounts can have the same name. Two streams in the same Amazon Web Services account but in two different Regions can also have the same name. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_.-]+</param>
+    public AwsKinesisCreateStreamOptions(
+        string StreamName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(StreamName);
+        this.StreamName = StreamName;
+    }
+
+    private AwsKinesisCreateStreamOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsKinesisCreateStreamOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsKinesisCreateStreamOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A name to identify the stream. The stream name is scoped to the Ama- zon Web Services account used by the application that creates the stream. It is also scoped by Amazon Web Services Region. That is, two streams in two different Amazon Web Services accounts can have the same name. Two streams in the same Amazon Web Services account but in two different Regions can also have the same name. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_.-]+
+    /// </summary>
     [CliOption("--stream-name")]
-    public string? StreamName { get; set; }
+    public string? StreamName { get; private init; }
 
     /// <summary>
     /// The number of shards that the stream will use. The throughput of the stream is a function of the number of shards; more shards are re- quired for greater provisioned throughput. Constraints: o min: 1
@@ -60,5 +97,22 @@ public record AwsKinesisCreateStreamOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

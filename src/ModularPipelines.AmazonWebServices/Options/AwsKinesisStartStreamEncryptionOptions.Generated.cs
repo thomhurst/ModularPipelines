@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,19 +21,62 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("kinesis", "start-stream-encryption")]
-public record AwsKinesisStartStreamEncryptionOptions : AwsOptions
+public record AwsKinesisStartStreamEncryptionOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Enables or updates server-side encryption using an Amazon Web Services KMS key for a specified stream. NOTE: When invoking this API, you must use either the StreamARN or the StreamName parameter, or both. It is recommended that you use the StreamARN input parameter when you invoke this API. Starting encryption is an asynchronous operation. Upon receiving the request, Kinesis Data Streams returns immediately and sets the status of the stream to UPDATING . After the update is complete, Kinesis Dat...
+    /// </summary>
+    /// <param name="EncryptionType">The encryption type to use. The only valid value is KMS . Possible values: o NONE o KMS</param>
+    /// <param name="KeyId">The GUID for the customer-managed Amazon Web Services KMS key to use for encryption. This value can be a globally unique identifier, a fully specified Amazon Resource Name (ARN) to either an alias or a key, or an alias name prefixed by "alias/".You can also use a master key owned by Kinesis Data Streams by specifying the alias aws/kine- sis . o Key ARN example: arn:aws:kms:us-east-1:123456789012:key/12345678-1234-1234-1234-123456789012 o Alias ARN example: arn:aws:kms:us-east-1:123456789012:alias/MyAliasName o Globally unique key ID example: 12345678-1234-1234-1234-123456789012 o Alias name example: alias/MyAliasName o Master key owned by Kinesis Data Streams: alias/aws/kinesis Constraints: o min: 1 o max: 2048</param>
+    public AwsKinesisStartStreamEncryptionOptions(
+        AwsKinesisStartStreamEncryptionEncryptionType EncryptionType,
+        string KeyId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(EncryptionType);
+        this.EncryptionType = EncryptionType;
+        global::System.ArgumentNullException.ThrowIfNull(KeyId);
+        this.KeyId = KeyId;
+    }
+
+    private AwsKinesisStartStreamEncryptionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsKinesisStartStreamEncryptionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsKinesisStartStreamEncryptionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The encryption type to use. The only valid value is KMS . Possible values: o NONE o KMS
+    /// </summary>
+    [CliOption("--encryption-type")]
+    public AwsKinesisStartStreamEncryptionEncryptionType? EncryptionType { get; private init; }
+
+    /// <summary>
+    /// The GUID for the customer-managed Amazon Web Services KMS key to use for encryption. This value can be a globally unique identifier, a fully specified Amazon Resource Name (ARN) to either an alias or a key, or an alias name prefixed by "alias/".You can also use a master key owned by Kinesis Data Streams by specifying the alias aws/kine- sis . o Key ARN example: arn:aws:kms:us-east-1:123456789012:key/12345678-1234-1234-1234-123456789012 o Alias ARN example: arn:aws:kms:us-east-1:123456789012:alias/MyAliasName o Globally unique key ID example: 12345678-1234-1234-1234-123456789012 o Alias name example: alias/MyAliasName o Master key owned by Kinesis Data Streams: alias/aws/kinesis Constraints: o min: 1 o max: 2048
+    /// </summary>
+    [CliOption("--key-id")]
+    public string? KeyId { get; private init; }
+
     /// <summary>
     /// The name of the stream for which to start encrypting records. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_.-]+
     /// </summary>
     [CliOption("--stream-name")]
     public string? StreamName { get; set; }
-
-    [CliOption("--encryption-type")]
-    public string? EncryptionType { get; set; }
-
-    [CliOption("--key-id")]
-    public string? KeyId { get; set; }
 
     /// <summary>
     /// The ARN of the stream. Constraints: o min: 1 o max: 2048 o pattern: arn:aws.*:kinesis:.*:\d{12}:stream/\S+
@@ -50,5 +95,22 @@ public record AwsKinesisStartStreamEncryptionOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

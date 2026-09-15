@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +20,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("swf", "request-cancel-workflow-execution")]
-public record AwsSwfRequestCancelWorkflowExecutionOptions : AwsOptions
+public record AwsSwfRequestCancelWorkflowExecutionOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--domain")]
-    public string? Domain { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Records a WorkflowExecutionCancelRequested event in the currently run- ning workflow execution identified by the given domain, workflowId, and runId. This logically requests the cancellation of the workflow execu- tion as a whole. It is up to the decider to take appropriate actions when it receives an execution history with this event. NOTE: If the runId isn't specified, the WorkflowExecutionCancelRequested event is recorded in the history of the current open workflow execu- tion with the specif...
+    /// </summary>
+    /// <param name="Domain">The name of the domain containing the workflow execution to cancel. Constraints: o min: 1 o max: 256</param>
+    /// <param name="WorkflowId">The workflowId of the workflow execution to cancel. Constraints: o min: 1 o max: 256</param>
+    public AwsSwfRequestCancelWorkflowExecutionOptions(
+        string Domain,
+        string WorkflowId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Domain);
+        this.Domain = Domain;
+        global::System.ArgumentNullException.ThrowIfNull(WorkflowId);
+        this.WorkflowId = WorkflowId;
+    }
+
+    private AwsSwfRequestCancelWorkflowExecutionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSwfRequestCancelWorkflowExecutionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSwfRequestCancelWorkflowExecutionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the domain containing the workflow execution to cancel. Constraints: o min: 1 o max: 256
+    /// </summary>
+    [CliOption("--domain")]
+    public string? Domain { get; private init; }
+
+    /// <summary>
+    /// The workflowId of the workflow execution to cancel. Constraints: o min: 1 o max: 256
+    /// </summary>
     [CliOption("--workflow-id")]
-    public string? WorkflowId { get; set; }
+    public string? WorkflowId { get; private init; }
 
     /// <summary>
     /// The runId of the workflow execution to cancel. Constraints: o max: 64
@@ -38,5 +82,22 @@ public record AwsSwfRequestCancelWorkflowExecutionOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

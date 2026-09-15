@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,8 +21,47 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("transfer", "update-server")]
-public record AwsTransferUpdateServerOptions : AwsOptions
+public record AwsTransferUpdateServerOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates the file transfer protocol-enabled server's properties after that server has been created. The UpdateServer call returns the ServerId of the server you updated. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ServerId">A system-assigned unique identifier for a server instance that the Transfer Family user is assigned to. Constraints: o min: 19 o max: 19 o pattern: s-([0-9a-f]{17})</param>
+    public AwsTransferUpdateServerOptions(
+        string ServerId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ServerId);
+        this.ServerId = ServerId;
+    }
+
+    private AwsTransferUpdateServerOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsTransferUpdateServerOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsTransferUpdateServerOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A system-assigned unique identifier for a server instance that the Transfer Family user is assigned to. Constraints: o min: 19 o max: 19 o pattern: s-([0-9a-f]{17})
+    /// </summary>
+    [CliOption("--server-id")]
+    public string? ServerId { get; private init; }
+
     /// <summary>
     /// The Amazon Resource Name (ARN) of the Amazon Web ServicesCertificate Manager (ACM) certificate. Required when Protocols is set to FTPS . To request a new public certificate, see Request a public certifi- cate in the Amazon Web ServicesCertificate Manager User Guide . To import an existing certificate into ACM, see Importing certifi- cates into ACM in the Amazon Web ServicesCertificate Manager User Guide . To request a private certificate to use FTPS through private IP ad- dresses, see Request a private certificate in the Amazon Web Ser- vicesCertificate Manager User Guide . Certificates with the following cryptographic algorithms and key sizes are supported: o 2048-bit RSA (RSA_2048) o 4096-bit RSA (RSA_4096) o Elliptic Prime Curve 256 bit (EC_prime256v1) o Elliptic Prime Curve 384 bit (EC_secp384r1) o Elliptic Prime Curve 521 bit (EC_secp521r1) NOTE: The certificate must be a valid SSL/TLS X.509 version 3 certifi- cate with FQDN or IP address specified and information about the issuer. Constraints: o min: 0 o max: 1600
     /// </summary>
@@ -88,9 +128,6 @@ public record AwsTransferUpdateServerOptions : AwsOptions
     [CliOption("--security-policy-name")]
     public string? SecurityPolicyName { get; set; }
 
-    [CliOption("--server-id")]
-    public string? ServerId { get; set; }
-
     /// <summary>
     /// Specifies the workflow ID for the workflow to assign and the execu- tion role that's used for executing the workflow. In addition to a workflow to execute when a file is uploaded com- pletely, WorkflowDetails can also contain a workflow ID (and execu- tion role) for a workflow to execute on partial upload. A partial upload occurs when the server session disconnects while the file is still being uploaded. To remove an associated workflow from a server, you can provide an empty OnUpload object, as in the following example. aws transfer update-server --server-id s-01234567890abcdef --workflow-details '{"OnUpload":[]}' OnUpload -&gt; (list) A trigger that starts a workflow: the workflow begins to execute after a file is uploaded. To remove an associated workflow from a server, you can provide an empty OnUpload object, as in the following example. aws transfer update-server --server-id s-01234567890abcdef --workflow-details '{"OnUpload":[]}' NOTE: OnUpload can contain a maximum of one WorkflowDetail object. Constraints: o min: 0 o max: 1 (structure) Specifies the workflow ID for the workflow to assign and the execution role that's used for executing the workflow. In addition to a workflow to execute when a file is uploaded completely, WorkflowDetails can also contain a workflow ID (and execution role) for a workflow to execute on partial up- load. A partial upload occurs when the server session discon- nects while the file is still being uploaded. WorkflowId -&gt; (string) [required] A unique identifier for the workflow. Constraints: o min: 19 o max: 19 o pattern: w-([a-z0-9]{17}) ExecutionRole -&gt; (string) [required] Includes the necessary permissions for S3, EFS, and Lambda operations that Transfer can assume, so that all workflow steps can operate on the required resources Constraints: o min: 20 o max: 2048 o pattern: arn:.*role/\S+ OnPartialUpload -&gt; (list) A trigger that starts a workflow if a file is only partially up- loaded. You can attach a workflow to a server that executes whenever there is a partial upload. A partial upload occurs when a file is open when the session disconnects. NOTE: OnPartialUpload can contain a maximum of one WorkflowDetail object. Constraints: o min: 0 o max: 1 (structure) Specifies the workflow ID for the workflow to assign and the execution role that's used for executing the workflow. In addition to a workflow to execute when a file is uploaded completely, WorkflowDetails can also contain a workflow ID (and execution role) for a workflow to execute on partial up- load. A partial upload occurs when the server session discon- nects while the file is still being uploaded. WorkflowId -&gt; (string) [required] A unique identifier for the workflow. Constraints: o min: 19 o max: 19 o pattern: w-([a-z0-9]{17}) ExecutionRole -&gt; (string) [required] Includes the necessary permissions for S3, EFS, and Lambda operations that Transfer can assume, so that all workflow steps can operate on the required resources Constraints: o min: 20 o max: 2048 o pattern: arn:.*role/\S+ Shorthand Syntax: OnUpload=[{WorkflowId=string,ExecutionRole=string},{WorkflowId=string,ExecutionRole=string}],OnPartialUpload=[{WorkflowId=string,ExecutionRole=string},{WorkflowId=string,ExecutionRole=string}] JSON Syntax: { "OnUpload": [ { "WorkflowId": "string", "ExecutionRole": "string" } ... ], "OnPartialUpload": [ { "WorkflowId": "string", "ExecutionRole": "string" } ... ] }
     /// </summary>
@@ -126,5 +163,22 @@ public record AwsTransferUpdateServerOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,16 +21,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iotsitewise", "associate-time-series-to-asset-property")]
-public record AwsIotsitewiseAssociateTimeSeriesToAssetPropertyOptions : AwsOptions
+public record AwsIotsitewiseAssociateTimeSeriesToAssetPropertyOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Associates a time series (data stream) with an asset property. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Alias">The alias that identifies the time series. Constraints: o min: 1 o pattern: [^\u0000-\u001F\u007F]+</param>
+    /// <param name="AssetId">The ID of the asset in which the asset property was created. This can be either the actual ID in UUID format, or else externalId: fol- lowed by the external ID, if it has one. For more information, see Referencing objects with external IDs in the IoT SiteWise User Guide . Constraints: o min: 13 o max: 139 o pattern: ^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$|^ex- ternalId:[a-zA-Z0-9_][a-zA-Z_\-0-9.:]*[a-zA-Z0-9_]+</param>
+    /// <param name="PropertyId">The ID of the asset property. This can be either the actual ID in UUID format, or else externalId: followed by the external ID, if it has one. For more information, see Referencing objects with external IDs in the IoT SiteWise User Guide . Constraints: o min: 13 o max: 139 o pattern: ^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$|^ex- ternalId:[a-zA-Z0-9_][a-zA-Z_\-0-9.:]*[a-zA-Z0-9_]+</param>
+    public AwsIotsitewiseAssociateTimeSeriesToAssetPropertyOptions(
+        string Alias,
+        string AssetId,
+        string PropertyId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Alias);
+        this.Alias = Alias;
+        global::System.ArgumentNullException.ThrowIfNull(AssetId);
+        this.AssetId = AssetId;
+        global::System.ArgumentNullException.ThrowIfNull(PropertyId);
+        this.PropertyId = PropertyId;
+    }
+
+    private AwsIotsitewiseAssociateTimeSeriesToAssetPropertyOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsIotsitewiseAssociateTimeSeriesToAssetPropertyOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsIotsitewiseAssociateTimeSeriesToAssetPropertyOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The alias that identifies the time series. Constraints: o min: 1 o pattern: [^\u0000-\u001F\u007F]+
+    /// </summary>
     [CliOption("--alias")]
-    public string? Alias { get; set; }
+    public string? Alias { get; private init; }
 
+    /// <summary>
+    /// The ID of the asset in which the asset property was created. This can be either the actual ID in UUID format, or else externalId: fol- lowed by the external ID, if it has one. For more information, see Referencing objects with external IDs in the IoT SiteWise User Guide . Constraints: o min: 13 o max: 139 o pattern: ^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$|^ex- ternalId:[a-zA-Z0-9_][a-zA-Z_\-0-9.:]*[a-zA-Z0-9_]+
+    /// </summary>
     [CliOption("--asset-id")]
-    public string? AssetId { get; set; }
+    public string? AssetId { get; private init; }
 
+    /// <summary>
+    /// The ID of the asset property. This can be either the actual ID in UUID format, or else externalId: followed by the external ID, if it has one. For more information, see Referencing objects with external IDs in the IoT SiteWise User Guide . Constraints: o min: 13 o max: 139 o pattern: ^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$|^ex- ternalId:[a-zA-Z0-9_][a-zA-Z_\-0-9.:]*[a-zA-Z0-9_]+
+    /// </summary>
     [CliOption("--property-id")]
-    public string? PropertyId { get; set; }
+    public string? PropertyId { get; private init; }
 
     /// <summary>
     /// A unique case-sensitive identifier that you can provide to ensure the idempotency of the request. Don't reuse this client token if a new idempotent request is required. Constraints: o min: 36 o max: 64 o pattern: \S{36,64}
@@ -43,5 +94,22 @@ public record AwsIotsitewiseAssociateTimeSeriesToAssetPropertyOptions : AwsOptio
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,68 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("comprehend", "stop-training-document-classifier")]
-public record AwsComprehendStopTrainingDocumentClassifierOptions : AwsOptions
+public record AwsComprehendStopTrainingDocumentClassifierOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Stops a document classifier training job while in progress. If the training job state is TRAINING , the job is marked for termina- tion and put into the STOP_REQUESTED state. If the training job com- pletes before it can be stopped, it is put into the TRAINED ; otherwise the training job is stopped and put into the STOPPED state and the ser- vice sends back an HTTP 200 response with an empty HTTP body. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DocumentClassifierArn">The Amazon Resource Name (ARN) that identifies the document classi- fier currently being trained. Constraints: o max: 256 o pattern: arn:aws(-[^:]+)?:comprehend:[a-zA-Z0-9-]*:[0-9]{12}:docu- ment-classifier/[a-zA-Z0-9](-*[a-zA-Z0-9])*(/ver- sion/[a-zA-Z0-9](-*[a-zA-Z0-9])*)?</param>
+    public AwsComprehendStopTrainingDocumentClassifierOptions(
+        string DocumentClassifierArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DocumentClassifierArn);
+        this.DocumentClassifierArn = DocumentClassifierArn;
+    }
+
+    private AwsComprehendStopTrainingDocumentClassifierOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsComprehendStopTrainingDocumentClassifierOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsComprehendStopTrainingDocumentClassifierOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) that identifies the document classi- fier currently being trained. Constraints: o max: 256 o pattern: arn:aws(-[^:]+)?:comprehend:[a-zA-Z0-9-]*:[0-9]{12}:docu- ment-classifier/[a-zA-Z0-9](-*[a-zA-Z0-9])*(/ver- sion/[a-zA-Z0-9](-*[a-zA-Z0-9])*)?
+    /// </summary>
     [CliOption("--document-classifier-arn")]
-    public string? DocumentClassifierArn { get; set; }
+    public string? DocumentClassifierArn { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

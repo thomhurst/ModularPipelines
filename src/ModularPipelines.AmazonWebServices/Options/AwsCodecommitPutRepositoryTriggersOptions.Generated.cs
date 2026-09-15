@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,89 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("codecommit", "put-repository-triggers")]
-public record AwsCodecommitPutRepositoryTriggersOptions : AwsOptions
+public record AwsCodecommitPutRepositoryTriggersOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--repository-name")]
-    public string? RepositoryName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Replaces all triggers for a repository. Used to create or delete trig- gers. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="RepositoryName">The name of the repository where you want to create or update the trigger. Constraints: o min: 1 o max: 100 o pattern: [\w\.-]+</param>
+    /// <param name="Triggers">The JSON block of configuration information for each trigger. (structure) Information about a trigger for a repository. NOTE: If you want to receive notifications about repository events, consider using notifications instead of triggers. For more information, see Configuring notifications for repository events . name -&gt; (string) [required] The name of the trigger. destinationArn -&gt; (string) [required] The ARN of the resource that is the target for a trigger (for example, the ARN of a topic in Amazon SNS). customData -&gt; (string) Any custom data associated with the trigger to be included in the information sent to the target of the trigger. branches -&gt; (list) The branches to be included in the trigger configuration. If you specify an empty array, the trigger applies to all branches. NOTE: Although no content is required in the array, you must include the array itself. (string) Constraints: o min: 1 o max: 256 events -&gt; (list) [required] The repository events that cause the trigger to run actions in another service, such as sending a notification through Amazon SNS. NOTE: The valid value "all" cannot be used with any other val- ues. (string) Possible values: o all o updateReference o createReference o deleteReference Shorthand Syntax: name=string,destinationArn=string,customData=string,branches=string,string,events=string,string ... JSON Syntax: [ { "name": "string", "destinationArn": "string", "customData": "string", "branches": ["string", ...], "events": ["all"|"updateReference"|"createReference"|"deleteReference", ...] } ... ]</param>
+    public AwsCodecommitPutRepositoryTriggersOptions(
+        string RepositoryName,
+        IEnumerable<string> Triggers
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(RepositoryName);
+        this.RepositoryName = RepositoryName;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Triggers);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Triggers));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Triggers));
+            }
+
+            Triggers = materialized;
+        }
+        this.Triggers = Triggers;
+    }
+
+    private AwsCodecommitPutRepositoryTriggersOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCodecommitPutRepositoryTriggersOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCodecommitPutRepositoryTriggersOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the repository where you want to create or update the trigger. Constraints: o min: 1 o max: 100 o pattern: [\w\.-]+
+    /// </summary>
+    [CliOption("--repository-name")]
+    public string? RepositoryName { get; private init; }
+
+    /// <summary>
+    /// The JSON block of configuration information for each trigger. (structure) Information about a trigger for a repository. NOTE: If you want to receive notifications about repository events, consider using notifications instead of triggers. For more information, see Configuring notifications for repository events . name -&gt; (string) [required] The name of the trigger. destinationArn -&gt; (string) [required] The ARN of the resource that is the target for a trigger (for example, the ARN of a topic in Amazon SNS). customData -&gt; (string) Any custom data associated with the trigger to be included in the information sent to the target of the trigger. branches -&gt; (list) The branches to be included in the trigger configuration. If you specify an empty array, the trigger applies to all branches. NOTE: Although no content is required in the array, you must include the array itself. (string) Constraints: o min: 1 o max: 256 events -&gt; (list) [required] The repository events that cause the trigger to run actions in another service, such as sending a notification through Amazon SNS. NOTE: The valid value "all" cannot be used with any other val- ues. (string) Possible values: o all o updateReference o createReference o deleteReference Shorthand Syntax: name=string,destinationArn=string,customData=string,branches=string,string,events=string,string ... JSON Syntax: [ { "name": "string", "destinationArn": "string", "customData": "string", "branches": ["string", ...], "events": ["all"|"updateReference"|"createReference"|"deleteReference", ...] } ... ]
+    /// </summary>
     [CliOption("--triggers", GroupValues = true)]
-    public IEnumerable<string>? Triggers { get; set; }
+    public IEnumerable<string>? Triggers { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

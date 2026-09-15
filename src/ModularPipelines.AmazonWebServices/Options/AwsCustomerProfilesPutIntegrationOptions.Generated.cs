@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,10 +22,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("customer-profiles", "put-integration")]
-public record AwsCustomerProfilesPutIntegrationOptions : AwsOptions
+public record AwsCustomerProfilesPutIntegrationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Adds an integration between the service and a third-party service, which includes Amazon AppFlow and Amazon Connect. An integration can belong to only one domain. To add or remove tags on an existing Integration, see TagResource /- UntagResource . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DomainName">The unique name of the domain. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$</param>
+    public AwsCustomerProfilesPutIntegrationOptions(
+        string DomainName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DomainName);
+        this.DomainName = DomainName;
+    }
+
+    private AwsCustomerProfilesPutIntegrationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCustomerProfilesPutIntegrationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCustomerProfilesPutIntegrationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique name of the domain. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$
+    /// </summary>
     [CliOption("--domain-name")]
-    public string? DomainName { get; set; }
+    public string? DomainName { get; private init; }
 
     /// <summary>
     /// The URI of the S3 bucket or any other type of data source. Constraints: o min: 1 o max: 255
@@ -79,5 +116,22 @@ public record AwsCustomerProfilesPutIntegrationOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bedrock-agentcore-control", "put-resource-policy")]
-public record AwsBedrockAgentcoreControlPutResourcePolicyOptions : AwsOptions
+public record AwsBedrockAgentcoreControlPutResourcePolicyOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--resource-arn")]
-    public string? ResourceArn { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates or updates a resource-based policy for a resource with the specified resourceArn. NOTE: This feature is currently available only for AgentCore Runtime and Gateway. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the resource for which to create or update the resource policy. Constraints: o min: 20 o max: 1011</param>
+    /// <param name="Policy">The resource policy to create or update. Constraints: o min: 1 o max: 20480</param>
+    public AwsBedrockAgentcoreControlPutResourcePolicyOptions(
+        string ResourceArn,
+        string Policy
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ResourceArn);
+        this.ResourceArn = ResourceArn;
+        global::System.ArgumentNullException.ThrowIfNull(Policy);
+        this.Policy = Policy;
+    }
+
+    private AwsBedrockAgentcoreControlPutResourcePolicyOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsBedrockAgentcoreControlPutResourcePolicyOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsBedrockAgentcoreControlPutResourcePolicyOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the resource for which to create or update the resource policy. Constraints: o min: 20 o max: 1011
+    /// </summary>
+    [CliOption("--resource-arn")]
+    public string? ResourceArn { get; private init; }
+
+    /// <summary>
+    /// The resource policy to create or update. Constraints: o min: 1 o max: 20480
+    /// </summary>
     [CliOption("--policy")]
-    public string? Policy { get; set; }
+    public string? Policy { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

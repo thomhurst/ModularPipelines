@@ -11,6 +11,8 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,16 +22,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("dataexchange", "create-data-set")]
-public record AwsDataexchangeCreateDataSetOptions : AwsOptions
+public record AwsDataexchangeCreateDataSetOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// This operation creates a data set. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="AssetType">The type of asset that is added to a data set. Possible values: o S3_SNAPSHOT o REDSHIFT_DATA_SHARE o API_GATEWAY_API o S3_DATA_ACCESS o LAKE_FORMATION_DATA_PERMISSION</param>
+    /// <param name="Description">A description for the data set. This value can be up to 16,348 char- acters long.</param>
+    /// <param name="Name">The name of the data set.</param>
+    public AwsDataexchangeCreateDataSetOptions(
+        AwsDataexchangeCreateDataSetAssetType AssetType,
+        string Description,
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AssetType);
+        this.AssetType = AssetType;
+        global::System.ArgumentNullException.ThrowIfNull(Description);
+        this.Description = Description;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    private AwsDataexchangeCreateDataSetOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDataexchangeCreateDataSetOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDataexchangeCreateDataSetOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The type of asset that is added to a data set. Possible values: o S3_SNAPSHOT o REDSHIFT_DATA_SHARE o API_GATEWAY_API o S3_DATA_ACCESS o LAKE_FORMATION_DATA_PERMISSION
+    /// </summary>
     [CliOption("--asset-type")]
-    public string? AssetType { get; set; }
+    public AwsDataexchangeCreateDataSetAssetType? AssetType { get; private init; }
 
+    /// <summary>
+    /// A description for the data set. This value can be up to 16,348 char- acters long.
+    /// </summary>
     [CliOption("--description")]
-    public string? Description { get; set; }
+    public string? Description { get; private init; }
 
+    /// <summary>
+    /// The name of the data set.
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
 
     /// <summary>
     /// A data set tag is an optional label that you can assign to a data set when you create it. Each tag consists of a key and an optional value, both of which you define. When you use tagging, you can also use tag-based access control in IAM policies to control access to these data sets and revisions. key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
@@ -42,5 +94,22 @@ public record AwsDataexchangeCreateDataSetOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

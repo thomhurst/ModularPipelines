@@ -12,6 +12,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -22,10 +23,98 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("timestream-influxdb", "create-db-cluster")]
-public record AwsTimestreamInfluxdbCreateDbClusterOptions : AwsOptions
+public record AwsTimestreamInfluxdbCreateDbClusterOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a new Timestream for InfluxDB cluster. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Name">The name that uniquely identifies the DB cluster when interacting with the Amazon Timestream for InfluxDB API and CLI commands. This name will also be a prefix included in the endpoint. DB cluster names must be unique per customer and per region. Constraints: o min: 3 o max: 40 o pattern: [a-zA-z][a-zA-Z0-9]*(-[a-zA-Z0-9]+)*</param>
+    /// <param name="DbInstanceType">The Timestream for InfluxDB DB instance type to run InfluxDB on. Possible values: o db.influx.medium o db.influx.large o db.influx.xlarge o db.influx.2xlarge o db.influx.4xlarge o db.influx.8xlarge o db.influx.12xlarge o db.influx.16xlarge o db.influx.24xlarge</param>
+    /// <param name="VpcSubnetIds">A list of VPC subnet IDs to associate with the DB cluster. Provide at least two VPC subnet IDs in different Availability Zones when de- ploying with a Multi-AZ standby. Constraints: o min: 1 o max: 6 (string) Constraints: o min: 0 o max: 64 o pattern: subnet-[a-z0-9]+ Syntax: "string" "string" ...</param>
+    /// <param name="VpcSecurityGroupIds">A list of VPC security group IDs to associate with the Timestream for InfluxDB cluster. Constraints: o min: 1 o max: 5 (string) Constraints: o min: 0 o max: 64 o pattern: sg-[a-z0-9]+ Syntax: "string" "string" ...</param>
+    public AwsTimestreamInfluxdbCreateDbClusterOptions(
+        string Name,
+        AwsTimestreamInfluxdbCreateDbClusterDbInstanceType DbInstanceType,
+        IEnumerable<string> VpcSubnetIds,
+        IEnumerable<string> VpcSecurityGroupIds
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(DbInstanceType);
+        this.DbInstanceType = DbInstanceType;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(VpcSubnetIds);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(VpcSubnetIds));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(VpcSubnetIds));
+            }
+
+            VpcSubnetIds = materialized;
+        }
+        this.VpcSubnetIds = VpcSubnetIds;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(VpcSecurityGroupIds);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(VpcSecurityGroupIds));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(VpcSecurityGroupIds));
+            }
+
+            VpcSecurityGroupIds = materialized;
+        }
+        this.VpcSecurityGroupIds = VpcSecurityGroupIds;
+    }
+
+    private AwsTimestreamInfluxdbCreateDbClusterOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsTimestreamInfluxdbCreateDbClusterOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsTimestreamInfluxdbCreateDbClusterOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name that uniquely identifies the DB cluster when interacting with the Amazon Timestream for InfluxDB API and CLI commands. This name will also be a prefix included in the endpoint. DB cluster names must be unique per customer and per region. Constraints: o min: 3 o max: 40 o pattern: [a-zA-z][a-zA-Z0-9]*(-[a-zA-Z0-9]+)*
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
+
+    /// <summary>
+    /// The Timestream for InfluxDB DB instance type to run InfluxDB on. Possible values: o db.influx.medium o db.influx.large o db.influx.xlarge o db.influx.2xlarge o db.influx.4xlarge o db.influx.8xlarge o db.influx.12xlarge o db.influx.16xlarge o db.influx.24xlarge
+    /// </summary>
+    [CliOption("--db-instance-type")]
+    public AwsTimestreamInfluxdbCreateDbClusterDbInstanceType? DbInstanceType { get; private init; }
+
+    /// <summary>
+    /// A list of VPC subnet IDs to associate with the DB cluster. Provide at least two VPC subnet IDs in different Availability Zones when de- ploying with a Multi-AZ standby. Constraints: o min: 1 o max: 6 (string) Constraints: o min: 0 o max: 64 o pattern: subnet-[a-z0-9]+ Syntax: "string" "string" ...
+    /// </summary>
+    [CliOption("--vpc-subnet-ids", GroupValues = true)]
+    public IEnumerable<string>? VpcSubnetIds { get; private init; }
+
+    /// <summary>
+    /// A list of VPC security group IDs to associate with the Timestream for InfluxDB cluster. Constraints: o min: 1 o max: 5 (string) Constraints: o min: 0 o max: 64 o pattern: sg-[a-z0-9]+ Syntax: "string" "string" ...
+    /// </summary>
+    [CliOption("--vpc-security-group-ids", GroupValues = true)]
+    public IEnumerable<string>? VpcSecurityGroupIds { get; private init; }
 
     /// <summary>
     /// The username of the initial admin user created in InfluxDB. Must start with a letter and can't end with a hyphen or contain two con- secutive hyphens. For example, my-user1. This username will allow you to access the InfluxDB UI to perform various administrative tasks and also use the InfluxDB CLI to create an operator token. These attributes will be stored in a secret created in Secrets Man- ager in your account. Constraints: o min: 1 o max: 64
@@ -64,9 +153,6 @@ public record AwsTimestreamInfluxdbCreateDbClusterOptions : AwsOptions
     [CliOption("--db-parameter-group-identifier")]
     public string? DbParameterGroupIdentifier { get; set; }
 
-    [CliOption("--db-instance-type")]
-    public string? DbInstanceType { get; set; }
-
     /// <summary>
     /// The Timestream for InfluxDB DB storage type to read and write In- fluxDB data. You can choose between three different types of provisioned Influx IOPS Included storage according to your workload requirements: o Influx I/O Included 3000 IOPS o Influx I/O Included 12000 IOPS o Influx I/O Included 16000 IOPS Possible values: o InfluxIOIncludedT1 o InfluxIOIncludedT2 o InfluxIOIncludedT3
     /// </summary>
@@ -85,14 +171,11 @@ public record AwsTimestreamInfluxdbCreateDbClusterOptions : AwsOptions
     [CliOption("--network-type")]
     public AwsTimestreamInfluxdbCreateDbClusterNetworkType? NetworkType { get; set; }
 
-    [CliFlag("--publicly-accessible")]
+    /// <summary>
+    /// Configures the Timestream for InfluxDB cluster with a public IP to facilitate access from outside the VPC.
+    /// </summary>
+    [CliFlag("--publicly-accessible", NegatedName = "--no-publicly-accessible")]
     public bool? PubliclyAccessible { get; set; }
-
-    [CliOption("--vpc-subnet-ids", GroupValues = true)]
-    public IEnumerable<string>? VpcSubnetIds { get; set; }
-
-    [CliOption("--vpc-security-group-ids", GroupValues = true)]
-    public IEnumerable<string>? VpcSecurityGroupIds { get; set; }
 
     /// <summary>
     /// Specifies the type of cluster to create. Possible values: o MULTI_NODE_READ_REPLICAS
@@ -141,5 +224,22 @@ public record AwsTimestreamInfluxdbCreateDbClusterOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

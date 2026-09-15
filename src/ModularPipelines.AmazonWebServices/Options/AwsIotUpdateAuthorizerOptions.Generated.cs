@@ -12,6 +12,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -22,10 +23,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iot", "update-authorizer")]
-public record AwsIotUpdateAuthorizerOptions : AwsOptions
+public record AwsIotUpdateAuthorizerOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates an authorizer. Requires permission to access the UpdateAuthorizer action. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="AuthorizerName">The authorizer name. Constraints: o min: 1 o max: 128 o pattern: [\w=,@-]+</param>
+    public AwsIotUpdateAuthorizerOptions(
+        string AuthorizerName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AuthorizerName);
+        this.AuthorizerName = AuthorizerName;
+    }
+
+    private AwsIotUpdateAuthorizerOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsIotUpdateAuthorizerOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsIotUpdateAuthorizerOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The authorizer name. Constraints: o min: 1 o max: 128 o pattern: [\w=,@-]+
+    /// </summary>
     [CliOption("--authorizer-name")]
-    public string? AuthorizerName { get; set; }
+    public string? AuthorizerName { get; private init; }
 
     /// <summary>
     /// The ARN of the authorizer's Lambda function. Constraints: o max: 2048 o pattern: [\s\S]*
@@ -36,7 +73,6 @@ public record AwsIotUpdateAuthorizerOptions : AwsOptions
     /// <summary>
     /// The key used to extract the token from the HTTP headers. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_-]+
     /// </summary>
-    [SecretValue]
     [CliOption("--token-key-name")]
     public string? TokenKeyName { get; set; }
 
@@ -53,7 +89,10 @@ public record AwsIotUpdateAuthorizerOptions : AwsOptions
     [CliOption("--status")]
     public AwsIotUpdateAuthorizerStatus? Status { get; set; }
 
-    [CliFlag("--enable-caching-for-http")]
+    /// <summary>
+    /// When true , the result from the authorizers Lambda function is cached for the time specified in refreshAfterInSeconds . The cached result is used while the device reuses the same HTTP connection.
+    /// </summary>
+    [CliFlag("--enable-caching-for-http", NegatedName = "--no-enable-caching-for-http")]
     public bool? EnableCachingForHttp { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -61,5 +100,22 @@ public record AwsIotUpdateAuthorizerOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

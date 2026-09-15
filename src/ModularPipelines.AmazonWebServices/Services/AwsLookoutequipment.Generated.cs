@@ -5,8 +5,8 @@
 
 #nullable enable
 
-using ModularPipelines.Context;
 using System.CodeDom.Compiler;
+using ModularPipelines.Context;
 using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
@@ -40,11 +40,11 @@ public class AwsLookoutequipment : IAwsLookoutequipment
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateDataSetAsync(
-        AwsLookoutequipmentCreateDataSetOptions? options = null,
+        AwsLookoutequipmentCreateDataSetOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLookoutequipmentCreateDataSetOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -55,11 +55,11 @@ public class AwsLookoutequipment : IAwsLookoutequipment
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateInferenceSchedulerAsync(
-        AwsLookoutequipmentCreateInferenceSchedulerOptions? options = null,
+        AwsLookoutequipmentCreateInferenceSchedulerOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLookoutequipmentCreateInferenceSchedulerOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -70,11 +70,11 @@ public class AwsLookoutequipment : IAwsLookoutequipment
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateLabelGroupAsync(
-        AwsLookoutequipmentCreateLabelGroupOptions? options = null,
+        AwsLookoutequipmentCreateLabelGroupOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLookoutequipmentCreateLabelGroupOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -85,11 +85,11 @@ public class AwsLookoutequipment : IAwsLookoutequipment
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateLabelAsync(
-        AwsLookoutequipmentCreateLabelOptions? options = null,
+        AwsLookoutequipmentCreateLabelOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLookoutequipmentCreateLabelOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -100,11 +100,11 @@ public class AwsLookoutequipment : IAwsLookoutequipment
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateModelAsync(
-        AwsLookoutequipmentCreateModelOptions? options = null,
+        AwsLookoutequipmentCreateModelOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLookoutequipmentCreateModelOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -115,11 +115,11 @@ public class AwsLookoutequipment : IAwsLookoutequipment
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateRetrainingSchedulerAsync(
-        AwsLookoutequipmentCreateRetrainingSchedulerOptions? options = null,
+        AwsLookoutequipmentCreateRetrainingSchedulerOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLookoutequipmentCreateRetrainingSchedulerOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -130,11 +130,11 @@ public class AwsLookoutequipment : IAwsLookoutequipment
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteDataSetAsync(
-        AwsLookoutequipmentDeleteDataSetOptions? options = null,
+        AwsLookoutequipmentDeleteDataSetOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLookoutequipmentDeleteDataSetOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -145,11 +145,11 @@ public class AwsLookoutequipment : IAwsLookoutequipment
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteInferenceSchedulerAsync(
-        AwsLookoutequipmentDeleteInferenceSchedulerOptions? options = null,
+        AwsLookoutequipmentDeleteInferenceSchedulerOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLookoutequipmentDeleteInferenceSchedulerOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -160,11 +160,11 @@ public class AwsLookoutequipment : IAwsLookoutequipment
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteLabelGroupAsync(
-        AwsLookoutequipmentDeleteLabelGroupOptions? options = null,
+        AwsLookoutequipmentDeleteLabelGroupOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLookoutequipmentDeleteLabelGroupOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -175,11 +175,11 @@ public class AwsLookoutequipment : IAwsLookoutequipment
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteLabelAsync(
-        AwsLookoutequipmentDeleteLabelOptions? options = null,
+        AwsLookoutequipmentDeleteLabelOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLookoutequipmentDeleteLabelOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -190,11 +190,11 @@ public class AwsLookoutequipment : IAwsLookoutequipment
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteModelAsync(
-        AwsLookoutequipmentDeleteModelOptions? options = null,
+        AwsLookoutequipmentDeleteModelOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLookoutequipmentDeleteModelOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -205,11 +205,11 @@ public class AwsLookoutequipment : IAwsLookoutequipment
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteResourcePolicyAsync(
-        AwsLookoutequipmentDeleteResourcePolicyOptions? options = null,
+        AwsLookoutequipmentDeleteResourcePolicyOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLookoutequipmentDeleteResourcePolicyOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -220,11 +220,11 @@ public class AwsLookoutequipment : IAwsLookoutequipment
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteRetrainingSchedulerAsync(
-        AwsLookoutequipmentDeleteRetrainingSchedulerOptions? options = null,
+        AwsLookoutequipmentDeleteRetrainingSchedulerOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLookoutequipmentDeleteRetrainingSchedulerOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -235,11 +235,11 @@ public class AwsLookoutequipment : IAwsLookoutequipment
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DescribeDataIngestionJobAsync(
-        AwsLookoutequipmentDescribeDataIngestionJobOptions? options = null,
+        AwsLookoutequipmentDescribeDataIngestionJobOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLookoutequipmentDescribeDataIngestionJobOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -250,11 +250,11 @@ public class AwsLookoutequipment : IAwsLookoutequipment
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DescribeDataSetAsync(
-        AwsLookoutequipmentDescribeDataSetOptions? options = null,
+        AwsLookoutequipmentDescribeDataSetOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLookoutequipmentDescribeDataSetOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -265,11 +265,11 @@ public class AwsLookoutequipment : IAwsLookoutequipment
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DescribeInferenceSchedulerAsync(
-        AwsLookoutequipmentDescribeInferenceSchedulerOptions? options = null,
+        AwsLookoutequipmentDescribeInferenceSchedulerOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLookoutequipmentDescribeInferenceSchedulerOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -280,11 +280,11 @@ public class AwsLookoutequipment : IAwsLookoutequipment
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DescribeLabelGroupAsync(
-        AwsLookoutequipmentDescribeLabelGroupOptions? options = null,
+        AwsLookoutequipmentDescribeLabelGroupOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLookoutequipmentDescribeLabelGroupOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -295,11 +295,11 @@ public class AwsLookoutequipment : IAwsLookoutequipment
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DescribeLabelAsync(
-        AwsLookoutequipmentDescribeLabelOptions? options = null,
+        AwsLookoutequipmentDescribeLabelOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLookoutequipmentDescribeLabelOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -310,11 +310,11 @@ public class AwsLookoutequipment : IAwsLookoutequipment
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DescribeModelAsync(
-        AwsLookoutequipmentDescribeModelOptions? options = null,
+        AwsLookoutequipmentDescribeModelOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLookoutequipmentDescribeModelOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -325,11 +325,11 @@ public class AwsLookoutequipment : IAwsLookoutequipment
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DescribeModelVersionAsync(
-        AwsLookoutequipmentDescribeModelVersionOptions? options = null,
+        AwsLookoutequipmentDescribeModelVersionOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLookoutequipmentDescribeModelVersionOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -340,11 +340,11 @@ public class AwsLookoutequipment : IAwsLookoutequipment
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DescribeResourcePolicyAsync(
-        AwsLookoutequipmentDescribeResourcePolicyOptions? options = null,
+        AwsLookoutequipmentDescribeResourcePolicyOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLookoutequipmentDescribeResourcePolicyOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -355,11 +355,11 @@ public class AwsLookoutequipment : IAwsLookoutequipment
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DescribeRetrainingSchedulerAsync(
-        AwsLookoutequipmentDescribeRetrainingSchedulerOptions? options = null,
+        AwsLookoutequipmentDescribeRetrainingSchedulerOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLookoutequipmentDescribeRetrainingSchedulerOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -370,11 +370,11 @@ public class AwsLookoutequipment : IAwsLookoutequipment
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ImportDataSetAsync(
-        AwsLookoutequipmentImportDataSetOptions? options = null,
+        AwsLookoutequipmentImportDataSetOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLookoutequipmentImportDataSetOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -385,11 +385,11 @@ public class AwsLookoutequipment : IAwsLookoutequipment
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ImportModelVersionAsync(
-        AwsLookoutequipmentImportModelVersionOptions? options = null,
+        AwsLookoutequipmentImportModelVersionOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLookoutequipmentImportModelVersionOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -404,7 +404,7 @@ public class AwsLookoutequipment : IAwsLookoutequipment
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLookoutequipmentListDataIngestionJobsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLookoutequipmentListDataIngestionJobsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -419,7 +419,7 @@ public class AwsLookoutequipment : IAwsLookoutequipment
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLookoutequipmentListDatasetsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLookoutequipmentListDatasetsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -430,11 +430,11 @@ public class AwsLookoutequipment : IAwsLookoutequipment
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListInferenceEventsAsync(
-        AwsLookoutequipmentListInferenceEventsOptions? options = null,
+        AwsLookoutequipmentListInferenceEventsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLookoutequipmentListInferenceEventsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -445,11 +445,11 @@ public class AwsLookoutequipment : IAwsLookoutequipment
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListInferenceExecutionsAsync(
-        AwsLookoutequipmentListInferenceExecutionsOptions? options = null,
+        AwsLookoutequipmentListInferenceExecutionsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLookoutequipmentListInferenceExecutionsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -464,7 +464,7 @@ public class AwsLookoutequipment : IAwsLookoutequipment
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLookoutequipmentListInferenceSchedulersOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLookoutequipmentListInferenceSchedulersOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -479,7 +479,7 @@ public class AwsLookoutequipment : IAwsLookoutequipment
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLookoutequipmentListLabelGroupsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLookoutequipmentListLabelGroupsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -490,11 +490,11 @@ public class AwsLookoutequipment : IAwsLookoutequipment
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListLabelsAsync(
-        AwsLookoutequipmentListLabelsOptions? options = null,
+        AwsLookoutequipmentListLabelsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLookoutequipmentListLabelsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -509,7 +509,7 @@ public class AwsLookoutequipment : IAwsLookoutequipment
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLookoutequipmentListModelsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLookoutequipmentListModelsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -520,11 +520,11 @@ public class AwsLookoutequipment : IAwsLookoutequipment
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListModelVersionsAsync(
-        AwsLookoutequipmentListModelVersionsOptions? options = null,
+        AwsLookoutequipmentListModelVersionsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLookoutequipmentListModelVersionsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -539,7 +539,7 @@ public class AwsLookoutequipment : IAwsLookoutequipment
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLookoutequipmentListRetrainingSchedulersOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLookoutequipmentListRetrainingSchedulersOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -550,11 +550,11 @@ public class AwsLookoutequipment : IAwsLookoutequipment
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListSensorStatisticsAsync(
-        AwsLookoutequipmentListSensorStatisticsOptions? options = null,
+        AwsLookoutequipmentListSensorStatisticsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLookoutequipmentListSensorStatisticsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -565,11 +565,11 @@ public class AwsLookoutequipment : IAwsLookoutequipment
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListTagsForResourceAsync(
-        AwsLookoutequipmentListTagsForResourceOptions? options = null,
+        AwsLookoutequipmentListTagsForResourceOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLookoutequipmentListTagsForResourceOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -580,11 +580,11 @@ public class AwsLookoutequipment : IAwsLookoutequipment
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> PutResourcePolicyAsync(
-        AwsLookoutequipmentPutResourcePolicyOptions? options = null,
+        AwsLookoutequipmentPutResourcePolicyOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLookoutequipmentPutResourcePolicyOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -595,11 +595,11 @@ public class AwsLookoutequipment : IAwsLookoutequipment
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> StartDataIngestionJobAsync(
-        AwsLookoutequipmentStartDataIngestionJobOptions? options = null,
+        AwsLookoutequipmentStartDataIngestionJobOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLookoutequipmentStartDataIngestionJobOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -610,11 +610,11 @@ public class AwsLookoutequipment : IAwsLookoutequipment
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> StartInferenceSchedulerAsync(
-        AwsLookoutequipmentStartInferenceSchedulerOptions? options = null,
+        AwsLookoutequipmentStartInferenceSchedulerOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLookoutequipmentStartInferenceSchedulerOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -625,11 +625,11 @@ public class AwsLookoutequipment : IAwsLookoutequipment
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> StartRetrainingSchedulerAsync(
-        AwsLookoutequipmentStartRetrainingSchedulerOptions? options = null,
+        AwsLookoutequipmentStartRetrainingSchedulerOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLookoutequipmentStartRetrainingSchedulerOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -640,11 +640,11 @@ public class AwsLookoutequipment : IAwsLookoutequipment
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> StopInferenceSchedulerAsync(
-        AwsLookoutequipmentStopInferenceSchedulerOptions? options = null,
+        AwsLookoutequipmentStopInferenceSchedulerOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLookoutequipmentStopInferenceSchedulerOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -655,11 +655,11 @@ public class AwsLookoutequipment : IAwsLookoutequipment
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> StopRetrainingSchedulerAsync(
-        AwsLookoutequipmentStopRetrainingSchedulerOptions? options = null,
+        AwsLookoutequipmentStopRetrainingSchedulerOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLookoutequipmentStopRetrainingSchedulerOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -670,11 +670,11 @@ public class AwsLookoutequipment : IAwsLookoutequipment
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> TagResourceAsync(
-        AwsLookoutequipmentTagResourceOptions? options = null,
+        AwsLookoutequipmentTagResourceOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLookoutequipmentTagResourceOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -685,11 +685,11 @@ public class AwsLookoutequipment : IAwsLookoutequipment
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UntagResourceAsync(
-        AwsLookoutequipmentUntagResourceOptions? options = null,
+        AwsLookoutequipmentUntagResourceOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLookoutequipmentUntagResourceOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -700,11 +700,11 @@ public class AwsLookoutequipment : IAwsLookoutequipment
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateActiveModelVersionAsync(
-        AwsLookoutequipmentUpdateActiveModelVersionOptions? options = null,
+        AwsLookoutequipmentUpdateActiveModelVersionOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLookoutequipmentUpdateActiveModelVersionOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -715,11 +715,11 @@ public class AwsLookoutequipment : IAwsLookoutequipment
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateInferenceSchedulerAsync(
-        AwsLookoutequipmentUpdateInferenceSchedulerOptions? options = null,
+        AwsLookoutequipmentUpdateInferenceSchedulerOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLookoutequipmentUpdateInferenceSchedulerOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -730,11 +730,11 @@ public class AwsLookoutequipment : IAwsLookoutequipment
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateLabelGroupAsync(
-        AwsLookoutequipmentUpdateLabelGroupOptions? options = null,
+        AwsLookoutequipmentUpdateLabelGroupOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLookoutequipmentUpdateLabelGroupOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -745,11 +745,11 @@ public class AwsLookoutequipment : IAwsLookoutequipment
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateModelAsync(
-        AwsLookoutequipmentUpdateModelOptions? options = null,
+        AwsLookoutequipmentUpdateModelOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLookoutequipmentUpdateModelOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -760,11 +760,11 @@ public class AwsLookoutequipment : IAwsLookoutequipment
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateRetrainingSchedulerAsync(
-        AwsLookoutequipmentUpdateRetrainingSchedulerOptions? options = null,
+        AwsLookoutequipmentUpdateRetrainingSchedulerOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLookoutequipmentUpdateRetrainingSchedulerOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     #endregion

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("mgh", "describe-migration-task")]
-public record AwsMghDescribeMigrationTaskOptions : AwsOptions
+public record AwsMghDescribeMigrationTaskOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--progress-update-stream")]
-    public string? ProgressUpdateStream { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Retrieves a list of all attributes associated with a specific migration task. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ProgressUpdateStream">The name of the ProgressUpdateStream. Constraints: o min: 1 o max: 50 o pattern: [^/:|\000-\037]+</param>
+    /// <param name="MigrationTaskName">The identifier given to the MigrationTask. Do not store personal data in this field. Constraints: o min: 1 o max: 256 o pattern: [^:|]+</param>
+    public AwsMghDescribeMigrationTaskOptions(
+        string ProgressUpdateStream,
+        string MigrationTaskName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ProgressUpdateStream);
+        this.ProgressUpdateStream = ProgressUpdateStream;
+        global::System.ArgumentNullException.ThrowIfNull(MigrationTaskName);
+        this.MigrationTaskName = MigrationTaskName;
+    }
+
+    private AwsMghDescribeMigrationTaskOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsMghDescribeMigrationTaskOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsMghDescribeMigrationTaskOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the ProgressUpdateStream. Constraints: o min: 1 o max: 50 o pattern: [^/:|\000-\037]+
+    /// </summary>
+    [CliOption("--progress-update-stream")]
+    public string? ProgressUpdateStream { get; private init; }
+
+    /// <summary>
+    /// The identifier given to the MigrationTask. Do not store personal data in this field. Constraints: o min: 1 o max: 256 o pattern: [^:|]+
+    /// </summary>
     [CliOption("--migration-task-name")]
-    public string? MigrationTaskName { get; set; }
+    public string? MigrationTaskName { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

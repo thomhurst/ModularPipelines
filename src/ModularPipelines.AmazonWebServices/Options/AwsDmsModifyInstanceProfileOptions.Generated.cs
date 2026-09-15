@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("dms", "modify-instance-profile")]
-public record AwsDmsModifyInstanceProfileOptions : AwsOptions
+public record AwsDmsModifyInstanceProfileOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Modifies the specified instance profile using the provided parameters. Required permissions: dms:UpdateInstanceProfile . For more informa- tion, see Actions, resources, and condition keys for Database Migra- tion Service . NOTE: All migration projects associated with the instance profile must be deleted or modified before you can modify the instance profile. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="InstanceProfileIdentifier">The identifier of the instance profile. Identifiers must begin with a letter and must contain only ASCII letters, digits, and hyphens. They can't end with a hyphen, or contain two consecutive hyphens.</param>
+    public AwsDmsModifyInstanceProfileOptions(
+        string InstanceProfileIdentifier
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(InstanceProfileIdentifier);
+        this.InstanceProfileIdentifier = InstanceProfileIdentifier;
+    }
+
+    private AwsDmsModifyInstanceProfileOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDmsModifyInstanceProfileOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDmsModifyInstanceProfileOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the instance profile. Identifiers must begin with a letter and must contain only ASCII letters, digits, and hyphens. They can't end with a hyphen, or contain two consecutive hyphens.
+    /// </summary>
     [CliOption("--instance-profile-identifier")]
-    public string? InstanceProfileIdentifier { get; set; }
+    public string? InstanceProfileIdentifier { get; private init; }
 
     /// <summary>
     /// The Availability Zone where the instance profile runs.
@@ -36,7 +73,10 @@ public record AwsDmsModifyInstanceProfileOptions : AwsOptions
     [CliOption("--kms-key-arn")]
     public string? KmsKeyArn { get; set; }
 
-    [CliFlag("--publicly-accessible")]
+    /// <summary>
+    /// Specifies the accessibility options for the instance profile. A value of true represents an instance profile with a public IP ad- dress. A value of false represents an instance profile with a pri- vate IP address. The default value is true .
+    /// </summary>
+    [CliFlag("--publicly-accessible", NegatedName = "--no-publicly-accessible")]
     public bool? PubliclyAccessible { get; set; }
 
     /// <summary>
@@ -74,5 +114,22 @@ public record AwsDmsModifyInstanceProfileOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

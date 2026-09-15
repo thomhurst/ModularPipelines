@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,13 +21,87 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("clouddirectory", "get-object-attributes")]
-public record AwsClouddirectoryGetObjectAttributesOptions : AwsOptions
+public record AwsClouddirectoryGetObjectAttributesOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--directory-arn")]
-    public string? DirectoryArn { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Retrieves attributes within a facet that are associated with an object. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DirectoryArn">The Amazon Resource Name (ARN) that is associated with the Direc- tory where the object resides.</param>
+    /// <param name="ObjectReference">Reference that identifies the object whose attributes will be re- trieved. Selector -&gt; (string) A path selector supports easy selection of an object by the par- ent/child links leading to it from the directory root. Use the link names from each parent/child link to construct the path. Path selectors start with a slash (/) and link names are sepa- rated by slashes. For more information about paths, see Access Objects . You can identify an object in one of the following ways: o $ObjectIdentifier - An object identifier is an opaque string provided by Amazon Cloud Directory. When creating objects, the system will provide you with the identifier of the created ob- ject. An objects identifier is immutable and no two objects will ever share the same object identifier. To identify an ob- ject with ObjectIdentifier, the ObjectIdentifier must be wrapped in double quotes. o /some/path - Identifies the object based on path o #SomeBatchReference - Identifies the object in a batch call Shorthand Syntax: Selector=string JSON Syntax: { "Selector": "string" }</param>
+    /// <param name="SchemaFacet">Identifier for the facet whose attributes will be retrieved. See SchemaFacet for details. SchemaArn -&gt; (string) The ARN of the schema that contains the facet with no minor com- ponent. See arns and In-Place Schema Upgrade for a description of when to provide minor versions. If this value is set, FacetName must also be set. FacetName -&gt; (string) The name of the facet. If this value is set, SchemaArn must also be set. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9._-]*$ Shorthand Syntax: SchemaArn=string,FacetName=string JSON Syntax: { "SchemaArn": "string", "FacetName": "string" }</param>
+    /// <param name="AttributeNames">List of attribute names whose values will be retrieved. (string) Constraints: o min: 1 o max: 230 o pattern: ^[a-zA-Z0-9._:-]*$ Syntax: "string" "string" ...</param>
+    public AwsClouddirectoryGetObjectAttributesOptions(
+        string DirectoryArn,
+        string ObjectReference,
+        string SchemaFacet,
+        IEnumerable<string> AttributeNames
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DirectoryArn);
+        this.DirectoryArn = DirectoryArn;
+        global::System.ArgumentNullException.ThrowIfNull(ObjectReference);
+        this.ObjectReference = ObjectReference;
+        global::System.ArgumentNullException.ThrowIfNull(SchemaFacet);
+        this.SchemaFacet = SchemaFacet;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(AttributeNames);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(AttributeNames));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(AttributeNames));
+            }
+
+            AttributeNames = materialized;
+        }
+        this.AttributeNames = AttributeNames;
+    }
+
+    private AwsClouddirectoryGetObjectAttributesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsClouddirectoryGetObjectAttributesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsClouddirectoryGetObjectAttributesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) that is associated with the Direc- tory where the object resides.
+    /// </summary>
+    [CliOption("--directory-arn")]
+    public string? DirectoryArn { get; private init; }
+
+    /// <summary>
+    /// Reference that identifies the object whose attributes will be re- trieved. Selector -&gt; (string) A path selector supports easy selection of an object by the par- ent/child links leading to it from the directory root. Use the link names from each parent/child link to construct the path. Path selectors start with a slash (/) and link names are sepa- rated by slashes. For more information about paths, see Access Objects . You can identify an object in one of the following ways: o $ObjectIdentifier - An object identifier is an opaque string provided by Amazon Cloud Directory. When creating objects, the system will provide you with the identifier of the created ob- ject. An objects identifier is immutable and no two objects will ever share the same object identifier. To identify an ob- ject with ObjectIdentifier, the ObjectIdentifier must be wrapped in double quotes. o /some/path - Identifies the object based on path o #SomeBatchReference - Identifies the object in a batch call Shorthand Syntax: Selector=string JSON Syntax: { "Selector": "string" }
+    /// </summary>
     [CliOption("--object-reference")]
-    public string? ObjectReference { get; set; }
+    public string? ObjectReference { get; private init; }
+
+    /// <summary>
+    /// Identifier for the facet whose attributes will be retrieved. See SchemaFacet for details. SchemaArn -&gt; (string) The ARN of the schema that contains the facet with no minor com- ponent. See arns and In-Place Schema Upgrade for a description of when to provide minor versions. If this value is set, FacetName must also be set. FacetName -&gt; (string) The name of the facet. If this value is set, SchemaArn must also be set. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9._-]*$ Shorthand Syntax: SchemaArn=string,FacetName=string JSON Syntax: { "SchemaArn": "string", "FacetName": "string" }
+    /// </summary>
+    [CliOption("--schema-facet")]
+    public string? SchemaFacet { get; private init; }
+
+    /// <summary>
+    /// List of attribute names whose values will be retrieved. (string) Constraints: o min: 1 o max: 230 o pattern: ^[a-zA-Z0-9._:-]*$ Syntax: "string" "string" ...
+    /// </summary>
+    [CliOption("--attribute-names", GroupValues = true)]
+    public IEnumerable<string>? AttributeNames { get; private init; }
 
     /// <summary>
     /// The consistency level at which to retrieve the attributes on an ob- ject. Possible values: o SERIALIZABLE o EVENTUAL
@@ -34,16 +109,27 @@ public record AwsClouddirectoryGetObjectAttributesOptions : AwsOptions
     [CliOption("--consistency-level")]
     public AwsClouddirectoryGetObjectAttributesConsistencyLevel? ConsistencyLevel { get; set; }
 
-    [CliOption("--schema-facet")]
-    public string? SchemaFacet { get; set; }
-
-    [CliOption("--attribute-names", GroupValues = true)]
-    public IEnumerable<string>? AttributeNames { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

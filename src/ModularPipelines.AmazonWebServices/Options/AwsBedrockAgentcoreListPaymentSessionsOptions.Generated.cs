@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,8 +21,47 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bedrock-agentcore", "list-payment-sessions")]
-public record AwsBedrockAgentcoreListPaymentSessionsOptions : AwsOptions
+public record AwsBedrockAgentcoreListPaymentSessionsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// List payment sessions. See also: AWS API Documentation list-payment-sessions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: paymentSessions
+    /// </summary>
+    /// <param name="PaymentManagerArn">The ARN of the payment manager that owns the sessions. Constraints: o min: 66 o max: 2048 o pattern: arn:(aws|aws-[a-z0-9-]+):bedrock-agent- core:[a-z0-9-]+:[0-9]{12}:payment-man- ager/[a-z0-9]([a-z0-9-]{0,47}[a-z0-9])?-[a-z0-9]{10}</param>
+    public AwsBedrockAgentcoreListPaymentSessionsOptions(
+        string PaymentManagerArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PaymentManagerArn);
+        this.PaymentManagerArn = PaymentManagerArn;
+    }
+
+    private AwsBedrockAgentcoreListPaymentSessionsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsBedrockAgentcoreListPaymentSessionsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsBedrockAgentcoreListPaymentSessionsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ARN of the payment manager that owns the sessions. Constraints: o min: 66 o max: 2048 o pattern: arn:(aws|aws-[a-z0-9-]+):bedrock-agent- core:[a-z0-9-]+:[0-9]{12}:payment-man- ager/[a-z0-9]([a-z0-9-]{0,47}[a-z0-9])?-[a-z0-9]{10}
+    /// </summary>
+    [CliOption("--payment-manager-arn")]
+    public string? PaymentManagerArn { get; private init; }
+
     /// <summary>
     /// The user ID associated with the payment sessions. Constraints: o min: 0 o max: 120
     /// </summary>
@@ -33,9 +73,6 @@ public record AwsBedrockAgentcoreListPaymentSessionsOptions : AwsOptions
     /// </summary>
     [CliOption("--agent-name")]
     public string? AgentName { get; set; }
-
-    [CliOption("--payment-manager-arn")]
-    public string? PaymentManagerArn { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
@@ -61,5 +98,22 @@ public record AwsBedrockAgentcoreListPaymentSessionsOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

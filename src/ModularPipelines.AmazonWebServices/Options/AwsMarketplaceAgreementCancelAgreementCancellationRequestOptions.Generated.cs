@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +20,88 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("marketplace-agreement", "cancel-agreement-cancellation-request")]
-public record AwsMarketplaceAgreementCancelAgreementCancellationRequestOptions : AwsOptions
+public record AwsMarketplaceAgreementCancelAgreementCancellationRequestOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Allows sellers (proposers) to withdraw an existing agreement cancella- tion request that is in a pending state. Once cancelled, the cancella- tion request transitions to CANCELLED status and can no longer be ap- proved or rejected by the buyer. NOTE: Only cancellation requests in PENDING_APPROVAL status can be can- celled. A ConflictException is thrown if the cancellation request is in any other status. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="AgreementId">The unique identifier of the agreement associated with the cancella- tion request. Constraints: o min: 1 o max: 64 o pattern: [A-Za-z0-9_/-]+</param>
+    /// <param name="AgreementCancellationRequestId">The unique identifier of the cancellation request to cancel. Constraints: o min: 1 o max: 64 o pattern: acr-[a-zA-Z0-9]+</param>
+    /// <param name="CancellationReason">A required message explaining why the cancellation request is being withdrawn (1-2000 characters). Constraints: o min: 1 o max: 2000</param>
+    public AwsMarketplaceAgreementCancelAgreementCancellationRequestOptions(
+        string AgreementId,
+        string AgreementCancellationRequestId,
+        string CancellationReason
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AgreementId);
+        this.AgreementId = AgreementId;
+        global::System.ArgumentNullException.ThrowIfNull(AgreementCancellationRequestId);
+        this.AgreementCancellationRequestId = AgreementCancellationRequestId;
+        global::System.ArgumentNullException.ThrowIfNull(CancellationReason);
+        this.CancellationReason = CancellationReason;
+    }
+
+    private AwsMarketplaceAgreementCancelAgreementCancellationRequestOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsMarketplaceAgreementCancelAgreementCancellationRequestOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsMarketplaceAgreementCancelAgreementCancellationRequestOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier of the agreement associated with the cancella- tion request. Constraints: o min: 1 o max: 64 o pattern: [A-Za-z0-9_/-]+
+    /// </summary>
     [CliOption("--agreement-id")]
-    public string? AgreementId { get; set; }
+    public string? AgreementId { get; private init; }
 
+    /// <summary>
+    /// The unique identifier of the cancellation request to cancel. Constraints: o min: 1 o max: 64 o pattern: acr-[a-zA-Z0-9]+
+    /// </summary>
     [CliOption("--agreement-cancellation-request-id")]
-    public string? AgreementCancellationRequestId { get; set; }
+    public string? AgreementCancellationRequestId { get; private init; }
 
+    /// <summary>
+    /// A required message explaining why the cancellation request is being withdrawn (1-2000 characters). Constraints: o min: 1 o max: 2000
+    /// </summary>
     [CliOption("--cancellation-reason")]
-    public string? CancellationReason { get; set; }
+    public string? CancellationReason { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

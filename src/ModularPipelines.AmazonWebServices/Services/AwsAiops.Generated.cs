@@ -5,8 +5,8 @@
 
 #nullable enable
 
-using ModularPipelines.Context;
 using System.CodeDom.Compiler;
+using ModularPipelines.Context;
 using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
@@ -33,6 +33,21 @@ public class AwsAiops : IAwsAiops
     #region Commands
 
     /// <summary>
+    /// Creates an investigation group in your account. Creating an investiga- tion group is a one-time setup task for each Region in your account. It is a necessary task to be able to perform investigations. Settings in the investigation group help you centrally manage the com- mon properties of your investigations, such as the following: o Who can access the investigations o Whether investigation data is encrypted with a customer managed Key Management Service key. o How long investigations and their ...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> CreateInvestigationGroupAsync(
+        AwsAiopsCreateInvestigationGroupOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
     /// Deletes the specified investigation group from your account. You can currently have one investigation group per Region in your account. Af- ter you delete an investigation group, you can later create a new in- vestigation group in the same Region. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -40,11 +55,11 @@ public class AwsAiops : IAwsAiops
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteInvestigationGroupAsync(
-        AwsAiopsDeleteInvestigationGroupOptions? options = null,
+        AwsAiopsDeleteInvestigationGroupOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsAiopsDeleteInvestigationGroupOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -55,11 +70,11 @@ public class AwsAiops : IAwsAiops
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteInvestigationGroupPolicyAsync(
-        AwsAiopsDeleteInvestigationGroupPolicyOptions? options = null,
+        AwsAiopsDeleteInvestigationGroupPolicyOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsAiopsDeleteInvestigationGroupPolicyOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -70,11 +85,11 @@ public class AwsAiops : IAwsAiops
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetInvestigationGroupAsync(
-        AwsAiopsGetInvestigationGroupOptions? options = null,
+        AwsAiopsGetInvestigationGroupOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsAiopsGetInvestigationGroupOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -85,11 +100,11 @@ public class AwsAiops : IAwsAiops
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetInvestigationGroupPolicyAsync(
-        AwsAiopsGetInvestigationGroupPolicyOptions? options = null,
+        AwsAiopsGetInvestigationGroupPolicyOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsAiopsGetInvestigationGroupPolicyOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -104,7 +119,7 @@ public class AwsAiops : IAwsAiops
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsAiopsListInvestigationGroupsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsAiopsListInvestigationGroupsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -115,11 +130,11 @@ public class AwsAiops : IAwsAiops
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListTagsForResourceAsync(
-        AwsAiopsListTagsForResourceOptions? options = null,
+        AwsAiopsListTagsForResourceOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsAiopsListTagsForResourceOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -130,11 +145,11 @@ public class AwsAiops : IAwsAiops
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> PutInvestigationGroupPolicyAsync(
-        AwsAiopsPutInvestigationGroupPolicyOptions? options = null,
+        AwsAiopsPutInvestigationGroupPolicyOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsAiopsPutInvestigationGroupPolicyOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -145,11 +160,11 @@ public class AwsAiops : IAwsAiops
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> TagResourceAsync(
-        AwsAiopsTagResourceOptions? options = null,
+        AwsAiopsTagResourceOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsAiopsTagResourceOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -160,11 +175,26 @@ public class AwsAiops : IAwsAiops
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UntagResourceAsync(
-        AwsAiopsUntagResourceOptions? options = null,
+        AwsAiopsUntagResourceOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsAiopsUntagResourceOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Updates the configuration of the specified investigation group. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> UpdateInvestigationGroupAsync(
+        AwsAiopsUpdateInvestigationGroupOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     #endregion

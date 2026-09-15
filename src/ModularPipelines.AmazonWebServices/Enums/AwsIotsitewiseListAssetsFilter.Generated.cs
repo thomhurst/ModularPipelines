@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsIotsitewiseListAssetsFilter
 {
     [EnumValue("ALL")]
-    All = 1,
+    All,
 
     [EnumValue("TOP_LEVEL")]
-    TopLevel = 2
+    TopLevel
 }

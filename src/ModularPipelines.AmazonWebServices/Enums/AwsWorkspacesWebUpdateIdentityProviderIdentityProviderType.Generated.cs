@@ -11,26 +11,26 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --identityprovidertype.
+/// Allowed values for --identity-provider-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsWorkspacesWebUpdateIdentityProviderIdentityProviderType
 {
-    [EnumValue("SAML")]
-    Saml = 1,
-
     [EnumValue("Facebook")]
-    Facebook = 2,
+    Facebook,
 
     [EnumValue("Google")]
-    Google = 3,
+    Google,
 
     [EnumValue("LoginWithAmazon")]
-    LoginWithAmazon = 4,
-
-    [EnumValue("SignInWithApple")]
-    SignInWithApple = 5,
+    LoginWithAmazon,
 
     [EnumValue("OIDC")]
-    Oidc = 6
+    Oidc,
+
+    [EnumValue("SAML")]
+    Saml,
+
+    [EnumValue("SignInWithApple")]
+    SignInWithApple
 }

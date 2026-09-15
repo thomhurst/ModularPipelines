@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,31 +21,127 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("appconfig", "create-experiment-definition")]
-public record AwsAppConfigCreateExperimentDefinitionOptions : AwsOptions
+public record AwsAppConfigCreateExperimentDefinitionOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates an experiment definition in AppConfig. An experiment definition describes the purpose, scope, and operational configuration of an ex- periment, including the target audience, feature flag, and treatment configurations. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ApplicationIdentifier">The application ID or name. Constraints: o min: 1 o max: 2048</param>
+    /// <param name="Name">A name for the experiment definition. Constraints: o pattern: ^(?!AWS\.).{1,64}$</param>
+    /// <param name="ConfigurationProfileIdentifier">The configuration profile ID or name that stores the feature flag. Constraints: o min: 1 o max: 2048</param>
+    /// <param name="EnvironmentIdentifier">The environment ID or name where the experiment will run. Constraints: o min: 1 o max: 2048</param>
+    /// <param name="FlagKey">The key of the existing feature flag to use with the experiment. Constraints: o pattern: ^[a-z][a-zA-Z0-9_-]{1,64}</param>
+    /// <param name="Treatments">A list of treatments to evaluate during the experiment. Each treat- ment defines a distinct variation compared to the control. Constraints: o min: 1 o max: 5 (structure) Input structure for defining a treatment when creating or updat- ing an experiment definition. Weight -&gt; (float) [required] The traffic allocation weight for this treatment. Constraints: o min: 0.0 Description -&gt; (string) A description of the treatment. Constraints: o min: 0 o max: 1024 FlagValue -&gt; (structure) [required] The feature flag value to serve to users assigned to this treatment. Enabled -&gt; (boolean) [required] Specifies whether the feature flag is enabled for this treatment. AttributeValues -&gt; (map) The attribute values associated with this flag value. Constraints: o min: 0 o max: 25 key -&gt; (string) Constraints: o pattern: (?!enabled$)[a-z][a-zA-Z0-9_-]{0,63} value -&gt; (tagged union structure) A value for a feature flag attribute. Only one of the members can be set. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: StringValue, NumberValue, BooleanValue, StringArray, NumberAr- ray. StringValue -&gt; (string) A string value for the attribute. Constraints: o min: 0 o max: 1024 NumberValue -&gt; (double) A numeric value for the attribute. BooleanValue -&gt; (boolean) A Boolean value for the attribute. StringArray -&gt; (list) An array of string values for the attribute. Constraints: o min: 0 o max: 25 (string) Constraints: o min: 0 o max: 1024 NumberArray -&gt; (list) An array of numeric values for the attribute. Constraints: o min: 0 o max: 25 (double) JSON Syntax: [ { "Weight": float, "Description": "string", "FlagValue": { "Enabled": true|false, "AttributeValues": {"string": { "StringValue": "string", "NumberValue": double, "BooleanValue": true|false, "StringArray": ["string", ...], "NumberArray": [double, ...] } ...} } } ... ]</param>
+    /// <param name="Control">The control treatment that represents the baseline experience for comparison. Weight -&gt; (float) [required] The traffic allocation weight for this treatment. Constraints: o min: 0.0 Description -&gt; (string) A description of the treatment. Constraints: o min: 0 o max: 1024 FlagValue -&gt; (structure) [required] The feature flag value to serve to users assigned to this treat- ment. Enabled -&gt; (boolean) [required] Specifies whether the feature flag is enabled for this treat- ment. AttributeValues -&gt; (map) The attribute values associated with this flag value. Constraints: o min: 0 o max: 25 key -&gt; (string) Constraints: o pattern: (?!enabled$)[a-z][a-zA-Z0-9_-]{0,63} value -&gt; (tagged union structure) A value for a feature flag attribute. Only one of the members can be set. NOTE: This is a Tagged Union structure. Only one of the fol- lowing top level keys can be set: StringValue, Number- Value, BooleanValue, StringArray, NumberArray. StringValue -&gt; (string) A string value for the attribute. Constraints: o min: 0 o max: 1024 NumberValue -&gt; (double) A numeric value for the attribute. BooleanValue -&gt; (boolean) A Boolean value for the attribute. StringArray -&gt; (list) An array of string values for the attribute. Constraints: o min: 0 o max: 25 (string) Constraints: o min: 0 o max: 1024 NumberArray -&gt; (list) An array of numeric values for the attribute. Constraints: o min: 0 o max: 25 (double) JSON Syntax: { "Weight": float, "Description": "string", "FlagValue": { "Enabled": true|false, "AttributeValues": {"string": { "StringValue": "string", "NumberValue": double, "BooleanValue": true|false, "StringArray": ["string", ...], "NumberArray": [double, ...] } ...} } }</param>
+    /// <param name="AudienceRule">A rule that defines which users are eligible to be assigned to treatments during the experiment. Constraints: o min: 1 o max: 16384</param>
+    public AwsAppConfigCreateExperimentDefinitionOptions(
+        string ApplicationIdentifier,
+        string Name,
+        string ConfigurationProfileIdentifier,
+        string EnvironmentIdentifier,
+        string FlagKey,
+        IEnumerable<string> Treatments,
+        string Control,
+        string AudienceRule
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ApplicationIdentifier);
+        this.ApplicationIdentifier = ApplicationIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(ConfigurationProfileIdentifier);
+        this.ConfigurationProfileIdentifier = ConfigurationProfileIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(EnvironmentIdentifier);
+        this.EnvironmentIdentifier = EnvironmentIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(FlagKey);
+        this.FlagKey = FlagKey;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Treatments);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Treatments));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Treatments));
+            }
+
+            Treatments = materialized;
+        }
+        this.Treatments = Treatments;
+        global::System.ArgumentNullException.ThrowIfNull(Control);
+        this.Control = Control;
+        global::System.ArgumentNullException.ThrowIfNull(AudienceRule);
+        this.AudienceRule = AudienceRule;
+    }
+
+    private AwsAppConfigCreateExperimentDefinitionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsAppConfigCreateExperimentDefinitionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsAppConfigCreateExperimentDefinitionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The application ID or name. Constraints: o min: 1 o max: 2048
+    /// </summary>
     [CliOption("--application-identifier")]
-    public string? ApplicationIdentifier { get; set; }
+    public string? ApplicationIdentifier { get; private init; }
 
+    /// <summary>
+    /// A name for the experiment definition. Constraints: o pattern: ^(?!AWS\.).{1,64}$
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
 
+    /// <summary>
+    /// The configuration profile ID or name that stores the feature flag. Constraints: o min: 1 o max: 2048
+    /// </summary>
     [CliOption("--configuration-profile-identifier")]
-    public string? ConfigurationProfileIdentifier { get; set; }
+    public string? ConfigurationProfileIdentifier { get; private init; }
 
+    /// <summary>
+    /// The environment ID or name where the experiment will run. Constraints: o min: 1 o max: 2048
+    /// </summary>
     [CliOption("--environment-identifier")]
-    public string? EnvironmentIdentifier { get; set; }
+    public string? EnvironmentIdentifier { get; private init; }
 
+    /// <summary>
+    /// The key of the existing feature flag to use with the experiment. Constraints: o pattern: ^[a-z][a-zA-Z0-9_-]{1,64}
+    /// </summary>
     [CliOption("--flag-key")]
-    public string? FlagKey { get; set; }
+    public string? FlagKey { get; private init; }
 
+    /// <summary>
+    /// A list of treatments to evaluate during the experiment. Each treat- ment defines a distinct variation compared to the control. Constraints: o min: 1 o max: 5 (structure) Input structure for defining a treatment when creating or updat- ing an experiment definition. Weight -&gt; (float) [required] The traffic allocation weight for this treatment. Constraints: o min: 0.0 Description -&gt; (string) A description of the treatment. Constraints: o min: 0 o max: 1024 FlagValue -&gt; (structure) [required] The feature flag value to serve to users assigned to this treatment. Enabled -&gt; (boolean) [required] Specifies whether the feature flag is enabled for this treatment. AttributeValues -&gt; (map) The attribute values associated with this flag value. Constraints: o min: 0 o max: 25 key -&gt; (string) Constraints: o pattern: (?!enabled$)[a-z][a-zA-Z0-9_-]{0,63} value -&gt; (tagged union structure) A value for a feature flag attribute. Only one of the members can be set. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: StringValue, NumberValue, BooleanValue, StringArray, NumberAr- ray. StringValue -&gt; (string) A string value for the attribute. Constraints: o min: 0 o max: 1024 NumberValue -&gt; (double) A numeric value for the attribute. BooleanValue -&gt; (boolean) A Boolean value for the attribute. StringArray -&gt; (list) An array of string values for the attribute. Constraints: o min: 0 o max: 25 (string) Constraints: o min: 0 o max: 1024 NumberArray -&gt; (list) An array of numeric values for the attribute. Constraints: o min: 0 o max: 25 (double) JSON Syntax: [ { "Weight": float, "Description": "string", "FlagValue": { "Enabled": true|false, "AttributeValues": {"string": { "StringValue": "string", "NumberValue": double, "BooleanValue": true|false, "StringArray": ["string", ...], "NumberArray": [double, ...] } ...} } } ... ]
+    /// </summary>
     [CliOption("--treatments", GroupValues = true)]
-    public IEnumerable<string>? Treatments { get; set; }
+    public IEnumerable<string>? Treatments { get; private init; }
 
+    /// <summary>
+    /// The control treatment that represents the baseline experience for comparison. Weight -&gt; (float) [required] The traffic allocation weight for this treatment. Constraints: o min: 0.0 Description -&gt; (string) A description of the treatment. Constraints: o min: 0 o max: 1024 FlagValue -&gt; (structure) [required] The feature flag value to serve to users assigned to this treat- ment. Enabled -&gt; (boolean) [required] Specifies whether the feature flag is enabled for this treat- ment. AttributeValues -&gt; (map) The attribute values associated with this flag value. Constraints: o min: 0 o max: 25 key -&gt; (string) Constraints: o pattern: (?!enabled$)[a-z][a-zA-Z0-9_-]{0,63} value -&gt; (tagged union structure) A value for a feature flag attribute. Only one of the members can be set. NOTE: This is a Tagged Union structure. Only one of the fol- lowing top level keys can be set: StringValue, Number- Value, BooleanValue, StringArray, NumberArray. StringValue -&gt; (string) A string value for the attribute. Constraints: o min: 0 o max: 1024 NumberValue -&gt; (double) A numeric value for the attribute. BooleanValue -&gt; (boolean) A Boolean value for the attribute. StringArray -&gt; (list) An array of string values for the attribute. Constraints: o min: 0 o max: 25 (string) Constraints: o min: 0 o max: 1024 NumberArray -&gt; (list) An array of numeric values for the attribute. Constraints: o min: 0 o max: 25 (double) JSON Syntax: { "Weight": float, "Description": "string", "FlagValue": { "Enabled": true|false, "AttributeValues": {"string": { "StringValue": "string", "NumberValue": double, "BooleanValue": true|false, "StringArray": ["string", ...], "NumberArray": [double, ...] } ...} } }
+    /// </summary>
     [CliOption("--control")]
-    public string? Control { get; set; }
+    public string? Control { get; private init; }
 
+    /// <summary>
+    /// A rule that defines which users are eligible to be assigned to treatments during the experiment. Constraints: o min: 1 o max: 16384
+    /// </summary>
     [CliOption("--audience-rule")]
-    public string? AudienceRule { get; set; }
+    public string? AudienceRule { get; private init; }
 
     /// <summary>
     /// A description of the goal or hypothesis the experiment is designed to validate. Constraints: o min: 0 o max: 1024
@@ -75,5 +172,22 @@ public record AwsAppConfigCreateExperimentDefinitionOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

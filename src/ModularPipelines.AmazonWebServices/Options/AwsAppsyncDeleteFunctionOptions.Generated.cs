@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("appsync", "delete-function")]
-public record AwsAppsyncDeleteFunctionOptions : AwsOptions
+public record AwsAppsyncDeleteFunctionOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--api-id")]
-    public string? ApiId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Deletes a Function . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ApiId">The GraphQL API ID.</param>
+    /// <param name="FunctionId">The Function ID. Constraints: o min: 1 o max: 65536 o pattern: [_A-Za-z][_0-9A-Za-z]*</param>
+    public AwsAppsyncDeleteFunctionOptions(
+        string ApiId,
+        string FunctionId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ApiId);
+        this.ApiId = ApiId;
+        global::System.ArgumentNullException.ThrowIfNull(FunctionId);
+        this.FunctionId = FunctionId;
+    }
+
+    private AwsAppsyncDeleteFunctionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsAppsyncDeleteFunctionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsAppsyncDeleteFunctionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The GraphQL API ID.
+    /// </summary>
+    [CliOption("--api-id")]
+    public string? ApiId { get; private init; }
+
+    /// <summary>
+    /// The Function ID. Constraints: o min: 1 o max: 65536 o pattern: [_A-Za-z][_0-9A-Za-z]*
+    /// </summary>
     [CliOption("--function-id")]
-    public string? FunctionId { get; set; }
+    public string? FunctionId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

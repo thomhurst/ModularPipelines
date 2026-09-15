@@ -11,29 +11,29 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --purchaseorderretrievalpreferencestatus.
+/// Allowed values for --purchase-order-retrieval-preference-status.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsInvoicingUpdateProcurementPortalPreferenceStatusPurchaseOrderRetrievalPreferenceStatus
 {
-    [EnumValue("PENDING_VERIFICATION")]
-    PendingVerification = 1,
-
-    [EnumValue("VALIDATED")]
-    Validated = 2,
-
-    [EnumValue("TEST_INITIALIZED")]
-    TestInitialized = 3,
-
-    [EnumValue("TEST_INITIALIZATION_FAILED")]
-    TestInitializationFailed = 4,
-
-    [EnumValue("TEST_FAILED")]
-    TestFailed = 5,
-
     [EnumValue("ACTIVE")]
-    Active = 6,
+    Active,
+
+    [EnumValue("PENDING_VERIFICATION")]
+    PendingVerification,
 
     [EnumValue("SUSPENDED")]
-    Suspended = 7
+    Suspended,
+
+    [EnumValue("TEST_FAILED")]
+    TestFailed,
+
+    [EnumValue("TEST_INITIALIZATION_FAILED")]
+    TestInitializationFailed,
+
+    [EnumValue("TEST_INITIALIZED")]
+    TestInitialized,
+
+    [EnumValue("VALIDATED")]
+    Validated
 }

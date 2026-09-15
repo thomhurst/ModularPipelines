@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,24 +20,98 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("lexv2-runtime", "get-session")]
-public record AwsLexv2RuntimeGetSessionOptions : AwsOptions
+public record AwsLexv2RuntimeGetSessionOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Returns session information for a specified bot, alias, and user. For example, you can use this operation to retrieve session information for a user that has left a long-running session in use. If the bot, alias, or session identifier doesn't exist, Amazon Lex V2 returns a BadRequestException . If the locale doesn't exist or is not enabled for the alias, you receive a BadRequestException . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="BotId">The identifier of the bot that contains the session data. Constraints: o min: 10 o max: 10 o pattern: ^[0-9a-zA-Z]+$</param>
+    /// <param name="BotAliasId">The alias identifier in use for the bot that contains the session data.</param>
+    /// <param name="LocaleId">The locale where the session is in use. Constraints: o min: 1</param>
+    /// <param name="SessionId">The identifier of the session to return. Constraints: o min: 2 o max: 100 o pattern: [0-9a-zA-Z._:-]+</param>
+    public AwsLexv2RuntimeGetSessionOptions(
+        string BotId,
+        string BotAliasId,
+        string LocaleId,
+        string SessionId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(BotId);
+        this.BotId = BotId;
+        global::System.ArgumentNullException.ThrowIfNull(BotAliasId);
+        this.BotAliasId = BotAliasId;
+        global::System.ArgumentNullException.ThrowIfNull(LocaleId);
+        this.LocaleId = LocaleId;
+        global::System.ArgumentNullException.ThrowIfNull(SessionId);
+        this.SessionId = SessionId;
+    }
+
+    private AwsLexv2RuntimeGetSessionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsLexv2RuntimeGetSessionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsLexv2RuntimeGetSessionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the bot that contains the session data. Constraints: o min: 10 o max: 10 o pattern: ^[0-9a-zA-Z]+$
+    /// </summary>
     [CliOption("--bot-id")]
-    public string? BotId { get; set; }
+    public string? BotId { get; private init; }
 
+    /// <summary>
+    /// The alias identifier in use for the bot that contains the session data.
+    /// </summary>
     [CliOption("--bot-alias-id")]
-    public string? BotAliasId { get; set; }
+    public string? BotAliasId { get; private init; }
 
+    /// <summary>
+    /// The locale where the session is in use. Constraints: o min: 1
+    /// </summary>
     [CliOption("--locale-id")]
-    public string? LocaleId { get; set; }
+    public string? LocaleId { get; private init; }
 
+    /// <summary>
+    /// The identifier of the session to return. Constraints: o min: 2 o max: 100 o pattern: [0-9a-zA-Z._:-]+
+    /// </summary>
     [CliOption("--session-id")]
-    public string? SessionId { get; set; }
+    public string? SessionId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

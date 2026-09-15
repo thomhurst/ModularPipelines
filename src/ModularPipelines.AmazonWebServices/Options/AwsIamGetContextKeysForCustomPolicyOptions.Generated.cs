@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,79 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iam", "get-context-keys-for-custom-policy")]
-public record AwsIamGetContextKeysForCustomPolicyOptions : AwsOptions
+public record AwsIamGetContextKeysForCustomPolicyOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Gets a list of all of the context keys referenced in the input poli- cies. The policies are supplied as a list of one or more strings. To get the context keys from policies associated with an IAM user, group, or role, use GetContextKeysForPrincipalPolicy . Context keys are variables maintained by Amazon Web Services and its services that provide details about the context of an API query re- quest. Context keys can be evaluated by testing against a value speci- fied in an IAM policy. Use GetConte...
+    /// </summary>
+    /// <param name="PolicyInputList">A list of policies for which you want the list of context keys ref- erenced in those policies. Each document is specified as a string containing the complete, valid JSON text of an IAM policy. The regex pattern used to validate this parameter is a string of characters consisting of the following: o Any printable ASCII character ranging from the space character (\u0020 ) through the end of the ASCII character range o The printable characters in the Basic Latin and Latin-1 Supplement character set (through \u00FF ) o The special characters tab (\u0009 ), line feed (\u000A ), and carriage return (\u000D ) (string) Constraints: o min: 1 o max: 131072 o pattern: [\u0009\u000A\u000D\u0020-\u00FF]+ Syntax: "string" "string" ...</param>
+    public AwsIamGetContextKeysForCustomPolicyOptions(
+        IEnumerable<string> PolicyInputList
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(PolicyInputList);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(PolicyInputList));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(PolicyInputList));
+            }
+
+            PolicyInputList = materialized;
+        }
+        this.PolicyInputList = PolicyInputList;
+    }
+
+    private AwsIamGetContextKeysForCustomPolicyOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsIamGetContextKeysForCustomPolicyOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsIamGetContextKeysForCustomPolicyOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A list of policies for which you want the list of context keys ref- erenced in those policies. Each document is specified as a string containing the complete, valid JSON text of an IAM policy. The regex pattern used to validate this parameter is a string of characters consisting of the following: o Any printable ASCII character ranging from the space character (\u0020 ) through the end of the ASCII character range o The printable characters in the Basic Latin and Latin-1 Supplement character set (through \u00FF ) o The special characters tab (\u0009 ), line feed (\u000A ), and carriage return (\u000D ) (string) Constraints: o min: 1 o max: 131072 o pattern: [\u0009\u000A\u000D\u0020-\u00FF]+ Syntax: "string" "string" ...
+    /// </summary>
     [CliOption("--policy-input-list", GroupValues = true)]
-    public IEnumerable<string>? PolicyInputList { get; set; }
+    public IEnumerable<string>? PolicyInputList { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

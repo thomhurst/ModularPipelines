@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,12 +21,51 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ssm", "get-parameter-history")]
-public record AwsSsmGetParameterHistoryOptions : AwsOptions
+public record AwsSsmGetParameterHistoryOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--name")]
-    public string? Name { get; set; }
+    private readonly bool _requiresAlternateInput;
 
-    [CliFlag("--with-decryption")]
+    /// <summary>
+    /// Retrieves the history of all changes to a parameter. Parameter names can't contain spaces. The service removes any spaces specified for the beginning or end of a parameter name. If the speci- fied name for a parameter contains spaces between characters, the re- quest fails with a ValidationException error. WARNING: If you change the KMS key alias for the KMS key used to encrypt a parameter, then you must also update the key alias the parameter uses to reference KMS. Otherwise, GetParameterHistor...
+    /// </summary>
+    /// <param name="Name">The name or Amazon Resource Name (ARN) of the parameter for which you want to review history. For parameters shared with you from an- other account, you must use the full ARN. Constraints: o min: 1 o max: 2048</param>
+    public AwsSsmGetParameterHistoryOptions(
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    private AwsSsmGetParameterHistoryOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSsmGetParameterHistoryOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSsmGetParameterHistoryOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name or Amazon Resource Name (ARN) of the parameter for which you want to review history. For parameters shared with you from an- other account, you must use the full ARN. Constraints: o min: 1 o max: 2048
+    /// </summary>
+    [CliOption("--name")]
+    public string? Name { get; private init; }
+
+    /// <summary>
+    /// Return decrypted values for secure string parameters. This flag is ignored for String and StringList parameter types.
+    /// </summary>
+    [CliFlag("--with-decryption", NegatedName = "--no-with-decryption")]
     public bool? WithDecryption { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -52,5 +92,22 @@ public record AwsSsmGetParameterHistoryOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

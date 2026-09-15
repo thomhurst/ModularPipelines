@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --diagnosticsmode.
+/// Allowed values for --diagnostics-mode.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsIotfleetwiseCreateCampaignDiagnosticsMode
 {
     [EnumValue("OFF")]
-    Off = 1,
+    Off,
 
     [EnumValue("SEND_ACTIVE_DTCS")]
-    SendActiveDtcs = 2
+    SendActiveDtcs
 }

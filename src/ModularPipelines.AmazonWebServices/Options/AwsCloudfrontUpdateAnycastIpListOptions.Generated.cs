@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,10 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cloudfront", "update-anycast-ip-list")]
-public record AwsCloudfrontUpdateAnycastIpListOptions : AwsOptions
+public record AwsCloudfrontUpdateAnycastIpListOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates an Anycast static IP list. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Id">The ID of the Anycast static IP list.</param>
+    /// <param name="IfMatch">The current version (ETag value) of the Anycast static IP list that you are updating.</param>
+    public AwsCloudfrontUpdateAnycastIpListOptions(
+        string Id,
+        string IfMatch
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Id);
+        this.Id = Id;
+        global::System.ArgumentNullException.ThrowIfNull(IfMatch);
+        this.IfMatch = IfMatch;
+    }
+
+    private AwsCloudfrontUpdateAnycastIpListOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCloudfrontUpdateAnycastIpListOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCloudfrontUpdateAnycastIpListOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the Anycast static IP list.
+    /// </summary>
     [CliOption("--id")]
-    public string? Id { get; set; }
+    public string? Id { get; private init; }
+
+    /// <summary>
+    /// The current version (ETag value) of the Anycast static IP list that you are updating.
+    /// </summary>
+    [CliOption("--if-match")]
+    public string? IfMatch { get; private init; }
 
     /// <summary>
     /// The IP address type for the Anycast static IP list. You can specify one of the following options: o ipv4 only o ipv6 only o dualstack - Allocate a list of both IPv4 and IPv6 addresses Possible values: o ipv4 o ipv6 o dualstack
@@ -37,13 +84,27 @@ public record AwsCloudfrontUpdateAnycastIpListOptions : AwsOptions
     [CliOption("--ipam-cidr-configs", GroupValues = true)]
     public IEnumerable<string>? IpamCidrConfigs { get; set; }
 
-    [CliOption("--if-match")]
-    public string? IfMatch { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

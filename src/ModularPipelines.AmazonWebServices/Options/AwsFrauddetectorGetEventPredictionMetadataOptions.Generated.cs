@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,27 +20,108 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("frauddetector", "get-event-prediction-metadata")]
-public record AwsFrauddetectorGetEventPredictionMetadataOptions : AwsOptions
+public record AwsFrauddetectorGetEventPredictionMetadataOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Gets details of the past fraud predictions for the specified event ID, event type, detector ID, and detector version ID that was generated in the specified time period. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="EventId">The event ID. Constraints: o min: 1 o max: 64 o pattern: ^[0-9a-z_-]+$</param>
+    /// <param name="EventTypeName">The event type associated with the detector specified for the pre- diction. Constraints: o min: 1 o max: 64 o pattern: ^[0-9a-z_-]+$</param>
+    /// <param name="DetectorId">The detector ID. Constraints: o min: 1 o max: 64 o pattern: ^[0-9a-z_-]+$</param>
+    /// <param name="DetectorVersionId">The detector version ID. Constraints: o min: 1 o max: 5 o pattern: ^([1-9][0-9]*)$</param>
+    /// <param name="PredictionTimestamp">The timestamp that defines when the prediction was generated. The timestamp must be specified using ISO 8601 standard in UTC. We recommend calling ListEventPredictions first, and using the pre- dictionTimestamp value in the response to provide an accurate pre- diction timestamp value. Constraints: o min: 11 o max: 30</param>
+    public AwsFrauddetectorGetEventPredictionMetadataOptions(
+        string EventId,
+        string EventTypeName,
+        string DetectorId,
+        string DetectorVersionId,
+        string PredictionTimestamp
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(EventId);
+        this.EventId = EventId;
+        global::System.ArgumentNullException.ThrowIfNull(EventTypeName);
+        this.EventTypeName = EventTypeName;
+        global::System.ArgumentNullException.ThrowIfNull(DetectorId);
+        this.DetectorId = DetectorId;
+        global::System.ArgumentNullException.ThrowIfNull(DetectorVersionId);
+        this.DetectorVersionId = DetectorVersionId;
+        global::System.ArgumentNullException.ThrowIfNull(PredictionTimestamp);
+        this.PredictionTimestamp = PredictionTimestamp;
+    }
+
+    private AwsFrauddetectorGetEventPredictionMetadataOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsFrauddetectorGetEventPredictionMetadataOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsFrauddetectorGetEventPredictionMetadataOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The event ID. Constraints: o min: 1 o max: 64 o pattern: ^[0-9a-z_-]+$
+    /// </summary>
     [CliOption("--event-id")]
-    public string? EventId { get; set; }
+    public string? EventId { get; private init; }
 
+    /// <summary>
+    /// The event type associated with the detector specified for the pre- diction. Constraints: o min: 1 o max: 64 o pattern: ^[0-9a-z_-]+$
+    /// </summary>
     [CliOption("--event-type-name")]
-    public string? EventTypeName { get; set; }
+    public string? EventTypeName { get; private init; }
 
+    /// <summary>
+    /// The detector ID. Constraints: o min: 1 o max: 64 o pattern: ^[0-9a-z_-]+$
+    /// </summary>
     [CliOption("--detector-id")]
-    public string? DetectorId { get; set; }
+    public string? DetectorId { get; private init; }
 
+    /// <summary>
+    /// The detector version ID. Constraints: o min: 1 o max: 5 o pattern: ^([1-9][0-9]*)$
+    /// </summary>
     [CliOption("--detector-version-id")]
-    public string? DetectorVersionId { get; set; }
+    public string? DetectorVersionId { get; private init; }
 
+    /// <summary>
+    /// The timestamp that defines when the prediction was generated. The timestamp must be specified using ISO 8601 standard in UTC. We recommend calling ListEventPredictions first, and using the pre- dictionTimestamp value in the response to provide an accurate pre- diction timestamp value. Constraints: o min: 11 o max: 30
+    /// </summary>
     [CliOption("--prediction-timestamp")]
-    public string? PredictionTimestamp { get; set; }
+    public string? PredictionTimestamp { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

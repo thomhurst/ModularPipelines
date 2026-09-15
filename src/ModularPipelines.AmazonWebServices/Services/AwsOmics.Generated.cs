@@ -5,8 +5,8 @@
 
 #nullable enable
 
-using ModularPipelines.Context;
 using System.CodeDom.Compiler;
+using ModularPipelines.Context;
 using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
@@ -50,11 +50,11 @@ public class AwsOmics : IAwsOmics
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AbortMultipartReadSetUploadAsync(
-        AwsOmicsAbortMultipartReadSetUploadOptions? options = null,
+        AwsOmicsAbortMultipartReadSetUploadOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsOmicsAbortMultipartReadSetUploadOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -65,11 +65,11 @@ public class AwsOmics : IAwsOmics
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AcceptShareAsync(
-        AwsOmicsAcceptShareOptions? options = null,
+        AwsOmicsAcceptShareOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsOmicsAcceptShareOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -80,11 +80,11 @@ public class AwsOmics : IAwsOmics
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> BatchDeleteReadSetAsync(
-        AwsOmicsBatchDeleteReadSetOptions? options = null,
+        AwsOmicsBatchDeleteReadSetOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsOmicsBatchDeleteReadSetOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -95,11 +95,11 @@ public class AwsOmics : IAwsOmics
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CancelAnnotationImportJobAsync(
-        AwsOmicsCancelAnnotationImportJobOptions? options = null,
+        AwsOmicsCancelAnnotationImportJobOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsOmicsCancelAnnotationImportJobOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -110,11 +110,11 @@ public class AwsOmics : IAwsOmics
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CancelRunBatchAsync(
-        AwsOmicsCancelRunBatchOptions? options = null,
+        AwsOmicsCancelRunBatchOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsOmicsCancelRunBatchOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -125,11 +125,11 @@ public class AwsOmics : IAwsOmics
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CancelRunAsync(
-        AwsOmicsCancelRunOptions? options = null,
+        AwsOmicsCancelRunOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsOmicsCancelRunOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -140,11 +140,11 @@ public class AwsOmics : IAwsOmics
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CancelVariantImportJobAsync(
-        AwsOmicsCancelVariantImportJobOptions? options = null,
+        AwsOmicsCancelVariantImportJobOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsOmicsCancelVariantImportJobOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -155,11 +155,11 @@ public class AwsOmics : IAwsOmics
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CompleteMultipartReadSetUploadAsync(
-        AwsOmicsCompleteMultipartReadSetUploadOptions? options = null,
+        AwsOmicsCompleteMultipartReadSetUploadOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsOmicsCompleteMultipartReadSetUploadOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -170,11 +170,11 @@ public class AwsOmics : IAwsOmics
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateAnnotationStoreAsync(
-        AwsOmicsCreateAnnotationStoreOptions? options = null,
+        AwsOmicsCreateAnnotationStoreOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsOmicsCreateAnnotationStoreOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -185,11 +185,11 @@ public class AwsOmics : IAwsOmics
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateAnnotationStoreVersionAsync(
-        AwsOmicsCreateAnnotationStoreVersionOptions? options = null,
+        AwsOmicsCreateAnnotationStoreVersionOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsOmicsCreateAnnotationStoreVersionOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -200,11 +200,11 @@ public class AwsOmics : IAwsOmics
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateConfigurationAsync(
-        AwsOmicsCreateConfigurationOptions? options = null,
+        AwsOmicsCreateConfigurationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsOmicsCreateConfigurationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -215,11 +215,11 @@ public class AwsOmics : IAwsOmics
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateMultipartReadSetUploadAsync(
-        AwsOmicsCreateMultipartReadSetUploadOptions? options = null,
+        AwsOmicsCreateMultipartReadSetUploadOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsOmicsCreateMultipartReadSetUploadOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -230,11 +230,26 @@ public class AwsOmics : IAwsOmics
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateReferenceStoreAsync(
-        AwsOmicsCreateReferenceStoreOptions? options = null,
+        AwsOmicsCreateReferenceStoreOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsOmicsCreateReferenceStoreOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Creates a run cache to store and reference task outputs from completed private runs. Specify an Amazon S3 location where Amazon Web Services HealthOmics saves the cached data. This data must be immediately acces- sible and not in an archived state. You can save intermediate task files to a run cache if they are declared as task outputs in the work- flow definition file. For more information, see Call caching and Creating a run cache in the Amazon Web Services HealthOmics User Guide . See also: A...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> CreateRunCacheAsync(
+        AwsOmicsCreateRunCacheOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -249,7 +264,7 @@ public class AwsOmics : IAwsOmics
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsOmicsCreateRunGroupOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsOmicsCreateRunGroupOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -260,26 +275,26 @@ public class AwsOmics : IAwsOmics
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateSequenceStoreAsync(
-        AwsOmicsCreateSequenceStoreOptions? options = null,
+        AwsOmicsCreateSequenceStoreOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsOmicsCreateSequenceStoreOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
-    /// Creates a cross-account shared resource. The resource owner makes an offer to share the resource with the principal subscriber (an AWS user with a different account than the resource owner). The following resources support cross-account sharing: o HealthOmics variant stores o HealthOmics annotation stores o Private workflows See also: AWS API Documentation
+    /// Creates a cross-account shared resource. The resource owner makes an offer to share the resource with the principal subscriber (an Amazon Web Services user with a different account than the resource owner). The following resources support cross-account sharing: o HealthOmics variant stores o HealthOmics annotation stores o Private workflows See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateShareAsync(
-        AwsOmicsCreateShareOptions? options = null,
+        AwsOmicsCreateShareOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsOmicsCreateShareOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -290,11 +305,11 @@ public class AwsOmics : IAwsOmics
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateVariantStoreAsync(
-        AwsOmicsCreateVariantStoreOptions? options = null,
+        AwsOmicsCreateVariantStoreOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsOmicsCreateVariantStoreOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -309,7 +324,7 @@ public class AwsOmics : IAwsOmics
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsOmicsCreateWorkflowOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsOmicsCreateWorkflowOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -320,11 +335,11 @@ public class AwsOmics : IAwsOmics
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateWorkflowVersionAsync(
-        AwsOmicsCreateWorkflowVersionOptions? options = null,
+        AwsOmicsCreateWorkflowVersionOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsOmicsCreateWorkflowVersionOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -335,11 +350,11 @@ public class AwsOmics : IAwsOmics
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteAnnotationStoreAsync(
-        AwsOmicsDeleteAnnotationStoreOptions? options = null,
+        AwsOmicsDeleteAnnotationStoreOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsOmicsDeleteAnnotationStoreOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -350,26 +365,26 @@ public class AwsOmics : IAwsOmics
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteAnnotationStoreVersionsAsync(
-        AwsOmicsDeleteAnnotationStoreVersionsOptions? options = null,
+        AwsOmicsDeleteAnnotationStoreVersionsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsOmicsDeleteAnnotationStoreVersionsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
-    /// Deletes a run batch resource and its associated metadata. This opera- tion does not delete the individual workflow runs. To delete the runs, call DeleteRunBatch before calling DeleteBatch . DeleteBatch requires the batch to be in a terminal state: PROCESSED , FAILED , CANCELLED , or RUNS_DELETED . After DeleteBatch com- pletes, the batch metadata is no longer accessible. You cannot call GetBatch , ListRunsInBatch , DeleteRunBatch , or CancelRunBatch on a deleted batch. See also: AWS API Document...
+    /// Deletes a run batch resource and its associated metadata. This opera- tion does not delete the individual workflow runs. To delete the runs, call DeleteRunBatch before calling DeleteBatch . DeleteBatch requires the batch to be in a terminal state: PROCESSED , FAILED , CANCELLED , RUNS_DELETE_FAILED , or RUNS_DELETED . After DeleteBatch completes, the batch metadata is no longer accessible. You cannot call GetBatch , ListRunsInBatch , DeleteRunBatch , or CancelRunBatch on a deleted batch. See als...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteBatchAsync(
-        AwsOmicsDeleteBatchOptions? options = null,
+        AwsOmicsDeleteBatchOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsOmicsDeleteBatchOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -380,11 +395,11 @@ public class AwsOmics : IAwsOmics
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteConfigurationAsync(
-        AwsOmicsDeleteConfigurationOptions? options = null,
+        AwsOmicsDeleteConfigurationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsOmicsDeleteConfigurationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -395,11 +410,11 @@ public class AwsOmics : IAwsOmics
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteReferenceAsync(
-        AwsOmicsDeleteReferenceOptions? options = null,
+        AwsOmicsDeleteReferenceOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsOmicsDeleteReferenceOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -410,11 +425,11 @@ public class AwsOmics : IAwsOmics
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteReferenceStoreAsync(
-        AwsOmicsDeleteReferenceStoreOptions? options = null,
+        AwsOmicsDeleteReferenceStoreOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsOmicsDeleteReferenceStoreOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -425,11 +440,11 @@ public class AwsOmics : IAwsOmics
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteRunBatchAsync(
-        AwsOmicsDeleteRunBatchOptions? options = null,
+        AwsOmicsDeleteRunBatchOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsOmicsDeleteRunBatchOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -440,11 +455,11 @@ public class AwsOmics : IAwsOmics
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteRunCacheAsync(
-        AwsOmicsDeleteRunCacheOptions? options = null,
+        AwsOmicsDeleteRunCacheOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsOmicsDeleteRunCacheOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -455,11 +470,11 @@ public class AwsOmics : IAwsOmics
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteRunGroupAsync(
-        AwsOmicsDeleteRunGroupOptions? options = null,
+        AwsOmicsDeleteRunGroupOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsOmicsDeleteRunGroupOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -470,11 +485,11 @@ public class AwsOmics : IAwsOmics
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteRunAsync(
-        AwsOmicsDeleteRunOptions? options = null,
+        AwsOmicsDeleteRunOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsOmicsDeleteRunOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -485,11 +500,11 @@ public class AwsOmics : IAwsOmics
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteS3AccessPolicyAsync(
-        AwsOmicsDeleteS3AccessPolicyOptions? options = null,
+        AwsOmicsDeleteS3AccessPolicyOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsOmicsDeleteS3AccessPolicyOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -500,11 +515,11 @@ public class AwsOmics : IAwsOmics
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteSequenceStoreAsync(
-        AwsOmicsDeleteSequenceStoreOptions? options = null,
+        AwsOmicsDeleteSequenceStoreOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsOmicsDeleteSequenceStoreOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -515,11 +530,11 @@ public class AwsOmics : IAwsOmics
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteShareAsync(
-        AwsOmicsDeleteShareOptions? options = null,
+        AwsOmicsDeleteShareOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsOmicsDeleteShareOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -530,11 +545,11 @@ public class AwsOmics : IAwsOmics
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteVariantStoreAsync(
-        AwsOmicsDeleteVariantStoreOptions? options = null,
+        AwsOmicsDeleteVariantStoreOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsOmicsDeleteVariantStoreOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -545,11 +560,11 @@ public class AwsOmics : IAwsOmics
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteWorkflowAsync(
-        AwsOmicsDeleteWorkflowOptions? options = null,
+        AwsOmicsDeleteWorkflowOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsOmicsDeleteWorkflowOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -560,11 +575,11 @@ public class AwsOmics : IAwsOmics
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteWorkflowVersionAsync(
-        AwsOmicsDeleteWorkflowVersionOptions? options = null,
+        AwsOmicsDeleteWorkflowVersionOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsOmicsDeleteWorkflowVersionOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -575,11 +590,11 @@ public class AwsOmics : IAwsOmics
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetAnnotationImportJobAsync(
-        AwsOmicsGetAnnotationImportJobOptions? options = null,
+        AwsOmicsGetAnnotationImportJobOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsOmicsGetAnnotationImportJobOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -590,11 +605,11 @@ public class AwsOmics : IAwsOmics
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetAnnotationStoreAsync(
-        AwsOmicsGetAnnotationStoreOptions? options = null,
+        AwsOmicsGetAnnotationStoreOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsOmicsGetAnnotationStoreOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -605,11 +620,11 @@ public class AwsOmics : IAwsOmics
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetAnnotationStoreVersionAsync(
-        AwsOmicsGetAnnotationStoreVersionOptions? options = null,
+        AwsOmicsGetAnnotationStoreVersionOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsOmicsGetAnnotationStoreVersionOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -620,11 +635,11 @@ public class AwsOmics : IAwsOmics
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetBatchAsync(
-        AwsOmicsGetBatchOptions? options = null,
+        AwsOmicsGetBatchOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsOmicsGetBatchOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -635,11 +650,11 @@ public class AwsOmics : IAwsOmics
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetConfigurationAsync(
-        AwsOmicsGetConfigurationOptions? options = null,
+        AwsOmicsGetConfigurationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsOmicsGetConfigurationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -650,11 +665,11 @@ public class AwsOmics : IAwsOmics
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetReadSetActivationJobAsync(
-        AwsOmicsGetReadSetActivationJobOptions? options = null,
+        AwsOmicsGetReadSetActivationJobOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsOmicsGetReadSetActivationJobOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -665,11 +680,11 @@ public class AwsOmics : IAwsOmics
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetReadSetExportJobAsync(
-        AwsOmicsGetReadSetExportJobOptions? options = null,
+        AwsOmicsGetReadSetExportJobOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsOmicsGetReadSetExportJobOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -680,11 +695,11 @@ public class AwsOmics : IAwsOmics
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetReadSetImportJobAsync(
-        AwsOmicsGetReadSetImportJobOptions? options = null,
+        AwsOmicsGetReadSetImportJobOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsOmicsGetReadSetImportJobOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -695,11 +710,11 @@ public class AwsOmics : IAwsOmics
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetReadSetMetadataAsync(
-        AwsOmicsGetReadSetMetadataOptions? options = null,
+        AwsOmicsGetReadSetMetadataOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsOmicsGetReadSetMetadataOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -710,11 +725,11 @@ public class AwsOmics : IAwsOmics
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetReadSetAsync(
-        AwsOmicsGetReadSetOptions? options = null,
+        AwsOmicsGetReadSetOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsOmicsGetReadSetOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -725,11 +740,11 @@ public class AwsOmics : IAwsOmics
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetReferenceImportJobAsync(
-        AwsOmicsGetReferenceImportJobOptions? options = null,
+        AwsOmicsGetReferenceImportJobOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsOmicsGetReferenceImportJobOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -740,11 +755,11 @@ public class AwsOmics : IAwsOmics
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetReferenceMetadataAsync(
-        AwsOmicsGetReferenceMetadataOptions? options = null,
+        AwsOmicsGetReferenceMetadataOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsOmicsGetReferenceMetadataOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -755,11 +770,11 @@ public class AwsOmics : IAwsOmics
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetReferenceAsync(
-        AwsOmicsGetReferenceOptions? options = null,
+        AwsOmicsGetReferenceOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsOmicsGetReferenceOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -770,11 +785,11 @@ public class AwsOmics : IAwsOmics
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetReferenceStoreAsync(
-        AwsOmicsGetReferenceStoreOptions? options = null,
+        AwsOmicsGetReferenceStoreOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsOmicsGetReferenceStoreOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -785,11 +800,11 @@ public class AwsOmics : IAwsOmics
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetRunCacheAsync(
-        AwsOmicsGetRunCacheOptions? options = null,
+        AwsOmicsGetRunCacheOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsOmicsGetRunCacheOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -800,11 +815,11 @@ public class AwsOmics : IAwsOmics
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetRunGroupAsync(
-        AwsOmicsGetRunGroupOptions? options = null,
+        AwsOmicsGetRunGroupOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsOmicsGetRunGroupOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -815,11 +830,11 @@ public class AwsOmics : IAwsOmics
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetRunAsync(
-        AwsOmicsGetRunOptions? options = null,
+        AwsOmicsGetRunOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsOmicsGetRunOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -830,11 +845,11 @@ public class AwsOmics : IAwsOmics
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetRunTaskAsync(
-        AwsOmicsGetRunTaskOptions? options = null,
+        AwsOmicsGetRunTaskOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsOmicsGetRunTaskOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -845,11 +860,11 @@ public class AwsOmics : IAwsOmics
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetS3AccessPolicyAsync(
-        AwsOmicsGetS3AccessPolicyOptions? options = null,
+        AwsOmicsGetS3AccessPolicyOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsOmicsGetS3AccessPolicyOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -860,11 +875,11 @@ public class AwsOmics : IAwsOmics
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetSequenceStoreAsync(
-        AwsOmicsGetSequenceStoreOptions? options = null,
+        AwsOmicsGetSequenceStoreOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsOmicsGetSequenceStoreOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -875,11 +890,11 @@ public class AwsOmics : IAwsOmics
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetShareAsync(
-        AwsOmicsGetShareOptions? options = null,
+        AwsOmicsGetShareOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsOmicsGetShareOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -890,11 +905,11 @@ public class AwsOmics : IAwsOmics
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetVariantImportJobAsync(
-        AwsOmicsGetVariantImportJobOptions? options = null,
+        AwsOmicsGetVariantImportJobOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsOmicsGetVariantImportJobOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -905,11 +920,11 @@ public class AwsOmics : IAwsOmics
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetVariantStoreAsync(
-        AwsOmicsGetVariantStoreOptions? options = null,
+        AwsOmicsGetVariantStoreOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsOmicsGetVariantStoreOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -920,11 +935,11 @@ public class AwsOmics : IAwsOmics
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetWorkflowAsync(
-        AwsOmicsGetWorkflowOptions? options = null,
+        AwsOmicsGetWorkflowOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsOmicsGetWorkflowOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -935,11 +950,11 @@ public class AwsOmics : IAwsOmics
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetWorkflowVersionAsync(
-        AwsOmicsGetWorkflowVersionOptions? options = null,
+        AwsOmicsGetWorkflowVersionOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsOmicsGetWorkflowVersionOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -954,7 +969,7 @@ public class AwsOmics : IAwsOmics
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsOmicsListAnnotationImportJobsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsOmicsListAnnotationImportJobsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -969,7 +984,7 @@ public class AwsOmics : IAwsOmics
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsOmicsListAnnotationStoresOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsOmicsListAnnotationStoresOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -980,11 +995,11 @@ public class AwsOmics : IAwsOmics
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListAnnotationStoreVersionsAsync(
-        AwsOmicsListAnnotationStoreVersionsOptions? options = null,
+        AwsOmicsListAnnotationStoreVersionsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsOmicsListAnnotationStoreVersionsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -999,7 +1014,7 @@ public class AwsOmics : IAwsOmics
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsOmicsListBatchOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsOmicsListBatchOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1014,7 +1029,7 @@ public class AwsOmics : IAwsOmics
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsOmicsListConfigurationsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsOmicsListConfigurationsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1025,11 +1040,11 @@ public class AwsOmics : IAwsOmics
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListMultipartReadSetUploadsAsync(
-        AwsOmicsListMultipartReadSetUploadsOptions? options = null,
+        AwsOmicsListMultipartReadSetUploadsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsOmicsListMultipartReadSetUploadsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1040,11 +1055,11 @@ public class AwsOmics : IAwsOmics
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListReadSetActivationJobsAsync(
-        AwsOmicsListReadSetActivationJobsOptions? options = null,
+        AwsOmicsListReadSetActivationJobsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsOmicsListReadSetActivationJobsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1055,11 +1070,11 @@ public class AwsOmics : IAwsOmics
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListReadSetExportJobsAsync(
-        AwsOmicsListReadSetExportJobsOptions? options = null,
+        AwsOmicsListReadSetExportJobsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsOmicsListReadSetExportJobsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1070,11 +1085,11 @@ public class AwsOmics : IAwsOmics
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListReadSetImportJobsAsync(
-        AwsOmicsListReadSetImportJobsOptions? options = null,
+        AwsOmicsListReadSetImportJobsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsOmicsListReadSetImportJobsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1085,11 +1100,11 @@ public class AwsOmics : IAwsOmics
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListReadSetsAsync(
-        AwsOmicsListReadSetsOptions? options = null,
+        AwsOmicsListReadSetsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsOmicsListReadSetsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1100,11 +1115,11 @@ public class AwsOmics : IAwsOmics
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListReadSetUploadPartsAsync(
-        AwsOmicsListReadSetUploadPartsOptions? options = null,
+        AwsOmicsListReadSetUploadPartsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsOmicsListReadSetUploadPartsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1115,11 +1130,11 @@ public class AwsOmics : IAwsOmics
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListReferenceImportJobsAsync(
-        AwsOmicsListReferenceImportJobsOptions? options = null,
+        AwsOmicsListReferenceImportJobsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsOmicsListReferenceImportJobsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1130,11 +1145,11 @@ public class AwsOmics : IAwsOmics
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListReferencesAsync(
-        AwsOmicsListReferencesOptions? options = null,
+        AwsOmicsListReferencesOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsOmicsListReferencesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1149,7 +1164,7 @@ public class AwsOmics : IAwsOmics
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsOmicsListReferenceStoresOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsOmicsListReferenceStoresOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1164,7 +1179,7 @@ public class AwsOmics : IAwsOmics
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsOmicsListRunCachesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsOmicsListRunCachesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1179,7 +1194,7 @@ public class AwsOmics : IAwsOmics
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsOmicsListRunGroupsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsOmicsListRunGroupsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1190,11 +1205,11 @@ public class AwsOmics : IAwsOmics
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListRunsInBatchAsync(
-        AwsOmicsListRunsInBatchOptions? options = null,
+        AwsOmicsListRunsInBatchOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsOmicsListRunsInBatchOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1209,7 +1224,7 @@ public class AwsOmics : IAwsOmics
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsOmicsListRunsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsOmicsListRunsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1220,11 +1235,11 @@ public class AwsOmics : IAwsOmics
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListRunTasksAsync(
-        AwsOmicsListRunTasksOptions? options = null,
+        AwsOmicsListRunTasksOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsOmicsListRunTasksOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1239,7 +1254,22 @@ public class AwsOmics : IAwsOmics
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsOmicsListSequenceStoresOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsOmicsListSequenceStoresOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Retrieves the resource shares associated with an account. Use the fil- ter parameter to retrieve a specific subset of the shares. See also: AWS API Documentation list-shares is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListSharesAsync(
+        AwsOmicsListSharesOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1250,11 +1280,11 @@ public class AwsOmics : IAwsOmics
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListTagsForResourceAsync(
-        AwsOmicsListTagsForResourceOptions? options = null,
+        AwsOmicsListTagsForResourceOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsOmicsListTagsForResourceOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1269,7 +1299,7 @@ public class AwsOmics : IAwsOmics
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsOmicsListVariantImportJobsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsOmicsListVariantImportJobsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1284,7 +1314,7 @@ public class AwsOmics : IAwsOmics
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsOmicsListVariantStoresOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsOmicsListVariantStoresOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1299,7 +1329,7 @@ public class AwsOmics : IAwsOmics
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsOmicsListWorkflowsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsOmicsListWorkflowsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1310,11 +1340,11 @@ public class AwsOmics : IAwsOmics
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListWorkflowVersionsAsync(
-        AwsOmicsListWorkflowVersionsOptions? options = null,
+        AwsOmicsListWorkflowVersionsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsOmicsListWorkflowVersionsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1325,11 +1355,11 @@ public class AwsOmics : IAwsOmics
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> PutS3AccessPolicyAsync(
-        AwsOmicsPutS3AccessPolicyOptions? options = null,
+        AwsOmicsPutS3AccessPolicyOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsOmicsPutS3AccessPolicyOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1340,26 +1370,26 @@ public class AwsOmics : IAwsOmics
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> StartAnnotationImportJobAsync(
-        AwsOmicsStartAnnotationImportJobOptions? options = null,
+        AwsOmicsStartAnnotationImportJobOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsOmicsStartAnnotationImportJobOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
-    /// Activates an archived read set and returns its metadata in a JSON for- matted output. AWS HealthOmics automatically archives unused read sets after 30 days. To monitor the status of your read set activation job, use the GetReadSetActivationJob operation. To learn more, see Activating read sets in the Amazon Web Services HealthOmics User Guide . See also: AWS API Documentation
+    /// Activates an archived read set and returns its metadata in a JSON for- matted output. Amazon Web Services HealthOmics automatically archives unused read sets after 30 days. To monitor the status of your read set activation job, use the GetReadSetActivationJob operation. To learn more, see Activating read sets in the Amazon Web Services HealthOmics User Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> StartReadSetActivationJobAsync(
-        AwsOmicsStartReadSetActivationJobOptions? options = null,
+        AwsOmicsStartReadSetActivationJobOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsOmicsStartReadSetActivationJobOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1370,11 +1400,11 @@ public class AwsOmics : IAwsOmics
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> StartReadSetExportJobAsync(
-        AwsOmicsStartReadSetExportJobOptions? options = null,
+        AwsOmicsStartReadSetExportJobOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsOmicsStartReadSetExportJobOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1385,11 +1415,11 @@ public class AwsOmics : IAwsOmics
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> StartReadSetImportJobAsync(
-        AwsOmicsStartReadSetImportJobOptions? options = null,
+        AwsOmicsStartReadSetImportJobOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsOmicsStartReadSetImportJobOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1400,11 +1430,11 @@ public class AwsOmics : IAwsOmics
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> StartReferenceImportJobAsync(
-        AwsOmicsStartReferenceImportJobOptions? options = null,
+        AwsOmicsStartReferenceImportJobOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsOmicsStartReferenceImportJobOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1415,11 +1445,11 @@ public class AwsOmics : IAwsOmics
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> StartRunBatchAsync(
-        AwsOmicsStartRunBatchOptions? options = null,
+        AwsOmicsStartRunBatchOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsOmicsStartRunBatchOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1430,11 +1460,11 @@ public class AwsOmics : IAwsOmics
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> StartRunAsync(
-        AwsOmicsStartRunOptions? options = null,
+        AwsOmicsStartRunOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsOmicsStartRunOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1445,11 +1475,11 @@ public class AwsOmics : IAwsOmics
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> StartVariantImportJobAsync(
-        AwsOmicsStartVariantImportJobOptions? options = null,
+        AwsOmicsStartVariantImportJobOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsOmicsStartVariantImportJobOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1460,11 +1490,11 @@ public class AwsOmics : IAwsOmics
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> TagResourceAsync(
-        AwsOmicsTagResourceOptions? options = null,
+        AwsOmicsTagResourceOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsOmicsTagResourceOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1475,11 +1505,11 @@ public class AwsOmics : IAwsOmics
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UntagResourceAsync(
-        AwsOmicsUntagResourceOptions? options = null,
+        AwsOmicsUntagResourceOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsOmicsUntagResourceOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1490,11 +1520,11 @@ public class AwsOmics : IAwsOmics
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateAnnotationStoreAsync(
-        AwsOmicsUpdateAnnotationStoreOptions? options = null,
+        AwsOmicsUpdateAnnotationStoreOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsOmicsUpdateAnnotationStoreOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1505,11 +1535,11 @@ public class AwsOmics : IAwsOmics
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateAnnotationStoreVersionAsync(
-        AwsOmicsUpdateAnnotationStoreVersionOptions? options = null,
+        AwsOmicsUpdateAnnotationStoreVersionOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsOmicsUpdateAnnotationStoreVersionOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1520,11 +1550,11 @@ public class AwsOmics : IAwsOmics
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateRunCacheAsync(
-        AwsOmicsUpdateRunCacheOptions? options = null,
+        AwsOmicsUpdateRunCacheOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsOmicsUpdateRunCacheOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1535,11 +1565,11 @@ public class AwsOmics : IAwsOmics
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateRunGroupAsync(
-        AwsOmicsUpdateRunGroupOptions? options = null,
+        AwsOmicsUpdateRunGroupOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsOmicsUpdateRunGroupOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1550,11 +1580,11 @@ public class AwsOmics : IAwsOmics
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateSequenceStoreAsync(
-        AwsOmicsUpdateSequenceStoreOptions? options = null,
+        AwsOmicsUpdateSequenceStoreOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsOmicsUpdateSequenceStoreOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1565,11 +1595,11 @@ public class AwsOmics : IAwsOmics
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateVariantStoreAsync(
-        AwsOmicsUpdateVariantStoreOptions? options = null,
+        AwsOmicsUpdateVariantStoreOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsOmicsUpdateVariantStoreOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1580,11 +1610,11 @@ public class AwsOmics : IAwsOmics
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateWorkflowAsync(
-        AwsOmicsUpdateWorkflowOptions? options = null,
+        AwsOmicsUpdateWorkflowOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsOmicsUpdateWorkflowOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1595,11 +1625,11 @@ public class AwsOmics : IAwsOmics
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateWorkflowVersionAsync(
-        AwsOmicsUpdateWorkflowVersionOptions? options = null,
+        AwsOmicsUpdateWorkflowVersionOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsOmicsUpdateWorkflowVersionOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1610,11 +1640,11 @@ public class AwsOmics : IAwsOmics
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UploadReadSetPartAsync(
-        AwsOmicsUploadReadSetPartOptions? options = null,
+        AwsOmicsUploadReadSetPartOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsOmicsUploadReadSetPartOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     #endregion

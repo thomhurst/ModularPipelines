@@ -5,8 +5,8 @@
 
 #nullable enable
 
-using ModularPipelines.Context;
 using System.CodeDom.Compiler;
+using ModularPipelines.Context;
 using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
@@ -40,11 +40,11 @@ public class AwsKinesisVideoArchivedMedia : IAwsKinesisVideoArchivedMedia
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetClipAsync(
-        AwsKinesisVideoArchivedMediaGetClipOptions? options = null,
+        AwsKinesisVideoArchivedMediaGetClipOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsKinesisVideoArchivedMediaGetClipOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -59,7 +59,7 @@ public class AwsKinesisVideoArchivedMedia : IAwsKinesisVideoArchivedMedia
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsKinesisVideoArchivedMediaGetDashStreamingSessionUrlOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsKinesisVideoArchivedMediaGetDashStreamingSessionUrlOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -74,7 +74,7 @@ public class AwsKinesisVideoArchivedMedia : IAwsKinesisVideoArchivedMedia
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsKinesisVideoArchivedMediaGetHlsStreamingSessionUrlOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsKinesisVideoArchivedMediaGetHlsStreamingSessionUrlOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -85,11 +85,11 @@ public class AwsKinesisVideoArchivedMedia : IAwsKinesisVideoArchivedMedia
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetImagesAsync(
-        AwsKinesisVideoArchivedMediaGetImagesOptions? options = null,
+        AwsKinesisVideoArchivedMediaGetImagesOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsKinesisVideoArchivedMediaGetImagesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -100,11 +100,11 @@ public class AwsKinesisVideoArchivedMedia : IAwsKinesisVideoArchivedMedia
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetMediaForFragmentListAsync(
-        AwsKinesisVideoArchivedMediaGetMediaForFragmentListOptions? options = null,
+        AwsKinesisVideoArchivedMediaGetMediaForFragmentListOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsKinesisVideoArchivedMediaGetMediaForFragmentListOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -119,7 +119,7 @@ public class AwsKinesisVideoArchivedMedia : IAwsKinesisVideoArchivedMedia
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsKinesisVideoArchivedMediaListFragmentsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsKinesisVideoArchivedMediaListFragmentsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     #endregion

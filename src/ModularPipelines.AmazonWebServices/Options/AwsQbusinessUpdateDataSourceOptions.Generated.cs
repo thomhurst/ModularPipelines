@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,16 +20,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("qbusiness", "update-data-source")]
-public record AwsQbusinessUpdateDataSourceOptions : AwsOptions
+public record AwsQbusinessUpdateDataSourceOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates an existing Amazon Q Business data source connector. See also: AWS API Documentation update-data-source uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested para- meters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
+    /// </summary>
+    /// <param name="ApplicationId">The identifier of the Amazon Q Business application the data source is attached to. Constraints: o min: 36 o max: 36 o pattern: [a-zA-Z0-9][a-zA-Z0-9-]{35}</param>
+    /// <param name="IndexId">The identifier of the index attached to the data source connector. Constraints: o min: 36 o max: 36 o pattern: [a-zA-Z0-9][a-zA-Z0-9-]{35}</param>
+    /// <param name="DataSourceId">The identifier of the data source connector. Constraints: o min: 36 o max: 36 o pattern: [a-zA-Z0-9][a-zA-Z0-9-]{35}</param>
+    public AwsQbusinessUpdateDataSourceOptions(
+        string ApplicationId,
+        string IndexId,
+        string DataSourceId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ApplicationId);
+        this.ApplicationId = ApplicationId;
+        global::System.ArgumentNullException.ThrowIfNull(IndexId);
+        this.IndexId = IndexId;
+        global::System.ArgumentNullException.ThrowIfNull(DataSourceId);
+        this.DataSourceId = DataSourceId;
+    }
+
+    private AwsQbusinessUpdateDataSourceOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsQbusinessUpdateDataSourceOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsQbusinessUpdateDataSourceOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the Amazon Q Business application the data source is attached to. Constraints: o min: 36 o max: 36 o pattern: [a-zA-Z0-9][a-zA-Z0-9-]{35}
+    /// </summary>
     [CliOption("--application-id")]
-    public string? ApplicationId { get; set; }
+    public string? ApplicationId { get; private init; }
 
+    /// <summary>
+    /// The identifier of the index attached to the data source connector. Constraints: o min: 36 o max: 36 o pattern: [a-zA-Z0-9][a-zA-Z0-9-]{35}
+    /// </summary>
     [CliOption("--index-id")]
-    public string? IndexId { get; set; }
+    public string? IndexId { get; private init; }
 
+    /// <summary>
+    /// The identifier of the data source connector. Constraints: o min: 36 o max: 36 o pattern: [a-zA-Z0-9][a-zA-Z0-9-]{35}
+    /// </summary>
     [CliOption("--data-source-id")]
-    public string? DataSourceId { get; set; }
+    public string? DataSourceId { get; private init; }
 
     /// <summary>
     /// A name of the data source connector. Constraints: o min: 1 o max: 1000 o pattern: [a-zA-Z0-9][a-zA-Z0-9_-]*
@@ -83,5 +134,22 @@ public record AwsQbusinessUpdateDataSourceOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

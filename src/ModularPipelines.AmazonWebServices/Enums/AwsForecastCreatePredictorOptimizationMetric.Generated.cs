@@ -11,23 +11,23 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --optimizationmetric.
+/// Allowed values for --optimization-metric.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsForecastCreatePredictorOptimizationMetric
 {
-    [EnumValue("WAPE")]
-    Wape = 1,
-
-    [EnumValue("RMSE")]
-    Rmse = 2,
-
     [EnumValue("AverageWeightedQuantileLoss")]
-    AverageWeightedQuantileLoss = 3,
-
-    [EnumValue("MASE")]
-    Mase = 4,
+    AverageWeightedQuantileLoss,
 
     [EnumValue("MAPE")]
-    Mape = 5
+    Mape,
+
+    [EnumValue("MASE")]
+    Mase,
+
+    [EnumValue("RMSE")]
+    Rmse,
+
+    [EnumValue("WAPE")]
+    Wape
 }

@@ -11,23 +11,23 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --integrationtype.
+/// Allowed values for --integration-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsApigatewayv2UpdateIntegrationIntegrationType
 {
     [EnumValue("AWS")]
-    Aws = 1,
-
-    [EnumValue("HTTP")]
-    Http = 2,
-
-    [EnumValue("MOCK")]
-    Mock = 3,
-
-    [EnumValue("HTTP_PROXY")]
-    HttpProxy = 4,
+    Aws,
 
     [EnumValue("AWS_PROXY")]
-    AwsProxy = 5
+    AwsProxy,
+
+    [EnumValue("HTTP")]
+    Http,
+
+    [EnumValue("HTTP_PROXY")]
+    HttpProxy,
+
+    [EnumValue("MOCK")]
+    Mock
 }

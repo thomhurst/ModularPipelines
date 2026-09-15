@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,61 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ec2", "get-active-vpn-tunnel-status")]
-public record AwsEc2GetActiveVpnTunnelStatusOptions : AwsOptions
+public record AwsEc2GetActiveVpnTunnelStatusOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Returns the currently negotiated security parameters for an active VPN tunnel, including IKE version, DH groups, encryption algorithms, and integrity algorithms. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="VpnConnectionId">The ID of the VPN connection for which to retrieve the active tunnel status.</param>
+    /// <param name="VpnTunnelOutsideIpAddress">The external IP address of the VPN tunnel for which to retrieve the active status.</param>
+    public AwsEc2GetActiveVpnTunnelStatusOptions(
+        string VpnConnectionId,
+        string VpnTunnelOutsideIpAddress
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(VpnConnectionId);
+        this.VpnConnectionId = VpnConnectionId;
+        global::System.ArgumentNullException.ThrowIfNull(VpnTunnelOutsideIpAddress);
+        this.VpnTunnelOutsideIpAddress = VpnTunnelOutsideIpAddress;
+    }
+
+    private AwsEc2GetActiveVpnTunnelStatusOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEc2GetActiveVpnTunnelStatusOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEc2GetActiveVpnTunnelStatusOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the VPN connection for which to retrieve the active tunnel status.
+    /// </summary>
     [CliOption("--vpn-connection-id")]
-    public string? VpnConnectionId { get; set; }
+    public string? VpnConnectionId { get; private init; }
 
+    /// <summary>
+    /// The external IP address of the VPN tunnel for which to retrieve the active status.
+    /// </summary>
     [CliOption("--vpn-tunnel-outside-ip-address")]
-    public string? VpnTunnelOutsideIpAddress { get; set; }
+    public string? VpnTunnelOutsideIpAddress { get; private init; }
 
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// Checks whether you have the required permissions for the action, without actually making the request.
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -35,5 +82,22 @@ public record AwsEc2GetActiveVpnTunnelStatusOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

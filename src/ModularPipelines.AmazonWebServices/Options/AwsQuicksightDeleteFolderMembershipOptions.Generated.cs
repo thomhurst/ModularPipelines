@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,24 +21,98 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("quicksight", "delete-folder-membership")]
-public record AwsQuicksightDeleteFolderMembershipOptions : AwsOptions
+public record AwsQuicksightDeleteFolderMembershipOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Removes an asset, such as a dashboard, analysis, or dataset, from a folder. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="AwsAccountId">The ID for the Amazon Web Services account that contains the folder. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$</param>
+    /// <param name="FolderId">The Folder ID. Constraints: o min: 1 o max: 2048 o pattern: [\w\-]+</param>
+    /// <param name="MemberId">The ID of the asset that you want to delete. Constraints: o min: 1 o max: 2048 o pattern: [\w\-]+</param>
+    /// <param name="MemberType">The member type of the asset that you want to delete from a folder. Possible values: o DASHBOARD o ANALYSIS o DATASET o DATASOURCE o TOPIC</param>
+    public AwsQuicksightDeleteFolderMembershipOptions(
+        string AwsAccountId,
+        string FolderId,
+        string MemberId,
+        AwsQuicksightDeleteFolderMembershipMemberType MemberType
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AwsAccountId);
+        this.AwsAccountId = AwsAccountId;
+        global::System.ArgumentNullException.ThrowIfNull(FolderId);
+        this.FolderId = FolderId;
+        global::System.ArgumentNullException.ThrowIfNull(MemberId);
+        this.MemberId = MemberId;
+        global::System.ArgumentNullException.ThrowIfNull(MemberType);
+        this.MemberType = MemberType;
+    }
+
+    private AwsQuicksightDeleteFolderMembershipOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsQuicksightDeleteFolderMembershipOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsQuicksightDeleteFolderMembershipOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID for the Amazon Web Services account that contains the folder. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$
+    /// </summary>
     [CliOption("--aws-account-id")]
-    public string? AwsAccountId { get; set; }
+    public string? AwsAccountId { get; private init; }
 
+    /// <summary>
+    /// The Folder ID. Constraints: o min: 1 o max: 2048 o pattern: [\w\-]+
+    /// </summary>
     [CliOption("--folder-id")]
-    public string? FolderId { get; set; }
+    public string? FolderId { get; private init; }
 
+    /// <summary>
+    /// The ID of the asset that you want to delete. Constraints: o min: 1 o max: 2048 o pattern: [\w\-]+
+    /// </summary>
     [CliOption("--member-id")]
-    public string? MemberId { get; set; }
+    public string? MemberId { get; private init; }
 
+    /// <summary>
+    /// The member type of the asset that you want to delete from a folder. Possible values: o DASHBOARD o ANALYSIS o DATASET o DATASOURCE o TOPIC
+    /// </summary>
     [CliOption("--member-type")]
-    public string? MemberType { get; set; }
+    public AwsQuicksightDeleteFolderMembershipMemberType? MemberType { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

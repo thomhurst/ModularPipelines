@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,68 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("oam", "get-sink-policy")]
-public record AwsOamGetSinkPolicyOptions : AwsOptions
+public record AwsOamGetSinkPolicyOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Returns the current sink policy attached to this sink. The sink policy specifies what accounts can attach to this sink as source accounts, and what types of data they can share. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="SinkIdentifier">The ARN of the sink to retrieve the policy of. Constraints: o pattern: ^[a-zA-Z0-9][a-zA-Z0-9_:\.\-\/]{0,2047}$</param>
+    public AwsOamGetSinkPolicyOptions(
+        string SinkIdentifier
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SinkIdentifier);
+        this.SinkIdentifier = SinkIdentifier;
+    }
+
+    private AwsOamGetSinkPolicyOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsOamGetSinkPolicyOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsOamGetSinkPolicyOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ARN of the sink to retrieve the policy of. Constraints: o pattern: ^[a-zA-Z0-9][a-zA-Z0-9_:\.\-\/]{0,2047}$
+    /// </summary>
     [CliOption("--sink-identifier")]
-    public string? SinkIdentifier { get; set; }
+    public string? SinkIdentifier { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

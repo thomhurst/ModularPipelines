@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute-optimizer", "put-recommendation-preferences")]
-public record AwsComputeOptimizerPutRecommendationPreferencesOptions : AwsOptions
+public record AwsComputeOptimizerPutRecommendationPreferencesOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a new recommendation preference or updates an existing recom- mendation preference, such as enhanced infrastructure metrics. For more information, see Activating enhanced infrastructure metrics in the Compute Optimizer User Guide . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ResourceType">The target resource type of the recommendation preference to create. The Ec2Instance option encompasses standalone instances and in- stances that are part of Auto Scaling groups. The AutoScalingGroup option encompasses only instances that are part of an Auto Scaling group. Possible values: o Ec2Instance o AutoScalingGroup o EbsVolume o LambdaFunction o NotApplicable o EcsService o License o RdsDBInstance o AuroraDBClusterStorage o Idle</param>
+    public AwsComputeOptimizerPutRecommendationPreferencesOptions(
+        AwsComputeOptimizerPutRecommendationPreferencesResourceType ResourceType
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ResourceType);
+        this.ResourceType = ResourceType;
+    }
+
+    private AwsComputeOptimizerPutRecommendationPreferencesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsComputeOptimizerPutRecommendationPreferencesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsComputeOptimizerPutRecommendationPreferencesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The target resource type of the recommendation preference to create. The Ec2Instance option encompasses standalone instances and in- stances that are part of Auto Scaling groups. The AutoScalingGroup option encompasses only instances that are part of an Auto Scaling group. Possible values: o Ec2Instance o AutoScalingGroup o EbsVolume o LambdaFunction o NotApplicable o EcsService o License o RdsDBInstance o AuroraDBClusterStorage o Idle
+    /// </summary>
     [CliOption("--resource-type")]
-    public string? ResourceType { get; set; }
+    public AwsComputeOptimizerPutRecommendationPreferencesResourceType? ResourceType { get; private init; }
 
     /// <summary>
     /// An object that describes the scope of the recommendation preference to create. You can create recommendation preferences at the organization level (for management accounts of an organization only), account level, and resource level. For more information, see Activating enhanced infrastructure metrics in the Compute Optimizer User Guide . NOTE: You cannot create recommendation preferences for Auto Scaling groups at the organization and account levels. You can create recommendation preferences for Auto Scaling groups only at the resource level by specifying a scope name of ResourceArn and a scope value of the Auto Scaling group Amazon Resource Name (ARN). This will configure the preference for all instances that are part of the specified Auto Scaling group. You also cannot create recommendation preferences at the resource level for in- stances that are part of an Auto Scaling group. You can create recommendation preferences at the resource level only for stand- alone instances. name -&gt; (string) The name of the scope. The following scopes are possible: o Organization - Specifies that the recommendation preference applies at the organization level, for all member accounts of an organization. o AccountId - Specifies that the recommendation preference ap- plies at the account level, for all resources of a given re- source type in an account. o ResourceArn - Specifies that the recommendation preference ap- plies at the individual resource level. Possible values: o Organization o AccountId o ResourceArn value -&gt; (string) The value of the scope. If you specified the name of the scope as: o Organization - The value must be ALL_ACCOUNTS . o AccountId - The value must be a 12-digit Amazon Web Services account ID. o ResourceArn - The value must be the Amazon Resource Name (ARN) of an EC2 instance or an Auto Scaling group. Only EC2 instance and Auto Scaling group ARNs are currently sup- ported. Shorthand Syntax: name=string,value=string JSON Syntax: { "name": "Organization"|"AccountId"|"ResourceArn", "value": "string" }
@@ -78,5 +115,22 @@ public record AwsComputeOptimizerPutRecommendationPreferencesOptions : AwsOption
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

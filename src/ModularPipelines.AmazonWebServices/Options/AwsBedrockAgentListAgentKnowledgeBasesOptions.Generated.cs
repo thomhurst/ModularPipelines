@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bedrock-agent", "list-agent-knowledge-bases")]
-public record AwsBedrockAgentListAgentKnowledgeBasesOptions : AwsOptions
+public record AwsBedrockAgentListAgentKnowledgeBasesOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--agent-id")]
-    public string? AgentId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Lists knowledge bases associated with an agent and information about each one. See also: AWS API Documentation list-agent-knowledge-bases is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: agentKnowledg...
+    /// </summary>
+    /// <param name="AgentId">The unique identifier of the agent for which to return information about knowledge bases associated with it. Constraints: o pattern: [0-9a-zA-Z]{10}</param>
+    /// <param name="AgentVersion">The version of the agent for which to return information about knowledge bases associated with it. Constraints: o min: 1 o max: 5 o pattern: (DRAFT|[0-9]{0,4}[1-9][0-9]{0,4})</param>
+    public AwsBedrockAgentListAgentKnowledgeBasesOptions(
+        string AgentId,
+        string AgentVersion
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AgentId);
+        this.AgentId = AgentId;
+        global::System.ArgumentNullException.ThrowIfNull(AgentVersion);
+        this.AgentVersion = AgentVersion;
+    }
+
+    private AwsBedrockAgentListAgentKnowledgeBasesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsBedrockAgentListAgentKnowledgeBasesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsBedrockAgentListAgentKnowledgeBasesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier of the agent for which to return information about knowledge bases associated with it. Constraints: o pattern: [0-9a-zA-Z]{10}
+    /// </summary>
+    [CliOption("--agent-id")]
+    public string? AgentId { get; private init; }
+
+    /// <summary>
+    /// The version of the agent for which to return information about knowledge bases associated with it. Constraints: o min: 1 o max: 5 o pattern: (DRAFT|[0-9]{0,4}[1-9][0-9]{0,4})
+    /// </summary>
     [CliOption("--agent-version")]
-    public string? AgentVersion { get; set; }
+    public string? AgentVersion { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
@@ -52,5 +96,22 @@ public record AwsBedrockAgentListAgentKnowledgeBasesOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

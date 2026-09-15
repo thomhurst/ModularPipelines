@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,68 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("kms", "connect-custom-key-store")]
-public record AwsKmsConnectCustomKeyStoreOptions : AwsOptions
+public record AwsKmsConnectCustomKeyStoreOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Connects or reconnects a custom key store to its backing key store. For an CloudHSM key store, ConnectCustomKeyStore connects the key store to its associated CloudHSM cluster. For an external key store, ConnectCus- tomKeyStore connects the key store to the external key store proxy that communicates with your external key manager. The custom key store must be connected before you can create KMS keys in the key store or use the KMS keys it contains. You can disconnect and reconnect a custom key st...
+    /// </summary>
+    /// <param name="CustomKeyStoreId">Enter the key store ID of the custom key store that you want to con- nect. To find the ID of a custom key store, use the DescribeCus- tomKeyStores operation. Constraints: o min: 1 o max: 64</param>
+    public AwsKmsConnectCustomKeyStoreOptions(
+        string CustomKeyStoreId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(CustomKeyStoreId);
+        this.CustomKeyStoreId = CustomKeyStoreId;
+    }
+
+    private AwsKmsConnectCustomKeyStoreOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsKmsConnectCustomKeyStoreOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsKmsConnectCustomKeyStoreOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Enter the key store ID of the custom key store that you want to con- nect. To find the ID of a custom key store, use the DescribeCus- tomKeyStores operation. Constraints: o min: 1 o max: 64
+    /// </summary>
     [CliOption("--custom-key-store-id")]
-    public string? CustomKeyStoreId { get; set; }
+    public string? CustomKeyStoreId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

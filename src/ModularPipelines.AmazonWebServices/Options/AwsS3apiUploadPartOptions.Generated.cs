@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,16 +21,81 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("s3api", "upload-part")]
-public record AwsS3apiUploadPartOptions : AwsOptions
+public record AwsS3apiUploadPartOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Uploads a part in a multipart upload. NOTE: In this operation, you provide new data as a part of an object in your request. However, you have an option to specify your existing Amazon S3 object as a data source for the part you are uploading. To upload a part from an existing object, you use the UploadPartCopy operation. You must initiate a multipart upload (see CreateMultipartUpload ) be- fore you can upload any part. In response to your initiate request, Amazon S3 returns an upload ID, a uniqu...
+    /// </summary>
+    /// <param name="Bucket">The name of the bucket to which the multipart upload was initiated. Directory buckets - When you use this operation with a directory bucket, you must use virtual-hosted-style requests in the format `` Bucket-name .s3express-zone-id .*region-code* .amazon- aws.com`` . Path-style requests are not supported. Directory bucket names must be unique in the chosen Zone (Availability Zone or Local Zone). Bucket names must follow the format `` bucket-base-name --zone-id --x-s3`` (for example, `` amzn-s3-demo-bucket --usw2-az1 --x-s3`` ). For information about bucket naming restrictions, see Directory bucket naming rules in the Amazon S3 User Guide . Access points - When you use this action with an access point for general purpose buckets, you must provide the alias of the access point in place of the bucket name or specify the access point ARN. When you use this action with an access point for di- rectory buckets, you must provide the access point name in place of the bucket name. When using the access point ARN, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName -AccountId .s3-access- point.*Region* .amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more in- formation about access point ARNs, see Using access points in the Amazon S3 User Guide . NOTE: Object Lambda access points are not supported by directory buckets. S3 on Outposts - When you use this action with S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form `` AccessPointName -Accoun- tId .*outpostID* .s3-outposts.*Region* .amazonaws.com`` . When you use this action with S3 on Outposts, the destination bucket must be the Outposts access point ARN or the access point alias. For more information about S3 on Outposts, see What is S3 on Outposts? in the Amazon S3 User Guide .</param>
+    /// <param name="Key">Object key for which the multipart upload was initiated. Constraints: o min: 1</param>
+    /// <param name="PartNumber">Part number of part being uploaded. This is a positive integer be- tween 1 and 10,000.</param>
+    /// <param name="UploadId">Upload ID identifying the multipart upload whose part is being up- loaded.</param>
+    public AwsS3apiUploadPartOptions(
+        string Bucket,
+        string Key,
+        int PartNumber,
+        string UploadId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Bucket);
+        this.Bucket = Bucket;
+        global::System.ArgumentNullException.ThrowIfNull(Key);
+        this.Key = Key;
+        this.PartNumber = PartNumber;
+        global::System.ArgumentNullException.ThrowIfNull(UploadId);
+        this.UploadId = UploadId;
+    }
+
+    private AwsS3apiUploadPartOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsS3apiUploadPartOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsS3apiUploadPartOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the bucket to which the multipart upload was initiated. Directory buckets - When you use this operation with a directory bucket, you must use virtual-hosted-style requests in the format `` Bucket-name .s3express-zone-id .*region-code* .amazon- aws.com`` . Path-style requests are not supported. Directory bucket names must be unique in the chosen Zone (Availability Zone or Local Zone). Bucket names must follow the format `` bucket-base-name --zone-id --x-s3`` (for example, `` amzn-s3-demo-bucket --usw2-az1 --x-s3`` ). For information about bucket naming restrictions, see Directory bucket naming rules in the Amazon S3 User Guide . Access points - When you use this action with an access point for general purpose buckets, you must provide the alias of the access point in place of the bucket name or specify the access point ARN. When you use this action with an access point for di- rectory buckets, you must provide the access point name in place of the bucket name. When using the access point ARN, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName -AccountId .s3-access- point.*Region* .amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more in- formation about access point ARNs, see Using access points in the Amazon S3 User Guide . NOTE: Object Lambda access points are not supported by directory buckets. S3 on Outposts - When you use this action with S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form `` AccessPointName -Accoun- tId .*outpostID* .s3-outposts.*Region* .amazonaws.com`` . When you use this action with S3 on Outposts, the destination bucket must be the Outposts access point ARN or the access point alias. For more information about S3 on Outposts, see What is S3 on Outposts? in the Amazon S3 User Guide .
+    /// </summary>
+    [CliOption("--bucket")]
+    public string? Bucket { get; private init; }
+
+    /// <summary>
+    /// Object key for which the multipart upload was initiated. Constraints: o min: 1
+    /// </summary>
+    [CliOption("--key")]
+    public string? Key { get; private init; }
+
+    /// <summary>
+    /// Part number of part being uploaded. This is a positive integer be- tween 1 and 10,000.
+    /// </summary>
+    [CliOption("--part-number")]
+    public int? PartNumber { get; private init; }
+
+    /// <summary>
+    /// Upload ID identifying the multipart upload whose part is being up- loaded.
+    /// </summary>
+    [CliOption("--upload-id")]
+    public string? UploadId { get; private init; }
+
     /// <summary>
     /// Object data. NOTE: This argument is of type: streaming blob. Its value must be the path to a file (e.g. path/to/file) and must not be prefixed with file:// or fileb://
     /// </summary>
     [CliOption("--body")]
     public string? Body { get; set; }
-
-    [CliOption("--bucket")]
-    public string? Bucket { get; set; }
 
     /// <summary>
     /// Size of the body in bytes. This parameter is useful when the size of the body cannot be determined automatically.
@@ -109,15 +175,6 @@ public record AwsS3apiUploadPartOptions : AwsOptions
     [CliOption("--checksum-xxhash128")]
     public string? ChecksumXxhash128 { get; set; }
 
-    [CliOption("--key")]
-    public string? Key { get; set; }
-
-    [CliOption("--part-number")]
-    public int? PartNumber { get; set; }
-
-    [CliOption("--upload-id")]
-    public string? UploadId { get; set; }
-
     /// <summary>
     /// Specifies the algorithm to use when encrypting the object (for exam- ple, AES256). NOTE: This functionality is not supported for directory buckets.
     /// </summary>
@@ -153,5 +210,22 @@ public record AwsS3apiUploadPartOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

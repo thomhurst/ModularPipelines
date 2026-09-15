@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("pinpoint", "create-in-app-template")]
-public record AwsPinpointCreateInAppTemplateOptions : AwsOptions
+public record AwsPinpointCreateInAppTemplateOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--in-app-template-request")]
-    public string? InAppTemplateRequest { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates a new message template for messages using the in-app message channel. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="InAppTemplateRequest">InApp Template Request. Content -&gt; (list) The content of the message, can include up to 5 modals. Each modal must contain a message, a header, and background color. ImageUrl and buttons are optional. (structure) The configuration for the message content. BackgroundColor -&gt; (string) The background color for the message. BodyConfig -&gt; (structure) The configuration for the message body. Alignment -&gt; (string) [required] The alignment of the text. Valid values: LEFT, CENTER, RIGHT. Possible values: o LEFT o CENTER o RIGHT Body -&gt; (string) [required] Message Body. TextColor -&gt; (string) [required] The text color. HeaderConfig -&gt; (structure) The configuration for the message header. Alignment -&gt; (string) [required] The alignment of the text. Valid values: LEFT, CENTER, RIGHT. Possible values: o LEFT o CENTER o RIGHT Header -&gt; (string) [required] Message Header. TextColor -&gt; (string) [required] The text color. ImageUrl -&gt; (string) The image url for the background of message. PrimaryBtn -&gt; (structure) The first button inside the message. Android -&gt; (structure) Default button content. ButtonAction -&gt; (string) [required] Action triggered by the button. Possible values: o LINK o DEEP_LINK o CLOSE Link -&gt; (string) Button destination. DefaultConfig -&gt; (structure) Default button content. BackgroundColor -&gt; (string) The background color of the button. BorderRadius -&gt; (integer) The border radius of the button. ButtonAction -&gt; (string) [required] Action triggered by the button. Possible values: o LINK o DEEP_LINK o CLOSE Link -&gt; (string) Button destination. Text -&gt; (string) [required] Button text. TextColor -&gt; (string) The text color of the button. IOS -&gt; (structure) Default button content. ButtonAction -&gt; (string) [required] Action triggered by the button. Possible values: o LINK o DEEP_LINK o CLOSE Link -&gt; (string) Button destination. Web -&gt; (structure) Default button content. ButtonAction -&gt; (string) [required] Action triggered by the button. Possible values: o LINK o DEEP_LINK o CLOSE Link -&gt; (string) Button destination. SecondaryBtn -&gt; (structure) The second button inside message. Android -&gt; (structure) Default button content. ButtonAction -&gt; (string) [required] Action triggered by the button. Possible values: o LINK o DEEP_LINK o CLOSE Link -&gt; (string) Button destination. DefaultConfig -&gt; (structure) Default button content. BackgroundColor -&gt; (string) The background color of the button. BorderRadius -&gt; (integer) The border radius of the button. ButtonAction -&gt; (string) [required] Action triggered by the button. Possible values: o LINK o DEEP_LINK o CLOSE Link -&gt; (string) Button destination. Text -&gt; (string) [required] Button text. TextColor -&gt; (string) The text color of the button. IOS -&gt; (structure) Default button content. ButtonAction -&gt; (string) [required] Action triggered by the button. Possible values: o LINK o DEEP_LINK o CLOSE Link -&gt; (string) Button destination. Web -&gt; (structure) Default button content. ButtonAction -&gt; (string) [required] Action triggered by the button. Possible values: o LINK o DEEP_LINK o CLOSE Link -&gt; (string) Button destination. CustomConfig -&gt; (map) Custom config to be sent to client. key -&gt; (string) value -&gt; (string) Layout -&gt; (string) The layout of the message. Possible values: o BOTTOM_BANNER o TOP_BANNER o OVERLAYS o MOBILE_FEED o MIDDLE_BANNER o CAROUSEL tags -&gt; (map) NOTE: As of 22-05-2023 tags has been deprecated for update opera- tions. After this date any value in tags is not processed and an error code is not returned. To manage tags we recommend using either Tags in the API Reference for Amazon Pinpoint , resourcegroupstaggingapi commands in the AWS Command Line In- terface Documentation or resourcegroupstaggingapi in the AWS SDK . (Deprecated) A string-to-string map of key-value pairs that de- fines the tags to associate with the message template. Each tag consists of a required tag key and an associated tag value. key -&gt; (string) value -&gt; (string) TemplateDescription -&gt; (string) The description of the template. JSON Syntax: { "Content": [ { "BackgroundColor": "string", "BodyConfig": { "Alignment": "LEFT"|"CENTER"|"RIGHT", "Body": "string", "TextColor": "string" }, "HeaderConfig": { "Alignment": "LEFT"|"CENTER"|"RIGHT", "Header": "string", "TextColor": "string" }, "ImageUrl": "string", "PrimaryBtn": { "Android": { "ButtonAction": "LINK"|"DEEP_LINK"|"CLOSE", "Link": "string" }, "DefaultConfig": { "BackgroundColor": "string", "BorderRadius": integer, "ButtonAction": "LINK"|"DEEP_LINK"|"CLOSE", "Link": "string", "Text": "string", "TextColor": "string" }, "IOS": { "ButtonAction": "LINK"|"DEEP_LINK"|"CLOSE", "Link": "string" }, "Web": { "ButtonAction": "LINK"|"DEEP_LINK"|"CLOSE", "Link": "string" } }, "SecondaryBtn": { "Android": { "ButtonAction": "LINK"|"DEEP_LINK"|"CLOSE", "Link": "string" }, "DefaultConfig": { "BackgroundColor": "string", "BorderRadius": integer, "ButtonAction": "LINK"|"DEEP_LINK"|"CLOSE", "Link": "string", "Text": "string", "TextColor": "string" }, "IOS": { "ButtonAction": "LINK"|"DEEP_LINK"|"CLOSE", "Link": "string" }, "Web": { "ButtonAction": "LINK"|"DEEP_LINK"|"CLOSE", "Link": "string" } } } ... ], "CustomConfig": {"string": "string" ...}, "Layout": "BOTTOM_BANNER"|"TOP_BANNER"|"OVERLAYS"|"MOBILE_FEED"|"MIDDLE_BANNER"|"CAROUSEL", "tags": {"string": "string" ...}, "TemplateDescription": "string" }</param>
+    /// <param name="TemplateName">The name of the message template. A template name must start with an alphanumeric character and can contain a maximum of 128 characters. The characters can be alphanumeric characters, underscores (_), or hyphens (-). Template names are case sensitive.</param>
+    public AwsPinpointCreateInAppTemplateOptions(
+        string InAppTemplateRequest,
+        string TemplateName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(InAppTemplateRequest);
+        this.InAppTemplateRequest = InAppTemplateRequest;
+        global::System.ArgumentNullException.ThrowIfNull(TemplateName);
+        this.TemplateName = TemplateName;
+    }
+
+    private AwsPinpointCreateInAppTemplateOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsPinpointCreateInAppTemplateOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsPinpointCreateInAppTemplateOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// InApp Template Request. Content -&gt; (list) The content of the message, can include up to 5 modals. Each modal must contain a message, a header, and background color. ImageUrl and buttons are optional. (structure) The configuration for the message content. BackgroundColor -&gt; (string) The background color for the message. BodyConfig -&gt; (structure) The configuration for the message body. Alignment -&gt; (string) [required] The alignment of the text. Valid values: LEFT, CENTER, RIGHT. Possible values: o LEFT o CENTER o RIGHT Body -&gt; (string) [required] Message Body. TextColor -&gt; (string) [required] The text color. HeaderConfig -&gt; (structure) The configuration for the message header. Alignment -&gt; (string) [required] The alignment of the text. Valid values: LEFT, CENTER, RIGHT. Possible values: o LEFT o CENTER o RIGHT Header -&gt; (string) [required] Message Header. TextColor -&gt; (string) [required] The text color. ImageUrl -&gt; (string) The image url for the background of message. PrimaryBtn -&gt; (structure) The first button inside the message. Android -&gt; (structure) Default button content. ButtonAction -&gt; (string) [required] Action triggered by the button. Possible values: o LINK o DEEP_LINK o CLOSE Link -&gt; (string) Button destination. DefaultConfig -&gt; (structure) Default button content. BackgroundColor -&gt; (string) The background color of the button. BorderRadius -&gt; (integer) The border radius of the button. ButtonAction -&gt; (string) [required] Action triggered by the button. Possible values: o LINK o DEEP_LINK o CLOSE Link -&gt; (string) Button destination. Text -&gt; (string) [required] Button text. TextColor -&gt; (string) The text color of the button. IOS -&gt; (structure) Default button content. ButtonAction -&gt; (string) [required] Action triggered by the button. Possible values: o LINK o DEEP_LINK o CLOSE Link -&gt; (string) Button destination. Web -&gt; (structure) Default button content. ButtonAction -&gt; (string) [required] Action triggered by the button. Possible values: o LINK o DEEP_LINK o CLOSE Link -&gt; (string) Button destination. SecondaryBtn -&gt; (structure) The second button inside message. Android -&gt; (structure) Default button content. ButtonAction -&gt; (string) [required] Action triggered by the button. Possible values: o LINK o DEEP_LINK o CLOSE Link -&gt; (string) Button destination. DefaultConfig -&gt; (structure) Default button content. BackgroundColor -&gt; (string) The background color of the button. BorderRadius -&gt; (integer) The border radius of the button. ButtonAction -&gt; (string) [required] Action triggered by the button. Possible values: o LINK o DEEP_LINK o CLOSE Link -&gt; (string) Button destination. Text -&gt; (string) [required] Button text. TextColor -&gt; (string) The text color of the button. IOS -&gt; (structure) Default button content. ButtonAction -&gt; (string) [required] Action triggered by the button. Possible values: o LINK o DEEP_LINK o CLOSE Link -&gt; (string) Button destination. Web -&gt; (structure) Default button content. ButtonAction -&gt; (string) [required] Action triggered by the button. Possible values: o LINK o DEEP_LINK o CLOSE Link -&gt; (string) Button destination. CustomConfig -&gt; (map) Custom config to be sent to client. key -&gt; (string) value -&gt; (string) Layout -&gt; (string) The layout of the message. Possible values: o BOTTOM_BANNER o TOP_BANNER o OVERLAYS o MOBILE_FEED o MIDDLE_BANNER o CAROUSEL tags -&gt; (map) NOTE: As of 22-05-2023 tags has been deprecated for update opera- tions. After this date any value in tags is not processed and an error code is not returned. To manage tags we recommend using either Tags in the API Reference for Amazon Pinpoint , resourcegroupstaggingapi commands in the AWS Command Line In- terface Documentation or resourcegroupstaggingapi in the AWS SDK . (Deprecated) A string-to-string map of key-value pairs that de- fines the tags to associate with the message template. Each tag consists of a required tag key and an associated tag value. key -&gt; (string) value -&gt; (string) TemplateDescription -&gt; (string) The description of the template. JSON Syntax: { "Content": [ { "BackgroundColor": "string", "BodyConfig": { "Alignment": "LEFT"|"CENTER"|"RIGHT", "Body": "string", "TextColor": "string" }, "HeaderConfig": { "Alignment": "LEFT"|"CENTER"|"RIGHT", "Header": "string", "TextColor": "string" }, "ImageUrl": "string", "PrimaryBtn": { "Android": { "ButtonAction": "LINK"|"DEEP_LINK"|"CLOSE", "Link": "string" }, "DefaultConfig": { "BackgroundColor": "string", "BorderRadius": integer, "ButtonAction": "LINK"|"DEEP_LINK"|"CLOSE", "Link": "string", "Text": "string", "TextColor": "string" }, "IOS": { "ButtonAction": "LINK"|"DEEP_LINK"|"CLOSE", "Link": "string" }, "Web": { "ButtonAction": "LINK"|"DEEP_LINK"|"CLOSE", "Link": "string" } }, "SecondaryBtn": { "Android": { "ButtonAction": "LINK"|"DEEP_LINK"|"CLOSE", "Link": "string" }, "DefaultConfig": { "BackgroundColor": "string", "BorderRadius": integer, "ButtonAction": "LINK"|"DEEP_LINK"|"CLOSE", "Link": "string", "Text": "string", "TextColor": "string" }, "IOS": { "ButtonAction": "LINK"|"DEEP_LINK"|"CLOSE", "Link": "string" }, "Web": { "ButtonAction": "LINK"|"DEEP_LINK"|"CLOSE", "Link": "string" } } } ... ], "CustomConfig": {"string": "string" ...}, "Layout": "BOTTOM_BANNER"|"TOP_BANNER"|"OVERLAYS"|"MOBILE_FEED"|"MIDDLE_BANNER"|"CAROUSEL", "tags": {"string": "string" ...}, "TemplateDescription": "string" }
+    /// </summary>
+    [CliOption("--in-app-template-request")]
+    public string? InAppTemplateRequest { get; private init; }
+
+    /// <summary>
+    /// The name of the message template. A template name must start with an alphanumeric character and can contain a maximum of 128 characters. The characters can be alphanumeric characters, underscores (_), or hyphens (-). Template names are case sensitive.
+    /// </summary>
     [CliOption("--template-name")]
-    public string? TemplateName { get; set; }
+    public string? TemplateName { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

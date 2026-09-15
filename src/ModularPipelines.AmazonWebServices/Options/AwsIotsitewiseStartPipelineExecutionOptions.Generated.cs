@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,19 +21,68 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iotsitewise", "start-pipeline-execution")]
-public record AwsIotsitewiseStartPipelineExecutionOptions : AwsOptions
+public record AwsIotsitewiseStartPipelineExecutionOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--workspace-name")]
-    public string? WorkspaceName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Starts execution of a pipeline in the specified workspace. Each compute node runs according to the DAG dependency order defined in the pipeline. Nodes without dependencies start immediately, while dependent nodes wait for all upstream nodes to complete successfully. You can provide runtime environment variable overrides that take the highest priority in the environment variable hierarchy, without modify- ing the pipeline definition. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="WorkspaceName">The name of the workspace containing the pipeline. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$</param>
+    /// <param name="PipelineName">The name of the pipeline to execute. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_-]+</param>
+    public AwsIotsitewiseStartPipelineExecutionOptions(
+        string WorkspaceName,
+        string PipelineName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(WorkspaceName);
+        this.WorkspaceName = WorkspaceName;
+        global::System.ArgumentNullException.ThrowIfNull(PipelineName);
+        this.PipelineName = PipelineName;
+    }
+
+    private AwsIotsitewiseStartPipelineExecutionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsIotsitewiseStartPipelineExecutionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsIotsitewiseStartPipelineExecutionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the workspace containing the pipeline. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$
+    /// </summary>
+    [CliOption("--workspace-name")]
+    public string? WorkspaceName { get; private init; }
+
+    /// <summary>
+    /// The name of the pipeline to execute. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_-]+
+    /// </summary>
     [CliOption("--pipeline-name")]
-    public string? PipelineName { get; set; }
+    public string? PipelineName { get; private init; }
 
     /// <summary>
     /// Runtime environment variable overrides for the execution. Includes global variables that apply to all compute nodes and computeNodes for per-node overrides. These take the highest priority in the envi- ronment variable hierarchy. global -&gt; (map) Global environment variables that apply to all compute nodes in the pipeline execution. Constraints: o min: 0 o max: 20 key -&gt; (string) Environment variable name following POSIX naming rules Must not start with AWS_ prefix (case-insensitive) Constraints: o min: 1 o max: 255 o pattern: (?!(?i)AWS_)[a-zA-Z_][a-zA-Z0-9_]* value -&gt; (string) Environment variable value Constraints: o min: 0 o max: 1024 computeNodes -&gt; (map) Per-compute-node environment variable overrides. Each entry maps a compute node name to its environment variable overrides. Constraints: o min: 0 o max: 50 key -&gt; (string) The compute node name from the pipeline definition. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_-]+ value -&gt; (map) Environment variable overrides specific to this compute node. Constraints: o min: 0 o max: 20 key -&gt; (string) Environment variable name following POSIX naming rules Must not start with AWS_ prefix (case-insensitive) Constraints: o min: 1 o max: 255 o pattern: (?!(?i)AWS_)[a-zA-Z_][a-zA-Z0-9_]* value -&gt; (string) Environment variable value Constraints: o min: 0 o max: 1024 Shorthand Syntax: global={KeyName1=string,KeyName2=string},computeNodes={KeyName1={KeyName1=string,KeyName2=string},KeyName2={KeyName1=string,KeyName2=string}} JSON Syntax: { "global": {"string": "string" ...}, "computeNodes": {"string": {"string": "string" ...} ...} }
     /// </summary>
     [CliOption("--execution-environment-variable-overrides")]
     public string? ExecutionEnvironmentVariableOverrides { get; set; }
+
+    /// <summary>
+    /// Runtime mount overrides for the execution. Overrides are merged by mount name into each listed compute node's task-defined mounts: a matching name replaces the task-defined mount, a new name adds a mount, and task-defined mounts not referenced remain unchanged. Com- pute nodes not listed use their task-defined mounts as-is. computeNodes -&gt; (map) [required] The mount overrides for each compute node, keyed by compute node name. Constraints: o min: 0 o max: 50 key -&gt; (string) The compute node name from the pipeline definition. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_-]+ value -&gt; (list) The mount overrides applied to this compute node for this ex- ecution. Each entry is merged into the compute node's task-defined mounts by mount name: a matching name replaces the task-defined mount, a new name adds a mount, and task-de- fined mounts not referenced remain unchanged. Constraints: o min: 0 o max: 5 (structure) Attaches a data source to the container filesystem for a task at a customer-supplied relative path under the ser- vice-owned mount root. name -&gt; (string) [required] A unique name for the mount within the task. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_-]+ relativePath -&gt; (string) [required] The relative path under the service-owned mount root where this mount is attached inside the container. Constraints: o min: 1 o max: 1024 o pattern: ((?!.*(^|/)\.\.?(/|$))(?!.*//)[a-zA-Z0-9._-][a-zA-Z0-9._/-]*[a-zA-Z0-9._-]|[a-zA-Z0-9_-]) source -&gt; (tagged union structure) [required] The data source for the mount. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: s3Access- Point. s3AccessPoint -&gt; (structure) Configuration for a mount that reads from an Ama- zon S3 access point. accessPointArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the S3 access point. Constraints: o min: 4 o max: 128 o pattern: arn:aws(-cn|-us-gov)?:s3:[a-z0-9-]*:\d{12}:ac- cesspoint[/:][a-zA-Z0-9._-]+ prefix -&gt; (string) An optional key prefix to scope the mount to a subset of objects at the access point. Constraints: o min: 1 o max: 1024 storageType -&gt; (string) [required] The type of storage used for the mount. Possible values: o SHARED_STORAGE JSON Syntax: { "computeNodes": {"string": [ { "name": "string", "relativePath": "string", "source": { "s3AccessPoint": { "accessPointArn": "string", "prefix": "string" } }, "storageType": "SHARED_STORAGE" } ... ] ...} }
+    /// </summary>
+    [CliOption("--execution-mount-overrides")]
+    public string? ExecutionMountOverrides { get; set; }
 
     /// <summary>
     /// Scheduling priority for the execution. Lower values indicate higher priority. Defaults to 2 when not specified. Constraints: o min: 0 o max: 2
@@ -52,5 +102,22 @@ public record AwsIotsitewiseStartPipelineExecutionOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,15 +21,72 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("datapipeline", "describe-objects")]
-public record AwsDatapipelineDescribeObjectsOptions : AwsOptions
+public record AwsDatapipelineDescribeObjectsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Gets the object definitions for a set of objects associated with the pipeline. Object definitions are composed of a set of fields that de- fine the properties of the object. See also: AWS API Documentation describe-objects is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument m...
+    /// </summary>
+    /// <param name="PipelineId">The ID of the pipeline that contains the object definitions. Constraints: o min: 1 o max: 1024 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*</param>
+    /// <param name="ObjectIds">The IDs of the pipeline objects that contain the definitions to be described. You can pass as many as 25 identifiers in a single call to DescribeObjects . (string) Constraints: o min: 1 o max: 1024 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]* Syntax: "string" "string" ...</param>
+    public AwsDatapipelineDescribeObjectsOptions(
+        string PipelineId,
+        IEnumerable<string> ObjectIds
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PipelineId);
+        this.PipelineId = PipelineId;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(ObjectIds);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(ObjectIds));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(ObjectIds));
+            }
+
+            ObjectIds = materialized;
+        }
+        this.ObjectIds = ObjectIds;
+    }
+
+    private AwsDatapipelineDescribeObjectsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDatapipelineDescribeObjectsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDatapipelineDescribeObjectsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the pipeline that contains the object definitions. Constraints: o min: 1 o max: 1024 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*
+    /// </summary>
     [CliOption("--pipeline-id")]
-    public string? PipelineId { get; set; }
+    public string? PipelineId { get; private init; }
 
+    /// <summary>
+    /// The IDs of the pipeline objects that contain the definitions to be described. You can pass as many as 25 identifiers in a single call to DescribeObjects . (string) Constraints: o min: 1 o max: 1024 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]* Syntax: "string" "string" ...
+    /// </summary>
     [CliOption("--object-ids", GroupValues = true)]
-    public IEnumerable<string>? ObjectIds { get; set; }
+    public IEnumerable<string>? ObjectIds { get; private init; }
 
-    [CliFlag("--evaluate-expressions")]
+    /// <summary>
+    /// Indicates whether any expressions in the object should be evaluated when the object descriptions are returned.
+    /// </summary>
+    [CliFlag("--evaluate-expressions", NegatedName = "--no-evaluate-expressions")]
     public bool? EvaluateExpressions { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -49,5 +107,22 @@ public record AwsDatapipelineDescribeObjectsOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

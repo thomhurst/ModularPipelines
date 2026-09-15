@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,24 +20,98 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("amplifybackend", "update-backend-auth")]
-public record AwsAmplifybackendUpdateBackendAuthOptions : AwsOptions
+public record AwsAmplifybackendUpdateBackendAuthOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates an existing backend authentication resource. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="AppId">The app ID.</param>
+    /// <param name="BackendEnvironmentName">The name of the backend environment.</param>
+    /// <param name="ResourceConfig">The resource configuration for this request object. AuthResources -&gt; (string) [required] Defines the service name to use when configuring an authentica- tion resource in your Amplify project. Possible values: o USER_POOL_ONLY o IDENTITY_POOL_AND_USER_POOL IdentityPoolConfigs -&gt; (structure) Describes the authorization configuration for the Amazon Cognito identity pool, provisioned as a part of your auth resource in the Amplify project. UnauthenticatedLogin -&gt; (boolean) A boolean value that can be set to allow or disallow guest-level authorization into your Amplify app. Service -&gt; (string) [required] Defines the service name to use when configuring an authentica- tion resource in your Amplify project. Possible values: o COGNITO UserPoolConfigs -&gt; (structure) [required] Describes the authentication configuration for the Amazon Cog- nito user pool, provisioned as a part of your auth resource in the Amplify project. ForgotPassword -&gt; (structure) (DEPRECATED) Describes the forgot password policy for your Amazon Cognito user pool, configured as a part of your Am- plify project. DeliveryMethod -&gt; (string) (DEPRECATED) Describes which mode to use (either SMS or email) to deliver messages to app users that want to re- cover their password. Possible values: o EMAIL o SMS EmailSettings -&gt; (structure) (DEPRECATED) The configuration for the email sent when an app user forgets their password. EmailMessage -&gt; (string) The contents of the email message. EmailSubject -&gt; (string) The contents of the subject line of the email message. SmsSettings -&gt; (structure) (DEPRECATED) The configuration for the SMS message sent when an Amplify app user forgets their password. SmsMessage -&gt; (string) The contents of the SMS message. Mfa -&gt; (structure) Describes whether to apply multi-factor authentication poli- cies for your Amazon Cognito user pool configured as a part of your Amplify project. MFAMode -&gt; (string) The MFA mode for the backend of your Amplify project. Possible values: o ON o OFF o OPTIONAL Settings -&gt; (structure) The settings of your MFA configuration for the backend of your Amplify project. MfaTypes -&gt; (list) The supported MFA types. (string) Possible values: o SMS o TOTP SmsMessage -&gt; (string) The body of the SMS message. OAuth -&gt; (structure) Describes the OAuth policy and rules for your Amazon Cognito user pool, configured as a part of your Amplify project. DomainPrefix -&gt; (string) The Amazon Cognito domain prefix used to create a hosted UI for authentication. OAuthGrantType -&gt; (string) The OAuth grant type to allow app users to authenticate from your Amplify app. Possible values: o CODE o IMPLICIT OAuthScopes -&gt; (list) The list of OAuth-related flows that can allow users to authenticate from your Amplify app. (string) Possible values: o PHONE o EMAIL o OPENID o PROFILE o AWS_COGNITO_SIGNIN_USER_ADMIN RedirectSignInURIs -&gt; (list) Redirect URLs that OAuth uses when a user signs in to an Amplify app. (string) RedirectSignOutURIs -&gt; (list) Redirect URLs that OAuth uses when a user signs out of an Amplify app. (string) SocialProviderSettings -&gt; (structure) Describes third-party social federation configurations for allowing your users to sign in with OAuth. Facebook -&gt; (structure) Describes third-party social federation configurations for allowing your app users to sign in using OAuth. ClientId -&gt; (string) Describes the client_id, which can be obtained from the third-party social federation provider. ClientSecret -&gt; (string) Describes the client_secret, which can be obtained from third-party social federation providers. Google -&gt; (structure) Describes third-party social federation configurations for allowing your app users to sign in using OAuth. ClientId -&gt; (string) Describes the client_id, which can be obtained from the third-party social federation provider. ClientSecret -&gt; (string) Describes the client_secret, which can be obtained from third-party social federation providers. LoginWithAmazon -&gt; (structure) Describes third-party social federation configurations for allowing your app users to sign in using OAuth. ClientId -&gt; (string) Describes the client_id, which can be obtained from the third-party social federation provider. ClientSecret -&gt; (string) Describes the client_secret, which can be obtained from third-party social federation providers. SignInWithApple -&gt; (structure) Describes Apple social federation configurations for allowing your app users to sign in using OAuth. ClientId -&gt; (string) Describes the client_id (also called Services ID) that comes from Apple. KeyId -&gt; (string) Describes the key_id that comes from Apple. PrivateKey -&gt; (string) Describes the private_key that comes from Apple. TeamId -&gt; (string) Describes the team_id that comes from Apple. PasswordPolicy -&gt; (structure) Describes the password policy for your Amazon Cognito user pool, configured as a part of your Amplify project. AdditionalConstraints -&gt; (list) Describes additional constraints on password requirements to sign in to the auth resource, configured as a part of your Amplify project. (string) Possible values: o REQUIRE_DIGIT o REQUIRE_LOWERCASE o REQUIRE_SYMBOL o REQUIRE_UPPERCASE MinimumLength -&gt; (double) Describes the minimum length of the password required to sign in to the auth resource, configured as a part of your Amplify project. VerificationMessage -&gt; (structure) Describes the email or SMS verification message for your Ama- zon Cognito user pool, configured as a part of your Amplify project. DeliveryMethod -&gt; (string) [required] The type of verification message to send. Possible values: o EMAIL o SMS EmailSettings -&gt; (structure) The settings for the email message. EmailMessage -&gt; (string) The contents of the email message. EmailSubject -&gt; (string) The contents of the subject line of the email message. SmsSettings -&gt; (structure) The settings for the SMS message. SmsMessage -&gt; (string) The contents of the SMS message. JSON Syntax: { "AuthResources": "USER_POOL_ONLY"|"IDENTITY_POOL_AND_USER_POOL", "IdentityPoolConfigs": { "UnauthenticatedLogin": true|false }, "Service": "COGNITO", "UserPoolConfigs": { "ForgotPassword": { "DeliveryMethod": "EMAIL"|"SMS", "EmailSettings": { "EmailMessage": "string", "EmailSubject": "string" }, "SmsSettings": { "SmsMessage": "string" } }, "Mfa": { "MFAMode": "ON"|"OFF"|"OPTIONAL", "Settings": { "MfaTypes": ["SMS"|"TOTP", ...], "SmsMessage": "string" } }, "OAuth": { "DomainPrefix": "string", "OAuthGrantType": "CODE"|"IMPLICIT", "OAuthScopes": ["PHONE"|"EMAIL"|"OPENID"|"PROFILE"|"AWS_COGNITO_SIGNIN_USER_ADMIN", ...], "RedirectSignInURIs": ["string", ...], "RedirectSignOutURIs": ["string", ...], "SocialProviderSettings": { "Facebook": { "ClientId": "string", "ClientSecret": "string" }, "Google": { "ClientId": "string", "ClientSecret": "string" }, "LoginWithAmazon": { "ClientId": "string", "ClientSecret": "string" }, "SignInWithApple": { "ClientId": "string", "KeyId": "string", "PrivateKey": "string", "TeamId": "string" } } }, "PasswordPolicy": { "AdditionalConstraints": ["REQUIRE_DIGIT"|"REQUIRE_LOWERCASE"|"REQUIRE_SYMBOL"|"REQUIRE_UPPERCASE", ...], "MinimumLength": double }, "VerificationMessage": { "DeliveryMethod": "EMAIL"|"SMS", "EmailSettings": { "EmailMessage": "string", "EmailSubject": "string" }, "SmsSettings": { "SmsMessage": "string" } } } }</param>
+    /// <param name="ResourceName">The name of this resource.</param>
+    public AwsAmplifybackendUpdateBackendAuthOptions(
+        string AppId,
+        string BackendEnvironmentName,
+        string ResourceConfig,
+        string ResourceName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AppId);
+        this.AppId = AppId;
+        global::System.ArgumentNullException.ThrowIfNull(BackendEnvironmentName);
+        this.BackendEnvironmentName = BackendEnvironmentName;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceConfig);
+        this.ResourceConfig = ResourceConfig;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceName);
+        this.ResourceName = ResourceName;
+    }
+
+    private AwsAmplifybackendUpdateBackendAuthOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsAmplifybackendUpdateBackendAuthOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsAmplifybackendUpdateBackendAuthOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The app ID.
+    /// </summary>
     [CliOption("--app-id")]
-    public string? AppId { get; set; }
+    public string? AppId { get; private init; }
 
+    /// <summary>
+    /// The name of the backend environment.
+    /// </summary>
     [CliOption("--backend-environment-name")]
-    public string? BackendEnvironmentName { get; set; }
+    public string? BackendEnvironmentName { get; private init; }
 
+    /// <summary>
+    /// The resource configuration for this request object. AuthResources -&gt; (string) [required] Defines the service name to use when configuring an authentica- tion resource in your Amplify project. Possible values: o USER_POOL_ONLY o IDENTITY_POOL_AND_USER_POOL IdentityPoolConfigs -&gt; (structure) Describes the authorization configuration for the Amazon Cognito identity pool, provisioned as a part of your auth resource in the Amplify project. UnauthenticatedLogin -&gt; (boolean) A boolean value that can be set to allow or disallow guest-level authorization into your Amplify app. Service -&gt; (string) [required] Defines the service name to use when configuring an authentica- tion resource in your Amplify project. Possible values: o COGNITO UserPoolConfigs -&gt; (structure) [required] Describes the authentication configuration for the Amazon Cog- nito user pool, provisioned as a part of your auth resource in the Amplify project. ForgotPassword -&gt; (structure) (DEPRECATED) Describes the forgot password policy for your Amazon Cognito user pool, configured as a part of your Am- plify project. DeliveryMethod -&gt; (string) (DEPRECATED) Describes which mode to use (either SMS or email) to deliver messages to app users that want to re- cover their password. Possible values: o EMAIL o SMS EmailSettings -&gt; (structure) (DEPRECATED) The configuration for the email sent when an app user forgets their password. EmailMessage -&gt; (string) The contents of the email message. EmailSubject -&gt; (string) The contents of the subject line of the email message. SmsSettings -&gt; (structure) (DEPRECATED) The configuration for the SMS message sent when an Amplify app user forgets their password. SmsMessage -&gt; (string) The contents of the SMS message. Mfa -&gt; (structure) Describes whether to apply multi-factor authentication poli- cies for your Amazon Cognito user pool configured as a part of your Amplify project. MFAMode -&gt; (string) The MFA mode for the backend of your Amplify project. Possible values: o ON o OFF o OPTIONAL Settings -&gt; (structure) The settings of your MFA configuration for the backend of your Amplify project. MfaTypes -&gt; (list) The supported MFA types. (string) Possible values: o SMS o TOTP SmsMessage -&gt; (string) The body of the SMS message. OAuth -&gt; (structure) Describes the OAuth policy and rules for your Amazon Cognito user pool, configured as a part of your Amplify project. DomainPrefix -&gt; (string) The Amazon Cognito domain prefix used to create a hosted UI for authentication. OAuthGrantType -&gt; (string) The OAuth grant type to allow app users to authenticate from your Amplify app. Possible values: o CODE o IMPLICIT OAuthScopes -&gt; (list) The list of OAuth-related flows that can allow users to authenticate from your Amplify app. (string) Possible values: o PHONE o EMAIL o OPENID o PROFILE o AWS_COGNITO_SIGNIN_USER_ADMIN RedirectSignInURIs -&gt; (list) Redirect URLs that OAuth uses when a user signs in to an Amplify app. (string) RedirectSignOutURIs -&gt; (list) Redirect URLs that OAuth uses when a user signs out of an Amplify app. (string) SocialProviderSettings -&gt; (structure) Describes third-party social federation configurations for allowing your users to sign in with OAuth. Facebook -&gt; (structure) Describes third-party social federation configurations for allowing your app users to sign in using OAuth. ClientId -&gt; (string) Describes the client_id, which can be obtained from the third-party social federation provider. ClientSecret -&gt; (string) Describes the client_secret, which can be obtained from third-party social federation providers. Google -&gt; (structure) Describes third-party social federation configurations for allowing your app users to sign in using OAuth. ClientId -&gt; (string) Describes the client_id, which can be obtained from the third-party social federation provider. ClientSecret -&gt; (string) Describes the client_secret, which can be obtained from third-party social federation providers. LoginWithAmazon -&gt; (structure) Describes third-party social federation configurations for allowing your app users to sign in using OAuth. ClientId -&gt; (string) Describes the client_id, which can be obtained from the third-party social federation provider. ClientSecret -&gt; (string) Describes the client_secret, which can be obtained from third-party social federation providers. SignInWithApple -&gt; (structure) Describes Apple social federation configurations for allowing your app users to sign in using OAuth. ClientId -&gt; (string) Describes the client_id (also called Services ID) that comes from Apple. KeyId -&gt; (string) Describes the key_id that comes from Apple. PrivateKey -&gt; (string) Describes the private_key that comes from Apple. TeamId -&gt; (string) Describes the team_id that comes from Apple. PasswordPolicy -&gt; (structure) Describes the password policy for your Amazon Cognito user pool, configured as a part of your Amplify project. AdditionalConstraints -&gt; (list) Describes additional constraints on password requirements to sign in to the auth resource, configured as a part of your Amplify project. (string) Possible values: o REQUIRE_DIGIT o REQUIRE_LOWERCASE o REQUIRE_SYMBOL o REQUIRE_UPPERCASE MinimumLength -&gt; (double) Describes the minimum length of the password required to sign in to the auth resource, configured as a part of your Amplify project. VerificationMessage -&gt; (structure) Describes the email or SMS verification message for your Ama- zon Cognito user pool, configured as a part of your Amplify project. DeliveryMethod -&gt; (string) [required] The type of verification message to send. Possible values: o EMAIL o SMS EmailSettings -&gt; (structure) The settings for the email message. EmailMessage -&gt; (string) The contents of the email message. EmailSubject -&gt; (string) The contents of the subject line of the email message. SmsSettings -&gt; (structure) The settings for the SMS message. SmsMessage -&gt; (string) The contents of the SMS message. JSON Syntax: { "AuthResources": "USER_POOL_ONLY"|"IDENTITY_POOL_AND_USER_POOL", "IdentityPoolConfigs": { "UnauthenticatedLogin": true|false }, "Service": "COGNITO", "UserPoolConfigs": { "ForgotPassword": { "DeliveryMethod": "EMAIL"|"SMS", "EmailSettings": { "EmailMessage": "string", "EmailSubject": "string" }, "SmsSettings": { "SmsMessage": "string" } }, "Mfa": { "MFAMode": "ON"|"OFF"|"OPTIONAL", "Settings": { "MfaTypes": ["SMS"|"TOTP", ...], "SmsMessage": "string" } }, "OAuth": { "DomainPrefix": "string", "OAuthGrantType": "CODE"|"IMPLICIT", "OAuthScopes": ["PHONE"|"EMAIL"|"OPENID"|"PROFILE"|"AWS_COGNITO_SIGNIN_USER_ADMIN", ...], "RedirectSignInURIs": ["string", ...], "RedirectSignOutURIs": ["string", ...], "SocialProviderSettings": { "Facebook": { "ClientId": "string", "ClientSecret": "string" }, "Google": { "ClientId": "string", "ClientSecret": "string" }, "LoginWithAmazon": { "ClientId": "string", "ClientSecret": "string" }, "SignInWithApple": { "ClientId": "string", "KeyId": "string", "PrivateKey": "string", "TeamId": "string" } } }, "PasswordPolicy": { "AdditionalConstraints": ["REQUIRE_DIGIT"|"REQUIRE_LOWERCASE"|"REQUIRE_SYMBOL"|"REQUIRE_UPPERCASE", ...], "MinimumLength": double }, "VerificationMessage": { "DeliveryMethod": "EMAIL"|"SMS", "EmailSettings": { "EmailMessage": "string", "EmailSubject": "string" }, "SmsSettings": { "SmsMessage": "string" } } } }
+    /// </summary>
     [CliOption("--resource-config")]
-    public string? ResourceConfig { get; set; }
+    public string? ResourceConfig { get; private init; }
 
+    /// <summary>
+    /// The name of this resource.
+    /// </summary>
     [CliOption("--resource-name")]
-    public string? ResourceName { get; set; }
+    public string? ResourceName { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

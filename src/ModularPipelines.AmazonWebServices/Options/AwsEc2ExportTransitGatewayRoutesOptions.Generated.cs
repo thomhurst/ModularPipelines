@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ec2", "export-transit-gateway-routes")]
-public record AwsEc2ExportTransitGatewayRoutesOptions : AwsOptions
+public record AwsEc2ExportTransitGatewayRoutesOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Exports routes from the specified transit gateway route table to the specified S3 bucket. By default, all routes are exported. Alterna- tively, you can filter by CIDR range. The routes are saved to the specified bucket in a JSON file. For more information, see Export route tables to Amazon S3 in the Amazon Web Services Transit Gateways Guide . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="TransitGatewayRouteTableId">The ID of the route table.</param>
+    /// <param name="S3Bucket">The name of the S3 bucket.</param>
+    public AwsEc2ExportTransitGatewayRoutesOptions(
+        string TransitGatewayRouteTableId,
+        string S3Bucket
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(TransitGatewayRouteTableId);
+        this.TransitGatewayRouteTableId = TransitGatewayRouteTableId;
+        global::System.ArgumentNullException.ThrowIfNull(S3Bucket);
+        this.S3Bucket = S3Bucket;
+    }
+
+    private AwsEc2ExportTransitGatewayRoutesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEc2ExportTransitGatewayRoutesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEc2ExportTransitGatewayRoutesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the route table.
+    /// </summary>
     [CliOption("--transit-gateway-route-table-id")]
-    public string? TransitGatewayRouteTableId { get; set; }
+    public string? TransitGatewayRouteTableId { get; private init; }
+
+    /// <summary>
+    /// The name of the S3 bucket.
+    /// </summary>
+    [CliOption("--s3-bucket")]
+    public string? S3Bucket { get; private init; }
 
     /// <summary>
     /// One or more filters. The possible values are: o attachment.transit-gateway-attachment-id - The id of the transit gateway attachment. o attachment.resource-id - The resource id of the transit gateway attachment. o route-search.exact-match - The exact match of the specified fil- ter. o route-search.longest-prefix-match - The longest prefix that matches the route. o route-search.subnet-of-match - The routes with a subnet that match the specified CIDR filter. o route-search.supernet-of-match - The routes with a CIDR that en- compass the CIDR filter. For example, if you have 10.0.1.0/29 and 10.0.1.0/31 routes in your route table and you specify super- net-of-match as 10.0.1.0/30, then the result returns 10.0.1.0/29. o state - The state of the route (active | blackhole ). o transit-gateway-route-destination-cidr-block - The CIDR range. o type - The type of route (propagated | static ). (structure) A filter name and value pair that is used to return a more spe- cific list of results from a describe operation. Filters can be used to match a set of resources by specific criteria, such as tags, attributes, or IDs. If you specify multiple filters, the filters are joined with an AND , and the request returns only results that match all of the specified filters. For more information, see List and filter using the CLI and API in the Amazon EC2 User Guide . Name -&gt; (string) The name of the filter. Filter names are case-sensitive. Values -&gt; (list) The filter values. Filter values are case-sensitive. If you specify multiple values for a filter, the values are joined with an OR , and the request returns all results that match any of the specified values. (string) Shorthand Syntax: Name=string,Values=string,string ... JSON Syntax: [ { "Name": "string", "Values": ["string", ...] } ... ]
@@ -30,10 +77,10 @@ public record AwsEc2ExportTransitGatewayRoutesOptions : AwsOptions
     [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
-    [CliOption("--s3-bucket")]
-    public string? S3Bucket { get; set; }
-
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -41,5 +88,22 @@ public record AwsEc2ExportTransitGatewayRoutesOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

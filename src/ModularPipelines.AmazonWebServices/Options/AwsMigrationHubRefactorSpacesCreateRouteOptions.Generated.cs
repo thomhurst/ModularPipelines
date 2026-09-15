@@ -12,6 +12,8 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -21,10 +23,76 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("migration-hub-refactor-spaces", "create-route")]
-public record AwsMigrationHubRefactorSpacesCreateRouteOptions : AwsOptions
+public record AwsMigrationHubRefactorSpacesCreateRouteOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates an Amazon Web Services Migration Hub Refactor Spaces route. The account owner of the service resource is always the environment owner, regardless of which account creates the route. Routes target a service in the application. If an application does not have any routes, then the first route must be created as a DEFAULT RouteType . When created, the default route defaults to an active state so state is not a required input. However, like all other state values the state of the default rout...
+    /// </summary>
+    /// <param name="ApplicationIdentifier">The ID of the application within which the route is being created. Constraints: o min: 14 o max: 14 o pattern: ^app-[0-9A-Za-z]{10}$</param>
+    /// <param name="EnvironmentIdentifier">The ID of the environment in which the route is created. Constraints: o min: 14 o max: 14 o pattern: ^env-[0-9A-Za-z]{10}$</param>
+    /// <param name="RouteType">The route type of the route. DEFAULT indicates that all traffic that does not match another route is forwarded to the default route. Ap- plications must have a default route before any other routes can be created. URI_PATH indicates a route that is based on a URI path. Possible values: o DEFAULT o URI_PATH</param>
+    /// <param name="ServiceIdentifier">The ID of the service in which the route is created. Traffic that matches this route is forwarded to this service. Constraints: o min: 14 o max: 14 o pattern: ^svc-[0-9A-Za-z]{10}$</param>
+    public AwsMigrationHubRefactorSpacesCreateRouteOptions(
+        string ApplicationIdentifier,
+        string EnvironmentIdentifier,
+        AwsMigrationHubRefactorSpacesCreateRouteRouteType RouteType,
+        string ServiceIdentifier
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ApplicationIdentifier);
+        this.ApplicationIdentifier = ApplicationIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(EnvironmentIdentifier);
+        this.EnvironmentIdentifier = EnvironmentIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(RouteType);
+        this.RouteType = RouteType;
+        global::System.ArgumentNullException.ThrowIfNull(ServiceIdentifier);
+        this.ServiceIdentifier = ServiceIdentifier;
+    }
+
+    private AwsMigrationHubRefactorSpacesCreateRouteOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsMigrationHubRefactorSpacesCreateRouteOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsMigrationHubRefactorSpacesCreateRouteOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the application within which the route is being created. Constraints: o min: 14 o max: 14 o pattern: ^app-[0-9A-Za-z]{10}$
+    /// </summary>
     [CliOption("--application-identifier")]
-    public string? ApplicationIdentifier { get; set; }
+    public string? ApplicationIdentifier { get; private init; }
+
+    /// <summary>
+    /// The ID of the environment in which the route is created. Constraints: o min: 14 o max: 14 o pattern: ^env-[0-9A-Za-z]{10}$
+    /// </summary>
+    [CliOption("--environment-identifier")]
+    public string? EnvironmentIdentifier { get; private init; }
+
+    /// <summary>
+    /// The route type of the route. DEFAULT indicates that all traffic that does not match another route is forwarded to the default route. Ap- plications must have a default route before any other routes can be created. URI_PATH indicates a route that is based on a URI path. Possible values: o DEFAULT o URI_PATH
+    /// </summary>
+    [CliOption("--route-type")]
+    public AwsMigrationHubRefactorSpacesCreateRouteRouteType? RouteType { get; private init; }
+
+    /// <summary>
+    /// The ID of the service in which the route is created. Traffic that matches this route is forwarded to this service. Constraints: o min: 14 o max: 14 o pattern: ^svc-[0-9A-Za-z]{10}$
+    /// </summary>
+    [CliOption("--service-identifier")]
+    public string? ServiceIdentifier { get; private init; }
 
     /// <summary>
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Constraints: o min: 1 o max: 64 o pattern: ^[\x20-\x7E]{1,64}$
@@ -38,15 +106,6 @@ public record AwsMigrationHubRefactorSpacesCreateRouteOptions : AwsOptions
     /// </summary>
     [CliOption("--default-route")]
     public string? DefaultRoute { get; set; }
-
-    [CliOption("--environment-identifier")]
-    public string? EnvironmentIdentifier { get; set; }
-
-    [CliOption("--route-type")]
-    public string? RouteType { get; set; }
-
-    [CliOption("--service-identifier")]
-    public string? ServiceIdentifier { get; set; }
 
     /// <summary>
     /// The tags to assign to the route. A tag is a label that you assign to an Amazon Web Services resource. Each tag consists of a key-value pair.. Constraints: o min: 0 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ^(?!aws:).+ value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
@@ -65,5 +124,22 @@ public record AwsMigrationHubRefactorSpacesCreateRouteOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

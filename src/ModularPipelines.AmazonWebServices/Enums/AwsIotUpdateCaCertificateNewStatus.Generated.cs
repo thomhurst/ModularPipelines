@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --newstatus.
+/// Allowed values for --new-status.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsIotUpdateCaCertificateNewStatus
 {
     [EnumValue("ACTIVE")]
-    Active = 1,
+    Active,
 
     [EnumValue("INACTIVE")]
-    Inactive = 2
+    Inactive
 }

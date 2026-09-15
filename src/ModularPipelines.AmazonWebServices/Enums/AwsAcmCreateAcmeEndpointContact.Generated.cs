@@ -16,9 +16,9 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsAcmCreateAcmeEndpointContact
 {
-    [EnumValue("REQUIRED")]
-    Required = 1,
-
     [EnumValue("NOT_REQUIRED")]
-    NotRequired = 2
+    NotRequired,
+
+    [EnumValue("REQUIRED")]
+    Required
 }

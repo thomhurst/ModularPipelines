@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,68 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cognito-idp", "delete-user-pool")]
-public record AwsCognitoIdpDeleteUserPoolOptions : AwsOptions
+public record AwsCognitoIdpDeleteUserPoolOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Deletes a user pool. After you delete a user pool, users can no longer sign in to any associated applications. When you delete a user pool, it's no longer visible or operational in your Amazon Web Services account. Amazon Cognito retains deleted user pools in an inactive state for 14 days, then begins a cleanup process that fully removes them from Amazon Web Services systems. In case of accidental deletion, contact Amazon Web Services Support within 14 days for restoration assistance. Amazon Cog...
+    /// </summary>
+    /// <param name="UserPoolId">The ID of the user pool that you want to delete. Constraints: o min: 1 o max: 55 o pattern: [\w-]+_[0-9a-zA-Z]+</param>
+    public AwsCognitoIdpDeleteUserPoolOptions(
+        string UserPoolId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(UserPoolId);
+        this.UserPoolId = UserPoolId;
+    }
+
+    private AwsCognitoIdpDeleteUserPoolOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCognitoIdpDeleteUserPoolOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCognitoIdpDeleteUserPoolOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the user pool that you want to delete. Constraints: o min: 1 o max: 55 o pattern: [\w-]+_[0-9a-zA-Z]+
+    /// </summary>
     [CliOption("--user-pool-id")]
-    public string? UserPoolId { get; set; }
+    public string? UserPoolId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

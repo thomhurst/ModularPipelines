@@ -21,10 +21,32 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("gamelift", "get-game-session-log")]
 public record AwsGameliftGetGameSessionLogOptions : AwsOptions
 {
+    /// <summary>
+    /// Download a compressed log file for a game session.
+    /// </summary>
+    /// <param name="GameSessionId"></param>
+    /// <param name="SaveAs"></param>
+    public AwsGameliftGetGameSessionLogOptions(
+        string GameSessionId,
+        string SaveAs
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(GameSessionId);
+        this.GameSessionId = GameSessionId;
+        global::System.ArgumentNullException.ThrowIfNull(SaveAs);
+        this.SaveAs = SaveAs;
+    }
+
+    public void Deconstruct(out string GameSessionId, out string SaveAs)
+    {
+        GameSessionId = this.GameSessionId;
+        SaveAs = this.SaveAs;
+    }
+
     [CliOption("--game-session-id")]
-    public string? GameSessionId { get; set; }
+    public string GameSessionId { get; private init; }
 
     [CliOption("--save-as")]
-    public string? SaveAs { get; set; }
+    public string SaveAs { get; private init; }
 
 }

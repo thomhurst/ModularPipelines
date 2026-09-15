@@ -10,24 +10,78 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Gets an image. See also: AWS API Documentation
+/// Retrieves an image. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("imagebuilder", "get-image")]
-public record AwsImagebuilderGetImageOptions : AwsOptions
+public record AwsImagebuilderGetImageOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Retrieves an image. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ImageBuildVersionArn">The Amazon Resource Name (ARN) of the image that you want to get. Constraints: o pattern: ^arn:aws[^:]*:image- builder:[^:]+:(?:[0-9]{12}|aws(?:-[a-z-]+)?):im- age/[a-z0-9-_]+/(?:(?:([0-9]+|x)\.([0-9]+|x)\.([0-9]+|x))|(?:[0-9]+\.[0-9]+\.[0-9]+/[0-9]+))$</param>
+    public AwsImagebuilderGetImageOptions(
+        string ImageBuildVersionArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ImageBuildVersionArn);
+        this.ImageBuildVersionArn = ImageBuildVersionArn;
+    }
+
+    private AwsImagebuilderGetImageOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsImagebuilderGetImageOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsImagebuilderGetImageOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the image that you want to get. Constraints: o pattern: ^arn:aws[^:]*:image- builder:[^:]+:(?:[0-9]{12}|aws(?:-[a-z-]+)?):im- age/[a-z0-9-_]+/(?:(?:([0-9]+|x)\.([0-9]+|x)\.([0-9]+|x))|(?:[0-9]+\.[0-9]+\.[0-9]+/[0-9]+))$
+    /// </summary>
     [CliOption("--image-build-version-arn")]
-    public string? ImageBuildVersionArn { get; set; }
+    public string? ImageBuildVersionArn { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

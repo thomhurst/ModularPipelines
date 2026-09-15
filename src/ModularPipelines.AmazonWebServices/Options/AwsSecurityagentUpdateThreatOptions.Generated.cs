@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,13 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("securityagent", "update-threat")]
-public record AwsSecurityagentUpdateThreatOptions : AwsOptions
+public record AwsSecurityagentUpdateThreatOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--threat-id")]
-    public string? ThreatId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Updates a threat. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ThreatId">The unique identifier of the threat to update.</param>
+    /// <param name="AgentSpaceId">The unique identifier of the agent space.</param>
+    public AwsSecurityagentUpdateThreatOptions(
+        string ThreatId,
+        string AgentSpaceId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ThreatId);
+        this.ThreatId = ThreatId;
+        global::System.ArgumentNullException.ThrowIfNull(AgentSpaceId);
+        this.AgentSpaceId = AgentSpaceId;
+    }
+
+    private AwsSecurityagentUpdateThreatOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSecurityagentUpdateThreatOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSecurityagentUpdateThreatOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier of the threat to update.
+    /// </summary>
+    [CliOption("--threat-id")]
+    public string? ThreatId { get; private init; }
+
+    /// <summary>
+    /// The unique identifier of the agent space.
+    /// </summary>
     [CliOption("--agent-space-id")]
-    public string? AgentSpaceId { get; set; }
+    public string? AgentSpaceId { get; private init; }
 
     /// <summary>
     /// A short title summarizing the threat.
@@ -117,5 +161,22 @@ public record AwsSecurityagentUpdateThreatOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

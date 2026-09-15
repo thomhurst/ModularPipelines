@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("rds", "describe-db-cluster-backtracks")]
-public record AwsRdsDescribeDbClusterBacktracksOptions : AwsOptions
+public record AwsRdsDescribeDbClusterBacktracksOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Returns information about backtracks for a DB cluster. For more information on Amazon Aurora, see What is Amazon Aurora? in the Amazon Aurora User Guide . NOTE: This action only applies to Aurora MySQL DB clusters. See also: AWS API Documentation describe-db-cluster-backtracks is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --que...
+    /// </summary>
+    /// <param name="DbClusterIdentifier">The DB cluster identifier of the DB cluster to be described. This parameter is stored as a lowercase string. Constraints: o Must contain from 1 to 63 alphanumeric characters or hyphens. o First character must be a letter. o Can't end with a hyphen or contain two consecutive hyphens. Example: my-cluster1</param>
+    public AwsRdsDescribeDbClusterBacktracksOptions(
+        string DbClusterIdentifier
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DbClusterIdentifier);
+        this.DbClusterIdentifier = DbClusterIdentifier;
+    }
+
+    private AwsRdsDescribeDbClusterBacktracksOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRdsDescribeDbClusterBacktracksOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRdsDescribeDbClusterBacktracksOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The DB cluster identifier of the DB cluster to be described. This parameter is stored as a lowercase string. Constraints: o Must contain from 1 to 63 alphanumeric characters or hyphens. o First character must be a letter. o Can't end with a hyphen or contain two consecutive hyphens. Example: my-cluster1
+    /// </summary>
     [CliOption("--db-cluster-identifier")]
-    public string? DbClusterIdentifier { get; set; }
+    public string? DbClusterIdentifier { get; private init; }
 
     /// <summary>
     /// If specified, this value is the backtrack identifier of the back- track to be described. Constraints: o Must contain a valid universally unique identifier (UUID). For more information about UUIDs, see Universally unique identifier . Example: 123e4567-e89b-12d3-a456-426655440000
@@ -61,5 +98,22 @@ public record AwsRdsDescribeDbClusterBacktracksOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -21,13 +21,59 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("appconfig", "get-hosted-configuration-version")]
 public record AwsAppConfigGetHostedConfigurationVersionOptions : AwsOptions
 {
+    /// <summary>
+    /// Retrieves information about a specific configuration version. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ApplicationId">The application ID. Constraints: o min: 1 o max: 64</param>
+    /// <param name="ConfigurationProfileId">The configuration profile ID. Constraints: o min: 1 o max: 128</param>
+    /// <param name="VersionNumber">The version. outfile (string) [required] Filename where the content will be saved</param>
+    /// <param name="Outfile">The &lt;outfile&gt; operand.</param>
+    public AwsAppConfigGetHostedConfigurationVersionOptions(
+        string ApplicationId,
+        string ConfigurationProfileId,
+        int VersionNumber,
+        string Outfile
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ApplicationId);
+        this.ApplicationId = ApplicationId;
+        global::System.ArgumentNullException.ThrowIfNull(ConfigurationProfileId);
+        this.ConfigurationProfileId = ConfigurationProfileId;
+        this.VersionNumber = VersionNumber;
+        global::System.ArgumentNullException.ThrowIfNull(Outfile);
+        this.Outfile = Outfile;
+    }
+
+    public void Deconstruct(out string ApplicationId, out string ConfigurationProfileId, out int VersionNumber, out string Outfile)
+    {
+        ApplicationId = this.ApplicationId;
+        ConfigurationProfileId = this.ConfigurationProfileId;
+        VersionNumber = this.VersionNumber;
+        Outfile = this.Outfile;
+    }
+
+    /// <summary>
+    /// The application ID. Constraints: o min: 1 o max: 64
+    /// </summary>
     [CliOption("--application-id")]
-    public string? ApplicationId { get; set; }
+    public string ApplicationId { get; private init; }
 
+    /// <summary>
+    /// The configuration profile ID. Constraints: o min: 1 o max: 128
+    /// </summary>
     [CliOption("--configuration-profile-id")]
-    public string? ConfigurationProfileId { get; set; }
+    public string ConfigurationProfileId { get; private init; }
 
+    /// <summary>
+    /// The version. outfile (string) [required] Filename where the content will be saved
+    /// </summary>
     [CliOption("--version-number")]
-    public int? VersionNumber { get; set; }
+    public int VersionNumber { get; private init; }
+
+    /// <summary>
+    /// The &lt;outfile&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string Outfile { get; private init; }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,16 +21,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("application-insights", "describe-component-configuration-recommendation")]
-public record AwsApplicationInsightsDescribeComponentConfigurationRecommendationOptions : AwsOptions
+public record AwsApplicationInsightsDescribeComponentConfigurationRecommendationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Describes the recommended monitoring configuration of the component. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ResourceGroupName">The name of the resource group. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9\.\-_]*</param>
+    /// <param name="ComponentName">The name of the component. Constraints: o min: 1 o max: 1011 o pattern: (?:^[\d\w\-_\.+]*$)|(?:^arn:aws(-\w+)*:[\w\d-]+:([\w\d-]*)?:[\w\d_-]*([:/].+)*$)</param>
+    /// <param name="Tier">The tier of the application component. Possible values: o CUSTOM o DEFAULT o DOT_NET_CORE o DOT_NET_WORKER o DOT_NET_WEB_TIER o DOT_NET_WEB o SQL_SERVER o SQL_SERVER_ALWAYSON_AVAILABILITY_GROUP o MYSQL o POSTGRESQL o JAVA_JMX o ORACLE o SAP_HANA_MULTI_NODE o SAP_HANA_SINGLE_NODE o SAP_HANA_HIGH_AVAILABILITY o SAP_ASE_SINGLE_NODE o SAP_ASE_HIGH_AVAILABILITY o SQL_SERVER_FAILOVER_CLUSTER_INSTANCE o SHAREPOINT o ACTIVE_DIRECTORY o SAP_NETWEAVER_STANDARD o SAP_NETWEAVER_DISTRIBUTED o SAP_NETWEAVER_HIGH_AVAILABILITY Constraints: o min: 1 o max: 50</param>
+    public AwsApplicationInsightsDescribeComponentConfigurationRecommendationOptions(
+        string ResourceGroupName,
+        string ComponentName,
+        string Tier
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroupName);
+        this.ResourceGroupName = ResourceGroupName;
+        global::System.ArgumentNullException.ThrowIfNull(ComponentName);
+        this.ComponentName = ComponentName;
+        global::System.ArgumentNullException.ThrowIfNull(Tier);
+        this.Tier = Tier;
+    }
+
+    private AwsApplicationInsightsDescribeComponentConfigurationRecommendationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsApplicationInsightsDescribeComponentConfigurationRecommendationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsApplicationInsightsDescribeComponentConfigurationRecommendationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the resource group. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9\.\-_]*
+    /// </summary>
     [CliOption("--resource-group-name")]
-    public string? ResourceGroupName { get; set; }
+    public string? ResourceGroupName { get; private init; }
 
+    /// <summary>
+    /// The name of the component. Constraints: o min: 1 o max: 1011 o pattern: (?:^[\d\w\-_\.+]*$)|(?:^arn:aws(-\w+)*:[\w\d-]+:([\w\d-]*)?:[\w\d_-]*([:/].+)*$)
+    /// </summary>
     [CliOption("--component-name")]
-    public string? ComponentName { get; set; }
+    public string? ComponentName { get; private init; }
 
+    /// <summary>
+    /// The tier of the application component. Possible values: o CUSTOM o DEFAULT o DOT_NET_CORE o DOT_NET_WORKER o DOT_NET_WEB_TIER o DOT_NET_WEB o SQL_SERVER o SQL_SERVER_ALWAYSON_AVAILABILITY_GROUP o MYSQL o POSTGRESQL o JAVA_JMX o ORACLE o SAP_HANA_MULTI_NODE o SAP_HANA_SINGLE_NODE o SAP_HANA_HIGH_AVAILABILITY o SAP_ASE_SINGLE_NODE o SAP_ASE_HIGH_AVAILABILITY o SQL_SERVER_FAILOVER_CLUSTER_INSTANCE o SHAREPOINT o ACTIVE_DIRECTORY o SAP_NETWEAVER_STANDARD o SAP_NETWEAVER_DISTRIBUTED o SAP_NETWEAVER_HIGH_AVAILABILITY Constraints: o min: 1 o max: 50
+    /// </summary>
     [CliOption("--tier")]
-    public string? Tier { get; set; }
+    public string? Tier { get; private init; }
 
     /// <summary>
     /// The name of the workload. The name of the workload is required when the tier of the application component is SAP_ASE_SINGLE_NODE or SAP_ASE_HIGH_AVAILABILITY . Constraints: o min: 1 o max: 12 o pattern: [a-zA-Z0-9\.\-_]*
@@ -48,5 +99,22 @@ public record AwsApplicationInsightsDescribeComponentConfigurationRecommendation
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

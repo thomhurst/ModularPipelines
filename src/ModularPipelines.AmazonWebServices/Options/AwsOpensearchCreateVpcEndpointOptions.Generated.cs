@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("opensearch", "create-vpc-endpoint")]
-public record AwsOpensearchCreateVpcEndpointOptions : AwsOptions
+public record AwsOpensearchCreateVpcEndpointOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--domain-arn")]
-    public string? DomainArn { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates an Amazon OpenSearch Service-managed VPC endpoint. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DomainArn">The Amazon Resource Name (ARN) of the domain to create the endpoint for. Constraints: o min: 1 o max: 512 o pattern: arn:aws[a-z\-]*:[a-z]+:[a-z0-9\-]+:[0-9]+:do- main\/[a-z0-9\-]+</param>
+    /// <param name="VpcOptions">Options to specify the subnets and security groups for the endpoint. SubnetIds -&gt; (list) A list of subnet IDs associated with the VPC endpoints for the domain. If your domain uses multiple Availability Zones, you need to provide two subnet IDs, one per zone. Otherwise, provide only one. (string) SecurityGroupIds -&gt; (list) The list of security group IDs associated with the VPC endpoints for the domain. If you do not provide a security group ID, OpenSearch Service uses the default security group for the VPC. (string) EgressEnabled -&gt; (boolean) Controls whether egress traffic from the domain is routed through the customer VPC. When true , outbound traffic flows through the VPC. When false , outbound traffic goes through the public internet. Shorthand Syntax: SubnetIds=string,string,SecurityGroupIds=string,string,EgressEnabled=boolean JSON Syntax: { "SubnetIds": ["string", ...], "SecurityGroupIds": ["string", ...], "EgressEnabled": true|false }</param>
+    public AwsOpensearchCreateVpcEndpointOptions(
+        string DomainArn,
+        string VpcOptions
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DomainArn);
+        this.DomainArn = DomainArn;
+        global::System.ArgumentNullException.ThrowIfNull(VpcOptions);
+        this.VpcOptions = VpcOptions;
+    }
+
+    private AwsOpensearchCreateVpcEndpointOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsOpensearchCreateVpcEndpointOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsOpensearchCreateVpcEndpointOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the domain to create the endpoint for. Constraints: o min: 1 o max: 512 o pattern: arn:aws[a-z\-]*:[a-z]+:[a-z0-9\-]+:[0-9]+:do- main\/[a-z0-9\-]+
+    /// </summary>
+    [CliOption("--domain-arn")]
+    public string? DomainArn { get; private init; }
+
+    /// <summary>
+    /// Options to specify the subnets and security groups for the endpoint. SubnetIds -&gt; (list) A list of subnet IDs associated with the VPC endpoints for the domain. If your domain uses multiple Availability Zones, you need to provide two subnet IDs, one per zone. Otherwise, provide only one. (string) SecurityGroupIds -&gt; (list) The list of security group IDs associated with the VPC endpoints for the domain. If you do not provide a security group ID, OpenSearch Service uses the default security group for the VPC. (string) EgressEnabled -&gt; (boolean) Controls whether egress traffic from the domain is routed through the customer VPC. When true , outbound traffic flows through the VPC. When false , outbound traffic goes through the public internet. Shorthand Syntax: SubnetIds=string,string,SecurityGroupIds=string,string,EgressEnabled=boolean JSON Syntax: { "SubnetIds": ["string", ...], "SecurityGroupIds": ["string", ...], "EgressEnabled": true|false }
+    /// </summary>
     [CliOption("--vpc-options")]
-    public string? VpcOptions { get; set; }
+    public string? VpcOptions { get; private init; }
 
     /// <summary>
     /// Unique, case-sensitive identifier to ensure idempotency of the re- quest. Constraints: o min: 1 o max: 64
@@ -40,5 +84,22 @@ public record AwsOpensearchCreateVpcEndpointOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

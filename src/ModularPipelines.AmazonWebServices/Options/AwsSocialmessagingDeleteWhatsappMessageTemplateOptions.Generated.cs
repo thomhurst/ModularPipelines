@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,27 +20,90 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("socialmessaging", "delete-whatsapp-message-template")]
-public record AwsSocialmessagingDeleteWhatsappMessageTemplateOptions : AwsOptions
+public record AwsSocialmessagingDeleteWhatsappMessageTemplateOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Deletes a WhatsApp message template. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Id">The ID of the WhatsApp Business Account associated with this tem- plate. Constraints: o min: 1 o max: 115 o pattern: .*(^waba-.*$)|(^arn:.*:waba/[0-9a-zA-Z]+$).*</param>
+    /// <param name="TemplateName">The name of the template to delete. Constraints: o min: 1 o max: 512</param>
+    public AwsSocialmessagingDeleteWhatsappMessageTemplateOptions(
+        string Id,
+        string TemplateName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Id);
+        this.Id = Id;
+        global::System.ArgumentNullException.ThrowIfNull(TemplateName);
+        this.TemplateName = TemplateName;
+    }
+
+    private AwsSocialmessagingDeleteWhatsappMessageTemplateOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSocialmessagingDeleteWhatsappMessageTemplateOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSocialmessagingDeleteWhatsappMessageTemplateOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the WhatsApp Business Account associated with this tem- plate. Constraints: o min: 1 o max: 115 o pattern: .*(^waba-.*$)|(^arn:.*:waba/[0-9a-zA-Z]+$).*
+    /// </summary>
+    [CliOption("--id")]
+    public string? Id { get; private init; }
+
+    /// <summary>
+    /// The name of the template to delete. Constraints: o min: 1 o max: 512
+    /// </summary>
+    [CliOption("--template-name")]
+    public string? TemplateName { get; private init; }
+
     /// <summary>
     /// The numeric ID of the template assigned by Meta. Constraints: o min: 1 o max: 100 o pattern: [0-9]+
     /// </summary>
     [CliOption("--meta-template-id")]
     public string? MetaTemplateId { get; set; }
 
-    [CliFlag("--delete-all-languages")]
+    /// <summary>
+    /// If true, deletes all language versions of the template.
+    /// </summary>
+    [CliFlag("--delete-all-languages", NegatedName = "--no-delete-all-languages")]
     public bool? DeleteAllLanguages { get; set; }
-
-    [CliOption("--id")]
-    public string? Id { get; set; }
-
-    [CliOption("--template-name")]
-    public string? TemplateName { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

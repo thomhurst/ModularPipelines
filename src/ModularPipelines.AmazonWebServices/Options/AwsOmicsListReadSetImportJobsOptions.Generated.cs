@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("omics", "list-read-set-import-jobs")]
-public record AwsOmicsListReadSetImportJobsOptions : AwsOptions
+public record AwsOmicsListReadSetImportJobsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Retrieves a list of read set import jobs and returns the data in JSON format. See also: AWS API Documentation list-read-set-import-jobs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: importJobs
+    /// </summary>
+    /// <param name="SequenceStoreId">The jobs' sequence store ID. Constraints: o min: 10 o max: 36 o pattern: [0-9]+</param>
+    public AwsOmicsListReadSetImportJobsOptions(
+        string SequenceStoreId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SequenceStoreId);
+        this.SequenceStoreId = SequenceStoreId;
+    }
+
+    private AwsOmicsListReadSetImportJobsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsOmicsListReadSetImportJobsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsOmicsListReadSetImportJobsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The jobs' sequence store ID. Constraints: o min: 10 o max: 36 o pattern: [0-9]+
+    /// </summary>
     [CliOption("--sequence-store-id")]
-    public string? SequenceStoreId { get; set; }
+    public string? SequenceStoreId { get; private init; }
 
     /// <summary>
     /// A filter to apply to the list. status -&gt; (string) A status to filter on. Possible values: o SUBMITTED o IN_PROGRESS o CANCELLING o CANCELLED o FAILED o COMPLETED o COMPLETED_WITH_FAILURES createdAfter -&gt; (timestamp) The filter's start date. createdBefore -&gt; (timestamp) The filter's end date. Shorthand Syntax: status=string,createdAfter=timestamp,createdBefore=timestamp JSON Syntax: { "status": "SUBMITTED"|"IN_PROGRESS"|"CANCELLING"|"CANCELLED"|"FAILED"|"COMPLETED"|"COMPLETED_WITH_FAILURES", "createdAfter": timestamp, "createdBefore": timestamp }
@@ -55,5 +92,22 @@ public record AwsOmicsListReadSetImportJobsOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

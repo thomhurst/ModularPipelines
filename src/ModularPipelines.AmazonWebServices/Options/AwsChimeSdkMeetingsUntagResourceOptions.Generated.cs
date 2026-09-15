@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,89 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("chime-sdk-meetings", "untag-resource")]
-public record AwsChimeSdkMeetingsUntagResourceOptions : AwsOptions
+public record AwsChimeSdkMeetingsUntagResourceOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--resource-arn")]
-    public string? ResourceArn { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Removes the specified tags from the specified resources. When you spec- ify a tag key, the action removes both that key and its associated value. The operation succeeds even if you attempt to remove tags from a resource that were already removed. Note the following: o To remove tags from a resource, you need the necessary permissions for the service that the resource belongs to as well as permissions for removing tags. For more information, see the documentation for the service whose resource yo...
+    /// </summary>
+    /// <param name="ResourceArn">The ARN of the resource that you're removing tags from. Constraints: o min: 1 o max: 1011 o pattern: ^arn:.*</param>
+    /// <param name="TagKeys">The tag keys being removed from the resources. Constraints: o min: 0 o max: 50 (string) Constraints: o min: 1 o max: 128 o pattern: ^[a-zA-Z+-=._:/]+$ Syntax: "string" "string" ...</param>
+    public AwsChimeSdkMeetingsUntagResourceOptions(
+        string ResourceArn,
+        IEnumerable<string> TagKeys
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ResourceArn);
+        this.ResourceArn = ResourceArn;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(TagKeys);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(TagKeys));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(TagKeys));
+            }
+
+            TagKeys = materialized;
+        }
+        this.TagKeys = TagKeys;
+    }
+
+    private AwsChimeSdkMeetingsUntagResourceOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsChimeSdkMeetingsUntagResourceOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsChimeSdkMeetingsUntagResourceOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ARN of the resource that you're removing tags from. Constraints: o min: 1 o max: 1011 o pattern: ^arn:.*
+    /// </summary>
+    [CliOption("--resource-arn")]
+    public string? ResourceArn { get; private init; }
+
+    /// <summary>
+    /// The tag keys being removed from the resources. Constraints: o min: 0 o max: 50 (string) Constraints: o min: 1 o max: 128 o pattern: ^[a-zA-Z+-=._:/]+$ Syntax: "string" "string" ...
+    /// </summary>
     [CliOption("--tag-keys", GroupValues = true)]
-    public IEnumerable<string>? TagKeys { get; set; }
+    public IEnumerable<string>? TagKeys { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

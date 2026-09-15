@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,8 +21,47 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("servicecatalog", "provision-product")]
-public record AwsServicecatalogProvisionProductOptions : AwsOptions
+public record AwsServicecatalogProvisionProductOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Provisions the specified product. A provisioned product is a resourced instance of a product. For exam- ple, provisioning a product that's based on an CloudFormation template launches an CloudFormation stack and its underlying resources. You can check the status of this request using DescribeRecord . If the request contains a tag key with an empty list of values, there's a tag conflict for that key. Don't include conflicted keys as tags, or this will cause the error "Parameter validation failed:...
+    /// </summary>
+    /// <param name="ProvisionedProductName">A user-friendly name for the provisioned product. This value must be unique for the Amazon Web Services account and cannot be updated af- ter the product is provisioned. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9][a-zA-Z0-9._-]*</param>
+    public AwsServicecatalogProvisionProductOptions(
+        string ProvisionedProductName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ProvisionedProductName);
+        this.ProvisionedProductName = ProvisionedProductName;
+    }
+
+    private AwsServicecatalogProvisionProductOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsServicecatalogProvisionProductOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsServicecatalogProvisionProductOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A user-friendly name for the provisioned product. This value must be unique for the Amazon Web Services account and cannot be updated af- ter the product is provisioned. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9][a-zA-Z0-9._-]*
+    /// </summary>
+    [CliOption("--provisioned-product-name")]
+    public string? ProvisionedProductName { get; private init; }
+
     /// <summary>
     /// The language code. o jp - Japanese o zh - Chinese Constraints: o max: 100
     /// </summary>
@@ -64,9 +104,6 @@ public record AwsServicecatalogProvisionProductOptions : AwsOptions
     [CliOption("--path-name")]
     public string? PathName { get; set; }
 
-    [CliOption("--provisioned-product-name")]
-    public string? ProvisionedProductName { get; set; }
-
     /// <summary>
     /// Parameters specified by the administrator that are required for pro- visioning the product. (structure) Information about a parameter used to provision a product. Key -&gt; (string) The parameter key. Constraints: o min: 1 o max: 1000 Value -&gt; (string) The parameter value. Constraints: o max: 4096 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
@@ -103,5 +140,22 @@ public record AwsServicecatalogProvisionProductOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -11,11 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --recipeprovider.
+/// Allowed values for --recipe-provider.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsPersonalizeListRecipesRecipeProvider
 {
+    [EnumValue("o")]
+    O,
+
     [EnumValue("SERVICE")]
-    Service = 1
+    Service
 }

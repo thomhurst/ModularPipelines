@@ -5,8 +5,8 @@
 
 #nullable enable
 
-using ModularPipelines.Context;
 using System.CodeDom.Compiler;
+using ModularPipelines.Context;
 using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
@@ -40,11 +40,41 @@ public class AwsVerifiedpermissions : IAwsVerifiedpermissions
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> BatchGetPolicyAsync(
-        AwsVerifiedpermissionsBatchGetPolicyOptions? options = null,
+        AwsVerifiedpermissionsBatchGetPolicyOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsVerifiedpermissionsBatchGetPolicyOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Makes a series of decisions about multiple authorization requests for one principal or resource. Each request contains the equivalent content of an IsAuthorized request: principal, action, resource, and context. Either the principal or the resource parameter must be identical across all requests. For example, Verified Permissions won't evaluate a pair of requests where bob views photo1 and alice views photo2 . Authoriza- tion of bob to view photo1 and photo2 , or bob and alice to view photo1 , a...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> BatchIsAuthorizedAsync(
+        AwsVerifiedpermissionsBatchIsAuthorizedOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Makes a series of decisions about multiple authorization requests for one token. The principal in this request comes from an external iden- tity source in the form of an identity or access token, formatted as a JSON web token (JWT) . The information in the parameters can also de- fine additional context that Verified Permissions can include in the evaluations. The request is evaluated against all policies in the specified policy store that match the entities that you provide in the entities decl...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> BatchIsAuthorizedWithTokenAsync(
+        AwsVerifiedpermissionsBatchIsAuthorizedWithTokenOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -55,11 +85,11 @@ public class AwsVerifiedpermissions : IAwsVerifiedpermissions
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateIdentitySourceAsync(
-        AwsVerifiedpermissionsCreateIdentitySourceOptions? options = null,
+        AwsVerifiedpermissionsCreateIdentitySourceOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsVerifiedpermissionsCreateIdentitySourceOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -70,11 +100,11 @@ public class AwsVerifiedpermissions : IAwsVerifiedpermissions
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreatePolicyAsync(
-        AwsVerifiedpermissionsCreatePolicyOptions? options = null,
+        AwsVerifiedpermissionsCreatePolicyOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsVerifiedpermissionsCreatePolicyOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -85,11 +115,11 @@ public class AwsVerifiedpermissions : IAwsVerifiedpermissions
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreatePolicyStoreAliasAsync(
-        AwsVerifiedpermissionsCreatePolicyStoreAliasOptions? options = null,
+        AwsVerifiedpermissionsCreatePolicyStoreAliasOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsVerifiedpermissionsCreatePolicyStoreAliasOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -100,11 +130,11 @@ public class AwsVerifiedpermissions : IAwsVerifiedpermissions
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreatePolicyStoreAsync(
-        AwsVerifiedpermissionsCreatePolicyStoreOptions? options = null,
+        AwsVerifiedpermissionsCreatePolicyStoreOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsVerifiedpermissionsCreatePolicyStoreOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -115,11 +145,11 @@ public class AwsVerifiedpermissions : IAwsVerifiedpermissions
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreatePolicyTemplateAsync(
-        AwsVerifiedpermissionsCreatePolicyTemplateOptions? options = null,
+        AwsVerifiedpermissionsCreatePolicyTemplateOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsVerifiedpermissionsCreatePolicyTemplateOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -130,11 +160,11 @@ public class AwsVerifiedpermissions : IAwsVerifiedpermissions
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteIdentitySourceAsync(
-        AwsVerifiedpermissionsDeleteIdentitySourceOptions? options = null,
+        AwsVerifiedpermissionsDeleteIdentitySourceOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsVerifiedpermissionsDeleteIdentitySourceOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -145,11 +175,11 @@ public class AwsVerifiedpermissions : IAwsVerifiedpermissions
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeletePolicyAsync(
-        AwsVerifiedpermissionsDeletePolicyOptions? options = null,
+        AwsVerifiedpermissionsDeletePolicyOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsVerifiedpermissionsDeletePolicyOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -160,11 +190,11 @@ public class AwsVerifiedpermissions : IAwsVerifiedpermissions
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeletePolicyStoreAliasAsync(
-        AwsVerifiedpermissionsDeletePolicyStoreAliasOptions? options = null,
+        AwsVerifiedpermissionsDeletePolicyStoreAliasOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsVerifiedpermissionsDeletePolicyStoreAliasOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -175,11 +205,11 @@ public class AwsVerifiedpermissions : IAwsVerifiedpermissions
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeletePolicyStoreAsync(
-        AwsVerifiedpermissionsDeletePolicyStoreOptions? options = null,
+        AwsVerifiedpermissionsDeletePolicyStoreOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsVerifiedpermissionsDeletePolicyStoreOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -190,11 +220,11 @@ public class AwsVerifiedpermissions : IAwsVerifiedpermissions
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeletePolicyTemplateAsync(
-        AwsVerifiedpermissionsDeletePolicyTemplateOptions? options = null,
+        AwsVerifiedpermissionsDeletePolicyTemplateOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsVerifiedpermissionsDeletePolicyTemplateOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -205,11 +235,11 @@ public class AwsVerifiedpermissions : IAwsVerifiedpermissions
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetIdentitySourceAsync(
-        AwsVerifiedpermissionsGetIdentitySourceOptions? options = null,
+        AwsVerifiedpermissionsGetIdentitySourceOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsVerifiedpermissionsGetIdentitySourceOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -220,11 +250,11 @@ public class AwsVerifiedpermissions : IAwsVerifiedpermissions
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetPolicyAsync(
-        AwsVerifiedpermissionsGetPolicyOptions? options = null,
+        AwsVerifiedpermissionsGetPolicyOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsVerifiedpermissionsGetPolicyOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -235,11 +265,11 @@ public class AwsVerifiedpermissions : IAwsVerifiedpermissions
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetPolicyStoreAliasAsync(
-        AwsVerifiedpermissionsGetPolicyStoreAliasOptions? options = null,
+        AwsVerifiedpermissionsGetPolicyStoreAliasOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsVerifiedpermissionsGetPolicyStoreAliasOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -250,11 +280,11 @@ public class AwsVerifiedpermissions : IAwsVerifiedpermissions
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetPolicyStoreAsync(
-        AwsVerifiedpermissionsGetPolicyStoreOptions? options = null,
+        AwsVerifiedpermissionsGetPolicyStoreOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsVerifiedpermissionsGetPolicyStoreOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -265,11 +295,11 @@ public class AwsVerifiedpermissions : IAwsVerifiedpermissions
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetPolicyTemplateAsync(
-        AwsVerifiedpermissionsGetPolicyTemplateOptions? options = null,
+        AwsVerifiedpermissionsGetPolicyTemplateOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsVerifiedpermissionsGetPolicyTemplateOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -280,11 +310,41 @@ public class AwsVerifiedpermissions : IAwsVerifiedpermissions
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetSchemaAsync(
-        AwsVerifiedpermissionsGetSchemaOptions? options = null,
+        AwsVerifiedpermissionsGetSchemaOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsVerifiedpermissionsGetSchemaOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Makes an authorization decision about a service request described in the parameters. The information in the parameters can also define addi- tional context that Verified Permissions can include in the evaluation. The request is evaluated against all matching policies in the specified policy store. The result of the decision is either Allow or Deny , along with a list of the policies that resulted in the decision. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> IsAuthorizedAsync(
+        AwsVerifiedpermissionsIsAuthorizedOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Makes an authorization decision about a service request described in the parameters. The principal in this request comes from an external identity source in the form of an identity token formatted as a JSON web token (JWT) . The information in the parameters can also define ad- ditional context that Verified Permissions can include in the evalua- tion. The request is evaluated against all matching policies in the specified policy store. The result of the decision is either Allow or Deny , along ...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> IsAuthorizedWithTokenAsync(
+        AwsVerifiedpermissionsIsAuthorizedWithTokenOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -295,11 +355,11 @@ public class AwsVerifiedpermissions : IAwsVerifiedpermissions
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListIdentitySourcesAsync(
-        AwsVerifiedpermissionsListIdentitySourcesOptions? options = null,
+        AwsVerifiedpermissionsListIdentitySourcesOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsVerifiedpermissionsListIdentitySourcesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -310,11 +370,11 @@ public class AwsVerifiedpermissions : IAwsVerifiedpermissions
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListPoliciesAsync(
-        AwsVerifiedpermissionsListPoliciesOptions? options = null,
+        AwsVerifiedpermissionsListPoliciesOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsVerifiedpermissionsListPoliciesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -329,7 +389,7 @@ public class AwsVerifiedpermissions : IAwsVerifiedpermissions
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsVerifiedpermissionsListPolicyStoreAliasesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsVerifiedpermissionsListPolicyStoreAliasesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -344,7 +404,7 @@ public class AwsVerifiedpermissions : IAwsVerifiedpermissions
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsVerifiedpermissionsListPolicyStoresOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsVerifiedpermissionsListPolicyStoresOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -355,11 +415,11 @@ public class AwsVerifiedpermissions : IAwsVerifiedpermissions
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListPolicyTemplatesAsync(
-        AwsVerifiedpermissionsListPolicyTemplatesOptions? options = null,
+        AwsVerifiedpermissionsListPolicyTemplatesOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsVerifiedpermissionsListPolicyTemplatesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -370,11 +430,11 @@ public class AwsVerifiedpermissions : IAwsVerifiedpermissions
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListTagsForResourceAsync(
-        AwsVerifiedpermissionsListTagsForResourceOptions? options = null,
+        AwsVerifiedpermissionsListTagsForResourceOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsVerifiedpermissionsListTagsForResourceOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -385,11 +445,11 @@ public class AwsVerifiedpermissions : IAwsVerifiedpermissions
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> PutSchemaAsync(
-        AwsVerifiedpermissionsPutSchemaOptions? options = null,
+        AwsVerifiedpermissionsPutSchemaOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsVerifiedpermissionsPutSchemaOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -400,11 +460,11 @@ public class AwsVerifiedpermissions : IAwsVerifiedpermissions
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> TagResourceAsync(
-        AwsVerifiedpermissionsTagResourceOptions? options = null,
+        AwsVerifiedpermissionsTagResourceOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsVerifiedpermissionsTagResourceOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -415,11 +475,11 @@ public class AwsVerifiedpermissions : IAwsVerifiedpermissions
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UntagResourceAsync(
-        AwsVerifiedpermissionsUntagResourceOptions? options = null,
+        AwsVerifiedpermissionsUntagResourceOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsVerifiedpermissionsUntagResourceOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -430,11 +490,11 @@ public class AwsVerifiedpermissions : IAwsVerifiedpermissions
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateIdentitySourceAsync(
-        AwsVerifiedpermissionsUpdateIdentitySourceOptions? options = null,
+        AwsVerifiedpermissionsUpdateIdentitySourceOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsVerifiedpermissionsUpdateIdentitySourceOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -445,11 +505,11 @@ public class AwsVerifiedpermissions : IAwsVerifiedpermissions
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdatePolicyAsync(
-        AwsVerifiedpermissionsUpdatePolicyOptions? options = null,
+        AwsVerifiedpermissionsUpdatePolicyOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsVerifiedpermissionsUpdatePolicyOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -460,11 +520,11 @@ public class AwsVerifiedpermissions : IAwsVerifiedpermissions
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdatePolicyStoreAsync(
-        AwsVerifiedpermissionsUpdatePolicyStoreOptions? options = null,
+        AwsVerifiedpermissionsUpdatePolicyStoreOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsVerifiedpermissionsUpdatePolicyStoreOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -475,11 +535,11 @@ public class AwsVerifiedpermissions : IAwsVerifiedpermissions
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdatePolicyTemplateAsync(
-        AwsVerifiedpermissionsUpdatePolicyTemplateOptions? options = null,
+        AwsVerifiedpermissionsUpdatePolicyTemplateOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsVerifiedpermissionsUpdatePolicyTemplateOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     #endregion

@@ -5,8 +5,8 @@
 
 #nullable enable
 
-using ModularPipelines.Context;
 using System.CodeDom.Compiler;
+using ModularPipelines.Context;
 using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
@@ -40,11 +40,11 @@ public class AwsMarketplaceAgreement : IAwsMarketplaceAgreement
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AcceptAgreementCancellationRequestAsync(
-        AwsMarketplaceAgreementAcceptAgreementCancellationRequestOptions? options = null,
+        AwsMarketplaceAgreementAcceptAgreementCancellationRequestOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsMarketplaceAgreementAcceptAgreementCancellationRequestOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -55,11 +55,11 @@ public class AwsMarketplaceAgreement : IAwsMarketplaceAgreement
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AcceptAgreementPaymentRequestAsync(
-        AwsMarketplaceAgreementAcceptAgreementPaymentRequestOptions? options = null,
+        AwsMarketplaceAgreementAcceptAgreementPaymentRequestOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsMarketplaceAgreementAcceptAgreementPaymentRequestOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -70,11 +70,11 @@ public class AwsMarketplaceAgreement : IAwsMarketplaceAgreement
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AcceptAgreementRequestAsync(
-        AwsMarketplaceAgreementAcceptAgreementRequestOptions? options = null,
+        AwsMarketplaceAgreementAcceptAgreementRequestOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsMarketplaceAgreementAcceptAgreementRequestOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -85,11 +85,11 @@ public class AwsMarketplaceAgreement : IAwsMarketplaceAgreement
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> BatchCreateBillingAdjustmentRequestAsync(
-        AwsMarketplaceAgreementBatchCreateBillingAdjustmentRequestOptions? options = null,
+        AwsMarketplaceAgreementBatchCreateBillingAdjustmentRequestOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsMarketplaceAgreementBatchCreateBillingAdjustmentRequestOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -100,11 +100,11 @@ public class AwsMarketplaceAgreement : IAwsMarketplaceAgreement
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CancelAgreementCancellationRequestAsync(
-        AwsMarketplaceAgreementCancelAgreementCancellationRequestOptions? options = null,
+        AwsMarketplaceAgreementCancelAgreementCancellationRequestOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsMarketplaceAgreementCancelAgreementCancellationRequestOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -115,11 +115,11 @@ public class AwsMarketplaceAgreement : IAwsMarketplaceAgreement
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CancelAgreementAsync(
-        AwsMarketplaceAgreementCancelAgreementOptions? options = null,
+        AwsMarketplaceAgreementCancelAgreementOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsMarketplaceAgreementCancelAgreementOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -130,11 +130,11 @@ public class AwsMarketplaceAgreement : IAwsMarketplaceAgreement
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CancelAgreementPaymentRequestAsync(
-        AwsMarketplaceAgreementCancelAgreementPaymentRequestOptions? options = null,
+        AwsMarketplaceAgreementCancelAgreementPaymentRequestOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsMarketplaceAgreementCancelAgreementPaymentRequestOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -145,11 +145,11 @@ public class AwsMarketplaceAgreement : IAwsMarketplaceAgreement
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateAgreementRequestAsync(
-        AwsMarketplaceAgreementCreateAgreementRequestOptions? options = null,
+        AwsMarketplaceAgreementCreateAgreementRequestOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsMarketplaceAgreementCreateAgreementRequestOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -160,11 +160,11 @@ public class AwsMarketplaceAgreement : IAwsMarketplaceAgreement
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DescribeAgreementAsync(
-        AwsMarketplaceAgreementDescribeAgreementOptions? options = null,
+        AwsMarketplaceAgreementDescribeAgreementOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsMarketplaceAgreementDescribeAgreementOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -175,11 +175,11 @@ public class AwsMarketplaceAgreement : IAwsMarketplaceAgreement
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetAgreementCancellationRequestAsync(
-        AwsMarketplaceAgreementGetAgreementCancellationRequestOptions? options = null,
+        AwsMarketplaceAgreementGetAgreementCancellationRequestOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsMarketplaceAgreementGetAgreementCancellationRequestOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -190,11 +190,11 @@ public class AwsMarketplaceAgreement : IAwsMarketplaceAgreement
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetAgreementEntitlementsAsync(
-        AwsMarketplaceAgreementGetAgreementEntitlementsOptions? options = null,
+        AwsMarketplaceAgreementGetAgreementEntitlementsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsMarketplaceAgreementGetAgreementEntitlementsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -205,11 +205,11 @@ public class AwsMarketplaceAgreement : IAwsMarketplaceAgreement
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetAgreementPaymentRequestAsync(
-        AwsMarketplaceAgreementGetAgreementPaymentRequestOptions? options = null,
+        AwsMarketplaceAgreementGetAgreementPaymentRequestOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsMarketplaceAgreementGetAgreementPaymentRequestOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -220,11 +220,11 @@ public class AwsMarketplaceAgreement : IAwsMarketplaceAgreement
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetAgreementTermsAsync(
-        AwsMarketplaceAgreementGetAgreementTermsOptions? options = null,
+        AwsMarketplaceAgreementGetAgreementTermsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsMarketplaceAgreementGetAgreementTermsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -235,11 +235,11 @@ public class AwsMarketplaceAgreement : IAwsMarketplaceAgreement
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetBillingAdjustmentRequestAsync(
-        AwsMarketplaceAgreementGetBillingAdjustmentRequestOptions? options = null,
+        AwsMarketplaceAgreementGetBillingAdjustmentRequestOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsMarketplaceAgreementGetBillingAdjustmentRequestOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -250,11 +250,11 @@ public class AwsMarketplaceAgreement : IAwsMarketplaceAgreement
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListAgreementCancellationRequestsAsync(
-        AwsMarketplaceAgreementListAgreementCancellationRequestsOptions? options = null,
+        AwsMarketplaceAgreementListAgreementCancellationRequestsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsMarketplaceAgreementListAgreementCancellationRequestsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -269,7 +269,7 @@ public class AwsMarketplaceAgreement : IAwsMarketplaceAgreement
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsMarketplaceAgreementListAgreementChargesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsMarketplaceAgreementListAgreementChargesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -280,11 +280,11 @@ public class AwsMarketplaceAgreement : IAwsMarketplaceAgreement
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListAgreementInvoiceLineItemsAsync(
-        AwsMarketplaceAgreementListAgreementInvoiceLineItemsOptions? options = null,
+        AwsMarketplaceAgreementListAgreementInvoiceLineItemsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsMarketplaceAgreementListAgreementInvoiceLineItemsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -295,11 +295,11 @@ public class AwsMarketplaceAgreement : IAwsMarketplaceAgreement
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListAgreementPaymentRequestsAsync(
-        AwsMarketplaceAgreementListAgreementPaymentRequestsOptions? options = null,
+        AwsMarketplaceAgreementListAgreementPaymentRequestsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsMarketplaceAgreementListAgreementPaymentRequestsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -314,7 +314,7 @@ public class AwsMarketplaceAgreement : IAwsMarketplaceAgreement
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsMarketplaceAgreementListBillingAdjustmentRequestsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsMarketplaceAgreementListBillingAdjustmentRequestsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -325,11 +325,11 @@ public class AwsMarketplaceAgreement : IAwsMarketplaceAgreement
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RejectAgreementCancellationRequestAsync(
-        AwsMarketplaceAgreementRejectAgreementCancellationRequestOptions? options = null,
+        AwsMarketplaceAgreementRejectAgreementCancellationRequestOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsMarketplaceAgreementRejectAgreementCancellationRequestOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -340,15 +340,15 @@ public class AwsMarketplaceAgreement : IAwsMarketplaceAgreement
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RejectAgreementPaymentRequestAsync(
-        AwsMarketplaceAgreementRejectAgreementPaymentRequestOptions? options = null,
+        AwsMarketplaceAgreementRejectAgreementPaymentRequestOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsMarketplaceAgreementRejectAgreementPaymentRequestOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
-    /// Searches across all agreements that a proposer or an acceptor has in AWS Marketplace. The search returns a list of agreements with basic agreement information. The following filter combinations are supported when the PartyType is Proposer : o AgreementType o AgreementType + EndTime o AgreementType + ResourceType o AgreementType + ResourceType + EndTime o AgreementType + ResourceType + Status o AgreementType + ResourceType + Status + EndTime o AgreementType + ResourceIdentifier o AgreementType + ...
+    /// Searches across all agreements that a proposer or an acceptor has in AWS Marketplace. The search returns a list of agreements with basic agreement information. See also: AWS API Documentation search-agreements is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract d...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -359,7 +359,7 @@ public class AwsMarketplaceAgreement : IAwsMarketplaceAgreement
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsMarketplaceAgreementSearchAgreementsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsMarketplaceAgreementSearchAgreementsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -370,11 +370,11 @@ public class AwsMarketplaceAgreement : IAwsMarketplaceAgreement
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> SendAgreementCancellationRequestAsync(
-        AwsMarketplaceAgreementSendAgreementCancellationRequestOptions? options = null,
+        AwsMarketplaceAgreementSendAgreementCancellationRequestOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsMarketplaceAgreementSendAgreementCancellationRequestOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -385,11 +385,11 @@ public class AwsMarketplaceAgreement : IAwsMarketplaceAgreement
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> SendAgreementPaymentRequestAsync(
-        AwsMarketplaceAgreementSendAgreementPaymentRequestOptions? options = null,
+        AwsMarketplaceAgreementSendAgreementPaymentRequestOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsMarketplaceAgreementSendAgreementPaymentRequestOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -400,11 +400,11 @@ public class AwsMarketplaceAgreement : IAwsMarketplaceAgreement
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdatePurchaseOrdersAsync(
-        AwsMarketplaceAgreementUpdatePurchaseOrdersOptions? options = null,
+        AwsMarketplaceAgreementUpdatePurchaseOrdersOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsMarketplaceAgreementUpdatePurchaseOrdersOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     #endregion

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +20,88 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("transfer", "start-remote-move")]
-public record AwsTransferStartRemoteMoveOptions : AwsOptions
+public record AwsTransferStartRemoteMoveOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Moves or renames a file or directory on the remote SFTP server. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ConnectorId">The unique identifier for the connector. Constraints: o min: 19 o max: 19 o pattern: c-([0-9a-f]{17})</param>
+    /// <param name="SourcePath">The absolute path of the file or directory to move or rename. You can only specify one path per call to this operation. Constraints: o min: 1 o max: 1024 o pattern: (.)+</param>
+    /// <param name="TargetPath">The absolute path for the target of the move/rename operation. Constraints: o min: 1 o max: 1024 o pattern: (.)+</param>
+    public AwsTransferStartRemoteMoveOptions(
+        string ConnectorId,
+        string SourcePath,
+        string TargetPath
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ConnectorId);
+        this.ConnectorId = ConnectorId;
+        global::System.ArgumentNullException.ThrowIfNull(SourcePath);
+        this.SourcePath = SourcePath;
+        global::System.ArgumentNullException.ThrowIfNull(TargetPath);
+        this.TargetPath = TargetPath;
+    }
+
+    private AwsTransferStartRemoteMoveOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsTransferStartRemoteMoveOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsTransferStartRemoteMoveOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier for the connector. Constraints: o min: 19 o max: 19 o pattern: c-([0-9a-f]{17})
+    /// </summary>
     [CliOption("--connector-id")]
-    public string? ConnectorId { get; set; }
+    public string? ConnectorId { get; private init; }
 
+    /// <summary>
+    /// The absolute path of the file or directory to move or rename. You can only specify one path per call to this operation. Constraints: o min: 1 o max: 1024 o pattern: (.)+
+    /// </summary>
     [CliOption("--source-path")]
-    public string? SourcePath { get; set; }
+    public string? SourcePath { get; private init; }
 
+    /// <summary>
+    /// The absolute path for the target of the move/rename operation. Constraints: o min: 1 o max: 1024 o pattern: (.)+
+    /// </summary>
     [CliOption("--target-path")]
-    public string? TargetPath { get; set; }
+    public string? TargetPath { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

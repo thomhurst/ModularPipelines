@@ -16,21 +16,21 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsDrsListRecoveryPlanExecutionsStatus
 {
-    [EnumValue("CREATED")]
-    Created = 1,
-
-    [EnumValue("IN_PROGRESS")]
-    InProgress = 2,
-
-    [EnumValue("COMPLETED")]
-    Completed = 3,
-
-    [EnumValue("FAILED")]
-    Failed = 4,
+    [EnumValue("CANCELLED")]
+    Cancelled,
 
     [EnumValue("CANCELLING")]
-    Cancelling = 5,
+    Cancelling,
 
-    [EnumValue("CANCELLED")]
-    Cancelled = 6
+    [EnumValue("COMPLETED")]
+    Completed,
+
+    [EnumValue("CREATED")]
+    Created,
+
+    [EnumValue("FAILED")]
+    Failed,
+
+    [EnumValue("IN_PROGRESS")]
+    InProgress
 }

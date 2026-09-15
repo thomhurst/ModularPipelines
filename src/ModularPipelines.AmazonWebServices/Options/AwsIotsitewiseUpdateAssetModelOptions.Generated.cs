@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,19 +22,62 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iotsitewise", "update-asset-model")]
-public record AwsIotsitewiseUpdateAssetModelOptions : AwsOptions
+public record AwsIotsitewiseUpdateAssetModelOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates an asset model and all of the assets that were created from the model. Each asset created from the model inherits the updated asset model's property and hierarchy definitions. For more information, see Updating assets and models in the IoT SiteWise User Guide . WARNING: If you remove a property from an asset model, IoT SiteWise deletes all previous data for that property. You cant change the type or data type of an existing property. To replace an existing asset model property with a new...
+    /// </summary>
+    /// <param name="AssetModelId">The ID of the asset model to update. This can be either the actual ID in UUID format, or else externalId: followed by the external ID, if it has one. For more information, see Referencing objects with external IDs in the IoT SiteWise User Guide . Constraints: o min: 13 o max: 139 o pattern: ^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$|^ex- ternalId:[a-zA-Z0-9_][a-zA-Z_\-0-9.:]*[a-zA-Z0-9_]+</param>
+    /// <param name="AssetModelName">A unique name for the asset model. Constraints: o min: 1 o max: 256 o pattern: [^\u0000-\u001F\u007F]+</param>
+    public AwsIotsitewiseUpdateAssetModelOptions(
+        string AssetModelId,
+        string AssetModelName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AssetModelId);
+        this.AssetModelId = AssetModelId;
+        global::System.ArgumentNullException.ThrowIfNull(AssetModelName);
+        this.AssetModelName = AssetModelName;
+    }
+
+    private AwsIotsitewiseUpdateAssetModelOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsIotsitewiseUpdateAssetModelOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsIotsitewiseUpdateAssetModelOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the asset model to update. This can be either the actual ID in UUID format, or else externalId: followed by the external ID, if it has one. For more information, see Referencing objects with external IDs in the IoT SiteWise User Guide . Constraints: o min: 13 o max: 139 o pattern: ^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$|^ex- ternalId:[a-zA-Z0-9_][a-zA-Z_\-0-9.:]*[a-zA-Z0-9_]+
+    /// </summary>
     [CliOption("--asset-model-id")]
-    public string? AssetModelId { get; set; }
+    public string? AssetModelId { get; private init; }
+
+    /// <summary>
+    /// A unique name for the asset model. Constraints: o min: 1 o max: 256 o pattern: [^\u0000-\u001F\u007F]+
+    /// </summary>
+    [CliOption("--asset-model-name")]
+    public string? AssetModelName { get; private init; }
 
     /// <summary>
     /// An external ID to assign to the asset model. The asset model must not already have an external ID. The external ID must be unique within your Amazon Web Services account. For more information, see Using external IDs in the IoT SiteWise User Guide . Constraints: o min: 2 o max: 128 o pattern: [a-zA-Z0-9_][a-zA-Z_\-0-9.:]*[a-zA-Z0-9_]+
     /// </summary>
     [CliOption("--asset-model-external-id")]
     public string? AssetModelExternalId { get; set; }
-
-    [CliOption("--asset-model-name")]
-    public string? AssetModelName { get; set; }
 
     /// <summary>
     /// A description for the asset model. Constraints: o min: 1 o max: 2048 o pattern: [^\u0000-\u001F\u007F]+
@@ -89,5 +133,22 @@ public record AwsIotsitewiseUpdateAssetModelOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

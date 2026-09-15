@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +20,99 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("connect", "update-routing-profile-queues")]
-public record AwsConnectUpdateRoutingProfileQueuesOptions : AwsOptions
+public record AwsConnectUpdateRoutingProfileQueuesOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates the properties associated with a set of queues for a routing profile. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100</param>
+    /// <param name="RoutingProfileId">The identifier of the routing profile.</param>
+    /// <param name="QueueConfigs">The queues to be updated for this routing profile. Queues must first be associated to the routing profile. You can do this using Associ- ateRoutingProfileQueues. Constraints: o min: 1 o max: 10 (structure) Contains information about the queue and channel for which pri- ority and delay can be set. QueueReference -&gt; (structure) [required] Contains information about a queue resource. QueueId -&gt; (string) [required] The identifier for the queue. Channel -&gt; (string) [required] The channels agents can handle in the Contact Control Panel (CCP) for this routing profile. Possible values: o VOICE o CHAT o TASK o EMAIL Priority -&gt; (integer) [required] The order in which contacts are to be handled for the queue. For more information, see Queues: priority and delay . Constraints: o min: 1 o max: 99 Delay -&gt; (integer) [required] The delay, in seconds, a contact should be in the queue be- fore they are routed to an available agent. For more informa- tion, see Queues: priority and delay in the Connect Customer Administrator Guide . Constraints: o min: 0 o max: 9999 Shorthand Syntax: QueueReference={QueueId=string,Channel=string},Priority=integer,Delay=integer ... JSON Syntax: [ { "QueueReference": { "QueueId": "string", "Channel": "VOICE"|"CHAT"|"TASK"|"EMAIL" }, "Priority": integer, "Delay": integer } ... ]</param>
+    public AwsConnectUpdateRoutingProfileQueuesOptions(
+        string InstanceId,
+        string RoutingProfileId,
+        IEnumerable<string> QueueConfigs
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(InstanceId);
+        this.InstanceId = InstanceId;
+        global::System.ArgumentNullException.ThrowIfNull(RoutingProfileId);
+        this.RoutingProfileId = RoutingProfileId;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(QueueConfigs);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(QueueConfigs));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(QueueConfigs));
+            }
+
+            QueueConfigs = materialized;
+        }
+        this.QueueConfigs = QueueConfigs;
+    }
+
+    private AwsConnectUpdateRoutingProfileQueuesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsConnectUpdateRoutingProfileQueuesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsConnectUpdateRoutingProfileQueuesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100
+    /// </summary>
     [CliOption("--instance-id")]
-    public string? InstanceId { get; set; }
+    public string? InstanceId { get; private init; }
 
+    /// <summary>
+    /// The identifier of the routing profile.
+    /// </summary>
     [CliOption("--routing-profile-id")]
-    public string? RoutingProfileId { get; set; }
+    public string? RoutingProfileId { get; private init; }
 
+    /// <summary>
+    /// The queues to be updated for this routing profile. Queues must first be associated to the routing profile. You can do this using Associ- ateRoutingProfileQueues. Constraints: o min: 1 o max: 10 (structure) Contains information about the queue and channel for which pri- ority and delay can be set. QueueReference -&gt; (structure) [required] Contains information about a queue resource. QueueId -&gt; (string) [required] The identifier for the queue. Channel -&gt; (string) [required] The channels agents can handle in the Contact Control Panel (CCP) for this routing profile. Possible values: o VOICE o CHAT o TASK o EMAIL Priority -&gt; (integer) [required] The order in which contacts are to be handled for the queue. For more information, see Queues: priority and delay . Constraints: o min: 1 o max: 99 Delay -&gt; (integer) [required] The delay, in seconds, a contact should be in the queue be- fore they are routed to an available agent. For more informa- tion, see Queues: priority and delay in the Connect Customer Administrator Guide . Constraints: o min: 0 o max: 9999 Shorthand Syntax: QueueReference={QueueId=string,Channel=string},Priority=integer,Delay=integer ... JSON Syntax: [ { "QueueReference": { "QueueId": "string", "Channel": "VOICE"|"CHAT"|"TASK"|"EMAIL" }, "Priority": integer, "Delay": integer } ... ]
+    /// </summary>
     [CliOption("--queue-configs", GroupValues = true)]
-    public IEnumerable<string>? QueueConfigs { get; set; }
+    public IEnumerable<string>? QueueConfigs { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

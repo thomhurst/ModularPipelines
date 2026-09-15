@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,24 +20,98 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bedrock-agentcore", "delete-event")]
-public record AwsBedrockAgentcoreDeleteEventOptions : AwsOptions
+public record AwsBedrockAgentcoreDeleteEventOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Deletes an event from an AgentCore Memory resource. When you delete an event, it is permanently removed. To use this operation, you must have the bedrock-agentcore:DeleteEvent permission. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="MemoryId">The identifier of the AgentCore Memory resource from which to delete the event. Constraints: o min: 12 o pattern: (arn:(aws|aws-cn|aws-us-gov):bedrock-agent- core:[a-z0-9-]+:[0-9]{12}:mem- ory/)?[a-zA-Z][a-zA-Z0-9-_]{0,99}-[a-zA-Z0-9]{10}</param>
+    /// <param name="SessionId">The identifier of the session containing the event to delete. Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z0-9][a-zA-Z0-9-_]*</param>
+    /// <param name="EventId">The identifier of the event to delete. Constraints: o pattern: [0-9]+#[a-fA-F0-9]+</param>
+    /// <param name="ActorId">The identifier of the actor associated with the event to delete. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z0-9][a-zA-Z0-9-_/]*(?::[a-zA-Z0-9-_/]+)*[a-zA-Z0-9-_/]*</param>
+    public AwsBedrockAgentcoreDeleteEventOptions(
+        string MemoryId,
+        string SessionId,
+        string EventId,
+        string ActorId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(MemoryId);
+        this.MemoryId = MemoryId;
+        global::System.ArgumentNullException.ThrowIfNull(SessionId);
+        this.SessionId = SessionId;
+        global::System.ArgumentNullException.ThrowIfNull(EventId);
+        this.EventId = EventId;
+        global::System.ArgumentNullException.ThrowIfNull(ActorId);
+        this.ActorId = ActorId;
+    }
+
+    private AwsBedrockAgentcoreDeleteEventOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsBedrockAgentcoreDeleteEventOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsBedrockAgentcoreDeleteEventOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the AgentCore Memory resource from which to delete the event. Constraints: o min: 12 o pattern: (arn:(aws|aws-cn|aws-us-gov):bedrock-agent- core:[a-z0-9-]+:[0-9]{12}:mem- ory/)?[a-zA-Z][a-zA-Z0-9-_]{0,99}-[a-zA-Z0-9]{10}
+    /// </summary>
     [CliOption("--memory-id")]
-    public string? MemoryId { get; set; }
+    public string? MemoryId { get; private init; }
 
+    /// <summary>
+    /// The identifier of the session containing the event to delete. Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z0-9][a-zA-Z0-9-_]*
+    /// </summary>
     [CliOption("--session-id")]
-    public string? SessionId { get; set; }
+    public string? SessionId { get; private init; }
 
+    /// <summary>
+    /// The identifier of the event to delete. Constraints: o pattern: [0-9]+#[a-fA-F0-9]+
+    /// </summary>
     [CliOption("--event-id")]
-    public string? EventId { get; set; }
+    public string? EventId { get; private init; }
 
+    /// <summary>
+    /// The identifier of the actor associated with the event to delete. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z0-9][a-zA-Z0-9-_/]*(?::[a-zA-Z0-9-_/]+)*[a-zA-Z0-9-_/]*
+    /// </summary>
     [CliOption("--actor-id")]
-    public string? ActorId { get; set; }
+    public string? ActorId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

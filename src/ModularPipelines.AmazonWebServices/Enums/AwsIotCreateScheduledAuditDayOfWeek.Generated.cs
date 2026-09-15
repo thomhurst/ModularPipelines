@@ -11,29 +11,29 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --dayofweek.
+/// Allowed values for --day-of-week.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsIotCreateScheduledAuditDayOfWeek
 {
-    [EnumValue("SUN")]
-    Sun = 1,
+    [EnumValue("FRI")]
+    Fri,
 
     [EnumValue("MON")]
-    Mon = 2,
-
-    [EnumValue("TUE")]
-    Tue = 3,
-
-    [EnumValue("WED")]
-    Wed = 4,
-
-    [EnumValue("THU")]
-    Thu = 5,
-
-    [EnumValue("FRI")]
-    Fri = 6,
+    Mon,
 
     [EnumValue("SAT")]
-    Sat = 7
+    Sat,
+
+    [EnumValue("SUN")]
+    Sun,
+
+    [EnumValue("THU")]
+    Thu,
+
+    [EnumValue("TUE")]
+    Tue,
+
+    [EnumValue("WED")]
+    Wed
 }

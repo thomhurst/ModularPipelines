@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,68 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("emr", "put-block-public-access-configuration")]
-public record AwsEmrPutBlockPublicAccessConfigurationOptions : AwsOptions
+public record AwsEmrPutBlockPublicAccessConfigurationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates or updates an Amazon EMR block public access configuration for your Amazon Web Services account in the current Region. For more infor- mation see Configure Block Public Access for Amazon EMR in the Amazon EMR Management Guide . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="BlockPublicAccessConfiguration">A configuration for Amazon EMR block public access. The configura- tion applies to all clusters created in your account for the current Region. The configuration specifies whether block public access is enabled. If block public access is enabled, security groups associ- ated with the cluster cannot have rules that allow inbound traffic from 0.0.0.0/0 or ::/0 on a port, unless the port is specified as an exception using PermittedPublicSecurityGroupRuleRanges in the Block- PublicAccessConfiguration . By default, Port 22 (SSH) is an excep- tion, and public access is allowed on this port. You can change this by updating BlockPublicSecurityGroupRules to remove the exception. NOTE: For accounts that created clusters in a Region before November 25, 2019, block public access is disabled by default in that Re- gion. To use this feature, you must manually enable and config- ure it. For accounts that did not create an Amazon EMR cluster in a Region before this date, block public access is enabled by default in that Region. BlockPublicSecurityGroupRules -&gt; (boolean) [required] Indicates whether Amazon EMR block public access is enabled (true ) or disabled (false ). By default, the value is false for accounts that have created Amazon EMR clusters before July 2019. For accounts created after this, the default is true . PermittedPublicSecurityGroupRuleRanges -&gt; (list) Specifies ports and port ranges that are permitted to have secu- rity group rules that allow inbound traffic from all public sources. For example, if Port 23 (Telnet) is specified for Per- mittedPublicSecurityGroupRuleRanges , Amazon EMR allows cluster creation if a security group associated with the cluster has a rule that allows inbound traffic on Port 23 from IPv4 0.0.0.0/0 or IPv6 port ::/0 as the source. By default, Port 22, which is used for SSH access to the cluster Amazon EC2 instances, is in the list of PermittedPublicSecurity- GroupRuleRanges . (structure) A list of port ranges that are permitted to allow inbound traffic from all public IP addresses. To specify a single port, use the same value for MinRange and MaxRange . MinRange -&gt; (integer) [required] The smallest port number in a specified range of port numbers. Constraints: o min: -1 o max: 65535 MaxRange -&gt; (integer) The smallest port number in a specified range of port numbers. Constraints: o min: -1 o max: 65535 Shorthand Syntax: BlockPublicSecurityGroupRules=boolean,PermittedPublicSecurityGroupRuleRanges=[{MinRange=integer,MaxRange=integer},{MinRange=integer,MaxRange=integer}] JSON Syntax: { "BlockPublicSecurityGroupRules": true|false, "PermittedPublicSecurityGroupRuleRanges": [ { "MinRange": integer, "MaxRange": integer } ... ] }</param>
+    public AwsEmrPutBlockPublicAccessConfigurationOptions(
+        string BlockPublicAccessConfiguration
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(BlockPublicAccessConfiguration);
+        this.BlockPublicAccessConfiguration = BlockPublicAccessConfiguration;
+    }
+
+    private AwsEmrPutBlockPublicAccessConfigurationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEmrPutBlockPublicAccessConfigurationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEmrPutBlockPublicAccessConfigurationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A configuration for Amazon EMR block public access. The configura- tion applies to all clusters created in your account for the current Region. The configuration specifies whether block public access is enabled. If block public access is enabled, security groups associ- ated with the cluster cannot have rules that allow inbound traffic from 0.0.0.0/0 or ::/0 on a port, unless the port is specified as an exception using PermittedPublicSecurityGroupRuleRanges in the Block- PublicAccessConfiguration . By default, Port 22 (SSH) is an excep- tion, and public access is allowed on this port. You can change this by updating BlockPublicSecurityGroupRules to remove the exception. NOTE: For accounts that created clusters in a Region before November 25, 2019, block public access is disabled by default in that Re- gion. To use this feature, you must manually enable and config- ure it. For accounts that did not create an Amazon EMR cluster in a Region before this date, block public access is enabled by default in that Region. BlockPublicSecurityGroupRules -&gt; (boolean) [required] Indicates whether Amazon EMR block public access is enabled (true ) or disabled (false ). By default, the value is false for accounts that have created Amazon EMR clusters before July 2019. For accounts created after this, the default is true . PermittedPublicSecurityGroupRuleRanges -&gt; (list) Specifies ports and port ranges that are permitted to have secu- rity group rules that allow inbound traffic from all public sources. For example, if Port 23 (Telnet) is specified for Per- mittedPublicSecurityGroupRuleRanges , Amazon EMR allows cluster creation if a security group associated with the cluster has a rule that allows inbound traffic on Port 23 from IPv4 0.0.0.0/0 or IPv6 port ::/0 as the source. By default, Port 22, which is used for SSH access to the cluster Amazon EC2 instances, is in the list of PermittedPublicSecurity- GroupRuleRanges . (structure) A list of port ranges that are permitted to allow inbound traffic from all public IP addresses. To specify a single port, use the same value for MinRange and MaxRange . MinRange -&gt; (integer) [required] The smallest port number in a specified range of port numbers. Constraints: o min: -1 o max: 65535 MaxRange -&gt; (integer) The smallest port number in a specified range of port numbers. Constraints: o min: -1 o max: 65535 Shorthand Syntax: BlockPublicSecurityGroupRules=boolean,PermittedPublicSecurityGroupRuleRanges=[{MinRange=integer,MaxRange=integer},{MinRange=integer,MaxRange=integer}] JSON Syntax: { "BlockPublicSecurityGroupRules": true|false, "PermittedPublicSecurityGroupRuleRanges": [ { "MinRange": integer, "MaxRange": integer } ... ] }
+    /// </summary>
     [CliOption("--block-public-access-configuration")]
-    public string? BlockPublicAccessConfiguration { get; set; }
+    public string? BlockPublicAccessConfiguration { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

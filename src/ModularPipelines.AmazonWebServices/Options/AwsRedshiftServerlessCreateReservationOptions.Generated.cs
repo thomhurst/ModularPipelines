@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,55 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("redshift-serverless", "create-reservation")]
-public record AwsRedshiftServerlessCreateReservationOptions : AwsOptions
+public record AwsRedshiftServerlessCreateReservationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates an Amazon Redshift Serverless reservation, which gives you the option to commit to a specified number of Redshift Processing Units (RPUs) for a year at a discount from Serverless on-demand (OD) rates. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Capacity">The number of Redshift Processing Units (RPUs) to reserve.</param>
+    /// <param name="OfferingId">The ID of the offering associated with the reservation. The offering determines the payment schedule for the reservation. Constraints: o min: 1 o max: 64</param>
+    public AwsRedshiftServerlessCreateReservationOptions(
+        int Capacity,
+        string OfferingId
+    )
+    {
+        this.Capacity = Capacity;
+        global::System.ArgumentNullException.ThrowIfNull(OfferingId);
+        this.OfferingId = OfferingId;
+    }
+
+    private AwsRedshiftServerlessCreateReservationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRedshiftServerlessCreateReservationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRedshiftServerlessCreateReservationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The number of Redshift Processing Units (RPUs) to reserve.
+    /// </summary>
     [CliOption("--capacity")]
-    public int? Capacity { get; set; }
+    public int? Capacity { get; private init; }
+
+    /// <summary>
+    /// The ID of the offering associated with the reservation. The offering determines the payment schedule for the reservation. Constraints: o min: 1 o max: 64
+    /// </summary>
+    [CliOption("--offering-id")]
+    public string? OfferingId { get; private init; }
 
     /// <summary>
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. This token must be a valid UUIDv4 value. For more information about idempotency, see Making retries safe with idempotent APIs .
@@ -32,13 +78,27 @@ public record AwsRedshiftServerlessCreateReservationOptions : AwsOptions
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CliOption("--offering-id")]
-    public string? OfferingId { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

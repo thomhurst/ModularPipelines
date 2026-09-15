@@ -21,7 +21,10 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("lightsail", "get-bucket-bundles")]
 public record AwsLightsailGetBucketBundlesOptions : AwsOptions
 {
-    [CliFlag("--include-inactive")]
+    /// <summary>
+    /// A Boolean value that indicates whether to include inactive (unavail- able) bundles in the response of your request.
+    /// </summary>
+    [CliFlag("--include-inactive", NegatedName = "--no-include-inactive")]
     public bool? IncludeInactive { get; set; }
 
     [CliOption("--cli-input-json")]

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,68 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bedrock", "put-model-invocation-logging-configuration")]
-public record AwsBedrockPutModelInvocationLoggingConfigurationOptions : AwsOptions
+public record AwsBedrockPutModelInvocationLoggingConfigurationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Set the configuration values for model invocation logging. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="LoggingConfig">The logging configuration values to set. cloudWatchConfig -&gt; (structure) CloudWatch logging configuration. logGroupName -&gt; (string) [required] The log group name. Constraints: o min: 1 o max: 512 roleArn -&gt; (string) [required] The role Amazon Resource Name (ARN). Constraints: o min: 0 o max: 2048 o pattern: arn:aws(-[^:]+)?:iam::([0-9]{12})?:role/.+ largeDataDeliveryS3Config -&gt; (structure) S3 configuration for delivering a large amount of data. bucketName -&gt; (string) [required] S3 bucket name. Constraints: o min: 3 o max: 63 keyPrefix -&gt; (string) S3 prefix. Constraints: o min: 0 o max: 1024 s3Config -&gt; (structure) S3 configuration for storing log data. bucketName -&gt; (string) [required] S3 bucket name. Constraints: o min: 3 o max: 63 keyPrefix -&gt; (string) S3 prefix. Constraints: o min: 0 o max: 1024 textDataDeliveryEnabled -&gt; (boolean) Set to include text data in the log delivery. imageDataDeliveryEnabled -&gt; (boolean) Set to include image data in the log delivery. embeddingDataDeliveryEnabled -&gt; (boolean) Set to include embeddings data in the log delivery. videoDataDeliveryEnabled -&gt; (boolean) Set to include video data in the log delivery. audioDataDeliveryEnabled -&gt; (boolean) Set to include audio data in the log delivery. Shorthand Syntax: cloudWatchConfig={logGroupName=string,roleArn=string,largeDataDeliveryS3Config={bucketName=string,keyPrefix=string}},s3Config={bucketName=string,keyPrefix=string},textDataDeliveryEnabled=boolean,imageDataDeliveryEnabled=boolean,embeddingDataDeliveryEnabled=boolean,videoDataDeliveryEnabled=boolean,audioDataDeliveryEnabled=boolean JSON Syntax: { "cloudWatchConfig": { "logGroupName": "string", "roleArn": "string", "largeDataDeliveryS3Config": { "bucketName": "string", "keyPrefix": "string" } }, "s3Config": { "bucketName": "string", "keyPrefix": "string" }, "textDataDeliveryEnabled": true|false, "imageDataDeliveryEnabled": true|false, "embeddingDataDeliveryEnabled": true|false, "videoDataDeliveryEnabled": true|false, "audioDataDeliveryEnabled": true|false }</param>
+    public AwsBedrockPutModelInvocationLoggingConfigurationOptions(
+        string LoggingConfig
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(LoggingConfig);
+        this.LoggingConfig = LoggingConfig;
+    }
+
+    private AwsBedrockPutModelInvocationLoggingConfigurationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsBedrockPutModelInvocationLoggingConfigurationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsBedrockPutModelInvocationLoggingConfigurationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The logging configuration values to set. cloudWatchConfig -&gt; (structure) CloudWatch logging configuration. logGroupName -&gt; (string) [required] The log group name. Constraints: o min: 1 o max: 512 roleArn -&gt; (string) [required] The role Amazon Resource Name (ARN). Constraints: o min: 0 o max: 2048 o pattern: arn:aws(-[^:]+)?:iam::([0-9]{12})?:role/.+ largeDataDeliveryS3Config -&gt; (structure) S3 configuration for delivering a large amount of data. bucketName -&gt; (string) [required] S3 bucket name. Constraints: o min: 3 o max: 63 keyPrefix -&gt; (string) S3 prefix. Constraints: o min: 0 o max: 1024 s3Config -&gt; (structure) S3 configuration for storing log data. bucketName -&gt; (string) [required] S3 bucket name. Constraints: o min: 3 o max: 63 keyPrefix -&gt; (string) S3 prefix. Constraints: o min: 0 o max: 1024 textDataDeliveryEnabled -&gt; (boolean) Set to include text data in the log delivery. imageDataDeliveryEnabled -&gt; (boolean) Set to include image data in the log delivery. embeddingDataDeliveryEnabled -&gt; (boolean) Set to include embeddings data in the log delivery. videoDataDeliveryEnabled -&gt; (boolean) Set to include video data in the log delivery. audioDataDeliveryEnabled -&gt; (boolean) Set to include audio data in the log delivery. Shorthand Syntax: cloudWatchConfig={logGroupName=string,roleArn=string,largeDataDeliveryS3Config={bucketName=string,keyPrefix=string}},s3Config={bucketName=string,keyPrefix=string},textDataDeliveryEnabled=boolean,imageDataDeliveryEnabled=boolean,embeddingDataDeliveryEnabled=boolean,videoDataDeliveryEnabled=boolean,audioDataDeliveryEnabled=boolean JSON Syntax: { "cloudWatchConfig": { "logGroupName": "string", "roleArn": "string", "largeDataDeliveryS3Config": { "bucketName": "string", "keyPrefix": "string" } }, "s3Config": { "bucketName": "string", "keyPrefix": "string" }, "textDataDeliveryEnabled": true|false, "imageDataDeliveryEnabled": true|false, "embeddingDataDeliveryEnabled": true|false, "videoDataDeliveryEnabled": true|false, "audioDataDeliveryEnabled": true|false }
+    /// </summary>
     [CliOption("--logging-config")]
-    public string? LoggingConfig { get; set; }
+    public string? LoggingConfig { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("batch", "list-jobs-by-consumable-resource")]
-public record AwsBatchListJobsByConsumableResourceOptions : AwsOptions
+public record AwsBatchListJobsByConsumableResourceOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Returns a list of Batch jobs that require a specific consumable re- source. See also: AWS API Documentation list-jobs-by-consumable-resource is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: jobs
+    /// </summary>
+    /// <param name="ConsumableResource">The name or ARN of the consumable resource.</param>
+    public AwsBatchListJobsByConsumableResourceOptions(
+        string ConsumableResource
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ConsumableResource);
+        this.ConsumableResource = ConsumableResource;
+    }
+
+    private AwsBatchListJobsByConsumableResourceOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsBatchListJobsByConsumableResourceOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsBatchListJobsByConsumableResourceOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name or ARN of the consumable resource.
+    /// </summary>
     [CliOption("--consumable-resource")]
-    public string? ConsumableResource { get; set; }
+    public string? ConsumableResource { get; private init; }
 
     /// <summary>
     /// The filters to apply to the job list query. If used, only those jobs requiring the specified consumable resource (consumableResource ) and that match the value of the filters are listed. The filter names and values can be: o name: JOB_STATUS values: SUBMITTED | PENDING | RUNNABLE | START- ING | RUNNING | SUCCEEDED | FAILED o name: JOB_NAME The values are case-insensitive matches for the job name. If a filter value ends with an asterisk (*), it matches any job name that begins with the string before the '*'. (structure) A filter name and value pair that's used to return a more spe- cific list of results from a ListJobs or ListJobsByConsumableRe- source API operation. name -&gt; (string) The name of the filter. Filter names are case sensitive. values -&gt; (list) The filter values. (string) Shorthand Syntax: name=string,values=string,string ... JSON Syntax: [ { "name": "string", "values": ["string", ...] } ... ]
@@ -55,5 +92,22 @@ public record AwsBatchListJobsByConsumableResourceOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

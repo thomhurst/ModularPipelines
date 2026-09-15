@@ -11,26 +11,26 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --targettaskrunstatus.
+/// Allowed values for --target-task-run-status.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsDeadlineUpdateJobTargetTaskRunStatus
 {
-    [EnumValue("READY")]
-    Ready = 1,
+    [EnumValue("CANCELED")]
+    Canceled,
 
     [EnumValue("FAILED")]
-    Failed = 2,
-
-    [EnumValue("SUCCEEDED")]
-    Succeeded = 3,
-
-    [EnumValue("CANCELED")]
-    Canceled = 4,
-
-    [EnumValue("SUSPENDED")]
-    Suspended = 5,
+    Failed,
 
     [EnumValue("PENDING")]
-    Pending = 6
+    Pending,
+
+    [EnumValue("READY")]
+    Ready,
+
+    [EnumValue("SUCCEEDED")]
+    Succeeded,
+
+    [EnumValue("SUSPENDED")]
+    Suspended
 }

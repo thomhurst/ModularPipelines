@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("glue", "delete-schema-versions")]
-public record AwsGlueDeleteSchemaVersionsOptions : AwsOptions
+public record AwsGlueDeleteSchemaVersionsOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--schema-id")]
-    public string? SchemaId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Remove versions from the specified schema. A version number or range may be supplied. If the compatibility mode forbids deleting of a ver- sion that is necessary, such as BACKWARDS_FULL, an error is returned. Calling the GetSchemaVersions API after this call will list the status of the deleted versions. When the range of version numbers contain check pointed version, the API will return a 409 conflict and will not proceed with the deletion. You have to remove the checkpoint first using the Delet...
+    /// </summary>
+    /// <param name="SchemaId">This is a wrapper structure that may contain the schema name and Amazon Resource Name (ARN). SchemaArn -&gt; (string) The Amazon Resource Name (ARN) of the schema. One of SchemaArn or SchemaName has to be provided. Constraints: o min: 1 o max: 10240 o pattern: arn:aws(-(cn|us-gov|iso(-[bef])?))?:glue:.* SchemaName -&gt; (string) The name of the schema. One of SchemaArn or SchemaName has to be provided. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z0-9-_$#.]+ RegistryName -&gt; (string) The name of the schema registry that contains the schema. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z0-9-_$#.]+ Shorthand Syntax: SchemaArn=string,SchemaName=string,RegistryName=string JSON Syntax: { "SchemaArn": "string", "SchemaName": "string", "RegistryName": "string" }</param>
+    /// <param name="Versions">A version range may be supplied which may be of the format: o a single version number, 5 o a range, 5-8 : deletes versions 5, 6, 7, 8 Constraints: o min: 1 o max: 100000 o pattern: [1-9][0-9]*|[1-9][0-9]*-[1-9][0-9]*</param>
+    public AwsGlueDeleteSchemaVersionsOptions(
+        string SchemaId,
+        string Versions
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SchemaId);
+        this.SchemaId = SchemaId;
+        global::System.ArgumentNullException.ThrowIfNull(Versions);
+        this.Versions = Versions;
+    }
+
+    private AwsGlueDeleteSchemaVersionsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsGlueDeleteSchemaVersionsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsGlueDeleteSchemaVersionsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// This is a wrapper structure that may contain the schema name and Amazon Resource Name (ARN). SchemaArn -&gt; (string) The Amazon Resource Name (ARN) of the schema. One of SchemaArn or SchemaName has to be provided. Constraints: o min: 1 o max: 10240 o pattern: arn:aws(-(cn|us-gov|iso(-[bef])?))?:glue:.* SchemaName -&gt; (string) The name of the schema. One of SchemaArn or SchemaName has to be provided. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z0-9-_$#.]+ RegistryName -&gt; (string) The name of the schema registry that contains the schema. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z0-9-_$#.]+ Shorthand Syntax: SchemaArn=string,SchemaName=string,RegistryName=string JSON Syntax: { "SchemaArn": "string", "SchemaName": "string", "RegistryName": "string" }
+    /// </summary>
+    [CliOption("--schema-id")]
+    public string? SchemaId { get; private init; }
+
+    /// <summary>
+    /// A version range may be supplied which may be of the format: o a single version number, 5 o a range, 5-8 : deletes versions 5, 6, 7, 8 Constraints: o min: 1 o max: 100000 o pattern: [1-9][0-9]*|[1-9][0-9]*-[1-9][0-9]*
+    /// </summary>
     [CliOption("--versions")]
-    public string? Versions { get; set; }
+    public string? Versions { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

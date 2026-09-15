@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +20,55 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("devicefarm", "purchase-offering")]
-public record AwsDevicefarmPurchaseOfferingOptions : AwsOptions
+public record AwsDevicefarmPurchaseOfferingOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--offering-id")]
-    public string? OfferingId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Immediately purchases offerings for an AWS account. Offerings renew with the latest total purchased quantity for an offering, unless the renewal was overridden. The API returns a NotEligible error if the user is not permitted to invoke the operation. If you must be able to invoke this operation, contact aws-devicefarm-support@amazon.com . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="OfferingId">The ID of the offering. Constraints: o min: 32</param>
+    /// <param name="Quantity">The number of device slots to purchase in an offering request.</param>
+    public AwsDevicefarmPurchaseOfferingOptions(
+        string OfferingId,
+        int Quantity
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(OfferingId);
+        this.OfferingId = OfferingId;
+        this.Quantity = Quantity;
+    }
+
+    private AwsDevicefarmPurchaseOfferingOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDevicefarmPurchaseOfferingOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDevicefarmPurchaseOfferingOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the offering. Constraints: o min: 32
+    /// </summary>
+    [CliOption("--offering-id")]
+    public string? OfferingId { get; private init; }
+
+    /// <summary>
+    /// The number of device slots to purchase in an offering request.
+    /// </summary>
     [CliOption("--quantity")]
-    public int? Quantity { get; set; }
+    public int? Quantity { get; private init; }
 
     /// <summary>
     /// The ID of the offering promotion to be applied to the purchase. Constraints: o min: 4
@@ -38,5 +81,22 @@ public record AwsDevicefarmPurchaseOfferingOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

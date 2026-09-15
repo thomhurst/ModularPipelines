@@ -5,8 +5,8 @@
 
 #nullable enable
 
-using ModularPipelines.Context;
 using System.CodeDom.Compiler;
+using ModularPipelines.Context;
 using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
@@ -50,11 +50,11 @@ public class AwsNeptune : IAwsNeptune
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AddRoleToDbClusterAsync(
-        AwsNeptuneAddRoleToDbClusterOptions? options = null,
+        AwsNeptuneAddRoleToDbClusterOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNeptuneAddRoleToDbClusterOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -65,11 +65,11 @@ public class AwsNeptune : IAwsNeptune
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AddSourceIdentifierToSubscriptionAsync(
-        AwsNeptuneAddSourceIdentifierToSubscriptionOptions? options = null,
+        AwsNeptuneAddSourceIdentifierToSubscriptionOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNeptuneAddSourceIdentifierToSubscriptionOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -80,11 +80,11 @@ public class AwsNeptune : IAwsNeptune
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AddTagsToResourceAsync(
-        AwsNeptuneAddTagsToResourceOptions? options = null,
+        AwsNeptuneAddTagsToResourceOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNeptuneAddTagsToResourceOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -95,11 +95,11 @@ public class AwsNeptune : IAwsNeptune
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ApplyPendingMaintenanceActionAsync(
-        AwsNeptuneApplyPendingMaintenanceActionOptions? options = null,
+        AwsNeptuneApplyPendingMaintenanceActionOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNeptuneApplyPendingMaintenanceActionOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -110,11 +110,11 @@ public class AwsNeptune : IAwsNeptune
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CopyDbClusterParameterGroupAsync(
-        AwsNeptuneCopyDbClusterParameterGroupOptions? options = null,
+        AwsNeptuneCopyDbClusterParameterGroupOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNeptuneCopyDbClusterParameterGroupOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -125,11 +125,11 @@ public class AwsNeptune : IAwsNeptune
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CopyDbClusterSnapshotAsync(
-        AwsNeptuneCopyDbClusterSnapshotOptions? options = null,
+        AwsNeptuneCopyDbClusterSnapshotOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNeptuneCopyDbClusterSnapshotOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -140,11 +140,11 @@ public class AwsNeptune : IAwsNeptune
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CopyDbParameterGroupAsync(
-        AwsNeptuneCopyDbParameterGroupOptions? options = null,
+        AwsNeptuneCopyDbParameterGroupOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNeptuneCopyDbParameterGroupOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -155,11 +155,11 @@ public class AwsNeptune : IAwsNeptune
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateDbClusterEndpointAsync(
-        AwsNeptuneCreateDbClusterEndpointOptions? options = null,
+        AwsNeptuneCreateDbClusterEndpointOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNeptuneCreateDbClusterEndpointOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -170,11 +170,11 @@ public class AwsNeptune : IAwsNeptune
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateDbClusterAsync(
-        AwsNeptuneCreateDbClusterOptions? options = null,
+        AwsNeptuneCreateDbClusterOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNeptuneCreateDbClusterOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -185,11 +185,11 @@ public class AwsNeptune : IAwsNeptune
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateDbClusterParameterGroupAsync(
-        AwsNeptuneCreateDbClusterParameterGroupOptions? options = null,
+        AwsNeptuneCreateDbClusterParameterGroupOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNeptuneCreateDbClusterParameterGroupOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -200,11 +200,11 @@ public class AwsNeptune : IAwsNeptune
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateDbClusterSnapshotAsync(
-        AwsNeptuneCreateDbClusterSnapshotOptions? options = null,
+        AwsNeptuneCreateDbClusterSnapshotOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNeptuneCreateDbClusterSnapshotOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -215,11 +215,11 @@ public class AwsNeptune : IAwsNeptune
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateDbInstanceAsync(
-        AwsNeptuneCreateDbInstanceOptions? options = null,
+        AwsNeptuneCreateDbInstanceOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNeptuneCreateDbInstanceOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -230,11 +230,11 @@ public class AwsNeptune : IAwsNeptune
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateDbParameterGroupAsync(
-        AwsNeptuneCreateDbParameterGroupOptions? options = null,
+        AwsNeptuneCreateDbParameterGroupOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNeptuneCreateDbParameterGroupOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -245,11 +245,11 @@ public class AwsNeptune : IAwsNeptune
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateDbSubnetGroupAsync(
-        AwsNeptuneCreateDbSubnetGroupOptions? options = null,
+        AwsNeptuneCreateDbSubnetGroupOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNeptuneCreateDbSubnetGroupOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -260,11 +260,11 @@ public class AwsNeptune : IAwsNeptune
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateEventSubscriptionAsync(
-        AwsNeptuneCreateEventSubscriptionOptions? options = null,
+        AwsNeptuneCreateEventSubscriptionOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNeptuneCreateEventSubscriptionOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -275,11 +275,11 @@ public class AwsNeptune : IAwsNeptune
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateGlobalClusterAsync(
-        AwsNeptuneCreateGlobalClusterOptions? options = null,
+        AwsNeptuneCreateGlobalClusterOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNeptuneCreateGlobalClusterOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -290,11 +290,11 @@ public class AwsNeptune : IAwsNeptune
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteDbClusterEndpointAsync(
-        AwsNeptuneDeleteDbClusterEndpointOptions? options = null,
+        AwsNeptuneDeleteDbClusterEndpointOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNeptuneDeleteDbClusterEndpointOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -305,11 +305,11 @@ public class AwsNeptune : IAwsNeptune
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteDbClusterAsync(
-        AwsNeptuneDeleteDbClusterOptions? options = null,
+        AwsNeptuneDeleteDbClusterOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNeptuneDeleteDbClusterOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -320,11 +320,11 @@ public class AwsNeptune : IAwsNeptune
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteDbClusterParameterGroupAsync(
-        AwsNeptuneDeleteDbClusterParameterGroupOptions? options = null,
+        AwsNeptuneDeleteDbClusterParameterGroupOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNeptuneDeleteDbClusterParameterGroupOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -335,11 +335,11 @@ public class AwsNeptune : IAwsNeptune
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteDbClusterSnapshotAsync(
-        AwsNeptuneDeleteDbClusterSnapshotOptions? options = null,
+        AwsNeptuneDeleteDbClusterSnapshotOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNeptuneDeleteDbClusterSnapshotOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -350,11 +350,11 @@ public class AwsNeptune : IAwsNeptune
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteDbInstanceAsync(
-        AwsNeptuneDeleteDbInstanceOptions? options = null,
+        AwsNeptuneDeleteDbInstanceOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNeptuneDeleteDbInstanceOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -365,11 +365,11 @@ public class AwsNeptune : IAwsNeptune
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteDbParameterGroupAsync(
-        AwsNeptuneDeleteDbParameterGroupOptions? options = null,
+        AwsNeptuneDeleteDbParameterGroupOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNeptuneDeleteDbParameterGroupOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -380,11 +380,11 @@ public class AwsNeptune : IAwsNeptune
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteDbSubnetGroupAsync(
-        AwsNeptuneDeleteDbSubnetGroupOptions? options = null,
+        AwsNeptuneDeleteDbSubnetGroupOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNeptuneDeleteDbSubnetGroupOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -395,11 +395,11 @@ public class AwsNeptune : IAwsNeptune
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteEventSubscriptionAsync(
-        AwsNeptuneDeleteEventSubscriptionOptions? options = null,
+        AwsNeptuneDeleteEventSubscriptionOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNeptuneDeleteEventSubscriptionOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -410,11 +410,11 @@ public class AwsNeptune : IAwsNeptune
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteGlobalClusterAsync(
-        AwsNeptuneDeleteGlobalClusterOptions? options = null,
+        AwsNeptuneDeleteGlobalClusterOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNeptuneDeleteGlobalClusterOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -429,7 +429,7 @@ public class AwsNeptune : IAwsNeptune
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNeptuneDescribeDbClusterEndpointsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNeptuneDescribeDbClusterEndpointsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -444,7 +444,7 @@ public class AwsNeptune : IAwsNeptune
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNeptuneDescribeDbClusterParameterGroupsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNeptuneDescribeDbClusterParameterGroupsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -455,11 +455,11 @@ public class AwsNeptune : IAwsNeptune
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DescribeDbClusterParametersAsync(
-        AwsNeptuneDescribeDbClusterParametersOptions? options = null,
+        AwsNeptuneDescribeDbClusterParametersOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNeptuneDescribeDbClusterParametersOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -470,11 +470,11 @@ public class AwsNeptune : IAwsNeptune
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DescribeDbClusterSnapshotAttributesAsync(
-        AwsNeptuneDescribeDbClusterSnapshotAttributesOptions? options = null,
+        AwsNeptuneDescribeDbClusterSnapshotAttributesOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNeptuneDescribeDbClusterSnapshotAttributesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -489,7 +489,7 @@ public class AwsNeptune : IAwsNeptune
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNeptuneDescribeDbClusterSnapshotsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNeptuneDescribeDbClusterSnapshotsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -504,7 +504,7 @@ public class AwsNeptune : IAwsNeptune
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNeptuneDescribeDbClustersOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNeptuneDescribeDbClustersOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -519,7 +519,7 @@ public class AwsNeptune : IAwsNeptune
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNeptuneDescribeDbEngineVersionsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNeptuneDescribeDbEngineVersionsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -534,7 +534,7 @@ public class AwsNeptune : IAwsNeptune
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNeptuneDescribeDbInstancesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNeptuneDescribeDbInstancesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -549,7 +549,7 @@ public class AwsNeptune : IAwsNeptune
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNeptuneDescribeDbParameterGroupsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNeptuneDescribeDbParameterGroupsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -560,11 +560,11 @@ public class AwsNeptune : IAwsNeptune
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DescribeDbParametersAsync(
-        AwsNeptuneDescribeDbParametersOptions? options = null,
+        AwsNeptuneDescribeDbParametersOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNeptuneDescribeDbParametersOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -579,7 +579,7 @@ public class AwsNeptune : IAwsNeptune
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNeptuneDescribeDbSubnetGroupsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNeptuneDescribeDbSubnetGroupsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -590,11 +590,11 @@ public class AwsNeptune : IAwsNeptune
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DescribeEngineDefaultClusterParametersAsync(
-        AwsNeptuneDescribeEngineDefaultClusterParametersOptions? options = null,
+        AwsNeptuneDescribeEngineDefaultClusterParametersOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNeptuneDescribeEngineDefaultClusterParametersOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -605,11 +605,11 @@ public class AwsNeptune : IAwsNeptune
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DescribeEngineDefaultParametersAsync(
-        AwsNeptuneDescribeEngineDefaultParametersOptions? options = null,
+        AwsNeptuneDescribeEngineDefaultParametersOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNeptuneDescribeEngineDefaultParametersOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -624,7 +624,7 @@ public class AwsNeptune : IAwsNeptune
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNeptuneDescribeEventCategoriesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNeptuneDescribeEventCategoriesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -639,7 +639,7 @@ public class AwsNeptune : IAwsNeptune
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNeptuneDescribeEventsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNeptuneDescribeEventsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -654,7 +654,7 @@ public class AwsNeptune : IAwsNeptune
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNeptuneDescribeEventSubscriptionsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNeptuneDescribeEventSubscriptionsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -669,7 +669,7 @@ public class AwsNeptune : IAwsNeptune
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNeptuneDescribeGlobalClustersOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNeptuneDescribeGlobalClustersOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -680,11 +680,11 @@ public class AwsNeptune : IAwsNeptune
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DescribeOrderableDbInstanceOptionsAsync(
-        AwsNeptuneDescribeOrderableDbInstanceOptionsOptions? options = null,
+        AwsNeptuneDescribeOrderableDbInstanceOptionsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNeptuneDescribeOrderableDbInstanceOptionsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -699,7 +699,7 @@ public class AwsNeptune : IAwsNeptune
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNeptuneDescribePendingMaintenanceActionsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNeptuneDescribePendingMaintenanceActionsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -710,11 +710,11 @@ public class AwsNeptune : IAwsNeptune
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DescribeValidDbInstanceModificationsAsync(
-        AwsNeptuneDescribeValidDbInstanceModificationsOptions? options = null,
+        AwsNeptuneDescribeValidDbInstanceModificationsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNeptuneDescribeValidDbInstanceModificationsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -729,7 +729,7 @@ public class AwsNeptune : IAwsNeptune
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNeptuneFailoverDbClusterOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNeptuneFailoverDbClusterOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -740,11 +740,11 @@ public class AwsNeptune : IAwsNeptune
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> FailoverGlobalClusterAsync(
-        AwsNeptuneFailoverGlobalClusterOptions? options = null,
+        AwsNeptuneFailoverGlobalClusterOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNeptuneFailoverGlobalClusterOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -755,11 +755,11 @@ public class AwsNeptune : IAwsNeptune
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListTagsForResourceAsync(
-        AwsNeptuneListTagsForResourceOptions? options = null,
+        AwsNeptuneListTagsForResourceOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNeptuneListTagsForResourceOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -770,11 +770,11 @@ public class AwsNeptune : IAwsNeptune
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ModifyDbClusterEndpointAsync(
-        AwsNeptuneModifyDbClusterEndpointOptions? options = null,
+        AwsNeptuneModifyDbClusterEndpointOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNeptuneModifyDbClusterEndpointOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -785,11 +785,11 @@ public class AwsNeptune : IAwsNeptune
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ModifyDbClusterAsync(
-        AwsNeptuneModifyDbClusterOptions? options = null,
+        AwsNeptuneModifyDbClusterOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNeptuneModifyDbClusterOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -800,11 +800,11 @@ public class AwsNeptune : IAwsNeptune
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ModifyDbClusterParameterGroupAsync(
-        AwsNeptuneModifyDbClusterParameterGroupOptions? options = null,
+        AwsNeptuneModifyDbClusterParameterGroupOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNeptuneModifyDbClusterParameterGroupOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -815,11 +815,11 @@ public class AwsNeptune : IAwsNeptune
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ModifyDbClusterSnapshotAttributeAsync(
-        AwsNeptuneModifyDbClusterSnapshotAttributeOptions? options = null,
+        AwsNeptuneModifyDbClusterSnapshotAttributeOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNeptuneModifyDbClusterSnapshotAttributeOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -830,11 +830,11 @@ public class AwsNeptune : IAwsNeptune
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ModifyDbInstanceAsync(
-        AwsNeptuneModifyDbInstanceOptions? options = null,
+        AwsNeptuneModifyDbInstanceOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNeptuneModifyDbInstanceOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -845,11 +845,11 @@ public class AwsNeptune : IAwsNeptune
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ModifyDbParameterGroupAsync(
-        AwsNeptuneModifyDbParameterGroupOptions? options = null,
+        AwsNeptuneModifyDbParameterGroupOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNeptuneModifyDbParameterGroupOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -860,11 +860,11 @@ public class AwsNeptune : IAwsNeptune
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ModifyDbSubnetGroupAsync(
-        AwsNeptuneModifyDbSubnetGroupOptions? options = null,
+        AwsNeptuneModifyDbSubnetGroupOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNeptuneModifyDbSubnetGroupOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -875,11 +875,11 @@ public class AwsNeptune : IAwsNeptune
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ModifyEventSubscriptionAsync(
-        AwsNeptuneModifyEventSubscriptionOptions? options = null,
+        AwsNeptuneModifyEventSubscriptionOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNeptuneModifyEventSubscriptionOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -890,11 +890,11 @@ public class AwsNeptune : IAwsNeptune
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ModifyGlobalClusterAsync(
-        AwsNeptuneModifyGlobalClusterOptions? options = null,
+        AwsNeptuneModifyGlobalClusterOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNeptuneModifyGlobalClusterOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -905,11 +905,11 @@ public class AwsNeptune : IAwsNeptune
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> PromoteReadReplicaDbClusterAsync(
-        AwsNeptunePromoteReadReplicaDbClusterOptions? options = null,
+        AwsNeptunePromoteReadReplicaDbClusterOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNeptunePromoteReadReplicaDbClusterOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -920,11 +920,11 @@ public class AwsNeptune : IAwsNeptune
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RebootDbInstanceAsync(
-        AwsNeptuneRebootDbInstanceOptions? options = null,
+        AwsNeptuneRebootDbInstanceOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNeptuneRebootDbInstanceOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -935,11 +935,11 @@ public class AwsNeptune : IAwsNeptune
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RemoveFromGlobalClusterAsync(
-        AwsNeptuneRemoveFromGlobalClusterOptions? options = null,
+        AwsNeptuneRemoveFromGlobalClusterOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNeptuneRemoveFromGlobalClusterOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -950,11 +950,11 @@ public class AwsNeptune : IAwsNeptune
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RemoveRoleFromDbClusterAsync(
-        AwsNeptuneRemoveRoleFromDbClusterOptions? options = null,
+        AwsNeptuneRemoveRoleFromDbClusterOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNeptuneRemoveRoleFromDbClusterOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -965,11 +965,11 @@ public class AwsNeptune : IAwsNeptune
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RemoveSourceIdentifierFromSubscriptionAsync(
-        AwsNeptuneRemoveSourceIdentifierFromSubscriptionOptions? options = null,
+        AwsNeptuneRemoveSourceIdentifierFromSubscriptionOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNeptuneRemoveSourceIdentifierFromSubscriptionOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -980,11 +980,11 @@ public class AwsNeptune : IAwsNeptune
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RemoveTagsFromResourceAsync(
-        AwsNeptuneRemoveTagsFromResourceOptions? options = null,
+        AwsNeptuneRemoveTagsFromResourceOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNeptuneRemoveTagsFromResourceOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -995,11 +995,11 @@ public class AwsNeptune : IAwsNeptune
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ResetDbClusterParameterGroupAsync(
-        AwsNeptuneResetDbClusterParameterGroupOptions? options = null,
+        AwsNeptuneResetDbClusterParameterGroupOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNeptuneResetDbClusterParameterGroupOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1010,11 +1010,11 @@ public class AwsNeptune : IAwsNeptune
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ResetDbParameterGroupAsync(
-        AwsNeptuneResetDbParameterGroupOptions? options = null,
+        AwsNeptuneResetDbParameterGroupOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNeptuneResetDbParameterGroupOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1025,11 +1025,11 @@ public class AwsNeptune : IAwsNeptune
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RestoreDbClusterFromSnapshotAsync(
-        AwsNeptuneRestoreDbClusterFromSnapshotOptions? options = null,
+        AwsNeptuneRestoreDbClusterFromSnapshotOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNeptuneRestoreDbClusterFromSnapshotOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1040,11 +1040,11 @@ public class AwsNeptune : IAwsNeptune
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RestoreDbClusterToPointInTimeAsync(
-        AwsNeptuneRestoreDbClusterToPointInTimeOptions? options = null,
+        AwsNeptuneRestoreDbClusterToPointInTimeOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNeptuneRestoreDbClusterToPointInTimeOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1055,11 +1055,11 @@ public class AwsNeptune : IAwsNeptune
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> StartDbClusterAsync(
-        AwsNeptuneStartDbClusterOptions? options = null,
+        AwsNeptuneStartDbClusterOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNeptuneStartDbClusterOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1070,11 +1070,11 @@ public class AwsNeptune : IAwsNeptune
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> StopDbClusterAsync(
-        AwsNeptuneStopDbClusterOptions? options = null,
+        AwsNeptuneStopDbClusterOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNeptuneStopDbClusterOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1085,11 +1085,11 @@ public class AwsNeptune : IAwsNeptune
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> SwitchoverGlobalClusterAsync(
-        AwsNeptuneSwitchoverGlobalClusterOptions? options = null,
+        AwsNeptuneSwitchoverGlobalClusterOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNeptuneSwitchoverGlobalClusterOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     #endregion

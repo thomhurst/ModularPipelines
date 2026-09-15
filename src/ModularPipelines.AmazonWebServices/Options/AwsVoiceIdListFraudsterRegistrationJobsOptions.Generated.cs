@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,10 +22,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("voice-id", "list-fraudster-registration-jobs")]
-public record AwsVoiceIdListFraudsterRegistrationJobsOptions : AwsOptions
+public record AwsVoiceIdListFraudsterRegistrationJobsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Lists all the fraudster registration jobs in the domain with the given JobStatus . If JobStatus is not provided, this lists all fraudster reg- istration jobs in the given domain. See also: AWS API Documentation list-fraudster-registration-jobs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated respons...
+    /// </summary>
+    /// <param name="DomainId">The identifier of the domain that contains the fraudster registra- tion Jobs. Constraints: o min: 22 o max: 22 o pattern: ^[a-zA-Z0-9]{22}$</param>
+    public AwsVoiceIdListFraudsterRegistrationJobsOptions(
+        string DomainId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DomainId);
+        this.DomainId = DomainId;
+    }
+
+    private AwsVoiceIdListFraudsterRegistrationJobsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsVoiceIdListFraudsterRegistrationJobsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsVoiceIdListFraudsterRegistrationJobsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the domain that contains the fraudster registra- tion Jobs. Constraints: o min: 22 o max: 22 o pattern: ^[a-zA-Z0-9]{22}$
+    /// </summary>
     [CliOption("--domain-id")]
-    public string? DomainId { get; set; }
+    public string? DomainId { get; private init; }
 
     /// <summary>
     /// Provides the status of your fraudster registration job. Possible values: o SUBMITTED o IN_PROGRESS o COMPLETED o COMPLETED_WITH_ERRORS o FAILED
@@ -56,5 +93,22 @@ public record AwsVoiceIdListFraudsterRegistrationJobsOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

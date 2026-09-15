@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,12 +20,51 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("oam", "get-link")]
-public record AwsOamGetLinkOptions : AwsOptions
+public record AwsOamGetLinkOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--identifier")]
-    public string? Identifier { get; set; }
+    private readonly bool _requiresAlternateInput;
 
-    [CliFlag("--include-tags")]
+    /// <summary>
+    /// Returns complete information about one link. To use this operation, provide the link ARN. To retrieve a list of link ARNs, use ListLinks . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Identifier">The ARN of the link to retrieve information for. Constraints: o pattern: ^[a-zA-Z0-9][a-zA-Z0-9_:\.\-\/]{0,2047}$</param>
+    public AwsOamGetLinkOptions(
+        string Identifier
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Identifier);
+        this.Identifier = Identifier;
+    }
+
+    private AwsOamGetLinkOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsOamGetLinkOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsOamGetLinkOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ARN of the link to retrieve information for. Constraints: o pattern: ^[a-zA-Z0-9][a-zA-Z0-9_:\.\-\/]{0,2047}$
+    /// </summary>
+    [CliOption("--identifier")]
+    public string? Identifier { get; private init; }
+
+    /// <summary>
+    /// Specifies whether to include the tags associated with the link in the response. When IncludeTags is set to true and the caller has the required permission, oam:ListTagsForResource , the API will return the tags for the specified resource. If the caller doesn't have the required permission, oam:ListTagsForResource , the API will raise an exception. The default value is false .
+    /// </summary>
+    [CliFlag("--include-tags", NegatedName = "--no-include-tags")]
     public bool? IncludeTags { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -32,5 +72,22 @@ public record AwsOamGetLinkOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

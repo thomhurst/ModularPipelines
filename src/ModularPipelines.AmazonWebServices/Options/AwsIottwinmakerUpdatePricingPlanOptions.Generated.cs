@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iottwinmaker", "update-pricing-plan")]
-public record AwsIottwinmakerUpdatePricingPlanOptions : AwsOptions
+public record AwsIottwinmakerUpdatePricingPlanOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Update the pricing plan. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="PricingMode">The pricing mode. Possible values: o BASIC o STANDARD o TIERED_BUNDLE</param>
+    public AwsIottwinmakerUpdatePricingPlanOptions(
+        AwsIottwinmakerUpdatePricingPlanPricingMode PricingMode
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PricingMode);
+        this.PricingMode = PricingMode;
+    }
+
+    private AwsIottwinmakerUpdatePricingPlanOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsIottwinmakerUpdatePricingPlanOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsIottwinmakerUpdatePricingPlanOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The pricing mode. Possible values: o BASIC o STANDARD o TIERED_BUNDLE
+    /// </summary>
     [CliOption("--pricing-mode")]
-    public string? PricingMode { get; set; }
+    public AwsIottwinmakerUpdatePricingPlanPricingMode? PricingMode { get; private init; }
 
     /// <summary>
     /// The bundle names. Constraints: o min: 1 o max: 10 (string) Constraints: o min: 1 o max: 256 o pattern: .* Syntax: "string" "string" ...
@@ -35,5 +73,22 @@ public record AwsIottwinmakerUpdatePricingPlanOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

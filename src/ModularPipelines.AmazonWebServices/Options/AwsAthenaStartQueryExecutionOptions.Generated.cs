@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("athena", "start-query-execution")]
-public record AwsAthenaStartQueryExecutionOptions : AwsOptions
+public record AwsAthenaStartQueryExecutionOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Runs the SQL query statements contained in the Query . Requires you to have access to the workgroup in which the query ran. Running queries against an external catalog requires GetDataCatalog permission to the catalog. For code samples using the Amazon Web Services SDK for Java, see Examples and Code Samples in the Amazon Athena User Guide . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="QueryString">The SQL query statements to be executed. Constraints: o min: 1 o max: 262144</param>
+    public AwsAthenaStartQueryExecutionOptions(
+        string QueryString
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(QueryString);
+        this.QueryString = QueryString;
+    }
+
+    private AwsAthenaStartQueryExecutionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsAthenaStartQueryExecutionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsAthenaStartQueryExecutionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The SQL query statements to be executed. Constraints: o min: 1 o max: 262144
+    /// </summary>
     [CliOption("--query-string")]
-    public string? QueryString { get; set; }
+    public string? QueryString { get; private init; }
 
     /// <summary>
     /// A unique case-sensitive string used to ensure the request to create the query is idempotent (executes only once). If another Start- QueryExecution request is received, the same response is returned and another query is not created. An error is returned if a parame- ter, such as QueryString , has changed. A call to StartQueryExecu- tion that uses a previous client request token returns the same QueryExecutionId even if the requester doesn't have permission on the tables specified in QueryString . WARNING: This token is listed as not required because Amazon Web Services SDKs (for example the Amazon Web Services SDK for Java) auto-generate the token for users. If you are not using the Ama- zon Web Services SDK or the Amazon Web Services CLI, you must provide this token or the action will fail. Constraints: o min: 32 o max: 128
@@ -73,5 +110,22 @@ public record AwsAthenaStartQueryExecutionOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

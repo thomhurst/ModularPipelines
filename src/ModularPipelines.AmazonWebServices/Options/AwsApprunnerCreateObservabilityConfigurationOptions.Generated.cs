@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("apprunner", "create-observability-configuration")]
-public record AwsApprunnerCreateObservabilityConfigurationOptions : AwsOptions
+public record AwsApprunnerCreateObservabilityConfigurationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Create an App Runner observability configuration resource. App Runner requires this resource when you create or update App Runner services and you want to enable non-default observability features. You can share an observability configuration across multiple services. Create multiple revisions of a configuration by calling this action multiple times using the same ObservabilityConfigurationName . The call returns incremental ObservabilityConfigurationRevision values. When you create a service an...
+    /// </summary>
+    /// <param name="ObservabilityConfigurationName">A name for the observability configuration. When you use it for the first time in an Amazon Web Services Region, App Runner creates re- vision number 1 of this name. When you use the same name in subse- quent calls, App Runner creates incremental revisions of the config- uration. NOTE: The name DefaultConfiguration is reserved. You can't use it to create a new observability configuration, and you can't create a revision of it. When you want to use your own observability configuration for your App Runner service, create a configuration with a different name , and then provide it when you create or update your ser- vice. Constraints: o min: 4 o max: 32 o pattern: [A-Za-z0-9][A-Za-z0-9\-_]{3,31}</param>
+    public AwsApprunnerCreateObservabilityConfigurationOptions(
+        string ObservabilityConfigurationName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ObservabilityConfigurationName);
+        this.ObservabilityConfigurationName = ObservabilityConfigurationName;
+    }
+
+    private AwsApprunnerCreateObservabilityConfigurationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsApprunnerCreateObservabilityConfigurationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsApprunnerCreateObservabilityConfigurationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A name for the observability configuration. When you use it for the first time in an Amazon Web Services Region, App Runner creates re- vision number 1 of this name. When you use the same name in subse- quent calls, App Runner creates incremental revisions of the config- uration. NOTE: The name DefaultConfiguration is reserved. You can't use it to create a new observability configuration, and you can't create a revision of it. When you want to use your own observability configuration for your App Runner service, create a configuration with a different name , and then provide it when you create or update your ser- vice. Constraints: o min: 4 o max: 32 o pattern: [A-Za-z0-9][A-Za-z0-9\-_]{3,31}
+    /// </summary>
     [CliOption("--observability-configuration-name")]
-    public string? ObservabilityConfigurationName { get; set; }
+    public string? ObservabilityConfigurationName { get; private init; }
 
     /// <summary>
     /// The configuration of the tracing feature within this observability configuration. If you don't specify it, App Runner doesn't enable tracing. Vendor -&gt; (string) [required] The implementation provider chosen for tracing App Runner ser- vices. Possible values: o AWSXRAY Shorthand Syntax: Vendor=string JSON Syntax: { "Vendor": "AWSXRAY" }
@@ -41,5 +78,22 @@ public record AwsApprunnerCreateObservabilityConfigurationOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

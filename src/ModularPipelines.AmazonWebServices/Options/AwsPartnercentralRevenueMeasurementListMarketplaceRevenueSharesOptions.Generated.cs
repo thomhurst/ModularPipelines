@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,10 +22,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("partnercentral-revenue-measurement", "list-marketplace-revenue-shares")]
-public record AwsPartnercentralRevenueMeasurementListMarketplaceRevenueSharesOptions : AwsOptions
+public record AwsPartnercentralRevenueMeasurementListMarketplaceRevenueSharesOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Returns a paginated list of marketplace revenue shares with optional filters. See also: AWS API Documentation list-marketplace-revenue-shares is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Marketp...
+    /// </summary>
+    /// <param name="Catalog">The catalog to list marketplace revenue shares from. Possible values: o AWS o Sandbox</param>
+    public AwsPartnercentralRevenueMeasurementListMarketplaceRevenueSharesOptions(
+        AwsPartnercentralRevenueMeasurementListMarketplaceRevenueSharesCatalog Catalog
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Catalog);
+        this.Catalog = Catalog;
+    }
+
+    private AwsPartnercentralRevenueMeasurementListMarketplaceRevenueSharesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsPartnercentralRevenueMeasurementListMarketplaceRevenueSharesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsPartnercentralRevenueMeasurementListMarketplaceRevenueSharesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The catalog to list marketplace revenue shares from. Possible values: o AWS o Sandbox
+    /// </summary>
     [CliOption("--catalog")]
-    public string? Catalog { get; set; }
+    public AwsPartnercentralRevenueMeasurementListMarketplaceRevenueSharesCatalog? Catalog { get; private init; }
 
     /// <summary>
     /// Filter results to only include shares with these product identi- fiers. Constraints: o min: 1 o max: 10 (string) Constraints: o min: 18 o max: 18 o pattern: prod-[a-z0-9]{13} Syntax: "string" "string" ...
@@ -86,5 +123,22 @@ public record AwsPartnercentralRevenueMeasurementListMarketplaceRevenueSharesOpt
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

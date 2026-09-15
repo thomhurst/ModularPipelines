@@ -22,10 +22,16 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("ec2", "create-vpc-endpoint-service-configuration")]
 public record AwsEc2CreateVpcEndpointServiceConfigurationOptions : AwsOptions
 {
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
-    [CliFlag("--acceptance-required")]
+    /// <summary>
+    /// Indicates whether requests from service consumers to create an end- point to your service must be accepted manually.
+    /// </summary>
+    [CliFlag("--acceptance-required", NegatedName = "--no-acceptance-required")]
     public bool? AcceptanceRequired { get; set; }
 
     /// <summary>

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,10 +21,74 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("gamelift", "create-matchmaking-configuration")]
-public record AwsGameliftCreateMatchmakingConfigurationOptions : AwsOptions
+public record AwsGameliftCreateMatchmakingConfigurationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// This API works with the following fleet types: EC2, Anywhere, Con- tainer Defines a new matchmaking configuration for use with FlexMatch. Whether your are using FlexMatch with Amazon GameLift Servers hosting or as a standalone matchmaking service, the matchmaking configuration sets out rules for matching players and forming teams. If you're also using Ama- zon GameLift Servers hosting, it defines how to start game sessions for each match. Your matchmaking system can use multiple configurations t...
+    /// </summary>
+    /// <param name="Name">A unique identifier for the matchmaking configuration. This name is used to identify the configuration associated with a matchmaking re- quest or ticket. Constraints: o max: 128 o pattern: ^[a-zA-Z0-9-\.]*$</param>
+    /// <param name="RequestTimeoutSeconds">The maximum duration, in seconds, that a matchmaking ticket can re- main in process before timing out. Requests that fail due to timing out can be resubmitted as needed. Constraints: o min: 1 o max: 43200</param>
+    /// <param name="AcceptanceRequired">A flag that determines whether a match that was created with this configuration must be accepted by the matched players. To require acceptance, set to TRUE . With this option enabled, matchmaking tickets use the status REQUIRES_ACCEPTANCE to indicate when a com- pleted potential match is waiting for player acceptance.</param>
+    /// <param name="RuleSetName">A unique identifier for the matchmaking rule set to use with this configuration. You can use either the rule set name or ARN value. A matchmaking configuration can only use rule sets that are defined in the same Region. Constraints: o min: 1 o max: 256 o pattern: ^([a-zA-Z0-9-\.]*|arn:.*:matchmakingrule- set\/[a-zA-Z0-9-\.]*)$</param>
+    public AwsGameliftCreateMatchmakingConfigurationOptions(
+        string Name,
+        int RequestTimeoutSeconds,
+        bool AcceptanceRequired,
+        string RuleSetName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        this.RequestTimeoutSeconds = RequestTimeoutSeconds;
+        this.AcceptanceRequired = AcceptanceRequired;
+        global::System.ArgumentNullException.ThrowIfNull(RuleSetName);
+        this.RuleSetName = RuleSetName;
+    }
+
+    private AwsGameliftCreateMatchmakingConfigurationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsGameliftCreateMatchmakingConfigurationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsGameliftCreateMatchmakingConfigurationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A unique identifier for the matchmaking configuration. This name is used to identify the configuration associated with a matchmaking re- quest or ticket. Constraints: o max: 128 o pattern: ^[a-zA-Z0-9-\.]*$
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
+
+    /// <summary>
+    /// The maximum duration, in seconds, that a matchmaking ticket can re- main in process before timing out. Requests that fail due to timing out can be resubmitted as needed. Constraints: o min: 1 o max: 43200
+    /// </summary>
+    [CliOption("--request-timeout-seconds")]
+    public int? RequestTimeoutSeconds { get; private init; }
+
+    /// <summary>
+    /// A flag that determines whether a match that was created with this configuration must be accepted by the matched players. To require acceptance, set to TRUE . With this option enabled, matchmaking tickets use the status REQUIRES_ACCEPTANCE to indicate when a com- pleted potential match is waiting for player acceptance.
+    /// </summary>
+    [CliFlag("--acceptance-required", NegatedName = "--no-acceptance-required")]
+    public bool? AcceptanceRequired { get; private init; }
+
+    /// <summary>
+    /// A unique identifier for the matchmaking rule set to use with this configuration. You can use either the rule set name or ARN value. A matchmaking configuration can only use rule sets that are defined in the same Region. Constraints: o min: 1 o max: 256 o pattern: ^([a-zA-Z0-9-\.]*|arn:.*:matchmakingrule- set\/[a-zA-Z0-9-\.]*)$
+    /// </summary>
+    [CliOption("--rule-set-name")]
+    public string? RuleSetName { get; private init; }
 
     /// <summary>
     /// A human-readable description of the matchmaking configuration. Constraints: o min: 1 o max: 1024
@@ -37,20 +102,11 @@ public record AwsGameliftCreateMatchmakingConfigurationOptions : AwsOptions
     [CliOption("--game-session-queue-arns", GroupValues = true)]
     public IEnumerable<string>? GameSessionQueueArns { get; set; }
 
-    [CliOption("--request-timeout-seconds")]
-    public int? RequestTimeoutSeconds { get; set; }
-
     /// <summary>
     /// The length of time (in seconds) to wait for players to accept a pro- posed match, if acceptance is required. Constraints: o min: 1 o max: 600
     /// </summary>
     [CliOption("--acceptance-timeout-seconds")]
     public int? AcceptanceTimeoutSeconds { get; set; }
-
-    [CliFlag("--acceptance-required")]
-    public bool? AcceptanceRequired { get; set; }
-
-    [CliOption("--rule-set-name")]
-    public string? RuleSetName { get; set; }
 
     /// <summary>
     /// An SNS topic ARN that is set up to receive matchmaking notifica- tions. See Setting up notifications for matchmaking for more infor- mation. Constraints: o min: 0 o max: 300 o pattern: ^[a-zA-Z0-9:_/-]*(\.fifo)?$
@@ -105,5 +161,22 @@ public record AwsGameliftCreateMatchmakingConfigurationOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,24 +20,109 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("groundstation", "update-agent-status")]
-public record AwsGroundstationUpdateAgentStatusOptions : AwsOptions
+public record AwsGroundstationUpdateAgentStatusOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// NOTE: For use by AWS Ground Station Agent and shouldn't be called di- rectly. Update the status of the agent. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="AgentId">UUID of agent to update. Constraints: o min: 36 o max: 36 o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}</param>
+    /// <param name="TaskId">GUID of agent task. Constraints: o min: 36 o max: 36 o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}</param>
+    /// <param name="AggregateStatus">Aggregate status for agent. status -&gt; (string) [required] Aggregate status. Possible values: o SUCCESS o FAILED o ACTIVE o INACTIVE signatureMap -&gt; (map) Sparse map of failure signatures. key -&gt; (string) value -&gt; (boolean) Shorthand Syntax: status=string,signatureMap={KeyName1=boolean,KeyName2=boolean} JSON Syntax: { "status": "SUCCESS"|"FAILED"|"ACTIVE"|"INACTIVE", "signatureMap": {"string": true|false ...} }</param>
+    /// <param name="ComponentStatuses">List of component statuses for agent. Constraints: o min: 0 o max: 20 (structure) Data on the status of agent components. componentType -&gt; (string) [required] The Component type. Constraints: o pattern: [a-zA-Z0-9_]{1,64} capabilityArn -&gt; (string) [required] Capability ARN of the component. status -&gt; (string) [required] Component status. Possible values: o SUCCESS o FAILED o ACTIVE o INACTIVE bytesSent -&gt; (long) Bytes sent by the component. bytesReceived -&gt; (long) Bytes received by the component. packetsDropped -&gt; (long) Packets dropped by component. dataflowId -&gt; (string) [required] Dataflow UUID associated with the component. Constraints: o min: 36 o max: 36 o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12} Shorthand Syntax: componentType=string,capabilityArn=string,status=string,bytesSent=long,bytesReceived=long,packetsDropped=long,dataflowId=string ... JSON Syntax: [ { "componentType": "string", "capabilityArn": "string", "status": "SUCCESS"|"FAILED"|"ACTIVE"|"INACTIVE", "bytesSent": long, "bytesReceived": long, "packetsDropped": long, "dataflowId": "string" } ... ]</param>
+    public AwsGroundstationUpdateAgentStatusOptions(
+        string AgentId,
+        string TaskId,
+        string AggregateStatus,
+        IEnumerable<string> ComponentStatuses
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AgentId);
+        this.AgentId = AgentId;
+        global::System.ArgumentNullException.ThrowIfNull(TaskId);
+        this.TaskId = TaskId;
+        global::System.ArgumentNullException.ThrowIfNull(AggregateStatus);
+        this.AggregateStatus = AggregateStatus;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(ComponentStatuses);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(ComponentStatuses));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(ComponentStatuses));
+            }
+
+            ComponentStatuses = materialized;
+        }
+        this.ComponentStatuses = ComponentStatuses;
+    }
+
+    private AwsGroundstationUpdateAgentStatusOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsGroundstationUpdateAgentStatusOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsGroundstationUpdateAgentStatusOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// UUID of agent to update. Constraints: o min: 36 o max: 36 o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}
+    /// </summary>
     [CliOption("--agent-id")]
-    public string? AgentId { get; set; }
+    public string? AgentId { get; private init; }
 
+    /// <summary>
+    /// GUID of agent task. Constraints: o min: 36 o max: 36 o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}
+    /// </summary>
     [CliOption("--task-id")]
-    public string? TaskId { get; set; }
+    public string? TaskId { get; private init; }
 
+    /// <summary>
+    /// Aggregate status for agent. status -&gt; (string) [required] Aggregate status. Possible values: o SUCCESS o FAILED o ACTIVE o INACTIVE signatureMap -&gt; (map) Sparse map of failure signatures. key -&gt; (string) value -&gt; (boolean) Shorthand Syntax: status=string,signatureMap={KeyName1=boolean,KeyName2=boolean} JSON Syntax: { "status": "SUCCESS"|"FAILED"|"ACTIVE"|"INACTIVE", "signatureMap": {"string": true|false ...} }
+    /// </summary>
     [CliOption("--aggregate-status")]
-    public string? AggregateStatus { get; set; }
+    public string? AggregateStatus { get; private init; }
 
+    /// <summary>
+    /// List of component statuses for agent. Constraints: o min: 0 o max: 20 (structure) Data on the status of agent components. componentType -&gt; (string) [required] The Component type. Constraints: o pattern: [a-zA-Z0-9_]{1,64} capabilityArn -&gt; (string) [required] Capability ARN of the component. status -&gt; (string) [required] Component status. Possible values: o SUCCESS o FAILED o ACTIVE o INACTIVE bytesSent -&gt; (long) Bytes sent by the component. bytesReceived -&gt; (long) Bytes received by the component. packetsDropped -&gt; (long) Packets dropped by component. dataflowId -&gt; (string) [required] Dataflow UUID associated with the component. Constraints: o min: 36 o max: 36 o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12} Shorthand Syntax: componentType=string,capabilityArn=string,status=string,bytesSent=long,bytesReceived=long,packetsDropped=long,dataflowId=string ... JSON Syntax: [ { "componentType": "string", "capabilityArn": "string", "status": "SUCCESS"|"FAILED"|"ACTIVE"|"INACTIVE", "bytesSent": long, "bytesReceived": long, "packetsDropped": long, "dataflowId": "string" } ... ]
+    /// </summary>
     [CliOption("--component-statuses", GroupValues = true)]
-    public IEnumerable<string>? ComponentStatuses { get; set; }
+    public IEnumerable<string>? ComponentStatuses { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

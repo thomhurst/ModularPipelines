@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,13 +22,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("securityhub", "create-ticket-v2")]
-public record AwsSecurityhubCreateTicketV2Options : AwsOptions
+public record AwsSecurityhubCreateTicketV2Options : AwsOptions, IValidatableObject
 {
-    [CliOption("--connector-id")]
-    public string? ConnectorId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Grants permission to create a ticket in the chosen ITSM based on find- ing information for the provided finding metadata UID. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ConnectorId">The UUID of the connectorV2 to identify connectorV2 resource. Constraints: o pattern: .*\S.*</param>
+    /// <param name="FindingMetadataUid">The the unique ID for the finding. Constraints: o pattern: .*\S.*</param>
+    public AwsSecurityhubCreateTicketV2Options(
+        string ConnectorId,
+        string FindingMetadataUid
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ConnectorId);
+        this.ConnectorId = ConnectorId;
+        global::System.ArgumentNullException.ThrowIfNull(FindingMetadataUid);
+        this.FindingMetadataUid = FindingMetadataUid;
+    }
+
+    private AwsSecurityhubCreateTicketV2Options()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSecurityhubCreateTicketV2Options FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSecurityhubCreateTicketV2Options ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The UUID of the connectorV2 to identify connectorV2 resource. Constraints: o pattern: .*\S.*
+    /// </summary>
+    [CliOption("--connector-id")]
+    public string? ConnectorId { get; private init; }
+
+    /// <summary>
+    /// The the unique ID for the finding. Constraints: o pattern: .*\S.*
+    /// </summary>
     [CliOption("--finding-metadata-uid")]
-    public string? FindingMetadataUid { get; set; }
+    public string? FindingMetadataUid { get; private init; }
 
     /// <summary>
     /// The client idempotency token. Constraints: o min: 1 o max: 63 o pattern: ^[\x21-\x7E]{1,64}$
@@ -47,5 +91,22 @@ public record AwsSecurityhubCreateTicketV2Options : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

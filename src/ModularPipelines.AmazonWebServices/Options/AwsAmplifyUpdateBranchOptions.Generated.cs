@@ -12,6 +12,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -22,13 +23,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("amplify", "update-branch")]
-public record AwsAmplifyUpdateBranchOptions : AwsOptions
+public record AwsAmplifyUpdateBranchOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--app-id")]
-    public string? AppId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Updates a branch for an Amplify app. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="AppId">The unique ID for an Amplify app. Constraints: o min: 1 o max: 20 o pattern: d[a-z0-9]+</param>
+    /// <param name="BranchName">The name of the branch. Constraints: o min: 1 o max: 255 o pattern: (?s).+</param>
+    public AwsAmplifyUpdateBranchOptions(
+        string AppId,
+        string BranchName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AppId);
+        this.AppId = AppId;
+        global::System.ArgumentNullException.ThrowIfNull(BranchName);
+        this.BranchName = BranchName;
+    }
+
+    private AwsAmplifyUpdateBranchOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsAmplifyUpdateBranchOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsAmplifyUpdateBranchOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique ID for an Amplify app. Constraints: o min: 1 o max: 20 o pattern: d[a-z0-9]+
+    /// </summary>
+    [CliOption("--app-id")]
+    public string? AppId { get; private init; }
+
+    /// <summary>
+    /// The name of the branch. Constraints: o min: 1 o max: 255 o pattern: (?s).+
+    /// </summary>
     [CliOption("--branch-name")]
-    public string? BranchName { get; set; }
+    public string? BranchName { get; private init; }
 
     /// <summary>
     /// The description for the branch. Constraints: o max: 1000 o pattern: (?s).*
@@ -48,13 +92,22 @@ public record AwsAmplifyUpdateBranchOptions : AwsOptions
     [CliOption("--stage")]
     public AwsAmplifyUpdateBranchStage? Stage { get; set; }
 
-    [CliFlag("--enable-notification")]
+    /// <summary>
+    /// Enables notifications for the branch.
+    /// </summary>
+    [CliFlag("--enable-notification", NegatedName = "--no-enable-notification")]
     public bool? EnableNotification { get; set; }
 
-    [CliFlag("--enable-auto-build")]
+    /// <summary>
+    /// Enables auto building for the branch.
+    /// </summary>
+    [CliFlag("--enable-auto-build", NegatedName = "--no-enable-auto-build")]
     public bool? EnableAutoBuild { get; set; }
 
-    [CliFlag("--enable-skew-protection")]
+    /// <summary>
+    /// Specifies whether the skew protection feature is enabled for the branch. Deployment skew protection is available to Amplify applications to eliminate version skew issues between client and servers in web ap- plications. When you apply skew protection to a branch, you can en- sure that your clients always interact with the correct version of server-side assets, regardless of when a deployment occurs. For more information about skew protection, see Skew protection for Amplify deployments in the Amplify User Guide .
+    /// </summary>
+    [CliFlag("--enable-skew-protection", NegatedName = "--no-enable-skew-protection")]
     public bool? EnableSkewProtection { get; set; }
 
     /// <summary>
@@ -70,10 +123,16 @@ public record AwsAmplifyUpdateBranchOptions : AwsOptions
     [CliOption("--basic-auth-credentials")]
     public string? BasicAuthCredentials { get; set; }
 
-    [CliFlag("--enable-basic-auth")]
+    /// <summary>
+    /// Enables basic authorization for the branch.
+    /// </summary>
+    [CliFlag("--enable-basic-auth", NegatedName = "--no-enable-basic-auth")]
     public bool? EnableBasicAuth { get; set; }
 
-    [CliFlag("--enable-performance-mode")]
+    /// <summary>
+    /// Enables performance mode for the branch. Performance mode optimizes for faster hosting performance by keeping content cached at the edge for a longer interval. When performance mode is enabled, hosting configuration or code changes can take up to 10 minutes to roll out.
+    /// </summary>
+    [CliFlag("--enable-performance-mode", NegatedName = "--no-enable-performance-mode")]
     public bool? EnablePerformanceMode { get; set; }
 
     /// <summary>
@@ -94,7 +153,10 @@ public record AwsAmplifyUpdateBranchOptions : AwsOptions
     [CliOption("--display-name")]
     public string? DisplayName { get; set; }
 
-    [CliFlag("--enable-pull-request-preview")]
+    /// <summary>
+    /// Enables pull request previews for this branch.
+    /// </summary>
+    [CliFlag("--enable-pull-request-preview", NegatedName = "--no-enable-pull-request-preview")]
     public bool? EnablePullRequestPreview { get; set; }
 
     /// <summary>
@@ -126,5 +188,22 @@ public record AwsAmplifyUpdateBranchOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,16 +21,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("wafv2", "list-settlement-records")]
-public record AwsWafv2ListSettlementRecordsOptions : AwsOptions
+public record AwsWafv2ListSettlementRecordsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Retrieves individual settlement transaction records for monetization. Each record represents a single payment transaction between a client and your protected resource. This operation is only available for CLOUDFRONT scope. The maximum supported time window is 90 days. When no CurrencyMode filter is provided, results default to REAL . To retrieve test data, include a CurrencyMode filter with the value TEST . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="TimeWindow">The time range for the query. Specify start and end timestamps. StartTime -&gt; (timestamp) [required] The beginning of the time range from which you want GetSample- dRequests to return a sample of the requests that your Amazon Web Services resource received. You must specify the times in Coordinated Universal Time (UTC) format. UTC format includes the special designator, Z . For example, "2016-09-27T14:50Z" . You can specify any time range in the previous three hours. EndTime -&gt; (timestamp) [required] The end of the time range from which you want GetSampledRequests to return a sample of the requests that your Amazon Web Services resource received. You must specify the times in Coordinated Universal Time (UTC) format. UTC format includes the special designator, Z . For example, "2016-09-27T14:50Z" . You can spec- ify any time range in the previous three hours. Shorthand Syntax: StartTime=timestamp,EndTime=timestamp JSON Syntax: { "StartTime": timestamp, "EndTime": timestamp }</param>
+    /// <param name="Scope">Specifies whether this is for a Amazon CloudFront distribution (CLOUDFRONT ) or for a regional application (REGIONAL ). Possible values: o CLOUDFRONT o REGIONAL</param>
+    /// <param name="Currency">The currency for the amounts in the response. Possible values: o USDC</param>
+    public AwsWafv2ListSettlementRecordsOptions(
+        string TimeWindow,
+        AwsWafv2ListSettlementRecordsScope Scope,
+        AwsWafv2ListSettlementRecordsCurrency Currency
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(TimeWindow);
+        this.TimeWindow = TimeWindow;
+        global::System.ArgumentNullException.ThrowIfNull(Scope);
+        this.Scope = Scope;
+        global::System.ArgumentNullException.ThrowIfNull(Currency);
+        this.Currency = Currency;
+    }
+
+    private AwsWafv2ListSettlementRecordsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsWafv2ListSettlementRecordsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsWafv2ListSettlementRecordsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The time range for the query. Specify start and end timestamps. StartTime -&gt; (timestamp) [required] The beginning of the time range from which you want GetSample- dRequests to return a sample of the requests that your Amazon Web Services resource received. You must specify the times in Coordinated Universal Time (UTC) format. UTC format includes the special designator, Z . For example, "2016-09-27T14:50Z" . You can specify any time range in the previous three hours. EndTime -&gt; (timestamp) [required] The end of the time range from which you want GetSampledRequests to return a sample of the requests that your Amazon Web Services resource received. You must specify the times in Coordinated Universal Time (UTC) format. UTC format includes the special designator, Z . For example, "2016-09-27T14:50Z" . You can spec- ify any time range in the previous three hours. Shorthand Syntax: StartTime=timestamp,EndTime=timestamp JSON Syntax: { "StartTime": timestamp, "EndTime": timestamp }
+    /// </summary>
     [CliOption("--time-window")]
-    public string? TimeWindow { get; set; }
+    public string? TimeWindow { get; private init; }
 
+    /// <summary>
+    /// Specifies whether this is for a Amazon CloudFront distribution (CLOUDFRONT ) or for a regional application (REGIONAL ). Possible values: o CLOUDFRONT o REGIONAL
+    /// </summary>
     [CliOption("--scope")]
-    public string? Scope { get; set; }
+    public AwsWafv2ListSettlementRecordsScope? Scope { get; private init; }
 
+    /// <summary>
+    /// The currency for the amounts in the response. Possible values: o USDC
+    /// </summary>
     [CliOption("--currency")]
-    public string? Currency { get; set; }
+    public AwsWafv2ListSettlementRecordsCurrency? Currency { get; private init; }
 
     /// <summary>
     /// Optional filters to narrow the results. You can filter by payer ad- dress, status, source name, network, or other settlement fields. Constraints: o min: 1 o max: 20 (structure) A filter for narrowing monetization statistics and settlement record results. Specify a filter name and one or more values to match. Filter behavior: o Multiple values within one filter: OR (match any) o Multiple filters: AND (all must match) o No duplicate filter names allowed (rejected with error) o Duplicate values within a filter are silently deduplicated o If no CurrencyMode filter is specified, defaults to REAL Name -&gt; (string) [required] The filter name. Format: Key is a string, Value is a list of strings. Enum-restricted (invalid values rejected): o CurrencyMode : REAL , TEST o ChainName : BASE , SOLANA , BASE_SEPOLIA , SOLANA_DEVNET o SettlementStatus : SETTLED , PENDING , FAILED , SERVICE_ER- ROR , SKIPPED_ORIGIN_ERROR , DUPLICATE o HttpSourceName : CF , ALB , APIGW , APPRUNNER , COGNITO , VERIFIED_ACCESS ARN-validated: o WebACLArn : valid WAFv2 web ACL ARN Free-text (any string up to 256 chars): o SourceName : The name of the bot. Populated from Bot Con- trol verified bot labels. o SourceCategory : The category classification of the bot. From Bot Control categorization. o Intent : The declared intent of the bot request. o Organization : The organization operating the bot. o UriPathPrefix : The URI path of the request that was mone- tized. o RequestId : The WAF request ID associated with the transac- tion. Matches the requestId in WAF logs. Pattern: ^[a-zA-Z0-9:._\-=+/]+$ o TransactionId : The blockchain transaction identifier. Pat- tern: ^[a-zA-Z0-9:._\-=+/]+$ o TerminatingRuleName : The name of the WAF rule that trig- gered the Monetize action. o PayerAddress : The blockchain wallet address of the paying client. Pattern: ^[a-zA-Z0-9:._\-=+/]+$ o HttpSourceId : The identifier of the Amazon Web Services resource associated with the web ACL (for example, Cloud- Front distribution ID). Constraints: o min: 1 o max: 128 Values -&gt; (list) [required] The values to filter on. Specify as a list of strings. Re- sults match any of the specified values (OR logic). Duplicate values are silently deduplicated. Maximum: 20 values per fil- ter. Constraints: o min: 1 o max: 20 (string) Constraints: o min: 1 o max: 256 Shorthand Syntax: Name=string,Values=string,string ... JSON Syntax: [ { "Name": "string", "Values": ["string", ...] } ... ]
@@ -66,5 +117,22 @@ public record AwsWafv2ListSettlementRecordsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

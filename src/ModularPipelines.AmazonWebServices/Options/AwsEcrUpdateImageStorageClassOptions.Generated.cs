@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,27 +21,94 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ecr", "update-image-storage-class")]
-public record AwsEcrUpdateImageStorageClassOptions : AwsOptions
+public record AwsEcrUpdateImageStorageClassOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Transitions an image between storage classes. You can transition images from Amazon ECR standard storage class to Amazon ECR archival storage class for long-term storage, or restore archived images back to Amazon ECR standard. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="RepositoryName">The name of the repository that contains the image to transition. Constraints: o min: 2 o max: 256 o pattern: [a-z0-9]+((\.|_|__|-+)[a-z0-9]+)*(\/[a-z0-9]+((\.|_|__|-+)[a-z0-9]+)*)*</param>
+    /// <param name="ImageId">An object with identifying information for an image in an Amazon ECR repository. imageDigest -&gt; (string) The sha256 digest of the image manifest. imageTag -&gt; (string) The tag used for the image. Constraints: o min: 1 o max: 300 Shorthand Syntax: imageDigest=string,imageTag=string JSON Syntax: { "imageDigest": "string", "imageTag": "string" }</param>
+    /// <param name="TargetStorageClass">The target storage class for the image. Possible values: o STANDARD o ARCHIVE</param>
+    public AwsEcrUpdateImageStorageClassOptions(
+        string RepositoryName,
+        string ImageId,
+        AwsEcrUpdateImageStorageClassTargetStorageClass TargetStorageClass
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(RepositoryName);
+        this.RepositoryName = RepositoryName;
+        global::System.ArgumentNullException.ThrowIfNull(ImageId);
+        this.ImageId = ImageId;
+        global::System.ArgumentNullException.ThrowIfNull(TargetStorageClass);
+        this.TargetStorageClass = TargetStorageClass;
+    }
+
+    private AwsEcrUpdateImageStorageClassOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEcrUpdateImageStorageClassOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEcrUpdateImageStorageClassOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the repository that contains the image to transition. Constraints: o min: 2 o max: 256 o pattern: [a-z0-9]+((\.|_|__|-+)[a-z0-9]+)*(\/[a-z0-9]+((\.|_|__|-+)[a-z0-9]+)*)*
+    /// </summary>
+    [CliOption("--repository-name")]
+    public string? RepositoryName { get; private init; }
+
+    /// <summary>
+    /// An object with identifying information for an image in an Amazon ECR repository. imageDigest -&gt; (string) The sha256 digest of the image manifest. imageTag -&gt; (string) The tag used for the image. Constraints: o min: 1 o max: 300 Shorthand Syntax: imageDigest=string,imageTag=string JSON Syntax: { "imageDigest": "string", "imageTag": "string" }
+    /// </summary>
+    [CliOption("--image-id")]
+    public string? ImageId { get; private init; }
+
+    /// <summary>
+    /// The target storage class for the image. Possible values: o STANDARD o ARCHIVE
+    /// </summary>
+    [CliOption("--target-storage-class")]
+    public AwsEcrUpdateImageStorageClassTargetStorageClass? TargetStorageClass { get; private init; }
+
     /// <summary>
     /// The Amazon Web Services account ID associated with the registry that contains the image to transition. If you do not specify a registry, the default registry is assumed. Constraints: o pattern: [0-9]{12}
     /// </summary>
     [CliOption("--registry-id")]
     public string? RegistryId { get; set; }
 
-    [CliOption("--repository-name")]
-    public string? RepositoryName { get; set; }
-
-    [CliOption("--image-id")]
-    public string? ImageId { get; set; }
-
-    [CliOption("--target-storage-class")]
-    public string? TargetStorageClass { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,61 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("codepipeline", "stop-pipeline-execution")]
-public record AwsCodepipelineStopPipelineExecutionOptions : AwsOptions
+public record AwsCodepipelineStopPipelineExecutionOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Stops the specified pipeline execution. You choose to either stop the pipeline execution by completing in-progress actions without starting subsequent actions, or by abandoning in-progress actions. While com- pleting or abandoning in-progress actions, the pipeline execution is in a Stopping state. After all in-progress actions are completed or aban- doned, the pipeline execution is in a Stopped state. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="PipelineName">The name of the pipeline to stop. Constraints: o min: 1 o max: 100 o pattern: [A-Za-z0-9.@\-_]+</param>
+    /// <param name="PipelineExecutionId">The ID of the pipeline execution to be stopped in the current stage. Use the GetPipelineState action to retrieve the current pipelineExe- cutionId. Constraints: o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
+    public AwsCodepipelineStopPipelineExecutionOptions(
+        string PipelineName,
+        string PipelineExecutionId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PipelineName);
+        this.PipelineName = PipelineName;
+        global::System.ArgumentNullException.ThrowIfNull(PipelineExecutionId);
+        this.PipelineExecutionId = PipelineExecutionId;
+    }
+
+    private AwsCodepipelineStopPipelineExecutionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCodepipelineStopPipelineExecutionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCodepipelineStopPipelineExecutionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the pipeline to stop. Constraints: o min: 1 o max: 100 o pattern: [A-Za-z0-9.@\-_]+
+    /// </summary>
     [CliOption("--pipeline-name")]
-    public string? PipelineName { get; set; }
+    public string? PipelineName { get; private init; }
 
+    /// <summary>
+    /// The ID of the pipeline execution to be stopped in the current stage. Use the GetPipelineState action to retrieve the current pipelineExe- cutionId. Constraints: o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
+    /// </summary>
     [CliOption("--pipeline-execution-id")]
-    public string? PipelineExecutionId { get; set; }
+    public string? PipelineExecutionId { get; private init; }
 
-    [CliFlag("--abandon")]
+    /// <summary>
+    /// Use this option to stop the pipeline execution by abandoning, rather than finishing, in-progress actions. NOTE: This option can lead to failed or out-of-sequence tasks.
+    /// </summary>
+    [CliFlag("--abandon", NegatedName = "--no-abandon")]
     public bool? Abandon { get; set; }
 
     /// <summary>
@@ -41,5 +88,22 @@ public record AwsCodepipelineStopPipelineExecutionOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -11,6 +11,8 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +22,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("athena", "create-data-catalog")]
-public record AwsAthenaCreateDataCatalogOptions : AwsOptions
+public record AwsAthenaCreateDataCatalogOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--name")]
-    public string? Name { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates (registers) a data catalog with the specified name and proper- ties. Catalogs created are visible to all users of the same Amazon Web Services account. For a FEDERATED catalog, this API operation creates the following re- sources. o CFN Stack Name with a maximum length of 128 characters and prefix athenafederatedcatalog-CATALOG_NAME_SANITIZED with length 23 charac- ters. o Lambda Function Name with a maximum length of 64 characters and pre- fix athenafederatedcatalog_CATALOG_NAME_SANITIZ...
+    /// </summary>
+    /// <param name="Name">The name of the data catalog to create. The catalog name must be unique for the Amazon Web Services account and can use a maximum of 127 alphanumeric, underscore, at sign, or hyphen characters. The re- mainder of the length constraint of 256 is reserved for use by Athena. For FEDERATED type the catalog name has following considerations and limits: o The catalog name allows special characters such as _ , @ , \ , - . These characters are replaced with a hyphen (-) when creating the CFN Stack Name and with an underscore (_) when creating the Lambda Function and Glue Connection Name. o The catalog name has a theoretical limit of 128 characters. How- ever, since we use it to create other resources that allow less characters and we prepend a prefix to it, the actual catalog name limit for FEDERATED catalog is 64 - 23 = 41 characters. Constraints: o min: 1 o max: 256 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*</param>
+    /// <param name="Type">The type of data catalog to create: LAMBDA for a federated catalog, GLUE for an Glue Data Catalog, and HIVE for an external Apache Hive metastore. FEDERATED is a federated catalog for which Athena creates the connection and the Lambda function for you based on the parame- ters that you pass. For FEDERATED type, we do not support IAM identity center. Possible values: o LAMBDA o GLUE o HIVE o FEDERATED</param>
+    public AwsAthenaCreateDataCatalogOptions(
+        string Name,
+        AwsAthenaCreateDataCatalogType Type
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(Type);
+        this.Type = Type;
+    }
+
+    private AwsAthenaCreateDataCatalogOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsAthenaCreateDataCatalogOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsAthenaCreateDataCatalogOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the data catalog to create. The catalog name must be unique for the Amazon Web Services account and can use a maximum of 127 alphanumeric, underscore, at sign, or hyphen characters. The re- mainder of the length constraint of 256 is reserved for use by Athena. For FEDERATED type the catalog name has following considerations and limits: o The catalog name allows special characters such as _ , @ , \ , - . These characters are replaced with a hyphen (-) when creating the CFN Stack Name and with an underscore (_) when creating the Lambda Function and Glue Connection Name. o The catalog name has a theoretical limit of 128 characters. How- ever, since we use it to create other resources that allow less characters and we prepend a prefix to it, the actual catalog name limit for FEDERATED catalog is 64 - 23 = 41 characters. Constraints: o min: 1 o max: 256 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
+    /// </summary>
+    [CliOption("--name")]
+    public string? Name { get; private init; }
+
+    /// <summary>
+    /// The type of data catalog to create: LAMBDA for a federated catalog, GLUE for an Glue Data Catalog, and HIVE for an external Apache Hive metastore. FEDERATED is a federated catalog for which Athena creates the connection and the Lambda function for you based on the parame- ters that you pass. For FEDERATED type, we do not support IAM identity center. Possible values: o LAMBDA o GLUE o HIVE o FEDERATED
+    /// </summary>
     [CliOption("--type")]
-    public string? Type { get; set; }
+    public AwsAthenaCreateDataCatalogType? Type { get; private init; }
 
     /// <summary>
     /// A description of the data catalog to be created. Constraints: o min: 1 o max: 1024
@@ -51,5 +96,22 @@ public record AwsAthenaCreateDataCatalogOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

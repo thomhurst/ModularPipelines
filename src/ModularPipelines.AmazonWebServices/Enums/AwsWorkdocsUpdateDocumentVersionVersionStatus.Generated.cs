@@ -11,11 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --versionstatus.
+/// Allowed values for --version-status.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsWorkdocsUpdateDocumentVersionVersionStatus
 {
     [EnumValue("ACTIVE")]
-    Active = 1
+    Active,
+
+    [EnumValue("o")]
+    O
 }

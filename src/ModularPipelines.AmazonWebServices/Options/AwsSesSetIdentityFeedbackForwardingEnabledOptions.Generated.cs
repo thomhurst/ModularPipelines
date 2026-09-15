@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ses", "set-identity-feedback-forwarding-enabled")]
-public record AwsSesSetIdentityFeedbackForwardingEnabledOptions : AwsOptions
+public record AwsSesSetIdentityFeedbackForwardingEnabledOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--identity")]
-    public string? Identity { get; set; }
+    private readonly bool _requiresAlternateInput;
 
-    [CliFlag("--forwarding-enabled")]
-    public bool? ForwardingEnabled { get; set; }
+    /// <summary>
+    /// Given an identity (an email address or a domain), enables or disables whether Amazon SES forwards bounce and complaint notifications as email. Feedback forwarding can only be disabled when Amazon Simple No- tification Service (Amazon SNS) topics are specified for both bounces and complaints. NOTE: Feedback forwarding does not apply to delivery notifications. Deliv- ery notifications are only available through Amazon SNS. You can execute this operation no more than once per second. For more infor...
+    /// </summary>
+    /// <param name="Identity">The identity for which to set bounce and complaint notification for- warding. Examples: user@example.com , example.com .</param>
+    /// <param name="ForwardingEnabled">Sets whether Amazon SES forwards bounce and complaint notifications as email. true specifies that Amazon SES forwards bounce and com- plaint notifications as email, in addition to any Amazon SNS topic publishing otherwise specified. false specifies that Amazon SES pub- lishes bounce and complaint notifications only through Amazon SNS. This value can only be set to false when Amazon SNS topics are set for both Bounce and Complaint notification types.</param>
+    public AwsSesSetIdentityFeedbackForwardingEnabledOptions(
+        string Identity,
+        bool ForwardingEnabled
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Identity);
+        this.Identity = Identity;
+        this.ForwardingEnabled = ForwardingEnabled;
+    }
+
+    private AwsSesSetIdentityFeedbackForwardingEnabledOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSesSetIdentityFeedbackForwardingEnabledOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSesSetIdentityFeedbackForwardingEnabledOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identity for which to set bounce and complaint notification for- warding. Examples: user@example.com , example.com .
+    /// </summary>
+    [CliOption("--identity")]
+    public string? Identity { get; private init; }
+
+    /// <summary>
+    /// Sets whether Amazon SES forwards bounce and complaint notifications as email. true specifies that Amazon SES forwards bounce and com- plaint notifications as email, in addition to any Amazon SNS topic publishing otherwise specified. false specifies that Amazon SES pub- lishes bounce and complaint notifications only through Amazon SNS. This value can only be set to false when Amazon SNS topics are set for both Bounce and Complaint notification types.
+    /// </summary>
+    [CliFlag("--forwarding-enabled", NegatedName = "--no-forwarding-enabled")]
+    public bool? ForwardingEnabled { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

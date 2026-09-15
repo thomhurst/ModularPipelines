@@ -11,17 +11,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --capacitytype.
+/// Allowed values for --capacity-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsEksCreateNodegroupCapacityType
 {
+    [EnumValue("CAPACITY_BLOCK")]
+    CapacityBlock,
+
     [EnumValue("ON_DEMAND")]
-    OnDemand = 1,
+    OnDemand,
 
     [EnumValue("SPOT")]
-    Spot = 2,
-
-    [EnumValue("CAPACITY_BLOCK")]
-    CapacityBlock = 3
+    Spot
 }

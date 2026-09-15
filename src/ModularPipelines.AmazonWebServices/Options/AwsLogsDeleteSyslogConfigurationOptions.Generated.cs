@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("logs", "delete-syslog-configuration")]
-public record AwsLogsDeleteSyslogConfigurationOptions : AwsOptions
+public record AwsLogsDeleteSyslogConfigurationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Deletes a syslog configuration for a log group. After deletion, syslog data is no longer ingested through the specified VPC endpoint. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="LogGroupIdentifier">The name or ARN of the log group to remove the syslog configuration from. Constraints: o min: 1 o max: 2048 o pattern: [\w#+=/:,.@-]*</param>
+    public AwsLogsDeleteSyslogConfigurationOptions(
+        string LogGroupIdentifier
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(LogGroupIdentifier);
+        this.LogGroupIdentifier = LogGroupIdentifier;
+    }
+
+    private AwsLogsDeleteSyslogConfigurationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsLogsDeleteSyslogConfigurationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsLogsDeleteSyslogConfigurationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name or ARN of the log group to remove the syslog configuration from. Constraints: o min: 1 o max: 2048 o pattern: [\w#+=/:,.@-]*
+    /// </summary>
     [CliOption("--log-group-identifier")]
-    public string? LogGroupIdentifier { get; set; }
+    public string? LogGroupIdentifier { get; private init; }
 
     /// <summary>
     /// The ID of the VPC endpoint associated with the syslog configuration to delete. Constraints: o pattern: ^vpce-[0-9a-f]{1,64}$
@@ -35,5 +72,22 @@ public record AwsLogsDeleteSyslogConfigurationOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

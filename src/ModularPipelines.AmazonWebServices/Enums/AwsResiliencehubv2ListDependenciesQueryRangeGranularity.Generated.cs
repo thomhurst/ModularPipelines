@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --queryrangegranularity.
+/// Allowed values for --query-range-granularity.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsResiliencehubv2ListDependenciesQueryRangeGranularity
 {
-    [EnumValue("HOURLY")]
-    Hourly = 1,
-
     [EnumValue("DAILY")]
-    Daily = 2
+    Daily,
+
+    [EnumValue("HOURLY")]
+    Hourly
 }

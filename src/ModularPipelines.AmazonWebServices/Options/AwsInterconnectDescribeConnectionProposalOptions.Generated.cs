@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,68 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("interconnect", "describe-connection-proposal")]
-public record AwsInterconnectDescribeConnectionProposalOptions : AwsOptions
+public record AwsInterconnectDescribeConnectionProposalOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Describes the details of a connection proposal generated at a partner's portal. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ActivationKey">An Activation Key that was generated on a supported partner's por- tal. This key captures the desired parameters from the initial cre- ation request. Constraints: o min: 1 o max: 2048</param>
+    public AwsInterconnectDescribeConnectionProposalOptions(
+        string ActivationKey
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ActivationKey);
+        this.ActivationKey = ActivationKey;
+    }
+
+    private AwsInterconnectDescribeConnectionProposalOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsInterconnectDescribeConnectionProposalOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsInterconnectDescribeConnectionProposalOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// An Activation Key that was generated on a supported partner's por- tal. This key captures the desired parameters from the initial cre- ation request. Constraints: o min: 1 o max: 2048
+    /// </summary>
     [CliOption("--activation-key")]
-    public string? ActivationKey { get; set; }
+    public string? ActivationKey { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

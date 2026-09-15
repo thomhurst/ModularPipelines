@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,12 +20,51 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("lightsail", "delete-bucket")]
-public record AwsLightsailDeleteBucketOptions : AwsOptions
+public record AwsLightsailDeleteBucketOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--bucket-name")]
-    public string? BucketName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
-    [CliFlag("--force-delete")]
+    /// <summary>
+    /// Deletes a Amazon Lightsail bucket. NOTE: When you delete your bucket, the bucket name is released and can be reused for a new bucket in your account or another Amazon Web Ser- vices account. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="BucketName">The name of the bucket to delete. Use the GetBuckets action to get a list of bucket names that you can specify. Constraints: o min: 3 o max: 54 o pattern: ^[a-z0-9][a-z0-9-]{1,52}[a-z0-9]$</param>
+    public AwsLightsailDeleteBucketOptions(
+        string BucketName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(BucketName);
+        this.BucketName = BucketName;
+    }
+
+    private AwsLightsailDeleteBucketOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsLightsailDeleteBucketOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsLightsailDeleteBucketOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the bucket to delete. Use the GetBuckets action to get a list of bucket names that you can specify. Constraints: o min: 3 o max: 54 o pattern: ^[a-z0-9][a-z0-9-]{1,52}[a-z0-9]$
+    /// </summary>
+    [CliOption("--bucket-name")]
+    public string? BucketName { get; private init; }
+
+    /// <summary>
+    /// A Boolean value that indicates whether to force delete the bucket. You must force delete the bucket if it has one of the following con- ditions: o The bucket is the origin of a distribution. o The bucket has instances that were granted access to it using the SetResourceAccessForBucket action. o The bucket has objects. o The bucket has access keys. WARNING: Force deleting a bucket might impact other resources that rely on the bucket, such as instances, distributions, or software that use the issued access keys.
+    /// </summary>
+    [CliFlag("--force-delete", NegatedName = "--no-force-delete")]
     public bool? ForceDelete { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -32,5 +72,22 @@ public record AwsLightsailDeleteBucketOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

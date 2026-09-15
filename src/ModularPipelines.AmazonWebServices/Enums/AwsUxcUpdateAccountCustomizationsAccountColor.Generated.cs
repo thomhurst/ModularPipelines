@@ -11,38 +11,38 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --accountcolor.
+/// Allowed values for --account-color.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsUxcUpdateAccountCustomizationsAccountColor
 {
-    [EnumValue("none")]
-    None = 1,
-
-    [EnumValue("pink")]
-    Pink = 2,
-
-    [EnumValue("purple")]
-    Purple = 3,
-
     [EnumValue("darkBlue")]
-    DarkBlue = 4,
-
-    [EnumValue("lightBlue")]
-    LightBlue = 5,
-
-    [EnumValue("teal")]
-    Teal = 6,
+    DarkBlue,
 
     [EnumValue("green")]
-    Green = 7,
+    Green,
 
-    [EnumValue("yellow")]
-    Yellow = 8,
+    [EnumValue("lightBlue")]
+    LightBlue,
+
+    [EnumValue("none")]
+    None,
 
     [EnumValue("orange")]
-    Orange = 9,
+    Orange,
+
+    [EnumValue("pink")]
+    Pink,
+
+    [EnumValue("purple")]
+    Purple,
 
     [EnumValue("red")]
-    Red = 10
+    Red,
+
+    [EnumValue("teal")]
+    Teal,
+
+    [EnumValue("yellow")]
+    Yellow
 }

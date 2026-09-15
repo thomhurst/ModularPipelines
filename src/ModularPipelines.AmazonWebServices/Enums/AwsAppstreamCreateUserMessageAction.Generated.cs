@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --messageaction.
+/// Allowed values for --message-action.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsAppstreamCreateUserMessageAction
 {
-    [EnumValue("SUPPRESS")]
-    Suppress = 1,
-
     [EnumValue("RESEND")]
-    Resend = 2
+    Resend,
+
+    [EnumValue("SUPPRESS")]
+    Suppress
 }

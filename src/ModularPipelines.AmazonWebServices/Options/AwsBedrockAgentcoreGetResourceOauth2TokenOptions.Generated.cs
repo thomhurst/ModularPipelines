@@ -12,6 +12,8 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -21,21 +23,88 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bedrock-agentcore", "get-resource-oauth2-token")]
-public record AwsBedrockAgentcoreGetResourceOauth2TokenOptions : AwsOptions
+public record AwsBedrockAgentcoreGetResourceOauth2TokenOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Returns the OAuth 2.0 token of the provided resource. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="WorkloadIdentityToken">The identity token of the workload from which you want to retrieve the OAuth2 token. Constraints: o min: 1 o max: 131072</param>
+    /// <param name="ResourceCredentialProviderName">The name of the resource's credential provider. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9\-_]+</param>
+    /// <param name="Scopes">The OAuth scopes being requested. (string) Constraints: o min: 1 o max: 128 Syntax: "string" "string" ...</param>
+    /// <param name="Oauth2Flow">The type of flow to be performed. Possible values: o USER_FEDERATION o M2M o ON_BEHALF_OF_TOKEN_EXCHANGE</param>
+    public AwsBedrockAgentcoreGetResourceOauth2TokenOptions(
+        string WorkloadIdentityToken,
+        string ResourceCredentialProviderName,
+        IEnumerable<string> Scopes,
+        AwsBedrockAgentcoreGetResourceOauth2TokenOauth2Flow Oauth2Flow
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(WorkloadIdentityToken);
+        this.WorkloadIdentityToken = WorkloadIdentityToken;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceCredentialProviderName);
+        this.ResourceCredentialProviderName = ResourceCredentialProviderName;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Scopes);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Scopes));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Scopes));
+            }
+
+            Scopes = materialized;
+        }
+        this.Scopes = Scopes;
+        global::System.ArgumentNullException.ThrowIfNull(Oauth2Flow);
+        this.Oauth2Flow = Oauth2Flow;
+    }
+
+    private AwsBedrockAgentcoreGetResourceOauth2TokenOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsBedrockAgentcoreGetResourceOauth2TokenOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsBedrockAgentcoreGetResourceOauth2TokenOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identity token of the workload from which you want to retrieve the OAuth2 token. Constraints: o min: 1 o max: 131072
+    /// </summary>
     [SecretValue]
     [CliOption("--workload-identity-token")]
-    public string? WorkloadIdentityToken { get; set; }
+    public string? WorkloadIdentityToken { get; private init; }
 
-    [SecretValue]
+    /// <summary>
+    /// The name of the resource's credential provider. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9\-_]+
+    /// </summary>
     [CliOption("--resource-credential-provider-name")]
-    public string? ResourceCredentialProviderName { get; set; }
+    public string? ResourceCredentialProviderName { get; private init; }
 
+    /// <summary>
+    /// The OAuth scopes being requested. (string) Constraints: o min: 1 o max: 128 Syntax: "string" "string" ...
+    /// </summary>
     [CliOption("--scopes", GroupValues = true)]
-    public IEnumerable<string>? Scopes { get; set; }
+    public IEnumerable<string>? Scopes { get; private init; }
 
+    /// <summary>
+    /// The type of flow to be performed. Possible values: o USER_FEDERATION o M2M o ON_BEHALF_OF_TOKEN_EXCHANGE
+    /// </summary>
     [CliOption("--oauth2-flow")]
-    public string? Oauth2Flow { get; set; }
+    public AwsBedrockAgentcoreGetResourceOauth2TokenOauth2Flow? Oauth2Flow { get; private init; }
 
     /// <summary>
     /// Unique identifier for the user's authentication session for retriev- ing OAuth2 tokens. This ID tracks the authorization flow state across multiple requests and responses during the OAuth2 authentica- tion process. Constraints: o min: 1 o max: 1024 o pattern: urn:ietf:params:oauth:request_uri:[a-zA-Z0-9-._~]+
@@ -49,7 +118,10 @@ public record AwsBedrockAgentcoreGetResourceOauth2TokenOptions : AwsOptions
     [CliOption("--resource-oauth2-return-url")]
     public string? ResourceOauth2ReturnUrl { get; set; }
 
-    [CliFlag("--force-authentication")]
+    /// <summary>
+    /// Indicates whether to always initiate a new three-legged OAuth (3LO) flow, regardless of any existing session.
+    /// </summary>
+    [CliFlag("--force-authentication", NegatedName = "--no-force-authentication")]
     public bool? ForceAuthentication { get; set; }
 
     /// <summary>
@@ -81,5 +153,22 @@ public record AwsBedrockAgentcoreGetResourceOauth2TokenOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

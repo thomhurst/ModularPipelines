@@ -17,5 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsLambdaMicrovmsListMicrovmImageBuildsChipset
 {
     [EnumValue("GRAVITON")]
-    Graviton = 1
+    Graviton,
+
+    [EnumValue("o")]
+    O
 }

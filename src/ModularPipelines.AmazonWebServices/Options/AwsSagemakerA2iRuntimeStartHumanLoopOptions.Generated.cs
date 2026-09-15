@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,16 +20,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sagemaker-a2i-runtime", "start-human-loop")]
-public record AwsSagemakerA2iRuntimeStartHumanLoopOptions : AwsOptions
+public record AwsSagemakerA2iRuntimeStartHumanLoopOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Starts a human loop, provided that at least one activation condition is met. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="HumanLoopName">The name of the human loop. Constraints: o min: 1 o max: 63 o pattern: ^[a-z0-9](-*[a-z0-9])*$</param>
+    /// <param name="FlowDefinitionArn">The Amazon Resource Name (ARN) of the flow definition associated with this human loop. Constraints: o max: 1024 o pattern: arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:flow-def- inition/.*</param>
+    /// <param name="HumanLoopInput">An object that contains information about the human loop. InputContent -&gt; (string) [required] Serialized input from the human loop. The input must be a string representation of a file in JSON format. Constraints: o max: 3145728 Shorthand Syntax: InputContent=string JSON Syntax: { "InputContent": "string" }</param>
+    public AwsSagemakerA2iRuntimeStartHumanLoopOptions(
+        string HumanLoopName,
+        string FlowDefinitionArn,
+        string HumanLoopInput
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(HumanLoopName);
+        this.HumanLoopName = HumanLoopName;
+        global::System.ArgumentNullException.ThrowIfNull(FlowDefinitionArn);
+        this.FlowDefinitionArn = FlowDefinitionArn;
+        global::System.ArgumentNullException.ThrowIfNull(HumanLoopInput);
+        this.HumanLoopInput = HumanLoopInput;
+    }
+
+    private AwsSagemakerA2iRuntimeStartHumanLoopOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSagemakerA2iRuntimeStartHumanLoopOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSagemakerA2iRuntimeStartHumanLoopOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the human loop. Constraints: o min: 1 o max: 63 o pattern: ^[a-z0-9](-*[a-z0-9])*$
+    /// </summary>
     [CliOption("--human-loop-name")]
-    public string? HumanLoopName { get; set; }
+    public string? HumanLoopName { get; private init; }
 
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the flow definition associated with this human loop. Constraints: o max: 1024 o pattern: arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:flow-def- inition/.*
+    /// </summary>
     [CliOption("--flow-definition-arn")]
-    public string? FlowDefinitionArn { get; set; }
+    public string? FlowDefinitionArn { get; private init; }
 
+    /// <summary>
+    /// An object that contains information about the human loop. InputContent -&gt; (string) [required] Serialized input from the human loop. The input must be a string representation of a file in JSON format. Constraints: o max: 3145728 Shorthand Syntax: InputContent=string JSON Syntax: { "InputContent": "string" }
+    /// </summary>
     [CliOption("--human-loop-input")]
-    public string? HumanLoopInput { get; set; }
+    public string? HumanLoopInput { get; private init; }
 
     /// <summary>
     /// Attributes of the specified data. Use DataAttributes to specify if your data is free of personally identifiable information and/or free of adult content. ContentClassifiers -&gt; (list) [required] Declares that your content is free of personally identifiable information or adult content. Amazon SageMaker can restrict the Amazon Mechanical Turk workers who can view your task based on this information. Constraints: o max: 256 (string) Possible values: o FreeOfPersonallyIdentifiableInformation o FreeOfAdultContent Shorthand Syntax: ContentClassifiers=string,string JSON Syntax: { "ContentClassifiers": ["FreeOfPersonallyIdentifiableInformation"|"FreeOfAdultContent", ...] }
@@ -41,5 +92,22 @@ public record AwsSagemakerA2iRuntimeStartHumanLoopOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

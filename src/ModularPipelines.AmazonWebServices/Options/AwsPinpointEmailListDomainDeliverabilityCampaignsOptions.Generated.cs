@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,16 +21,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("pinpoint-email", "list-domain-deliverability-campaigns")]
-public record AwsPinpointEmailListDomainDeliverabilityCampaignsOptions : AwsOptions
+public record AwsPinpointEmailListDomainDeliverabilityCampaignsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Retrieve deliverability data for all the campaigns that used a specific domain to send email during a specified time range. This data is avail- able for a domain only if you enabled the Deliverability dashboard (PutDeliverabilityDashboardOption operation) for the domain. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="StartDate">The first day, in Unix time format, that you want to obtain deliver- ability data for.</param>
+    /// <param name="EndDate">The last day, in Unix time format, that you want to obtain deliver- ability data for. This value has to be less than or equal to 30 days after the value of the StartDate parameter.</param>
+    /// <param name="SubscribedDomain">The domain to obtain deliverability data for.</param>
+    public AwsPinpointEmailListDomainDeliverabilityCampaignsOptions(
+        string StartDate,
+        string EndDate,
+        string SubscribedDomain
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(StartDate);
+        this.StartDate = StartDate;
+        global::System.ArgumentNullException.ThrowIfNull(EndDate);
+        this.EndDate = EndDate;
+        global::System.ArgumentNullException.ThrowIfNull(SubscribedDomain);
+        this.SubscribedDomain = SubscribedDomain;
+    }
+
+    private AwsPinpointEmailListDomainDeliverabilityCampaignsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsPinpointEmailListDomainDeliverabilityCampaignsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsPinpointEmailListDomainDeliverabilityCampaignsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The first day, in Unix time format, that you want to obtain deliver- ability data for.
+    /// </summary>
     [CliOption("--start-date")]
-    public string? StartDate { get; set; }
+    public string? StartDate { get; private init; }
 
+    /// <summary>
+    /// The last day, in Unix time format, that you want to obtain deliver- ability data for. This value has to be less than or equal to 30 days after the value of the StartDate parameter.
+    /// </summary>
     [CliOption("--end-date")]
-    public string? EndDate { get; set; }
+    public string? EndDate { get; private init; }
 
+    /// <summary>
+    /// The domain to obtain deliverability data for.
+    /// </summary>
     [CliOption("--subscribed-domain")]
-    public string? SubscribedDomain { get; set; }
+    public string? SubscribedDomain { get; private init; }
 
     /// <summary>
     /// A token thats returned from a previous call to the ListDomainDeliv- erabilityCampaigns operation. This token indicates the position of a campaign in the list of campaigns.
@@ -49,5 +100,22 @@ public record AwsPinpointEmailListDomainDeliverabilityCampaignsOptions : AwsOpti
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

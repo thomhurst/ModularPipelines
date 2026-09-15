@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,68 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ds", "describe-ca-enrollment-policy")]
-public record AwsDsDescribeCaEnrollmentPolicyOptions : AwsOptions
+public record AwsDsDescribeCaEnrollmentPolicyOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Retrieves detailed information about the certificate authority (CA) en- rollment policy for the specified directory. This policy determines how client certificates are automatically enrolled and managed through Ama- zon Web Services Private Certificate Authority. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DirectoryId">The identifier of the directory for which to retrieve the CA enroll- ment policy information. Constraints: o pattern: ^d-[0-9a-f]{10}$</param>
+    public AwsDsDescribeCaEnrollmentPolicyOptions(
+        string DirectoryId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DirectoryId);
+        this.DirectoryId = DirectoryId;
+    }
+
+    private AwsDsDescribeCaEnrollmentPolicyOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDsDescribeCaEnrollmentPolicyOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDsDescribeCaEnrollmentPolicyOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the directory for which to retrieve the CA enroll- ment policy information. Constraints: o pattern: ^d-[0-9a-f]{10}$
+    /// </summary>
     [CliOption("--directory-id")]
-    public string? DirectoryId { get; set; }
+    public string? DirectoryId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

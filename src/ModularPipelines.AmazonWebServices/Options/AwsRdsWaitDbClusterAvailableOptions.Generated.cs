@@ -34,7 +34,10 @@ public record AwsRdsWaitDbClusterAvailableOptions : AwsOptions
     [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
-    [CliFlag("--include-shared")]
+    /// <summary>
+    /// Specifies whether the output includes information about clusters shared from other Amazon Web Services accounts.
+    /// </summary>
+    [CliFlag("--include-shared", NegatedName = "--no-include-shared")]
     public bool? IncludeShared { get; set; }
 
     [CliOption("--cli-input-json")]

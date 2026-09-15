@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("dataexchange", "create-event-action")]
-public record AwsDataexchangeCreateEventActionOptions : AwsOptions
+public record AwsDataexchangeCreateEventActionOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--action")]
-    public string? Action { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// This operation creates an event action. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Action">What occurs after a certain event. ExportRevisionToS3 -&gt; (structure) Details for the export revision to Amazon S3 action. Encryption -&gt; (structure) Encryption configuration for the auto export job. KmsKeyArn -&gt; (string) The Amazon Resource Name (ARN) of the AWS KMS key you want to use to encrypt the Amazon S3 objects. This para- meter is required if you choose aws:kms as an encryption type. Type -&gt; (string) [required] The type of server side encryption used for encrypting the objects in Amazon S3. Possible values: o aws:kms o AES256 RevisionDestination -&gt; (structure) [required] A revision destination is the Amazon S3 bucket folder desti- nation to where the export will be sent. Bucket -&gt; (string) [required] The Amazon S3 bucket that is the destination for the event action. KeyPattern -&gt; (string) A string representing the pattern for generated names of the individual assets in the revision. For more informa- tion about key patterns, see Key patterns when exporting revisions . Shorthand Syntax: ExportRevisionToS3={Encryption={KmsKeyArn=string,Type=string},RevisionDestination={Bucket=string,KeyPattern=string}} JSON Syntax: { "ExportRevisionToS3": { "Encryption": { "KmsKeyArn": "string", "Type": "aws:kms"|"AES256" }, "RevisionDestination": { "Bucket": "string", "KeyPattern": "string" } } }</param>
+    /// <param name="Event">What occurs to start an action. RevisionPublished -&gt; (structure) What occurs to start the revision publish action. DataSetId -&gt; (string) [required] The data set ID of the published revision. Constraints: o pattern: [a-zA-Z0-9]{30,40} Shorthand Syntax: RevisionPublished={DataSetId=string} JSON Syntax: { "RevisionPublished": { "DataSetId": "string" } }</param>
+    public AwsDataexchangeCreateEventActionOptions(
+        string Action,
+        string Event
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Action);
+        this.Action = Action;
+        global::System.ArgumentNullException.ThrowIfNull(Event);
+        this.Event = Event;
+    }
+
+    private AwsDataexchangeCreateEventActionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDataexchangeCreateEventActionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDataexchangeCreateEventActionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// What occurs after a certain event. ExportRevisionToS3 -&gt; (structure) Details for the export revision to Amazon S3 action. Encryption -&gt; (structure) Encryption configuration for the auto export job. KmsKeyArn -&gt; (string) The Amazon Resource Name (ARN) of the AWS KMS key you want to use to encrypt the Amazon S3 objects. This para- meter is required if you choose aws:kms as an encryption type. Type -&gt; (string) [required] The type of server side encryption used for encrypting the objects in Amazon S3. Possible values: o aws:kms o AES256 RevisionDestination -&gt; (structure) [required] A revision destination is the Amazon S3 bucket folder desti- nation to where the export will be sent. Bucket -&gt; (string) [required] The Amazon S3 bucket that is the destination for the event action. KeyPattern -&gt; (string) A string representing the pattern for generated names of the individual assets in the revision. For more informa- tion about key patterns, see Key patterns when exporting revisions . Shorthand Syntax: ExportRevisionToS3={Encryption={KmsKeyArn=string,Type=string},RevisionDestination={Bucket=string,KeyPattern=string}} JSON Syntax: { "ExportRevisionToS3": { "Encryption": { "KmsKeyArn": "string", "Type": "aws:kms"|"AES256" }, "RevisionDestination": { "Bucket": "string", "KeyPattern": "string" } } }
+    /// </summary>
+    [CliOption("--action")]
+    public string? Action { get; private init; }
+
+    /// <summary>
+    /// What occurs to start an action. RevisionPublished -&gt; (structure) What occurs to start the revision publish action. DataSetId -&gt; (string) [required] The data set ID of the published revision. Constraints: o pattern: [a-zA-Z0-9]{30,40} Shorthand Syntax: RevisionPublished={DataSetId=string} JSON Syntax: { "RevisionPublished": { "DataSetId": "string" } }
+    /// </summary>
     [CliOption("--event")]
-    public string? Event { get; set; }
+    public string? Event { get; private init; }
 
     /// <summary>
     /// Key-value pairs that you can associate with the event action. key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
@@ -39,5 +83,22 @@ public record AwsDataexchangeCreateEventActionOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

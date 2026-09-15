@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --clientaffinity.
+/// Allowed values for --client-affinity.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsGlobalacceleratorCreateListenerClientAffinity
 {
     [EnumValue("NONE")]
-    None = 1,
+    None,
 
     [EnumValue("SOURCE_IP")]
-    SourceIp = 2
+    SourceIp
 }

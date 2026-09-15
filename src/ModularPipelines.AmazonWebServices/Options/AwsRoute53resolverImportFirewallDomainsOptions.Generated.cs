@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +21,88 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("route53resolver", "import-firewall-domains")]
-public record AwsRoute53resolverImportFirewallDomainsOptions : AwsOptions
+public record AwsRoute53resolverImportFirewallDomainsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Imports domain names from a file into a domain list, for use in a DNS firewall rule group. Each domain specification in your domain list must satisfy the follow- ing requirements: o It can optionally start with * (asterisk). o With the exception of the optional starting asterisk, it must only contain the following characters: A-Z , a-z , 0-9 , - (hyphen). o It must be from 1-255 characters in length. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="FirewallDomainListId">The ID of the domain list that you want to modify with the import operation. Constraints: o min: 1 o max: 64</param>
+    /// <param name="Operation">What you want DNS Firewall to do with the domains that are listed in the file. This must be set to REPLACE , which updates the domain list to exactly match the list in the file. Possible values: o REPLACE</param>
+    /// <param name="DomainFileUrl">The fully qualified URL or URI of the file stored in Amazon Simple Storage Service (Amazon S3) that contains the list of domains to im- port. The file must be in an S3 bucket that's in the same Region as your DNS Firewall. The file must be a text file and must contain a single domain per line. Constraints: o min: 1 o max: 1024</param>
+    public AwsRoute53resolverImportFirewallDomainsOptions(
+        string FirewallDomainListId,
+        AwsRoute53resolverImportFirewallDomainsOperation Operation,
+        string DomainFileUrl
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(FirewallDomainListId);
+        this.FirewallDomainListId = FirewallDomainListId;
+        global::System.ArgumentNullException.ThrowIfNull(Operation);
+        this.Operation = Operation;
+        global::System.ArgumentNullException.ThrowIfNull(DomainFileUrl);
+        this.DomainFileUrl = DomainFileUrl;
+    }
+
+    private AwsRoute53resolverImportFirewallDomainsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRoute53resolverImportFirewallDomainsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRoute53resolverImportFirewallDomainsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the domain list that you want to modify with the import operation. Constraints: o min: 1 o max: 64
+    /// </summary>
     [CliOption("--firewall-domain-list-id")]
-    public string? FirewallDomainListId { get; set; }
+    public string? FirewallDomainListId { get; private init; }
 
+    /// <summary>
+    /// What you want DNS Firewall to do with the domains that are listed in the file. This must be set to REPLACE , which updates the domain list to exactly match the list in the file. Possible values: o REPLACE
+    /// </summary>
     [CliOption("--operation")]
-    public string? Operation { get; set; }
+    public AwsRoute53resolverImportFirewallDomainsOperation? Operation { get; private init; }
 
+    /// <summary>
+    /// The fully qualified URL or URI of the file stored in Amazon Simple Storage Service (Amazon S3) that contains the list of domains to im- port. The file must be in an S3 bucket that's in the same Region as your DNS Firewall. The file must be a text file and must contain a single domain per line. Constraints: o min: 1 o max: 1024
+    /// </summary>
     [CliOption("--domain-file-url")]
-    public string? DomainFileUrl { get; set; }
+    public string? DomainFileUrl { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

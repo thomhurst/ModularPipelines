@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("accessanalyzer", "get-finding")]
-public record AwsAccessanalyzerGetFindingOptions : AwsOptions
+public record AwsAccessanalyzerGetFindingOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--analyzer-arn")]
-    public string? AnalyzerArn { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Retrieves information about the specified finding. GetFinding and GetFindingV2 both use access-analyzer:GetFinding in the Action element of an IAM policy statement. You must have permission to perform the ac- cess-analyzer:GetFinding action. NOTE: GetFinding is supported only for external access analyzers. You must use GetFindingV2 for internal and unused access analyzers. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="AnalyzerArn">The ARN of the analyzer that generated the finding. Constraints: o pattern: [^:]*:[^:]*:[^:]*:[^:]*:[^:]*:analyzer/.{1,255}</param>
+    /// <param name="Id">The ID of the finding to retrieve.</param>
+    public AwsAccessanalyzerGetFindingOptions(
+        string AnalyzerArn,
+        string Id
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AnalyzerArn);
+        this.AnalyzerArn = AnalyzerArn;
+        global::System.ArgumentNullException.ThrowIfNull(Id);
+        this.Id = Id;
+    }
+
+    private AwsAccessanalyzerGetFindingOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsAccessanalyzerGetFindingOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsAccessanalyzerGetFindingOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ARN of the analyzer that generated the finding. Constraints: o pattern: [^:]*:[^:]*:[^:]*:[^:]*:[^:]*:analyzer/.{1,255}
+    /// </summary>
+    [CliOption("--analyzer-arn")]
+    public string? AnalyzerArn { get; private init; }
+
+    /// <summary>
+    /// The ID of the finding to retrieve.
+    /// </summary>
     [CliOption("--id")]
-    public string? Id { get; set; }
+    public string? Id { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

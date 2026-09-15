@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,19 +21,79 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("s3tables", "delete-table-replication")]
-public record AwsS3tablesDeleteTableReplicationOptions : AwsOptions
+public record AwsS3tablesDeleteTableReplicationOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--table-arn")]
-    public string? TableArn { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Deletes the replication configuration for a specific table. After dele- tion, new updates to this table will no longer be replicated to desti- nation tables, though existing replicated copies will remain in desti- nation buckets. Permissions You must have the s3tables:DeleteTableReplication permission to use this operation. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="TableArn">The Amazon Resource Name (ARN) of the table. Constraints: o min: 1 o max: 2048 o pattern: (arn:aws[-a-z0-9]*:[a-z0-9]+:[-a-z0-9]*:[0-9]{12}:bucket/[a-z0-9_-]{3,63}/ta- ble/[a-zA-Z0-9-_]{1,255})</param>
+    /// <param name="VersionToken">A version token from a previous GetTableReplication call. Use this token to ensure you're deleting the expected version of the configu- ration.</param>
+    public AwsS3tablesDeleteTableReplicationOptions(
+        string TableArn,
+        string VersionToken
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(TableArn);
+        this.TableArn = TableArn;
+        global::System.ArgumentNullException.ThrowIfNull(VersionToken);
+        this.VersionToken = VersionToken;
+    }
+
+    private AwsS3tablesDeleteTableReplicationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsS3tablesDeleteTableReplicationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsS3tablesDeleteTableReplicationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the table. Constraints: o min: 1 o max: 2048 o pattern: (arn:aws[-a-z0-9]*:[a-z0-9]+:[-a-z0-9]*:[0-9]{12}:bucket/[a-z0-9_-]{3,63}/ta- ble/[a-zA-Z0-9-_]{1,255})
+    /// </summary>
+    [CliOption("--table-arn")]
+    public string? TableArn { get; private init; }
+
+    /// <summary>
+    /// A version token from a previous GetTableReplication call. Use this token to ensure you're deleting the expected version of the configu- ration.
+    /// </summary>
     [SecretValue]
     [CliOption("--version-token")]
-    public string? VersionToken { get; set; }
+    public string? VersionToken { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -22,27 +22,82 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsGeoMapsGetTileOptions : AwsOptions
 {
     /// <summary>
+    /// GetTile returns a tile. Map tiles are used by clients to render a map. They're addressed using a grid arrangement with an X coordi- nate, Y coordinate, and Z (zoom) level. For more information, see Tiles in the Amazon Location Service Devel- oper Guide . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Tileset">Specifies the desired tile set. For GrabMaps customers, ap-south- east-1 and ap-southeast-5 regions support only the vector.basemap value. Valid Values: raster.satellite | vector.basemap | vector.traffic | raster.dem Constraints: o min: 1 o max: 100 o pattern: [-.\w]+</param>
+    /// <param name="Z">The zoom value for the map tile. Constraints: o min: 0 o max: 2 o pattern: .*\d+.*</param>
+    /// <param name="X">The X axis value for the map tile. Constraints: o min: 0 o max: 7 o pattern: .*\d+.*</param>
+    /// <param name="Y">The Y axis value for the map tile. Constraints: o min: 0 o max: 7 o pattern: .*\d+.*</param>
+    /// <param name="Outfile">The &lt;outfile&gt; operand.</param>
+    public AwsGeoMapsGetTileOptions(
+        string Tileset,
+        string Z,
+        string X,
+        string Y,
+        string Outfile
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Tileset);
+        this.Tileset = Tileset;
+        global::System.ArgumentNullException.ThrowIfNull(Z);
+        this.Z = Z;
+        global::System.ArgumentNullException.ThrowIfNull(X);
+        this.X = X;
+        global::System.ArgumentNullException.ThrowIfNull(Y);
+        this.Y = Y;
+        global::System.ArgumentNullException.ThrowIfNull(Outfile);
+        this.Outfile = Outfile;
+    }
+
+    public void Deconstruct(out string Tileset, out string Z, out string X, out string Y, out string Outfile)
+    {
+        Tileset = this.Tileset;
+        Z = this.Z;
+        X = this.X;
+        Y = this.Y;
+        Outfile = this.Outfile;
+    }
+
+    /// <summary>
+    /// Specifies the desired tile set. For GrabMaps customers, ap-south- east-1 and ap-southeast-5 regions support only the vector.basemap value. Valid Values: raster.satellite | vector.basemap | vector.traffic | raster.dem Constraints: o min: 1 o max: 100 o pattern: [-.\w]+
+    /// </summary>
+    [CliOption("--tileset")]
+    public string Tileset { get; private init; }
+
+    /// <summary>
+    /// The zoom value for the map tile. Constraints: o min: 0 o max: 2 o pattern: .*\d+.*
+    /// </summary>
+    [CliOption("--z")]
+    public string Z { get; private init; }
+
+    /// <summary>
+    /// The X axis value for the map tile. Constraints: o min: 0 o max: 7 o pattern: .*\d+.*
+    /// </summary>
+    [CliOption("--x")]
+    public string X { get; private init; }
+
+    /// <summary>
+    /// The Y axis value for the map tile. Constraints: o min: 0 o max: 7 o pattern: .*\d+.*
+    /// </summary>
+    [CliOption("--y")]
+    public string Y { get; private init; }
+
+    /// <summary>
     /// A list of optional additional parameters such as map styles that can be requested for each result. Not supported in ap-southeast-1 and ap-southeast-5 regions for GrabMaps customers. Constraints: o min: 0 o max: 4 (string) Possible values: o ContourLines o Hillshade o Logistics o Transit Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--additional-features", GroupValues = true)]
     public IEnumerable<string>? AdditionalFeatures { get; set; }
-
-    [CliOption("--tileset")]
-    public string? Tileset { get; set; }
-
-    [CliOption("--z")]
-    public string? Z { get; set; }
-
-    [CliOption("--x")]
-    public string? X { get; set; }
-
-    [CliOption("--y")]
-    public string? Y { get; set; }
 
     /// <summary>
     /// Optional: The API key to be used for authorization. Either an API key or valid SigV4 signature must be provided when making a request. Constraints: o min: 0 o max: 1000 outfile (string) [required] Filename where the content will be saved
     /// </summary>
     [CliOption("--key")]
     public string? Key { get; set; }
+
+    /// <summary>
+    /// The &lt;outfile&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string Outfile { get; private init; }
 
 }

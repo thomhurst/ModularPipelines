@@ -12,6 +12,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -21,22 +22,86 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("emr-containers", "create-managed-endpoint")]
-public record AwsEmrContainersCreateManagedEndpointOptions : AwsOptions
+public record AwsEmrContainersCreateManagedEndpointOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a managed endpoint. A managed endpoint is a gateway that con- nects Amazon EMR Studio to Amazon EMR on EKS so that Amazon EMR Studio can communicate with your virtual cluster. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Name">The name of the managed endpoint. Constraints: o min: 1 o max: 64 o pattern: [\.\-_/#A-Za-z0-9]+</param>
+    /// <param name="VirtualClusterId">The ID of the virtual cluster for which a managed endpoint is cre- ated. Constraints: o min: 1 o max: 64 o pattern: [0-9a-z]+</param>
+    /// <param name="Type">The type of the managed endpoint. Constraints: o min: 1 o max: 64 o pattern: .*\S.*</param>
+    /// <param name="ReleaseLabel">The Amazon EMR release version. Constraints: o min: 1 o max: 64 o pattern: [\.\-_/A-Za-z0-9]+</param>
+    /// <param name="ExecutionRoleArn">The ARN of the execution role. Constraints: o min: 20 o max: 2048 o pattern: ^arn:(aws[a-zA-Z0-9-]*):iam::(\d{12})?:(role((\u002F)|(\u002F[\u0021-\u007F]+\u002F))[\w+=,.@-]+)$</param>
+    public AwsEmrContainersCreateManagedEndpointOptions(
+        string Name,
+        string VirtualClusterId,
+        string Type,
+        string ReleaseLabel,
+        string ExecutionRoleArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(VirtualClusterId);
+        this.VirtualClusterId = VirtualClusterId;
+        global::System.ArgumentNullException.ThrowIfNull(Type);
+        this.Type = Type;
+        global::System.ArgumentNullException.ThrowIfNull(ReleaseLabel);
+        this.ReleaseLabel = ReleaseLabel;
+        global::System.ArgumentNullException.ThrowIfNull(ExecutionRoleArn);
+        this.ExecutionRoleArn = ExecutionRoleArn;
+    }
+
+    private AwsEmrContainersCreateManagedEndpointOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEmrContainersCreateManagedEndpointOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEmrContainersCreateManagedEndpointOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the managed endpoint. Constraints: o min: 1 o max: 64 o pattern: [\.\-_/#A-Za-z0-9]+
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
 
+    /// <summary>
+    /// The ID of the virtual cluster for which a managed endpoint is cre- ated. Constraints: o min: 1 o max: 64 o pattern: [0-9a-z]+
+    /// </summary>
     [CliOption("--virtual-cluster-id")]
-    public string? VirtualClusterId { get; set; }
+    public string? VirtualClusterId { get; private init; }
 
+    /// <summary>
+    /// The type of the managed endpoint. Constraints: o min: 1 o max: 64 o pattern: .*\S.*
+    /// </summary>
     [CliOption("--type")]
-    public string? Type { get; set; }
+    public string? Type { get; private init; }
 
+    /// <summary>
+    /// The Amazon EMR release version. Constraints: o min: 1 o max: 64 o pattern: [\.\-_/A-Za-z0-9]+
+    /// </summary>
     [CliOption("--release-label")]
-    public string? ReleaseLabel { get; set; }
+    public string? ReleaseLabel { get; private init; }
 
+    /// <summary>
+    /// The ARN of the execution role. Constraints: o min: 20 o max: 2048 o pattern: ^arn:(aws[a-zA-Z0-9-]*):iam::(\d{12})?:(role((\u002F)|(\u002F[\u0021-\u007F]+\u002F))[\w+=,.@-]+)$
+    /// </summary>
     [CliOption("--execution-role-arn")]
-    public string? ExecutionRoleArn { get; set; }
+    public string? ExecutionRoleArn { get; private init; }
 
     /// <summary>
     /// The certificate ARN provided by users for the managed endpoint. This field is under deprecation and will be removed in future releases. Constraints: o min: 44 o max: 2048 o pattern: ^arn:(aws[a-zA-Z0-9-]*):acm:.+:(\d{12}):certificate/.+$
@@ -74,5 +139,22 @@ public record AwsEmrContainersCreateManagedEndpointOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

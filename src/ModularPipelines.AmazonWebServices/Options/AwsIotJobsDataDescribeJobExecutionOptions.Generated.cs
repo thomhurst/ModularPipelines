@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,61 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iot-jobs-data", "describe-job-execution")]
-public record AwsIotJobsDataDescribeJobExecutionOptions : AwsOptions
+public record AwsIotJobsDataDescribeJobExecutionOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Gets details of a job execution. Requires permission to access the DescribeJobExecution action. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="JobId">The unique identifier assigned to this job when it was created. Constraints: o pattern: [a-zA-Z0-9_-]+|^\$next</param>
+    /// <param name="ThingName">The thing name associated with the device the job execution is run- ning on. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9:_-]+</param>
+    public AwsIotJobsDataDescribeJobExecutionOptions(
+        string JobId,
+        string ThingName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(JobId);
+        this.JobId = JobId;
+        global::System.ArgumentNullException.ThrowIfNull(ThingName);
+        this.ThingName = ThingName;
+    }
+
+    private AwsIotJobsDataDescribeJobExecutionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsIotJobsDataDescribeJobExecutionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsIotJobsDataDescribeJobExecutionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier assigned to this job when it was created. Constraints: o pattern: [a-zA-Z0-9_-]+|^\$next
+    /// </summary>
     [CliOption("--job-id")]
-    public string? JobId { get; set; }
+    public string? JobId { get; private init; }
 
+    /// <summary>
+    /// The thing name associated with the device the job execution is run- ning on. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9:_-]+
+    /// </summary>
     [CliOption("--thing-name")]
-    public string? ThingName { get; set; }
+    public string? ThingName { get; private init; }
 
-    [CliFlag("--include-job-document")]
+    /// <summary>
+    /// Optional. Unless set to false, the response contains the job docu- ment. The default is true.
+    /// </summary>
+    [CliFlag("--include-job-document", NegatedName = "--no-include-job-document")]
     public bool? IncludeJobDocument { get; set; }
 
     /// <summary>
@@ -41,5 +88,22 @@ public record AwsIotJobsDataDescribeJobExecutionOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

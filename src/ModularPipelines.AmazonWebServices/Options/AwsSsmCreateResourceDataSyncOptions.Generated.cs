@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ssm", "create-resource-data-sync")]
-public record AwsSsmCreateResourceDataSyncOptions : AwsOptions
+public record AwsSsmCreateResourceDataSyncOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// A resource data sync helps you view data from multiple sources in a single location. Amazon Web Services Systems Manager offers two types of resource data sync: SyncToDestination and SyncFromSource . You can configure Systems Manager Inventory to use the SyncToDestina- tion type to synchronize Inventory data from multiple Amazon Web Ser- vices Regions to a single Amazon Simple Storage Service (Amazon S3) bucket. For more information, see Creating a resource data sync for In- ventory in the Amazo...
+    /// </summary>
+    /// <param name="SyncName">A name for the configuration. Constraints: o min: 1 o max: 64</param>
+    public AwsSsmCreateResourceDataSyncOptions(
+        string SyncName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SyncName);
+        this.SyncName = SyncName;
+    }
+
+    private AwsSsmCreateResourceDataSyncOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSsmCreateResourceDataSyncOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSsmCreateResourceDataSyncOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A name for the configuration. Constraints: o min: 1 o max: 64
+    /// </summary>
     [CliOption("--sync-name")]
-    public string? SyncName { get; set; }
+    public string? SyncName { get; private init; }
 
     /// <summary>
     /// Amazon S3 configuration details for the sync. This parameter is re- quired if the SyncType value is SyncToDestination. BucketName -&gt; (string) [required] The name of the S3 bucket where the aggregated data is stored. Constraints: o min: 1 o max: 2048 Prefix -&gt; (string) An Amazon S3 prefix for the bucket. Constraints: o min: 1 o max: 256 SyncFormat -&gt; (string) [required] A supported sync format. The following format is currently sup- ported: JsonSerDe Possible values: o JsonSerDe Region -&gt; (string) [required] The Amazon Web Services Region with the S3 bucket targeted by the resource data sync. Constraints: o min: 1 o max: 64 AWSKMSKeyARN -&gt; (string) The ARN of an encryption key for a destination in Amazon S3. Must belong to the same Region as the destination S3 bucket. Constraints: o min: 1 o max: 512 o pattern: arn:.* DestinationDataSharing -&gt; (structure) Enables destination data sharing. By default, this field is null . DestinationDataSharingType -&gt; (string) The sharing data type. Only Organization is supported. Constraints: o min: 1 o max: 64 Shorthand Syntax: BucketName=string,Prefix=string,SyncFormat=string,Region=string,AWSKMSKeyARN=string,DestinationDataSharing={DestinationDataSharingType=string} JSON Syntax: { "BucketName": "string", "Prefix": "string", "SyncFormat": "JsonSerDe", "Region": "string", "AWSKMSKeyARN": "string", "DestinationDataSharing": { "DestinationDataSharingType": "string" } }
@@ -47,5 +84,22 @@ public record AwsSsmCreateResourceDataSyncOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -11,6 +11,8 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +22,76 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("schemas", "create-schema")]
-public record AwsSchemasCreateSchemaOptions : AwsOptions
+public record AwsSchemasCreateSchemaOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a schema definition. NOTE: Inactive schemas will be deleted after two years. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Content">The source of the schema definition. Constraints: o min: 1 o max: 100000</param>
+    /// <param name="RegistryName">The name of the registry.</param>
+    /// <param name="SchemaName">The name of the schema.</param>
+    /// <param name="Type">The type of schema. Possible values: o OpenApi3 o JSONSchemaDraft4</param>
+    public AwsSchemasCreateSchemaOptions(
+        string Content,
+        string RegistryName,
+        string SchemaName,
+        AwsSchemasCreateSchemaType Type
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Content);
+        this.Content = Content;
+        global::System.ArgumentNullException.ThrowIfNull(RegistryName);
+        this.RegistryName = RegistryName;
+        global::System.ArgumentNullException.ThrowIfNull(SchemaName);
+        this.SchemaName = SchemaName;
+        global::System.ArgumentNullException.ThrowIfNull(Type);
+        this.Type = Type;
+    }
+
+    private AwsSchemasCreateSchemaOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSchemasCreateSchemaOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSchemasCreateSchemaOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The source of the schema definition. Constraints: o min: 1 o max: 100000
+    /// </summary>
     [CliOption("--content")]
-    public string? Content { get; set; }
+    public string? Content { get; private init; }
+
+    /// <summary>
+    /// The name of the registry.
+    /// </summary>
+    [CliOption("--registry-name")]
+    public string? RegistryName { get; private init; }
+
+    /// <summary>
+    /// The name of the schema.
+    /// </summary>
+    [CliOption("--schema-name")]
+    public string? SchemaName { get; private init; }
+
+    /// <summary>
+    /// The type of schema. Possible values: o OpenApi3 o JSONSchemaDraft4
+    /// </summary>
+    [CliOption("--type")]
+    public AwsSchemasCreateSchemaType? Type { get; private init; }
 
     /// <summary>
     /// A description of the schema. Constraints: o min: 0 o max: 256
@@ -31,25 +99,33 @@ public record AwsSchemasCreateSchemaOptions : AwsOptions
     [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CliOption("--registry-name")]
-    public string? RegistryName { get; set; }
-
-    [CliOption("--schema-name")]
-    public string? SchemaName { get; set; }
-
     /// <summary>
     /// Tags associated with the schema. key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
-    [CliOption("--type")]
-    public string? Type { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

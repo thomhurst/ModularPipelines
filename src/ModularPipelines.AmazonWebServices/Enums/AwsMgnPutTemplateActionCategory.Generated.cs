@@ -16,36 +16,36 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsMgnPutTemplateActionCategory
 {
-    [EnumValue("DISASTER_RECOVERY")]
-    DisasterRecovery = 1,
-
-    [EnumValue("OPERATING_SYSTEM")]
-    OperatingSystem = 2,
-
-    [EnumValue("LICENSE_AND_SUBSCRIPTION")]
-    LicenseAndSubscription = 3,
-
-    [EnumValue("VALIDATION")]
-    Validation = 4,
-
-    [EnumValue("OBSERVABILITY")]
-    Observability = 5,
-
-    [EnumValue("REFACTORING")]
-    Refactoring = 6,
-
-    [EnumValue("SECURITY")]
-    Security = 7,
-
-    [EnumValue("NETWORKING")]
-    Networking = 8,
+    [EnumValue("BACKUP")]
+    Backup,
 
     [EnumValue("CONFIGURATION")]
-    Configuration = 9,
+    Configuration,
 
-    [EnumValue("BACKUP")]
-    Backup = 10,
+    [EnumValue("DISASTER_RECOVERY")]
+    DisasterRecovery,
+
+    [EnumValue("LICENSE_AND_SUBSCRIPTION")]
+    LicenseAndSubscription,
+
+    [EnumValue("NETWORKING")]
+    Networking,
+
+    [EnumValue("OBSERVABILITY")]
+    Observability,
+
+    [EnumValue("OPERATING_SYSTEM")]
+    OperatingSystem,
 
     [EnumValue("OTHER")]
-    Other = 11
+    Other,
+
+    [EnumValue("REFACTORING")]
+    Refactoring,
+
+    [EnumValue("SECURITY")]
+    Security,
+
+    [EnumValue("VALIDATION")]
+    Validation
 }

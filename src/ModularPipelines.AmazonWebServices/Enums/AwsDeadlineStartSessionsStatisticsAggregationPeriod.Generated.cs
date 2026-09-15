@@ -16,15 +16,15 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsDeadlineStartSessionsStatisticsAggregationPeriod
 {
-    [EnumValue("HOURLY")]
-    Hourly = 1,
-
     [EnumValue("DAILY")]
-    Daily = 2,
+    Daily,
 
-    [EnumValue("WEEKLY")]
-    Weekly = 3,
+    [EnumValue("HOURLY")]
+    Hourly,
 
     [EnumValue("MONTHLY")]
-    Monthly = 4
+    Monthly,
+
+    [EnumValue("WEEKLY")]
+    Weekly
 }

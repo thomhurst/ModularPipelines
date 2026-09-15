@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("s3api", "get-bucket-cors")]
-public record AwsS3apiGetBucketCorsOptions : AwsOptions
+public record AwsS3apiGetBucketCorsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// NOTE: This operation is not supported for directory buckets. Returns the Cross-Origin Resource Sharing (CORS) configuration informa- tion set for the bucket. To use this operation, you must have permission to perform the s3:Get- BucketCORS action. By default, the bucket owner has this permission and can grant it to others. When you use this API operation with an access point, provide the alias of the access point in place of the bucket name. When you use this API operation with an Object Lambda ...
+    /// </summary>
+    /// <param name="Bucket">The bucket name for which to get the cors configuration. When you use this API operation with an access point, provide the alias of the access point in place of the bucket name. When you use this API operation with an Object Lambda access point, provide the alias of the Object Lambda access point in place of the bucket name. If the Object Lambda access point alias in a request is not valid, the error code InvalidAccessPointAliasError is returned. For more information about InvalidAccessPointAliasError , see List of Error Codes .</param>
+    public AwsS3apiGetBucketCorsOptions(
+        string Bucket
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Bucket);
+        this.Bucket = Bucket;
+    }
+
+    private AwsS3apiGetBucketCorsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsS3apiGetBucketCorsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsS3apiGetBucketCorsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The bucket name for which to get the cors configuration. When you use this API operation with an access point, provide the alias of the access point in place of the bucket name. When you use this API operation with an Object Lambda access point, provide the alias of the Object Lambda access point in place of the bucket name. If the Object Lambda access point alias in a request is not valid, the error code InvalidAccessPointAliasError is returned. For more information about InvalidAccessPointAliasError , see List of Error Codes .
+    /// </summary>
     [CliOption("--bucket")]
-    public string? Bucket { get; set; }
+    public string? Bucket { get; private init; }
 
     /// <summary>
     /// The account ID of the expected bucket owner. If the account ID that you provide does not match the actual owner of the bucket, the re- quest fails with the HTTP status code 403 Forbidden (access denied).
@@ -35,5 +72,22 @@ public record AwsS3apiGetBucketCorsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

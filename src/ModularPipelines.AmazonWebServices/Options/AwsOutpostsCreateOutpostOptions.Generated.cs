@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,19 +22,62 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("outposts", "create-outpost")]
-public record AwsOutpostsCreateOutpostOptions : AwsOptions
+public record AwsOutpostsCreateOutpostOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates an Outpost. You can specify either an Availability one or an AZ ID. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Name">The name of the Outpost. Constraints: o min: 1 o max: 255 o pattern: ^[\S ]+$</param>
+    /// <param name="SiteId">The ID or the Amazon Resource Name (ARN) of the site. Constraints: o min: 1 o max: 255 o pattern: ^(arn:aws([a-z-]+)?:out- posts:[a-z\d-]+:\d{12}:site/)?(os-[a-f0-9]{17})$</param>
+    public AwsOutpostsCreateOutpostOptions(
+        string Name,
+        string SiteId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(SiteId);
+        this.SiteId = SiteId;
+    }
+
+    private AwsOutpostsCreateOutpostOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsOutpostsCreateOutpostOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsOutpostsCreateOutpostOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the Outpost. Constraints: o min: 1 o max: 255 o pattern: ^[\S ]+$
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
+
+    /// <summary>
+    /// The ID or the Amazon Resource Name (ARN) of the site. Constraints: o min: 1 o max: 255 o pattern: ^(arn:aws([a-z-]+)?:out- posts:[a-z\d-]+:\d{12}:site/)?(os-[a-f0-9]{17})$
+    /// </summary>
+    [CliOption("--site-id")]
+    public string? SiteId { get; private init; }
 
     /// <summary>
     /// The description of the Outpost. Constraints: o min: 0 o max: 1000 o pattern: ^[\S ]*$
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
-
-    [CliOption("--site-id")]
-    public string? SiteId { get; set; }
 
     /// <summary>
     /// The Availability Zone. Constraints: o min: 1 o max: 1000 o pattern: ^([a-zA-Z]+-){1,3}([a-zA-Z]+)?(\d+[a-zA-Z]?)?$
@@ -64,5 +108,22 @@ public record AwsOutpostsCreateOutpostOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

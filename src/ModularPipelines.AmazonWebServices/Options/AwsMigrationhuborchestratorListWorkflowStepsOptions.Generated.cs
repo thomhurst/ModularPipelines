@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("migrationhuborchestrator", "list-workflow-steps")]
-public record AwsMigrationhuborchestratorListWorkflowStepsOptions : AwsOptions
+public record AwsMigrationhuborchestratorListWorkflowStepsOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--workflow-id")]
-    public string? WorkflowId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// List the steps in a workflow. See also: AWS API Documentation list-workflow-steps is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: workflowStepsSummary
+    /// </summary>
+    /// <param name="WorkflowId">The ID of the migration workflow. Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z0-9-]+</param>
+    /// <param name="StepGroupId">The ID of the step group. Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z0-9-]+</param>
+    public AwsMigrationhuborchestratorListWorkflowStepsOptions(
+        string WorkflowId,
+        string StepGroupId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(WorkflowId);
+        this.WorkflowId = WorkflowId;
+        global::System.ArgumentNullException.ThrowIfNull(StepGroupId);
+        this.StepGroupId = StepGroupId;
+    }
+
+    private AwsMigrationhuborchestratorListWorkflowStepsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsMigrationhuborchestratorListWorkflowStepsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsMigrationhuborchestratorListWorkflowStepsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the migration workflow. Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z0-9-]+
+    /// </summary>
+    [CliOption("--workflow-id")]
+    public string? WorkflowId { get; private init; }
+
+    /// <summary>
+    /// The ID of the step group. Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z0-9-]+
+    /// </summary>
     [CliOption("--step-group-id")]
-    public string? StepGroupId { get; set; }
+    public string? StepGroupId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
@@ -52,5 +96,22 @@ public record AwsMigrationhuborchestratorListWorkflowStepsOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

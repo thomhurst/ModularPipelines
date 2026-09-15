@@ -11,20 +11,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --resourcestate.
+/// Allowed values for --resource-state.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsWorkdocsUpdateFolderResourceState
 {
     [EnumValue("ACTIVE")]
-    Active = 1,
-
-    [EnumValue("RESTORING")]
-    Restoring = 2,
-
-    [EnumValue("RECYCLING")]
-    Recycling = 3,
+    Active,
 
     [EnumValue("RECYCLED")]
-    Recycled = 4
+    Recycled,
+
+    [EnumValue("RECYCLING")]
+    Recycling,
+
+    [EnumValue("RESTORING")]
+    Restoring
 }

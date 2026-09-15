@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,10 +21,67 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ecr", "create-repository-creation-template")]
-public record AwsEcrCreateRepositoryCreationTemplateOptions : AwsOptions
+public record AwsEcrCreateRepositoryCreationTemplateOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a repository creation template. This template is used to define the settings for repositories created by Amazon ECR on your behalf. For example, repositories created through pull through cache actions. For more information, see Private repository creation templates in the Ama- zon Elastic Container Registry User Guide . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Prefix">The repository namespace prefix to associate with the template. All repositories created using this namespace prefix will have the set- tings defined in this template applied. For example, a prefix of prod would apply to all repositories beginning with prod/ . Simi- larly, a prefix of prod/team would apply to all repositories begin- ning with prod/team/ . To apply a template to all repositories in your registry that don't have an associated creation template, you can use ROOT as the pre- fix. WARNING: There is always an assumed / applied to the end of the prefix. If you specify ecr-public as the prefix, Amazon ECR treats that as ecr-public/ . When using a pull through cache rule, the repository prefix you specify during rule creation is what you should specify as your repository creation template prefix as well. Constraints: o min: 1 o max: 256 o pattern: ^([a-z0-9]+((\.|_|__|-+)[a-z0-9]+)*(\/[a-z0-9]+((\.|_|__|-+)[a-z0-9]+)*)*\/?|ROOT)$</param>
+    /// <param name="AppliedFor">A list of enumerable strings representing the Amazon ECR repository creation scenarios that this template will apply towards. The sup- ported scenarios are PULL_THROUGH_CACHE , REPLICATION , and CRE- ATE_ON_PUSH (string) Possible values: o REPLICATION o PULL_THROUGH_CACHE o CREATE_ON_PUSH Syntax: "string" "string" ...</param>
+    public AwsEcrCreateRepositoryCreationTemplateOptions(
+        string Prefix,
+        IEnumerable<string> AppliedFor
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Prefix);
+        this.Prefix = Prefix;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(AppliedFor);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(AppliedFor));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(AppliedFor));
+            }
+
+            AppliedFor = materialized;
+        }
+        this.AppliedFor = AppliedFor;
+    }
+
+    private AwsEcrCreateRepositoryCreationTemplateOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEcrCreateRepositoryCreationTemplateOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEcrCreateRepositoryCreationTemplateOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The repository namespace prefix to associate with the template. All repositories created using this namespace prefix will have the set- tings defined in this template applied. For example, a prefix of prod would apply to all repositories beginning with prod/ . Simi- larly, a prefix of prod/team would apply to all repositories begin- ning with prod/team/ . To apply a template to all repositories in your registry that don't have an associated creation template, you can use ROOT as the pre- fix. WARNING: There is always an assumed / applied to the end of the prefix. If you specify ecr-public as the prefix, Amazon ECR treats that as ecr-public/ . When using a pull through cache rule, the repository prefix you specify during rule creation is what you should specify as your repository creation template prefix as well. Constraints: o min: 1 o max: 256 o pattern: ^([a-z0-9]+((\.|_|__|-+)[a-z0-9]+)*(\/[a-z0-9]+((\.|_|__|-+)[a-z0-9]+)*)*\/?|ROOT)$
+    /// </summary>
     [CliOption("--prefix")]
-    public string? Prefix { get; set; }
+    public string? Prefix { get; private init; }
+
+    /// <summary>
+    /// A list of enumerable strings representing the Amazon ECR repository creation scenarios that this template will apply towards. The sup- ported scenarios are PULL_THROUGH_CACHE , REPLICATION , and CRE- ATE_ON_PUSH (string) Possible values: o REPLICATION o PULL_THROUGH_CACHE o CREATE_ON_PUSH Syntax: "string" "string" ...
+    /// </summary>
+    [CliOption("--applied-for", GroupValues = true)]
+    public IEnumerable<string>? AppliedFor { get; private init; }
 
     /// <summary>
     /// A description for the repository creation template. Constraints: o max: 256
@@ -67,9 +125,6 @@ public record AwsEcrCreateRepositoryCreationTemplateOptions : AwsOptions
     [CliOption("--lifecycle-policy")]
     public string? LifecyclePolicy { get; set; }
 
-    [CliOption("--applied-for", GroupValues = true)]
-    public IEnumerable<string>? AppliedFor { get; set; }
-
     /// <summary>
     /// The ARN of the role to be assumed by Amazon ECR. This role must be in the same account as the registry that you are configuring. Amazon ECR will assume your supplied role when the customRoleArn is speci- fied. When this field isn't specified, Amazon ECR will use the ser- vice-linked role for the repository creation template. Constraints: o max: 2048
     /// </summary>
@@ -81,5 +136,22 @@ public record AwsEcrCreateRepositoryCreationTemplateOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -12,6 +12,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -21,16 +22,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("application-signals", "list-entity-events")]
-public record AwsApplicationSignalsListEntityEventsOptions : AwsOptions
+public record AwsApplicationSignalsListEntityEventsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Returns a list of change events for a specific entity, such as deploy- ments, configuration changes, or other state-changing activities. This operation helps track the history of changes that may have affected service performance. See also: AWS API Documentation list-entity-events is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --que...
+    /// </summary>
+    /// <param name="Entity">The entity for which to retrieve change events. This specifies the service, resource, or other entity whose event history you want to examine. This is a string-to-string map. It can include the following fields. o Type designates the type of object this is. o ResourceType specifies the type of the resource. This field is used only when the value of the Type field is Resource or AWS::Re- source . o Name specifies the name of the object. This is used only if the value of the Type field is Service , RemoteService , or AWS::Ser- vice . o Identifier identifies the resource objects of this resource. This is used only if the value of the Type field is Resource or AWS::Resource . o Environment specifies the location where this object is hosted, or what it belongs to. o AwsAccountId specifies the account where this object is in. Below is an example of a service. { "Type": "Service", "Name": "visits-service", "Environment": "petclinic-test" } Below is an example of a resource. { "Type": "AWS::Resource", "ResourceType": "AWS::DynamoDB::Ta- ble", "Identifier": "Customers" } Constraints: o min: 1 o max: 4 key -&gt; (string) Constraints: o pattern: [a-zA-Z]{1,50} value -&gt; (string) Constraints: o min: 1 o max: 1024 o pattern: [ -~]*[!-~]+[ -~]* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}</param>
+    /// <param name="StartTime">The start of the time period to retrieve change events for. When used in a raw HTTP Query API, it is formatted as epoch time in sec- onds. For example: 1698778057</param>
+    /// <param name="EndTime">The end of the time period to retrieve change events for. When used in a raw HTTP Query API, it is formatted as epoch time in seconds. For example: 1698778057</param>
+    public AwsApplicationSignalsListEntityEventsOptions(
+        IReadOnlyList<KeyValue> Entity,
+        string StartTime,
+        string EndTime
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Entity);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<KeyValue>(Entity));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Entity));
+            }
+
+            Entity = materialized;
+        }
+        this.Entity = Entity;
+        global::System.ArgumentNullException.ThrowIfNull(StartTime);
+        this.StartTime = StartTime;
+        global::System.ArgumentNullException.ThrowIfNull(EndTime);
+        this.EndTime = EndTime;
+    }
+
+    private AwsApplicationSignalsListEntityEventsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsApplicationSignalsListEntityEventsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsApplicationSignalsListEntityEventsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The entity for which to retrieve change events. This specifies the service, resource, or other entity whose event history you want to examine. This is a string-to-string map. It can include the following fields. o Type designates the type of object this is. o ResourceType specifies the type of the resource. This field is used only when the value of the Type field is Resource or AWS::Re- source . o Name specifies the name of the object. This is used only if the value of the Type field is Service , RemoteService , or AWS::Ser- vice . o Identifier identifies the resource objects of this resource. This is used only if the value of the Type field is Resource or AWS::Resource . o Environment specifies the location where this object is hosted, or what it belongs to. o AwsAccountId specifies the account where this object is in. Below is an example of a service. { "Type": "Service", "Name": "visits-service", "Environment": "petclinic-test" } Below is an example of a resource. { "Type": "AWS::Resource", "ResourceType": "AWS::DynamoDB::Ta- ble", "Identifier": "Customers" } Constraints: o min: 1 o max: 4 key -&gt; (string) Constraints: o pattern: [a-zA-Z]{1,50} value -&gt; (string) Constraints: o min: 1 o max: 1024 o pattern: [ -~]*[!-~]+[ -~]* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// </summary>
     [CliOption("--entity", CollectionSeparator = ",")]
-    public IReadOnlyList<KeyValue>? Entity { get; set; }
+    public IReadOnlyList<KeyValue>? Entity { get; private init; }
 
+    /// <summary>
+    /// The start of the time period to retrieve change events for. When used in a raw HTTP Query API, it is formatted as epoch time in sec- onds. For example: 1698778057
+    /// </summary>
     [CliOption("--start-time")]
-    public string? StartTime { get; set; }
+    public string? StartTime { get; private init; }
 
+    /// <summary>
+    /// The end of the time period to retrieve change events for. When used in a raw HTTP Query API, it is formatted as epoch time in seconds. For example: 1698778057
+    /// </summary>
     [CliOption("--end-time")]
-    public string? EndTime { get; set; }
+    public string? EndTime { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
@@ -56,5 +118,22 @@ public record AwsApplicationSignalsListEntityEventsOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

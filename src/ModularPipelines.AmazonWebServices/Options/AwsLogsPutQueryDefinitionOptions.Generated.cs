@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,16 +22,62 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("logs", "put-query-definition")]
-public record AwsLogsPutQueryDefinitionOptions : AwsOptions
+public record AwsLogsPutQueryDefinitionOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates or updates a query definition for CloudWatch Logs Insights. For more information, see Analyzing Log Data with CloudWatch Logs Insights . To update a query definition, specify its queryDefinitionId in your re- quest. The values of name , queryString , and logGroupNames are changed to the values that you specify in your update operation. No current values are retained from the current query definition. For example, imagine updating a current query definition that includes log groups. If yo...
+    /// </summary>
+    /// <param name="Name">A name for the query definition. If you are saving numerous query definitions, we recommend that you name them. This way, you can find the ones you want by using the first part of the name as a filter in the queryDefinitionNamePrefix parameter of DescribeQueryDefinitions . Constraints: o min: 1 o max: 255</param>
+    /// <param name="QueryString">The query string to use for this definition. For more information, see CloudWatch Logs Insights Query Syntax . Constraints: o min: 1 o max: 10000</param>
+    public AwsLogsPutQueryDefinitionOptions(
+        string Name,
+        string QueryString
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(QueryString);
+        this.QueryString = QueryString;
+    }
+
+    private AwsLogsPutQueryDefinitionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsLogsPutQueryDefinitionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsLogsPutQueryDefinitionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A name for the query definition. If you are saving numerous query definitions, we recommend that you name them. This way, you can find the ones you want by using the first part of the name as a filter in the queryDefinitionNamePrefix parameter of DescribeQueryDefinitions . Constraints: o min: 1 o max: 255
+    /// </summary>
+    [CliOption("--name")]
+    public string? Name { get; private init; }
+
+    /// <summary>
+    /// The query string to use for this definition. For more information, see CloudWatch Logs Insights Query Syntax . Constraints: o min: 1 o max: 10000
+    /// </summary>
+    [CliOption("--query-string")]
+    public string? QueryString { get; private init; }
+
     /// <summary>
     /// Specify the query language to use for this query. The options are Logs Insights QL, OpenSearch PPL, and OpenSearch SQL. For more in- formation about the query languages that CloudWatch Logs supports, see Supported query languages . Possible values: o CWLI o SQL o PPL
     /// </summary>
     [CliOption("--query-language")]
     public AwsLogsPutQueryDefinitionQueryLanguage? QueryLanguage { get; set; }
-
-    [CliOption("--name")]
-    public string? Name { get; set; }
 
     /// <summary>
     /// If you are updating a query definition, use this parameter to spec- ify the ID of the query definition that you want to update. You can use DescribeQueryDefinitions to retrieve the IDs of your saved query definitions. If you are creating a query definition, do not specify this parame- ter. CloudWatch generates a unique ID for the new query definition and include it in the response to this operation. Constraints: o min: 1 o max: 256
@@ -43,9 +90,6 @@ public record AwsLogsPutQueryDefinitionOptions : AwsOptions
     /// </summary>
     [CliOption("--log-group-names", GroupValues = true)]
     public IEnumerable<string>? LogGroupNames { get; set; }
-
-    [CliOption("--query-string")]
-    public string? QueryString { get; set; }
 
     /// <summary>
     /// Used as an idempotency token, to avoid returning an exception if the service receives the same request twice because of a network error. Constraints: o min: 36 o max: 128 o pattern: \S{36,128}
@@ -65,5 +109,22 @@ public record AwsLogsPutQueryDefinitionOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

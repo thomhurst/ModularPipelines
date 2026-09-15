@@ -12,6 +12,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -21,10 +22,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bedrock-agent", "create-prompt-version")]
-public record AwsBedrockAgentCreatePromptVersionOptions : AwsOptions
+public record AwsBedrockAgentCreatePromptVersionOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a static snapshot of your prompt that can be deployed to pro- duction. For more information, see Deploy prompts using Prompt manage- ment by creating versions in the Amazon Bedrock User Guide. See also: AWS API Documentation create-prompt-version uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested para- meters that are labeled with the type document must b...
+    /// </summary>
+    /// <param name="PromptIdentifier">The unique identifier of the prompt that you want to create a ver- sion of. Constraints: o pattern: ([0-9a-zA-Z]{10})|(arn:aws:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:prompt/[0-9a-zA-Z]{10})(?::[0-9]{1,5})?</param>
+    public AwsBedrockAgentCreatePromptVersionOptions(
+        string PromptIdentifier
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PromptIdentifier);
+        this.PromptIdentifier = PromptIdentifier;
+    }
+
+    private AwsBedrockAgentCreatePromptVersionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsBedrockAgentCreatePromptVersionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsBedrockAgentCreatePromptVersionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier of the prompt that you want to create a ver- sion of. Constraints: o pattern: ([0-9a-zA-Z]{10})|(arn:aws:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:prompt/[0-9a-zA-Z]{10})(?::[0-9]{1,5})?
+    /// </summary>
     [CliOption("--prompt-identifier")]
-    public string? PromptIdentifier { get; set; }
+    public string? PromptIdentifier { get; private init; }
 
     /// <summary>
     /// A description for the version of the prompt. Constraints: o min: 1 o max: 200
@@ -50,5 +87,22 @@ public record AwsBedrockAgentCreatePromptVersionOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

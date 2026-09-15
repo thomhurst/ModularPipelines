@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ssm", "describe-instance-patches")]
-public record AwsSsmDescribeInstancePatchesOptions : AwsOptions
+public record AwsSsmDescribeInstancePatchesOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Retrieves information about the patches on the specified managed node and their state relative to the patch baseline being used for the node. See also: AWS API Documentation describe-instance-patches is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from t...
+    /// </summary>
+    /// <param name="InstanceId">The ID of the managed node whose patch state information should be retrieved. Constraints: o pattern: (^i-(\w{8}|\w{17})$)|(^mi-\w{17}$)</param>
+    public AwsSsmDescribeInstancePatchesOptions(
+        string InstanceId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(InstanceId);
+        this.InstanceId = InstanceId;
+    }
+
+    private AwsSsmDescribeInstancePatchesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSsmDescribeInstancePatchesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSsmDescribeInstancePatchesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the managed node whose patch state information should be retrieved. Constraints: o pattern: (^i-(\w{8}|\w{17})$)|(^mi-\w{17}$)
+    /// </summary>
     [CliOption("--instance-id")]
-    public string? InstanceId { get; set; }
+    public string? InstanceId { get; private init; }
 
     /// <summary>
     /// Each element in the array is a structure containing a key-value pair. Supported keys for DescribeInstancePatches include the following: o ** Classification ** Sample values: Security | SecurityUpdates System Message: WARNING/2 (&lt;string&gt;:, line 101) Inline strong start-string without end-string. o ** KBId ** Sample values: KB4480056 | java-1.7.0-openjdk.x86_64 System Message: WARNING/2 (&lt;string&gt;:, line 103) Inline strong start-string without end-string. o ** Severity ** Sample values: Important | Medium | Low System Message: WARNING/2 (&lt;string&gt;:, line 105) Inline strong start-string without end-string. o ** State ** Sample values: Installed | InstalledOther | Installed- PendingReboot For lists of all State values, see Patch compli- ance state values in the Amazon Web Services Systems Manager User Guide . System Message: WARNING/2 (&lt;string&gt;:, line 107) Inline strong start-string without end-string. Constraints: o min: 0 o max: 5 (structure) Defines a filter used in Patch Manager APIs. Supported filter keys depend on the API operation that includes the filter. Patch Manager API operations that use PatchOrchestratorFilter include the following: o DescribeAvailablePatches o DescribeInstancePatches o DescribePatchBaselines o DescribePatchGroups Key -&gt; (string) The key for the filter. Constraints: o min: 1 o max: 128 Values -&gt; (list) The value for the filter. (string) Constraints: o min: 1 o max: 256 Shorthand Syntax: Key=string,Values=string,string ... JSON Syntax: [ { "Key": "string", "Values": ["string", ...] } ... ]
@@ -55,5 +92,22 @@ public record AwsSsmDescribeInstancePatchesOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

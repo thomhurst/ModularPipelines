@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +20,74 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ecr-public", "initiate-layer-upload")]
-public record AwsEcrPublicInitiateLayerUploadOptions : AwsOptions
+public record AwsEcrPublicInitiateLayerUploadOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Notifies Amazon ECR that you intend to upload an image layer. When an image is pushed, the InitiateLayerUpload API is called once for each image layer that hasn't already been uploaded. Whether an image layer uploads is determined by the BatchCheckLayerAvailability API ac- tion. NOTE: This operation is used by the Amazon ECR proxy and is not generally used by customers for pulling and pushing images. In most cases, you should use the docker CLI to pull, tag, and push images. See also: AWS API Do...
+    /// </summary>
+    /// <param name="RepositoryName">The name of the repository that you want to upload layers to. Constraints: o min: 2 o max: 205 o pattern: (?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*</param>
+    public AwsEcrPublicInitiateLayerUploadOptions(
+        string RepositoryName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(RepositoryName);
+        this.RepositoryName = RepositoryName;
+    }
+
+    private AwsEcrPublicInitiateLayerUploadOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEcrPublicInitiateLayerUploadOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEcrPublicInitiateLayerUploadOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the repository that you want to upload layers to. Constraints: o min: 2 o max: 205 o pattern: (?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*
+    /// </summary>
+    [CliOption("--repository-name")]
+    public string? RepositoryName { get; private init; }
+
     /// <summary>
     /// The Amazon Web Services account ID, or registry alias, that's asso- ciated with the registry to which you intend to upload layers. If you do not specify a registry, the default public registry is as- sumed. Constraints: o min: 2 o max: 50
     /// </summary>
     [CliOption("--registry-id")]
     public string? RegistryId { get; set; }
 
-    [CliOption("--repository-name")]
-    public string? RepositoryName { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

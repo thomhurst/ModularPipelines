@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,14 +21,57 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("codepipeline", "put-third-party-job-success-result")]
-public record AwsCodepipelinePutThirdPartyJobSuccessResultOptions : AwsOptions
+public record AwsCodepipelinePutThirdPartyJobSuccessResultOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--job-id")]
-    public string? JobId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Represents the success of a third party job as returned to the pipeline by a job worker. Used for partner actions only. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="JobId">The ID of the job that successfully completed. This is the same ID returned from PollForThirdPartyJobs . Constraints: o min: 1 o max: 512</param>
+    /// <param name="ClientToken">The clientToken portion of the clientId and clientToken pair used to verify that the calling entity is allowed access to the job and its details. Constraints: o min: 1 o max: 256</param>
+    public AwsCodepipelinePutThirdPartyJobSuccessResultOptions(
+        string JobId,
+        string ClientToken
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(JobId);
+        this.JobId = JobId;
+        global::System.ArgumentNullException.ThrowIfNull(ClientToken);
+        this.ClientToken = ClientToken;
+    }
+
+    private AwsCodepipelinePutThirdPartyJobSuccessResultOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCodepipelinePutThirdPartyJobSuccessResultOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCodepipelinePutThirdPartyJobSuccessResultOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the job that successfully completed. This is the same ID returned from PollForThirdPartyJobs . Constraints: o min: 1 o max: 512
+    /// </summary>
+    [CliOption("--job-id")]
+    public string? JobId { get; private init; }
+
+    /// <summary>
+    /// The clientToken portion of the clientId and clientToken pair used to verify that the calling entity is allowed access to the job and its details. Constraints: o min: 1 o max: 256
+    /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
-    public string? ClientToken { get; set; }
+    public string? ClientToken { get; private init; }
 
     /// <summary>
     /// Represents information about a current revision. revision -&gt; (string) [required] The revision ID of the current version of an artifact. Constraints: o min: 1 o max: 1500 changeIdentifier -&gt; (string) [required] The change identifier for the current revision. Constraints: o min: 1 o max: 100 created -&gt; (timestamp) The date and time when the most recent revision of the artifact was created, in timestamp format. revisionSummary -&gt; (string) The summary of the most recent revision of the artifact. Constraints: o min: 1 o max: 2048 Shorthand Syntax: revision=string,changeIdentifier=string,created=timestamp,revisionSummary=string JSON Syntax: { "revision": "string", "changeIdentifier": "string", "created": timestamp, "revisionSummary": "string" }
@@ -53,5 +97,22 @@ public record AwsCodepipelinePutThirdPartyJobSuccessResultOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

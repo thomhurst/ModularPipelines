@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iotsitewise", "execute-query")]
-public record AwsIotsitewiseExecuteQueryOptions : AwsOptions
+public record AwsIotsitewiseExecuteQueryOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Run SQL queries to retrieve metadata and time-series data from asset models, assets, measurements, metrics, transforms, and aggregates. See also: AWS API Documentation execute-query is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of ...
+    /// </summary>
+    /// <param name="QueryStatement">The IoT SiteWise query statement. Constraints: o min: 1 o max: 10000 o pattern: ^[\s\S]+$</param>
+    public AwsIotsitewiseExecuteQueryOptions(
+        string QueryStatement
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(QueryStatement);
+        this.QueryStatement = QueryStatement;
+    }
+
+    private AwsIotsitewiseExecuteQueryOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsIotsitewiseExecuteQueryOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsIotsitewiseExecuteQueryOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The IoT SiteWise query statement. Constraints: o min: 1 o max: 10000 o pattern: ^[\s\S]+$
+    /// </summary>
     [CliOption("--query-statement")]
-    public string? QueryStatement { get; set; }
+    public string? QueryStatement { get; private init; }
 
     /// <summary>
     /// A unique case-sensitive identifier that you can provide to ensure the idempotency of the request. Don't reuse this client token if a new idempotent request is required. Constraints: o min: 36 o max: 64 o pattern: \S{36,64}
@@ -56,5 +93,22 @@ public record AwsIotsitewiseExecuteQueryOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

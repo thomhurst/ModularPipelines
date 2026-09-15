@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,19 +20,75 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("directconnect", "create-lag")]
-public record AwsDirectconnectCreateLagOptions : AwsOptions
+public record AwsDirectconnectCreateLagOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a link aggregation group (LAG) with the specified number of bundled physical dedicated connections between the customer network and a specific Direct Connect location. A LAG is a logical interface that uses the Link Aggregation Control Protocol (LACP) to aggregate multiple interfaces, enabling you to treat them as a single interface. All connections in a LAG must use the same bandwidth (either 1Gbps, 10Gbps, 100Gbps, or 400Gbps) and must terminate at the same Direct Con- nect endpoint. Y...
+    /// </summary>
+    /// <param name="NumberOfConnections">The number of physical dedicated connections initially provisioned and bundled by the LAG. You can have a maximum of four connections when the port speed is 1Gbps or 10Gbps, or two when the port speed is 100Gbps or 400Gbps.</param>
+    /// <param name="Location">The location for the LAG.</param>
+    /// <param name="ConnectionsBandwidth">The bandwidth of the individual physical dedicated connections bun- dled by the LAG. The possible values are 1Gbps,10Gbps, 100Gbps, and 400Gbps.</param>
+    /// <param name="LagName">The name of the LAG.</param>
+    public AwsDirectconnectCreateLagOptions(
+        int NumberOfConnections,
+        string Location,
+        string ConnectionsBandwidth,
+        string LagName
+    )
+    {
+        this.NumberOfConnections = NumberOfConnections;
+        global::System.ArgumentNullException.ThrowIfNull(Location);
+        this.Location = Location;
+        global::System.ArgumentNullException.ThrowIfNull(ConnectionsBandwidth);
+        this.ConnectionsBandwidth = ConnectionsBandwidth;
+        global::System.ArgumentNullException.ThrowIfNull(LagName);
+        this.LagName = LagName;
+    }
+
+    private AwsDirectconnectCreateLagOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDirectconnectCreateLagOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDirectconnectCreateLagOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The number of physical dedicated connections initially provisioned and bundled by the LAG. You can have a maximum of four connections when the port speed is 1Gbps or 10Gbps, or two when the port speed is 100Gbps or 400Gbps.
+    /// </summary>
     [CliOption("--number-of-connections")]
-    public int? NumberOfConnections { get; set; }
+    public int? NumberOfConnections { get; private init; }
 
+    /// <summary>
+    /// The location for the LAG.
+    /// </summary>
     [CliOption("--location")]
-    public string? Location { get; set; }
+    public string? Location { get; private init; }
 
+    /// <summary>
+    /// The bandwidth of the individual physical dedicated connections bun- dled by the LAG. The possible values are 1Gbps,10Gbps, 100Gbps, and 400Gbps.
+    /// </summary>
     [CliOption("--connections-bandwidth")]
-    public string? ConnectionsBandwidth { get; set; }
+    public string? ConnectionsBandwidth { get; private init; }
 
+    /// <summary>
+    /// The name of the LAG.
+    /// </summary>
     [CliOption("--lag-name")]
-    public string? LagName { get; set; }
+    public string? LagName { get; private init; }
 
     /// <summary>
     /// The ID of an existing dedicated connection to migrate to the LAG.
@@ -57,7 +114,10 @@ public record AwsDirectconnectCreateLagOptions : AwsOptions
     [CliOption("--provider-name")]
     public string? ProviderName { get; set; }
 
-    [CliFlag("--request-mac-sec")]
+    /// <summary>
+    /// Indicates whether the connection will support MAC Security (MACsec). NOTE: All connections in the LAG must be capable of supporting MAC Se- curity (MACsec). For information about MAC Security (MACsec) prerequisties, see MACsec prerequisties in the Direct Connect User Guide .
+    /// </summary>
+    [CliFlag("--request-mac-sec", NegatedName = "--no-request-mac-sec")]
     public bool? RequestMacSec { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -65,5 +125,22 @@ public record AwsDirectconnectCreateLagOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

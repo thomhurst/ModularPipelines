@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,68 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sns", "delete-sms-sandbox-phone-number")]
-public record AwsSnsDeleteSmsSandboxPhoneNumberOptions : AwsOptions
+public record AwsSnsDeleteSmsSandboxPhoneNumberOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Deletes an Amazon Web Services account's verified or pending phone num- ber from the SMS sandbox. When you start using Amazon SNS to send SMS messages, your Amazon Web Services account is in the SMS sandbox . The SMS sandbox provides a safe environment for you to try Amazon SNS features without risking your reputation as an SMS sender. While your Amazon Web Services ac- count is in the SMS sandbox, you can use all of the features of Amazon SNS. However, you can send SMS messages only to verified...
+    /// </summary>
+    /// <param name="PhoneNumber">The destination phone number to delete. Constraints: o max: 20 o pattern: ^(\+[0-9]{8,}|[0-9]{0,9})$</param>
+    public AwsSnsDeleteSmsSandboxPhoneNumberOptions(
+        string PhoneNumber
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PhoneNumber);
+        this.PhoneNumber = PhoneNumber;
+    }
+
+    private AwsSnsDeleteSmsSandboxPhoneNumberOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSnsDeleteSmsSandboxPhoneNumberOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSnsDeleteSmsSandboxPhoneNumberOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The destination phone number to delete. Constraints: o max: 20 o pattern: ^(\+[0-9]{8,}|[0-9]{0,9})$
+    /// </summary>
     [CliOption("--phone-number")]
-    public string? PhoneNumber { get; set; }
+    public string? PhoneNumber { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

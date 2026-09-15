@@ -39,7 +39,10 @@ public record AwsNetworkFirewallUpdateLoggingConfigurationOptions : AwsOptions
     [CliOption("--logging-configuration")]
     public string? LoggingConfiguration { get; set; }
 
-    [CliFlag("--enable-monitoring-dashboard")]
+    /// <summary>
+    /// A boolean that lets you enable or disable the detailed firewall mon- itoring dashboard on the firewall. The monitoring dashboard provides comprehensive visibility into your firewall's flow logs and alert logs. After you enable detailed moni- toring, you can access these dashboards directly from the Monitoring page of the Network Firewall console. Specify TRUE to enable the the detailed monitoring dashboard on the firewall. Specify FALSE to disable the the detailed monitoring dash- board on the firewall.
+    /// </summary>
+    [CliFlag("--enable-monitoring-dashboard", NegatedName = "--no-enable-monitoring-dashboard")]
     public bool? EnableMonitoringDashboard { get; set; }
 
     [CliOption("--cli-input-json")]

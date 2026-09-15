@@ -16,18 +16,18 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsIotListThingRegistrationTasksStatus
 {
-    [EnumValue("InProgress")]
-    InProgress = 1,
-
-    [EnumValue("Completed")]
-    Completed = 2,
-
-    [EnumValue("Failed")]
-    Failed = 3,
-
     [EnumValue("Cancelled")]
-    Cancelled = 4,
+    Cancelled,
 
     [EnumValue("Cancelling")]
-    Cancelling = 5
+    Cancelling,
+
+    [EnumValue("Completed")]
+    Completed,
+
+    [EnumValue("Failed")]
+    Failed,
+
+    [EnumValue("InProgress")]
+    InProgress
 }

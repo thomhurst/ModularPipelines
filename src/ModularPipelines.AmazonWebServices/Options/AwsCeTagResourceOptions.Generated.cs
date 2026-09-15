@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,89 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ce", "tag-resource")]
-public record AwsCeTagResourceOptions : AwsOptions
+public record AwsCeTagResourceOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--resource-arn")]
-    public string? ResourceArn { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// An API operation for adding one or more tags (key-value pairs) to a re- source. You can use the TagResource operation with a resource that already has tags. If you specify a new tag key for the resource, this tag is ap- pended to the list of tags associated with the resource. If you specify a tag key that is already associated with the resource, the new tag value you specify replaces the previous value for that tag. Although the maximum number of array members is 200, user-tag maximum is 50. The...
+    /// </summary>
+    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the resource. For a list of sup- ported resources, see ResourceTag . Constraints: o min: 20 o max: 2048 o pattern: arn:aws[-a-z0-9]*:[a-z0-9]+:[-a-z0-9]*:[0-9]{12}:[-a-zA-Z0-9/:_]+</param>
+    /// <param name="ResourceTags">A list of tag key-value pairs to be added to the resource. Each tag consists of a key and a value, and each key must be unique for the resource. The following restrictions apply to resource tags: o Although the maximum number of array members is 200, you can as- sign a maximum of 50 user-tags to one resource. The remaining are reserved for Amazon Web Services use o The maximum length of a key is 128 characters o The maximum length of a value is 256 characters o Keys and values can only contain alphanumeric characters, spaces, and any of the following: _.:/=+@- o Keys and values are case sensitive o Keys and values are trimmed for any leading or trailing white- spaces o Dont use aws: as a prefix for your keys. This prefix is reserved for Amazon Web Services use Constraints: o min: 0 o max: 200 (structure) The tag structure that contains a tag key and value. NOTE: Tagging is supported only for the following Cost Explorer re- source types: ` AnomalyMonitor https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_AnomalyMonitor.html`__ , ` AnomalySubscription https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_AnomalySubscription.html`__ , ` CostCategory https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_CostCategory.html`__ . Key -&gt; (string) [required] The key that's associated with the tag. Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Value -&gt; (string) [required] The value that's associated with the tag. Constraints: o min: 0 o max: 256 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]</param>
+    public AwsCeTagResourceOptions(
+        string ResourceArn,
+        IEnumerable<string> ResourceTags
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ResourceArn);
+        this.ResourceArn = ResourceArn;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(ResourceTags);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(ResourceTags));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(ResourceTags));
+            }
+
+            ResourceTags = materialized;
+        }
+        this.ResourceTags = ResourceTags;
+    }
+
+    private AwsCeTagResourceOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCeTagResourceOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCeTagResourceOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the resource. For a list of sup- ported resources, see ResourceTag . Constraints: o min: 20 o max: 2048 o pattern: arn:aws[-a-z0-9]*:[a-z0-9]+:[-a-z0-9]*:[0-9]{12}:[-a-zA-Z0-9/:_]+
+    /// </summary>
+    [CliOption("--resource-arn")]
+    public string? ResourceArn { get; private init; }
+
+    /// <summary>
+    /// A list of tag key-value pairs to be added to the resource. Each tag consists of a key and a value, and each key must be unique for the resource. The following restrictions apply to resource tags: o Although the maximum number of array members is 200, you can as- sign a maximum of 50 user-tags to one resource. The remaining are reserved for Amazon Web Services use o The maximum length of a key is 128 characters o The maximum length of a value is 256 characters o Keys and values can only contain alphanumeric characters, spaces, and any of the following: _.:/=+@- o Keys and values are case sensitive o Keys and values are trimmed for any leading or trailing white- spaces o Dont use aws: as a prefix for your keys. This prefix is reserved for Amazon Web Services use Constraints: o min: 0 o max: 200 (structure) The tag structure that contains a tag key and value. NOTE: Tagging is supported only for the following Cost Explorer re- source types: ` AnomalyMonitor https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_AnomalyMonitor.html`__ , ` AnomalySubscription https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_AnomalySubscription.html`__ , ` CostCategory https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_CostCategory.html`__ . Key -&gt; (string) [required] The key that's associated with the tag. Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Value -&gt; (string) [required] The value that's associated with the tag. Constraints: o min: 0 o max: 256 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// </summary>
     [CliOption("--resource-tags", GroupValues = true)]
-    public IEnumerable<string>? ResourceTags { get; set; }
+    public IEnumerable<string>? ResourceTags { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

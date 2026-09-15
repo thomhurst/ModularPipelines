@@ -11,35 +11,35 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --upstreamregistry.
+/// Allowed values for --upstream-registry.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsEcrCreatePullThroughCacheRuleUpstreamRegistry
 {
-    [EnumValue("ecr")]
-    Ecr = 1,
-
-    [EnumValue("ecr-public")]
-    EcrPublic = 2,
-
-    [EnumValue("quay")]
-    Quay = 3,
-
-    [EnumValue("k8s")]
-    K8s = 4,
-
-    [EnumValue("docker-hub")]
-    DockerHub = 5,
-
-    [EnumValue("github-container-registry")]
-    GithubContainerRegistry = 6,
-
     [EnumValue("azure-container-registry")]
-    AzureContainerRegistry = 7,
-
-    [EnumValue("gitlab-container-registry")]
-    GitlabContainerRegistry = 8,
+    AzureContainerRegistry,
 
     [EnumValue("chainguard")]
-    Chainguard = 9
+    Chainguard,
+
+    [EnumValue("docker-hub")]
+    DockerHub,
+
+    [EnumValue("ecr")]
+    Ecr,
+
+    [EnumValue("ecr-public")]
+    EcrPublic,
+
+    [EnumValue("github-container-registry")]
+    GithubContainerRegistry,
+
+    [EnumValue("gitlab-container-registry")]
+    GitlabContainerRegistry,
+
+    [EnumValue("k8s")]
+    K8S,
+
+    [EnumValue("quay")]
+    Quay
 }

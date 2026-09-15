@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("route53", "list-traffic-policy-versions")]
-public record AwsRoute53ListTrafficPolicyVersionsOptions : AwsOptions
+public record AwsRoute53ListTrafficPolicyVersionsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Gets information about all of the versions for a specified traffic pol- icy. Traffic policy versions are listed in numerical order by VersionNumber . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Id">Specify the value of Id of the traffic policy for which you want to list all versions. Constraints: o min: 1 o max: 36</param>
+    public AwsRoute53ListTrafficPolicyVersionsOptions(
+        string Id
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Id);
+        this.Id = Id;
+    }
+
+    private AwsRoute53ListTrafficPolicyVersionsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRoute53ListTrafficPolicyVersionsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRoute53ListTrafficPolicyVersionsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Specify the value of Id of the traffic policy for which you want to list all versions. Constraints: o min: 1 o max: 36
+    /// </summary>
     [CliOption("--id")]
-    public string? Id { get; set; }
+    public string? Id { get; private init; }
 
     /// <summary>
     /// For your first request to ListTrafficPolicyVersions , don't include the TrafficPolicyVersionMarker parameter. If you have more traffic policy versions than the value of MaxItems , ListTrafficPolicyVersions returns only the first group of MaxItems versions. To get more traffic policy versions, submit another List- TrafficPolicyVersions request. For the value of TrafficPolicyVer- sionMarker , specify the value of TrafficPolicyVersionMarker in the previous response. Constraints: o max: 4
@@ -41,5 +78,22 @@ public record AwsRoute53ListTrafficPolicyVersionsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

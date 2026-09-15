@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +20,88 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("s3control", "update-storage-lens-group")]
-public record AwsS3controlUpdateStorageLensGroupOptions : AwsOptions
+public record AwsS3controlUpdateStorageLensGroupOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates the existing Storage Lens group. To use this operation, you must have the permission to perform the s3:UpdateStorageLensGroup action. For more information about the re- quired Storage Lens Groups permissions, see Setting account permissions to use S3 Storage Lens groups . For information about Storage Lens groups errors, see List of Amazon S3 Storage Lens error codes . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Name">The name of the Storage Lens group that you want to update. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9\-\_]+</param>
+    /// <param name="AccountId">The Amazon Web Services account ID of the Storage Lens group owner. Constraints: o max: 64 o pattern: ^\d{12}$</param>
+    /// <param name="StorageLensGroup">The JSON file that contains the Storage Lens group configuration. Name -&gt; (string) [required] Contains the name of the Storage Lens group. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9\-\_]+ Filter -&gt; (structure) [required] Sets the criteria for the Storage Lens group data that is dis- played. For multiple filter conditions, the AND or OR logical operator is used. MatchAnyPrefix -&gt; (list) Contains a list of prefixes. At least one prefix must be specified. Up to 10 prefixes are allowed. (string) MatchAnySuffix -&gt; (list) Contains a list of suffixes. At least one suffix must be specified. Up to 10 suffixes are allowed. (string) MatchAnyTag -&gt; (list) Contains the list of S3 object tags. At least one object tag must be specified. Up to 10 object tags are allowed. (structure) A container for a key-value name pair. Key -&gt; (string) [required] Key of the tag Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Value -&gt; (string) [required] Value of the tag Constraints: o min: 0 o max: 256 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ MatchObjectAge -&gt; (structure) Contains DaysGreaterThan and DaysLessThan to define the ob- ject age range (minimum and maximum number of days). DaysGreaterThan -&gt; (integer) Specifies the maximum object age in days. Must be a posi- tive whole number, greater than the minimum object age and less than or equal to 2,147,483,647. DaysLessThan -&gt; (integer) Specifies the minimum object age in days. The value must be a positive whole number, greater than 0 and less than or equal to 2,147,483,647. MatchObjectSize -&gt; (structure) Contains BytesGreaterThan and BytesLessThan to define the ob- ject size range (minimum and maximum number of Bytes). BytesGreaterThan -&gt; (long) Specifies the minimum object size in Bytes. The value must be a positive number, greater than 0 and less than 50 TB. BytesLessThan -&gt; (long) Specifies the maximum object size in Bytes. The value must be a positive number, greater than the minimum ob- ject size and less than 50 TB. And -&gt; (structure) A logical operator that allows multiple filter conditions to be joined for more complex comparisons of Storage Lens group data. Objects must match all of the listed filter conditions that are joined by the And logical operator. Only one of each filter condition is allowed. MatchAnyPrefix -&gt; (list) Contains a list of prefixes. At least one prefix must be specified. Up to 10 prefixes are allowed. (string) MatchAnySuffix -&gt; (list) Contains a list of suffixes. At least one suffix must be specified. Up to 10 suffixes are allowed. (string) MatchAnyTag -&gt; (list) Contains the list of object tags. At least one object tag must be specified. Up to 10 object tags are allowed. (structure) A container for a key-value name pair. Key -&gt; (string) [required] Key of the tag Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Value -&gt; (string) [required] Value of the tag Constraints: o min: 0 o max: 256 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ MatchObjectAge -&gt; (structure) Contains DaysGreaterThan and DaysLessThan to define the object age range (minimum and maximum number of days). DaysGreaterThan -&gt; (integer) Specifies the maximum object age in days. Must be a positive whole number, greater than the minimum object age and less than or equal to 2,147,483,647. DaysLessThan -&gt; (integer) Specifies the minimum object age in days. The value must be a positive whole number, greater than 0 and less than or equal to 2,147,483,647. MatchObjectSize -&gt; (structure) Contains BytesGreaterThan and BytesLessThan to define the object size range (minimum and maximum number of Bytes). BytesGreaterThan -&gt; (long) Specifies the minimum object size in Bytes. The value must be a positive number, greater than 0 and less than 50 TB. BytesLessThan -&gt; (long) Specifies the maximum object size in Bytes. The value must be a positive number, greater than the minimum object size and less than 50 TB. Or -&gt; (structure) A single logical operator that allows multiple filter condi- tions to be joined. Objects can match any of the listed fil- ter conditions, which are joined by the Or logical operator. Only one of each filter condition is allowed. MatchAnyPrefix -&gt; (list) Filters objects that match any of the specified prefixes. (string) MatchAnySuffix -&gt; (list) Filters objects that match any of the specified suffixes. (string) MatchAnyTag -&gt; (list) Filters objects that match any of the specified S3 object tags. (structure) A container for a key-value name pair. Key -&gt; (string) [required] Key of the tag Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Value -&gt; (string) [required] Value of the tag Constraints: o min: 0 o max: 256 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ MatchObjectAge -&gt; (structure) Filters objects that match the specified object age range. DaysGreaterThan -&gt; (integer) Specifies the maximum object age in days. Must be a positive whole number, greater than the minimum object age and less than or equal to 2,147,483,647. DaysLessThan -&gt; (integer) Specifies the minimum object age in days. The value must be a positive whole number, greater than 0 and less than or equal to 2,147,483,647. MatchObjectSize -&gt; (structure) Filters objects that match the specified object size range. BytesGreaterThan -&gt; (long) Specifies the minimum object size in Bytes. The value must be a positive number, greater than 0 and less than 50 TB. BytesLessThan -&gt; (long) Specifies the maximum object size in Bytes. The value must be a positive number, greater than the minimum object size and less than 50 TB. StorageLensGroupArn -&gt; (string) Contains the Amazon Resource Name (ARN) of the Storage Lens group. This property is read-only. Constraints: o min: 4 o max: 1024 o pattern: arn:[a-z\-]+:s3:[a-z0-9\-]+:\d{12}:stor- age\-lens\-group\/.* JSON Syntax: { "Name": "string", "Filter": { "MatchAnyPrefix": ["string", ...], "MatchAnySuffix": ["string", ...], "MatchAnyTag": [ { "Key": "string", "Value": "string" } ... ], "MatchObjectAge": { "DaysGreaterThan": integer, "DaysLessThan": integer }, "MatchObjectSize": { "BytesGreaterThan": long, "BytesLessThan": long }, "And": { "MatchAnyPrefix": ["string", ...], "MatchAnySuffix": ["string", ...], "MatchAnyTag": [ { "Key": "string", "Value": "string" } ... ], "MatchObjectAge": { "DaysGreaterThan": integer, "DaysLessThan": integer }, "MatchObjectSize": { "BytesGreaterThan": long, "BytesLessThan": long } }, "Or": { "MatchAnyPrefix": ["string", ...], "MatchAnySuffix": ["string", ...], "MatchAnyTag": [ { "Key": "string", "Value": "string" } ... ], "MatchObjectAge": { "DaysGreaterThan": integer, "DaysLessThan": integer }, "MatchObjectSize": { "BytesGreaterThan": long, "BytesLessThan": long } } }, "StorageLensGroupArn": "string" }</param>
+    public AwsS3controlUpdateStorageLensGroupOptions(
+        string Name,
+        string AccountId,
+        string StorageLensGroup
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(AccountId);
+        this.AccountId = AccountId;
+        global::System.ArgumentNullException.ThrowIfNull(StorageLensGroup);
+        this.StorageLensGroup = StorageLensGroup;
+    }
+
+    private AwsS3controlUpdateStorageLensGroupOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsS3controlUpdateStorageLensGroupOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsS3controlUpdateStorageLensGroupOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the Storage Lens group that you want to update. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9\-\_]+
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
 
+    /// <summary>
+    /// The Amazon Web Services account ID of the Storage Lens group owner. Constraints: o max: 64 o pattern: ^\d{12}$
+    /// </summary>
     [CliOption("--account-id")]
-    public string? AccountId { get; set; }
+    public string? AccountId { get; private init; }
 
+    /// <summary>
+    /// The JSON file that contains the Storage Lens group configuration. Name -&gt; (string) [required] Contains the name of the Storage Lens group. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9\-\_]+ Filter -&gt; (structure) [required] Sets the criteria for the Storage Lens group data that is dis- played. For multiple filter conditions, the AND or OR logical operator is used. MatchAnyPrefix -&gt; (list) Contains a list of prefixes. At least one prefix must be specified. Up to 10 prefixes are allowed. (string) MatchAnySuffix -&gt; (list) Contains a list of suffixes. At least one suffix must be specified. Up to 10 suffixes are allowed. (string) MatchAnyTag -&gt; (list) Contains the list of S3 object tags. At least one object tag must be specified. Up to 10 object tags are allowed. (structure) A container for a key-value name pair. Key -&gt; (string) [required] Key of the tag Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Value -&gt; (string) [required] Value of the tag Constraints: o min: 0 o max: 256 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ MatchObjectAge -&gt; (structure) Contains DaysGreaterThan and DaysLessThan to define the ob- ject age range (minimum and maximum number of days). DaysGreaterThan -&gt; (integer) Specifies the maximum object age in days. Must be a posi- tive whole number, greater than the minimum object age and less than or equal to 2,147,483,647. DaysLessThan -&gt; (integer) Specifies the minimum object age in days. The value must be a positive whole number, greater than 0 and less than or equal to 2,147,483,647. MatchObjectSize -&gt; (structure) Contains BytesGreaterThan and BytesLessThan to define the ob- ject size range (minimum and maximum number of Bytes). BytesGreaterThan -&gt; (long) Specifies the minimum object size in Bytes. The value must be a positive number, greater than 0 and less than 50 TB. BytesLessThan -&gt; (long) Specifies the maximum object size in Bytes. The value must be a positive number, greater than the minimum ob- ject size and less than 50 TB. And -&gt; (structure) A logical operator that allows multiple filter conditions to be joined for more complex comparisons of Storage Lens group data. Objects must match all of the listed filter conditions that are joined by the And logical operator. Only one of each filter condition is allowed. MatchAnyPrefix -&gt; (list) Contains a list of prefixes. At least one prefix must be specified. Up to 10 prefixes are allowed. (string) MatchAnySuffix -&gt; (list) Contains a list of suffixes. At least one suffix must be specified. Up to 10 suffixes are allowed. (string) MatchAnyTag -&gt; (list) Contains the list of object tags. At least one object tag must be specified. Up to 10 object tags are allowed. (structure) A container for a key-value name pair. Key -&gt; (string) [required] Key of the tag Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Value -&gt; (string) [required] Value of the tag Constraints: o min: 0 o max: 256 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ MatchObjectAge -&gt; (structure) Contains DaysGreaterThan and DaysLessThan to define the object age range (minimum and maximum number of days). DaysGreaterThan -&gt; (integer) Specifies the maximum object age in days. Must be a positive whole number, greater than the minimum object age and less than or equal to 2,147,483,647. DaysLessThan -&gt; (integer) Specifies the minimum object age in days. The value must be a positive whole number, greater than 0 and less than or equal to 2,147,483,647. MatchObjectSize -&gt; (structure) Contains BytesGreaterThan and BytesLessThan to define the object size range (minimum and maximum number of Bytes). BytesGreaterThan -&gt; (long) Specifies the minimum object size in Bytes. The value must be a positive number, greater than 0 and less than 50 TB. BytesLessThan -&gt; (long) Specifies the maximum object size in Bytes. The value must be a positive number, greater than the minimum object size and less than 50 TB. Or -&gt; (structure) A single logical operator that allows multiple filter condi- tions to be joined. Objects can match any of the listed fil- ter conditions, which are joined by the Or logical operator. Only one of each filter condition is allowed. MatchAnyPrefix -&gt; (list) Filters objects that match any of the specified prefixes. (string) MatchAnySuffix -&gt; (list) Filters objects that match any of the specified suffixes. (string) MatchAnyTag -&gt; (list) Filters objects that match any of the specified S3 object tags. (structure) A container for a key-value name pair. Key -&gt; (string) [required] Key of the tag Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Value -&gt; (string) [required] Value of the tag Constraints: o min: 0 o max: 256 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ MatchObjectAge -&gt; (structure) Filters objects that match the specified object age range. DaysGreaterThan -&gt; (integer) Specifies the maximum object age in days. Must be a positive whole number, greater than the minimum object age and less than or equal to 2,147,483,647. DaysLessThan -&gt; (integer) Specifies the minimum object age in days. The value must be a positive whole number, greater than 0 and less than or equal to 2,147,483,647. MatchObjectSize -&gt; (structure) Filters objects that match the specified object size range. BytesGreaterThan -&gt; (long) Specifies the minimum object size in Bytes. The value must be a positive number, greater than 0 and less than 50 TB. BytesLessThan -&gt; (long) Specifies the maximum object size in Bytes. The value must be a positive number, greater than the minimum object size and less than 50 TB. StorageLensGroupArn -&gt; (string) Contains the Amazon Resource Name (ARN) of the Storage Lens group. This property is read-only. Constraints: o min: 4 o max: 1024 o pattern: arn:[a-z\-]+:s3:[a-z0-9\-]+:\d{12}:stor- age\-lens\-group\/.* JSON Syntax: { "Name": "string", "Filter": { "MatchAnyPrefix": ["string", ...], "MatchAnySuffix": ["string", ...], "MatchAnyTag": [ { "Key": "string", "Value": "string" } ... ], "MatchObjectAge": { "DaysGreaterThan": integer, "DaysLessThan": integer }, "MatchObjectSize": { "BytesGreaterThan": long, "BytesLessThan": long }, "And": { "MatchAnyPrefix": ["string", ...], "MatchAnySuffix": ["string", ...], "MatchAnyTag": [ { "Key": "string", "Value": "string" } ... ], "MatchObjectAge": { "DaysGreaterThan": integer, "DaysLessThan": integer }, "MatchObjectSize": { "BytesGreaterThan": long, "BytesLessThan": long } }, "Or": { "MatchAnyPrefix": ["string", ...], "MatchAnySuffix": ["string", ...], "MatchAnyTag": [ { "Key": "string", "Value": "string" } ... ], "MatchObjectAge": { "DaysGreaterThan": integer, "DaysLessThan": integer }, "MatchObjectSize": { "BytesGreaterThan": long, "BytesLessThan": long } } }, "StorageLensGroupArn": "string" }
+    /// </summary>
     [CliOption("--storage-lens-group")]
-    public string? StorageLensGroup { get; set; }
+    public string? StorageLensGroup { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

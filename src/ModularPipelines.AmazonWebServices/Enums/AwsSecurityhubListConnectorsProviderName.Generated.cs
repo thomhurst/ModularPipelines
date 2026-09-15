@@ -11,11 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --providername.
+/// Allowed values for --provider-name.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsSecurityhubListConnectorsProviderName
 {
     [EnumValue("AZURE")]
-    Azure = 1
+    Azure,
+
+    [EnumValue("o")]
+    O
 }

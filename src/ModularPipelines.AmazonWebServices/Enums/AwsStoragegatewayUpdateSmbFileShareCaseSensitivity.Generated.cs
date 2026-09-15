@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --casesensitivity.
+/// Allowed values for --case-sensitivity.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsStoragegatewayUpdateSmbFileShareCaseSensitivity
 {
-    [EnumValue("ClientSpecified")]
-    ClientSpecified = 1,
-
     [EnumValue("CaseSensitive")]
-    CaseSensitive = 2
+    CaseSensitive,
+
+    [EnumValue("ClientSpecified")]
+    ClientSpecified
 }

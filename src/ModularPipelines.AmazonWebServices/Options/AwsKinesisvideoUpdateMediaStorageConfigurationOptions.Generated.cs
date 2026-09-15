@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("kinesisvideo", "update-media-storage-configuration")]
-public record AwsKinesisvideoUpdateMediaStorageConfigurationOptions : AwsOptions
+public record AwsKinesisvideoUpdateMediaStorageConfigurationOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--channel-arn")]
-    public string? ChannelArn { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Associates a SignalingChannel to a stream to store the media. There are two signaling modes that you can specify : o If StorageStatus is enabled, the data will be stored in the StreamARN provided. In order for WebRTC Ingestion to work, the stream must have data retention enabled. o If StorageStatus is disabled, no data will be stored, and the Strea- mARN parameter will not be needed. WARNING: If StorageStatus is enabled, direct peer-to-peer (master-viewer) connections no longer occur. Peers conn...
+    /// </summary>
+    /// <param name="ChannelArn">The Amazon Resource Name (ARN) of the channel. Constraints: o min: 1 o max: 1024 o pattern: arn:[a-z\d-]+:kine- sisvideo:[a-z0-9-]+:[0-9]+:[a-z]+/[a-zA-Z0-9_.-]+/[0-9]+</param>
+    /// <param name="MediaStorageConfiguration">A structure that encapsulates, or contains, the media storage con- figuration properties. StreamARN -&gt; (string) The Amazon Resource Name (ARN) of the stream. Constraints: o min: 1 o max: 1024 o pattern: arn:[a-z\d-]+:kine- sisvideo:[a-z0-9-]+:[0-9]+:[a-z]+/[a-zA-Z0-9_.-]+/[0-9]+ Status -&gt; (string) [required] The status of the media storage configuration. Possible values: o ENABLED o DISABLED Shorthand Syntax: StreamARN=string,Status=string JSON Syntax: { "StreamARN": "string", "Status": "ENABLED"|"DISABLED" }</param>
+    public AwsKinesisvideoUpdateMediaStorageConfigurationOptions(
+        string ChannelArn,
+        string MediaStorageConfiguration
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ChannelArn);
+        this.ChannelArn = ChannelArn;
+        global::System.ArgumentNullException.ThrowIfNull(MediaStorageConfiguration);
+        this.MediaStorageConfiguration = MediaStorageConfiguration;
+    }
+
+    private AwsKinesisvideoUpdateMediaStorageConfigurationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsKinesisvideoUpdateMediaStorageConfigurationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsKinesisvideoUpdateMediaStorageConfigurationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the channel. Constraints: o min: 1 o max: 1024 o pattern: arn:[a-z\d-]+:kine- sisvideo:[a-z0-9-]+:[0-9]+:[a-z]+/[a-zA-Z0-9_.-]+/[0-9]+
+    /// </summary>
+    [CliOption("--channel-arn")]
+    public string? ChannelArn { get; private init; }
+
+    /// <summary>
+    /// A structure that encapsulates, or contains, the media storage con- figuration properties. StreamARN -&gt; (string) The Amazon Resource Name (ARN) of the stream. Constraints: o min: 1 o max: 1024 o pattern: arn:[a-z\d-]+:kine- sisvideo:[a-z0-9-]+:[0-9]+:[a-z]+/[a-zA-Z0-9_.-]+/[0-9]+ Status -&gt; (string) [required] The status of the media storage configuration. Possible values: o ENABLED o DISABLED Shorthand Syntax: StreamARN=string,Status=string JSON Syntax: { "StreamARN": "string", "Status": "ENABLED"|"DISABLED" }
+    /// </summary>
     [CliOption("--media-storage-configuration")]
-    public string? MediaStorageConfiguration { get; set; }
+    public string? MediaStorageConfiguration { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -5,8 +5,8 @@
 
 #nullable enable
 
-using ModularPipelines.Context;
 using System.CodeDom.Compiler;
+using ModularPipelines.Context;
 using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
@@ -40,11 +40,11 @@ public class AwsBedrockDataAutomationRuntime : IAwsBedrockDataAutomationRuntime
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetDataAutomationStatusAsync(
-        AwsBedrockDataAutomationRuntimeGetDataAutomationStatusOptions? options = null,
+        AwsBedrockDataAutomationRuntimeGetDataAutomationStatusOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBedrockDataAutomationRuntimeGetDataAutomationStatusOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -55,11 +55,11 @@ public class AwsBedrockDataAutomationRuntime : IAwsBedrockDataAutomationRuntime
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> InvokeDataAutomationAsyncCommandAsync(
-        AwsBedrockDataAutomationRuntimeInvokeDataAutomationAsyncOptions? options = null,
+        AwsBedrockDataAutomationRuntimeInvokeDataAutomationAsyncOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBedrockDataAutomationRuntimeInvokeDataAutomationAsyncOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -70,11 +70,11 @@ public class AwsBedrockDataAutomationRuntime : IAwsBedrockDataAutomationRuntime
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> InvokeDataAutomationAsync(
-        AwsBedrockDataAutomationRuntimeInvokeDataAutomationOptions? options = null,
+        AwsBedrockDataAutomationRuntimeInvokeDataAutomationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBedrockDataAutomationRuntimeInvokeDataAutomationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -85,11 +85,11 @@ public class AwsBedrockDataAutomationRuntime : IAwsBedrockDataAutomationRuntime
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListTagsForResourceAsync(
-        AwsBedrockDataAutomationRuntimeListTagsForResourceOptions? options = null,
+        AwsBedrockDataAutomationRuntimeListTagsForResourceOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBedrockDataAutomationRuntimeListTagsForResourceOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -100,11 +100,11 @@ public class AwsBedrockDataAutomationRuntime : IAwsBedrockDataAutomationRuntime
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> TagResourceAsync(
-        AwsBedrockDataAutomationRuntimeTagResourceOptions? options = null,
+        AwsBedrockDataAutomationRuntimeTagResourceOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBedrockDataAutomationRuntimeTagResourceOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -115,11 +115,11 @@ public class AwsBedrockDataAutomationRuntime : IAwsBedrockDataAutomationRuntime
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UntagResourceAsync(
-        AwsBedrockDataAutomationRuntimeUntagResourceOptions? options = null,
+        AwsBedrockDataAutomationRuntimeUntagResourceOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBedrockDataAutomationRuntimeUntagResourceOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     #endregion

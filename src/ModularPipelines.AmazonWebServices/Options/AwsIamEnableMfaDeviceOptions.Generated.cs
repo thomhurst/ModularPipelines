@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,24 +20,98 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iam", "enable-mfa-device")]
-public record AwsIamEnableMfaDeviceOptions : AwsOptions
+public record AwsIamEnableMfaDeviceOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Enables the specified MFA device and associates it with the specified IAM user. When enabled, the MFA device is required for every subsequent login by the IAM user associated with the device. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="UserName">The name of the IAM user for whom you want to enable the MFA device. This parameter allows (through its regex pattern ) a string of char- acters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following charac- ters: _+=,.@- Constraints: o min: 1 o max: 128 o pattern: [\w+=,.@-]+</param>
+    /// <param name="SerialNumber">The serial number that uniquely identifies the MFA device. For vir- tual MFA devices, the serial number is the device ARN. This parameter allows (through its regex pattern ) a string of char- acters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following charac- ters: =,.@:/- Constraints: o min: 9 o max: 256 o pattern: [\w+=/:,.@-]+</param>
+    /// <param name="AuthenticationCode1">An authentication code emitted by the device. The format for this parameter is a string of six digits. WARNING: Submit your request immediately after generating the authentica- tion codes. If you generate the codes and then wait too long to submit the request, the MFA device successfully associates with the user but the MFA device becomes out of sync. This happens because time-based one-time passwords (TOTP) expire after a short period of time. If this happens, you can resync the device . Constraints: o min: 6 o max: 6 o pattern: [\d]+</param>
+    /// <param name="AuthenticationCode2">A subsequent authentication code emitted by the device. The format for this parameter is a string of six digits. WARNING: Submit your request immediately after generating the authentica- tion codes. If you generate the codes and then wait too long to submit the request, the MFA device successfully associates with the user but the MFA device becomes out of sync. This happens because time-based one-time passwords (TOTP) expire after a short period of time. If this happens, you can resync the device . Constraints: o min: 6 o max: 6 o pattern: [\d]+</param>
+    public AwsIamEnableMfaDeviceOptions(
+        string UserName,
+        string SerialNumber,
+        string AuthenticationCode1,
+        string AuthenticationCode2
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(UserName);
+        this.UserName = UserName;
+        global::System.ArgumentNullException.ThrowIfNull(SerialNumber);
+        this.SerialNumber = SerialNumber;
+        global::System.ArgumentNullException.ThrowIfNull(AuthenticationCode1);
+        this.AuthenticationCode1 = AuthenticationCode1;
+        global::System.ArgumentNullException.ThrowIfNull(AuthenticationCode2);
+        this.AuthenticationCode2 = AuthenticationCode2;
+    }
+
+    private AwsIamEnableMfaDeviceOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsIamEnableMfaDeviceOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsIamEnableMfaDeviceOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the IAM user for whom you want to enable the MFA device. This parameter allows (through its regex pattern ) a string of char- acters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following charac- ters: _+=,.@- Constraints: o min: 1 o max: 128 o pattern: [\w+=,.@-]+
+    /// </summary>
     [CliOption("--user-name")]
-    public string? UserName { get; set; }
+    public string? UserName { get; private init; }
 
+    /// <summary>
+    /// The serial number that uniquely identifies the MFA device. For vir- tual MFA devices, the serial number is the device ARN. This parameter allows (through its regex pattern ) a string of char- acters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following charac- ters: =,.@:/- Constraints: o min: 9 o max: 256 o pattern: [\w+=/:,.@-]+
+    /// </summary>
     [CliOption("--serial-number")]
-    public string? SerialNumber { get; set; }
+    public string? SerialNumber { get; private init; }
 
+    /// <summary>
+    /// An authentication code emitted by the device. The format for this parameter is a string of six digits. WARNING: Submit your request immediately after generating the authentica- tion codes. If you generate the codes and then wait too long to submit the request, the MFA device successfully associates with the user but the MFA device becomes out of sync. This happens because time-based one-time passwords (TOTP) expire after a short period of time. If this happens, you can resync the device . Constraints: o min: 6 o max: 6 o pattern: [\d]+
+    /// </summary>
     [CliOption("--authentication-code1")]
-    public string? AuthenticationCode1 { get; set; }
+    public string? AuthenticationCode1 { get; private init; }
 
+    /// <summary>
+    /// A subsequent authentication code emitted by the device. The format for this parameter is a string of six digits. WARNING: Submit your request immediately after generating the authentica- tion codes. If you generate the codes and then wait too long to submit the request, the MFA device successfully associates with the user but the MFA device becomes out of sync. This happens because time-based one-time passwords (TOTP) expire after a short period of time. If this happens, you can resync the device . Constraints: o min: 6 o max: 6 o pattern: [\d]+
+    /// </summary>
     [CliOption("--authentication-code2")]
-    public string? AuthenticationCode2 { get; set; }
+    public string? AuthenticationCode2 { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

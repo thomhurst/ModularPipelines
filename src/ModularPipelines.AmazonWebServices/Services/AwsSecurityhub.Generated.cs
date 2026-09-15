@@ -5,8 +5,8 @@
 
 #nullable enable
 
-using ModularPipelines.Context;
 using System.CodeDom.Compiler;
+using ModularPipelines.Context;
 using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
@@ -40,11 +40,11 @@ public class AwsSecurityhub : IAwsSecurityhub
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AcceptAdministratorInvitationAsync(
-        AwsSecurityhubAcceptAdministratorInvitationOptions? options = null,
+        AwsSecurityhubAcceptAdministratorInvitationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSecurityhubAcceptAdministratorInvitationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -55,11 +55,11 @@ public class AwsSecurityhub : IAwsSecurityhub
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> BatchDeleteAutomationRulesAsync(
-        AwsSecurityhubBatchDeleteAutomationRulesOptions? options = null,
+        AwsSecurityhubBatchDeleteAutomationRulesOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSecurityhubBatchDeleteAutomationRulesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -70,11 +70,11 @@ public class AwsSecurityhub : IAwsSecurityhub
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> BatchDisableStandardsAsync(
-        AwsSecurityhubBatchDisableStandardsOptions? options = null,
+        AwsSecurityhubBatchDisableStandardsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSecurityhubBatchDisableStandardsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -85,11 +85,11 @@ public class AwsSecurityhub : IAwsSecurityhub
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> BatchEnableStandardsAsync(
-        AwsSecurityhubBatchEnableStandardsOptions? options = null,
+        AwsSecurityhubBatchEnableStandardsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSecurityhubBatchEnableStandardsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -100,11 +100,11 @@ public class AwsSecurityhub : IAwsSecurityhub
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> BatchGetAutomationRulesAsync(
-        AwsSecurityhubBatchGetAutomationRulesOptions? options = null,
+        AwsSecurityhubBatchGetAutomationRulesOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSecurityhubBatchGetAutomationRulesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -115,11 +115,11 @@ public class AwsSecurityhub : IAwsSecurityhub
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> BatchGetConfigurationPolicyAssociationsAsync(
-        AwsSecurityhubBatchGetConfigurationPolicyAssociationsOptions? options = null,
+        AwsSecurityhubBatchGetConfigurationPolicyAssociationsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSecurityhubBatchGetConfigurationPolicyAssociationsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -130,11 +130,11 @@ public class AwsSecurityhub : IAwsSecurityhub
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> BatchGetSecurityControlsAsync(
-        AwsSecurityhubBatchGetSecurityControlsOptions? options = null,
+        AwsSecurityhubBatchGetSecurityControlsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSecurityhubBatchGetSecurityControlsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -145,11 +145,11 @@ public class AwsSecurityhub : IAwsSecurityhub
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> BatchGetStandardsControlAssociationsAsync(
-        AwsSecurityhubBatchGetStandardsControlAssociationsOptions? options = null,
+        AwsSecurityhubBatchGetStandardsControlAssociationsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSecurityhubBatchGetStandardsControlAssociationsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -160,11 +160,11 @@ public class AwsSecurityhub : IAwsSecurityhub
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> BatchImportFindingsAsync(
-        AwsSecurityhubBatchImportFindingsOptions? options = null,
+        AwsSecurityhubBatchImportFindingsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSecurityhubBatchImportFindingsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -175,11 +175,11 @@ public class AwsSecurityhub : IAwsSecurityhub
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> BatchUpdateAutomationRulesAsync(
-        AwsSecurityhubBatchUpdateAutomationRulesOptions? options = null,
+        AwsSecurityhubBatchUpdateAutomationRulesOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSecurityhubBatchUpdateAutomationRulesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -190,11 +190,11 @@ public class AwsSecurityhub : IAwsSecurityhub
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> BatchUpdateFindingsAsync(
-        AwsSecurityhubBatchUpdateFindingsOptions? options = null,
+        AwsSecurityhubBatchUpdateFindingsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSecurityhubBatchUpdateFindingsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -209,7 +209,7 @@ public class AwsSecurityhub : IAwsSecurityhub
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSecurityhubBatchUpdateFindingsV2Options(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSecurityhubBatchUpdateFindingsV2Options(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -220,11 +220,11 @@ public class AwsSecurityhub : IAwsSecurityhub
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> BatchUpdateStandardsControlAssociationsAsync(
-        AwsSecurityhubBatchUpdateStandardsControlAssociationsOptions? options = null,
+        AwsSecurityhubBatchUpdateStandardsControlAssociationsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSecurityhubBatchUpdateStandardsControlAssociationsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -235,11 +235,11 @@ public class AwsSecurityhub : IAwsSecurityhub
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateActionTargetAsync(
-        AwsSecurityhubCreateActionTargetOptions? options = null,
+        AwsSecurityhubCreateActionTargetOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSecurityhubCreateActionTargetOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -250,11 +250,11 @@ public class AwsSecurityhub : IAwsSecurityhub
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateAggregatorV2Async(
-        AwsSecurityhubCreateAggregatorV2Options? options = null,
+        AwsSecurityhubCreateAggregatorV2Options options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSecurityhubCreateAggregatorV2Options(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -265,11 +265,11 @@ public class AwsSecurityhub : IAwsSecurityhub
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateAutomationRuleAsync(
-        AwsSecurityhubCreateAutomationRuleOptions? options = null,
+        AwsSecurityhubCreateAutomationRuleOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSecurityhubCreateAutomationRuleOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -280,11 +280,11 @@ public class AwsSecurityhub : IAwsSecurityhub
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateAutomationRuleV2Async(
-        AwsSecurityhubCreateAutomationRuleV2Options? options = null,
+        AwsSecurityhubCreateAutomationRuleV2Options options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSecurityhubCreateAutomationRuleV2Options(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -295,11 +295,11 @@ public class AwsSecurityhub : IAwsSecurityhub
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateConfigurationPolicyAsync(
-        AwsSecurityhubCreateConfigurationPolicyOptions? options = null,
+        AwsSecurityhubCreateConfigurationPolicyOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSecurityhubCreateConfigurationPolicyOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -310,11 +310,11 @@ public class AwsSecurityhub : IAwsSecurityhub
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateConnectorAsync(
-        AwsSecurityhubCreateConnectorOptions? options = null,
+        AwsSecurityhubCreateConnectorOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSecurityhubCreateConnectorOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -325,11 +325,11 @@ public class AwsSecurityhub : IAwsSecurityhub
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateConnectorV2Async(
-        AwsSecurityhubCreateConnectorV2Options? options = null,
+        AwsSecurityhubCreateConnectorV2Options options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSecurityhubCreateConnectorV2Options(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -340,11 +340,11 @@ public class AwsSecurityhub : IAwsSecurityhub
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateFindingAggregatorAsync(
-        AwsSecurityhubCreateFindingAggregatorOptions? options = null,
+        AwsSecurityhubCreateFindingAggregatorOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSecurityhubCreateFindingAggregatorOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -355,11 +355,11 @@ public class AwsSecurityhub : IAwsSecurityhub
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateInsightAsync(
-        AwsSecurityhubCreateInsightOptions? options = null,
+        AwsSecurityhubCreateInsightOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSecurityhubCreateInsightOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -370,11 +370,11 @@ public class AwsSecurityhub : IAwsSecurityhub
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateMembersAsync(
-        AwsSecurityhubCreateMembersOptions? options = null,
+        AwsSecurityhubCreateMembersOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSecurityhubCreateMembersOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -385,11 +385,11 @@ public class AwsSecurityhub : IAwsSecurityhub
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateTicketV2Async(
-        AwsSecurityhubCreateTicketV2Options? options = null,
+        AwsSecurityhubCreateTicketV2Options options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSecurityhubCreateTicketV2Options(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -400,11 +400,11 @@ public class AwsSecurityhub : IAwsSecurityhub
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeclineInvitationsAsync(
-        AwsSecurityhubDeclineInvitationsOptions? options = null,
+        AwsSecurityhubDeclineInvitationsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSecurityhubDeclineInvitationsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -415,11 +415,11 @@ public class AwsSecurityhub : IAwsSecurityhub
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteActionTargetAsync(
-        AwsSecurityhubDeleteActionTargetOptions? options = null,
+        AwsSecurityhubDeleteActionTargetOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSecurityhubDeleteActionTargetOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -430,11 +430,11 @@ public class AwsSecurityhub : IAwsSecurityhub
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteAggregatorV2Async(
-        AwsSecurityhubDeleteAggregatorV2Options? options = null,
+        AwsSecurityhubDeleteAggregatorV2Options options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSecurityhubDeleteAggregatorV2Options(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -445,11 +445,11 @@ public class AwsSecurityhub : IAwsSecurityhub
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteAutomationRuleV2Async(
-        AwsSecurityhubDeleteAutomationRuleV2Options? options = null,
+        AwsSecurityhubDeleteAutomationRuleV2Options options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSecurityhubDeleteAutomationRuleV2Options(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -460,11 +460,11 @@ public class AwsSecurityhub : IAwsSecurityhub
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteConfigurationPolicyAsync(
-        AwsSecurityhubDeleteConfigurationPolicyOptions? options = null,
+        AwsSecurityhubDeleteConfigurationPolicyOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSecurityhubDeleteConfigurationPolicyOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -475,11 +475,11 @@ public class AwsSecurityhub : IAwsSecurityhub
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteConnectorAsync(
-        AwsSecurityhubDeleteConnectorOptions? options = null,
+        AwsSecurityhubDeleteConnectorOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSecurityhubDeleteConnectorOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -490,11 +490,11 @@ public class AwsSecurityhub : IAwsSecurityhub
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteConnectorV2Async(
-        AwsSecurityhubDeleteConnectorV2Options? options = null,
+        AwsSecurityhubDeleteConnectorV2Options options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSecurityhubDeleteConnectorV2Options(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -505,11 +505,11 @@ public class AwsSecurityhub : IAwsSecurityhub
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteFindingAggregatorAsync(
-        AwsSecurityhubDeleteFindingAggregatorOptions? options = null,
+        AwsSecurityhubDeleteFindingAggregatorOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSecurityhubDeleteFindingAggregatorOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -520,11 +520,11 @@ public class AwsSecurityhub : IAwsSecurityhub
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteInsightAsync(
-        AwsSecurityhubDeleteInsightOptions? options = null,
+        AwsSecurityhubDeleteInsightOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSecurityhubDeleteInsightOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -535,11 +535,11 @@ public class AwsSecurityhub : IAwsSecurityhub
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteInvitationsAsync(
-        AwsSecurityhubDeleteInvitationsOptions? options = null,
+        AwsSecurityhubDeleteInvitationsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSecurityhubDeleteInvitationsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -550,11 +550,11 @@ public class AwsSecurityhub : IAwsSecurityhub
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteMembersAsync(
-        AwsSecurityhubDeleteMembersOptions? options = null,
+        AwsSecurityhubDeleteMembersOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSecurityhubDeleteMembersOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -569,7 +569,7 @@ public class AwsSecurityhub : IAwsSecurityhub
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSecurityhubDescribeActionTargetsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSecurityhubDescribeActionTargetsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -584,7 +584,7 @@ public class AwsSecurityhub : IAwsSecurityhub
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSecurityhubDescribeHubOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSecurityhubDescribeHubOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -599,7 +599,7 @@ public class AwsSecurityhub : IAwsSecurityhub
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSecurityhubDescribeOrganizationConfigurationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSecurityhubDescribeOrganizationConfigurationOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -614,7 +614,7 @@ public class AwsSecurityhub : IAwsSecurityhub
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSecurityhubDescribeProductsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSecurityhubDescribeProductsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -629,7 +629,7 @@ public class AwsSecurityhub : IAwsSecurityhub
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSecurityhubDescribeProductsV2Options(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSecurityhubDescribeProductsV2Options(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -644,7 +644,7 @@ public class AwsSecurityhub : IAwsSecurityhub
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSecurityhubDescribeSecurityHubV2Options(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSecurityhubDescribeSecurityHubV2Options(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -655,11 +655,11 @@ public class AwsSecurityhub : IAwsSecurityhub
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DescribeStandardsControlsAsync(
-        AwsSecurityhubDescribeStandardsControlsOptions? options = null,
+        AwsSecurityhubDescribeStandardsControlsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSecurityhubDescribeStandardsControlsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -674,7 +674,7 @@ public class AwsSecurityhub : IAwsSecurityhub
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSecurityhubDescribeStandardsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSecurityhubDescribeStandardsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -685,11 +685,11 @@ public class AwsSecurityhub : IAwsSecurityhub
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DisableImportFindingsForProductAsync(
-        AwsSecurityhubDisableImportFindingsForProductOptions? options = null,
+        AwsSecurityhubDisableImportFindingsForProductOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSecurityhubDisableImportFindingsForProductOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -700,11 +700,11 @@ public class AwsSecurityhub : IAwsSecurityhub
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DisableOrganizationAdminAccountAsync(
-        AwsSecurityhubDisableOrganizationAdminAccountOptions? options = null,
+        AwsSecurityhubDisableOrganizationAdminAccountOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSecurityhubDisableOrganizationAdminAccountOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -715,11 +715,11 @@ public class AwsSecurityhub : IAwsSecurityhub
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DisableSecurityHubFeatureV2Async(
-        AwsSecurityhubDisableSecurityHubFeatureV2Options? options = null,
+        AwsSecurityhubDisableSecurityHubFeatureV2Options options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSecurityhubDisableSecurityHubFeatureV2Options(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -734,7 +734,7 @@ public class AwsSecurityhub : IAwsSecurityhub
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSecurityhubDisableSecurityHubOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSecurityhubDisableSecurityHubOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -749,7 +749,7 @@ public class AwsSecurityhub : IAwsSecurityhub
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSecurityhubDisableSecurityHubV2Options(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSecurityhubDisableSecurityHubV2Options(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -764,7 +764,7 @@ public class AwsSecurityhub : IAwsSecurityhub
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSecurityhubDisassociateFromAdministratorAccountOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSecurityhubDisassociateFromAdministratorAccountOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -775,11 +775,11 @@ public class AwsSecurityhub : IAwsSecurityhub
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DisassociateMembersAsync(
-        AwsSecurityhubDisassociateMembersOptions? options = null,
+        AwsSecurityhubDisassociateMembersOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSecurityhubDisassociateMembersOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -790,11 +790,11 @@ public class AwsSecurityhub : IAwsSecurityhub
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> EnableImportFindingsForProductAsync(
-        AwsSecurityhubEnableImportFindingsForProductOptions? options = null,
+        AwsSecurityhubEnableImportFindingsForProductOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSecurityhubEnableImportFindingsForProductOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -805,11 +805,11 @@ public class AwsSecurityhub : IAwsSecurityhub
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> EnableOrganizationAdminAccountAsync(
-        AwsSecurityhubEnableOrganizationAdminAccountOptions? options = null,
+        AwsSecurityhubEnableOrganizationAdminAccountOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSecurityhubEnableOrganizationAdminAccountOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -820,11 +820,11 @@ public class AwsSecurityhub : IAwsSecurityhub
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> EnableSecurityHubFeatureV2Async(
-        AwsSecurityhubEnableSecurityHubFeatureV2Options? options = null,
+        AwsSecurityhubEnableSecurityHubFeatureV2Options options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSecurityhubEnableSecurityHubFeatureV2Options(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -839,7 +839,7 @@ public class AwsSecurityhub : IAwsSecurityhub
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSecurityhubEnableSecurityHubOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSecurityhubEnableSecurityHubOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -854,7 +854,7 @@ public class AwsSecurityhub : IAwsSecurityhub
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSecurityhubEnableSecurityHubV2Options(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSecurityhubEnableSecurityHubV2Options(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -865,11 +865,11 @@ public class AwsSecurityhub : IAwsSecurityhub
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GenerateRecommendedPolicyV2Async(
-        AwsSecurityhubGenerateRecommendedPolicyV2Options? options = null,
+        AwsSecurityhubGenerateRecommendedPolicyV2Options options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSecurityhubGenerateRecommendedPolicyV2Options(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -884,7 +884,7 @@ public class AwsSecurityhub : IAwsSecurityhub
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSecurityhubGetAdministratorAccountOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSecurityhubGetAdministratorAccountOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -895,11 +895,11 @@ public class AwsSecurityhub : IAwsSecurityhub
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetAggregatorV2Async(
-        AwsSecurityhubGetAggregatorV2Options? options = null,
+        AwsSecurityhubGetAggregatorV2Options options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSecurityhubGetAggregatorV2Options(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -910,11 +910,11 @@ public class AwsSecurityhub : IAwsSecurityhub
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetAutomationRuleV2Async(
-        AwsSecurityhubGetAutomationRuleV2Options? options = null,
+        AwsSecurityhubGetAutomationRuleV2Options options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSecurityhubGetAutomationRuleV2Options(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -925,11 +925,11 @@ public class AwsSecurityhub : IAwsSecurityhub
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetConfigurationPolicyAssociationAsync(
-        AwsSecurityhubGetConfigurationPolicyAssociationOptions? options = null,
+        AwsSecurityhubGetConfigurationPolicyAssociationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSecurityhubGetConfigurationPolicyAssociationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -940,11 +940,11 @@ public class AwsSecurityhub : IAwsSecurityhub
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetConfigurationPolicyAsync(
-        AwsSecurityhubGetConfigurationPolicyOptions? options = null,
+        AwsSecurityhubGetConfigurationPolicyOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSecurityhubGetConfigurationPolicyOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -955,11 +955,11 @@ public class AwsSecurityhub : IAwsSecurityhub
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetConnectorAsync(
-        AwsSecurityhubGetConnectorOptions? options = null,
+        AwsSecurityhubGetConnectorOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSecurityhubGetConnectorOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -970,11 +970,11 @@ public class AwsSecurityhub : IAwsSecurityhub
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetConnectorV2Async(
-        AwsSecurityhubGetConnectorV2Options? options = null,
+        AwsSecurityhubGetConnectorV2Options options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSecurityhubGetConnectorV2Options(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -989,7 +989,7 @@ public class AwsSecurityhub : IAwsSecurityhub
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSecurityhubGetEnabledStandardsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSecurityhubGetEnabledStandardsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1000,11 +1000,11 @@ public class AwsSecurityhub : IAwsSecurityhub
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetFindingAggregatorAsync(
-        AwsSecurityhubGetFindingAggregatorOptions? options = null,
+        AwsSecurityhubGetFindingAggregatorOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSecurityhubGetFindingAggregatorOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1015,11 +1015,26 @@ public class AwsSecurityhub : IAwsSecurityhub
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetFindingHistoryAsync(
-        AwsSecurityhubGetFindingHistoryOptions? options = null,
+        AwsSecurityhubGetFindingHistoryOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSecurityhubGetFindingHistoryOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Returns a list of findings that match the specified criteria. If cross-Region aggregation is enabled, then when you call GetFindings from the home Region, the results include all of the matching findings from both the home Region and linked Regions. See also: AWS API Documentation get-findings uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> GetFindingsAsync(
+        AwsSecurityhubGetFindingsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSecurityhubGetFindingsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1030,11 +1045,11 @@ public class AwsSecurityhub : IAwsSecurityhub
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetFindingStatisticsV2Async(
-        AwsSecurityhubGetFindingStatisticsV2Options? options = null,
+        AwsSecurityhubGetFindingStatisticsV2Options options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSecurityhubGetFindingStatisticsV2Options(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1045,11 +1060,11 @@ public class AwsSecurityhub : IAwsSecurityhub
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetFindingsTrendsV2Async(
-        AwsSecurityhubGetFindingsTrendsV2Options? options = null,
+        AwsSecurityhubGetFindingsTrendsV2Options options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSecurityhubGetFindingsTrendsV2Options(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1064,7 +1079,7 @@ public class AwsSecurityhub : IAwsSecurityhub
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSecurityhubGetFindingsV2Options(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSecurityhubGetFindingsV2Options(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1075,11 +1090,11 @@ public class AwsSecurityhub : IAwsSecurityhub
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetInsightResultsAsync(
-        AwsSecurityhubGetInsightResultsOptions? options = null,
+        AwsSecurityhubGetInsightResultsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSecurityhubGetInsightResultsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1094,7 +1109,7 @@ public class AwsSecurityhub : IAwsSecurityhub
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSecurityhubGetInsightsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSecurityhubGetInsightsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1109,7 +1124,7 @@ public class AwsSecurityhub : IAwsSecurityhub
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSecurityhubGetInvitationsCountOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSecurityhubGetInvitationsCountOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1120,11 +1135,11 @@ public class AwsSecurityhub : IAwsSecurityhub
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetMembersAsync(
-        AwsSecurityhubGetMembersOptions? options = null,
+        AwsSecurityhubGetMembersOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSecurityhubGetMembersOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1135,11 +1150,11 @@ public class AwsSecurityhub : IAwsSecurityhub
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetRecommendedPolicyV2Async(
-        AwsSecurityhubGetRecommendedPolicyV2Options? options = null,
+        AwsSecurityhubGetRecommendedPolicyV2Options options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSecurityhubGetRecommendedPolicyV2Options(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1150,11 +1165,11 @@ public class AwsSecurityhub : IAwsSecurityhub
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetResourcesStatisticsV2Async(
-        AwsSecurityhubGetResourcesStatisticsV2Options? options = null,
+        AwsSecurityhubGetResourcesStatisticsV2Options options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSecurityhubGetResourcesStatisticsV2Options(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1165,11 +1180,11 @@ public class AwsSecurityhub : IAwsSecurityhub
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetResourcesTrendsV2Async(
-        AwsSecurityhubGetResourcesTrendsV2Options? options = null,
+        AwsSecurityhubGetResourcesTrendsV2Options options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSecurityhubGetResourcesTrendsV2Options(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1184,7 +1199,7 @@ public class AwsSecurityhub : IAwsSecurityhub
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSecurityhubGetResourcesV2Options(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSecurityhubGetResourcesV2Options(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1195,11 +1210,11 @@ public class AwsSecurityhub : IAwsSecurityhub
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetSecurityControlDefinitionAsync(
-        AwsSecurityhubGetSecurityControlDefinitionOptions? options = null,
+        AwsSecurityhubGetSecurityControlDefinitionOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSecurityhubGetSecurityControlDefinitionOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1210,11 +1225,11 @@ public class AwsSecurityhub : IAwsSecurityhub
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> InviteMembersAsync(
-        AwsSecurityhubInviteMembersOptions? options = null,
+        AwsSecurityhubInviteMembersOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSecurityhubInviteMembersOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1229,7 +1244,7 @@ public class AwsSecurityhub : IAwsSecurityhub
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSecurityhubListAggregatorsV2Options(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSecurityhubListAggregatorsV2Options(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1244,7 +1259,7 @@ public class AwsSecurityhub : IAwsSecurityhub
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSecurityhubListAutomationRulesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSecurityhubListAutomationRulesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1259,7 +1274,7 @@ public class AwsSecurityhub : IAwsSecurityhub
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSecurityhubListAutomationRulesV2Options(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSecurityhubListAutomationRulesV2Options(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1274,7 +1289,7 @@ public class AwsSecurityhub : IAwsSecurityhub
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSecurityhubListConfigurationPoliciesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSecurityhubListConfigurationPoliciesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1289,7 +1304,7 @@ public class AwsSecurityhub : IAwsSecurityhub
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSecurityhubListConfigurationPolicyAssociationsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSecurityhubListConfigurationPolicyAssociationsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1304,7 +1319,7 @@ public class AwsSecurityhub : IAwsSecurityhub
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSecurityhubListConnectorsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSecurityhubListConnectorsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1319,7 +1334,7 @@ public class AwsSecurityhub : IAwsSecurityhub
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSecurityhubListConnectorsV2Options(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSecurityhubListConnectorsV2Options(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1334,7 +1349,7 @@ public class AwsSecurityhub : IAwsSecurityhub
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSecurityhubListEnabledProductsForImportOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSecurityhubListEnabledProductsForImportOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1349,7 +1364,7 @@ public class AwsSecurityhub : IAwsSecurityhub
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSecurityhubListFindingAggregatorsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSecurityhubListFindingAggregatorsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1364,7 +1379,7 @@ public class AwsSecurityhub : IAwsSecurityhub
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSecurityhubListFreeTrialStatusesV2Options(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSecurityhubListFreeTrialStatusesV2Options(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1379,7 +1394,7 @@ public class AwsSecurityhub : IAwsSecurityhub
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSecurityhubListInvitationsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSecurityhubListInvitationsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1394,7 +1409,7 @@ public class AwsSecurityhub : IAwsSecurityhub
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSecurityhubListMembersOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSecurityhubListMembersOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1409,7 +1424,7 @@ public class AwsSecurityhub : IAwsSecurityhub
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSecurityhubListOrganizationAdminAccountsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSecurityhubListOrganizationAdminAccountsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1424,7 +1439,7 @@ public class AwsSecurityhub : IAwsSecurityhub
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSecurityhubListSecurityControlDefinitionsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSecurityhubListSecurityControlDefinitionsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1435,11 +1450,11 @@ public class AwsSecurityhub : IAwsSecurityhub
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListStandardsControlAssociationsAsync(
-        AwsSecurityhubListStandardsControlAssociationsOptions? options = null,
+        AwsSecurityhubListStandardsControlAssociationsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSecurityhubListStandardsControlAssociationsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1450,11 +1465,11 @@ public class AwsSecurityhub : IAwsSecurityhub
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListTagsForResourceAsync(
-        AwsSecurityhubListTagsForResourceOptions? options = null,
+        AwsSecurityhubListTagsForResourceOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSecurityhubListTagsForResourceOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1465,11 +1480,11 @@ public class AwsSecurityhub : IAwsSecurityhub
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RegisterConnectorV2Async(
-        AwsSecurityhubRegisterConnectorV2Options? options = null,
+        AwsSecurityhubRegisterConnectorV2Options options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSecurityhubRegisterConnectorV2Options(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1480,11 +1495,11 @@ public class AwsSecurityhub : IAwsSecurityhub
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> StartConfigurationPolicyAssociationAsync(
-        AwsSecurityhubStartConfigurationPolicyAssociationOptions? options = null,
+        AwsSecurityhubStartConfigurationPolicyAssociationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSecurityhubStartConfigurationPolicyAssociationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1495,11 +1510,11 @@ public class AwsSecurityhub : IAwsSecurityhub
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> StartConfigurationPolicyDisassociationAsync(
-        AwsSecurityhubStartConfigurationPolicyDisassociationOptions? options = null,
+        AwsSecurityhubStartConfigurationPolicyDisassociationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSecurityhubStartConfigurationPolicyDisassociationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1510,11 +1525,11 @@ public class AwsSecurityhub : IAwsSecurityhub
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> TagResourceAsync(
-        AwsSecurityhubTagResourceOptions? options = null,
+        AwsSecurityhubTagResourceOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSecurityhubTagResourceOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1525,11 +1540,11 @@ public class AwsSecurityhub : IAwsSecurityhub
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UntagResourceAsync(
-        AwsSecurityhubUntagResourceOptions? options = null,
+        AwsSecurityhubUntagResourceOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSecurityhubUntagResourceOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1540,11 +1555,11 @@ public class AwsSecurityhub : IAwsSecurityhub
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateActionTargetAsync(
-        AwsSecurityhubUpdateActionTargetOptions? options = null,
+        AwsSecurityhubUpdateActionTargetOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSecurityhubUpdateActionTargetOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1555,11 +1570,11 @@ public class AwsSecurityhub : IAwsSecurityhub
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateAggregatorV2Async(
-        AwsSecurityhubUpdateAggregatorV2Options? options = null,
+        AwsSecurityhubUpdateAggregatorV2Options options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSecurityhubUpdateAggregatorV2Options(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1570,11 +1585,11 @@ public class AwsSecurityhub : IAwsSecurityhub
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateAutomationRuleV2Async(
-        AwsSecurityhubUpdateAutomationRuleV2Options? options = null,
+        AwsSecurityhubUpdateAutomationRuleV2Options options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSecurityhubUpdateAutomationRuleV2Options(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1585,11 +1600,11 @@ public class AwsSecurityhub : IAwsSecurityhub
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateConfigurationPolicyAsync(
-        AwsSecurityhubUpdateConfigurationPolicyOptions? options = null,
+        AwsSecurityhubUpdateConfigurationPolicyOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSecurityhubUpdateConfigurationPolicyOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1600,11 +1615,11 @@ public class AwsSecurityhub : IAwsSecurityhub
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateConnectorAsync(
-        AwsSecurityhubUpdateConnectorOptions? options = null,
+        AwsSecurityhubUpdateConnectorOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSecurityhubUpdateConnectorOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1615,11 +1630,11 @@ public class AwsSecurityhub : IAwsSecurityhub
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateConnectorV2Async(
-        AwsSecurityhubUpdateConnectorV2Options? options = null,
+        AwsSecurityhubUpdateConnectorV2Options options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSecurityhubUpdateConnectorV2Options(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1630,11 +1645,11 @@ public class AwsSecurityhub : IAwsSecurityhub
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateFindingAggregatorAsync(
-        AwsSecurityhubUpdateFindingAggregatorOptions? options = null,
+        AwsSecurityhubUpdateFindingAggregatorOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSecurityhubUpdateFindingAggregatorOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1645,11 +1660,11 @@ public class AwsSecurityhub : IAwsSecurityhub
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateFindingsAsync(
-        AwsSecurityhubUpdateFindingsOptions? options = null,
+        AwsSecurityhubUpdateFindingsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSecurityhubUpdateFindingsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1660,11 +1675,11 @@ public class AwsSecurityhub : IAwsSecurityhub
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateInsightAsync(
-        AwsSecurityhubUpdateInsightOptions? options = null,
+        AwsSecurityhubUpdateInsightOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSecurityhubUpdateInsightOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1675,11 +1690,11 @@ public class AwsSecurityhub : IAwsSecurityhub
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateOrganizationConfigurationAsync(
-        AwsSecurityhubUpdateOrganizationConfigurationOptions? options = null,
+        AwsSecurityhubUpdateOrganizationConfigurationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSecurityhubUpdateOrganizationConfigurationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1690,11 +1705,11 @@ public class AwsSecurityhub : IAwsSecurityhub
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateSecurityControlAsync(
-        AwsSecurityhubUpdateSecurityControlOptions? options = null,
+        AwsSecurityhubUpdateSecurityControlOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSecurityhubUpdateSecurityControlOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1709,7 +1724,7 @@ public class AwsSecurityhub : IAwsSecurityhub
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSecurityhubUpdateSecurityHubConfigurationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSecurityhubUpdateSecurityHubConfigurationOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1720,11 +1735,11 @@ public class AwsSecurityhub : IAwsSecurityhub
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateStandardsControlAsync(
-        AwsSecurityhubUpdateStandardsControlOptions? options = null,
+        AwsSecurityhubUpdateStandardsControlOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSecurityhubUpdateStandardsControlOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     #endregion

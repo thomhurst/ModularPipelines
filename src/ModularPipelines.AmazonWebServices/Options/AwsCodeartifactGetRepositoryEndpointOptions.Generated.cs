@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,22 +21,72 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("codeartifact", "get-repository-endpoint")]
-public record AwsCodeartifactGetRepositoryEndpointOptions : AwsOptions
+public record AwsCodeartifactGetRepositoryEndpointOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Returns the endpoint of a repository for a specific package format. A repository has one endpoint for each package format: o cargo o generic o maven o npm o nuget o pypi o ruby o swift See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Domain">The name of the domain that contains the repository. Constraints: o min: 2 o max: 50 o pattern: [a-z][a-z0-9\-]{0,48}[a-z0-9]</param>
+    /// <param name="Repository">The name of the repository. Constraints: o min: 2 o max: 100 o pattern: [A-Za-z0-9][A-Za-z0-9._\-]{1,99}</param>
+    /// <param name="Format">Returns which endpoint of a repository to return. A repository has one endpoint for each package format. Possible values: o npm o pypi o maven o nuget o generic o ruby o swift o cargo</param>
+    public AwsCodeartifactGetRepositoryEndpointOptions(
+        string Domain,
+        string Repository,
+        AwsCodeartifactGetRepositoryEndpointFormat Format
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Domain);
+        this.Domain = Domain;
+        global::System.ArgumentNullException.ThrowIfNull(Repository);
+        this.Repository = Repository;
+        global::System.ArgumentNullException.ThrowIfNull(Format);
+        this.Format = Format;
+    }
+
+    private AwsCodeartifactGetRepositoryEndpointOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCodeartifactGetRepositoryEndpointOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCodeartifactGetRepositoryEndpointOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the domain that contains the repository. Constraints: o min: 2 o max: 50 o pattern: [a-z][a-z0-9\-]{0,48}[a-z0-9]
+    /// </summary>
     [CliOption("--domain")]
-    public string? Domain { get; set; }
+    public string? Domain { get; private init; }
+
+    /// <summary>
+    /// The name of the repository. Constraints: o min: 2 o max: 100 o pattern: [A-Za-z0-9][A-Za-z0-9._\-]{1,99}
+    /// </summary>
+    [CliOption("--repository")]
+    public string? Repository { get; private init; }
+
+    /// <summary>
+    /// Returns which endpoint of a repository to return. A repository has one endpoint for each package format. Possible values: o npm o pypi o maven o nuget o generic o ruby o swift o cargo
+    /// </summary>
+    [CliOption("--format")]
+    public AwsCodeartifactGetRepositoryEndpointFormat? Format { get; private init; }
 
     /// <summary>
     /// The 12-digit account number of the Amazon Web Services account that owns the domain that contains the repository. It does not include dashes or spaces. Constraints: o min: 12 o max: 12 o pattern: [0-9]{12}
     /// </summary>
     [CliOption("--domain-owner")]
     public string? DomainOwner { get; set; }
-
-    [CliOption("--repository")]
-    public string? Repository { get; set; }
-
-    [CliOption("--format")]
-    public string? Format { get; set; }
 
     /// <summary>
     /// A string that specifies the type of endpoint. Possible values: o dualstack o ipv4
@@ -48,5 +99,22 @@ public record AwsCodeartifactGetRepositoryEndpointOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +21,50 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("greengrass", "get-connector-definition-version")]
-public record AwsGreengrassGetConnectorDefinitionVersionOptions : AwsOptions
+public record AwsGreengrassGetConnectorDefinitionVersionOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Retrieves information about a connector definition version, including the connectors that the version contains. Connectors are prebuilt mod- ules that interact with local infrastructure, device protocols, AWS, and other cloud services. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ConnectorDefinitionId"></param>
+    /// <param name="ConnectorDefinitionVersionId"></param>
+    public AwsGreengrassGetConnectorDefinitionVersionOptions(
+        string ConnectorDefinitionId,
+        string ConnectorDefinitionVersionId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ConnectorDefinitionId);
+        this.ConnectorDefinitionId = ConnectorDefinitionId;
+        global::System.ArgumentNullException.ThrowIfNull(ConnectorDefinitionVersionId);
+        this.ConnectorDefinitionVersionId = ConnectorDefinitionVersionId;
+    }
+
+    private AwsGreengrassGetConnectorDefinitionVersionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsGreengrassGetConnectorDefinitionVersionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsGreengrassGetConnectorDefinitionVersionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
     [CliOption("--connector-definition-id")]
-    public string? ConnectorDefinitionId { get; set; }
+    public string? ConnectorDefinitionId { get; private init; }
 
     [CliOption("--connector-definition-version-id")]
-    public string? ConnectorDefinitionVersionId { get; set; }
+    public string? ConnectorDefinitionVersionId { get; private init; }
 
     [SecretValue]
     [CliOption("--next-token")]
@@ -37,5 +75,22 @@ public record AwsGreengrassGetConnectorDefinitionVersionOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

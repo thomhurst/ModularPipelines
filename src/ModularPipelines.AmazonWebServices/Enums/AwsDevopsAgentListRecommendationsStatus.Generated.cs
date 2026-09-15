@@ -16,21 +16,21 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsDevopsAgentListRecommendationsStatus
 {
-    [EnumValue("PROPOSED")]
-    Proposed = 1,
-
     [EnumValue("ACCEPTED")]
-    Accepted = 2,
-
-    [EnumValue("REJECTED")]
-    Rejected = 3,
+    Accepted,
 
     [EnumValue("CLOSED")]
-    Closed = 4,
+    Closed,
 
     [EnumValue("COMPLETED")]
-    Completed = 5,
+    Completed,
+
+    [EnumValue("PROPOSED")]
+    Proposed,
+
+    [EnumValue("REJECTED")]
+    Rejected,
 
     [EnumValue("UPDATE_IN_PROGRESS")]
-    UpdateInProgress = 6
+    UpdateInProgress
 }

@@ -28,7 +28,7 @@ public interface IAwsSustainability
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetEstimatedCarbonEmissionsDimensionValuesAsync(AwsSustainabilityGetEstimatedCarbonEmissionsDimensionValuesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> GetEstimatedCarbonEmissionsDimensionValuesAsync(AwsSustainabilityGetEstimatedCarbonEmissionsDimensionValuesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -38,7 +38,7 @@ public interface IAwsSustainability
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetEstimatedCarbonEmissionsAsync(AwsSustainabilityGetEstimatedCarbonEmissionsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> GetEstimatedCarbonEmissionsAsync(AwsSustainabilityGetEstimatedCarbonEmissionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -48,7 +48,7 @@ public interface IAwsSustainability
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetEstimatedWaterAllocationDimensionValuesAsync(AwsSustainabilityGetEstimatedWaterAllocationDimensionValuesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> GetEstimatedWaterAllocationDimensionValuesAsync(AwsSustainabilityGetEstimatedWaterAllocationDimensionValuesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -58,7 +58,7 @@ public interface IAwsSustainability
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetEstimatedWaterAllocationAsync(AwsSustainabilityGetEstimatedWaterAllocationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> GetEstimatedWaterAllocationAsync(AwsSustainabilityGetEstimatedWaterAllocationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
 }

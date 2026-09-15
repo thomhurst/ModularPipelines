@@ -35,7 +35,10 @@ public record AwsSagemakerQueryLineageOptions : AwsOptions
     [CliOption("--direction")]
     public AwsSagemakerQueryLineageDirection? Direction { get; set; }
 
-    [CliFlag("--include-edges")]
+    /// <summary>
+    /// Setting this value to True retrieves not only the entities of inter- est but also the Associations and lineage entities on the path. Set to False to only return lineage entities that match your query.
+    /// </summary>
+    [CliFlag("--include-edges", NegatedName = "--no-include-edges")]
     public bool? IncludeEdges { get; set; }
 
     /// <summary>

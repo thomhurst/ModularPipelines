@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +20,88 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ssm", "get-maintenance-window-execution-task-invocation")]
-public record AwsSsmGetMaintenanceWindowExecutionTaskInvocationOptions : AwsOptions
+public record AwsSsmGetMaintenanceWindowExecutionTaskInvocationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Retrieves information about a specific task running on a specific tar- get. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="WindowExecutionId">The ID of the maintenance window execution for which the task is a part. Constraints: o min: 36 o max: 36 o pattern: ^[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}$</param>
+    /// <param name="TaskId">The ID of the specific task in the maintenance window task that should be retrieved. Constraints: o min: 36 o max: 36 o pattern: ^[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}$</param>
+    /// <param name="InvocationId">The invocation ID to retrieve. Constraints: o min: 36 o max: 36 o pattern: ^[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}$</param>
+    public AwsSsmGetMaintenanceWindowExecutionTaskInvocationOptions(
+        string WindowExecutionId,
+        string TaskId,
+        string InvocationId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(WindowExecutionId);
+        this.WindowExecutionId = WindowExecutionId;
+        global::System.ArgumentNullException.ThrowIfNull(TaskId);
+        this.TaskId = TaskId;
+        global::System.ArgumentNullException.ThrowIfNull(InvocationId);
+        this.InvocationId = InvocationId;
+    }
+
+    private AwsSsmGetMaintenanceWindowExecutionTaskInvocationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSsmGetMaintenanceWindowExecutionTaskInvocationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSsmGetMaintenanceWindowExecutionTaskInvocationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the maintenance window execution for which the task is a part. Constraints: o min: 36 o max: 36 o pattern: ^[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}$
+    /// </summary>
     [CliOption("--window-execution-id")]
-    public string? WindowExecutionId { get; set; }
+    public string? WindowExecutionId { get; private init; }
 
+    /// <summary>
+    /// The ID of the specific task in the maintenance window task that should be retrieved. Constraints: o min: 36 o max: 36 o pattern: ^[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}$
+    /// </summary>
     [CliOption("--task-id")]
-    public string? TaskId { get; set; }
+    public string? TaskId { get; private init; }
 
+    /// <summary>
+    /// The invocation ID to retrieve. Constraints: o min: 36 o max: 36 o pattern: ^[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}$
+    /// </summary>
     [CliOption("--invocation-id")]
-    public string? InvocationId { get; set; }
+    public string? InvocationId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

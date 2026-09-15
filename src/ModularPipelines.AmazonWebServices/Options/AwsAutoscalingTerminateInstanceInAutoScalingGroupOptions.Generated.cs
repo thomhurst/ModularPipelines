@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,8 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("autoscaling", "terminate-instance-in-auto-scaling-group")]
-public record AwsAutoscalingTerminateInstanceInAutoScalingGroupOptions : AwsOptions
+public record AwsAutoscalingTerminateInstanceInAutoScalingGroupOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Terminates the specified instance and optionally adjusts the desired group size. This operation cannot be called on instances in a warm pool. This call simply makes a termination request. The instances are not terminated immediately. When an instance is terminated, the instance status changes to terminated . You can't connect to or start an in- stance after you've terminated it. If you do not specify the option to decrement the desired capacity, Amazon EC2 Auto Scaling launches instances to repl...
+    /// </summary>
+    /// <param name="ShouldDecrementDesiredCapacity">pacity (boolean) [required] Indicates whether terminating the instance also decrements the size of the Auto Scaling group.</param>
+    public AwsAutoscalingTerminateInstanceInAutoScalingGroupOptions(
+        bool ShouldDecrementDesiredCapacity
+    )
+    {
+        this.ShouldDecrementDesiredCapacity = ShouldDecrementDesiredCapacity;
+    }
+
+    private AwsAutoscalingTerminateInstanceInAutoScalingGroupOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsAutoscalingTerminateInstanceInAutoScalingGroupOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsAutoscalingTerminateInstanceInAutoScalingGroupOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// pacity (boolean) [required] Indicates whether terminating the instance also decrements the size of the Auto Scaling group.
+    /// </summary>
+    [CliFlag("--should-decrement-desired-capacity", NegatedName = "--no-should-decrement-desired-capacity")]
+    public bool? ShouldDecrementDesiredCapacity { get; private init; }
+
     /// <summary>
     /// The ID of the instance. Constraints: o min: 1 o max: 19 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*
     /// </summary>
@@ -39,13 +78,27 @@ public record AwsAutoscalingTerminateInstanceInAutoScalingGroupOptions : AwsOpti
     [CliOption("--auto-scaling-group-name")]
     public string? AutoScalingGroupName { get; set; }
 
-    [CliFlag("--should-decrement-desired-capacity")]
-    public bool? ShouldDecrementDesiredCapacity { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,18 +21,89 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cognito-sync", "set-cognito-events")]
-public record AwsCognitoSyncSetCognitoEventsOptions : AwsOptions
+public record AwsCognitoSyncSetCognitoEventsOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--identity-pool-id")]
-    public string? IdentityPoolId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Sets the AWS Lambda function for a given event type for an identity pool. This request only updates the key/value pair specified. Other key/values pairs are not updated. To remove a key value pair, pass a empty value for the particular key. This API can only be called with developer credentials. You cannot call this API with the temporary user credentials provided by Cognito Iden- tity. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="IdentityPoolId">The Cognito Identity Pool to use when configuring Cognito Events Constraints: o min: 1 o max: 55 o pattern: [\w-]+:[0-9a-f-]+</param>
+    /// <param name="Events">The events to configure Constraints: o max: 1 key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}</param>
+    public AwsCognitoSyncSetCognitoEventsOptions(
+        string IdentityPoolId,
+        IReadOnlyList<KeyValue> Events
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(IdentityPoolId);
+        this.IdentityPoolId = IdentityPoolId;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Events);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<KeyValue>(Events));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Events));
+            }
+
+            Events = materialized;
+        }
+        this.Events = Events;
+    }
+
+    private AwsCognitoSyncSetCognitoEventsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCognitoSyncSetCognitoEventsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCognitoSyncSetCognitoEventsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Cognito Identity Pool to use when configuring Cognito Events Constraints: o min: 1 o max: 55 o pattern: [\w-]+:[0-9a-f-]+
+    /// </summary>
+    [CliOption("--identity-pool-id")]
+    public string? IdentityPoolId { get; private init; }
+
+    /// <summary>
+    /// The events to configure Constraints: o max: 1 key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// </summary>
     [CliOption("--events", CollectionSeparator = ",")]
-    public IReadOnlyList<KeyValue>? Events { get; set; }
+    public IReadOnlyList<KeyValue>? Events { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

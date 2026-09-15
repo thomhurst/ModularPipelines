@@ -16,21 +16,21 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsLightsailUpdateContainerServicePower
 {
-    [EnumValue("nano")]
-    Nano = 1,
-
-    [EnumValue("micro")]
-    Micro = 2,
-
-    [EnumValue("small")]
-    Small = 3,
+    [EnumValue("large")]
+    Large,
 
     [EnumValue("medium")]
-    Medium = 4,
+    Medium,
 
-    [EnumValue("large")]
-    Large = 5,
+    [EnumValue("micro")]
+    Micro,
+
+    [EnumValue("nano")]
+    Nano,
+
+    [EnumValue("small")]
+    Small,
 
     [EnumValue("xlarge")]
-    Xlarge = 6
+    Xlarge
 }

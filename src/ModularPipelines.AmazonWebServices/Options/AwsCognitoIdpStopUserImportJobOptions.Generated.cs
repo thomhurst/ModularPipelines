@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cognito-idp", "stop-user-import-job")]
-public record AwsCognitoIdpStopUserImportJobOptions : AwsOptions
+public record AwsCognitoIdpStopUserImportJobOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--user-pool-id")]
-    public string? UserPoolId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Instructs your user pool to stop a running job that's importing users from a CSV file that contains their usernames and attributes. For more information about importing users from a CSV file, see Importing users from a CSV file . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="UserPoolId">The ID of the user pool that you want to stop. Constraints: o min: 1 o max: 55 o pattern: [\w-]+_[0-9a-zA-Z]+</param>
+    /// <param name="JobId">The ID of a running user import job. Constraints: o min: 1 o max: 55 o pattern: import-[0-9a-zA-Z-]+</param>
+    public AwsCognitoIdpStopUserImportJobOptions(
+        string UserPoolId,
+        string JobId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(UserPoolId);
+        this.UserPoolId = UserPoolId;
+        global::System.ArgumentNullException.ThrowIfNull(JobId);
+        this.JobId = JobId;
+    }
+
+    private AwsCognitoIdpStopUserImportJobOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCognitoIdpStopUserImportJobOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCognitoIdpStopUserImportJobOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the user pool that you want to stop. Constraints: o min: 1 o max: 55 o pattern: [\w-]+_[0-9a-zA-Z]+
+    /// </summary>
+    [CliOption("--user-pool-id")]
+    public string? UserPoolId { get; private init; }
+
+    /// <summary>
+    /// The ID of a running user import job. Constraints: o min: 1 o max: 55 o pattern: import-[0-9a-zA-Z-]+
+    /// </summary>
     [CliOption("--job-id")]
-    public string? JobId { get; set; }
+    public string? JobId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

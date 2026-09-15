@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,19 +21,62 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("servicecatalog", "update-provisioning-artifact")]
-public record AwsServicecatalogUpdateProvisioningArtifactOptions : AwsOptions
+public record AwsServicecatalogUpdateProvisioningArtifactOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates the specified provisioning artifact (also known as a version) for the specified product. You cannot update a provisioning artifact for a product that was shared with you. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ProductId">The product identifier. Constraints: o min: 1 o max: 100 o pattern: ^[a-zA-Z0-9_\-]*</param>
+    /// <param name="ProvisioningArtifactId">The identifier of the provisioning artifact. Constraints: o min: 1 o max: 100 o pattern: ^[a-zA-Z0-9_\-]*</param>
+    public AwsServicecatalogUpdateProvisioningArtifactOptions(
+        string ProductId,
+        string ProvisioningArtifactId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ProductId);
+        this.ProductId = ProductId;
+        global::System.ArgumentNullException.ThrowIfNull(ProvisioningArtifactId);
+        this.ProvisioningArtifactId = ProvisioningArtifactId;
+    }
+
+    private AwsServicecatalogUpdateProvisioningArtifactOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsServicecatalogUpdateProvisioningArtifactOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsServicecatalogUpdateProvisioningArtifactOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The product identifier. Constraints: o min: 1 o max: 100 o pattern: ^[a-zA-Z0-9_\-]*
+    /// </summary>
+    [CliOption("--product-id")]
+    public string? ProductId { get; private init; }
+
+    /// <summary>
+    /// The identifier of the provisioning artifact. Constraints: o min: 1 o max: 100 o pattern: ^[a-zA-Z0-9_\-]*
+    /// </summary>
+    [CliOption("--provisioning-artifact-id")]
+    public string? ProvisioningArtifactId { get; private init; }
+
     /// <summary>
     /// The language code. o jp - Japanese o zh - Chinese Constraints: o max: 100
     /// </summary>
     [CliOption("--accept-language")]
     public string? AcceptLanguage { get; set; }
-
-    [CliOption("--product-id")]
-    public string? ProductId { get; set; }
-
-    [CliOption("--provisioning-artifact-id")]
-    public string? ProvisioningArtifactId { get; set; }
 
     /// <summary>
     /// The updated name of the provisioning artifact. Constraints: o max: 8192
@@ -46,7 +90,10 @@ public record AwsServicecatalogUpdateProvisioningArtifactOptions : AwsOptions
     [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CliFlag("--active")]
+    /// <summary>
+    /// Indicates whether the product version is active. Inactive provisioning artifacts are invisible to end users. End users cannot launch or update a provisioned product from an inactive provisioning artifact.
+    /// </summary>
+    [CliFlag("--active", NegatedName = "--no-active")]
     public bool? Active { get; set; }
 
     /// <summary>
@@ -60,5 +107,22 @@ public record AwsServicecatalogUpdateProvisioningArtifactOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

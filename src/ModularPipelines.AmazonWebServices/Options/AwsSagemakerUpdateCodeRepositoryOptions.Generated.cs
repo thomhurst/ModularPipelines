@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sagemaker", "update-code-repository")]
-public record AwsSagemakerUpdateCodeRepositoryOptions : AwsOptions
+public record AwsSagemakerUpdateCodeRepositoryOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates the specified Git repository with the specified values. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="CodeRepositoryName">The name of the Git repository to update. Constraints: o min: 1 o max: 63 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}</param>
+    public AwsSagemakerUpdateCodeRepositoryOptions(
+        string CodeRepositoryName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(CodeRepositoryName);
+        this.CodeRepositoryName = CodeRepositoryName;
+    }
+
+    private AwsSagemakerUpdateCodeRepositoryOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSagemakerUpdateCodeRepositoryOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSagemakerUpdateCodeRepositoryOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the Git repository to update. Constraints: o min: 1 o max: 63 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}
+    /// </summary>
     [CliOption("--code-repository-name")]
-    public string? CodeRepositoryName { get; set; }
+    public string? CodeRepositoryName { get; private init; }
 
     /// <summary>
     /// The configuration of the git repository, including the URL and the Amazon Resource Name (ARN) of the Amazon Web Services Secrets Man- ager secret that contains the credentials used to access the reposi- tory. The secret must have a staging label of AWSCURRENT and must be in the following format: {"username": *UserName* , "password": *Password* } SecretArn -&gt; (string) The Amazon Resource Name (ARN) of the Amazon Web Services Se- crets Manager secret that contains the credentials used to ac- cess the git repository. The secret must have a staging label of AWSCURRENT and must be in the following format: {"username": *UserName* , "password": *Password* } Constraints: o min: 1 o max: 2048 o pattern: arn:aws[a-z\-]*:secretsman- ager:[a-z0-9\-]*:[0-9]{12}:secret:.* Shorthand Syntax: SecretArn=string JSON Syntax: { "SecretArn": "string" }
@@ -35,5 +72,22 @@ public record AwsSagemakerUpdateCodeRepositoryOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

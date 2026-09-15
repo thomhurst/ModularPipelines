@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,16 +21,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("connect", "monitor-contact")]
-public record AwsConnectMonitorContactOptions : AwsOptions
+public record AwsConnectMonitorContactOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Initiates silent monitoring of a contact. The Contact Control Panel (CCP) of the user specified by userId will be set to silent monitoring mode on the contact. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instanceId in the ARN of the instance. Constraints: o min: 1 o max: 100</param>
+    /// <param name="ContactId">The identifier of the contact. Constraints: o min: 1 o max: 256</param>
+    /// <param name="UserId">The identifier of the user account. Constraints: o min: 1 o max: 256</param>
+    public AwsConnectMonitorContactOptions(
+        string InstanceId,
+        string ContactId,
+        string UserId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(InstanceId);
+        this.InstanceId = InstanceId;
+        global::System.ArgumentNullException.ThrowIfNull(ContactId);
+        this.ContactId = ContactId;
+        global::System.ArgumentNullException.ThrowIfNull(UserId);
+        this.UserId = UserId;
+    }
+
+    private AwsConnectMonitorContactOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsConnectMonitorContactOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsConnectMonitorContactOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the Connect Customer instance. You can find the instanceId in the ARN of the instance. Constraints: o min: 1 o max: 100
+    /// </summary>
     [CliOption("--instance-id")]
-    public string? InstanceId { get; set; }
+    public string? InstanceId { get; private init; }
 
+    /// <summary>
+    /// The identifier of the contact. Constraints: o min: 1 o max: 256
+    /// </summary>
     [CliOption("--contact-id")]
-    public string? ContactId { get; set; }
+    public string? ContactId { get; private init; }
 
+    /// <summary>
+    /// The identifier of the user account. Constraints: o min: 1 o max: 256
+    /// </summary>
     [CliOption("--user-id")]
-    public string? UserId { get; set; }
+    public string? UserId { get; private init; }
 
     /// <summary>
     /// Specify which monitoring actions the user is allowed to take. For example, whether the user is allowed to escalate from silent moni- toring to barge. AllowedMonitorCapabilities is required if barge is enabled. Constraints: o max: 2 (string) Possible values: o SILENT_MONITOR o BARGE Syntax: "string" "string" ...
@@ -49,5 +100,22 @@ public record AwsConnectMonitorContactOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

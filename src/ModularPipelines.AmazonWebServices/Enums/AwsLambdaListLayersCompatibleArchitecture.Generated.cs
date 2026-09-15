@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --compatiblearchitecture.
+/// Allowed values for --compatible-architecture.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsLambdaListLayersCompatibleArchitecture
 {
-    [EnumValue("x86_64")]
-    X86_64 = 1,
-
     [EnumValue("arm64")]
-    Arm64 = 2
+    Arm64,
+
+    [EnumValue("x86_64")]
+    X8664
 }

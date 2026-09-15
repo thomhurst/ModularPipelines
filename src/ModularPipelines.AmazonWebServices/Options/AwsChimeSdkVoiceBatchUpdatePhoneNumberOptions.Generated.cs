@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,79 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("chime-sdk-voice", "batch-update-phone-number")]
-public record AwsChimeSdkVoiceBatchUpdatePhoneNumberOptions : AwsOptions
+public record AwsChimeSdkVoiceBatchUpdatePhoneNumberOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates phone number product types, calling names, or phone number names. You can update one attribute at a time for each UpdatePhoneNum- berRequestItem . For example, you can update the product type, the calling name, or phone name. NOTE: You cannot have a duplicate phoneNumberId in a request. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="UpdatePhoneNumberRequestItems">Lists the phone numbers in the update request. (structure) The phone number ID, product type, or calling name fields to up- date, used with the BatchUpdatePhoneNumber and UpdatePhoneNum- ber actions. PhoneNumberId -&gt; (string) [required] The phone number ID to update. Constraints: o pattern: .*\S.* ProductType -&gt; (string) The product type to update. Possible values: o VoiceConnector o SipMediaApplicationDialIn CallingName -&gt; (string) The outbound calling name to update. Constraints: o pattern: ^$|^[a-zA-Z0-9 ]{2,15}$ Name -&gt; (string) The name of the phone number. Constraints: o min: 0 o max: 256 o pattern: ^$|^[a-zA-Z0-9\,\.\_\-]+(\s+[a-zA-Z0-9\,\.\_\-]+)*$ Shorthand Syntax: PhoneNumberId=string,ProductType=string,CallingName=string,Name=string ... JSON Syntax: [ { "PhoneNumberId": "string", "ProductType": "VoiceConnector"|"SipMediaApplicationDialIn", "CallingName": "string", "Name": "string" } ... ]</param>
+    public AwsChimeSdkVoiceBatchUpdatePhoneNumberOptions(
+        IEnumerable<string> UpdatePhoneNumberRequestItems
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(UpdatePhoneNumberRequestItems);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(UpdatePhoneNumberRequestItems));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(UpdatePhoneNumberRequestItems));
+            }
+
+            UpdatePhoneNumberRequestItems = materialized;
+        }
+        this.UpdatePhoneNumberRequestItems = UpdatePhoneNumberRequestItems;
+    }
+
+    private AwsChimeSdkVoiceBatchUpdatePhoneNumberOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsChimeSdkVoiceBatchUpdatePhoneNumberOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsChimeSdkVoiceBatchUpdatePhoneNumberOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Lists the phone numbers in the update request. (structure) The phone number ID, product type, or calling name fields to up- date, used with the BatchUpdatePhoneNumber and UpdatePhoneNum- ber actions. PhoneNumberId -&gt; (string) [required] The phone number ID to update. Constraints: o pattern: .*\S.* ProductType -&gt; (string) The product type to update. Possible values: o VoiceConnector o SipMediaApplicationDialIn CallingName -&gt; (string) The outbound calling name to update. Constraints: o pattern: ^$|^[a-zA-Z0-9 ]{2,15}$ Name -&gt; (string) The name of the phone number. Constraints: o min: 0 o max: 256 o pattern: ^$|^[a-zA-Z0-9\,\.\_\-]+(\s+[a-zA-Z0-9\,\.\_\-]+)*$ Shorthand Syntax: PhoneNumberId=string,ProductType=string,CallingName=string,Name=string ... JSON Syntax: [ { "PhoneNumberId": "string", "ProductType": "VoiceConnector"|"SipMediaApplicationDialIn", "CallingName": "string", "Name": "string" } ... ]
+    /// </summary>
     [CliOption("--update-phone-number-request-items", GroupValues = true)]
-    public IEnumerable<string>? UpdatePhoneNumberRequestItems { get; set; }
+    public IEnumerable<string>? UpdatePhoneNumberRequestItems { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

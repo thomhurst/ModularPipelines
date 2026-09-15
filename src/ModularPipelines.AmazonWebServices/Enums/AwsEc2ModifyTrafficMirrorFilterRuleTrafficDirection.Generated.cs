@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --trafficdirection.
+/// Allowed values for --traffic-direction.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsEc2ModifyTrafficMirrorFilterRuleTrafficDirection
 {
-    [EnumValue("ingress")]
-    Ingress = 1,
-
     [EnumValue("egress")]
-    Egress = 2
+    Egress,
+
+    [EnumValue("ingress")]
+    Ingress
 }

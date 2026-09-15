@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,10 +22,76 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cloudformation", "list-stack-instance-resource-drifts")]
-public record AwsCloudformationListStackInstanceResourceDriftsOptions : AwsOptions
+public record AwsCloudformationListStackInstanceResourceDriftsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Returns drift information for resources in a stack instance. NOTE: ListStackInstanceResourceDrifts returns drift information for the most recent drift detection operation. If an operation is in progress, it may only return partial results. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="StackSetName">The name or unique ID of the StackSet that you want to list drifted resources for. Constraints: o pattern: [a-zA-Z][-a-zA-Z0-9]*(?::[a-zA-Z0-9]{8}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{12})?</param>
+    /// <param name="StackInstanceAccount">The name of the Amazon Web Services account that you want to list resource drifts for. Constraints: o pattern: ^[0-9]{12}$</param>
+    /// <param name="StackInstanceRegion">The name of the Region where you want to list resource drifts. Constraints: o pattern: ^[a-zA-Z0-9-]{1,128}$</param>
+    /// <param name="OperationId">The unique ID of the drift operation. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9][-a-zA-Z0-9]*</param>
+    public AwsCloudformationListStackInstanceResourceDriftsOptions(
+        string StackSetName,
+        string StackInstanceAccount,
+        string StackInstanceRegion,
+        string OperationId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(StackSetName);
+        this.StackSetName = StackSetName;
+        global::System.ArgumentNullException.ThrowIfNull(StackInstanceAccount);
+        this.StackInstanceAccount = StackInstanceAccount;
+        global::System.ArgumentNullException.ThrowIfNull(StackInstanceRegion);
+        this.StackInstanceRegion = StackInstanceRegion;
+        global::System.ArgumentNullException.ThrowIfNull(OperationId);
+        this.OperationId = OperationId;
+    }
+
+    private AwsCloudformationListStackInstanceResourceDriftsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCloudformationListStackInstanceResourceDriftsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCloudformationListStackInstanceResourceDriftsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name or unique ID of the StackSet that you want to list drifted resources for. Constraints: o pattern: [a-zA-Z][-a-zA-Z0-9]*(?::[a-zA-Z0-9]{8}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{12})?
+    /// </summary>
     [CliOption("--stack-set-name")]
-    public string? StackSetName { get; set; }
+    public string? StackSetName { get; private init; }
+
+    /// <summary>
+    /// The name of the Amazon Web Services account that you want to list resource drifts for. Constraints: o pattern: ^[0-9]{12}$
+    /// </summary>
+    [CliOption("--stack-instance-account")]
+    public string? StackInstanceAccount { get; private init; }
+
+    /// <summary>
+    /// The name of the Region where you want to list resource drifts. Constraints: o pattern: ^[a-zA-Z0-9-]{1,128}$
+    /// </summary>
+    [CliOption("--stack-instance-region")]
+    public string? StackInstanceRegion { get; private init; }
+
+    /// <summary>
+    /// The unique ID of the drift operation. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9][-a-zA-Z0-9]*
+    /// </summary>
+    [CliOption("--operation-id")]
+    public string? OperationId { get; private init; }
 
     /// <summary>
     /// The token for the next set of items to return. (You received this token from a previous call.) Constraints: o min: 1 o max: 1024
@@ -45,15 +112,6 @@ public record AwsCloudformationListStackInstanceResourceDriftsOptions : AwsOptio
     [CliOption("--stack-instance-resource-drift-statuses", GroupValues = true)]
     public IEnumerable<string>? StackInstanceResourceDriftStatuses { get; set; }
 
-    [CliOption("--stack-instance-account")]
-    public string? StackInstanceAccount { get; set; }
-
-    [CliOption("--stack-instance-region")]
-    public string? StackInstanceRegion { get; set; }
-
-    [CliOption("--operation-id")]
-    public string? OperationId { get; set; }
-
     /// <summary>
     /// [Service-managed permissions] Specifies whether you are acting as an account administrator in the organization's management account or as a delegated administrator in a member account. By default, SELF is specified. Use SELF for StackSets with self-man- aged permissions. o If you are signed in to the management account, specify SELF . o If you are signed in to a delegated administrator account, specify DELEGATED_ADMIN . Your Amazon Web Services account must be regis- tered as a delegated administrator in the management account. For more information, see Register a delegated administrator in the CloudFormation User Guide . Possible values: o SELF o DELEGATED_ADMIN
     /// </summary>
@@ -65,5 +123,22 @@ public record AwsCloudformationListStackInstanceResourceDriftsOptions : AwsOptio
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

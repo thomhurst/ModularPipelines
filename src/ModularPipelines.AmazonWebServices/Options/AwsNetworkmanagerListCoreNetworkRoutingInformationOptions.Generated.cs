@@ -12,6 +12,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -21,16 +22,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("networkmanager", "list-core-network-routing-information")]
-public record AwsNetworkmanagerListCoreNetworkRoutingInformationOptions : AwsOptions
+public record AwsNetworkmanagerListCoreNetworkRoutingInformationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Lists routing information for a core network, including routes and their attributes. See also: AWS API Documentation list-core-network-routing-information is a paginated operation. Multi- ple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate ar- gument. When using --output text and the --query argument on a pagi- nated response, the --query argument must extract data from the results of the following query expre...
+    /// </summary>
+    /// <param name="CoreNetworkId">The ID of the core network to retrieve routing information for. Constraints: o min: 0 o max: 50 o pattern: ^core-network-([0-9a-f]{8,17})$</param>
+    /// <param name="SegmentName">The name of the segment to filter routing information by. Constraints: o min: 0 o max: 256 o pattern: [\s\S]*</param>
+    /// <param name="EdgeLocation">The edge location to filter routing information by. Constraints: o min: 1 o max: 63 o pattern: [\s\S]*</param>
+    public AwsNetworkmanagerListCoreNetworkRoutingInformationOptions(
+        string CoreNetworkId,
+        string SegmentName,
+        string EdgeLocation
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(CoreNetworkId);
+        this.CoreNetworkId = CoreNetworkId;
+        global::System.ArgumentNullException.ThrowIfNull(SegmentName);
+        this.SegmentName = SegmentName;
+        global::System.ArgumentNullException.ThrowIfNull(EdgeLocation);
+        this.EdgeLocation = EdgeLocation;
+    }
+
+    private AwsNetworkmanagerListCoreNetworkRoutingInformationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsNetworkmanagerListCoreNetworkRoutingInformationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsNetworkmanagerListCoreNetworkRoutingInformationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the core network to retrieve routing information for. Constraints: o min: 0 o max: 50 o pattern: ^core-network-([0-9a-f]{8,17})$
+    /// </summary>
     [CliOption("--core-network-id")]
-    public string? CoreNetworkId { get; set; }
+    public string? CoreNetworkId { get; private init; }
 
+    /// <summary>
+    /// The name of the segment to filter routing information by. Constraints: o min: 0 o max: 256 o pattern: [\s\S]*
+    /// </summary>
     [CliOption("--segment-name")]
-    public string? SegmentName { get; set; }
+    public string? SegmentName { get; private init; }
 
+    /// <summary>
+    /// The edge location to filter routing information by. Constraints: o min: 1 o max: 63 o pattern: [\s\S]*
+    /// </summary>
     [CliOption("--edge-location")]
-    public string? EdgeLocation { get; set; }
+    public string? EdgeLocation { get; private init; }
 
     /// <summary>
     /// Filters to apply based on next hop information. key -&gt; (string) Constraints: o max: 128 o pattern: ^[0-9a-zA-Z\.-]*$ value -&gt; (list) (string) Constraints: o max: 255 o pattern: ^[0-9a-zA-Z\*\.\\/\?-]*$ Shorthand Syntax: KeyName1=string,string,KeyName2=string,string JSON Syntax: {"string": ["string", ...] ...}
@@ -86,5 +137,22 @@ public record AwsNetworkmanagerListCoreNetworkRoutingInformationOptions : AwsOpt
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

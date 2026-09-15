@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,8 +20,16 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("autoscaling", "set-instance-protection")]
-public record AwsAutoscalingSetInstanceProtectionOptions : AwsOptions
+public record AwsAutoscalingSetInstanceProtectionOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates the instance protection settings of the specified instances. This operation cannot be called on instances in a warm pool. For more information, see Use instance scale-in protection in the Ama- zon EC2 Auto Scaling User Guide . If you exceed your maximum limit of instance IDs, which is 50 per Auto Scaling group, the call fails. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="InstanceIds">One or more instance IDs. You can specify up to 50 instances. (string) Constraints: o min: 1 o max: 19 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]* Syntax: "string" "string" ...</param>
+    /// <param name="AutoScalingGroupName">The name of the Auto Scaling group. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*</param>
+    /// <param name="ProtectedFromScaleIn"></param>
     public AwsAutoscalingSetInstanceProtectionOptions(
         IEnumerable<string> InstanceIds,
         string AutoScalingGroupName,
@@ -29,8 +38,8 @@ public record AwsAutoscalingSetInstanceProtectionOptions : AwsOptions
     {
         {
             global::System.ArgumentNullException.ThrowIfNull(InstanceIds);
-            var materialized = global::System.Linq.Enumerable.ToArray(InstanceIds);
-            if (materialized.Length == 0)
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(InstanceIds));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
             {
                 throw new global::System.ArgumentException(
                     "Required collection must contain at least one value.",
@@ -40,16 +49,21 @@ public record AwsAutoscalingSetInstanceProtectionOptions : AwsOptions
             InstanceIds = materialized;
         }
         this.InstanceIds = InstanceIds;
+        global::System.ArgumentNullException.ThrowIfNull(AutoScalingGroupName);
         this.AutoScalingGroupName = AutoScalingGroupName;
         this.ProtectedFromScaleIn = ProtectedFromScaleIn;
     }
 
     private AwsAutoscalingSetInstanceProtectionOptions()
     {
+        _requiresAlternateInput = true;
     }
 
-    public static AwsAutoscalingSetInstanceProtectionOptions FromCliInputJson(string cliInputJson) =>
-        new() { CliInputJson = cliInputJson };
+    public static AwsAutoscalingSetInstanceProtectionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
 
     public static AwsAutoscalingSetInstanceProtectionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
         generateCliSkeleton is "input" or "yaml-input"
@@ -79,5 +93,22 @@ public record AwsAutoscalingSetInstanceProtectionOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

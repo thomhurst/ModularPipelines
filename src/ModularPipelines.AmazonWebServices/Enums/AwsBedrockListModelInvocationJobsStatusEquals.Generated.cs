@@ -11,38 +11,38 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --statusequals.
+/// Allowed values for --status-equals.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsBedrockListModelInvocationJobsStatusEquals
 {
-    [EnumValue("Submitted")]
-    Submitted = 1,
-
-    [EnumValue("InProgress")]
-    InProgress = 2,
-
     [EnumValue("Completed")]
-    Completed = 3,
-
-    [EnumValue("Failed")]
-    Failed = 4,
-
-    [EnumValue("Stopping")]
-    Stopping = 5,
-
-    [EnumValue("Stopped")]
-    Stopped = 6,
-
-    [EnumValue("PartiallyCompleted")]
-    PartiallyCompleted = 7,
+    Completed,
 
     [EnumValue("Expired")]
-    Expired = 8,
+    Expired,
 
-    [EnumValue("Validating")]
-    Validating = 9,
+    [EnumValue("Failed")]
+    Failed,
+
+    [EnumValue("InProgress")]
+    InProgress,
+
+    [EnumValue("PartiallyCompleted")]
+    PartiallyCompleted,
 
     [EnumValue("Scheduled")]
-    Scheduled = 10
+    Scheduled,
+
+    [EnumValue("Stopped")]
+    Stopped,
+
+    [EnumValue("Stopping")]
+    Stopping,
+
+    [EnumValue("Submitted")]
+    Submitted,
+
+    [EnumValue("Validating")]
+    Validating
 }

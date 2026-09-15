@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("textract", "start-document-text-detection")]
-public record AwsTextractStartDocumentTextDetectionOptions : AwsOptions
+public record AwsTextractStartDocumentTextDetectionOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Starts the asynchronous detection of text in a document. Amazon Tex- tract can detect lines of text and the words that make up a line of text. StartDocumentTextDetection can analyze text in documents that are in JPEG, PNG, TIFF, and PDF format. The documents are stored in an Ama- zon S3 bucket. Use DocumentLocation to specify the bucket name and file name of the document. StartDocumentTextDetection returns a job identifier (JobId ) that you use to get the results of the operation. When text dete...
+    /// </summary>
+    /// <param name="DocumentLocation">The location of the document to be processed. S3Object -&gt; (structure) The Amazon S3 bucket that contains the input document. Bucket -&gt; (string) The name of the S3 bucket. Note that the # character is not valid in the file name. Constraints: o min: 3 o max: 255 o pattern: [0-9A-Za-z\.\-_]* Name -&gt; (string) The file name of the input document. Image files may be in PDF, TIFF, JPEG, or PNG format. Constraints: o min: 1 o max: 1024 o pattern: .*\S.* Version -&gt; (string) If the bucket has versioning enabled, you can specify the ob- ject version. Constraints: o min: 1 o max: 1024 o pattern: .*\S.* Shorthand Syntax: S3Object={Bucket=string,Name=string,Version=string} JSON Syntax: { "S3Object": { "Bucket": "string", "Name": "string", "Version": "string" } }</param>
+    public AwsTextractStartDocumentTextDetectionOptions(
+        string DocumentLocation
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DocumentLocation);
+        this.DocumentLocation = DocumentLocation;
+    }
+
+    private AwsTextractStartDocumentTextDetectionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsTextractStartDocumentTextDetectionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsTextractStartDocumentTextDetectionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The location of the document to be processed. S3Object -&gt; (structure) The Amazon S3 bucket that contains the input document. Bucket -&gt; (string) The name of the S3 bucket. Note that the # character is not valid in the file name. Constraints: o min: 3 o max: 255 o pattern: [0-9A-Za-z\.\-_]* Name -&gt; (string) The file name of the input document. Image files may be in PDF, TIFF, JPEG, or PNG format. Constraints: o min: 1 o max: 1024 o pattern: .*\S.* Version -&gt; (string) If the bucket has versioning enabled, you can specify the ob- ject version. Constraints: o min: 1 o max: 1024 o pattern: .*\S.* Shorthand Syntax: S3Object={Bucket=string,Name=string,Version=string} JSON Syntax: { "S3Object": { "Bucket": "string", "Name": "string", "Version": "string" } }
+    /// </summary>
     [CliOption("--document-location")]
-    public string? DocumentLocation { get; set; }
+    public string? DocumentLocation { get; private init; }
 
     /// <summary>
     /// The idempotent token that's used to identify the start request. If you use the same token with multiple StartDocumentTextDetection re- quests, the same JobId is returned. Use ClientRequestToken to pre- vent the same job from being accidentally started more than once. For more information, see Calling Amazon Textract Asynchronous Oper- ations . Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9-_]+$
@@ -61,5 +98,22 @@ public record AwsTextractStartDocumentTextDetectionOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

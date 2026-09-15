@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,13 +22,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ssm", "describe-patch-properties")]
-public record AwsSsmDescribePatchPropertiesOptions : AwsOptions
+public record AwsSsmDescribePatchPropertiesOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--operating-system")]
-    public string? OperatingSystem { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Lists the properties of available patches organized by product, product family, classification, severity, and other properties of available patches. You can use the reported properties in the filters you specify in requests for operations such as CreatePatchBaseline , UpdatePatch- Baseline , DescribeAvailablePatches , and DescribePatchBaselines . The following section lists the properties that can be used in filters for each major operating system type: AMAZON_LINUX Valid properties: PRODUCT | C...
+    /// </summary>
+    /// <param name="OperatingSystem">The operating system type for which to list patches. Possible values: o WINDOWS o AMAZON_LINUX o AMAZON_LINUX_2 o AMAZON_LINUX_2022 o UBUNTU o REDHAT_ENTERPRISE_LINUX o SUSE o CENTOS o ORACLE_LINUX o DEBIAN o MACOS o RASPBIAN o ROCKY_LINUX o ALMA_LINUX o AMAZON_LINUX_2023</param>
+    /// <param name="Property">The patch property for which you want to view patch details. Possible values: o PRODUCT o PRODUCT_FAMILY o CLASSIFICATION o MSRC_SEVERITY o PRIORITY o SEVERITY</param>
+    public AwsSsmDescribePatchPropertiesOptions(
+        AwsSsmDescribePatchPropertiesOperatingSystem OperatingSystem,
+        AwsSsmDescribePatchPropertiesProperty Property
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(OperatingSystem);
+        this.OperatingSystem = OperatingSystem;
+        global::System.ArgumentNullException.ThrowIfNull(Property);
+        this.Property = Property;
+    }
+
+    private AwsSsmDescribePatchPropertiesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSsmDescribePatchPropertiesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSsmDescribePatchPropertiesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The operating system type for which to list patches. Possible values: o WINDOWS o AMAZON_LINUX o AMAZON_LINUX_2 o AMAZON_LINUX_2022 o UBUNTU o REDHAT_ENTERPRISE_LINUX o SUSE o CENTOS o ORACLE_LINUX o DEBIAN o MACOS o RASPBIAN o ROCKY_LINUX o ALMA_LINUX o AMAZON_LINUX_2023
+    /// </summary>
+    [CliOption("--operating-system")]
+    public AwsSsmDescribePatchPropertiesOperatingSystem? OperatingSystem { get; private init; }
+
+    /// <summary>
+    /// The patch property for which you want to view patch details. Possible values: o PRODUCT o PRODUCT_FAMILY o CLASSIFICATION o MSRC_SEVERITY o PRIORITY o SEVERITY
+    /// </summary>
     [CliOption("--property")]
-    public string? Property { get; set; }
+    public AwsSsmDescribePatchPropertiesProperty? Property { get; private init; }
 
     /// <summary>
     /// Indicates whether to list patches for the Windows operating system or for applications released by Microsoft. Not applicable for the Linux or macOS operating systems. Possible values: o OS o APPLICATION
@@ -59,5 +103,22 @@ public record AwsSsmDescribePatchPropertiesOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,8 +21,47 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("kinesisvideo", "list-tags-for-resource")]
-public record AwsKinesisvideoListTagsForResourceOptions : AwsOptions
+public record AwsKinesisvideoListTagsForResourceOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Returns a list of tags associated with the specified signaling channel. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the signaling channel for which you want to list tags. Constraints: o min: 1 o max: 1024 o pattern: arn:[a-z\d-]+:kine- sisvideo:[a-z0-9-]+:[0-9]+:[a-z]+/[a-zA-Z0-9_.-]+/[0-9]+</param>
+    public AwsKinesisvideoListTagsForResourceOptions(
+        string ResourceArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ResourceArn);
+        this.ResourceArn = ResourceArn;
+    }
+
+    private AwsKinesisvideoListTagsForResourceOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsKinesisvideoListTagsForResourceOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsKinesisvideoListTagsForResourceOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the signaling channel for which you want to list tags. Constraints: o min: 1 o max: 1024 o pattern: arn:[a-z\d-]+:kine- sisvideo:[a-z0-9-]+:[0-9]+:[a-z]+/[a-zA-Z0-9_.-]+/[0-9]+
+    /// </summary>
+    [CliOption("--resource-arn")]
+    public string? ResourceArn { get; private init; }
+
     /// <summary>
     /// If you specify this parameter and the result of a ListTagsForRe- source call is truncated, the response includes a token that you can use in the next request to fetch the next batch of tags. Constraints: o min: 0 o max: 1024 o pattern: [a-zA-Z0-9+/=]*
     /// </summary>
@@ -29,13 +69,27 @@ public record AwsKinesisvideoListTagsForResourceOptions : AwsOptions
     [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
-    [CliOption("--resource-arn")]
-    public string? ResourceArn { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

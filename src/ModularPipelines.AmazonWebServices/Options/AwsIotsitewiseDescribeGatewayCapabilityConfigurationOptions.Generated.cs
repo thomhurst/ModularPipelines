@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iotsitewise", "describe-gateway-capability-configuration")]
-public record AwsIotsitewiseDescribeGatewayCapabilityConfigurationOptions : AwsOptions
+public record AwsIotsitewiseDescribeGatewayCapabilityConfigurationOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--gateway-id")]
-    public string? GatewayId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Each gateway capability defines data sources for a gateway. This is the namespace of the gateway capability. . The namespace follows the format service:capability:version , where: o service - The service providing the capability, or iotsitewise . o capability - The specific capability type. Options include: opcuacol- lector for the OPC UA data source collector, or publisher for data publisher capability. o version - The version number of the capability. Option include 2 for Classic streams, V2 g...
+    /// </summary>
+    /// <param name="GatewayId">The ID of the gateway that defines the capability configuration. Constraints: o min: 36 o max: 36 o pattern: ^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$</param>
+    /// <param name="CapabilityNamespace">The namespace of the capability configuration. For example, if you configure OPC UA sources for an MQTT-enabled gateway, your OPC-UA capability configuration has the namespace iotsitewise:opcuacollec- tor:3 . Constraints: o min: 1 o max: 512 o pattern: ^[a-zA-Z]+:[a-zA-Z]+:[0-9]+$</param>
+    public AwsIotsitewiseDescribeGatewayCapabilityConfigurationOptions(
+        string GatewayId,
+        string CapabilityNamespace
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(GatewayId);
+        this.GatewayId = GatewayId;
+        global::System.ArgumentNullException.ThrowIfNull(CapabilityNamespace);
+        this.CapabilityNamespace = CapabilityNamespace;
+    }
+
+    private AwsIotsitewiseDescribeGatewayCapabilityConfigurationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsIotsitewiseDescribeGatewayCapabilityConfigurationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsIotsitewiseDescribeGatewayCapabilityConfigurationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the gateway that defines the capability configuration. Constraints: o min: 36 o max: 36 o pattern: ^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$
+    /// </summary>
+    [CliOption("--gateway-id")]
+    public string? GatewayId { get; private init; }
+
+    /// <summary>
+    /// The namespace of the capability configuration. For example, if you configure OPC UA sources for an MQTT-enabled gateway, your OPC-UA capability configuration has the namespace iotsitewise:opcuacollec- tor:3 . Constraints: o min: 1 o max: 512 o pattern: ^[a-zA-Z]+:[a-zA-Z]+:[0-9]+$
+    /// </summary>
     [CliOption("--capability-namespace")]
-    public string? CapabilityNamespace { get; set; }
+    public string? CapabilityNamespace { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

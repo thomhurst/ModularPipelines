@@ -11,17 +11,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --resourcetype.
+/// Allowed values for --resource-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsRbinUpdateRuleResourceType
 {
     [EnumValue("EBS_SNAPSHOT")]
-    EbsSnapshot = 1,
-
-    [EnumValue("EC2_IMAGE")]
-    Ec2Image = 2,
+    EbsSnapshot,
 
     [EnumValue("EBS_VOLUME")]
-    EbsVolume = 3
+    EbsVolume,
+
+    [EnumValue("EC2_IMAGE")]
+    Ec2Image
 }

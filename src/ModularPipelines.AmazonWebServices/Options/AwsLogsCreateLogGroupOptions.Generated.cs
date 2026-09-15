@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,10 +22,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("logs", "create-log-group")]
-public record AwsLogsCreateLogGroupOptions : AwsOptions
+public record AwsLogsCreateLogGroupOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a log group with the specified name. You can create up to 1,000,000 log groups per Region per account. You must use the following guidelines when naming a log group: o Log group names must be unique within a Region for an Amazon Web Ser- vices account. o Log group names can be between 1 and 512 characters long. o Log group names consist of the following characters: a-z, A-Z, 0-9, '_' (underscore), '-' (hyphen), '/' (forward slash), '.' (period), and '#' (number sign) o Log group names ca...
+    /// </summary>
+    /// <param name="LogGroupName">A name for the log group. Constraints: o min: 1 o max: 512 o pattern: [\.\-_/#A-Za-z0-9]+</param>
+    public AwsLogsCreateLogGroupOptions(
+        string LogGroupName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(LogGroupName);
+        this.LogGroupName = LogGroupName;
+    }
+
+    private AwsLogsCreateLogGroupOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsLogsCreateLogGroupOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsLogsCreateLogGroupOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A name for the log group. Constraints: o min: 1 o max: 512 o pattern: [\.\-_/#A-Za-z0-9]+
+    /// </summary>
     [CliOption("--log-group-name")]
-    public string? LogGroupName { get; set; }
+    public string? LogGroupName { get; private init; }
 
     /// <summary>
     /// The Amazon Resource Name (ARN) of the KMS key to use when encrypting log data. For more information, see Amazon Resource Names . Constraints: o max: 256
@@ -44,7 +81,10 @@ public record AwsLogsCreateLogGroupOptions : AwsOptions
     [CliOption("--log-group-class")]
     public AwsLogsCreateLogGroupLogGroupClass? LogGroupClass { get; set; }
 
-    [CliFlag("--deletion-protection-enabled")]
+    /// <summary>
+    /// Use this parameter to enable deletion protection for the new log group. When enabled on a log group, deletion protection blocks all deletion operations until it is explicitly disabled. By default log groups are created without deletion protection enabled.
+    /// </summary>
+    [CliFlag("--deletion-protection-enabled", NegatedName = "--no-deletion-protection-enabled")]
     public bool? DeletionProtectionEnabled { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -52,5 +92,22 @@ public record AwsLogsCreateLogGroupOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

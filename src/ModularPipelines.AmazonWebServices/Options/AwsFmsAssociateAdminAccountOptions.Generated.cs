@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,68 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("fms", "associate-admin-account")]
-public record AwsFmsAssociateAdminAccountOptions : AwsOptions
+public record AwsFmsAssociateAdminAccountOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Sets a Firewall Manager default administrator account. The Firewall Manager default administrator account can manage third-party firewalls and has full administrative scope that allows administration of all policy types, accounts, organizational units, and Regions. This account must be a member account of the organization in Organizations whose re- sources you want to protect. For information about working with Firewall Manager administrator ac- counts, see Managing Firewall Manager administrato...
+    /// </summary>
+    /// <param name="AdminAccount">The Amazon Web Services account ID to associate with Firewall Man- ager as the Firewall Manager default administrator account. This ac- count must be a member account of the organization in Organizations whose resources you want to protect. For more information about Or- ganizations, see Managing the Amazon Web Services Accounts in Your Organization . Constraints: o min: 1 o max: 1024 o pattern: ^[0-9]+$</param>
+    public AwsFmsAssociateAdminAccountOptions(
+        string AdminAccount
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AdminAccount);
+        this.AdminAccount = AdminAccount;
+    }
+
+    private AwsFmsAssociateAdminAccountOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsFmsAssociateAdminAccountOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsFmsAssociateAdminAccountOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Web Services account ID to associate with Firewall Man- ager as the Firewall Manager default administrator account. This ac- count must be a member account of the organization in Organizations whose resources you want to protect. For more information about Or- ganizations, see Managing the Amazon Web Services Accounts in Your Organization . Constraints: o min: 1 o max: 1024 o pattern: ^[0-9]+$
+    /// </summary>
     [CliOption("--admin-account")]
-    public string? AdminAccount { get; set; }
+    public string? AdminAccount { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

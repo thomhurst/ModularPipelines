@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("apigatewayv2", "put-portal-product-sharing-policy")]
-public record AwsApigatewayv2PutPortalProductSharingPolicyOptions : AwsOptions
+public record AwsApigatewayv2PutPortalProductSharingPolicyOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--policy-document")]
-    public string? PolicyDocument { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Updates the sharing policy for a portal product. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="PolicyDocument">The product sharing policy. Constraints: o min: 1 o max: 307200</param>
+    /// <param name="PortalProductId">The portal product identifier.</param>
+    public AwsApigatewayv2PutPortalProductSharingPolicyOptions(
+        string PolicyDocument,
+        string PortalProductId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PolicyDocument);
+        this.PolicyDocument = PolicyDocument;
+        global::System.ArgumentNullException.ThrowIfNull(PortalProductId);
+        this.PortalProductId = PortalProductId;
+    }
+
+    private AwsApigatewayv2PutPortalProductSharingPolicyOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsApigatewayv2PutPortalProductSharingPolicyOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsApigatewayv2PutPortalProductSharingPolicyOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The product sharing policy. Constraints: o min: 1 o max: 307200
+    /// </summary>
+    [CliOption("--policy-document")]
+    public string? PolicyDocument { get; private init; }
+
+    /// <summary>
+    /// The portal product identifier.
+    /// </summary>
     [CliOption("--portal-product-id")]
-    public string? PortalProductId { get; set; }
+    public string? PortalProductId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cloudformation", "cancel-update-stack")]
-public record AwsCloudformationCancelUpdateStackOptions : AwsOptions
+public record AwsCloudformationCancelUpdateStackOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Cancels an update on the specified stack. If the call completes suc- cessfully, the stack rolls back the update and reverts to the previous stack configuration. NOTE: You can cancel only stacks that are in the UPDATE_IN_PROGRESS state. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="StackName">NOTE: If you don't pass a parameter to StackName , the API returns a response that describes all resources in the account. The IAM policy below can be added to IAM policies when you want to limit resource-level permissions and avoid returning a re- sponse when no parameter is sent in the request: { "Version": "2012-10-17", "Statement": [{ "Effect": "Deny", "Action": "cloudformation:DescribeStacks", "NotResource": "arn:aws:cloudformation:*:*:stack/*/*" }] } The name or the unique stack ID that's associated with the stack.</param>
+    public AwsCloudformationCancelUpdateStackOptions(
+        string StackName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(StackName);
+        this.StackName = StackName;
+    }
+
+    private AwsCloudformationCancelUpdateStackOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCloudformationCancelUpdateStackOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCloudformationCancelUpdateStackOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// NOTE: If you don't pass a parameter to StackName , the API returns a response that describes all resources in the account. The IAM policy below can be added to IAM policies when you want to limit resource-level permissions and avoid returning a re- sponse when no parameter is sent in the request: { "Version": "2012-10-17", "Statement": [{ "Effect": "Deny", "Action": "cloudformation:DescribeStacks", "NotResource": "arn:aws:cloudformation:*:*:stack/*/*" }] } The name or the unique stack ID that's associated with the stack.
+    /// </summary>
     [CliOption("--stack-name")]
-    public string? StackName { get; set; }
+    public string? StackName { get; private init; }
 
     /// <summary>
     /// A unique identifier for this CancelUpdateStack request. Specify this token if you plan to retry requests so that CloudFormation knows that you're not attempting to cancel an update on a stack with the same name. You might retry CancelUpdateStack requests to ensure that CloudFormation successfully received them. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9][-a-zA-Z0-9]*
@@ -37,5 +74,22 @@ public record AwsCloudformationCancelUpdateStackOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

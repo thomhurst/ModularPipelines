@@ -11,17 +11,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --logdestinationtype.
+/// Allowed values for --log-destination-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsRedshiftEnableLoggingLogDestinationType
 {
-    [EnumValue("s3")]
-    S3 = 1,
-
     [EnumValue("cloudwatch")]
-    Cloudwatch = 2,
+    Cloudwatch,
+
+    [EnumValue("s3")]
+    S3,
 
     [EnumValue("s3table")]
-    S3table = 3
+    S3Table
 }

@@ -21,8 +21,25 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("dsql", "generate-db-connect-auth-token")]
 public record AwsDsqlGenerateDbConnectAuthTokenOptions : AwsOptions
 {
+    /// <summary>
+    /// Generates an authorization token used to connect to a DSQL database with IAM credentials.
+    /// </summary>
+    /// <param name="Hostname"></param>
+    public AwsDsqlGenerateDbConnectAuthTokenOptions(
+        string Hostname
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Hostname);
+        this.Hostname = Hostname;
+    }
+
+    public void Deconstruct(out string Hostname)
+    {
+        Hostname = this.Hostname;
+    }
+
     [CliOption("--hostname")]
-    public string? Hostname { get; set; }
+    public string Hostname { get; private init; }
 
     [CliOption("--expires-in")]
     public int? ExpiresIn { get; set; }

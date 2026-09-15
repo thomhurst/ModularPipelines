@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,19 +20,72 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iot", "get-buckets-aggregation")]
-public record AwsIotGetBucketsAggregationOptions : AwsOptions
+public record AwsIotGetBucketsAggregationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Aggregates on indexed data with search queries pertaining to particular fields. Requires permission to access the GetBucketsAggregation action. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="QueryString">The search query string. Constraints: o min: 1</param>
+    /// <param name="AggregationField">The aggregation field. Constraints: o min: 1</param>
+    /// <param name="BucketsAggregationType">The basic control of the response shape and the bucket aggregation type to perform. termsAggregation -&gt; (structure) Performs an aggregation that will return a list of buckets. The list of buckets is a ranked list of the number of occurrences of an aggregation field value. maxBuckets -&gt; (integer) The number of buckets to return in the response. Default to 10. Constraints: o min: 1 o max: 10000 Shorthand Syntax: termsAggregation={maxBuckets=integer} JSON Syntax: { "termsAggregation": { "maxBuckets": integer } }</param>
+    public AwsIotGetBucketsAggregationOptions(
+        string QueryString,
+        string AggregationField,
+        string BucketsAggregationType
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(QueryString);
+        this.QueryString = QueryString;
+        global::System.ArgumentNullException.ThrowIfNull(AggregationField);
+        this.AggregationField = AggregationField;
+        global::System.ArgumentNullException.ThrowIfNull(BucketsAggregationType);
+        this.BucketsAggregationType = BucketsAggregationType;
+    }
+
+    private AwsIotGetBucketsAggregationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsIotGetBucketsAggregationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsIotGetBucketsAggregationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The search query string. Constraints: o min: 1
+    /// </summary>
+    [CliOption("--query-string")]
+    public string? QueryString { get; private init; }
+
+    /// <summary>
+    /// The aggregation field. Constraints: o min: 1
+    /// </summary>
+    [CliOption("--aggregation-field")]
+    public string? AggregationField { get; private init; }
+
+    /// <summary>
+    /// The basic control of the response shape and the bucket aggregation type to perform. termsAggregation -&gt; (structure) Performs an aggregation that will return a list of buckets. The list of buckets is a ranked list of the number of occurrences of an aggregation field value. maxBuckets -&gt; (integer) The number of buckets to return in the response. Default to 10. Constraints: o min: 1 o max: 10000 Shorthand Syntax: termsAggregation={maxBuckets=integer} JSON Syntax: { "termsAggregation": { "maxBuckets": integer } }
+    /// </summary>
+    [CliOption("--buckets-aggregation-type")]
+    public string? BucketsAggregationType { get; private init; }
+
     /// <summary>
     /// The name of the index to search. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9:_-]+
     /// </summary>
     [CliOption("--index-name")]
     public string? IndexName { get; set; }
-
-    [CliOption("--query-string")]
-    public string? QueryString { get; set; }
-
-    [CliOption("--aggregation-field")]
-    public string? AggregationField { get; set; }
 
     /// <summary>
     /// The version of the query.
@@ -39,13 +93,27 @@ public record AwsIotGetBucketsAggregationOptions : AwsOptions
     [CliOption("--query-version")]
     public string? QueryVersion { get; set; }
 
-    [CliOption("--buckets-aggregation-type")]
-    public string? BucketsAggregationType { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

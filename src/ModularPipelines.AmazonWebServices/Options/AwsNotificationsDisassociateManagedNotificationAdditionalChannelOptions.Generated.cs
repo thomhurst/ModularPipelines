@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("notifications", "disassociate-managed-notification-additional-channel")]
-public record AwsNotificationsDisassociateManagedNotificationAdditionalChannelOptions : AwsOptions
+public record AwsNotificationsDisassociateManagedNotificationAdditionalChannelOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--channel-arn")]
-    public string? ChannelArn { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Disassociates an additional Channel from a particular ManagedNotifica- tionConfiguration . Supported Channels include Amazon Q Developer in chat applications, the Console Mobile Application, and emails (notifications-contacts). See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ChannelArn">The Amazon Resource Name (ARN) of the Channel to associate with the ManagedNotificationConfiguration . Constraints: o pattern: arn:aws:(chatbot|consoleapp|notifications-con- tacts):[a-zA-Z0-9-]*:[0-9]{12}:[a-zA-Z0-9-_.@]+/[a-zA-Z0-9/_.@:-]+</param>
+    /// <param name="ManagedNotificationConfigurationArn">The Amazon Resource Name (ARN) of the Managed Notification Configu- ration to associate with the additional Channel. Constraints: o pattern: arn:[-.a-z0-9]{1,63}:notifications::[0-9]{12}:managed-no- tification-configuration/category/[a-zA-Z0-9\-]{3,64}/sub-cate- gory/[a-zA-Z0-9\-]{3,64}</param>
+    public AwsNotificationsDisassociateManagedNotificationAdditionalChannelOptions(
+        string ChannelArn,
+        string ManagedNotificationConfigurationArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ChannelArn);
+        this.ChannelArn = ChannelArn;
+        global::System.ArgumentNullException.ThrowIfNull(ManagedNotificationConfigurationArn);
+        this.ManagedNotificationConfigurationArn = ManagedNotificationConfigurationArn;
+    }
+
+    private AwsNotificationsDisassociateManagedNotificationAdditionalChannelOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsNotificationsDisassociateManagedNotificationAdditionalChannelOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsNotificationsDisassociateManagedNotificationAdditionalChannelOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the Channel to associate with the ManagedNotificationConfiguration . Constraints: o pattern: arn:aws:(chatbot|consoleapp|notifications-con- tacts):[a-zA-Z0-9-]*:[0-9]{12}:[a-zA-Z0-9-_.@]+/[a-zA-Z0-9/_.@:-]+
+    /// </summary>
+    [CliOption("--channel-arn")]
+    public string? ChannelArn { get; private init; }
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the Managed Notification Configu- ration to associate with the additional Channel. Constraints: o pattern: arn:[-.a-z0-9]{1,63}:notifications::[0-9]{12}:managed-no- tification-configuration/category/[a-zA-Z0-9\-]{3,64}/sub-cate- gory/[a-zA-Z0-9\-]{3,64}
+    /// </summary>
     [CliOption("--managed-notification-configuration-arn")]
-    public string? ManagedNotificationConfigurationArn { get; set; }
+    public string? ManagedNotificationConfigurationArn { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

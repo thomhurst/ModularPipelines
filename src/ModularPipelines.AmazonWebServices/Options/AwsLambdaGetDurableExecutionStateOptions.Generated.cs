@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,14 +21,57 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("lambda", "get-durable-execution-state")]
-public record AwsLambdaGetDurableExecutionStateOptions : AwsOptions
+public record AwsLambdaGetDurableExecutionStateOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--durable-execution-arn")]
-    public string? DurableExecutionArn { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Retrieves the current execution state required for the replay process during durable function execution. This API is used by the Lambda durable functions SDK to get state information needed for replay. You typically don't need to call this API directly as the SDK handles state management automatically. The response contains operations ordered by start sequence number in ascending order. Completed operations with children don't include child operation details since they don't need to be replayed....
+    /// </summary>
+    /// <param name="DurableExecutionArn">The Amazon Resource Name (ARN) of the durable execution. Constraints: o min: 1 o max: 1024 o pattern: arn:([a-zA-Z0-9-]+):lambda:([a-zA-Z0-9-]+):(\d{12}):func- tion:([a-zA-Z0-9_-]+):(\$LATEST(?:\.PUB- LISHED)?|[0-9]+)/durable-execu- tion/([a-zA-Z0-9_-]+)/([a-zA-Z0-9_-]+)</param>
+    /// <param name="CheckpointToken">A checkpoint token that identifies the current state of the execu- tion. This token is provided by the Lambda runtime and ensures that state retrieval is consistent with the current execution context. Constraints: o min: 1 o max: 2048 o pattern: [A-Za-z0-9+/]+={0,2}</param>
+    public AwsLambdaGetDurableExecutionStateOptions(
+        string DurableExecutionArn,
+        string CheckpointToken
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DurableExecutionArn);
+        this.DurableExecutionArn = DurableExecutionArn;
+        global::System.ArgumentNullException.ThrowIfNull(CheckpointToken);
+        this.CheckpointToken = CheckpointToken;
+    }
+
+    private AwsLambdaGetDurableExecutionStateOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsLambdaGetDurableExecutionStateOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsLambdaGetDurableExecutionStateOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the durable execution. Constraints: o min: 1 o max: 1024 o pattern: arn:([a-zA-Z0-9-]+):lambda:([a-zA-Z0-9-]+):(\d{12}):func- tion:([a-zA-Z0-9_-]+):(\$LATEST(?:\.PUB- LISHED)?|[0-9]+)/durable-execu- tion/([a-zA-Z0-9_-]+)/([a-zA-Z0-9_-]+)
+    /// </summary>
+    [CliOption("--durable-execution-arn")]
+    public string? DurableExecutionArn { get; private init; }
+
+    /// <summary>
+    /// A checkpoint token that identifies the current state of the execu- tion. This token is provided by the Lambda runtime and ensures that state retrieval is consistent with the current execution context. Constraints: o min: 1 o max: 2048 o pattern: [A-Za-z0-9+/]+={0,2}
+    /// </summary>
     [SecretValue]
     [CliOption("--checkpoint-token")]
-    public string? CheckpointToken { get; set; }
+    public string? CheckpointToken { get; private init; }
 
     /// <summary>
     /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -53,5 +97,22 @@ public record AwsLambdaGetDurableExecutionStateOptions : AwsOptions
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,16 +21,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("resiliencehubv2", "update-failure-mode-finding")]
-public record AwsResiliencehubv2UpdateFailureModeFindingOptions : AwsOptions
+public record AwsResiliencehubv2UpdateFailureModeFindingOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates an existing finding. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="FindingId">The identifier of the finding to update. Constraints: o min: 36 o max: 36 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}</param>
+    /// <param name="Status">The new status for the finding. Possible values: o OPEN o RESOLVED o IRRELEVANT</param>
+    /// <param name="ServiceArn">ARN identifier. Constraints: o min: 31 o pattern: arn:(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:([a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-[0-9]):[0-9]{12}:[A-Za-z0-9/][A-Za-z0-9:_/+.-]{0,1023}</param>
+    public AwsResiliencehubv2UpdateFailureModeFindingOptions(
+        string FindingId,
+        AwsResiliencehubv2UpdateFailureModeFindingStatus Status,
+        string ServiceArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(FindingId);
+        this.FindingId = FindingId;
+        global::System.ArgumentNullException.ThrowIfNull(Status);
+        this.Status = Status;
+        global::System.ArgumentNullException.ThrowIfNull(ServiceArn);
+        this.ServiceArn = ServiceArn;
+    }
+
+    private AwsResiliencehubv2UpdateFailureModeFindingOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsResiliencehubv2UpdateFailureModeFindingOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsResiliencehubv2UpdateFailureModeFindingOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the finding to update. Constraints: o min: 36 o max: 36 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}
+    /// </summary>
     [CliOption("--finding-id")]
-    public string? FindingId { get; set; }
+    public string? FindingId { get; private init; }
 
+    /// <summary>
+    /// The new status for the finding. Possible values: o OPEN o RESOLVED o IRRELEVANT
+    /// </summary>
     [CliOption("--status")]
-    public string? Status { get; set; }
+    public AwsResiliencehubv2UpdateFailureModeFindingStatus? Status { get; private init; }
 
+    /// <summary>
+    /// ARN identifier. Constraints: o min: 31 o pattern: arn:(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:([a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-[0-9]):[0-9]{12}:[A-Za-z0-9/][A-Za-z0-9:_/+.-]{0,1023}
+    /// </summary>
     [CliOption("--service-arn")]
-    public string? ServiceArn { get; set; }
+    public string? ServiceArn { get; private init; }
 
     /// <summary>
     /// A comment about the finding update. Constraints: o min: 0 o max: 2048
@@ -41,5 +93,22 @@ public record AwsResiliencehubv2UpdateFailureModeFindingOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

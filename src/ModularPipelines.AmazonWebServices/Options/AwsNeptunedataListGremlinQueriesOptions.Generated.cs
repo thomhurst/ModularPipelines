@@ -21,7 +21,10 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("neptunedata", "list-gremlin-queries")]
 public record AwsNeptunedataListGremlinQueriesOptions : AwsOptions
 {
-    [CliFlag("--include-waiting")]
+    /// <summary>
+    /// If set to TRUE , the list returned includes waiting queries. The de- fault is FALSE ;
+    /// </summary>
+    [CliFlag("--include-waiting", NegatedName = "--no-include-waiting")]
     public bool? IncludeWaiting { get; set; }
 
     [CliOption("--cli-input-json")]

@@ -6,11 +6,11 @@
 
 #nullable enable
 
-using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,16 +20,68 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iam", "get-access-key-last-used")]
-public record AwsIamGetAccessKeyLastUsedOptions : AwsOptions
+public record AwsIamGetAccessKeyLastUsedOptions : AwsOptions, IValidatableObject
 {
-    [SecretValue]
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Retrieves information about when the specified access key was last used. The information includes the date and time of last use, along with the Amazon Web Services service and Region that were specified in the last request made with that key. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="AccessKeyId">The identifier of an access key. This parameter allows (through its regex pattern ) a string of char- acters that can consist of any upper or lowercased letter or digit. Constraints: o min: 16 o max: 128 o pattern: [\w]+</param>
+    public AwsIamGetAccessKeyLastUsedOptions(
+        string AccessKeyId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AccessKeyId);
+        this.AccessKeyId = AccessKeyId;
+    }
+
+    private AwsIamGetAccessKeyLastUsedOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsIamGetAccessKeyLastUsedOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsIamGetAccessKeyLastUsedOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of an access key. This parameter allows (through its regex pattern ) a string of char- acters that can consist of any upper or lowercased letter or digit. Constraints: o min: 16 o max: 128 o pattern: [\w]+
+    /// </summary>
     [CliOption("--access-key-id")]
-    public string? AccessKeyId { get; set; }
+    public string? AccessKeyId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

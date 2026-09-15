@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,19 +22,95 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ec2", "create-traffic-mirror-filter-rule")]
-public record AwsEc2CreateTrafficMirrorFilterRuleOptions : AwsOptions
+public record AwsEc2CreateTrafficMirrorFilterRuleOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a Traffic Mirror filter rule. A Traffic Mirror rule defines the Traffic Mirror source traffic to mir- ror. You need the Traffic Mirror filter ID when you create the rule. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="TrafficMirrorFilterId">The ID of the filter that this rule is associated with.</param>
+    /// <param name="TrafficDirection">The type of traffic. Possible values: o ingress o egress</param>
+    /// <param name="RuleNumber">The number of the Traffic Mirror rule. This number must be unique for each Traffic Mirror rule in a given direction. The rules are processed in ascending order by rule number.</param>
+    /// <param name="RuleAction">The action to take on the filtered traffic. Possible values: o accept o reject</param>
+    /// <param name="DestinationCidrBlock">The destination CIDR block to assign to the Traffic Mirror rule.</param>
+    /// <param name="SourceCidrBlock">The source CIDR block to assign to the Traffic Mirror rule.</param>
+    public AwsEc2CreateTrafficMirrorFilterRuleOptions(
+        string TrafficMirrorFilterId,
+        AwsEc2CreateTrafficMirrorFilterRuleTrafficDirection TrafficDirection,
+        int RuleNumber,
+        AwsEc2CreateTrafficMirrorFilterRuleRuleAction RuleAction,
+        string DestinationCidrBlock,
+        string SourceCidrBlock
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(TrafficMirrorFilterId);
+        this.TrafficMirrorFilterId = TrafficMirrorFilterId;
+        global::System.ArgumentNullException.ThrowIfNull(TrafficDirection);
+        this.TrafficDirection = TrafficDirection;
+        this.RuleNumber = RuleNumber;
+        global::System.ArgumentNullException.ThrowIfNull(RuleAction);
+        this.RuleAction = RuleAction;
+        global::System.ArgumentNullException.ThrowIfNull(DestinationCidrBlock);
+        this.DestinationCidrBlock = DestinationCidrBlock;
+        global::System.ArgumentNullException.ThrowIfNull(SourceCidrBlock);
+        this.SourceCidrBlock = SourceCidrBlock;
+    }
+
+    private AwsEc2CreateTrafficMirrorFilterRuleOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEc2CreateTrafficMirrorFilterRuleOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEc2CreateTrafficMirrorFilterRuleOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the filter that this rule is associated with.
+    /// </summary>
     [CliOption("--traffic-mirror-filter-id")]
-    public string? TrafficMirrorFilterId { get; set; }
+    public string? TrafficMirrorFilterId { get; private init; }
 
+    /// <summary>
+    /// The type of traffic. Possible values: o ingress o egress
+    /// </summary>
     [CliOption("--traffic-direction")]
-    public string? TrafficDirection { get; set; }
+    public AwsEc2CreateTrafficMirrorFilterRuleTrafficDirection? TrafficDirection { get; private init; }
 
+    /// <summary>
+    /// The number of the Traffic Mirror rule. This number must be unique for each Traffic Mirror rule in a given direction. The rules are processed in ascending order by rule number.
+    /// </summary>
     [CliOption("--rule-number")]
-    public int? RuleNumber { get; set; }
+    public int? RuleNumber { get; private init; }
 
+    /// <summary>
+    /// The action to take on the filtered traffic. Possible values: o accept o reject
+    /// </summary>
     [CliOption("--rule-action")]
-    public string? RuleAction { get; set; }
+    public AwsEc2CreateTrafficMirrorFilterRuleRuleAction? RuleAction { get; private init; }
+
+    /// <summary>
+    /// The destination CIDR block to assign to the Traffic Mirror rule.
+    /// </summary>
+    [CliOption("--destination-cidr-block")]
+    public string? DestinationCidrBlock { get; private init; }
+
+    /// <summary>
+    /// The source CIDR block to assign to the Traffic Mirror rule.
+    /// </summary>
+    [CliOption("--source-cidr-block")]
+    public string? SourceCidrBlock { get; private init; }
 
     /// <summary>
     /// The destination port range. FromPort -&gt; (integer) The first port in the Traffic Mirror port range. This applies to the TCP and UDP protocols. ToPort -&gt; (integer) The last port in the Traffic Mirror port range. This applies to the TCP and UDP protocols. Shorthand Syntax: FromPort=integer,ToPort=integer JSON Syntax: { "FromPort": integer, "ToPort": integer }
@@ -52,19 +130,16 @@ public record AwsEc2CreateTrafficMirrorFilterRuleOptions : AwsOptions
     [CliOption("--protocol")]
     public int? Protocol { get; set; }
 
-    [CliOption("--destination-cidr-block")]
-    public string? DestinationCidrBlock { get; set; }
-
-    [CliOption("--source-cidr-block")]
-    public string? SourceCidrBlock { get; set; }
-
     /// <summary>
     /// The description of the Traffic Mirror rule.
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     /// <summary>
@@ -85,5 +160,22 @@ public record AwsEc2CreateTrafficMirrorFilterRuleOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

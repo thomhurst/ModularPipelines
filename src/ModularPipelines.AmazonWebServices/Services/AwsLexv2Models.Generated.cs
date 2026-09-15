@@ -5,8 +5,8 @@
 
 #nullable enable
 
-using ModularPipelines.Context;
 using System.CodeDom.Compiler;
+using ModularPipelines.Context;
 using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
@@ -50,11 +50,11 @@ public class AwsLexv2Models : IAwsLexv2Models
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> BatchCreateCustomVocabularyItemAsync(
-        AwsLexv2ModelsBatchCreateCustomVocabularyItemOptions? options = null,
+        AwsLexv2ModelsBatchCreateCustomVocabularyItemOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLexv2ModelsBatchCreateCustomVocabularyItemOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -65,11 +65,11 @@ public class AwsLexv2Models : IAwsLexv2Models
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> BatchDeleteCustomVocabularyItemAsync(
-        AwsLexv2ModelsBatchDeleteCustomVocabularyItemOptions? options = null,
+        AwsLexv2ModelsBatchDeleteCustomVocabularyItemOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLexv2ModelsBatchDeleteCustomVocabularyItemOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -80,11 +80,11 @@ public class AwsLexv2Models : IAwsLexv2Models
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> BatchUpdateCustomVocabularyItemAsync(
-        AwsLexv2ModelsBatchUpdateCustomVocabularyItemOptions? options = null,
+        AwsLexv2ModelsBatchUpdateCustomVocabularyItemOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLexv2ModelsBatchUpdateCustomVocabularyItemOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -95,11 +95,11 @@ public class AwsLexv2Models : IAwsLexv2Models
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> BuildBotLocaleAsync(
-        AwsLexv2ModelsBuildBotLocaleOptions? options = null,
+        AwsLexv2ModelsBuildBotLocaleOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLexv2ModelsBuildBotLocaleOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -110,11 +110,11 @@ public class AwsLexv2Models : IAwsLexv2Models
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateBotAliasAsync(
-        AwsLexv2ModelsCreateBotAliasOptions? options = null,
+        AwsLexv2ModelsCreateBotAliasOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLexv2ModelsCreateBotAliasOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -125,11 +125,11 @@ public class AwsLexv2Models : IAwsLexv2Models
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateBotLocaleAsync(
-        AwsLexv2ModelsCreateBotLocaleOptions? options = null,
+        AwsLexv2ModelsCreateBotLocaleOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLexv2ModelsCreateBotLocaleOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -140,11 +140,11 @@ public class AwsLexv2Models : IAwsLexv2Models
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateBotAsync(
-        AwsLexv2ModelsCreateBotOptions? options = null,
+        AwsLexv2ModelsCreateBotOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLexv2ModelsCreateBotOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -155,11 +155,11 @@ public class AwsLexv2Models : IAwsLexv2Models
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateBotReplicaAsync(
-        AwsLexv2ModelsCreateBotReplicaOptions? options = null,
+        AwsLexv2ModelsCreateBotReplicaOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLexv2ModelsCreateBotReplicaOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -170,11 +170,11 @@ public class AwsLexv2Models : IAwsLexv2Models
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateBotVersionAsync(
-        AwsLexv2ModelsCreateBotVersionOptions? options = null,
+        AwsLexv2ModelsCreateBotVersionOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLexv2ModelsCreateBotVersionOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -185,11 +185,41 @@ public class AwsLexv2Models : IAwsLexv2Models
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateExportAsync(
-        AwsLexv2ModelsCreateExportOptions? options = null,
+        AwsLexv2ModelsCreateExportOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLexv2ModelsCreateExportOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Creates an intent. To define the interaction between the user and your bot, you define one or more intents. For example, for a pizza ordering bot you would create an OrderPizza intent. When you create an intent, you must provide a name. You can optionally provide the following: o Sample utterances. For example, "I want to order a pizza" and "Can I order a pizza." You can't provide utterances for built-in intents. o Information to be gathered. You specify slots for the information that you bot re...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> CreateIntentAsync(
+        AwsLexv2ModelsCreateIntentOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Creates a new resource policy with the specified policy statements. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> CreateResourcePolicyAsync(
+        AwsLexv2ModelsCreateResourcePolicyOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -200,11 +230,11 @@ public class AwsLexv2Models : IAwsLexv2Models
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateResourcePolicyStatementAsync(
-        AwsLexv2ModelsCreateResourcePolicyStatementOptions? options = null,
+        AwsLexv2ModelsCreateResourcePolicyStatementOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLexv2ModelsCreateResourcePolicyStatementOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -215,11 +245,11 @@ public class AwsLexv2Models : IAwsLexv2Models
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateSlotAsync(
-        AwsLexv2ModelsCreateSlotOptions? options = null,
+        AwsLexv2ModelsCreateSlotOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLexv2ModelsCreateSlotOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -230,11 +260,11 @@ public class AwsLexv2Models : IAwsLexv2Models
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateSlotTypeAsync(
-        AwsLexv2ModelsCreateSlotTypeOptions? options = null,
+        AwsLexv2ModelsCreateSlotTypeOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLexv2ModelsCreateSlotTypeOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -245,11 +275,11 @@ public class AwsLexv2Models : IAwsLexv2Models
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateTestSetDiscrepancyReportAsync(
-        AwsLexv2ModelsCreateTestSetDiscrepancyReportOptions? options = null,
+        AwsLexv2ModelsCreateTestSetDiscrepancyReportOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLexv2ModelsCreateTestSetDiscrepancyReportOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -264,7 +294,7 @@ public class AwsLexv2Models : IAwsLexv2Models
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLexv2ModelsCreateUploadUrlOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLexv2ModelsCreateUploadUrlOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -275,11 +305,11 @@ public class AwsLexv2Models : IAwsLexv2Models
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteBotAliasAsync(
-        AwsLexv2ModelsDeleteBotAliasOptions? options = null,
+        AwsLexv2ModelsDeleteBotAliasOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLexv2ModelsDeleteBotAliasOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -290,11 +320,11 @@ public class AwsLexv2Models : IAwsLexv2Models
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteBotAnalyzerRecommendationAsync(
-        AwsLexv2ModelsDeleteBotAnalyzerRecommendationOptions? options = null,
+        AwsLexv2ModelsDeleteBotAnalyzerRecommendationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLexv2ModelsDeleteBotAnalyzerRecommendationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -305,11 +335,11 @@ public class AwsLexv2Models : IAwsLexv2Models
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteBotLocaleAsync(
-        AwsLexv2ModelsDeleteBotLocaleOptions? options = null,
+        AwsLexv2ModelsDeleteBotLocaleOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLexv2ModelsDeleteBotLocaleOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -320,11 +350,11 @@ public class AwsLexv2Models : IAwsLexv2Models
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteBotAsync(
-        AwsLexv2ModelsDeleteBotOptions? options = null,
+        AwsLexv2ModelsDeleteBotOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLexv2ModelsDeleteBotOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -335,11 +365,11 @@ public class AwsLexv2Models : IAwsLexv2Models
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteBotReplicaAsync(
-        AwsLexv2ModelsDeleteBotReplicaOptions? options = null,
+        AwsLexv2ModelsDeleteBotReplicaOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLexv2ModelsDeleteBotReplicaOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -350,11 +380,11 @@ public class AwsLexv2Models : IAwsLexv2Models
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteBotVersionAsync(
-        AwsLexv2ModelsDeleteBotVersionOptions? options = null,
+        AwsLexv2ModelsDeleteBotVersionOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLexv2ModelsDeleteBotVersionOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -365,11 +395,11 @@ public class AwsLexv2Models : IAwsLexv2Models
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteCustomVocabularyAsync(
-        AwsLexv2ModelsDeleteCustomVocabularyOptions? options = null,
+        AwsLexv2ModelsDeleteCustomVocabularyOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLexv2ModelsDeleteCustomVocabularyOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -380,11 +410,11 @@ public class AwsLexv2Models : IAwsLexv2Models
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteExportAsync(
-        AwsLexv2ModelsDeleteExportOptions? options = null,
+        AwsLexv2ModelsDeleteExportOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLexv2ModelsDeleteExportOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -395,11 +425,11 @@ public class AwsLexv2Models : IAwsLexv2Models
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteImportAsync(
-        AwsLexv2ModelsDeleteImportOptions? options = null,
+        AwsLexv2ModelsDeleteImportOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLexv2ModelsDeleteImportOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -410,11 +440,11 @@ public class AwsLexv2Models : IAwsLexv2Models
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteIntentAsync(
-        AwsLexv2ModelsDeleteIntentOptions? options = null,
+        AwsLexv2ModelsDeleteIntentOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLexv2ModelsDeleteIntentOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -425,11 +455,11 @@ public class AwsLexv2Models : IAwsLexv2Models
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteResourcePolicyAsync(
-        AwsLexv2ModelsDeleteResourcePolicyOptions? options = null,
+        AwsLexv2ModelsDeleteResourcePolicyOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLexv2ModelsDeleteResourcePolicyOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -440,11 +470,11 @@ public class AwsLexv2Models : IAwsLexv2Models
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteResourcePolicyStatementAsync(
-        AwsLexv2ModelsDeleteResourcePolicyStatementOptions? options = null,
+        AwsLexv2ModelsDeleteResourcePolicyStatementOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLexv2ModelsDeleteResourcePolicyStatementOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -455,11 +485,11 @@ public class AwsLexv2Models : IAwsLexv2Models
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteSlotAsync(
-        AwsLexv2ModelsDeleteSlotOptions? options = null,
+        AwsLexv2ModelsDeleteSlotOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLexv2ModelsDeleteSlotOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -470,11 +500,11 @@ public class AwsLexv2Models : IAwsLexv2Models
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteSlotTypeAsync(
-        AwsLexv2ModelsDeleteSlotTypeOptions? options = null,
+        AwsLexv2ModelsDeleteSlotTypeOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLexv2ModelsDeleteSlotTypeOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -485,11 +515,11 @@ public class AwsLexv2Models : IAwsLexv2Models
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteTestSetAsync(
-        AwsLexv2ModelsDeleteTestSetOptions? options = null,
+        AwsLexv2ModelsDeleteTestSetOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLexv2ModelsDeleteTestSetOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -500,11 +530,11 @@ public class AwsLexv2Models : IAwsLexv2Models
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteUtterancesAsync(
-        AwsLexv2ModelsDeleteUtterancesOptions? options = null,
+        AwsLexv2ModelsDeleteUtterancesOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLexv2ModelsDeleteUtterancesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -515,11 +545,11 @@ public class AwsLexv2Models : IAwsLexv2Models
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DescribeBotAliasAsync(
-        AwsLexv2ModelsDescribeBotAliasOptions? options = null,
+        AwsLexv2ModelsDescribeBotAliasOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLexv2ModelsDescribeBotAliasOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -530,11 +560,11 @@ public class AwsLexv2Models : IAwsLexv2Models
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DescribeBotAnalyzerRecommendationAsync(
-        AwsLexv2ModelsDescribeBotAnalyzerRecommendationOptions? options = null,
+        AwsLexv2ModelsDescribeBotAnalyzerRecommendationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLexv2ModelsDescribeBotAnalyzerRecommendationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -545,11 +575,11 @@ public class AwsLexv2Models : IAwsLexv2Models
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DescribeBotLocaleAsync(
-        AwsLexv2ModelsDescribeBotLocaleOptions? options = null,
+        AwsLexv2ModelsDescribeBotLocaleOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLexv2ModelsDescribeBotLocaleOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -560,11 +590,11 @@ public class AwsLexv2Models : IAwsLexv2Models
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DescribeBotAsync(
-        AwsLexv2ModelsDescribeBotOptions? options = null,
+        AwsLexv2ModelsDescribeBotOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLexv2ModelsDescribeBotOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -575,11 +605,11 @@ public class AwsLexv2Models : IAwsLexv2Models
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DescribeBotRecommendationAsync(
-        AwsLexv2ModelsDescribeBotRecommendationOptions? options = null,
+        AwsLexv2ModelsDescribeBotRecommendationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLexv2ModelsDescribeBotRecommendationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -590,11 +620,11 @@ public class AwsLexv2Models : IAwsLexv2Models
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DescribeBotReplicaAsync(
-        AwsLexv2ModelsDescribeBotReplicaOptions? options = null,
+        AwsLexv2ModelsDescribeBotReplicaOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLexv2ModelsDescribeBotReplicaOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -605,11 +635,11 @@ public class AwsLexv2Models : IAwsLexv2Models
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DescribeBotResourceGenerationAsync(
-        AwsLexv2ModelsDescribeBotResourceGenerationOptions? options = null,
+        AwsLexv2ModelsDescribeBotResourceGenerationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLexv2ModelsDescribeBotResourceGenerationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -620,11 +650,11 @@ public class AwsLexv2Models : IAwsLexv2Models
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DescribeBotVersionAsync(
-        AwsLexv2ModelsDescribeBotVersionOptions? options = null,
+        AwsLexv2ModelsDescribeBotVersionOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLexv2ModelsDescribeBotVersionOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -635,11 +665,11 @@ public class AwsLexv2Models : IAwsLexv2Models
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DescribeCustomVocabularyMetadataAsync(
-        AwsLexv2ModelsDescribeCustomVocabularyMetadataOptions? options = null,
+        AwsLexv2ModelsDescribeCustomVocabularyMetadataOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLexv2ModelsDescribeCustomVocabularyMetadataOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -650,11 +680,11 @@ public class AwsLexv2Models : IAwsLexv2Models
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DescribeExportAsync(
-        AwsLexv2ModelsDescribeExportOptions? options = null,
+        AwsLexv2ModelsDescribeExportOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLexv2ModelsDescribeExportOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -665,11 +695,11 @@ public class AwsLexv2Models : IAwsLexv2Models
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DescribeImportAsync(
-        AwsLexv2ModelsDescribeImportOptions? options = null,
+        AwsLexv2ModelsDescribeImportOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLexv2ModelsDescribeImportOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -680,11 +710,11 @@ public class AwsLexv2Models : IAwsLexv2Models
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DescribeIntentAsync(
-        AwsLexv2ModelsDescribeIntentOptions? options = null,
+        AwsLexv2ModelsDescribeIntentOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLexv2ModelsDescribeIntentOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -695,11 +725,11 @@ public class AwsLexv2Models : IAwsLexv2Models
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DescribeResourcePolicyAsync(
-        AwsLexv2ModelsDescribeResourcePolicyOptions? options = null,
+        AwsLexv2ModelsDescribeResourcePolicyOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLexv2ModelsDescribeResourcePolicyOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -710,11 +740,11 @@ public class AwsLexv2Models : IAwsLexv2Models
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DescribeSlotAsync(
-        AwsLexv2ModelsDescribeSlotOptions? options = null,
+        AwsLexv2ModelsDescribeSlotOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLexv2ModelsDescribeSlotOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -725,11 +755,11 @@ public class AwsLexv2Models : IAwsLexv2Models
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DescribeSlotTypeAsync(
-        AwsLexv2ModelsDescribeSlotTypeOptions? options = null,
+        AwsLexv2ModelsDescribeSlotTypeOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLexv2ModelsDescribeSlotTypeOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -740,11 +770,11 @@ public class AwsLexv2Models : IAwsLexv2Models
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DescribeTestExecutionAsync(
-        AwsLexv2ModelsDescribeTestExecutionOptions? options = null,
+        AwsLexv2ModelsDescribeTestExecutionOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLexv2ModelsDescribeTestExecutionOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -755,11 +785,11 @@ public class AwsLexv2Models : IAwsLexv2Models
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DescribeTestSetDiscrepancyReportAsync(
-        AwsLexv2ModelsDescribeTestSetDiscrepancyReportOptions? options = null,
+        AwsLexv2ModelsDescribeTestSetDiscrepancyReportOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLexv2ModelsDescribeTestSetDiscrepancyReportOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -770,11 +800,11 @@ public class AwsLexv2Models : IAwsLexv2Models
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DescribeTestSetGenerationAsync(
-        AwsLexv2ModelsDescribeTestSetGenerationOptions? options = null,
+        AwsLexv2ModelsDescribeTestSetGenerationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLexv2ModelsDescribeTestSetGenerationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -785,11 +815,11 @@ public class AwsLexv2Models : IAwsLexv2Models
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DescribeTestSetAsync(
-        AwsLexv2ModelsDescribeTestSetOptions? options = null,
+        AwsLexv2ModelsDescribeTestSetOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLexv2ModelsDescribeTestSetOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -800,11 +830,11 @@ public class AwsLexv2Models : IAwsLexv2Models
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GenerateBotElementAsync(
-        AwsLexv2ModelsGenerateBotElementOptions? options = null,
+        AwsLexv2ModelsGenerateBotElementOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLexv2ModelsGenerateBotElementOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -815,11 +845,11 @@ public class AwsLexv2Models : IAwsLexv2Models
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetTestExecutionArtifactsUrlAsync(
-        AwsLexv2ModelsGetTestExecutionArtifactsUrlOptions? options = null,
+        AwsLexv2ModelsGetTestExecutionArtifactsUrlOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLexv2ModelsGetTestExecutionArtifactsUrlOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -830,11 +860,11 @@ public class AwsLexv2Models : IAwsLexv2Models
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListAggregatedUtterancesAsync(
-        AwsLexv2ModelsListAggregatedUtterancesOptions? options = null,
+        AwsLexv2ModelsListAggregatedUtterancesOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLexv2ModelsListAggregatedUtterancesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -845,11 +875,11 @@ public class AwsLexv2Models : IAwsLexv2Models
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListBotAliasesAsync(
-        AwsLexv2ModelsListBotAliasesOptions? options = null,
+        AwsLexv2ModelsListBotAliasesOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLexv2ModelsListBotAliasesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -860,11 +890,11 @@ public class AwsLexv2Models : IAwsLexv2Models
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListBotAliasReplicasAsync(
-        AwsLexv2ModelsListBotAliasReplicasOptions? options = null,
+        AwsLexv2ModelsListBotAliasReplicasOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLexv2ModelsListBotAliasReplicasOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -875,11 +905,11 @@ public class AwsLexv2Models : IAwsLexv2Models
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListBotAnalyzerHistoryAsync(
-        AwsLexv2ModelsListBotAnalyzerHistoryOptions? options = null,
+        AwsLexv2ModelsListBotAnalyzerHistoryOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLexv2ModelsListBotAnalyzerHistoryOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -890,11 +920,11 @@ public class AwsLexv2Models : IAwsLexv2Models
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListBotLocalesAsync(
-        AwsLexv2ModelsListBotLocalesOptions? options = null,
+        AwsLexv2ModelsListBotLocalesOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLexv2ModelsListBotLocalesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -905,11 +935,11 @@ public class AwsLexv2Models : IAwsLexv2Models
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListBotRecommendationsAsync(
-        AwsLexv2ModelsListBotRecommendationsOptions? options = null,
+        AwsLexv2ModelsListBotRecommendationsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLexv2ModelsListBotRecommendationsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -920,11 +950,11 @@ public class AwsLexv2Models : IAwsLexv2Models
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListBotReplicasAsync(
-        AwsLexv2ModelsListBotReplicasOptions? options = null,
+        AwsLexv2ModelsListBotReplicasOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLexv2ModelsListBotReplicasOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -935,11 +965,11 @@ public class AwsLexv2Models : IAwsLexv2Models
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListBotResourceGenerationsAsync(
-        AwsLexv2ModelsListBotResourceGenerationsOptions? options = null,
+        AwsLexv2ModelsListBotResourceGenerationsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLexv2ModelsListBotResourceGenerationsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -954,7 +984,7 @@ public class AwsLexv2Models : IAwsLexv2Models
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLexv2ModelsListBotsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLexv2ModelsListBotsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -965,11 +995,11 @@ public class AwsLexv2Models : IAwsLexv2Models
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListBotVersionReplicasAsync(
-        AwsLexv2ModelsListBotVersionReplicasOptions? options = null,
+        AwsLexv2ModelsListBotVersionReplicasOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLexv2ModelsListBotVersionReplicasOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -980,11 +1010,11 @@ public class AwsLexv2Models : IAwsLexv2Models
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListBotVersionsAsync(
-        AwsLexv2ModelsListBotVersionsOptions? options = null,
+        AwsLexv2ModelsListBotVersionsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLexv2ModelsListBotVersionsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -995,11 +1025,11 @@ public class AwsLexv2Models : IAwsLexv2Models
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListBuiltInIntentsAsync(
-        AwsLexv2ModelsListBuiltInIntentsOptions? options = null,
+        AwsLexv2ModelsListBuiltInIntentsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLexv2ModelsListBuiltInIntentsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1010,11 +1040,11 @@ public class AwsLexv2Models : IAwsLexv2Models
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListBuiltInSlotTypesAsync(
-        AwsLexv2ModelsListBuiltInSlotTypesOptions? options = null,
+        AwsLexv2ModelsListBuiltInSlotTypesOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLexv2ModelsListBuiltInSlotTypesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1025,11 +1055,11 @@ public class AwsLexv2Models : IAwsLexv2Models
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListCustomVocabularyItemsAsync(
-        AwsLexv2ModelsListCustomVocabularyItemsOptions? options = null,
+        AwsLexv2ModelsListCustomVocabularyItemsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLexv2ModelsListCustomVocabularyItemsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1044,7 +1074,7 @@ public class AwsLexv2Models : IAwsLexv2Models
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLexv2ModelsListExportsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLexv2ModelsListExportsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1059,7 +1089,7 @@ public class AwsLexv2Models : IAwsLexv2Models
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLexv2ModelsListImportsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLexv2ModelsListImportsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1070,11 +1100,11 @@ public class AwsLexv2Models : IAwsLexv2Models
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListIntentMetricsAsync(
-        AwsLexv2ModelsListIntentMetricsOptions? options = null,
+        AwsLexv2ModelsListIntentMetricsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLexv2ModelsListIntentMetricsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1085,11 +1115,11 @@ public class AwsLexv2Models : IAwsLexv2Models
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListIntentPathsAsync(
-        AwsLexv2ModelsListIntentPathsOptions? options = null,
+        AwsLexv2ModelsListIntentPathsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLexv2ModelsListIntentPathsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1100,11 +1130,11 @@ public class AwsLexv2Models : IAwsLexv2Models
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListIntentsAsync(
-        AwsLexv2ModelsListIntentsOptions? options = null,
+        AwsLexv2ModelsListIntentsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLexv2ModelsListIntentsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1115,11 +1145,11 @@ public class AwsLexv2Models : IAwsLexv2Models
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListIntentStageMetricsAsync(
-        AwsLexv2ModelsListIntentStageMetricsOptions? options = null,
+        AwsLexv2ModelsListIntentStageMetricsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLexv2ModelsListIntentStageMetricsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1130,11 +1160,11 @@ public class AwsLexv2Models : IAwsLexv2Models
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListRecommendedIntentsAsync(
-        AwsLexv2ModelsListRecommendedIntentsOptions? options = null,
+        AwsLexv2ModelsListRecommendedIntentsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLexv2ModelsListRecommendedIntentsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1145,11 +1175,11 @@ public class AwsLexv2Models : IAwsLexv2Models
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListSessionAnalyticsDataAsync(
-        AwsLexv2ModelsListSessionAnalyticsDataOptions? options = null,
+        AwsLexv2ModelsListSessionAnalyticsDataOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLexv2ModelsListSessionAnalyticsDataOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1160,11 +1190,11 @@ public class AwsLexv2Models : IAwsLexv2Models
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListSessionMetricsAsync(
-        AwsLexv2ModelsListSessionMetricsOptions? options = null,
+        AwsLexv2ModelsListSessionMetricsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLexv2ModelsListSessionMetricsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1175,11 +1205,11 @@ public class AwsLexv2Models : IAwsLexv2Models
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListSlotsAsync(
-        AwsLexv2ModelsListSlotsOptions? options = null,
+        AwsLexv2ModelsListSlotsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLexv2ModelsListSlotsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1190,11 +1220,11 @@ public class AwsLexv2Models : IAwsLexv2Models
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListSlotTypesAsync(
-        AwsLexv2ModelsListSlotTypesOptions? options = null,
+        AwsLexv2ModelsListSlotTypesOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLexv2ModelsListSlotTypesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1205,11 +1235,11 @@ public class AwsLexv2Models : IAwsLexv2Models
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListTagsForResourceAsync(
-        AwsLexv2ModelsListTagsForResourceOptions? options = null,
+        AwsLexv2ModelsListTagsForResourceOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLexv2ModelsListTagsForResourceOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1220,11 +1250,11 @@ public class AwsLexv2Models : IAwsLexv2Models
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListTestExecutionResultItemsAsync(
-        AwsLexv2ModelsListTestExecutionResultItemsOptions? options = null,
+        AwsLexv2ModelsListTestExecutionResultItemsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLexv2ModelsListTestExecutionResultItemsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1239,7 +1269,7 @@ public class AwsLexv2Models : IAwsLexv2Models
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLexv2ModelsListTestExecutionsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLexv2ModelsListTestExecutionsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1250,11 +1280,11 @@ public class AwsLexv2Models : IAwsLexv2Models
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListTestSetRecordsAsync(
-        AwsLexv2ModelsListTestSetRecordsOptions? options = null,
+        AwsLexv2ModelsListTestSetRecordsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLexv2ModelsListTestSetRecordsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1269,7 +1299,7 @@ public class AwsLexv2Models : IAwsLexv2Models
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLexv2ModelsListTestSetsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLexv2ModelsListTestSetsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1280,11 +1310,11 @@ public class AwsLexv2Models : IAwsLexv2Models
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListUtteranceAnalyticsDataAsync(
-        AwsLexv2ModelsListUtteranceAnalyticsDataOptions? options = null,
+        AwsLexv2ModelsListUtteranceAnalyticsDataOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLexv2ModelsListUtteranceAnalyticsDataOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1295,11 +1325,11 @@ public class AwsLexv2Models : IAwsLexv2Models
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListUtteranceMetricsAsync(
-        AwsLexv2ModelsListUtteranceMetricsOptions? options = null,
+        AwsLexv2ModelsListUtteranceMetricsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLexv2ModelsListUtteranceMetricsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1310,11 +1340,11 @@ public class AwsLexv2Models : IAwsLexv2Models
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> SearchAssociatedTranscriptsAsync(
-        AwsLexv2ModelsSearchAssociatedTranscriptsOptions? options = null,
+        AwsLexv2ModelsSearchAssociatedTranscriptsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLexv2ModelsSearchAssociatedTranscriptsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1325,11 +1355,11 @@ public class AwsLexv2Models : IAwsLexv2Models
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> StartBotAnalyzerAsync(
-        AwsLexv2ModelsStartBotAnalyzerOptions? options = null,
+        AwsLexv2ModelsStartBotAnalyzerOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLexv2ModelsStartBotAnalyzerOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1340,11 +1370,11 @@ public class AwsLexv2Models : IAwsLexv2Models
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> StartBotRecommendationAsync(
-        AwsLexv2ModelsStartBotRecommendationOptions? options = null,
+        AwsLexv2ModelsStartBotRecommendationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLexv2ModelsStartBotRecommendationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1355,11 +1385,11 @@ public class AwsLexv2Models : IAwsLexv2Models
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> StartBotResourceGenerationAsync(
-        AwsLexv2ModelsStartBotResourceGenerationOptions? options = null,
+        AwsLexv2ModelsStartBotResourceGenerationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLexv2ModelsStartBotResourceGenerationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1370,11 +1400,11 @@ public class AwsLexv2Models : IAwsLexv2Models
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> StartImportAsync(
-        AwsLexv2ModelsStartImportOptions? options = null,
+        AwsLexv2ModelsStartImportOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLexv2ModelsStartImportOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1385,11 +1415,11 @@ public class AwsLexv2Models : IAwsLexv2Models
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> StartTestExecutionAsync(
-        AwsLexv2ModelsStartTestExecutionOptions? options = null,
+        AwsLexv2ModelsStartTestExecutionOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLexv2ModelsStartTestExecutionOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1400,11 +1430,11 @@ public class AwsLexv2Models : IAwsLexv2Models
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> StartTestSetGenerationAsync(
-        AwsLexv2ModelsStartTestSetGenerationOptions? options = null,
+        AwsLexv2ModelsStartTestSetGenerationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLexv2ModelsStartTestSetGenerationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1415,11 +1445,11 @@ public class AwsLexv2Models : IAwsLexv2Models
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> StopBotAnalyzerAsync(
-        AwsLexv2ModelsStopBotAnalyzerOptions? options = null,
+        AwsLexv2ModelsStopBotAnalyzerOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLexv2ModelsStopBotAnalyzerOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1430,11 +1460,11 @@ public class AwsLexv2Models : IAwsLexv2Models
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> StopBotRecommendationAsync(
-        AwsLexv2ModelsStopBotRecommendationOptions? options = null,
+        AwsLexv2ModelsStopBotRecommendationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLexv2ModelsStopBotRecommendationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1445,11 +1475,11 @@ public class AwsLexv2Models : IAwsLexv2Models
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> TagResourceAsync(
-        AwsLexv2ModelsTagResourceOptions? options = null,
+        AwsLexv2ModelsTagResourceOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLexv2ModelsTagResourceOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1460,11 +1490,11 @@ public class AwsLexv2Models : IAwsLexv2Models
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UntagResourceAsync(
-        AwsLexv2ModelsUntagResourceOptions? options = null,
+        AwsLexv2ModelsUntagResourceOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLexv2ModelsUntagResourceOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1475,11 +1505,11 @@ public class AwsLexv2Models : IAwsLexv2Models
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateBotAliasAsync(
-        AwsLexv2ModelsUpdateBotAliasOptions? options = null,
+        AwsLexv2ModelsUpdateBotAliasOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLexv2ModelsUpdateBotAliasOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1490,11 +1520,11 @@ public class AwsLexv2Models : IAwsLexv2Models
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateBotLocaleAsync(
-        AwsLexv2ModelsUpdateBotLocaleOptions? options = null,
+        AwsLexv2ModelsUpdateBotLocaleOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLexv2ModelsUpdateBotLocaleOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1505,11 +1535,11 @@ public class AwsLexv2Models : IAwsLexv2Models
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateBotAsync(
-        AwsLexv2ModelsUpdateBotOptions? options = null,
+        AwsLexv2ModelsUpdateBotOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLexv2ModelsUpdateBotOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1520,11 +1550,11 @@ public class AwsLexv2Models : IAwsLexv2Models
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateBotRecommendationAsync(
-        AwsLexv2ModelsUpdateBotRecommendationOptions? options = null,
+        AwsLexv2ModelsUpdateBotRecommendationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLexv2ModelsUpdateBotRecommendationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1535,11 +1565,41 @@ public class AwsLexv2Models : IAwsLexv2Models
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateExportAsync(
-        AwsLexv2ModelsUpdateExportOptions? options = null,
+        AwsLexv2ModelsUpdateExportOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLexv2ModelsUpdateExportOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Updates the settings for an intent. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> UpdateIntentAsync(
+        AwsLexv2ModelsUpdateIntentOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Replaces the existing resource policy for a bot or bot alias with a new one. If the policy doesn't exist, Amazon Lex returns an exception. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> UpdateResourcePolicyAsync(
+        AwsLexv2ModelsUpdateResourcePolicyOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1550,11 +1610,11 @@ public class AwsLexv2Models : IAwsLexv2Models
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateSlotAsync(
-        AwsLexv2ModelsUpdateSlotOptions? options = null,
+        AwsLexv2ModelsUpdateSlotOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLexv2ModelsUpdateSlotOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1565,11 +1625,11 @@ public class AwsLexv2Models : IAwsLexv2Models
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateSlotTypeAsync(
-        AwsLexv2ModelsUpdateSlotTypeOptions? options = null,
+        AwsLexv2ModelsUpdateSlotTypeOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLexv2ModelsUpdateSlotTypeOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1580,11 +1640,11 @@ public class AwsLexv2Models : IAwsLexv2Models
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateTestSetAsync(
-        AwsLexv2ModelsUpdateTestSetOptions? options = null,
+        AwsLexv2ModelsUpdateTestSetOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLexv2ModelsUpdateTestSetOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     #endregion

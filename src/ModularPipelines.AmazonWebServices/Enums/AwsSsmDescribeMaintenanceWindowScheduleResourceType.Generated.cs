@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --resourcetype.
+/// Allowed values for --resource-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsSsmDescribeMaintenanceWindowScheduleResourceType
 {
     [EnumValue("INSTANCE")]
-    Instance = 1,
+    Instance,
 
     [EnumValue("RESOURCE_GROUP")]
-    ResourceGroup = 2
+    ResourceGroup
 }

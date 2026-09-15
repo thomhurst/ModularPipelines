@@ -11,17 +11,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --postalcodemode.
+/// Allowed values for --postal-code-mode.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsGeoPlacesAutocompletePostalCodeMode
 {
-    [EnumValue("MergeAllSpannedLocalities")]
-    MergeAllSpannedLocalities = 1,
+    [EnumValue("EnumerateSpannedDistricts")]
+    EnumerateSpannedDistricts,
 
     [EnumValue("EnumerateSpannedLocalities")]
-    EnumerateSpannedLocalities = 2,
+    EnumerateSpannedLocalities,
 
-    [EnumValue("EnumerateSpannedDistricts")]
-    EnumerateSpannedDistricts = 3
+    [EnumValue("MergeAllSpannedLocalities")]
+    MergeAllSpannedLocalities
 }

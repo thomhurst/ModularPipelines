@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --registrationstatus.
+/// Allowed values for --registration-status.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsDeployListOnPremisesInstancesRegistrationStatus
 {
-    [EnumValue("Registered")]
-    Registered = 1,
-
     [EnumValue("Deregistered")]
-    Deregistered = 2
+    Deregistered,
+
+    [EnumValue("Registered")]
+    Registered
 }

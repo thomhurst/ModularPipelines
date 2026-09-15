@@ -16,12 +16,12 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsSnowDeviceManagementListTasksState
 {
-    [EnumValue("IN_PROGRESS")]
-    InProgress = 1,
-
     [EnumValue("CANCELED")]
-    Canceled = 2,
+    Canceled,
 
     [EnumValue("COMPLETED")]
-    Completed = 3
+    Completed,
+
+    [EnumValue("IN_PROGRESS")]
+    InProgress
 }

@@ -6,11 +6,11 @@
 
 #nullable enable
 
-using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,12 +21,60 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("schemas", "update-schema")]
-public record AwsSchemasUpdateSchemaOptions : AwsOptions
+public record AwsSchemasUpdateSchemaOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates the schema definition NOTE: Inactive schemas will be deleted after two years. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="RegistryName">The name of the registry.</param>
+    /// <param name="SchemaName">The name of the schema.</param>
+    public AwsSchemasUpdateSchemaOptions(
+        string RegistryName,
+        string SchemaName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(RegistryName);
+        this.RegistryName = RegistryName;
+        global::System.ArgumentNullException.ThrowIfNull(SchemaName);
+        this.SchemaName = SchemaName;
+    }
+
+    private AwsSchemasUpdateSchemaOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSchemasUpdateSchemaOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSchemasUpdateSchemaOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the registry.
+    /// </summary>
+    [CliOption("--registry-name")]
+    public string? RegistryName { get; private init; }
+
+    /// <summary>
+    /// The name of the schema.
+    /// </summary>
+    [CliOption("--schema-name")]
+    public string? SchemaName { get; private init; }
+
     /// <summary>
     /// The ID of the client token. Constraints: o min: 0 o max: 36
     /// </summary>
-    [SecretValue]
     [CliOption("--client-token-id")]
     public string? ClientTokenId { get; set; }
 
@@ -42,12 +90,6 @@ public record AwsSchemasUpdateSchemaOptions : AwsOptions
     [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CliOption("--registry-name")]
-    public string? RegistryName { get; set; }
-
-    [CliOption("--schema-name")]
-    public string? SchemaName { get; set; }
-
     /// <summary>
     /// The schema type for the events schema. Possible values: o OpenApi3 o JSONSchemaDraft4
     /// </summary>
@@ -59,5 +101,22 @@ public record AwsSchemasUpdateSchemaOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

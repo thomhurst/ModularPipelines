@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,68 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sso-admin", "get-application-session-configuration")]
-public record AwsSsoAdminGetApplicationSessionConfigurationOptions : AwsOptions
+public record AwsSsoAdminGetApplicationSessionConfigurationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Retrieves the session configuration for an application in IAM Identity Center. The session configuration determines how users can access an applica- tion. This includes whether user background sessions are enabled. User background sessions allow users to start a job on a supported Amazon Web Services managed application without having to remain signed in to an active session while the job runs. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ApplicationArn">The Amazon Resource Name (ARN) of the application for which to re- trieve the session configuration. Constraints: o min: 10 o max: 1224 o pattern: arn:aws(-[a-z]{1,5}){0,3}:sso::\d{12}:applica- tion/(sso)?ins-[a-zA-Z0-9-.]{16}/apl-[a-zA-Z0-9]{16}</param>
+    public AwsSsoAdminGetApplicationSessionConfigurationOptions(
+        string ApplicationArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ApplicationArn);
+        this.ApplicationArn = ApplicationArn;
+    }
+
+    private AwsSsoAdminGetApplicationSessionConfigurationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSsoAdminGetApplicationSessionConfigurationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSsoAdminGetApplicationSessionConfigurationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the application for which to re- trieve the session configuration. Constraints: o min: 10 o max: 1224 o pattern: arn:aws(-[a-z]{1,5}){0,3}:sso::\d{12}:applica- tion/(sso)?ins-[a-zA-Z0-9-.]{16}/apl-[a-zA-Z0-9]{16}
+    /// </summary>
     [CliOption("--application-arn")]
-    public string? ApplicationArn { get; set; }
+    public string? ApplicationArn { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

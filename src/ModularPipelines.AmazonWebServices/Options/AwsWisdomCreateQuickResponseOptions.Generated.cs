@@ -12,6 +12,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -21,8 +22,67 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("wisdom", "create-quick-response")]
-public record AwsWisdomCreateQuickResponseOptions : AwsOptions
+public record AwsWisdomCreateQuickResponseOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a Wisdom quick response. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Content">The content of the quick response. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: content. content -&gt; (string) The content of the quick response. Constraints: o min: 1 o max: 1024 Shorthand Syntax: content=string JSON Syntax: { "content": "string" }</param>
+    /// <param name="KnowledgeBaseId">The identifier of the knowledge base. This should not be a QUICK_RE- SPONSES type knowledge base if you're storing Wisdom Content re- source to it. Can be either the ID or the ARN. URLs cannot contain the ARN. Constraints: o pattern: ^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$|^arn:[a-z-]*?:wis- dom:[a-z0-9-]*?:[0-9]{12}:[a-z-]*?/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(?:/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12})?$</param>
+    /// <param name="Name">The name of the quick response. Constraints: o min: 1 o max: 40</param>
+    public AwsWisdomCreateQuickResponseOptions(
+        string Content,
+        string KnowledgeBaseId,
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Content);
+        this.Content = Content;
+        global::System.ArgumentNullException.ThrowIfNull(KnowledgeBaseId);
+        this.KnowledgeBaseId = KnowledgeBaseId;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    private AwsWisdomCreateQuickResponseOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsWisdomCreateQuickResponseOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsWisdomCreateQuickResponseOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The content of the quick response. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: content. content -&gt; (string) The content of the quick response. Constraints: o min: 1 o max: 1024 Shorthand Syntax: content=string JSON Syntax: { "content": "string" }
+    /// </summary>
+    [CliOption("--content")]
+    public string? Content { get; private init; }
+
+    /// <summary>
+    /// The identifier of the knowledge base. This should not be a QUICK_RE- SPONSES type knowledge base if you're storing Wisdom Content re- source to it. Can be either the ID or the ARN. URLs cannot contain the ARN. Constraints: o pattern: ^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$|^arn:[a-z-]*?:wis- dom:[a-z0-9-]*?:[0-9]{12}:[a-z-]*?/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(?:/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12})?$
+    /// </summary>
+    [CliOption("--knowledge-base-id")]
+    public string? KnowledgeBaseId { get; private init; }
+
+    /// <summary>
+    /// The name of the quick response. Constraints: o min: 1 o max: 40
+    /// </summary>
+    [CliOption("--name")]
+    public string? Name { get; private init; }
+
     /// <summary>
     /// The Amazon Connect channels this quick response applies to. (string) Constraints: o min: 1 o max: 10 Syntax: "string" "string" ...
     /// </summary>
@@ -35,9 +95,6 @@ public record AwsWisdomCreateQuickResponseOptions : AwsOptions
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
-
-    [CliOption("--content")]
-    public string? Content { get; set; }
 
     /// <summary>
     /// The media type of the quick response content. o Use application/x.quickresponse;format=plain for a quick response written in plain text. o Use application/x.quickresponse;format=markdown for a quick re- sponse written in richtext. Constraints: o pattern: ^(application/x\.quickresponse;format=(plain|markdown))$
@@ -57,20 +114,17 @@ public record AwsWisdomCreateQuickResponseOptions : AwsOptions
     [CliOption("--grouping-configuration")]
     public string? GroupingConfiguration { get; set; }
 
-    [CliFlag("--is-active")]
+    /// <summary>
+    /// Whether the quick response is active.
+    /// </summary>
+    [CliFlag("--is-active", NegatedName = "--no-is-active")]
     public bool? IsActive { get; set; }
-
-    [CliOption("--knowledge-base-id")]
-    public string? KnowledgeBaseId { get; set; }
 
     /// <summary>
     /// The language code value for the language in which the quick response is written. The supported language codes include de_DE , en_US , es_ES , fr_FR , id_ID , it_IT , ja_JP , ko_KR , pt_BR , zh_CN , zh_TW Constraints: o min: 2 o max: 5
     /// </summary>
     [CliOption("--language")]
     public string? Language { get; set; }
-
-    [CliOption("--name")]
-    public string? Name { get; set; }
 
     /// <summary>
     /// The shortcut key of the quick response. The value should be unique across the knowledge base. Constraints: o min: 1 o max: 10
@@ -89,5 +143,22 @@ public record AwsWisdomCreateQuickResponseOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

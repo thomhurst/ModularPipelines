@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +20,99 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("omics", "complete-multipart-read-set-upload")]
-public record AwsOmicsCompleteMultipartReadSetUploadOptions : AwsOptions
+public record AwsOmicsCompleteMultipartReadSetUploadOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Completes a multipart read set upload into a sequence store after you have initiated the upload process with CreateMultipartReadSetUpload and uploaded all read set parts using UploadReadSetPart . You must specify the parts you uploaded using the parts parameter. If the operation is successful, it returns the read set ID(s) of the uploaded read set(s). For more information, see Direct upload to a sequence store in the Ama- zon Web Services HealthOmics User Guide . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="SequenceStoreId">The sequence store ID for the store involved in the multipart up- load. Constraints: o min: 10 o max: 36 o pattern: [0-9]+</param>
+    /// <param name="UploadId">The ID for the multipart upload. Constraints: o min: 10 o max: 36 o pattern: [0-9]+</param>
+    /// <param name="Parts">The individual uploads or parts of a multipart upload. (structure) Part of the response to the CompleteReadSetUpload API, including metadata. partNumber -&gt; (integer) [required] A number identifying the part in a read set upload. Constraints: o min: 1 o max: 10000 partSource -&gt; (string) [required] The source file of the part being uploaded. Possible values: o SOURCE1 o SOURCE2 checksum -&gt; (string) [required] A unique identifier used to confirm that parts are being added to the correct upload. Constraints: o min: 1 o max: 100 o pattern: [\p{L}||\p{M}||\p{Z}||\p{S}||\p{N}||\p{P}]+ Shorthand Syntax: partNumber=integer,partSource=string,checksum=string ... JSON Syntax: [ { "partNumber": integer, "partSource": "SOURCE1"|"SOURCE2", "checksum": "string" } ... ]</param>
+    public AwsOmicsCompleteMultipartReadSetUploadOptions(
+        string SequenceStoreId,
+        string UploadId,
+        IEnumerable<string> Parts
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SequenceStoreId);
+        this.SequenceStoreId = SequenceStoreId;
+        global::System.ArgumentNullException.ThrowIfNull(UploadId);
+        this.UploadId = UploadId;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Parts);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Parts));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Parts));
+            }
+
+            Parts = materialized;
+        }
+        this.Parts = Parts;
+    }
+
+    private AwsOmicsCompleteMultipartReadSetUploadOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsOmicsCompleteMultipartReadSetUploadOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsOmicsCompleteMultipartReadSetUploadOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The sequence store ID for the store involved in the multipart up- load. Constraints: o min: 10 o max: 36 o pattern: [0-9]+
+    /// </summary>
     [CliOption("--sequence-store-id")]
-    public string? SequenceStoreId { get; set; }
+    public string? SequenceStoreId { get; private init; }
 
+    /// <summary>
+    /// The ID for the multipart upload. Constraints: o min: 10 o max: 36 o pattern: [0-9]+
+    /// </summary>
     [CliOption("--upload-id")]
-    public string? UploadId { get; set; }
+    public string? UploadId { get; private init; }
 
+    /// <summary>
+    /// The individual uploads or parts of a multipart upload. (structure) Part of the response to the CompleteReadSetUpload API, including metadata. partNumber -&gt; (integer) [required] A number identifying the part in a read set upload. Constraints: o min: 1 o max: 10000 partSource -&gt; (string) [required] The source file of the part being uploaded. Possible values: o SOURCE1 o SOURCE2 checksum -&gt; (string) [required] A unique identifier used to confirm that parts are being added to the correct upload. Constraints: o min: 1 o max: 100 o pattern: [\p{L}||\p{M}||\p{Z}||\p{S}||\p{N}||\p{P}]+ Shorthand Syntax: partNumber=integer,partSource=string,checksum=string ... JSON Syntax: [ { "partNumber": integer, "partSource": "SOURCE1"|"SOURCE2", "checksum": "string" } ... ]
+    /// </summary>
     [CliOption("--parts", GroupValues = true)]
-    public IEnumerable<string>? Parts { get; set; }
+    public IEnumerable<string>? Parts { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

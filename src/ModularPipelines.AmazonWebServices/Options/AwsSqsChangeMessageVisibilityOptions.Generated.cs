@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +20,87 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sqs", "change-message-visibility")]
-public record AwsSqsChangeMessageVisibilityOptions : AwsOptions
+public record AwsSqsChangeMessageVisibilityOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Changes the visibility timeout of a specified message in a queue to a new value. The default visibility timeout for a message is 30 seconds. The minimum is 0 seconds. The maximum is 12 hours. For more informa- tion, see Visibility Timeout in the Amazon SQS Developer Guide . For example, if the default timeout for a queue is 60 seconds, 15 sec- onds have elapsed since you received the message, and you send a ChangeMessageVisibility call with VisibilityTimeout set to 10 seconds, the 10 seconds beg...
+    /// </summary>
+    /// <param name="QueueUrl">The URL of the Amazon SQS queue whose message's visibility is changed. Queue URLs and names are case-sensitive.</param>
+    /// <param name="ReceiptHandle">The receipt handle associated with the message, whose visibility timeout is changed. This parameter is returned by the `` Re- ceiveMessage `` action.</param>
+    /// <param name="VisibilityTimeout">The new value for the message's visibility timeout (in seconds). Values range: 0 to 43200 . Maximum: 12 hours.</param>
+    public AwsSqsChangeMessageVisibilityOptions(
+        string QueueUrl,
+        string ReceiptHandle,
+        int VisibilityTimeout
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(QueueUrl);
+        this.QueueUrl = QueueUrl;
+        global::System.ArgumentNullException.ThrowIfNull(ReceiptHandle);
+        this.ReceiptHandle = ReceiptHandle;
+        this.VisibilityTimeout = VisibilityTimeout;
+    }
+
+    private AwsSqsChangeMessageVisibilityOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSqsChangeMessageVisibilityOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSqsChangeMessageVisibilityOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The URL of the Amazon SQS queue whose message's visibility is changed. Queue URLs and names are case-sensitive.
+    /// </summary>
     [CliOption("--queue-url")]
-    public string? QueueUrl { get; set; }
+    public string? QueueUrl { get; private init; }
 
+    /// <summary>
+    /// The receipt handle associated with the message, whose visibility timeout is changed. This parameter is returned by the `` Re- ceiveMessage `` action.
+    /// </summary>
     [CliOption("--receipt-handle")]
-    public string? ReceiptHandle { get; set; }
+    public string? ReceiptHandle { get; private init; }
 
+    /// <summary>
+    /// The new value for the message's visibility timeout (in seconds). Values range: 0 to 43200 . Maximum: 12 hours.
+    /// </summary>
     [CliOption("--visibility-timeout")]
-    public int? VisibilityTimeout { get; set; }
+    public int? VisibilityTimeout { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

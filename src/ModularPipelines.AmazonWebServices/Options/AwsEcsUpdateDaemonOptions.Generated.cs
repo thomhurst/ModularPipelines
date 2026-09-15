@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,16 +21,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ecs", "update-daemon")]
-public record AwsEcsUpdateDaemonOptions : AwsOptions
+public record AwsEcsUpdateDaemonOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates the specified daemon. When you update a daemon, a new deploy- ment is triggered that progressively rolls out the changes to the con- tainer instances associated with the daemon's capacity providers. For more information, see Daemon deployments in the Amazon Elastic Con- tainer Service Developer Guide . Amazon ECS drains existing container instances and provisions new in- stances with the updated daemon. Amazon ECS automatically launches re- placement tasks for your services. WARNING: Upd...
+    /// </summary>
+    /// <param name="DaemonArn">The Amazon Resource Name (ARN) of the daemon to update.</param>
+    /// <param name="DaemonTaskDefinitionArn">The Amazon Resource Name (ARN) of the daemon task definition to use for the updated daemon.</param>
+    /// <param name="CapacityProviderArns">The Amazon Resource Names (ARNs) of the capacity providers to asso- ciate with the daemon. (string) Syntax: "string" "string" ...</param>
+    public AwsEcsUpdateDaemonOptions(
+        string DaemonArn,
+        string DaemonTaskDefinitionArn,
+        IEnumerable<string> CapacityProviderArns
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DaemonArn);
+        this.DaemonArn = DaemonArn;
+        global::System.ArgumentNullException.ThrowIfNull(DaemonTaskDefinitionArn);
+        this.DaemonTaskDefinitionArn = DaemonTaskDefinitionArn;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(CapacityProviderArns);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(CapacityProviderArns));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(CapacityProviderArns));
+            }
+
+            CapacityProviderArns = materialized;
+        }
+        this.CapacityProviderArns = CapacityProviderArns;
+    }
+
+    private AwsEcsUpdateDaemonOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEcsUpdateDaemonOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEcsUpdateDaemonOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the daemon to update.
+    /// </summary>
     [CliOption("--daemon-arn")]
-    public string? DaemonArn { get; set; }
+    public string? DaemonArn { get; private init; }
 
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the daemon task definition to use for the updated daemon.
+    /// </summary>
     [CliOption("--daemon-task-definition-arn")]
-    public string? DaemonTaskDefinitionArn { get; set; }
+    public string? DaemonTaskDefinitionArn { get; private init; }
 
+    /// <summary>
+    /// The Amazon Resource Names (ARNs) of the capacity providers to asso- ciate with the daemon. (string) Syntax: "string" "string" ...
+    /// </summary>
     [CliOption("--capacity-provider-arns", GroupValues = true)]
-    public IEnumerable<string>? CapacityProviderArns { get; set; }
+    public IEnumerable<string>? CapacityProviderArns { get; private init; }
 
     /// <summary>
     /// Optional deployment parameters that control how the daemon rolls out updates, including the drain percentage, alarm-based rollback, and bake time. drainPercent -&gt; (double) The percentage of container instances to drain simultaneously during a daemon deployment. Valid values are between 0.0 and 100.0. Constraints: o min: 0.0 o max: 100.0 alarms -&gt; (structure) The CloudWatch alarm configuration for the daemon deployment. When alarms are triggered during a deployment, the deployment can be automatically rolled back. alarmNames -&gt; (list) The CloudWatch alarm names to monitor during a daemon deploy- ment. (string) enable -&gt; (boolean) Determines whether to use the CloudWatch alarm option in the daemon deployment process. The default value is false . bakeTimeInMinutes -&gt; (integer) The amount of time (in minutes) to wait after a successful de- ployment step before proceeding. This allows time to monitor for issues before continuing. The default value is 0. Shorthand Syntax: drainPercent=double,alarms={alarmNames=[string,string],enable=boolean},bakeTimeInMinutes=integer JSON Syntax: { "drainPercent": double, "alarms": { "alarmNames": ["string", ...], "enable": true|false }, "bakeTimeInMinutes": integer }
@@ -43,16 +105,45 @@ public record AwsEcsUpdateDaemonOptions : AwsOptions
     [CliOption("--propagate-tags")]
     public AwsEcsUpdateDaemonPropagateTags? PropagateTags { get; set; }
 
-    [CliFlag("--enable-ecs-managed-tags")]
+    /// <summary>
+    /// Specifies whether to turn on Amazon ECS managed tags for the tasks in the daemon. For more information, see Tagging your Amazon ECS re- sources in the Amazon Elastic Container Service Developer Guide .
+    /// </summary>
+    [CliFlag("--enable-ecs-managed-tags", NegatedName = "--no-enable-ecs-managed-tags")]
     public bool? EnableEcsManagedTags { get; set; }
 
+    /// <summary>
+    /// If true , the execute command functionality is turned on for all tasks in the daemon. If false , the execute command functionality is turned off.
+    /// </summary>
     [CliFlag("--enable-execute-command")]
     public bool? EnableExecuteCommand { get; set; }
+
+    /// <summary>
+    /// If the critical parameter of a daemon is true , and the daemon task fails, stops, or becomes unhealthy, Amazon ECS drains the container instance and stops the other tasks running on it. If the critical parameter is false , the daemon task failure doesn't affect the other tasks on the instance. The default value is true . A non-critical daemon doesn't block instance registration. The con- tainer instance becomes active and continues to run your other tasks, whether the daemon task fails during scale-out or during a deployment. Amazon ECS emits an EventBridge event when a daemon task fails to start, for both critical and non-critical daemons. Daemon task launch failures during a deployment are still counted by the deployment circuit breaker. The circuit breaker can roll back an unstable target revision.
+    /// </summary>
+    [CliFlag("--critical", NegatedName = "--no-critical")]
+    public bool? Critical { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

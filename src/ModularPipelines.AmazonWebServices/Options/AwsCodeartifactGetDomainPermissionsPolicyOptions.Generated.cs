@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("codeartifact", "get-domain-permissions-policy")]
-public record AwsCodeartifactGetDomainPermissionsPolicyOptions : AwsOptions
+public record AwsCodeartifactGetDomainPermissionsPolicyOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Returns the resource policy attached to the specified domain. NOTE: The policy is a resource-based policy, not an identity-based policy. For more information, see Identity-based policies and resource-based policies in the IAM User Guide . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Domain">The name of the domain to which the resource policy is attached. Constraints: o min: 2 o max: 50 o pattern: [a-z][a-z0-9\-]{0,48}[a-z0-9]</param>
+    public AwsCodeartifactGetDomainPermissionsPolicyOptions(
+        string Domain
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Domain);
+        this.Domain = Domain;
+    }
+
+    private AwsCodeartifactGetDomainPermissionsPolicyOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCodeartifactGetDomainPermissionsPolicyOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCodeartifactGetDomainPermissionsPolicyOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the domain to which the resource policy is attached. Constraints: o min: 2 o max: 50 o pattern: [a-z][a-z0-9\-]{0,48}[a-z0-9]
+    /// </summary>
     [CliOption("--domain")]
-    public string? Domain { get; set; }
+    public string? Domain { get; private init; }
 
     /// <summary>
     /// The 12-digit account number of the Amazon Web Services account that owns the domain. It does not include dashes or spaces. Constraints: o min: 12 o max: 12 o pattern: [0-9]{12}
@@ -35,5 +72,22 @@ public record AwsCodeartifactGetDomainPermissionsPolicyOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,8 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bedrock-agentcore", "create-payment-session")]
-public record AwsBedrockAgentcoreCreatePaymentSessionOptions : AwsOptions
+public record AwsBedrockAgentcoreCreatePaymentSessionOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Create a new payment session. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="PaymentManagerArn">The ARN of the payment manager that owns this session. Constraints: o min: 66 o max: 2048 o pattern: arn:(aws|aws-[a-z0-9-]+):bedrock-agent- core:[a-z0-9-]+:[0-9]{12}:payment-man- ager/[a-z0-9]([a-z0-9-]{0,47}[a-z0-9])?-[a-z0-9]{10}</param>
+    /// <param name="ExpiryTimeInMinutes">The session expiry time in minutes. Must be between 15 and 480 min- utes. Constraints: o min: 15 o max: 480</param>
+    public AwsBedrockAgentcoreCreatePaymentSessionOptions(
+        string PaymentManagerArn,
+        int ExpiryTimeInMinutes
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PaymentManagerArn);
+        this.PaymentManagerArn = PaymentManagerArn;
+        this.ExpiryTimeInMinutes = ExpiryTimeInMinutes;
+    }
+
+    private AwsBedrockAgentcoreCreatePaymentSessionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsBedrockAgentcoreCreatePaymentSessionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsBedrockAgentcoreCreatePaymentSessionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ARN of the payment manager that owns this session. Constraints: o min: 66 o max: 2048 o pattern: arn:(aws|aws-[a-z0-9-]+):bedrock-agent- core:[a-z0-9-]+:[0-9]{12}:payment-man- ager/[a-z0-9]([a-z0-9-]{0,47}[a-z0-9])?-[a-z0-9]{10}
+    /// </summary>
+    [CliOption("--payment-manager-arn")]
+    public string? PaymentManagerArn { get; private init; }
+
+    /// <summary>
+    /// The session expiry time in minutes. Must be between 15 and 480 min- utes. Constraints: o min: 15 o max: 480
+    /// </summary>
+    [CliOption("--expiry-time-in-minutes")]
+    public int? ExpiryTimeInMinutes { get; private init; }
+
     /// <summary>
     /// The user ID associated with this payment session. Constraints: o min: 0 o max: 120
     /// </summary>
@@ -34,17 +83,11 @@ public record AwsBedrockAgentcoreCreatePaymentSessionOptions : AwsOptions
     [CliOption("--agent-name")]
     public string? AgentName { get; set; }
 
-    [CliOption("--payment-manager-arn")]
-    public string? PaymentManagerArn { get; set; }
-
     /// <summary>
     /// The spending limits for this payment session. maxSpendAmount -&gt; (structure) [required] The maximum amount that can be spent in the session. value -&gt; (string) [required] The numeric value of the amount. currency -&gt; (string) [required] The currency code for the amount. Possible values: o USD Shorthand Syntax: maxSpendAmount={value=string,currency=string} JSON Syntax: { "maxSpendAmount": { "value": "string", "currency": "USD" } }
     /// </summary>
     [CliOption("--limits")]
     public string? Limits { get; set; }
-
-    [CliOption("--expiry-time-in-minutes")]
-    public int? ExpiryTimeInMinutes { get; set; }
 
     /// <summary>
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Constraints: o min: 33 o max: 256 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,256}
@@ -58,5 +101,22 @@ public record AwsBedrockAgentcoreCreatePaymentSessionOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -11,20 +11,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --defaultlargestagingdisktype.
+/// Allowed values for --default-large-staging-disk-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsDrsCreateReplicationConfigurationTemplateDefaultLargeStagingDiskType
 {
+    [EnumValue("AUTO")]
+    Auto,
+
     [EnumValue("GP2")]
-    Gp2 = 1,
+    Gp2,
 
     [EnumValue("GP3")]
-    Gp3 = 2,
+    Gp3,
 
     [EnumValue("ST1")]
-    St1 = 3,
-
-    [EnumValue("AUTO")]
-    Auto = 4
+    St1
 }

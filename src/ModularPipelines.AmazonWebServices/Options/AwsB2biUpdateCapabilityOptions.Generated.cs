@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("b2bi", "update-capability")]
-public record AwsB2biUpdateCapabilityOptions : AwsOptions
+public record AwsB2biUpdateCapabilityOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates some of the parameters for a capability, based on the specified parameters. A trading capability contains the information required to transform incoming EDI documents into JSON or XML outputs. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="CapabilityId">Specifies a system-assigned unique identifier for the capability. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_-]+</param>
+    public AwsB2biUpdateCapabilityOptions(
+        string CapabilityId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(CapabilityId);
+        this.CapabilityId = CapabilityId;
+    }
+
+    private AwsB2biUpdateCapabilityOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsB2biUpdateCapabilityOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsB2biUpdateCapabilityOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Specifies a system-assigned unique identifier for the capability. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_-]+
+    /// </summary>
     [CliOption("--capability-id")]
-    public string? CapabilityId { get; set; }
+    public string? CapabilityId { get; private init; }
 
     /// <summary>
     /// Specifies a new name for the capability, to replace the existing name. Constraints: o min: 1 o max: 254
@@ -47,5 +84,22 @@ public record AwsB2biUpdateCapabilityOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

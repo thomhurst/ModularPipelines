@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("emr", "put-managed-scaling-policy")]
-public record AwsEmrPutManagedScalingPolicyOptions : AwsOptions
+public record AwsEmrPutManagedScalingPolicyOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--cluster-id")]
-    public string? ClusterId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates or updates a managed scaling policy for an Amazon EMR cluster. The managed scaling policy defines the limits for resources, such as Amazon EC2 instances that can be added or terminated from a cluster. The policy only applies to the core and task nodes. The master node cannot be scaled after initial configuration. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ClusterId">Specifies the ID of an Amazon EMR cluster where the managed scaling policy is attached. Constraints: o max: 256</param>
+    /// <param name="ManagedScalingPolicy">Specifies the constraints for the managed scaling policy. ComputeLimits -&gt; (structure) The Amazon EC2 unit limits for a managed scaling policy. The managed scaling activity of a cluster is not allowed to go above or below these limits. The limit only applies to the core and task nodes. The master node cannot be scaled after initial con- figuration. UnitType -&gt; (string) [required] The unit type used for specifying a managed scaling policy. Possible values: o InstanceFleetUnits o Instances o VCPU MinimumCapacityUnits -&gt; (integer) [required] The lower boundary of Amazon EC2 units. It is measured through vCPU cores or instances for instance groups and mea- sured through units for instance fleets. Managed scaling ac- tivities are not allowed beyond this boundary. The limit only applies to the core and task nodes. The master node cannot be scaled after initial configuration. MaximumCapacityUnits -&gt; (integer) [required] The upper boundary of Amazon EC2 units. It is measured through vCPU cores or instances for instance groups and mea- sured through units for instance fleets. Managed scaling ac- tivities are not allowed beyond this boundary. The limit only applies to the core and task nodes. The master node cannot be scaled after initial configuration. MaximumOnDemandCapacityUnits -&gt; (integer) The upper boundary of On-Demand Amazon EC2 units. It is mea- sured through vCPU cores or instances for instance groups and measured through units for instance fleets. The On-Demand units are not allowed to scale beyond this boundary. The pa- rameter is used to split capacity allocation between On-De- mand and Spot Instances. MaximumCoreCapacityUnits -&gt; (integer) The upper boundary of Amazon EC2 units for core node type in a cluster. It is measured through vCPU cores or instances for instance groups and measured through units for instance fleets. The core units are not allowed to scale beyond this boundary. The parameter is used to split capacity allocation between core and task nodes. UtilizationPerformanceIndex -&gt; (integer) An integer value that represents an advanced scaling strategy. Setting a higher value optimizes for performance. Setting a lower value optimizes for resource conservation. Setting the value to 50 balances performance and resource conservation. Pos- sible values are 1, 25, 50, 75, and 100. Constraints: o min: 1 o max: 100 ScalingStrategy -&gt; (string) Determines whether a custom scaling utilization performance in- dex can be set. Possible values include ADVANCED or DEFAULT . Possible values: o DEFAULT o ADVANCED Shorthand Syntax: ComputeLimits={UnitType=string,MinimumCapacityUnits=integer,MaximumCapacityUnits=integer,MaximumOnDemandCapacityUnits=integer,MaximumCoreCapacityUnits=integer},UtilizationPerformanceIndex=integer,ScalingStrategy=string JSON Syntax: { "ComputeLimits": { "UnitType": "InstanceFleetUnits"|"Instances"|"VCPU", "MinimumCapacityUnits": integer, "MaximumCapacityUnits": integer, "MaximumOnDemandCapacityUnits": integer, "MaximumCoreCapacityUnits": integer }, "UtilizationPerformanceIndex": integer, "ScalingStrategy": "DEFAULT"|"ADVANCED" }</param>
+    public AwsEmrPutManagedScalingPolicyOptions(
+        string ClusterId,
+        string ManagedScalingPolicy
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ClusterId);
+        this.ClusterId = ClusterId;
+        global::System.ArgumentNullException.ThrowIfNull(ManagedScalingPolicy);
+        this.ManagedScalingPolicy = ManagedScalingPolicy;
+    }
+
+    private AwsEmrPutManagedScalingPolicyOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEmrPutManagedScalingPolicyOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEmrPutManagedScalingPolicyOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Specifies the ID of an Amazon EMR cluster where the managed scaling policy is attached. Constraints: o max: 256
+    /// </summary>
+    [CliOption("--cluster-id")]
+    public string? ClusterId { get; private init; }
+
+    /// <summary>
+    /// Specifies the constraints for the managed scaling policy. ComputeLimits -&gt; (structure) The Amazon EC2 unit limits for a managed scaling policy. The managed scaling activity of a cluster is not allowed to go above or below these limits. The limit only applies to the core and task nodes. The master node cannot be scaled after initial con- figuration. UnitType -&gt; (string) [required] The unit type used for specifying a managed scaling policy. Possible values: o InstanceFleetUnits o Instances o VCPU MinimumCapacityUnits -&gt; (integer) [required] The lower boundary of Amazon EC2 units. It is measured through vCPU cores or instances for instance groups and mea- sured through units for instance fleets. Managed scaling ac- tivities are not allowed beyond this boundary. The limit only applies to the core and task nodes. The master node cannot be scaled after initial configuration. MaximumCapacityUnits -&gt; (integer) [required] The upper boundary of Amazon EC2 units. It is measured through vCPU cores or instances for instance groups and mea- sured through units for instance fleets. Managed scaling ac- tivities are not allowed beyond this boundary. The limit only applies to the core and task nodes. The master node cannot be scaled after initial configuration. MaximumOnDemandCapacityUnits -&gt; (integer) The upper boundary of On-Demand Amazon EC2 units. It is mea- sured through vCPU cores or instances for instance groups and measured through units for instance fleets. The On-Demand units are not allowed to scale beyond this boundary. The pa- rameter is used to split capacity allocation between On-De- mand and Spot Instances. MaximumCoreCapacityUnits -&gt; (integer) The upper boundary of Amazon EC2 units for core node type in a cluster. It is measured through vCPU cores or instances for instance groups and measured through units for instance fleets. The core units are not allowed to scale beyond this boundary. The parameter is used to split capacity allocation between core and task nodes. UtilizationPerformanceIndex -&gt; (integer) An integer value that represents an advanced scaling strategy. Setting a higher value optimizes for performance. Setting a lower value optimizes for resource conservation. Setting the value to 50 balances performance and resource conservation. Pos- sible values are 1, 25, 50, 75, and 100. Constraints: o min: 1 o max: 100 ScalingStrategy -&gt; (string) Determines whether a custom scaling utilization performance in- dex can be set. Possible values include ADVANCED or DEFAULT . Possible values: o DEFAULT o ADVANCED Shorthand Syntax: ComputeLimits={UnitType=string,MinimumCapacityUnits=integer,MaximumCapacityUnits=integer,MaximumOnDemandCapacityUnits=integer,MaximumCoreCapacityUnits=integer},UtilizationPerformanceIndex=integer,ScalingStrategy=string JSON Syntax: { "ComputeLimits": { "UnitType": "InstanceFleetUnits"|"Instances"|"VCPU", "MinimumCapacityUnits": integer, "MaximumCapacityUnits": integer, "MaximumOnDemandCapacityUnits": integer, "MaximumCoreCapacityUnits": integer }, "UtilizationPerformanceIndex": integer, "ScalingStrategy": "DEFAULT"|"ADVANCED" }
+    /// </summary>
     [CliOption("--managed-scaling-policy")]
-    public string? ManagedScalingPolicy { get; set; }
+    public string? ManagedScalingPolicy { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

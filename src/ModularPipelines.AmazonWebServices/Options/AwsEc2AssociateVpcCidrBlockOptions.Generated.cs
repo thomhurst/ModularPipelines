@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,8 +20,47 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ec2", "associate-vpc-cidr-block")]
-public record AwsEc2AssociateVpcCidrBlockOptions : AwsOptions
+public record AwsEc2AssociateVpcCidrBlockOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Associates a CIDR block with your VPC. You can associate a secondary IPv4 CIDR block, an Amazon-provided IPv6 CIDR block, or an IPv6 CIDR block from an IPv6 address pool that you provisioned through bring your own IP addresses (BYOIP ). You must specify one of the following in the request: an IPv4 CIDR block, an IPv6 pool, or an Amazon-provided IPv6 CIDR block. For more information about associating CIDR blocks with your VPC and applicable restrictions, see IP addressing for your VPCs and subnet...
+    /// </summary>
+    /// <param name="VpcId">The ID of the VPC.</param>
+    public AwsEc2AssociateVpcCidrBlockOptions(
+        string VpcId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(VpcId);
+        this.VpcId = VpcId;
+    }
+
+    private AwsEc2AssociateVpcCidrBlockOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEc2AssociateVpcCidrBlockOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEc2AssociateVpcCidrBlockOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the VPC.
+    /// </summary>
+    [CliOption("--vpc-id")]
+    public string? VpcId { get; private init; }
+
     /// <summary>
     /// An IPv4 CIDR block to associate with the VPC.
     /// </summary>
@@ -69,13 +109,10 @@ public record AwsEc2AssociateVpcCidrBlockOptions : AwsOptions
     [CliOption("--ipv6-netmask-length")]
     public int? Ipv6NetmaskLength { get; set; }
 
-    [CliOption("--vpc-id")]
-    public string? VpcId { get; set; }
-
     /// <summary>
-    /// | --no-amazon-pro- vided-ipv6-cidr-block (boolean) Requests an Amazon-provided IPv6 CIDR block with a /56 prefix length for the VPC. You cannot specify the range of IPv6 addresses or the size of the CIDR block.
+    /// vided-ipv6-cidr-block (boolean) Requests an Amazon-provided IPv6 CIDR block with a /56 prefix length for the VPC. You cannot specify the range of IPv6 addresses or the size of the CIDR block.
     /// </summary>
-    [CliFlag("--amazon-provided-ipv6-cidr-block")]
+    [CliFlag("--amazon-provided-ipv6-cidr-block", NegatedName = "--no-amazon-provided-ipv6-cidr-block")]
     public bool? AmazonProvidedIpv6CidrBlock { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -83,5 +120,22 @@ public record AwsEc2AssociateVpcCidrBlockOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

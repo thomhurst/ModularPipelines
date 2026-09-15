@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --participanttype.
+/// Allowed values for --participant-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsPartnercentralAccountListConnectionInvitationsParticipantType
 {
-    [EnumValue("SENDER")]
-    Sender = 1,
-
     [EnumValue("RECEIVER")]
-    Receiver = 2
+    Receiver,
+
+    [EnumValue("SENDER")]
+    Sender
 }

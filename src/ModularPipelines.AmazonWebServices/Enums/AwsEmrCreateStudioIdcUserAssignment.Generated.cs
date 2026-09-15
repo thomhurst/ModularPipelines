@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --idcuserassignment.
+/// Allowed values for --idc-user-assignment.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsEmrCreateStudioIdcUserAssignment
 {
-    [EnumValue("REQUIRED")]
-    Required = 1,
-
     [EnumValue("OPTIONAL")]
-    Optional = 2
+    Optional,
+
+    [EnumValue("REQUIRED")]
+    Required
 }

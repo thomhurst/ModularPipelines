@@ -46,10 +46,16 @@ public record AwsDocdbDescribeDbClusterSnapshotsOptions : AwsOptions
     [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
-    [CliFlag("--include-shared")]
+    /// <summary>
+    /// Set to true to include shared manual cluster snapshots from other Amazon Web Services accounts that this Amazon Web Services account has been given permission to copy or restore, and otherwise false . The default is false .
+    /// </summary>
+    [CliFlag("--include-shared", NegatedName = "--no-include-shared")]
     public bool? IncludeShared { get; set; }
 
-    [CliFlag("--include-public")]
+    /// <summary>
+    /// Set to true to include manual cluster snapshots that are public and can be copied or restored by any Amazon Web Services account, and otherwise false . The default is false .
+    /// </summary>
+    [CliFlag("--include-public", NegatedName = "--no-include-public")]
     public bool? IncludePublic { get; set; }
 
     [CliOption("--cli-input-json")]

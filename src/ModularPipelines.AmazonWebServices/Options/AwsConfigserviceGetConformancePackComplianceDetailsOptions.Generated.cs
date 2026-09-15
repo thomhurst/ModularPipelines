@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("configservice", "get-conformance-pack-compliance-details")]
-public record AwsConfigserviceGetConformancePackComplianceDetailsOptions : AwsOptions
+public record AwsConfigserviceGetConformancePackComplianceDetailsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Returns compliance details of a conformance pack for all Amazon Web Services resources that are monitered by conformance pack. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ConformancePackName">Name of the conformance pack. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z][-a-zA-Z0-9]*</param>
+    public AwsConfigserviceGetConformancePackComplianceDetailsOptions(
+        string ConformancePackName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ConformancePackName);
+        this.ConformancePackName = ConformancePackName;
+    }
+
+    private AwsConfigserviceGetConformancePackComplianceDetailsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsConfigserviceGetConformancePackComplianceDetailsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsConfigserviceGetConformancePackComplianceDetailsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Name of the conformance pack. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z][-a-zA-Z0-9]*
+    /// </summary>
     [CliOption("--conformance-pack-name")]
-    public string? ConformancePackName { get; set; }
+    public string? ConformancePackName { get; private init; }
 
     /// <summary>
     /// A ConformancePackEvaluationFilters object. ConfigRuleNames -&gt; (list) Filters the results by Config rule names. Constraints: o min: 0 o max: 10 (string) Constraints: o min: 1 o max: 64 ComplianceType -&gt; (string) Filters the results by compliance. The allowed values are COMPLIANT and NON_COMPLIANT . INSUFFI- CIENT_DATA is not supported. Possible values: o COMPLIANT o NON_COMPLIANT o INSUFFICIENT_DATA ResourceType -&gt; (string) Filters the results by the resource type (for example, "AWS::EC2::Instance" ). Constraints: o min: 1 o max: 256 ResourceIds -&gt; (list) Filters the results by resource IDs. NOTE: This is valid only when you provide resource type. If there is no resource type, you will see an error. Constraints: o min: 0 o max: 5 (string) Constraints: o min: 1 o max: 256 Shorthand Syntax: ConfigRuleNames=string,string,ComplianceType=string,ResourceType=string,ResourceIds=string,string JSON Syntax: { "ConfigRuleNames": ["string", ...], "ComplianceType": "COMPLIANT"|"NON_COMPLIANT"|"INSUFFICIENT_DATA", "ResourceType": "string", "ResourceIds": ["string", ...] }
@@ -49,5 +86,22 @@ public record AwsConfigserviceGetConformancePackComplianceDetailsOptions : AwsOp
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,10 +22,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("qconnect", "list-models")]
-public record AwsQconnectListModelsOptions : AwsOptions
+public record AwsQconnectListModelsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Lists the models available to an Amazon Q in Connect assistant in the assistant's Amazon Web Services Region. The available models are deter- mined by the region of the specified assistant. See also: AWS API Documentation list-models is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --que...
+    /// </summary>
+    /// <param name="AssistantId">The identifier of the Amazon Q in Connect assistant. Can be either the ID or the ARN. URLs cannot contain the ARN. The assistant's re- gion determines which models are available. Constraints: o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$|^arn:[a-z-]*?:wis- dom:[a-z0-9-]*?:[0-9]{12}:[a-z-]*?/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(?:/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}){0,2}</param>
+    public AwsQconnectListModelsOptions(
+        string AssistantId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AssistantId);
+        this.AssistantId = AssistantId;
+    }
+
+    private AwsQconnectListModelsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsQconnectListModelsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsQconnectListModelsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the Amazon Q in Connect assistant. Can be either the ID or the ARN. URLs cannot contain the ARN. The assistant's re- gion determines which models are available. Constraints: o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$|^arn:[a-z-]*?:wis- dom:[a-z0-9-]*?:[0-9]{12}:[a-z-]*?/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(?:/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}){0,2}
+    /// </summary>
     [CliOption("--assistant-id")]
-    public string? AssistantId { get; set; }
+    public string? AssistantId { get; private init; }
 
     /// <summary>
     /// The type of the AI Prompt to filter models by. When specified, only models that support the given AI Prompt type are returned. Possible values: o ANSWER_GENERATION o INTENT_LABELING_GENERATION o QUERY_REFORMULATION o SELF_SERVICE_PRE_PROCESSING o SELF_SERVICE_ANSWER_GENERATION o EMAIL_RESPONSE o EMAIL_OVERVIEW o EMAIL_GENERATIVE_ANSWER o EMAIL_QUERY_REFORMULATION o ORCHESTRATION o NOTE_TAKING o CASE_SUMMARIZATION
@@ -62,5 +99,22 @@ public record AwsQconnectListModelsOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

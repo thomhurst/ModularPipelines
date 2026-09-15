@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --pointsofinterests.
+/// Allowed values for --points-of-interests.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsGeoMapsGetStaticMapPointsOfInterests
 {
-    [EnumValue("Enabled")]
-    Enabled = 1,
-
     [EnumValue("Disabled")]
-    Disabled = 2
+    Disabled,
+
+    [EnumValue("Enabled")]
+    Enabled
 }

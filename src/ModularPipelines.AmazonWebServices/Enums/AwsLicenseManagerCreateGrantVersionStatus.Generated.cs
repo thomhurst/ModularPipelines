@@ -16,30 +16,30 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsLicenseManagerCreateGrantVersionStatus
 {
-    [EnumValue("PENDING_WORKFLOW")]
-    PendingWorkflow = 1,
-
-    [EnumValue("PENDING_ACCEPT")]
-    PendingAccept = 2,
-
-    [EnumValue("REJECTED")]
-    Rejected = 3,
-
     [EnumValue("ACTIVE")]
-    Active = 4,
-
-    [EnumValue("FAILED_WORKFLOW")]
-    FailedWorkflow = 5,
+    Active,
 
     [EnumValue("DELETED")]
-    Deleted = 6,
-
-    [EnumValue("PENDING_DELETE")]
-    PendingDelete = 7,
+    Deleted,
 
     [EnumValue("DISABLED")]
-    Disabled = 8,
+    Disabled,
+
+    [EnumValue("FAILED_WORKFLOW")]
+    FailedWorkflow,
+
+    [EnumValue("PENDING_ACCEPT")]
+    PendingAccept,
+
+    [EnumValue("PENDING_DELETE")]
+    PendingDelete,
+
+    [EnumValue("PENDING_WORKFLOW")]
+    PendingWorkflow,
+
+    [EnumValue("REJECTED")]
+    Rejected,
 
     [EnumValue("WORKFLOW_COMPLETED")]
-    WorkflowCompleted = 9
+    WorkflowCompleted
 }

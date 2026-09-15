@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("neptunedata", "get-ml-model-transform-job")]
-public record AwsNeptunedataGetMlModelTransformJobOptions : AwsOptions
+public record AwsNeptunedataGetMlModelTransformJobOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Gets information about a specified model transform job. See Use a trained model to generate new model artifacts . When invoking this operation in a Neptune cluster that has IAM authen- tication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:GetMLModelTransformJobStatus IAM action in that cluster. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Id">The unique identifier of the model-transform job to be reetrieved.</param>
+    public AwsNeptunedataGetMlModelTransformJobOptions(
+        string Id
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Id);
+        this.Id = Id;
+    }
+
+    private AwsNeptunedataGetMlModelTransformJobOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsNeptunedataGetMlModelTransformJobOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsNeptunedataGetMlModelTransformJobOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier of the model-transform job to be reetrieved.
+    /// </summary>
     [CliOption("--id")]
-    public string? Id { get; set; }
+    public string? Id { get; private init; }
 
     /// <summary>
     /// The ARN of an IAM role that provides Neptune access to SageMaker and Amazon S3 resources. This must be listed in your DB cluster parame- ter group or an error will occur.
@@ -35,5 +72,22 @@ public record AwsNeptunedataGetMlModelTransformJobOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --redrivefilter.
+/// Allowed values for --redrive-filter.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsStepfunctionsListExecutionsRedriveFilter
 {
-    [EnumValue("REDRIVEN")]
-    Redriven = 1,
-
     [EnumValue("NOT_REDRIVEN")]
-    NotRedriven = 2
+    NotRedriven,
+
+    [EnumValue("REDRIVEN")]
+    Redriven
 }

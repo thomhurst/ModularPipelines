@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,12 +21,51 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ec2", "cancel-capacity-reservation")]
-public record AwsEc2CancelCapacityReservationOptions : AwsOptions
+public record AwsEc2CancelCapacityReservationOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--capacity-reservation-id")]
-    public string? CapacityReservationId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// Cancels the specified Capacity Reservation, releases the reserved ca- pacity, and changes the Capacity Reservation's state to cancelled . You can cancel a Capacity Reservation that is in the following states: o assessing o scheduled requires a cancellation quote. Use CreateCapacityReserva- tionCancellationQuote to generate a quote, then pass the quote ID with ApplyCancellationCharges set to commitment-wind-down . The can- cellation charge depends on how close the reservation is to its start date...
+    /// </summary>
+    /// <param name="CapacityReservationId">The ID of the Capacity Reservation to be cancelled.</param>
+    public AwsEc2CancelCapacityReservationOptions(
+        string CapacityReservationId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(CapacityReservationId);
+        this.CapacityReservationId = CapacityReservationId;
+    }
+
+    private AwsEc2CancelCapacityReservationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEc2CancelCapacityReservationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEc2CancelCapacityReservationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the Capacity Reservation to be cancelled.
+    /// </summary>
+    [CliOption("--capacity-reservation-id")]
+    public string? CapacityReservationId { get; private init; }
+
+    /// <summary>
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     /// <summary>
@@ -45,5 +85,22 @@ public record AwsEc2CancelCapacityReservationOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,68 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("chime-sdk-voice", "delete-sip-rule")]
-public record AwsChimeSdkVoiceDeleteSipRuleOptions : AwsOptions
+public record AwsChimeSdkVoiceDeleteSipRuleOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Deletes a SIP rule. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="SipRuleId">The SIP rule ID. Constraints: o pattern: .*\S.*</param>
+    public AwsChimeSdkVoiceDeleteSipRuleOptions(
+        string SipRuleId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SipRuleId);
+        this.SipRuleId = SipRuleId;
+    }
+
+    private AwsChimeSdkVoiceDeleteSipRuleOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsChimeSdkVoiceDeleteSipRuleOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsChimeSdkVoiceDeleteSipRuleOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The SIP rule ID. Constraints: o pattern: .*\S.*
+    /// </summary>
     [CliOption("--sip-rule-id")]
-    public string? SipRuleId { get; set; }
+    public string? SipRuleId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

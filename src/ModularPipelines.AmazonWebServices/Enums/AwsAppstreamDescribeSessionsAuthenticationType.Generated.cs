@@ -11,20 +11,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --authenticationtype.
+/// Allowed values for --authentication-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsAppstreamDescribeSessionsAuthenticationType
 {
     [EnumValue("API")]
-    Api = 1,
-
-    [EnumValue("SAML")]
-    Saml = 2,
-
-    [EnumValue("USERPOOL")]
-    Userpool = 3,
+    Api,
 
     [EnumValue("AWS_AD")]
-    AwsAd = 4
+    AwsAd,
+
+    [EnumValue("SAML")]
+    Saml,
+
+    [EnumValue("USERPOOL")]
+    Userpool
 }

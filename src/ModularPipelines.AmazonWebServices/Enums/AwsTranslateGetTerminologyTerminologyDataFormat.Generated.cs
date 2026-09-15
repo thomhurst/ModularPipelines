@@ -11,17 +11,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --terminologydataformat.
+/// Allowed values for --terminology-data-format.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsTranslateGetTerminologyTerminologyDataFormat
 {
     [EnumValue("CSV")]
-    Csv = 1,
+    Csv,
 
     [EnumValue("TMX")]
-    Tmx = 2,
+    Tmx,
 
     [EnumValue("TSV")]
-    Tsv = 3
+    Tsv
 }

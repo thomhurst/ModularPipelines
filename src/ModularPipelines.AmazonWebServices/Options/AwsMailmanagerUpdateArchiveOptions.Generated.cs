@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("mailmanager", "update-archive")]
-public record AwsMailmanagerUpdateArchiveOptions : AwsOptions
+public record AwsMailmanagerUpdateArchiveOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates the attributes of an existing email archive. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ArchiveId">The identifier of the archive to update. Constraints: o min: 1 o max: 66</param>
+    public AwsMailmanagerUpdateArchiveOptions(
+        string ArchiveId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ArchiveId);
+        this.ArchiveId = ArchiveId;
+    }
+
+    private AwsMailmanagerUpdateArchiveOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsMailmanagerUpdateArchiveOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsMailmanagerUpdateArchiveOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the archive to update. Constraints: o min: 1 o max: 66
+    /// </summary>
     [CliOption("--archive-id")]
-    public string? ArchiveId { get; set; }
+    public string? ArchiveId { get; private init; }
 
     /// <summary>
     /// A new, unique name for the archive. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9][a-zA-Z0-9_-]*[a-zA-Z0-9]
@@ -41,5 +78,22 @@ public record AwsMailmanagerUpdateArchiveOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

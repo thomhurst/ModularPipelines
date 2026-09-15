@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +20,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("wickr", "update-user")]
-public record AwsWickrUpdateUserOptions : AwsOptions
+public record AwsWickrUpdateUserOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--network-id")]
-    public string? NetworkId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Updates the properties of an existing user in a Wickr network. This op- eration allows you to modify the user's name, password, security group membership, and invite code settings. NOTE: codeValidation , inviteCode , and inviteCodeTtl are restricted to networks under preview only. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="NetworkId">The ID of the Wickr network containing the user to update. Constraints: o min: 8 o max: 8 o pattern: [0-9]{8}</param>
+    /// <param name="UserId">The unique identifier of the user to update. Constraints: o min: 1 o max: 10 o pattern: [0-9]+</param>
+    public AwsWickrUpdateUserOptions(
+        string NetworkId,
+        string UserId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(NetworkId);
+        this.NetworkId = NetworkId;
+        global::System.ArgumentNullException.ThrowIfNull(UserId);
+        this.UserId = UserId;
+    }
+
+    private AwsWickrUpdateUserOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsWickrUpdateUserOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsWickrUpdateUserOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the Wickr network containing the user to update. Constraints: o min: 8 o max: 8 o pattern: [0-9]{8}
+    /// </summary>
+    [CliOption("--network-id")]
+    public string? NetworkId { get; private init; }
+
+    /// <summary>
+    /// The unique identifier of the user to update. Constraints: o min: 1 o max: 10 o pattern: [0-9]+
+    /// </summary>
     [CliOption("--user-id")]
-    public string? UserId { get; set; }
+    public string? UserId { get; private init; }
 
     /// <summary>
     /// An object containing the user details to be updated, such as name, password, security groups, and invite code settings. firstName -&gt; (string) The new first name for the user. Constraints: o pattern: [\S\s]* lastName -&gt; (string) The new last name for the user. Constraints: o pattern: [\S\s]* username -&gt; (string) The new username or email address for the user. Constraints: o pattern: [\S\s]* securityGroupIds -&gt; (list) The updated list of security group IDs to which the user should belong. (string) Constraints: o pattern: [\S]+ inviteCode -&gt; (string) A new custom invite code for the user. Constraints: o pattern: [\S\s]* inviteCodeTtl -&gt; (integer) The new time-to-live for the invite code in days. codeValidation -&gt; (boolean) Indicates whether the user can be verified through a custom in- vite code. Shorthand Syntax: firstName=string,lastName=string,username=string,securityGroupIds=string,string,inviteCode=string,inviteCodeTtl=integer,codeValidation=boolean JSON Syntax: { "firstName": "string", "lastName": "string", "username": "string", "securityGroupIds": ["string", ...], "inviteCode": "string", "inviteCodeTtl": integer, "codeValidation": true|false }
@@ -38,5 +82,22 @@ public record AwsWickrUpdateUserOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

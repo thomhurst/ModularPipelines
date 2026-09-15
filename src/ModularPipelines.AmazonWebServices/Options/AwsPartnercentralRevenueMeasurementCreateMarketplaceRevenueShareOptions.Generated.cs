@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +22,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("partnercentral-revenue-measurement", "create-marketplace-revenue-share")]
-public record AwsPartnercentralRevenueMeasurementCreateMarketplaceRevenueShareOptions : AwsOptions
+public record AwsPartnercentralRevenueMeasurementCreateMarketplaceRevenueShareOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a new marketplace revenue share resource in the specified cata- log. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Catalog">The catalog in which to create the marketplace revenue share. Possible values: o AWS o Sandbox</param>
+    /// <param name="ProductId">The AWS Marketplace product identifier for this revenue share. Constraints: o min: 18 o max: 18 o pattern: prod-[a-z0-9]{13}</param>
+    public AwsPartnercentralRevenueMeasurementCreateMarketplaceRevenueShareOptions(
+        AwsPartnercentralRevenueMeasurementCreateMarketplaceRevenueShareCatalog Catalog,
+        string ProductId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Catalog);
+        this.Catalog = Catalog;
+        global::System.ArgumentNullException.ThrowIfNull(ProductId);
+        this.ProductId = ProductId;
+    }
+
+    private AwsPartnercentralRevenueMeasurementCreateMarketplaceRevenueShareOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsPartnercentralRevenueMeasurementCreateMarketplaceRevenueShareOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsPartnercentralRevenueMeasurementCreateMarketplaceRevenueShareOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The catalog in which to create the marketplace revenue share. Possible values: o AWS o Sandbox
+    /// </summary>
     [CliOption("--catalog")]
-    public string? Catalog { get; set; }
+    public AwsPartnercentralRevenueMeasurementCreateMarketplaceRevenueShareCatalog? Catalog { get; private init; }
+
+    /// <summary>
+    /// The AWS Marketplace product identifier for this revenue share. Constraints: o min: 18 o max: 18 o pattern: prod-[a-z0-9]{13}
+    /// </summary>
+    [CliOption("--product-id")]
+    public string? ProductId { get; private init; }
 
     /// <summary>
     /// A unique token to ensure idempotency of the create request. Constraints: o min: 1 o max: 64 o pattern: [!-~]{1,64}
@@ -31,9 +79,6 @@ public record AwsPartnercentralRevenueMeasurementCreateMarketplaceRevenueShareOp
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
-
-    [CliOption("--product-id")]
-    public string? ProductId { get; set; }
 
     /// <summary>
     /// Tags to associate with the marketplace revenue share upon creation. Constraints: o min: 0 o max: 50 (structure) A key-value pair used for organizing and managing resources through metadata tags. Key -&gt; (string) [required] The key portion of the tag. Constraints: o min: 1 o max: 128 o pattern: [^\x00-\x1F\x7F]+ Value -&gt; (string) [required] The value portion of the tag. Constraints: o min: 0 o max: 256 o pattern: [^\x00-\x1F\x7F]* Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
@@ -46,5 +91,22 @@ public record AwsPartnercentralRevenueMeasurementCreateMarketplaceRevenueShareOp
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

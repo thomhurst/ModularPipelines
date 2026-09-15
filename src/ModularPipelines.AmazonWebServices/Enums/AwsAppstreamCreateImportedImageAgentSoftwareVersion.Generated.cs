@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --agentsoftwareversion.
+/// Allowed values for --agent-software-version.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsAppstreamCreateImportedImageAgentSoftwareVersion
 {
-    [EnumValue("CURRENT_LATEST")]
-    CurrentLatest = 1,
-
     [EnumValue("ALWAYS_LATEST")]
-    AlwaysLatest = 2
+    AlwaysLatest,
+
+    [EnumValue("CURRENT_LATEST")]
+    CurrentLatest
 }

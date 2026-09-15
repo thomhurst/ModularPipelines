@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +20,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("events", "create-archive")]
-public record AwsEventsCreateArchiveOptions : AwsOptions
+public record AwsEventsCreateArchiveOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--archive-name")]
-    public string? ArchiveName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates an archive of events with the specified settings. When you cre- ate an archive, incoming events might not immediately start being sent to the archive. Allow a short period of time for changes to take ef- fect. If you do not specify a pattern to filter events sent to the archive, all events are sent to the archive except replayed events. Re- played events are not sent to an archive. WARNING: If you have specified that EventBridge use a customer managed key for encrypting the source event ...
+    /// </summary>
+    /// <param name="ArchiveName">The name for the archive to create. Constraints: o min: 1 o max: 48 o pattern: [\.\-_A-Za-z0-9]+</param>
+    /// <param name="EventSourceArn">The ARN of the event bus that sends events to the archive. Constraints: o min: 1 o max: 1600 o pattern: ^arn:aws([a-z]|\-)*:events:([a-z]|\d|\-)*:([0-9]{12})?:.+\/.+$</param>
+    public AwsEventsCreateArchiveOptions(
+        string ArchiveName,
+        string EventSourceArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ArchiveName);
+        this.ArchiveName = ArchiveName;
+        global::System.ArgumentNullException.ThrowIfNull(EventSourceArn);
+        this.EventSourceArn = EventSourceArn;
+    }
+
+    private AwsEventsCreateArchiveOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEventsCreateArchiveOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEventsCreateArchiveOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name for the archive to create. Constraints: o min: 1 o max: 48 o pattern: [\.\-_A-Za-z0-9]+
+    /// </summary>
+    [CliOption("--archive-name")]
+    public string? ArchiveName { get; private init; }
+
+    /// <summary>
+    /// The ARN of the event bus that sends events to the archive. Constraints: o min: 1 o max: 1600 o pattern: ^arn:aws([a-z]|\-)*:events:([a-z]|\d|\-)*:([0-9]{12})?:.+\/.+$
+    /// </summary>
     [CliOption("--event-source-arn")]
-    public string? EventSourceArn { get; set; }
+    public string? EventSourceArn { get; private init; }
 
     /// <summary>
     /// A description for the archive. Constraints: o max: 512 o pattern: .*
@@ -56,5 +100,22 @@ public record AwsEventsCreateArchiveOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

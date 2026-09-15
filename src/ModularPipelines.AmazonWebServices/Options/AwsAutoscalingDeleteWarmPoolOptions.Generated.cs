@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,12 +20,51 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("autoscaling", "delete-warm-pool")]
-public record AwsAutoscalingDeleteWarmPoolOptions : AwsOptions
+public record AwsAutoscalingDeleteWarmPoolOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--auto-scaling-group-name")]
-    public string? AutoScalingGroupName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
-    [CliFlag("--force-delete")]
+    /// <summary>
+    /// Deletes the warm pool for the specified Auto Scaling group. For more information, see Warm pools for Amazon EC2 Auto Scaling in the Amazon EC2 Auto Scaling User Guide . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="AutoScalingGroupName">The name of the Auto Scaling group. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*</param>
+    public AwsAutoscalingDeleteWarmPoolOptions(
+        string AutoScalingGroupName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AutoScalingGroupName);
+        this.AutoScalingGroupName = AutoScalingGroupName;
+    }
+
+    private AwsAutoscalingDeleteWarmPoolOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsAutoscalingDeleteWarmPoolOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsAutoscalingDeleteWarmPoolOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the Auto Scaling group. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*
+    /// </summary>
+    [CliOption("--auto-scaling-group-name")]
+    public string? AutoScalingGroupName { get; private init; }
+
+    /// <summary>
+    /// Specifies that the warm pool is to be deleted along with all of its associated instances, without waiting for all instances to be termi- nated. This parameter also deletes any outstanding lifecycle actions associated with the warm pool instances.
+    /// </summary>
+    [CliFlag("--force-delete", NegatedName = "--no-force-delete")]
     public bool? ForceDelete { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -32,5 +72,22 @@ public record AwsAutoscalingDeleteWarmPoolOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

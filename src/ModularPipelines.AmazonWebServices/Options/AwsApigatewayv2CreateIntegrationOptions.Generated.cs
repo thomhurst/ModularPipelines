@@ -12,6 +12,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -22,10 +23,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("apigatewayv2", "create-integration")]
-public record AwsApigatewayv2CreateIntegrationOptions : AwsOptions
+public record AwsApigatewayv2CreateIntegrationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates an Integration. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ApiId">The API identifier.</param>
+    /// <param name="IntegrationType">The integration type of an integration. One of the following: AWS: for integrating the route or method request with an AWS service action, including the Lambda function-invoking action. With the Lambda function-invoking action, this is referred to as the Lambda custom integration. With any other AWS service action, this is known as AWS integration. Supported only for WebSocket APIs. AWS_PROXY: for integrating the route or method request with a Lambda function or other AWS service action. This integration is also re- ferred to as a Lambda proxy integration. HTTP: for integrating the route or method request with an HTTP end- point. This integration is also referred to as the HTTP custom inte- gration. Supported only for WebSocket APIs. HTTP_PROXY: for integrating the route or method request with an HTTP endpoint, with the client request passed through as-is. This is also referred to as HTTP proxy integration. For HTTP API private integra- tions, use an HTTP_PROXY integration. MOCK: for integrating the route or method request with API Gateway as a "loopback" endpoint without invoking any backend. Supported only for WebSocket APIs. Possible values: o AWS o HTTP o MOCK o HTTP_PROXY o AWS_PROXY</param>
+    public AwsApigatewayv2CreateIntegrationOptions(
+        string ApiId,
+        AwsApigatewayv2CreateIntegrationIntegrationType IntegrationType
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ApiId);
+        this.ApiId = ApiId;
+        global::System.ArgumentNullException.ThrowIfNull(IntegrationType);
+        this.IntegrationType = IntegrationType;
+    }
+
+    private AwsApigatewayv2CreateIntegrationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsApigatewayv2CreateIntegrationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsApigatewayv2CreateIntegrationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The API identifier.
+    /// </summary>
     [CliOption("--api-id")]
-    public string? ApiId { get; set; }
+    public string? ApiId { get; private init; }
+
+    /// <summary>
+    /// The integration type of an integration. One of the following: AWS: for integrating the route or method request with an AWS service action, including the Lambda function-invoking action. With the Lambda function-invoking action, this is referred to as the Lambda custom integration. With any other AWS service action, this is known as AWS integration. Supported only for WebSocket APIs. AWS_PROXY: for integrating the route or method request with a Lambda function or other AWS service action. This integration is also re- ferred to as a Lambda proxy integration. HTTP: for integrating the route or method request with an HTTP end- point. This integration is also referred to as the HTTP custom inte- gration. Supported only for WebSocket APIs. HTTP_PROXY: for integrating the route or method request with an HTTP endpoint, with the client request passed through as-is. This is also referred to as HTTP proxy integration. For HTTP API private integra- tions, use an HTTP_PROXY integration. MOCK: for integrating the route or method request with API Gateway as a "loopback" endpoint without invoking any backend. Supported only for WebSocket APIs. Possible values: o AWS o HTTP o MOCK o HTTP_PROXY o AWS_PROXY
+    /// </summary>
+    [CliOption("--integration-type")]
+    public AwsApigatewayv2CreateIntegrationIntegrationType? IntegrationType { get; private init; }
 
     /// <summary>
     /// The ID of the VPC link for a private integration. Supported only for HTTP APIs.
@@ -69,9 +116,6 @@ public record AwsApigatewayv2CreateIntegrationOptions : AwsOptions
     /// </summary>
     [CliOption("--integration-subtype")]
     public string? IntegrationSubtype { get; set; }
-
-    [CliOption("--integration-type")]
-    public string? IntegrationType { get; set; }
 
     /// <summary>
     /// For a Lambda integration, specify the URI of a Lambda function. For an HTTP integration, specify a fully-qualified URL. For an HTTP API private integration, specify the ARN of an Applica- tion Load Balancer listener, Network Load Balancer listener, or AWS Cloud Map service. If you specify the ARN of an AWS Cloud Map ser- vice, API Gateway uses DiscoverInstances to identify resources. You can use query parameters to target specific resources. To learn more, see DiscoverInstances . For private integrations, all re- sources must be owned by the same AWS account.
@@ -132,5 +176,22 @@ public record AwsApigatewayv2CreateIntegrationOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

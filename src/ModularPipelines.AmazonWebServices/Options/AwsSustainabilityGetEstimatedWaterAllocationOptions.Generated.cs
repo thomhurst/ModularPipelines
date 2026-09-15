@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,10 +22,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sustainability", "get-estimated-water-allocation")]
-public record AwsSustainabilityGetEstimatedWaterAllocationOptions : AwsOptions
+public record AwsSustainabilityGetEstimatedWaterAllocationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Returns estimated water allocation values based on customer grouping and filtering parameters. We recommend using pagination to ensure that the operation returns quickly and successfully. See also: AWS API Documentation get-estimated-water-allocation is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated ...
+    /// </summary>
+    /// <param name="TimePeriod">The date range for fetching estimated water allocation. The range must include the start date of a year for that year's data to be in- cluded in the response. Start -&gt; (timestamp) [required] The start (inclusive) of the time period. ISO-8601 formatted timestamp, for example: YYYY-MM-DDThh:mm:ss.sssZ End -&gt; (timestamp) [required] The end (exclusive) of the time period. ISO-8601 formatted time- stamp, for example: YYYY-MM-DDThh:mm:ss.sssZ Shorthand Syntax: Start=timestamp,End=timestamp JSON Syntax: { "Start": timestamp, "End": timestamp }</param>
+    public AwsSustainabilityGetEstimatedWaterAllocationOptions(
+        string TimePeriod
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(TimePeriod);
+        this.TimePeriod = TimePeriod;
+    }
+
+    private AwsSustainabilityGetEstimatedWaterAllocationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSustainabilityGetEstimatedWaterAllocationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSustainabilityGetEstimatedWaterAllocationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The date range for fetching estimated water allocation. The range must include the start date of a year for that year's data to be in- cluded in the response. Start -&gt; (timestamp) [required] The start (inclusive) of the time period. ISO-8601 formatted timestamp, for example: YYYY-MM-DDThh:mm:ss.sssZ End -&gt; (timestamp) [required] The end (exclusive) of the time period. ISO-8601 formatted time- stamp, for example: YYYY-MM-DDThh:mm:ss.sssZ Shorthand Syntax: Start=timestamp,End=timestamp JSON Syntax: { "Start": timestamp, "End": timestamp }
+    /// </summary>
     [CliOption("--time-period")]
-    public string? TimePeriod { get; set; }
+    public string? TimePeriod { get; private init; }
 
     /// <summary>
     /// The dimensions available for grouping estimated water allocation. (string) Specifies the dimensions available for grouping and filtering environmental impact data. Possible values: o USAGE_ACCOUNT_ID o REGION o SERVICE Syntax: "string" "string" ...
@@ -74,5 +111,22 @@ public record AwsSustainabilityGetEstimatedWaterAllocationOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

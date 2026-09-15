@@ -15,7 +15,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Get a list of workflow steps that are waiting for action for workflows in your Amazon Web Services account. See also: AWS API Documentation list-waiting-workflow-steps is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following ...
+/// Retrieves a list of workflow steps that are waiting for action for workflows in your Amazon Web Services account. See also: AWS API Documentation list-waiting-workflow-steps is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the foll...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]

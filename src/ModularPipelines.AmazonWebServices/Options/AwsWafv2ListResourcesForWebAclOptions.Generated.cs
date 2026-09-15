@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("wafv2", "list-resources-for-web-acl")]
-public record AwsWafv2ListResourcesForWebAclOptions : AwsOptions
+public record AwsWafv2ListResourcesForWebAclOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Retrieves an array of the Amazon Resource Names (ARNs) for the re- sources that are associated with the specified web ACL. For Amazon CloudFront, don't use this call. Instead, use the CloudFront call ListDistributionsByWebACLId . For information, see ListDistributionsByWebACLId in the Amazon CloudFront API Reference . Required permissions for customer-managed IAM policies This call requires permissions that are specific to the protected re- source type. For details, see Permissions for ListResou...
+    /// </summary>
+    /// <param name="WebAclArn">The Amazon Resource Name (ARN) of the web ACL. Constraints: o min: 20 o max: 2048 o pattern: .*\S.*</param>
+    public AwsWafv2ListResourcesForWebAclOptions(
+        string WebAclArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(WebAclArn);
+        this.WebAclArn = WebAclArn;
+    }
+
+    private AwsWafv2ListResourcesForWebAclOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsWafv2ListResourcesForWebAclOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsWafv2ListResourcesForWebAclOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the web ACL. Constraints: o min: 20 o max: 2048 o pattern: .*\S.*
+    /// </summary>
     [CliOption("--web-acl-arn")]
-    public string? WebAclArn { get; set; }
+    public string? WebAclArn { get; private init; }
 
     /// <summary>
     /// Retrieves the web ACLs that are used by the specified resource type. For Amazon CloudFront, don't use this call. Instead, use the Cloud- Front call ListDistributionsByWebACLId . For information, see ListDistributionsByWebACLId in the Amazon CloudFront API Reference . NOTE: If you don't provide a resource type, the call uses the resource type APPLICATION_LOAD_BALANCER . Default: APPLICATION_LOAD_BALANCER Possible values: o APPLICATION_LOAD_BALANCER o API_GATEWAY o APPSYNC o COGNITO_USER_POOL o APP_RUNNER_SERVICE o VERIFIED_ACCESS_INSTANCE o AMPLIFY o AGENTCORE_GATEWAY
@@ -36,5 +73,22 @@ public record AwsWafv2ListResourcesForWebAclOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

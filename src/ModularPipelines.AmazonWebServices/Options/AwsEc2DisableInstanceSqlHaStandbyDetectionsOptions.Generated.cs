@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,12 +20,62 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ec2", "disable-instance-sql-ha-standby-detections")]
-public record AwsEc2DisableInstanceSqlHaStandbyDetectionsOptions : AwsOptions
+public record AwsEc2DisableInstanceSqlHaStandbyDetectionsOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--instance-ids", GroupValues = true)]
-    public IEnumerable<string>? InstanceIds { get; set; }
+    private readonly bool _requiresAlternateInput;
 
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// Disable Amazon EC2 instances running in an SQL Server High Availability cluster from SQL Server High Availability instance standby detection monitoring. Once disabled, Amazon Web Services no longer monitors the metadata for the instances to determine whether they are active or standby nodes in the SQL Server High Availability cluster. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="InstanceIds">The IDs of the instances to disable from SQL Server High Availabil- ity standby detection monitoring. Constraints: o min: 1 o max: 30 (string) Syntax: "string" "string" ...</param>
+    public AwsEc2DisableInstanceSqlHaStandbyDetectionsOptions(
+        IEnumerable<string> InstanceIds
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(InstanceIds);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(InstanceIds));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(InstanceIds));
+            }
+
+            InstanceIds = materialized;
+        }
+        this.InstanceIds = InstanceIds;
+    }
+
+    private AwsEc2DisableInstanceSqlHaStandbyDetectionsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEc2DisableInstanceSqlHaStandbyDetectionsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEc2DisableInstanceSqlHaStandbyDetectionsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The IDs of the instances to disable from SQL Server High Availabil- ity standby detection monitoring. Constraints: o min: 1 o max: 30 (string) Syntax: "string" "string" ...
+    /// </summary>
+    [CliOption("--instance-ids", GroupValues = true)]
+    public IEnumerable<string>? InstanceIds { get; private init; }
+
+    /// <summary>
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -32,5 +83,22 @@ public record AwsEc2DisableInstanceSqlHaStandbyDetectionsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +21,68 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("fms", "associate-third-party-firewall")]
-public record AwsFmsAssociateThirdPartyFirewallOptions : AwsOptions
+public record AwsFmsAssociateThirdPartyFirewallOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Sets the Firewall Manager policy administrator as a tenant administra- tor of a third-party firewall service. A tenant is an instance of the third-party firewall service that's associated with your Amazon Web Services customer account. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ThirdPartyFirewall">The name of the third-party firewall vendor. Possible values: o PALO_ALTO_NETWORKS_CLOUD_NGFW o FORTIGATE_CLOUD_NATIVE_FIREWALL</param>
+    public AwsFmsAssociateThirdPartyFirewallOptions(
+        AwsFmsAssociateThirdPartyFirewallThirdPartyFirewall ThirdPartyFirewall
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ThirdPartyFirewall);
+        this.ThirdPartyFirewall = ThirdPartyFirewall;
+    }
+
+    private AwsFmsAssociateThirdPartyFirewallOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsFmsAssociateThirdPartyFirewallOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsFmsAssociateThirdPartyFirewallOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the third-party firewall vendor. Possible values: o PALO_ALTO_NETWORKS_CLOUD_NGFW o FORTIGATE_CLOUD_NATIVE_FIREWALL
+    /// </summary>
     [CliOption("--third-party-firewall")]
-    public string? ThirdPartyFirewall { get; set; }
+    public AwsFmsAssociateThirdPartyFirewallThirdPartyFirewall? ThirdPartyFirewall { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

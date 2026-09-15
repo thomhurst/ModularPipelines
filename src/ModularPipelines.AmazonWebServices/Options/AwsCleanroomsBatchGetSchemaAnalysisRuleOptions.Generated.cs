@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,89 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cleanrooms", "batch-get-schema-analysis-rule")]
-public record AwsCleanroomsBatchGetSchemaAnalysisRuleOptions : AwsOptions
+public record AwsCleanroomsBatchGetSchemaAnalysisRuleOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--collaboration-identifier")]
-    public string? CollaborationIdentifier { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Retrieves multiple analysis rule schemas. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="CollaborationIdentifier">The unique identifier of the collaboration that contains the schema analysis rule. Constraints: o min: 36 o max: 36 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
+    /// <param name="SchemaAnalysisRuleRequests">The information that's necessary to retrieve a schema analysis rule. Constraints: o min: 1 o max: 25 (structure) Defines the information that's necessary to retrieve an analysis rule schema. Schema analysis rules are uniquely identied by a combination of the schema name and the analysis rule type for a given collaboration. name -&gt; (string) [required] The name of the analysis rule schema that you are requesting. Constraints: o min: 0 o max: 128 o pattern: [a-zA-Z0-9_](([a-zA-Z0-9_ ]+-)*([a-zA-Z0-9_ ]+))? type -&gt; (string) [required] The type of analysis rule schema that you are requesting. Possible values: o AGGREGATION o LIST o CUSTOM o ID_MAPPING_TABLE Shorthand Syntax: name=string,type=string ... JSON Syntax: [ { "name": "string", "type": "AGGREGATION"|"LIST"|"CUSTOM"|"ID_MAPPING_TABLE" } ... ]</param>
+    public AwsCleanroomsBatchGetSchemaAnalysisRuleOptions(
+        string CollaborationIdentifier,
+        IEnumerable<string> SchemaAnalysisRuleRequests
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(CollaborationIdentifier);
+        this.CollaborationIdentifier = CollaborationIdentifier;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(SchemaAnalysisRuleRequests);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(SchemaAnalysisRuleRequests));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(SchemaAnalysisRuleRequests));
+            }
+
+            SchemaAnalysisRuleRequests = materialized;
+        }
+        this.SchemaAnalysisRuleRequests = SchemaAnalysisRuleRequests;
+    }
+
+    private AwsCleanroomsBatchGetSchemaAnalysisRuleOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCleanroomsBatchGetSchemaAnalysisRuleOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCleanroomsBatchGetSchemaAnalysisRuleOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier of the collaboration that contains the schema analysis rule. Constraints: o min: 36 o max: 36 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
+    /// </summary>
+    [CliOption("--collaboration-identifier")]
+    public string? CollaborationIdentifier { get; private init; }
+
+    /// <summary>
+    /// The information that's necessary to retrieve a schema analysis rule. Constraints: o min: 1 o max: 25 (structure) Defines the information that's necessary to retrieve an analysis rule schema. Schema analysis rules are uniquely identied by a combination of the schema name and the analysis rule type for a given collaboration. name -&gt; (string) [required] The name of the analysis rule schema that you are requesting. Constraints: o min: 0 o max: 128 o pattern: [a-zA-Z0-9_](([a-zA-Z0-9_ ]+-)*([a-zA-Z0-9_ ]+))? type -&gt; (string) [required] The type of analysis rule schema that you are requesting. Possible values: o AGGREGATION o LIST o CUSTOM o ID_MAPPING_TABLE Shorthand Syntax: name=string,type=string ... JSON Syntax: [ { "name": "string", "type": "AGGREGATION"|"LIST"|"CUSTOM"|"ID_MAPPING_TABLE" } ... ]
+    /// </summary>
     [CliOption("--schema-analysis-rule-requests", GroupValues = true)]
-    public IEnumerable<string>? SchemaAnalysisRuleRequests { get; set; }
+    public IEnumerable<string>? SchemaAnalysisRuleRequests { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

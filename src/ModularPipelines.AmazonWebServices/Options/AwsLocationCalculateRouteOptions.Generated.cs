@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,16 +21,88 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("location", "calculate-route")]
-public record AwsLocationCalculateRouteOptions : AwsOptions
+public record AwsLocationCalculateRouteOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// WARNING: This operation is no longer current and may be deprecated in the future. We recommend you upgrade to ` CalculateRoutes /loca- tion/latest/APIReference/API_CalculateRoutes.html`__ or ` Calcu- lateIsolines /location/latest/APIReference/API_CalculateIso- lines.html`__ unless you require Grab data. o CalculateRoute is part of a previous Amazon Location Service Routes API (version 1) which has been superseded by a more in- tuitive, powerful, and complete API (version 2). o The version 2 Calc...
+    /// </summary>
+    /// <param name="CalculatorName">The name of the route calculator resource that you want to use to calculate the route. Constraints: o min: 1 o max: 100 o pattern: [-._\w]+</param>
+    /// <param name="DeparturePosition">The start position for the route. Defined in World Geodetic System (WGS 84) format: [longitude, latitude] . o For example, [-123.115, 49.285] NOTE: If you specify a departure that's not located on a road, Amazon Location moves the position to the nearest road . If Esri is the provider for your route calculator, specifying a route that is longer than 400 km returns a 400 RoutesValidationException er- ror. Valid Values: [-180 to 180,-90 to 90] Constraints: o min: 2 o max: 2 (double) Syntax: double double ...</param>
+    /// <param name="DestinationPosition">The finish position for the route. Defined in World Geodetic System (WGS 84) format: [longitude, latitude] . o For example, [-122.339, 47.615] NOTE: If you specify a destination that's not located on a road, Ama- zon Location moves the position to the nearest road . Valid Values: [-180 to 180,-90 to 90] Constraints: o min: 2 o max: 2 (double) Syntax: double double ...</param>
+    public AwsLocationCalculateRouteOptions(
+        string CalculatorName,
+        IEnumerable<string> DeparturePosition,
+        IEnumerable<string> DestinationPosition
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(CalculatorName);
+        this.CalculatorName = CalculatorName;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(DeparturePosition);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(DeparturePosition));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(DeparturePosition));
+            }
+
+            DeparturePosition = materialized;
+        }
+        this.DeparturePosition = DeparturePosition;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(DestinationPosition);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(DestinationPosition));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(DestinationPosition));
+            }
+
+            DestinationPosition = materialized;
+        }
+        this.DestinationPosition = DestinationPosition;
+    }
+
+    private AwsLocationCalculateRouteOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsLocationCalculateRouteOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsLocationCalculateRouteOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the route calculator resource that you want to use to calculate the route. Constraints: o min: 1 o max: 100 o pattern: [-._\w]+
+    /// </summary>
     [CliOption("--calculator-name")]
-    public string? CalculatorName { get; set; }
+    public string? CalculatorName { get; private init; }
 
+    /// <summary>
+    /// The start position for the route. Defined in World Geodetic System (WGS 84) format: [longitude, latitude] . o For example, [-123.115, 49.285] NOTE: If you specify a departure that's not located on a road, Amazon Location moves the position to the nearest road . If Esri is the provider for your route calculator, specifying a route that is longer than 400 km returns a 400 RoutesValidationException er- ror. Valid Values: [-180 to 180,-90 to 90] Constraints: o min: 2 o max: 2 (double) Syntax: double double ...
+    /// </summary>
     [CliOption("--departure-position", GroupValues = true)]
-    public IEnumerable<string>? DeparturePosition { get; set; }
+    public IEnumerable<string>? DeparturePosition { get; private init; }
 
+    /// <summary>
+    /// The finish position for the route. Defined in World Geodetic System (WGS 84) format: [longitude, latitude] . o For example, [-122.339, 47.615] NOTE: If you specify a destination that's not located on a road, Ama- zon Location moves the position to the nearest road . Valid Values: [-180 to 180,-90 to 90] Constraints: o min: 2 o max: 2 (double) Syntax: double double ...
+    /// </summary>
     [CliOption("--destination-position", GroupValues = true)]
-    public IEnumerable<string>? DestinationPosition { get; set; }
+    public IEnumerable<string>? DestinationPosition { get; private init; }
 
     /// <summary>
     /// Specifies an ordered list of up to 23 intermediate positions to in- clude along a route between the departure position and destination position. o For example, from the DeparturePosition [-123.115, 49.285] , the route follows the order that the waypoint positions are given [[-122.757, 49.0021],[-122.349, 47.620]] NOTE: If you specify a waypoint position that's not located on a road, Amazon Location moves the position to the nearest road . Specifying more than 23 waypoints returns a 400 ValidationExcep- tion error. If Esri is the provider for your route calculator, specifying a route that is longer than 400 km returns a 400 RoutesValida- tionException error. Valid Values: [-180 to 180,-90 to 90] Constraints: o min: 0 o max: 23 (list) Constraints: o min: 2 o max: 2 (double) Shorthand Syntax: double,double ... JSON Syntax: [ [double, ...] ... ]
@@ -49,7 +122,10 @@ public record AwsLocationCalculateRouteOptions : AwsOptions
     [CliOption("--departure-time")]
     public string? DepartureTime { get; set; }
 
-    [CliFlag("--depart-now")]
+    /// <summary>
+    /// Sets the time of departure as the current time. Uses the current time to calculate a route. Otherwise, the best time of day to travel with the best traffic conditions is used to calculate the route. Default Value: false Valid Values: false | true
+    /// </summary>
+    [CliFlag("--depart-now", NegatedName = "--no-depart-now")]
     public bool? DepartNow { get; set; }
 
     /// <summary>
@@ -58,7 +134,10 @@ public record AwsLocationCalculateRouteOptions : AwsOptions
     [CliOption("--distance-unit")]
     public AwsLocationCalculateRouteDistanceUnit? DistanceUnit { get; set; }
 
-    [CliFlag("--include-leg-geometry")]
+    /// <summary>
+    /// Set to include the geometry details in the result for each path be- tween a pair of positions. Default Value: false Valid Values: false | true
+    /// </summary>
+    [CliFlag("--include-leg-geometry", NegatedName = "--no-include-leg-geometry")]
     public bool? IncludeLegGeometry { get; set; }
 
     /// <summary>
@@ -96,5 +175,22 @@ public record AwsLocationCalculateRouteOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

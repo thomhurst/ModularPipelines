@@ -11,11 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --hostedzonetype.
+/// Allowed values for --hosted-zone-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsRoute53ListHostedZonesHostedZoneType
 {
+    [EnumValue("o")]
+    O,
+
     [EnumValue("PrivateHostedZone")]
-    PrivateHostedZone = 1
+    PrivateHostedZone
 }

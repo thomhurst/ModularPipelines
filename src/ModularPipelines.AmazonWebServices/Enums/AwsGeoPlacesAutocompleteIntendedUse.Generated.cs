@@ -11,11 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --intendeduse.
+/// Allowed values for --intended-use.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsGeoPlacesAutocompleteIntendedUse
 {
+    [EnumValue("o")]
+    O,
+
     [EnumValue("SingleUse")]
-    SingleUse = 1
+    SingleUse
 }

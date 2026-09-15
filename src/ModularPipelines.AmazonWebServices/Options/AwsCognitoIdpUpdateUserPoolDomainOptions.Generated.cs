@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +20,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cognito-idp", "update-user-pool-domain")]
-public record AwsCognitoIdpUpdateUserPoolDomainOptions : AwsOptions
+public record AwsCognitoIdpUpdateUserPoolDomainOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--domain")]
-    public string? Domain { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// A user pool domain hosts managed login, an authorization server and web server for authentication in your application. This operation updates the branding version for user pool domains between 1 for hosted UI (classic) and 2 for managed login. It also updates the SSL certificate for user pool custom domains. Changes to the domain branding version take up to one minute to take effect for a prefix domain and up to five minutes for a custom domain. This operation doesn't change the name of your use...
+    /// </summary>
+    /// <param name="Domain">The name of the domain that you want to update. For custom domains, this is the fully-qualified domain name, for example auth.exam- ple.com . For prefix domains, this is the prefix alone, such as myprefix . Constraints: o min: 1 o max: 63 o pattern: ^[a-z0-9](?:[a-z0-9\-]{0,61}[a-z0-9])?$</param>
+    /// <param name="UserPoolId">The ID of the user pool that is associated with the domain you're updating. Constraints: o min: 1 o max: 55 o pattern: [\w-]+_[0-9a-zA-Z]+</param>
+    public AwsCognitoIdpUpdateUserPoolDomainOptions(
+        string Domain,
+        string UserPoolId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Domain);
+        this.Domain = Domain;
+        global::System.ArgumentNullException.ThrowIfNull(UserPoolId);
+        this.UserPoolId = UserPoolId;
+    }
+
+    private AwsCognitoIdpUpdateUserPoolDomainOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCognitoIdpUpdateUserPoolDomainOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCognitoIdpUpdateUserPoolDomainOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the domain that you want to update. For custom domains, this is the fully-qualified domain name, for example auth.exam- ple.com . For prefix domains, this is the prefix alone, such as myprefix . Constraints: o min: 1 o max: 63 o pattern: ^[a-z0-9](?:[a-z0-9\-]{0,61}[a-z0-9])?$
+    /// </summary>
+    [CliOption("--domain")]
+    public string? Domain { get; private init; }
+
+    /// <summary>
+    /// The ID of the user pool that is associated with the domain you're updating. Constraints: o min: 1 o max: 55 o pattern: [\w-]+_[0-9a-zA-Z]+
+    /// </summary>
     [CliOption("--user-pool-id")]
-    public string? UserPoolId { get; set; }
+    public string? UserPoolId { get; private init; }
 
     /// <summary>
     /// A version number that indicates the state of managed login for your domain. Version 1 is hosted UI (classic). Version 2 is the newer managed login with the branding editor. For more information, see Managed login .
@@ -50,5 +94,22 @@ public record AwsCognitoIdpUpdateUserPoolDomainOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

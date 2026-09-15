@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ds", "update-number-of-domain-controllers")]
-public record AwsDsUpdateNumberOfDomainControllersOptions : AwsOptions
+public record AwsDsUpdateNumberOfDomainControllersOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--directory-id")]
-    public string? DirectoryId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Adds or removes domain controllers to or from the directory. Based on the difference between current value and new value (provided through this API call), domain controllers will be added or removed. It may take up to 45 minutes for any new domain controllers to become fully active once the requested number of domain controllers is updated. Dur- ing this time, you cannot make another update request. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DirectoryId">Identifier of the directory to which the domain controllers will be added or removed. Constraints: o pattern: ^d-[0-9a-f]{10}$</param>
+    /// <param name="DesiredNumber">The number of domain controllers desired in the directory. Constraints: o min: 2</param>
+    public AwsDsUpdateNumberOfDomainControllersOptions(
+        string DirectoryId,
+        int DesiredNumber
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DirectoryId);
+        this.DirectoryId = DirectoryId;
+        this.DesiredNumber = DesiredNumber;
+    }
+
+    private AwsDsUpdateNumberOfDomainControllersOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDsUpdateNumberOfDomainControllersOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDsUpdateNumberOfDomainControllersOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Identifier of the directory to which the domain controllers will be added or removed. Constraints: o pattern: ^d-[0-9a-f]{10}$
+    /// </summary>
+    [CliOption("--directory-id")]
+    public string? DirectoryId { get; private init; }
+
+    /// <summary>
+    /// The number of domain controllers desired in the directory. Constraints: o min: 2
+    /// </summary>
     [CliOption("--desired-number")]
-    public int? DesiredNumber { get; set; }
+    public int? DesiredNumber { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

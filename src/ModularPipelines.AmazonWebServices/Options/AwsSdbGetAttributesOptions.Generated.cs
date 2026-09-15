@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,55 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sdb", "get-attributes")]
-public record AwsSdbGetAttributesOptions : AwsOptions
+public record AwsSdbGetAttributesOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Returns all of the attributes associated with the specified item. Op- tionally, the attributes returned can be limited to one or more attrib- utes by specifying an attribute name parameter. If the item does not exist on the replica that was accessed for this operation, an empty set is returned. The system does not return an er- ror as it cannot guarantee the item does not exist on other replicas. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DomainName"></param>
+    /// <param name="ItemName"></param>
+    public AwsSdbGetAttributesOptions(
+        string DomainName,
+        string ItemName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DomainName);
+        this.DomainName = DomainName;
+        global::System.ArgumentNullException.ThrowIfNull(ItemName);
+        this.ItemName = ItemName;
+    }
+
+    private AwsSdbGetAttributesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSdbGetAttributesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSdbGetAttributesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
     [CliOption("--domain-name")]
-    public string? DomainName { get; set; }
+    public string? DomainName { get; private init; }
 
     [CliOption("--item-name")]
-    public string? ItemName { get; set; }
+    public string? ItemName { get; private init; }
 
     [CliOption("--attribute-names", GroupValues = true)]
     public IEnumerable<string>? AttributeNames { get; set; }
 
-    [CliFlag("--consistent-read")]
+    [CliFlag("--consistent-read", NegatedName = "--no-consistent-read")]
     public bool? ConsistentRead { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -38,5 +76,22 @@ public record AwsSdbGetAttributesOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +20,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cloudfront", "update-key-group")]
-public record AwsCloudfrontUpdateKeyGroupOptions : AwsOptions
+public record AwsCloudfrontUpdateKeyGroupOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--key-group-config")]
-    public string? KeyGroupConfig { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Updates a key group. When you update a key group, all the fields are updated with the values provided in the request. You cannot update some fields independent of others. To update a key group: o Get the current key group with GetKeyGroup or GetKeyGroupConfig . o Locally modify the fields in the key group that you want to update. For example, add or remove public key IDs. o Call UpdateKeyGroup with the entire key group object, including the fields that you modified and those that you didn't. See...
+    /// </summary>
+    /// <param name="KeyGroupConfig">The key group configuration. Name -&gt; (string) [required] A name to identify the key group. Items -&gt; (list) [required] A list of the identifiers of the public keys in the key group. (string) Comment -&gt; (string) A comment to describe the key group. The comment cannot be longer than 128 characters. Shorthand Syntax: Name=string,Items=string,string,Comment=string JSON Syntax: { "Name": "string", "Items": ["string", ...], "Comment": "string" }</param>
+    /// <param name="Id">The identifier of the key group that you are updating.</param>
+    public AwsCloudfrontUpdateKeyGroupOptions(
+        string KeyGroupConfig,
+        string Id
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(KeyGroupConfig);
+        this.KeyGroupConfig = KeyGroupConfig;
+        global::System.ArgumentNullException.ThrowIfNull(Id);
+        this.Id = Id;
+    }
+
+    private AwsCloudfrontUpdateKeyGroupOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCloudfrontUpdateKeyGroupOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCloudfrontUpdateKeyGroupOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The key group configuration. Name -&gt; (string) [required] A name to identify the key group. Items -&gt; (list) [required] A list of the identifiers of the public keys in the key group. (string) Comment -&gt; (string) A comment to describe the key group. The comment cannot be longer than 128 characters. Shorthand Syntax: Name=string,Items=string,string,Comment=string JSON Syntax: { "Name": "string", "Items": ["string", ...], "Comment": "string" }
+    /// </summary>
+    [CliOption("--key-group-config")]
+    public string? KeyGroupConfig { get; private init; }
+
+    /// <summary>
+    /// The identifier of the key group that you are updating.
+    /// </summary>
     [CliOption("--id")]
-    public string? Id { get; set; }
+    public string? Id { get; private init; }
 
     /// <summary>
     /// The version of the key group that you are updating. The version is the key group's ETag value.
@@ -38,5 +82,22 @@ public record AwsCloudfrontUpdateKeyGroupOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

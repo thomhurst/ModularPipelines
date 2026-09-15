@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +21,88 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iotwireless", "put-resource-log-level")]
-public record AwsIotwirelessPutResourceLogLevelOptions : AwsOptions
+public record AwsIotwirelessPutResourceLogLevelOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Sets the log-level override for a resource ID and resource type. A limit of 200 log level override can be set per account. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ResourceIdentifier">The unique identifier of the resource, which can be the wireless gateway ID, the wireless device ID, or the FUOTA task ID. Constraints: o max: 256</param>
+    /// <param name="ResourceType">The type of resource, which can be WirelessDevice , WirelessGateway , or FuotaTask .</param>
+    /// <param name="LogLevel">The log level for a log message. The log levels can be disabled, or set to ERROR to display less verbose logs containing only error in- formation, or to INFO for more detailed logs. Possible values: o INFO o ERROR o DISABLED</param>
+    public AwsIotwirelessPutResourceLogLevelOptions(
+        string ResourceIdentifier,
+        string ResourceType,
+        AwsIotwirelessPutResourceLogLevelLogLevel LogLevel
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ResourceIdentifier);
+        this.ResourceIdentifier = ResourceIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceType);
+        this.ResourceType = ResourceType;
+        global::System.ArgumentNullException.ThrowIfNull(LogLevel);
+        this.LogLevel = LogLevel;
+    }
+
+    private AwsIotwirelessPutResourceLogLevelOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsIotwirelessPutResourceLogLevelOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsIotwirelessPutResourceLogLevelOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier of the resource, which can be the wireless gateway ID, the wireless device ID, or the FUOTA task ID. Constraints: o max: 256
+    /// </summary>
     [CliOption("--resource-identifier")]
-    public string? ResourceIdentifier { get; set; }
+    public string? ResourceIdentifier { get; private init; }
 
+    /// <summary>
+    /// The type of resource, which can be WirelessDevice , WirelessGateway , or FuotaTask .
+    /// </summary>
     [CliOption("--resource-type")]
-    public string? ResourceType { get; set; }
+    public string? ResourceType { get; private init; }
 
+    /// <summary>
+    /// The log level for a log message. The log levels can be disabled, or set to ERROR to display less verbose logs containing only error in- formation, or to INFO for more detailed logs. Possible values: o INFO o ERROR o DISABLED
+    /// </summary>
     [CliOption("--log-level")]
-    public string? LogLevel { get; set; }
+    public AwsIotwirelessPutResourceLogLevelLogLevel? LogLevel { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

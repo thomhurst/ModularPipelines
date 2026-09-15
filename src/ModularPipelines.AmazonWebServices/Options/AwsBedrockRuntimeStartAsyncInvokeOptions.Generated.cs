@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,23 +21,73 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bedrock-runtime", "start-async-invoke")]
-public record AwsBedrockRuntimeStartAsyncInvokeOptions : AwsOptions
+public record AwsBedrockRuntimeStartAsyncInvokeOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Starts an asynchronous invocation. This operation requires permission for the bedrock:InvokeModel action. WARNING: To deny all inference access to resources that you specify in the modelId field, you need to deny access to the bedrock:InvokeModel and bedrock:InvokeModelWithResponseStream actions. Doing this also denies access to the resource through the Converse API actions (- Converse and ConverseStream ). For more information see Deny access for inference on specific models . See also: AWS API...
+    /// </summary>
+    /// <param name="ModelId">The model to invoke. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z_\.\-/0-9:]+</param>
+    /// <param name="ModelInput">Input to send to the model. JSON Syntax: {...}</param>
+    /// <param name="OutputDataConfig">Where to store the output. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: s3OutputDataConfig. s3OutputDataConfig -&gt; (structure) A storage location for the output data in an S3 bucket s3Uri -&gt; (string) [required] An object URI starting with s3:// . Constraints: o min: 1 o max: 1024 o pattern: s3://[a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9](/.*)? kmsKeyId -&gt; (string) A KMS encryption key ID. Constraints: o min: 1 o max: 2048 o pattern: arn:aws(-[^:]+)?:kms:[a-zA-Z0-9-]*:[0-9]{12}:((key/[a-zA-Z0-9-]{36})|(alias/[a-zA-Z0-9-_/]+)) bucketOwner -&gt; (string) If the bucket belongs to another AWS account, specify that account's ID. Constraints: o pattern: [0-9]{12} Shorthand Syntax: s3OutputDataConfig={s3Uri=string,kmsKeyId=string,bucketOwner=string} JSON Syntax: { "s3OutputDataConfig": { "s3Uri": "string", "kmsKeyId": "string", "bucketOwner": "string" } }</param>
+    public AwsBedrockRuntimeStartAsyncInvokeOptions(
+        string ModelId,
+        string ModelInput,
+        string OutputDataConfig
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ModelId);
+        this.ModelId = ModelId;
+        global::System.ArgumentNullException.ThrowIfNull(ModelInput);
+        this.ModelInput = ModelInput;
+        global::System.ArgumentNullException.ThrowIfNull(OutputDataConfig);
+        this.OutputDataConfig = OutputDataConfig;
+    }
+
+    private AwsBedrockRuntimeStartAsyncInvokeOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsBedrockRuntimeStartAsyncInvokeOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsBedrockRuntimeStartAsyncInvokeOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The model to invoke. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z_\.\-/0-9:]+
+    /// </summary>
+    [CliOption("--model-id")]
+    public string? ModelId { get; private init; }
+
+    /// <summary>
+    /// Input to send to the model. JSON Syntax: {...}
+    /// </summary>
+    [CliOption("--model-input")]
+    public string? ModelInput { get; private init; }
+
+    /// <summary>
+    /// Where to store the output. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: s3OutputDataConfig. s3OutputDataConfig -&gt; (structure) A storage location for the output data in an S3 bucket s3Uri -&gt; (string) [required] An object URI starting with s3:// . Constraints: o min: 1 o max: 1024 o pattern: s3://[a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9](/.*)? kmsKeyId -&gt; (string) A KMS encryption key ID. Constraints: o min: 1 o max: 2048 o pattern: arn:aws(-[^:]+)?:kms:[a-zA-Z0-9-]*:[0-9]{12}:((key/[a-zA-Z0-9-]{36})|(alias/[a-zA-Z0-9-_/]+)) bucketOwner -&gt; (string) If the bucket belongs to another AWS account, specify that account's ID. Constraints: o pattern: [0-9]{12} Shorthand Syntax: s3OutputDataConfig={s3Uri=string,kmsKeyId=string,bucketOwner=string} JSON Syntax: { "s3OutputDataConfig": { "s3Uri": "string", "kmsKeyId": "string", "bucketOwner": "string" } }
+    /// </summary>
+    [CliOption("--output-data-config")]
+    public string? OutputDataConfig { get; private init; }
+
     /// <summary>
     /// Specify idempotency token to ensure that requests are not dupli- cated. Constraints: o min: 1 o max: 256 o pattern: [!-~]*
     /// </summary>
     [SecretValue]
     [CliOption("--client-request-token")]
     public string? ClientRequestToken { get; set; }
-
-    [CliOption("--model-id")]
-    public string? ModelId { get; set; }
-
-    [CliOption("--model-input")]
-    public string? ModelInput { get; set; }
-
-    [CliOption("--output-data-config")]
-    public string? OutputDataConfig { get; set; }
 
     /// <summary>
     /// Tags to apply to the invocation. Constraints: o min: 0 o max: 200 (structure) A tag. key -&gt; (string) [required] The tag's key. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9\s._:/=+@-]* value -&gt; (string) [required] The tag's value. Constraints: o min: 0 o max: 256 o pattern: [a-zA-Z0-9\s._:/=+@-]* Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
@@ -49,5 +100,22 @@ public record AwsBedrockRuntimeStartAsyncInvokeOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -16,9 +16,9 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsSsmStopAutomationExecutionType
 {
-    [EnumValue("Complete")]
-    Complete = 1,
-
     [EnumValue("Cancel")]
-    Cancel = 2
+    Cancel,
+
+    [EnumValue("Complete")]
+    Complete
 }

@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --usagemode.
+/// Allowed values for --usage-mode.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsAcmPcaCreateCertificateAuthorityUsageMode
 {
     [EnumValue("GENERAL_PURPOSE")]
-    GeneralPurpose = 1,
+    GeneralPurpose,
 
     [EnumValue("SHORT_LIVED_CERTIFICATE")]
-    ShortLivedCertificate = 2
+    ShortLivedCertificate
 }

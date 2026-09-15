@@ -16,12 +16,12 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsLookoutequipmentListInferenceExecutionsStatus
 {
+    [EnumValue("FAILED")]
+    Failed,
+
     [EnumValue("IN_PROGRESS")]
-    InProgress = 1,
+    InProgress,
 
     [EnumValue("SUCCESS")]
-    Success = 2,
-
-    [EnumValue("FAILED")]
-    Failed = 3
+    Success
 }

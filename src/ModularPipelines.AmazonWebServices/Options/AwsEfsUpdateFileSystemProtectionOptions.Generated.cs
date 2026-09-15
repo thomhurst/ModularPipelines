@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("efs", "update-file-system-protection")]
-public record AwsEfsUpdateFileSystemProtectionOptions : AwsOptions
+public record AwsEfsUpdateFileSystemProtectionOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates protection on the file system. This operation requires permissions for the elasticfilesystem:Update- FileSystemProtection action. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="FileSystemId">The ID of the file system to update. Constraints: o max: 128 o pattern: ^(arn:aws[-a-z]*:elasticfilesystem:[0-9a-z-:]+:file-sys- tem/fs-[0-9a-f]{8,40}|fs-[0-9a-f]{8,40})$</param>
+    public AwsEfsUpdateFileSystemProtectionOptions(
+        string FileSystemId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(FileSystemId);
+        this.FileSystemId = FileSystemId;
+    }
+
+    private AwsEfsUpdateFileSystemProtectionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEfsUpdateFileSystemProtectionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEfsUpdateFileSystemProtectionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the file system to update. Constraints: o max: 128 o pattern: ^(arn:aws[-a-z]*:elasticfilesystem:[0-9a-z-:]+:file-sys- tem/fs-[0-9a-f]{8,40}|fs-[0-9a-f]{8,40})$
+    /// </summary>
     [CliOption("--file-system-id")]
-    public string? FileSystemId { get; set; }
+    public string? FileSystemId { get; private init; }
 
     /// <summary>
     /// The status of the file system's replication overwrite protection. o ENABLED The file system cannot be used as the destination file system in a replication configuration. The file system is write- able. Replication overwrite protection is ENABLED by default. o DISABLED The file system can be used as the destination file sys- tem in a replication configuration. The file system is read-only and can only be modified by EFS replication. o REPLICATING The file system is being used as the destination file system in a replication configuration. The file system is read-only and is only modified only by EFS replication. If the replication configuration is deleted, the file system's replication overwrite protection is re-enabled and the file system becomes writeable. Possible values: o ENABLED o DISABLED o REPLICATING
@@ -36,5 +73,22 @@ public record AwsEfsUpdateFileSystemProtectionOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

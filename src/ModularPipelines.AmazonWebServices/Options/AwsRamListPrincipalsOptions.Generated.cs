@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +22,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ram", "list-principals")]
-public record AwsRamListPrincipalsOptions : AwsOptions
+public record AwsRamListPrincipalsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Lists the principals that you are sharing resources with or that are sharing resources with you. NOTE: Always check the NextToken response parameter for a null value when calling a paginated operation. These operations can occasionally re- turn an empty set of results even when there are more results avail- able. The NextToken response parameter value is null only when there are no more results to display. See also: AWS API Documentation list-principals is a paginated operation. Multiple API cal...
+    /// </summary>
+    /// <param name="ResourceOwner">Specifies that you want to list information for only resource shares that match the following: o ** SELF ** principals that your account is sharing resources with System Message: WARNING/2 (&lt;string&gt;:, line 94) Inline strong start-string without end-string. o ** OTHER-ACCOUNTS ** principals that are sharing resources with your account System Message: WARNING/2 (&lt;string&gt;:, line 96) Inline strong start-string without end-string. Possible values: o SELF o OTHER-ACCOUNTS</param>
+    public AwsRamListPrincipalsOptions(
+        AwsRamListPrincipalsResourceOwner ResourceOwner
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ResourceOwner);
+        this.ResourceOwner = ResourceOwner;
+    }
+
+    private AwsRamListPrincipalsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRamListPrincipalsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRamListPrincipalsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Specifies that you want to list information for only resource shares that match the following: o ** SELF ** principals that your account is sharing resources with System Message: WARNING/2 (&lt;string&gt;:, line 94) Inline strong start-string without end-string. o ** OTHER-ACCOUNTS ** principals that are sharing resources with your account System Message: WARNING/2 (&lt;string&gt;:, line 96) Inline strong start-string without end-string. Possible values: o SELF o OTHER-ACCOUNTS
+    /// </summary>
     [CliOption("--resource-owner")]
-    public string? ResourceOwner { get; set; }
+    public AwsRamListPrincipalsResourceOwner? ResourceOwner { get; private init; }
 
     /// <summary>
     /// Specifies that you want to list principal information for the re- source share with the specified Amazon Resource Name (ARN) .
@@ -73,5 +111,22 @@ public record AwsRamListPrincipalsOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -11,20 +11,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --encryptionalgorithm.
+/// Allowed values for --encryption-algorithm.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsKmsDecryptEncryptionAlgorithm
 {
-    [EnumValue("SYMMETRIC_DEFAULT")]
-    SymmetricDefault = 1,
-
     [EnumValue("RSAES_OAEP_SHA_1")]
-    RsaesOaepSha_1 = 2,
+    RsaesOaepSha1,
 
     [EnumValue("RSAES_OAEP_SHA_256")]
-    RsaesOaepSha_256 = 3,
+    RsaesOaepSha256,
 
     [EnumValue("SM2PKE")]
-    Sm2Pke = 4
+    Sm2Pke,
+
+    [EnumValue("SYMMETRIC_DEFAULT")]
+    SymmetricDefault
 }

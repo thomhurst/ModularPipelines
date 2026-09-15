@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --targetrole.
+/// Allowed values for --target-role.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsRdsCreateDbProxyEndpointTargetRole
 {
-    [EnumValue("READ_WRITE")]
-    ReadWrite = 1,
-
     [EnumValue("READ_ONLY")]
-    ReadOnly = 2
+    ReadOnly,
+
+    [EnumValue("READ_WRITE")]
+    ReadWrite
 }

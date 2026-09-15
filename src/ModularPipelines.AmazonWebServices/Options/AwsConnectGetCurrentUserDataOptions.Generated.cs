@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("connect", "get-current-user-data")]
-public record AwsConnectGetCurrentUserDataOptions : AwsOptions
+public record AwsConnectGetCurrentUserDataOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--instance-id")]
-    public string? InstanceId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Gets the real-time active user data from the specified Connect Customer instance. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100</param>
+    /// <param name="Filters">The filters to apply to returned user data. You can filter up to the following limits: o Queues: 100 o Routing profiles: 100 o Agents: 100 o Contact states: 9 o User hierarchy groups: 1 The user data is retrieved for only the specified values/resources in the filter. A maximum of one filter can be passed from queues, routing profiles, agents, and user hierarchy groups. Currently tagging is only supported on the resources that are passed in the filter. Queues -&gt; (list) A list of up to 100 queues or ARNs. Constraints: o min: 1 o max: 100 (string) ContactFilter -&gt; (structure) A filter for the user data based on the contact information that is associated to the user. It contains a list of contact states. ContactStates -&gt; (list) A list of up to 9 contact states . Constraints: o max: 9 (string) Possible values: o INCOMING o PENDING o CONNECTING o CONNECTED o CONNECTED_ONHOLD o MISSED o ERROR o ENDED o REJECTED RoutingProfiles -&gt; (list) A list of up to 100 routing profile IDs or ARNs. Constraints: o min: 1 o max: 100 (string) Agents -&gt; (list) A list of up to 100 agent IDs or ARNs. Constraints: o min: 1 o max: 100 (string) UserHierarchyGroups -&gt; (list) A UserHierarchyGroup ID or ARN. Constraints: o min: 1 o max: 1 (string) Shorthand Syntax: Queues=string,string,ContactFilter={ContactStates=[string,string]},RoutingProfiles=string,string,Agents=string,string,UserHierarchyGroups=string,string JSON Syntax: { "Queues": ["string", ...], "ContactFilter": { "ContactStates": ["INCOMING"|"PENDING"|"CONNECTING"|"CONNECTED"|"CONNECTED_ONHOLD"|"MISSED"|"ERROR"|"ENDED"|"REJECTED", ...] }, "RoutingProfiles": ["string", ...], "Agents": ["string", ...], "UserHierarchyGroups": ["string", ...] }</param>
+    public AwsConnectGetCurrentUserDataOptions(
+        string InstanceId,
+        string Filters
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(InstanceId);
+        this.InstanceId = InstanceId;
+        global::System.ArgumentNullException.ThrowIfNull(Filters);
+        this.Filters = Filters;
+    }
+
+    private AwsConnectGetCurrentUserDataOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsConnectGetCurrentUserDataOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsConnectGetCurrentUserDataOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100
+    /// </summary>
+    [CliOption("--instance-id")]
+    public string? InstanceId { get; private init; }
+
+    /// <summary>
+    /// The filters to apply to returned user data. You can filter up to the following limits: o Queues: 100 o Routing profiles: 100 o Agents: 100 o Contact states: 9 o User hierarchy groups: 1 The user data is retrieved for only the specified values/resources in the filter. A maximum of one filter can be passed from queues, routing profiles, agents, and user hierarchy groups. Currently tagging is only supported on the resources that are passed in the filter. Queues -&gt; (list) A list of up to 100 queues or ARNs. Constraints: o min: 1 o max: 100 (string) ContactFilter -&gt; (structure) A filter for the user data based on the contact information that is associated to the user. It contains a list of contact states. ContactStates -&gt; (list) A list of up to 9 contact states . Constraints: o max: 9 (string) Possible values: o INCOMING o PENDING o CONNECTING o CONNECTED o CONNECTED_ONHOLD o MISSED o ERROR o ENDED o REJECTED RoutingProfiles -&gt; (list) A list of up to 100 routing profile IDs or ARNs. Constraints: o min: 1 o max: 100 (string) Agents -&gt; (list) A list of up to 100 agent IDs or ARNs. Constraints: o min: 1 o max: 100 (string) UserHierarchyGroups -&gt; (list) A UserHierarchyGroup ID or ARN. Constraints: o min: 1 o max: 1 (string) Shorthand Syntax: Queues=string,string,ContactFilter={ContactStates=[string,string]},RoutingProfiles=string,string,Agents=string,string,UserHierarchyGroups=string,string JSON Syntax: { "Queues": ["string", ...], "ContactFilter": { "ContactStates": ["INCOMING"|"PENDING"|"CONNECTING"|"CONNECTED"|"CONNECTED_ONHOLD"|"MISSED"|"ERROR"|"ENDED"|"REJECTED", ...] }, "RoutingProfiles": ["string", ...], "Agents": ["string", ...], "UserHierarchyGroups": ["string", ...] }
+    /// </summary>
     [CliOption("--filters")]
-    public string? Filters { get; set; }
+    public string? Filters { get; private init; }
 
     /// <summary>
     /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
@@ -46,5 +90,22 @@ public record AwsConnectGetCurrentUserDataOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

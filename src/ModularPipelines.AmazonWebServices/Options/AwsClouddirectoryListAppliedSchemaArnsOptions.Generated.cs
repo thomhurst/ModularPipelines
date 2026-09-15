@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("clouddirectory", "list-applied-schema-arns")]
-public record AwsClouddirectoryListAppliedSchemaArnsOptions : AwsOptions
+public record AwsClouddirectoryListAppliedSchemaArnsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Lists schema major versions applied to a directory. If SchemaArn is provided, lists the minor version. See also: AWS API Documentation list-applied-schema-arns is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expr...
+    /// </summary>
+    /// <param name="DirectoryArn">The ARN of the directory you are listing.</param>
+    public AwsClouddirectoryListAppliedSchemaArnsOptions(
+        string DirectoryArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DirectoryArn);
+        this.DirectoryArn = DirectoryArn;
+    }
+
+    private AwsClouddirectoryListAppliedSchemaArnsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsClouddirectoryListAppliedSchemaArnsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsClouddirectoryListAppliedSchemaArnsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ARN of the directory you are listing.
+    /// </summary>
     [CliOption("--directory-arn")]
-    public string? DirectoryArn { get; set; }
+    public string? DirectoryArn { get; private init; }
 
     /// <summary>
     /// The response for ListAppliedSchemaArns when this parameter is used will list all minor version ARNs for a major version.
@@ -55,5 +92,22 @@ public record AwsClouddirectoryListAppliedSchemaArnsOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

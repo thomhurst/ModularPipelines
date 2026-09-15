@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --excesscapacityterminationpolicy.
+/// Allowed values for --excess-capacity-termination-policy.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsEc2ModifySpotFleetRequestExcessCapacityTerminationPolicy
 {
-    [EnumValue("noTermination")]
-    NoTermination = 1,
-
     [EnumValue("default")]
-    Default = 2
+    Default,
+
+    [EnumValue("noTermination")]
+    NoTermination
 }

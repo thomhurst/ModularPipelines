@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --tasktype.
+/// Allowed values for --task-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsIotListAuditTasksTaskType
 {
     [EnumValue("ON_DEMAND_AUDIT_TASK")]
-    OnDemandAuditTask = 1,
+    OnDemandAuditTask,
 
     [EnumValue("SCHEDULED_AUDIT_TASK")]
-    ScheduledAuditTask = 2
+    ScheduledAuditTask
 }

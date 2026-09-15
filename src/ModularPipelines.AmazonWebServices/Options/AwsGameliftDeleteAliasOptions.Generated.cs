@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,68 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("gamelift", "delete-alias")]
-public record AwsGameliftDeleteAliasOptions : AwsOptions
+public record AwsGameliftDeleteAliasOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// This API works with the following fleet types: EC2, Anywhere, Con- tainer Deletes an alias. This operation removes all record of the alias. Game clients attempting to access a server process using the deleted alias receive an error. To delete an alias, specify the alias ID to be deleted. Related actions All APIs by task See also: AWS API Documentation
+    /// </summary>
+    /// <param name="AliasId">A unique identifier of the alias that you want to delete. You can use either the alias ID or ARN value. Constraints: o min: 1 o max: 512 o pattern: ^(alias-\S+|arn:.*:alias\/alias-\S+)$</param>
+    public AwsGameliftDeleteAliasOptions(
+        string AliasId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AliasId);
+        this.AliasId = AliasId;
+    }
+
+    private AwsGameliftDeleteAliasOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsGameliftDeleteAliasOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsGameliftDeleteAliasOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A unique identifier of the alias that you want to delete. You can use either the alias ID or ARN value. Constraints: o min: 1 o max: 512 o pattern: ^(alias-\S+|arn:.*:alias\/alias-\S+)$
+    /// </summary>
     [CliOption("--alias-id")]
-    public string? AliasId { get; set; }
+    public string? AliasId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

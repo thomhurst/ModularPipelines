@@ -21,16 +21,61 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("emr", "add-steps")]
 public record AwsEmrAddStepsOptions : AwsOptions
 {
-    [CliOption("--cluster-id")]
-    public string? ClusterId { get; set; }
+    /// <summary>
+    /// Add a list of steps to a cluster.
+    /// </summary>
+    /// <param name="ClusterId">A unique string that identifies a cluster. The create-cluster com- mand returns this identifier. You can use the list-clusters command to get cluster IDs.</param>
+    /// <param name="Steps">Specifies a list of steps to be executed by the cluster. Steps run only on the master node after applications are installed and are used to submit work to a cluster. A step can be specified using the shorthand syntax, by referencing a JSON file or by specifying an in- line JSON structure. Args supplied with steps should be a comma-sep- arated list of values (Args=arg1,arg2,arg3 ) or a bracket-enclosed list of values and key-value pairs (Args=[arg1,arg2=value,arg4 ). (structure) Type -&gt; (string) The type of a step to be added to the cluster. Possible values: o CUSTOM_JAR o STREAMING o HIVE o PIG o IMPALA Name -&gt; (string) The name of the step. ActionOnFailure -&gt; (string) The action to take if the cluster step fails. Possible values: o TERMINATE_CLUSTER o CANCEL_AND_WAIT o CONTINUE Jar -&gt; (string) A path to a JAR file run during the step. Args -&gt; (list) A list of command line arguments to pass to the step. (string) MainClass -&gt; (string) The name of the main class in the specified Java file. If not specified, the JAR file should specify a Main-Class in its manifest file. Properties -&gt; (string) A list of Java properties that are set when the step runs. You can use these properties to pass key value pairs to your main function. LogUri -&gt; (string) The Amazon S3 destination URI for log publishing. If not specified, the cluster logging location is used. EncryptionKeyArn -&gt; (string) The KMS key ARN to encrypt the logs published to the given Amazon S3 destination. If not specified, the cluster KMS key is used. Shorthand Syntax: Type=string,Name=string,ActionOnFailure=string,Jar=string,Args=string,string,MainClass=string,Properties=string,LogUri=string,EncryptionKeyArn=string ... JSON Syntax: [ { "Type": "CUSTOM_JAR"|"STREAMING"|"HIVE"|"PIG"|"IMPALA", "Name": "string", "ActionOnFailure": "TERMINATE_CLUSTER"|"CANCEL_AND_WAIT"|"CONTINUE", "Jar": "string", "Args": ["string", ...], "MainClass": "string", "Properties": "string", "LogUri": "string", "EncryptionKeyArn": "string" } ... ]</param>
+    public AwsEmrAddStepsOptions(
+        string ClusterId,
+        IEnumerable<string> Steps
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ClusterId);
+        this.ClusterId = ClusterId;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Steps);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Steps));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Steps));
+            }
 
+            Steps = materialized;
+        }
+        this.Steps = Steps;
+    }
+
+    public void Deconstruct(out string ClusterId, out IEnumerable<string> Steps)
+    {
+        ClusterId = this.ClusterId;
+        Steps = this.Steps;
+    }
+
+    /// <summary>
+    /// A unique string that identifies a cluster. The create-cluster com- mand returns this identifier. You can use the list-clusters command to get cluster IDs.
+    /// </summary>
+    [CliOption("--cluster-id")]
+    public string ClusterId { get; private init; }
+
+    /// <summary>
+    /// Specifies a list of steps to be executed by the cluster. Steps run only on the master node after applications are installed and are used to submit work to a cluster. A step can be specified using the shorthand syntax, by referencing a JSON file or by specifying an in- line JSON structure. Args supplied with steps should be a comma-sep- arated list of values (Args=arg1,arg2,arg3 ) or a bracket-enclosed list of values and key-value pairs (Args=[arg1,arg2=value,arg4 ). (structure) Type -&gt; (string) The type of a step to be added to the cluster. Possible values: o CUSTOM_JAR o STREAMING o HIVE o PIG o IMPALA Name -&gt; (string) The name of the step. ActionOnFailure -&gt; (string) The action to take if the cluster step fails. Possible values: o TERMINATE_CLUSTER o CANCEL_AND_WAIT o CONTINUE Jar -&gt; (string) A path to a JAR file run during the step. Args -&gt; (list) A list of command line arguments to pass to the step. (string) MainClass -&gt; (string) The name of the main class in the specified Java file. If not specified, the JAR file should specify a Main-Class in its manifest file. Properties -&gt; (string) A list of Java properties that are set when the step runs. You can use these properties to pass key value pairs to your main function. LogUri -&gt; (string) The Amazon S3 destination URI for log publishing. If not specified, the cluster logging location is used. EncryptionKeyArn -&gt; (string) The KMS key ARN to encrypt the logs published to the given Amazon S3 destination. If not specified, the cluster KMS key is used. Shorthand Syntax: Type=string,Name=string,ActionOnFailure=string,Jar=string,Args=string,string,MainClass=string,Properties=string,LogUri=string,EncryptionKeyArn=string ... JSON Syntax: [ { "Type": "CUSTOM_JAR"|"STREAMING"|"HIVE"|"PIG"|"IMPALA", "Name": "string", "ActionOnFailure": "TERMINATE_CLUSTER"|"CANCEL_AND_WAIT"|"CONTINUE", "Jar": "string", "Args": ["string", ...], "MainClass": "string", "Properties": "string", "LogUri": "string", "EncryptionKeyArn": "string" } ... ]
+    /// </summary>
     [CliOption("--steps", GroupValues = true)]
-    public IEnumerable<string>? Steps { get; set; }
+    public IEnumerable<string> Steps { get; private init; }
 
     /// <summary>
     /// You must grant the execution role the permissions needed to access the same IAM resources that the step can access. The execution role can be a cross-account IAM Role.
     /// </summary>
     [CliOption("--execution-role-arn")]
     public string? ExecutionRoleArn { get; set; }
+
+    /// <summary>
+    /// The &lt;value&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough)]
+    public IEnumerable<string>? Value { get; set; }
 
 }

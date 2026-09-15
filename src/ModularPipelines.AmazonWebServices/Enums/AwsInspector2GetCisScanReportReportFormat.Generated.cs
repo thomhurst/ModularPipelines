@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --reportformat.
+/// Allowed values for --report-format.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsInspector2GetCisScanReportReportFormat
 {
-    [EnumValue("PDF")]
-    Pdf = 1,
-
     [EnumValue("CSV")]
-    Csv = 2
+    Csv,
+
+    [EnumValue("PDF")]
+    Pdf
 }

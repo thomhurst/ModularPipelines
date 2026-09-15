@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("pinpoint", "create-voice-template")]
-public record AwsPinpointCreateVoiceTemplateOptions : AwsOptions
+public record AwsPinpointCreateVoiceTemplateOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--template-name")]
-    public string? TemplateName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates a message template for messages that are sent through the voice channel. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="TemplateName">The name of the message template. A template name must start with an alphanumeric character and can contain a maximum of 128 characters. The characters can be alphanumeric characters, underscores (_), or hyphens (-). Template names are case sensitive.</param>
+    /// <param name="VoiceTemplateRequest">Specifies the content and settings for a message template that can be used in messages that are sent through the voice channel. Body -&gt; (string) The text of the script to use in messages that are based on the message template, in plain text format. DefaultSubstitutions -&gt; (string) A JSON object that specifies the default values to use for mes- sage variables in the message template. This object is a set of key-value pairs. Each key defines a message variable in the tem- plate. The corresponding value defines the default value for that variable. When you create a message that's based on the template, you can override these defaults with message-specific and address-specific variables and values. LanguageCode -&gt; (string) The code for the language to use when synthesizing the text of the script in messages that are based on the message template. For a list of supported languages and the code for each one, see the Amazon Polly Developer Guide . tags -&gt; (map) NOTE: As of 22-05-2023 tags has been deprecated for update opera- tions. After this date any value in tags is not processed and an error code is not returned. To manage tags we recommend using either Tags in the API Reference for Amazon Pinpoint , resourcegroupstaggingapi commands in the AWS Command Line In- terface Documentation or resourcegroupstaggingapi in the AWS SDK . (Deprecated) A string-to-string map of key-value pairs that de- fines the tags to associate with the message template. Each tag consists of a required tag key and an associated tag value. key -&gt; (string) value -&gt; (string) TemplateDescription -&gt; (string) A custom description of the message template. VoiceId -&gt; (string) The name of the voice to use when delivering messages that are based on the message template. For a list of supported voices, see the Amazon Polly Developer Guide . Shorthand Syntax: Body=string,DefaultSubstitutions=string,LanguageCode=string,tags={KeyName1=string,KeyName2=string},TemplateDescription=string,VoiceId=string JSON Syntax: { "Body": "string", "DefaultSubstitutions": "string", "LanguageCode": "string", "tags": {"string": "string" ...}, "TemplateDescription": "string", "VoiceId": "string" }</param>
+    public AwsPinpointCreateVoiceTemplateOptions(
+        string TemplateName,
+        string VoiceTemplateRequest
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(TemplateName);
+        this.TemplateName = TemplateName;
+        global::System.ArgumentNullException.ThrowIfNull(VoiceTemplateRequest);
+        this.VoiceTemplateRequest = VoiceTemplateRequest;
+    }
+
+    private AwsPinpointCreateVoiceTemplateOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsPinpointCreateVoiceTemplateOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsPinpointCreateVoiceTemplateOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the message template. A template name must start with an alphanumeric character and can contain a maximum of 128 characters. The characters can be alphanumeric characters, underscores (_), or hyphens (-). Template names are case sensitive.
+    /// </summary>
+    [CliOption("--template-name")]
+    public string? TemplateName { get; private init; }
+
+    /// <summary>
+    /// Specifies the content and settings for a message template that can be used in messages that are sent through the voice channel. Body -&gt; (string) The text of the script to use in messages that are based on the message template, in plain text format. DefaultSubstitutions -&gt; (string) A JSON object that specifies the default values to use for mes- sage variables in the message template. This object is a set of key-value pairs. Each key defines a message variable in the tem- plate. The corresponding value defines the default value for that variable. When you create a message that's based on the template, you can override these defaults with message-specific and address-specific variables and values. LanguageCode -&gt; (string) The code for the language to use when synthesizing the text of the script in messages that are based on the message template. For a list of supported languages and the code for each one, see the Amazon Polly Developer Guide . tags -&gt; (map) NOTE: As of 22-05-2023 tags has been deprecated for update opera- tions. After this date any value in tags is not processed and an error code is not returned. To manage tags we recommend using either Tags in the API Reference for Amazon Pinpoint , resourcegroupstaggingapi commands in the AWS Command Line In- terface Documentation or resourcegroupstaggingapi in the AWS SDK . (Deprecated) A string-to-string map of key-value pairs that de- fines the tags to associate with the message template. Each tag consists of a required tag key and an associated tag value. key -&gt; (string) value -&gt; (string) TemplateDescription -&gt; (string) A custom description of the message template. VoiceId -&gt; (string) The name of the voice to use when delivering messages that are based on the message template. For a list of supported voices, see the Amazon Polly Developer Guide . Shorthand Syntax: Body=string,DefaultSubstitutions=string,LanguageCode=string,tags={KeyName1=string,KeyName2=string},TemplateDescription=string,VoiceId=string JSON Syntax: { "Body": "string", "DefaultSubstitutions": "string", "LanguageCode": "string", "tags": {"string": "string" ...}, "TemplateDescription": "string", "VoiceId": "string" }
+    /// </summary>
     [CliOption("--voice-template-request")]
-    public string? VoiceTemplateRequest { get; set; }
+    public string? VoiceTemplateRequest { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

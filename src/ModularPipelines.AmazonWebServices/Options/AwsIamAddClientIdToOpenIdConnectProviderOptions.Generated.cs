@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iam", "add-client-id-to-open-id-connect-provider")]
-public record AwsIamAddClientIdToOpenIdConnectProviderOptions : AwsOptions
+public record AwsIamAddClientIdToOpenIdConnectProviderOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--open-id-connect-provider-arn")]
-    public string? OpenIdConnectProviderArn { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Adds a new client ID (also known as audience) to the list of client IDs already registered for the specified IAM OpenID Connect (OIDC) provider resource. This operation is idempotent; it does not fail or return an error if you add an existing client ID to the provider. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="OpenIdConnectProviderArn">The Amazon Resource Name (ARN) of the IAM OpenID Connect (OIDC) provider resource to add the client ID to. You can get a list of OIDC provider ARNs by using the ListOpenIDConnectProviders opera- tion. Constraints: o min: 20 o max: 2048</param>
+    /// <param name="ClientId">The client ID (also known as audience) to add to the IAM OpenID Con- nect provider resource. Constraints: o min: 1 o max: 255</param>
+    public AwsIamAddClientIdToOpenIdConnectProviderOptions(
+        string OpenIdConnectProviderArn,
+        string ClientId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(OpenIdConnectProviderArn);
+        this.OpenIdConnectProviderArn = OpenIdConnectProviderArn;
+        global::System.ArgumentNullException.ThrowIfNull(ClientId);
+        this.ClientId = ClientId;
+    }
+
+    private AwsIamAddClientIdToOpenIdConnectProviderOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsIamAddClientIdToOpenIdConnectProviderOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsIamAddClientIdToOpenIdConnectProviderOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the IAM OpenID Connect (OIDC) provider resource to add the client ID to. You can get a list of OIDC provider ARNs by using the ListOpenIDConnectProviders opera- tion. Constraints: o min: 20 o max: 2048
+    /// </summary>
+    [CliOption("--open-id-connect-provider-arn")]
+    public string? OpenIdConnectProviderArn { get; private init; }
+
+    /// <summary>
+    /// The client ID (also known as audience) to add to the IAM OpenID Con- nect provider resource. Constraints: o min: 1 o max: 255
+    /// </summary>
     [CliOption("--client-id")]
-    public string? ClientId { get; set; }
+    public string? ClientId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

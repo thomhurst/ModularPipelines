@@ -16,21 +16,21 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsEventsListArchivesState
 {
-    [EnumValue("ENABLED")]
-    Enabled = 1,
-
-    [EnumValue("DISABLED")]
-    Disabled = 2,
+    [EnumValue("CREATE_FAILED")]
+    CreateFailed,
 
     [EnumValue("CREATING")]
-    Creating = 3,
+    Creating,
 
-    [EnumValue("UPDATING")]
-    Updating = 4,
+    [EnumValue("DISABLED")]
+    Disabled,
 
-    [EnumValue("CREATE_FAILED")]
-    CreateFailed = 5,
+    [EnumValue("ENABLED")]
+    Enabled,
 
     [EnumValue("UPDATE_FAILED")]
-    UpdateFailed = 6
+    UpdateFailed,
+
+    [EnumValue("UPDATING")]
+    Updating
 }

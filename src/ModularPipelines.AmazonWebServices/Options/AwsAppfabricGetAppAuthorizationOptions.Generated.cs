@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("appfabric", "get-app-authorization")]
-public record AwsAppfabricGetAppAuthorizationOptions : AwsOptions
+public record AwsAppfabricGetAppAuthorizationOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--app-bundle-identifier")]
-    public string? AppBundleIdentifier { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Returns information about an app authorization. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="AppBundleIdentifier">The Amazon Resource Name (ARN) or Universal Unique Identifier (UUID) of the app bundle to use for the request. Constraints: o min: 1 o max: 1011 o pattern: arn:.+$|^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}</param>
+    /// <param name="AppAuthorizationIdentifier">The Amazon Resource Name (ARN) or Universal Unique Identifier (UUID) of the app authorization to use for the request. Constraints: o min: 1 o max: 1011 o pattern: arn:.+$|^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}</param>
+    public AwsAppfabricGetAppAuthorizationOptions(
+        string AppBundleIdentifier,
+        string AppAuthorizationIdentifier
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AppBundleIdentifier);
+        this.AppBundleIdentifier = AppBundleIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(AppAuthorizationIdentifier);
+        this.AppAuthorizationIdentifier = AppAuthorizationIdentifier;
+    }
+
+    private AwsAppfabricGetAppAuthorizationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsAppfabricGetAppAuthorizationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsAppfabricGetAppAuthorizationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) or Universal Unique Identifier (UUID) of the app bundle to use for the request. Constraints: o min: 1 o max: 1011 o pattern: arn:.+$|^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}
+    /// </summary>
+    [CliOption("--app-bundle-identifier")]
+    public string? AppBundleIdentifier { get; private init; }
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) or Universal Unique Identifier (UUID) of the app authorization to use for the request. Constraints: o min: 1 o max: 1011 o pattern: arn:.+$|^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}
+    /// </summary>
     [CliOption("--app-authorization-identifier")]
-    public string? AppAuthorizationIdentifier { get; set; }
+    public string? AppAuthorizationIdentifier { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

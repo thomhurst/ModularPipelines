@@ -11,22 +11,66 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves a list of generated policy assets from a policy generation request within the AgentCore Policy system. This operation returns the actual Cedar policies and related artifacts produced by the AI-powered policy generation process, allowing users to review and select from multiple generated policy options. See also: AWS API Documentation list-policy-generation-assets is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can di...
+/// Retrieves a list of generated policy assets from a policy generation request within the AgentCore Policy system. This operation returns the actual Dogwood policies and related artifacts produced by the AI-pow- ered policy generation process, allowing users to review and select from multiple generated policy options. See also: AWS API Documentation list-policy-generation-assets is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You ca...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bedrock-agentcore-control", "list-policy-generation-assets")]
-public record AwsBedrockAgentcoreControlListPolicyGenerationAssetsOptions : AwsOptions
+public record AwsBedrockAgentcoreControlListPolicyGenerationAssetsOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--policy-generation-id")]
-    public string? PolicyGenerationId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Retrieves a list of generated policy assets from a policy generation request within the AgentCore Policy system. This operation returns the actual Dogwood policies and related artifacts produced by the AI-pow- ered policy generation process, allowing users to review and select from multiple generated policy options. See also: AWS API Documentation list-policy-generation-assets is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You ca...
+    /// </summary>
+    /// <param name="PolicyGenerationId">The unique identifier of the policy generation request whose assets are to be retrieved. This must be a valid generation ID from a pre- vious StartPolicyGeneration call that has completed processing. Constraints: o min: 12 o max: 59 o pattern: [A-Za-z][A-Za-z0-9_]*-[a-z0-9_]{10}</param>
+    /// <param name="PolicyEngineId">The unique identifier of the policy engine associated with the pol- icy generation request. This provides the context for the generation operation and ensures assets are retrieved from the correct policy engine. Constraints: o min: 12 o max: 59 o pattern: [A-Za-z][A-Za-z0-9_]*-[a-z0-9_]{10}</param>
+    public AwsBedrockAgentcoreControlListPolicyGenerationAssetsOptions(
+        string PolicyGenerationId,
+        string PolicyEngineId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PolicyGenerationId);
+        this.PolicyGenerationId = PolicyGenerationId;
+        global::System.ArgumentNullException.ThrowIfNull(PolicyEngineId);
+        this.PolicyEngineId = PolicyEngineId;
+    }
+
+    private AwsBedrockAgentcoreControlListPolicyGenerationAssetsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsBedrockAgentcoreControlListPolicyGenerationAssetsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsBedrockAgentcoreControlListPolicyGenerationAssetsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier of the policy generation request whose assets are to be retrieved. This must be a valid generation ID from a pre- vious StartPolicyGeneration call that has completed processing. Constraints: o min: 12 o max: 59 o pattern: [A-Za-z][A-Za-z0-9_]*-[a-z0-9_]{10}
+    /// </summary>
+    [CliOption("--policy-generation-id")]
+    public string? PolicyGenerationId { get; private init; }
+
+    /// <summary>
+    /// The unique identifier of the policy engine associated with the pol- icy generation request. This provides the context for the generation operation and ensures assets are retrieved from the correct policy engine. Constraints: o min: 12 o max: 59 o pattern: [A-Za-z][A-Za-z0-9_]*-[a-z0-9_]{10}
+    /// </summary>
     [CliOption("--policy-engine-id")]
-    public string? PolicyEngineId { get; set; }
+    public string? PolicyEngineId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
@@ -52,5 +96,22 @@ public record AwsBedrockAgentcoreControlListPolicyGenerationAssetsOptions : AwsO
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

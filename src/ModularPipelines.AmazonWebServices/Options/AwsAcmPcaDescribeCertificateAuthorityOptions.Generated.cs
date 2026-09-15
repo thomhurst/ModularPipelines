@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,68 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("acm-pca", "describe-certificate-authority")]
-public record AwsAcmPcaDescribeCertificateAuthorityOptions : AwsOptions
+public record AwsAcmPcaDescribeCertificateAuthorityOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Lists information about your private certificate authority (CA) or one that has been shared with you. You specify the private CA on input by its ARN (Amazon Resource Name). The output contains the status of your CA. This can be any of the following: o CREATING - Amazon Web Services Private CA is creating your private certificate authority. o PENDING_CERTIFICATE - The certificate is pending. You must use your Amazon Web Services Private CA-hosted or on-premises root or subordi- nate CA to sign yo...
+    /// </summary>
+    /// <param name="CertificateAuthorityArn">The Amazon Resource Name (ARN) that was returned when you called CreateCertificateAuthority . This must be of the form: `` arn:aws:acm-pca:region :account :certificate-author- ity/12345678-1234-1234-1234-123456789012 `` . System Message: WARNING/2 (&lt;string&gt;:, line 90) Inline literal start-string without end-string. Constraints: o min: 5 o max: 200 o pattern: arn:[\w+=/,.@-]+:acm-pca:[\w+=/,.@-]*:[0-9]*:[\w+=,.@-]+(/[\w+=,.@-]+)*</param>
+    public AwsAcmPcaDescribeCertificateAuthorityOptions(
+        string CertificateAuthorityArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(CertificateAuthorityArn);
+        this.CertificateAuthorityArn = CertificateAuthorityArn;
+    }
+
+    private AwsAcmPcaDescribeCertificateAuthorityOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsAcmPcaDescribeCertificateAuthorityOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsAcmPcaDescribeCertificateAuthorityOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) that was returned when you called CreateCertificateAuthority . This must be of the form: `` arn:aws:acm-pca:region :account :certificate-author- ity/12345678-1234-1234-1234-123456789012 `` . System Message: WARNING/2 (&lt;string&gt;:, line 90) Inline literal start-string without end-string. Constraints: o min: 5 o max: 200 o pattern: arn:[\w+=/,.@-]+:acm-pca:[\w+=/,.@-]*:[0-9]*:[\w+=,.@-]+(/[\w+=,.@-]+)*
+    /// </summary>
     [CliOption("--certificate-authority-arn")]
-    public string? CertificateAuthorityArn { get; set; }
+    public string? CertificateAuthorityArn { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

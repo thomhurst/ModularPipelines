@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cloudsearchdomain", "upload-documents")]
-public record AwsCloudsearchdomainUploadDocumentsOptions : AwsOptions
+public record AwsCloudsearchdomainUploadDocumentsOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--documents")]
-    public string? Documents { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Posts a batch of documents to a search domain for indexing. A document batch is a collection of add and delete operations that represent the documents you want to add, update, or delete from your domain. Batches can be described in either JSON or XML. Each item that you want Amazon CloudSearch to return as a search result (such as a product) is repre- sented as a document. Every document has a unique ID and one or more fields that contain the data that you want to search and return in re- sults....
+    /// </summary>
+    /// <param name="Documents">A batch of documents formatted in JSON or HTML. NOTE: This argument is of type: streaming blob. Its value must be the path to a file (e.g. path/to/file) and must not be prefixed with file:// or fileb://</param>
+    /// <param name="ContentType">The format of the batch you are uploading. Amazon CloudSearch sup- ports two document batch formats: o application/json o application/xml Possible values: o application/json o application/xml</param>
+    public AwsCloudsearchdomainUploadDocumentsOptions(
+        string Documents,
+        string ContentType
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Documents);
+        this.Documents = Documents;
+        global::System.ArgumentNullException.ThrowIfNull(ContentType);
+        this.ContentType = ContentType;
+    }
+
+    private AwsCloudsearchdomainUploadDocumentsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCloudsearchdomainUploadDocumentsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCloudsearchdomainUploadDocumentsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A batch of documents formatted in JSON or HTML. NOTE: This argument is of type: streaming blob. Its value must be the path to a file (e.g. path/to/file) and must not be prefixed with file:// or fileb://
+    /// </summary>
+    [CliOption("--documents")]
+    public string? Documents { get; private init; }
+
+    /// <summary>
+    /// The format of the batch you are uploading. Amazon CloudSearch sup- ports two document batch formats: o application/json o application/xml Possible values: o application/json o application/xml
+    /// </summary>
     [CliOption("--content-type")]
-    public string? ContentType { get; set; }
+    public string? ContentType { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

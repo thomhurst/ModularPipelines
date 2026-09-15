@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +20,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("docdb", "create-db-cluster-snapshot")]
-public record AwsDocdbCreateDbClusterSnapshotOptions : AwsOptions
+public record AwsDocdbCreateDbClusterSnapshotOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--db-cluster-snapshot-identifier")]
-    public string? DbClusterSnapshotIdentifier { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates a snapshot of a cluster. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DbClusterSnapshotIdentifier">The identifier of the cluster snapshot. This parameter is stored as a lowercase string. Constraints: o Must contain from 1 to 63 letters, numbers, or hyphens. o The first character must be a letter. o Cannot end with a hyphen or contain two consecutive hyphens. Example: my-cluster-snapshot1</param>
+    /// <param name="DbClusterIdentifier">The identifier of the cluster to create a snapshot for. This parame- ter is not case sensitive. Constraints: o Must match the identifier of an existing DBCluster . Example: my-cluster</param>
+    public AwsDocdbCreateDbClusterSnapshotOptions(
+        string DbClusterSnapshotIdentifier,
+        string DbClusterIdentifier
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DbClusterSnapshotIdentifier);
+        this.DbClusterSnapshotIdentifier = DbClusterSnapshotIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(DbClusterIdentifier);
+        this.DbClusterIdentifier = DbClusterIdentifier;
+    }
+
+    private AwsDocdbCreateDbClusterSnapshotOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDocdbCreateDbClusterSnapshotOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDocdbCreateDbClusterSnapshotOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the cluster snapshot. This parameter is stored as a lowercase string. Constraints: o Must contain from 1 to 63 letters, numbers, or hyphens. o The first character must be a letter. o Cannot end with a hyphen or contain two consecutive hyphens. Example: my-cluster-snapshot1
+    /// </summary>
+    [CliOption("--db-cluster-snapshot-identifier")]
+    public string? DbClusterSnapshotIdentifier { get; private init; }
+
+    /// <summary>
+    /// The identifier of the cluster to create a snapshot for. This parame- ter is not case sensitive. Constraints: o Must match the identifier of an existing DBCluster . Example: my-cluster
+    /// </summary>
     [CliOption("--db-cluster-identifier")]
-    public string? DbClusterIdentifier { get; set; }
+    public string? DbClusterIdentifier { get; private init; }
 
     /// <summary>
     /// The tags to be assigned to the cluster snapshot. (structure) Metadata assigned to an Amazon DocumentDB resource consisting of a key-value pair. Key -&gt; (string) The required name of the tag. The string value can be from 1 to 128 Unicode characters in length and can't be prefixed with "aws: " or "rds: ". The string can contain only the set of Unicode letters, digits, white space, '_', '.', '/', '=', '+', '-' (Java regex: "^([\p{L}\p{Z}\p{N}_.:/=+\-]*)$"). Value -&gt; (string) The optional value of the tag. The string value can be from 1 to 256 Unicode characters in length and can't be prefixed with "aws: " or "rds: ". The string can contain only the set of Unicode letters, digits, white space, '_', '.', '/', '=', '+', '-' (Java regex: "^([\p{L}\p{Z}\p{N}_.:/=+\-]*)$"). Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
@@ -38,5 +82,22 @@ public record AwsDocdbCreateDbClusterSnapshotOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

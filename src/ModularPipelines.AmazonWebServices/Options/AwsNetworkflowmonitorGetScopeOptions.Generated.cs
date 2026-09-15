@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,68 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("networkflowmonitor", "get-scope")]
-public record AwsNetworkflowmonitorGetScopeOptions : AwsOptions
+public record AwsNetworkflowmonitorGetScopeOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Gets information about a scope, including the name, status, tags, and target details. The scope in Network Flow Monitor is an account. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ScopeId">The identifier for the scope that includes the resources you want to get data results for. A scope ID is an internally-generated identi- fier that includes all the resources for a specific root account. A scope ID is returned from a CreateScope API call. Constraints: o min: 1</param>
+    public AwsNetworkflowmonitorGetScopeOptions(
+        string ScopeId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ScopeId);
+        this.ScopeId = ScopeId;
+    }
+
+    private AwsNetworkflowmonitorGetScopeOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsNetworkflowmonitorGetScopeOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsNetworkflowmonitorGetScopeOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier for the scope that includes the resources you want to get data results for. A scope ID is an internally-generated identi- fier that includes all the resources for a specific root account. A scope ID is returned from a CreateScope API call. Constraints: o min: 1
+    /// </summary>
     [CliOption("--scope-id")]
-    public string? ScopeId { get; set; }
+    public string? ScopeId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

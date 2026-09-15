@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iot-managed-integrations", "put-runtime-log-configuration")]
-public record AwsIotManagedIntegrationsPutRuntimeLogConfigurationOptions : AwsOptions
+public record AwsIotManagedIntegrationsPutRuntimeLogConfigurationOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--managed-thing-id")]
-    public string? ManagedThingId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Set the runtime log configuration for a specific managed thing. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ManagedThingId">The id for a managed thing. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9:_-]*</param>
+    /// <param name="RuntimeLogConfigurations">The runtime log configuration for a managed thing. LogLevel -&gt; (string) The different log levels available for configuration. Possible values: o DEBUG o ERROR o INFO o WARN LogFlushLevel -&gt; (string) The different log levels available for configuration. Possible values: o DEBUG o ERROR o INFO o WARN LocalStoreLocation -&gt; (string) Configuration of where to store runtime logs in the device. LocalStoreFileRotationMaxFiles -&gt; (integer) Configuration to set the maximum number of runtime log files that can be stored on the device before the oldest files are deleted or overwritten. LocalStoreFileRotationMaxBytes -&gt; (integer) Configuration to set the maximum bytes of runtime logs that can be stored on the device before the oldest logs are deleted or overwritten. UploadLog -&gt; (boolean) Configuration to enable or disable uploading of runtime logs to the cloud. UploadPeriodMinutes -&gt; (integer) Configuration to set the time interval in minutes between each batch of runtime logs that the device uploads to the cloud. DeleteLocalStoreAfterUpload -&gt; (boolean) Configuration to enable or disable deleting of runtime logs in the device once uploaded to the cloud. Shorthand Syntax: LogLevel=string,LogFlushLevel=string,LocalStoreLocation=string,LocalStoreFileRotationMaxFiles=integer,LocalStoreFileRotationMaxBytes=integer,UploadLog=boolean,UploadPeriodMinutes=integer,DeleteLocalStoreAfterUpload=boolean JSON Syntax: { "LogLevel": "DEBUG"|"ERROR"|"INFO"|"WARN", "LogFlushLevel": "DEBUG"|"ERROR"|"INFO"|"WARN", "LocalStoreLocation": "string", "LocalStoreFileRotationMaxFiles": integer, "LocalStoreFileRotationMaxBytes": integer, "UploadLog": true|false, "UploadPeriodMinutes": integer, "DeleteLocalStoreAfterUpload": true|false }</param>
+    public AwsIotManagedIntegrationsPutRuntimeLogConfigurationOptions(
+        string ManagedThingId,
+        string RuntimeLogConfigurations
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ManagedThingId);
+        this.ManagedThingId = ManagedThingId;
+        global::System.ArgumentNullException.ThrowIfNull(RuntimeLogConfigurations);
+        this.RuntimeLogConfigurations = RuntimeLogConfigurations;
+    }
+
+    private AwsIotManagedIntegrationsPutRuntimeLogConfigurationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsIotManagedIntegrationsPutRuntimeLogConfigurationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsIotManagedIntegrationsPutRuntimeLogConfigurationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The id for a managed thing. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9:_-]*
+    /// </summary>
+    [CliOption("--managed-thing-id")]
+    public string? ManagedThingId { get; private init; }
+
+    /// <summary>
+    /// The runtime log configuration for a managed thing. LogLevel -&gt; (string) The different log levels available for configuration. Possible values: o DEBUG o ERROR o INFO o WARN LogFlushLevel -&gt; (string) The different log levels available for configuration. Possible values: o DEBUG o ERROR o INFO o WARN LocalStoreLocation -&gt; (string) Configuration of where to store runtime logs in the device. LocalStoreFileRotationMaxFiles -&gt; (integer) Configuration to set the maximum number of runtime log files that can be stored on the device before the oldest files are deleted or overwritten. LocalStoreFileRotationMaxBytes -&gt; (integer) Configuration to set the maximum bytes of runtime logs that can be stored on the device before the oldest logs are deleted or overwritten. UploadLog -&gt; (boolean) Configuration to enable or disable uploading of runtime logs to the cloud. UploadPeriodMinutes -&gt; (integer) Configuration to set the time interval in minutes between each batch of runtime logs that the device uploads to the cloud. DeleteLocalStoreAfterUpload -&gt; (boolean) Configuration to enable or disable deleting of runtime logs in the device once uploaded to the cloud. Shorthand Syntax: LogLevel=string,LogFlushLevel=string,LocalStoreLocation=string,LocalStoreFileRotationMaxFiles=integer,LocalStoreFileRotationMaxBytes=integer,UploadLog=boolean,UploadPeriodMinutes=integer,DeleteLocalStoreAfterUpload=boolean JSON Syntax: { "LogLevel": "DEBUG"|"ERROR"|"INFO"|"WARN", "LogFlushLevel": "DEBUG"|"ERROR"|"INFO"|"WARN", "LocalStoreLocation": "string", "LocalStoreFileRotationMaxFiles": integer, "LocalStoreFileRotationMaxBytes": integer, "UploadLog": true|false, "UploadPeriodMinutes": integer, "DeleteLocalStoreAfterUpload": true|false }
+    /// </summary>
     [CliOption("--runtime-log-configurations")]
-    public string? RuntimeLogConfigurations { get; set; }
+    public string? RuntimeLogConfigurations { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

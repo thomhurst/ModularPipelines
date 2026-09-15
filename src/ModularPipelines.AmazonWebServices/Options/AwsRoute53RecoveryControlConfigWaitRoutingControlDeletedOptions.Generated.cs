@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,68 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("route53-recovery-control-config", "wait", "routing-control-deleted")]
-public record AwsRoute53RecoveryControlConfigWaitRoutingControlDeletedOptions : AwsOptions
+public record AwsRoute53RecoveryControlConfigWaitRoutingControlDeletedOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Wait for a routing control to be deleted It will poll every 5 seconds until a successful state has been reached. This will exit with a return code of 255 after 26 failed checks. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="RoutingControlArn">The Amazon Resource Name (ARN) of the routing control.</param>
+    public AwsRoute53RecoveryControlConfigWaitRoutingControlDeletedOptions(
+        string RoutingControlArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(RoutingControlArn);
+        this.RoutingControlArn = RoutingControlArn;
+    }
+
+    private AwsRoute53RecoveryControlConfigWaitRoutingControlDeletedOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRoute53RecoveryControlConfigWaitRoutingControlDeletedOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRoute53RecoveryControlConfigWaitRoutingControlDeletedOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the routing control.
+    /// </summary>
     [CliOption("--routing-control-arn")]
-    public string? RoutingControlArn { get; set; }
+    public string? RoutingControlArn { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

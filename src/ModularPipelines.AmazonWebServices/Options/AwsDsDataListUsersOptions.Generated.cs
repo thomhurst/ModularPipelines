@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ds-data", "list-users")]
-public record AwsDsDataListUsersOptions : AwsOptions
+public record AwsDsDataListUsersOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Returns user information for the specified directory. This operation supports pagination with the use of the NextToken re- quest and response parameters. If more results are available, the Lis- tUsers.NextToken member contains a token that you pass in the next call to ListUsers . This retrieves the next set of items. You can also specify a maximum number of return results with the MaxRe- sults parameter. See also: AWS API Documentation list-users is a paginated operation. Multiple API calls may ...
+    /// </summary>
+    /// <param name="DirectoryId">The identifier (ID) of the directory that's associated with the user. Constraints: o pattern: ^d-[0-9a-f]{10}$</param>
+    public AwsDsDataListUsersOptions(
+        string DirectoryId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DirectoryId);
+        this.DirectoryId = DirectoryId;
+    }
+
+    private AwsDsDataListUsersOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDsDataListUsersOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDsDataListUsersOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier (ID) of the directory that's associated with the user. Constraints: o pattern: ^d-[0-9a-f]{10}$
+    /// </summary>
     [CliOption("--directory-id")]
-    public string? DirectoryId { get; set; }
+    public string? DirectoryId { get; private init; }
 
     /// <summary>
     /// The domain name that's associated with the user. NOTE: This parameter is optional, so you can return users outside of your Managed Microsoft AD domain. When no value is defined, only your Managed Microsoft AD users are returned. This value is case insensitive. Constraints: o min: 1 o max: 255 o pattern: ^([a-zA-Z0-9]+[\\.-])+([a-zA-Z0-9])+[.]?$
@@ -55,5 +92,22 @@ public record AwsDsDataListUsersOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

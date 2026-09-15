@@ -5,8 +5,8 @@
 
 #nullable enable
 
-using ModularPipelines.Context;
 using System.CodeDom.Compiler;
+using ModularPipelines.Context;
 using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
@@ -40,11 +40,11 @@ public class AwsChimeSdkMeetings : IAwsChimeSdkMeetings
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> BatchCreateAttendeeAsync(
-        AwsChimeSdkMeetingsBatchCreateAttendeeOptions? options = null,
+        AwsChimeSdkMeetingsBatchCreateAttendeeOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsChimeSdkMeetingsBatchCreateAttendeeOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -55,11 +55,11 @@ public class AwsChimeSdkMeetings : IAwsChimeSdkMeetings
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> BatchUpdateAttendeeCapabilitiesExceptAsync(
-        AwsChimeSdkMeetingsBatchUpdateAttendeeCapabilitiesExceptOptions? options = null,
+        AwsChimeSdkMeetingsBatchUpdateAttendeeCapabilitiesExceptOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsChimeSdkMeetingsBatchUpdateAttendeeCapabilitiesExceptOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -70,11 +70,11 @@ public class AwsChimeSdkMeetings : IAwsChimeSdkMeetings
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateAttendeeAsync(
-        AwsChimeSdkMeetingsCreateAttendeeOptions? options = null,
+        AwsChimeSdkMeetingsCreateAttendeeOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsChimeSdkMeetingsCreateAttendeeOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -85,11 +85,11 @@ public class AwsChimeSdkMeetings : IAwsChimeSdkMeetings
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateMeetingAsync(
-        AwsChimeSdkMeetingsCreateMeetingOptions? options = null,
+        AwsChimeSdkMeetingsCreateMeetingOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsChimeSdkMeetingsCreateMeetingOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -100,11 +100,11 @@ public class AwsChimeSdkMeetings : IAwsChimeSdkMeetings
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateMeetingWithAttendeesAsync(
-        AwsChimeSdkMeetingsCreateMeetingWithAttendeesOptions? options = null,
+        AwsChimeSdkMeetingsCreateMeetingWithAttendeesOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsChimeSdkMeetingsCreateMeetingWithAttendeesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -115,11 +115,11 @@ public class AwsChimeSdkMeetings : IAwsChimeSdkMeetings
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteAttendeeAsync(
-        AwsChimeSdkMeetingsDeleteAttendeeOptions? options = null,
+        AwsChimeSdkMeetingsDeleteAttendeeOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsChimeSdkMeetingsDeleteAttendeeOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -130,11 +130,11 @@ public class AwsChimeSdkMeetings : IAwsChimeSdkMeetings
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteMeetingAsync(
-        AwsChimeSdkMeetingsDeleteMeetingOptions? options = null,
+        AwsChimeSdkMeetingsDeleteMeetingOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsChimeSdkMeetingsDeleteMeetingOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -145,11 +145,11 @@ public class AwsChimeSdkMeetings : IAwsChimeSdkMeetings
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetAttendeeAsync(
-        AwsChimeSdkMeetingsGetAttendeeOptions? options = null,
+        AwsChimeSdkMeetingsGetAttendeeOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsChimeSdkMeetingsGetAttendeeOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -160,11 +160,11 @@ public class AwsChimeSdkMeetings : IAwsChimeSdkMeetings
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetMeetingAsync(
-        AwsChimeSdkMeetingsGetMeetingOptions? options = null,
+        AwsChimeSdkMeetingsGetMeetingOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsChimeSdkMeetingsGetMeetingOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -175,11 +175,11 @@ public class AwsChimeSdkMeetings : IAwsChimeSdkMeetings
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListAttendeesAsync(
-        AwsChimeSdkMeetingsListAttendeesOptions? options = null,
+        AwsChimeSdkMeetingsListAttendeesOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsChimeSdkMeetingsListAttendeesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -190,11 +190,11 @@ public class AwsChimeSdkMeetings : IAwsChimeSdkMeetings
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListTagsForResourceAsync(
-        AwsChimeSdkMeetingsListTagsForResourceOptions? options = null,
+        AwsChimeSdkMeetingsListTagsForResourceOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsChimeSdkMeetingsListTagsForResourceOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -205,11 +205,11 @@ public class AwsChimeSdkMeetings : IAwsChimeSdkMeetings
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> StartMeetingTranscriptionAsync(
-        AwsChimeSdkMeetingsStartMeetingTranscriptionOptions? options = null,
+        AwsChimeSdkMeetingsStartMeetingTranscriptionOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsChimeSdkMeetingsStartMeetingTranscriptionOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -220,11 +220,11 @@ public class AwsChimeSdkMeetings : IAwsChimeSdkMeetings
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> StopMeetingTranscriptionAsync(
-        AwsChimeSdkMeetingsStopMeetingTranscriptionOptions? options = null,
+        AwsChimeSdkMeetingsStopMeetingTranscriptionOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsChimeSdkMeetingsStopMeetingTranscriptionOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -235,11 +235,11 @@ public class AwsChimeSdkMeetings : IAwsChimeSdkMeetings
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> TagResourceAsync(
-        AwsChimeSdkMeetingsTagResourceOptions? options = null,
+        AwsChimeSdkMeetingsTagResourceOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsChimeSdkMeetingsTagResourceOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -250,11 +250,11 @@ public class AwsChimeSdkMeetings : IAwsChimeSdkMeetings
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UntagResourceAsync(
-        AwsChimeSdkMeetingsUntagResourceOptions? options = null,
+        AwsChimeSdkMeetingsUntagResourceOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsChimeSdkMeetingsUntagResourceOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -265,11 +265,11 @@ public class AwsChimeSdkMeetings : IAwsChimeSdkMeetings
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateAttendeeCapabilitiesAsync(
-        AwsChimeSdkMeetingsUpdateAttendeeCapabilitiesOptions? options = null,
+        AwsChimeSdkMeetingsUpdateAttendeeCapabilitiesOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsChimeSdkMeetingsUpdateAttendeeCapabilitiesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     #endregion

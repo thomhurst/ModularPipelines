@@ -5,8 +5,8 @@
 
 #nullable enable
 
-using ModularPipelines.Context;
 using System.CodeDom.Compiler;
+using ModularPipelines.Context;
 using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
@@ -40,11 +40,11 @@ public class AwsNetworkflowmonitor : IAwsNetworkflowmonitor
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateMonitorAsync(
-        AwsNetworkflowmonitorCreateMonitorOptions? options = null,
+        AwsNetworkflowmonitorCreateMonitorOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNetworkflowmonitorCreateMonitorOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -55,11 +55,11 @@ public class AwsNetworkflowmonitor : IAwsNetworkflowmonitor
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateScopeAsync(
-        AwsNetworkflowmonitorCreateScopeOptions? options = null,
+        AwsNetworkflowmonitorCreateScopeOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNetworkflowmonitorCreateScopeOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -70,11 +70,11 @@ public class AwsNetworkflowmonitor : IAwsNetworkflowmonitor
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteMonitorAsync(
-        AwsNetworkflowmonitorDeleteMonitorOptions? options = null,
+        AwsNetworkflowmonitorDeleteMonitorOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNetworkflowmonitorDeleteMonitorOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -85,11 +85,11 @@ public class AwsNetworkflowmonitor : IAwsNetworkflowmonitor
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteScopeAsync(
-        AwsNetworkflowmonitorDeleteScopeOptions? options = null,
+        AwsNetworkflowmonitorDeleteScopeOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNetworkflowmonitorDeleteScopeOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -100,11 +100,11 @@ public class AwsNetworkflowmonitor : IAwsNetworkflowmonitor
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetMonitorAsync(
-        AwsNetworkflowmonitorGetMonitorOptions? options = null,
+        AwsNetworkflowmonitorGetMonitorOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNetworkflowmonitorGetMonitorOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -115,11 +115,11 @@ public class AwsNetworkflowmonitor : IAwsNetworkflowmonitor
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetQueryResultsMonitorTopContributorsAsync(
-        AwsNetworkflowmonitorGetQueryResultsMonitorTopContributorsOptions? options = null,
+        AwsNetworkflowmonitorGetQueryResultsMonitorTopContributorsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNetworkflowmonitorGetQueryResultsMonitorTopContributorsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -130,11 +130,11 @@ public class AwsNetworkflowmonitor : IAwsNetworkflowmonitor
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetQueryResultsWorkloadInsightsTopContributorsDataAsync(
-        AwsNetworkflowmonitorGetQueryResultsWorkloadInsightsTopContributorsDataOptions? options = null,
+        AwsNetworkflowmonitorGetQueryResultsWorkloadInsightsTopContributorsDataOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNetworkflowmonitorGetQueryResultsWorkloadInsightsTopContributorsDataOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -145,11 +145,11 @@ public class AwsNetworkflowmonitor : IAwsNetworkflowmonitor
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetQueryResultsWorkloadInsightsTopContributorsAsync(
-        AwsNetworkflowmonitorGetQueryResultsWorkloadInsightsTopContributorsOptions? options = null,
+        AwsNetworkflowmonitorGetQueryResultsWorkloadInsightsTopContributorsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNetworkflowmonitorGetQueryResultsWorkloadInsightsTopContributorsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -160,11 +160,11 @@ public class AwsNetworkflowmonitor : IAwsNetworkflowmonitor
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetQueryStatusMonitorTopContributorsAsync(
-        AwsNetworkflowmonitorGetQueryStatusMonitorTopContributorsOptions? options = null,
+        AwsNetworkflowmonitorGetQueryStatusMonitorTopContributorsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNetworkflowmonitorGetQueryStatusMonitorTopContributorsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -175,11 +175,11 @@ public class AwsNetworkflowmonitor : IAwsNetworkflowmonitor
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetQueryStatusWorkloadInsightsTopContributorsDataAsync(
-        AwsNetworkflowmonitorGetQueryStatusWorkloadInsightsTopContributorsDataOptions? options = null,
+        AwsNetworkflowmonitorGetQueryStatusWorkloadInsightsTopContributorsDataOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNetworkflowmonitorGetQueryStatusWorkloadInsightsTopContributorsDataOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -190,11 +190,11 @@ public class AwsNetworkflowmonitor : IAwsNetworkflowmonitor
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetQueryStatusWorkloadInsightsTopContributorsAsync(
-        AwsNetworkflowmonitorGetQueryStatusWorkloadInsightsTopContributorsOptions? options = null,
+        AwsNetworkflowmonitorGetQueryStatusWorkloadInsightsTopContributorsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNetworkflowmonitorGetQueryStatusWorkloadInsightsTopContributorsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -205,11 +205,11 @@ public class AwsNetworkflowmonitor : IAwsNetworkflowmonitor
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetScopeAsync(
-        AwsNetworkflowmonitorGetScopeOptions? options = null,
+        AwsNetworkflowmonitorGetScopeOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNetworkflowmonitorGetScopeOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -224,7 +224,7 @@ public class AwsNetworkflowmonitor : IAwsNetworkflowmonitor
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNetworkflowmonitorListMonitorsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNetworkflowmonitorListMonitorsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -239,7 +239,7 @@ public class AwsNetworkflowmonitor : IAwsNetworkflowmonitor
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNetworkflowmonitorListScopesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNetworkflowmonitorListScopesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -250,11 +250,11 @@ public class AwsNetworkflowmonitor : IAwsNetworkflowmonitor
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListTagsForResourceAsync(
-        AwsNetworkflowmonitorListTagsForResourceOptions? options = null,
+        AwsNetworkflowmonitorListTagsForResourceOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNetworkflowmonitorListTagsForResourceOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -265,11 +265,11 @@ public class AwsNetworkflowmonitor : IAwsNetworkflowmonitor
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> StartQueryMonitorTopContributorsAsync(
-        AwsNetworkflowmonitorStartQueryMonitorTopContributorsOptions? options = null,
+        AwsNetworkflowmonitorStartQueryMonitorTopContributorsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNetworkflowmonitorStartQueryMonitorTopContributorsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -280,11 +280,11 @@ public class AwsNetworkflowmonitor : IAwsNetworkflowmonitor
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> StartQueryWorkloadInsightsTopContributorsDataAsync(
-        AwsNetworkflowmonitorStartQueryWorkloadInsightsTopContributorsDataOptions? options = null,
+        AwsNetworkflowmonitorStartQueryWorkloadInsightsTopContributorsDataOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNetworkflowmonitorStartQueryWorkloadInsightsTopContributorsDataOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -295,11 +295,11 @@ public class AwsNetworkflowmonitor : IAwsNetworkflowmonitor
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> StartQueryWorkloadInsightsTopContributorsAsync(
-        AwsNetworkflowmonitorStartQueryWorkloadInsightsTopContributorsOptions? options = null,
+        AwsNetworkflowmonitorStartQueryWorkloadInsightsTopContributorsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNetworkflowmonitorStartQueryWorkloadInsightsTopContributorsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -310,11 +310,11 @@ public class AwsNetworkflowmonitor : IAwsNetworkflowmonitor
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> StopQueryMonitorTopContributorsAsync(
-        AwsNetworkflowmonitorStopQueryMonitorTopContributorsOptions? options = null,
+        AwsNetworkflowmonitorStopQueryMonitorTopContributorsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNetworkflowmonitorStopQueryMonitorTopContributorsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -325,11 +325,11 @@ public class AwsNetworkflowmonitor : IAwsNetworkflowmonitor
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> StopQueryWorkloadInsightsTopContributorsDataAsync(
-        AwsNetworkflowmonitorStopQueryWorkloadInsightsTopContributorsDataOptions? options = null,
+        AwsNetworkflowmonitorStopQueryWorkloadInsightsTopContributorsDataOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNetworkflowmonitorStopQueryWorkloadInsightsTopContributorsDataOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -340,11 +340,11 @@ public class AwsNetworkflowmonitor : IAwsNetworkflowmonitor
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> StopQueryWorkloadInsightsTopContributorsAsync(
-        AwsNetworkflowmonitorStopQueryWorkloadInsightsTopContributorsOptions? options = null,
+        AwsNetworkflowmonitorStopQueryWorkloadInsightsTopContributorsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNetworkflowmonitorStopQueryWorkloadInsightsTopContributorsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -355,11 +355,11 @@ public class AwsNetworkflowmonitor : IAwsNetworkflowmonitor
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> TagResourceAsync(
-        AwsNetworkflowmonitorTagResourceOptions? options = null,
+        AwsNetworkflowmonitorTagResourceOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNetworkflowmonitorTagResourceOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -370,11 +370,11 @@ public class AwsNetworkflowmonitor : IAwsNetworkflowmonitor
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UntagResourceAsync(
-        AwsNetworkflowmonitorUntagResourceOptions? options = null,
+        AwsNetworkflowmonitorUntagResourceOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNetworkflowmonitorUntagResourceOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -385,11 +385,11 @@ public class AwsNetworkflowmonitor : IAwsNetworkflowmonitor
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateMonitorAsync(
-        AwsNetworkflowmonitorUpdateMonitorOptions? options = null,
+        AwsNetworkflowmonitorUpdateMonitorOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNetworkflowmonitorUpdateMonitorOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -400,11 +400,11 @@ public class AwsNetworkflowmonitor : IAwsNetworkflowmonitor
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateScopeAsync(
-        AwsNetworkflowmonitorUpdateScopeOptions? options = null,
+        AwsNetworkflowmonitorUpdateScopeOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNetworkflowmonitorUpdateScopeOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     #endregion

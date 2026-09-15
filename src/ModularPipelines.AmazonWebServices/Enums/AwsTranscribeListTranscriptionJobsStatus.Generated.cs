@@ -16,15 +16,15 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsTranscribeListTranscriptionJobsStatus
 {
-    [EnumValue("QUEUED")]
-    Queued = 1,
-
-    [EnumValue("IN_PROGRESS")]
-    InProgress = 2,
+    [EnumValue("COMPLETED")]
+    Completed,
 
     [EnumValue("FAILED")]
-    Failed = 3,
+    Failed,
 
-    [EnumValue("COMPLETED")]
-    Completed = 4
+    [EnumValue("IN_PROGRESS")]
+    InProgress,
+
+    [EnumValue("QUEUED")]
+    Queued
 }

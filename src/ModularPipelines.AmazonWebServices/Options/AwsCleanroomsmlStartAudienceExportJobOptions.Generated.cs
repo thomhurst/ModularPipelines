@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,16 +20,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cleanroomsml", "start-audience-export-job")]
-public record AwsCleanroomsmlStartAudienceExportJobOptions : AwsOptions
+public record AwsCleanroomsmlStartAudienceExportJobOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Export an audience of a specified size after you have generated an au- dience. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Name">The name of the audience export job. Constraints: o min: 1 o max: 63 o pattern: (?!\s*$)[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDBFF-\uDC00\uDFFF\t]*</param>
+    /// <param name="AudienceGenerationJobArn">The Amazon Resource Name (ARN) of the audience generation job that you want to export. Constraints: o min: 20 o max: 2048 o pattern: arn:aws[-a-z]*:cleanrooms-ml:[-a-z0-9]+:[0-9]{12}:audi- ence-generation-job/[-a-zA-Z0-9_/.]+</param>
+    /// <param name="AudienceSize">The size of the generated audience. Must match one of the sizes in the configured audience model. type -&gt; (string) [required] Whether the audience size is defined in absolute terms or as a percentage. You can use the ABSOLUTE AudienceSize to configure out audience sizes using the count of identifiers in the output. You can use the Percentage AudienceSize to configure sizes in the range 1-100 percent. Possible values: o ABSOLUTE o PERCENTAGE value -&gt; (integer) [required] Specify an audience size value. Constraints: o min: 1 o max: 20000000 Shorthand Syntax: type=string,value=integer JSON Syntax: { "type": "ABSOLUTE"|"PERCENTAGE", "value": integer }</param>
+    public AwsCleanroomsmlStartAudienceExportJobOptions(
+        string Name,
+        string AudienceGenerationJobArn,
+        string AudienceSize
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(AudienceGenerationJobArn);
+        this.AudienceGenerationJobArn = AudienceGenerationJobArn;
+        global::System.ArgumentNullException.ThrowIfNull(AudienceSize);
+        this.AudienceSize = AudienceSize;
+    }
+
+    private AwsCleanroomsmlStartAudienceExportJobOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCleanroomsmlStartAudienceExportJobOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCleanroomsmlStartAudienceExportJobOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the audience export job. Constraints: o min: 1 o max: 63 o pattern: (?!\s*$)[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDBFF-\uDC00\uDFFF\t]*
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
 
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the audience generation job that you want to export. Constraints: o min: 20 o max: 2048 o pattern: arn:aws[-a-z]*:cleanrooms-ml:[-a-z0-9]+:[0-9]{12}:audi- ence-generation-job/[-a-zA-Z0-9_/.]+
+    /// </summary>
     [CliOption("--audience-generation-job-arn")]
-    public string? AudienceGenerationJobArn { get; set; }
+    public string? AudienceGenerationJobArn { get; private init; }
 
+    /// <summary>
+    /// The size of the generated audience. Must match one of the sizes in the configured audience model. type -&gt; (string) [required] Whether the audience size is defined in absolute terms or as a percentage. You can use the ABSOLUTE AudienceSize to configure out audience sizes using the count of identifiers in the output. You can use the Percentage AudienceSize to configure sizes in the range 1-100 percent. Possible values: o ABSOLUTE o PERCENTAGE value -&gt; (integer) [required] Specify an audience size value. Constraints: o min: 1 o max: 20000000 Shorthand Syntax: type=string,value=integer JSON Syntax: { "type": "ABSOLUTE"|"PERCENTAGE", "value": integer }
+    /// </summary>
     [CliOption("--audience-size")]
-    public string? AudienceSize { get; set; }
+    public string? AudienceSize { get; private init; }
 
     /// <summary>
     /// The description of the audience export job. Constraints: o min: 0 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDBFF-\uDC00\uDFFF\t\r\n]*
@@ -41,5 +92,22 @@ public record AwsCleanroomsmlStartAudienceExportJobOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("lexv2-models", "list-bot-versions")]
-public record AwsLexv2ModelsListBotVersionsOptions : AwsOptions
+public record AwsLexv2ModelsListBotVersionsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Gets information about all of the versions of a bot. The ListBotVersions operation returns a summary of each version of a bot. For example, if a bot has three numbered versions, the ListBotVer- sions operation returns for summaries, one for each numbered version and one for the DRAFT version. The ListBotVersions operation always returns at least one version, the DRAFT version. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="BotId">The identifier of the bot to list versions for. Constraints: o min: 10 o max: 10 o pattern: ^[0-9a-zA-Z]+$</param>
+    public AwsLexv2ModelsListBotVersionsOptions(
+        string BotId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(BotId);
+        this.BotId = BotId;
+    }
+
+    private AwsLexv2ModelsListBotVersionsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsLexv2ModelsListBotVersionsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsLexv2ModelsListBotVersionsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the bot to list versions for. Constraints: o min: 10 o max: 10 o pattern: ^[0-9a-zA-Z]+$
+    /// </summary>
     [CliOption("--bot-id")]
-    public string? BotId { get; set; }
+    public string? BotId { get; private init; }
 
     /// <summary>
     /// Specifies sorting parameters for the list of versions. You can spec- ify that the list be sorted by version name in either ascending or descending order. attribute -&gt; (string) [required] The attribute to use to sort the list of versions. Possible values: o BotVersion order -&gt; (string) [required] The order to sort the list. You can specify ascending or de- scending order. Possible values: o Ascending o Descending Shorthand Syntax: attribute=string,order=string JSON Syntax: { "attribute": "BotVersion", "order": "Ascending"|"Descending" }
@@ -49,5 +86,22 @@ public record AwsLexv2ModelsListBotVersionsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

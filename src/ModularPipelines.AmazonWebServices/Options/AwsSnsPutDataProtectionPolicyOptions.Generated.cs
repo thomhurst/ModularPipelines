@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sns", "put-data-protection-policy")]
-public record AwsSnsPutDataProtectionPolicyOptions : AwsOptions
+public record AwsSnsPutDataProtectionPolicyOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--resource-arn")]
-    public string? ResourceArn { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Adds or updates an inline policy document that is stored in the speci- fied Amazon SNS topic. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ResourceArn">The ARN of the topic whose DataProtectionPolicy you want to add or update. For more information about ARNs, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference.</param>
+    /// <param name="DataProtectionPolicy">The JSON serialization of the topic's DataProtectionPolicy . The DataProtectionPolicy must be in JSON string format. Length Constraints: Maximum length of 30,720.</param>
+    public AwsSnsPutDataProtectionPolicyOptions(
+        string ResourceArn,
+        string DataProtectionPolicy
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ResourceArn);
+        this.ResourceArn = ResourceArn;
+        global::System.ArgumentNullException.ThrowIfNull(DataProtectionPolicy);
+        this.DataProtectionPolicy = DataProtectionPolicy;
+    }
+
+    private AwsSnsPutDataProtectionPolicyOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSnsPutDataProtectionPolicyOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSnsPutDataProtectionPolicyOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ARN of the topic whose DataProtectionPolicy you want to add or update. For more information about ARNs, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference.
+    /// </summary>
+    [CliOption("--resource-arn")]
+    public string? ResourceArn { get; private init; }
+
+    /// <summary>
+    /// The JSON serialization of the topic's DataProtectionPolicy . The DataProtectionPolicy must be in JSON string format. Length Constraints: Maximum length of 30,720.
+    /// </summary>
     [CliOption("--data-protection-policy")]
-    public string? DataProtectionPolicy { get; set; }
+    public string? DataProtectionPolicy { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

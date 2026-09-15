@@ -11,11 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --otamechanism.
+/// Allowed values for --ota-mechanism.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsIotManagedIntegrationsCreateOtaTaskOtaMechanism
 {
+    [EnumValue("o")]
+    O,
+
     [EnumValue("PUSH")]
-    Push = 1
+    Push
 }

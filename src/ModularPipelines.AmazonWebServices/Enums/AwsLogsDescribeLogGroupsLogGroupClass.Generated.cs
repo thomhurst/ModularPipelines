@@ -11,17 +11,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --loggroupclass.
+/// Allowed values for --log-group-class.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsLogsDescribeLogGroupsLogGroupClass
 {
-    [EnumValue("STANDARD")]
-    Standard = 1,
+    [EnumValue("DELIVERY")]
+    Delivery,
 
     [EnumValue("INFREQUENT_ACCESS")]
-    InfrequentAccess = 2,
+    InfrequentAccess,
 
-    [EnumValue("DELIVERY")]
-    Delivery = 3
+    [EnumValue("STANDARD")]
+    Standard
 }

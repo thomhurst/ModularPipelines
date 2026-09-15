@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,68 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("pca-connector-ad", "delete-connector")]
-public record AwsPcaConnectorAdDeleteConnectorOptions : AwsOptions
+public record AwsPcaConnectorAdDeleteConnectorOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Deletes a connector for Active Directory. You must provide the Amazon Resource Name (ARN) of the connector that you want to delete. You can find the ARN by calling the https://docs.aws.amazon.com/pca-connector-ad/latest/APIReference/API_ListConnectors action. Deleting a connector does not deregister your directory with Amazon Web Services Private CA. You can deregister your directory by calling the https://docs.aws.amazon.com/pca-connector-ad/latest/APIReference/API_DeleteDirectoryRegistration a...
+    /// </summary>
+    /// <param name="ConnectorArn">The Amazon Resource Name (ARN) that was returned when you called CreateConnector . Constraints: o min: 5 o max: 200 o pattern: ^arn:[\w-]+:pca-connector-ad:[\w-]+:[0-9]+:connec- tor\/[0-9a-f]{8}(-[0-9a-f]{4}){3}-[0-9a-f]{12}$</param>
+    public AwsPcaConnectorAdDeleteConnectorOptions(
+        string ConnectorArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ConnectorArn);
+        this.ConnectorArn = ConnectorArn;
+    }
+
+    private AwsPcaConnectorAdDeleteConnectorOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsPcaConnectorAdDeleteConnectorOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsPcaConnectorAdDeleteConnectorOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) that was returned when you called CreateConnector . Constraints: o min: 5 o max: 200 o pattern: ^arn:[\w-]+:pca-connector-ad:[\w-]+:[0-9]+:connec- tor\/[0-9a-f]{8}(-[0-9a-f]{4}){3}-[0-9a-f]{12}$
+    /// </summary>
     [CliOption("--connector-arn")]
-    public string? ConnectorArn { get; set; }
+    public string? ConnectorArn { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

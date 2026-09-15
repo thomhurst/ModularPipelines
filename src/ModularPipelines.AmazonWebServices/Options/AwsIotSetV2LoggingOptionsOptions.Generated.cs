@@ -32,9 +32,12 @@ public record AwsIotSetV2LoggingOptionsOptions : AwsOptions
     /// The default logging level. Possible values: o DEBUG o INFO o ERROR o WARN o DISABLED
     /// </summary>
     [CliOption("--default-log-level")]
-    public AwsIotSetV2LoggingDefaultLogLevel? DefaultLogLevel { get; set; }
+    public AwsIotSetV2LoggingOptionsDefaultLogLevel? DefaultLogLevel { get; set; }
 
-    [CliFlag("--disable-all-logs")]
+    /// <summary>
+    /// If true all logs are disabled. The default is false.
+    /// </summary>
+    [CliFlag("--disable-all-logs", NegatedName = "--no-disable-all-logs")]
     public bool? DisableAllLogs { get; set; }
 
     /// <summary>

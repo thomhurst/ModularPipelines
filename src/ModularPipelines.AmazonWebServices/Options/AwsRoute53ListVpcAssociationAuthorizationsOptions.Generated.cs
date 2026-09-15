@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("route53", "list-vpc-association-authorizations")]
-public record AwsRoute53ListVpcAssociationAuthorizationsOptions : AwsOptions
+public record AwsRoute53ListVpcAssociationAuthorizationsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Gets a list of the VPCs that were created by other accounts and that can be associated with a specified hosted zone because you've submitted one or more CreateVPCAssociationAuthorization requests. The response includes a VPCs element with a VPC child element for each VPC that can be associated with the hosted zone. See also: AWS API Documentation list-vpc-association-authorizations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. Y...
+    /// </summary>
+    /// <param name="HostedZoneId">The ID of the hosted zone for which you want a list of VPCs that can be associated with the hosted zone. Constraints: o max: 32</param>
+    public AwsRoute53ListVpcAssociationAuthorizationsOptions(
+        string HostedZoneId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(HostedZoneId);
+        this.HostedZoneId = HostedZoneId;
+    }
+
+    private AwsRoute53ListVpcAssociationAuthorizationsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRoute53ListVpcAssociationAuthorizationsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRoute53ListVpcAssociationAuthorizationsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the hosted zone for which you want a list of VPCs that can be associated with the hosted zone. Constraints: o max: 32
+    /// </summary>
     [CliOption("--hosted-zone-id")]
-    public string? HostedZoneId { get; set; }
+    public string? HostedZoneId { get; private init; }
 
     /// <summary>
     /// Optional : An integer that specifies the maximum number of VPCs that you want Amazon Route 53 to return. If you don't specify a value for MaxResults , Route 53 returns up to 50 VPCs per page.
@@ -49,5 +86,22 @@ public record AwsRoute53ListVpcAssociationAuthorizationsOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

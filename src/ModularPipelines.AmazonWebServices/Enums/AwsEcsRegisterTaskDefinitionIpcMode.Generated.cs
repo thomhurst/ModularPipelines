@@ -11,17 +11,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --ipcmode.
+/// Allowed values for --ipc-mode.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsEcsRegisterTaskDefinitionIpcMode
 {
     [EnumValue("host")]
-    Host = 1,
-
-    [EnumValue("task")]
-    Task = 2,
+    Host,
 
     [EnumValue("none")]
-    None = 3
+    None,
+
+    [EnumValue("task")]
+    Task
 }

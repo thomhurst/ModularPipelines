@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("verifiedpermissions", "delete-policy-store-alias")]
-public record AwsVerifiedpermissionsDeletePolicyStoreAliasOptions : AwsOptions
+public record AwsVerifiedpermissionsDeletePolicyStoreAliasOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Deletes the specified policy store alias. This operation is idempotent. If you specify a policy store alias that does not exist, the request response will still return a successful HTTP 200 status code. By default, when a policy store alias is deleted, it enters the Pend- ingDeletion state. When a policy store alias is in the PendingDeletion state, new policy store aliases cannot be created with the same name. If the policy store alias is used in an API that has a policyStoreId field, the operat...
+    /// </summary>
+    /// <param name="AliasName">Specifies the name of the policy store alias that you want to delete. NOTE: The alias name must always be prefixed with policy-store-alias/ . Constraints: o min: 0 o max: 150 o pattern: [a-zA-Z0-9-/_]*</param>
+    public AwsVerifiedpermissionsDeletePolicyStoreAliasOptions(
+        string AliasName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AliasName);
+        this.AliasName = AliasName;
+    }
+
+    private AwsVerifiedpermissionsDeletePolicyStoreAliasOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsVerifiedpermissionsDeletePolicyStoreAliasOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsVerifiedpermissionsDeletePolicyStoreAliasOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Specifies the name of the policy store alias that you want to delete. NOTE: The alias name must always be prefixed with policy-store-alias/ . Constraints: o min: 0 o max: 150 o pattern: [a-zA-Z0-9-/_]*
+    /// </summary>
     [CliOption("--alias-name")]
-    public string? AliasName { get; set; }
+    public string? AliasName { get; private init; }
 
     /// <summary>
     /// Specifies the deletion mode for the policy store alias. The valid values are: o SoftDelete The policy store alias enters the PendingDeletion state. This is the default behavior when no deletionMode is speci- fied. o HardDelete The policy store alias is immediately deleted, bypass- ing the PendingDeletion state. Possible values: o SoftDelete o HardDelete
@@ -36,5 +73,22 @@ public record AwsVerifiedpermissionsDeletePolicyStoreAliasOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

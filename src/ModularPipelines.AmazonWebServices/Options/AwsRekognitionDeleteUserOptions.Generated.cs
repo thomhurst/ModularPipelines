@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("rekognition", "delete-user")]
-public record AwsRekognitionDeleteUserOptions : AwsOptions
+public record AwsRekognitionDeleteUserOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--collection-id")]
-    public string? CollectionId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Deletes the specified UserID within the collection. Faces that are as- sociated with the UserID are disassociated from the UserID before deleting the specified UserID. If the specified Collection or UserID is already deleted or not found, a ResourceNotFoundException will be thrown. If the action is successful with a 200 response, an empty HTTP body is returned. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="CollectionId">The ID of an existing collection from which the UserID needs to be deleted. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z0-9_.\-]+</param>
+    /// <param name="UserId">ID for the UserID to be deleted. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_.\-:]+</param>
+    public AwsRekognitionDeleteUserOptions(
+        string CollectionId,
+        string UserId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(CollectionId);
+        this.CollectionId = CollectionId;
+        global::System.ArgumentNullException.ThrowIfNull(UserId);
+        this.UserId = UserId;
+    }
+
+    private AwsRekognitionDeleteUserOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRekognitionDeleteUserOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRekognitionDeleteUserOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of an existing collection from which the UserID needs to be deleted. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z0-9_.\-]+
+    /// </summary>
+    [CliOption("--collection-id")]
+    public string? CollectionId { get; private init; }
+
+    /// <summary>
+    /// ID for the UserID to be deleted. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_.\-:]+
+    /// </summary>
     [CliOption("--user-id")]
-    public string? UserId { get; set; }
+    public string? UserId { get; private init; }
 
     /// <summary>
     /// Idempotent token used to identify the request to DeleteUser . If you use the same token with multiple DeleteUser requests, the same re- sponse is returned. Use ClientRequestToken to prevent the same re- quest from being processed more than once. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9-_]+$
@@ -40,5 +84,22 @@ public record AwsRekognitionDeleteUserOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

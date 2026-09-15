@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("lookoutequipment", "create-model")]
-public record AwsLookoutequipmentCreateModelOptions : AwsOptions
+public record AwsLookoutequipmentCreateModelOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--model-name")]
-    public string? ModelName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates a machine learning model for data inference. A machine-learning (ML) model is a mathematical model that finds pat- terns in your data. In Amazon Lookout for Equipment, the model learns the patterns of normal behavior and detects abnormal behavior that could be potential equipment failure (or maintenance events). The mod- els are made by analyzing normal data and abnormalities in machine be- havior that have already occurred. Your model is trained using a portion of the data from your dat...
+    /// </summary>
+    /// <param name="ModelName">The name for the machine learning model to be created. Constraints: o min: 1 o max: 200 o pattern: ^[0-9a-zA-Z_-]{1,200}$</param>
+    /// <param name="DataSetName">The name of the dataset for the machine learning model being cre- ated. Constraints: o min: 1 o max: 200 o pattern: ^[0-9a-zA-Z_-]{1,200}$</param>
+    public AwsLookoutequipmentCreateModelOptions(
+        string ModelName,
+        string DataSetName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ModelName);
+        this.ModelName = ModelName;
+        global::System.ArgumentNullException.ThrowIfNull(DataSetName);
+        this.DataSetName = DataSetName;
+    }
+
+    private AwsLookoutequipmentCreateModelOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsLookoutequipmentCreateModelOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsLookoutequipmentCreateModelOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name for the machine learning model to be created. Constraints: o min: 1 o max: 200 o pattern: ^[0-9a-zA-Z_-]{1,200}$
+    /// </summary>
+    [CliOption("--model-name")]
+    public string? ModelName { get; private init; }
+
+    /// <summary>
+    /// The name of the dataset for the machine learning model being cre- ated. Constraints: o min: 1 o max: 200 o pattern: ^[0-9a-zA-Z_-]{1,200}$
+    /// </summary>
     [CliOption("--dataset-name")]
-    public string? DataSetName { get; set; }
+    public string? DataSetName { get; private init; }
 
     /// <summary>
     /// The data schema for the machine learning model being created. InlineDataSchema -&gt; (string) The data schema used within the given dataset. Constraints: o min: 1 o max: 1000000 Shorthand Syntax: InlineDataSchema=string JSON Syntax: { "InlineDataSchema": "string" }
@@ -112,5 +156,22 @@ public record AwsLookoutequipmentCreateModelOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

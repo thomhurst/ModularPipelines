@@ -27,7 +27,10 @@ public record AwsObservabilityadminStartTelemetryEvaluationForOrganizationOption
     [CliOption("--regions", GroupValues = true)]
     public IEnumerable<string>? Regions { get; set; }
 
-    [CliFlag("--all-regions")]
+    /// <summary>
+    /// If set to true , telemetry evaluation for the organization starts in all Amazon Web Services Regions where Amazon CloudWatch Observabil- ity Admin is available in the current partition. The current region becomes the home region for managing multi-region evaluation for the organization. When new regions become available, evaluation automat- ically expands to include them. Mutually exclusive with Regions .
+    /// </summary>
+    [CliFlag("--all-regions", NegatedName = "--no-all-regions")]
     public bool? AllRegions { get; set; }
 
     [CliOption("--cli-input-json")]

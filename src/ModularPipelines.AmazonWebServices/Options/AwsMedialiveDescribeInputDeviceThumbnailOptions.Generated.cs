@@ -21,10 +21,43 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("medialive", "describe-input-device-thumbnail")]
 public record AwsMedialiveDescribeInputDeviceThumbnailOptions : AwsOptions
 {
+    /// <summary>
+    /// Get the latest thumbnail data for the input device. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="InputDeviceId"></param>
+    /// <param name="Accept"></param>
+    /// <param name="Outfile">The &lt;outfile&gt; operand.</param>
+    public AwsMedialiveDescribeInputDeviceThumbnailOptions(
+        string InputDeviceId,
+        string Accept,
+        string Outfile
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(InputDeviceId);
+        this.InputDeviceId = InputDeviceId;
+        global::System.ArgumentNullException.ThrowIfNull(Accept);
+        this.Accept = Accept;
+        global::System.ArgumentNullException.ThrowIfNull(Outfile);
+        this.Outfile = Outfile;
+    }
+
+    public void Deconstruct(out string InputDeviceId, out string Accept, out string Outfile)
+    {
+        InputDeviceId = this.InputDeviceId;
+        Accept = this.Accept;
+        Outfile = this.Outfile;
+    }
+
     [CliOption("--input-device-id")]
-    public string? InputDeviceId { get; set; }
+    public string InputDeviceId { get; private init; }
 
     [CliOption("--accept")]
-    public string? Accept { get; set; }
+    public string Accept { get; private init; }
+
+    /// <summary>
+    /// The &lt;outfile&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string Outfile { get; private init; }
 
 }
