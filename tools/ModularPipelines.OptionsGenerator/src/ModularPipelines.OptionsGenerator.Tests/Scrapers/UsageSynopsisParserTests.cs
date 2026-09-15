@@ -39,12 +39,50 @@ public class UsageSynopsisParserTests
     public async Task Nested_Optional_Bundles_Retain_Conditional_Requirements(string syntax)
     {
         var result = UsageSynopsisParser.Parse($"Usage: tool run {syntax}", ["tool", "run"]);
-        var group = result.RequiredAlternativeGroups.Single();
+        var outer = result.RequiredAlternativeGroups.Single();
+        var group = outer.Groups.Count > 0 ? outer.Groups.Single() : outer;
         await Assert.That(group.IsRequired).IsFalse();
         await Assert.That(group.IsChoice).IsFalse();
         await Assert.That(group.Members.Select(member => (member.OptionSwitch ?? member.PositionalPropertyName)!))
             .IsEquivalentTo(["Child", "--parent"]);
         await Assert.That(group.Members.All(member => member.IsRequired)).IsTrue();
+    }
+
+    [Test]
+    public async Task Optional_Flag_Bundle_Is_Resolved_After_Flag_Shapes_Are_Known()
+    {
+        var usage = UsageSynopsisParser.Parse("Usage: tool run [--verbose RESOURCE]", ["tool", "run"]);
+        var result = UsageSynopsisParser.ResolveOptionUsage(usage,
+            [new() { SwitchName = "--verbose", PropertyName = "Verbose", CSharpType = "bool?", IsFlag = true }]);
+        var group = result.RequiredAlternativeGroups.Single();
+        await Assert.That(group.IsRequired).IsFalse();
+        await Assert.That(group.IsChoice).IsFalse();
+        await Assert.That(group.Members.Select(member => (member.OptionSwitch ?? member.PositionalPropertyName)!))
+            .IsEquivalentTo(["Resource", "--verbose"]);
+    }
+
+    [Test]
+    public async Task Nested_Required_Option_Choice_Does_Not_Require_Both_Options()
+    {
+        var result = UsageSynopsisParser.Parse("Usage: tool run (RESOURCE (--a=A | --b=B))", ["tool", "run"]);
+        await Assert.That(result.RequiredOptionSwitches).IsEmpty();
+        var group = result.RequiredAlternativeGroups.Single();
+        await Assert.That(group.IsChoice).IsTrue();
+        await Assert.That(group.Members.Select(member => member.OptionSwitch!)).IsEquivalentTo(["--a", "--b"]);
+    }
+
+    [Test]
+    public async Task Optional_Bundle_Keeps_Nested_Choice_Conditional()
+    {
+        var result = UsageSynopsisParser.Parse("Usage: tool run [RESOURCE (--a=A | --b=B)]", ["tool", "run"]);
+        var bundle = result.RequiredAlternativeGroups.Single();
+        await Assert.That(bundle.IsRequired).IsFalse();
+        await Assert.That(bundle.IsChoice).IsFalse();
+        await Assert.That(bundle.Members.Single().PositionalPropertyName).IsEqualTo("Resource");
+        var choice = bundle.Groups.Single();
+        await Assert.That(choice.IsRequired).IsTrue();
+        await Assert.That(choice.IsChoice).IsTrue();
+        await Assert.That(choice.Members.Select(member => member.OptionSwitch!)).IsEquivalentTo(["--a", "--b"]);
     }
 
     [Test]

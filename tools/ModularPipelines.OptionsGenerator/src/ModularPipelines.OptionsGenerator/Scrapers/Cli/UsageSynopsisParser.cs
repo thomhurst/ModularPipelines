@@ -222,11 +222,10 @@ public static class UsageSynopsisParser
             }
             if (normalizedToken.StartsWith('['))
             {
-                if (ParseOptionalOperandBundle(normalizedToken, phase) is { } bundle)
+                if (ParseOptionalOperandBundle(normalizedToken, phase, options) is { } bundle)
                 {
                     groups.Add(bundle);
                 }
-                groups.AddRange(ParseInlineRequiredAlternativeGroups(Tokenize(TrimWrapper(normalizedToken)), phase, options));
                 continue;
             }
 
@@ -274,7 +273,7 @@ public static class UsageSynopsisParser
             .Select(GetAlternativeMemberKey)
             .ToHashSet(StringComparer.Ordinal);
 
-    private static UsageRequiredAlternativeGroup? ParseOptionalOperandBundle(string token, CommandLinePhase phase)
+    private static UsageRequiredAlternativeGroup? ParseOptionalOperandBundle(string token, CommandLinePhase phase, IReadOnlyList<CliOptionDefinition>? options)
     {
         var tokens = Tokenize(TrimWrapper(token));
         // Colons denote resource selectors, whose requirements come from help metadata.
@@ -283,16 +282,21 @@ public static class UsageSynopsisParser
             return null;
         }
         var parsed = ParseOperandTokens(tokens, phase);
-        var operands = parsed.Arguments.Where(static argument => argument.AssociatedOptionSwitch is null).ToArray();
-        if (operands.Length == 0 || parsed.RequiredOptionSwitches.Count == 0)
+        var operands = parsed.Arguments.Where(argument => IsPositionalSlot(argument, options)).ToArray();
+        var nestedGroups = ParseInlineRequiredAlternativeGroups(tokens, phase, options);
+        if (operands.Length == 0 || (parsed.RequiredOptionSwitches.Count == 0 && nestedGroups.Count == 0))
         {
             return null;
         }
-        var switches = tokens.SelectMany(GetOptionSwitches).Concat(parsed.RequiredOptionSwitches).Distinct(StringComparer.Ordinal);
+        var nestedSwitches = nestedGroups.SelectMany(static group => group.EnumerateMembers())
+            .Select(static member => member.OptionSwitch).OfType<string>().ToHashSet(StringComparer.Ordinal);
+        var switches = tokens.SelectMany(GetOptionSwitches).Concat(parsed.RequiredOptionSwitches)
+            .Where(optionSwitch => !nestedSwitches.Contains(optionSwitch)).Distinct(StringComparer.Ordinal);
         return new UsageRequiredAlternativeGroup
         {
             IsRequired = false,
             IsChoice = false,
+            Groups = nestedGroups,
             Members = [.. operands.Select(argument => new UsageRequiredAlternativeMember
             {
                 PositionalPropertyName = argument.PropertyName, IsRequired = argument.IsRequired,
@@ -851,20 +855,9 @@ public static class UsageSynopsisParser
 
     private static IReadOnlyList<UsageRequiredAlternativeGroup> ResolveInlineAlternativeGroups(
         UsageSynopsisParseResult candidate,
-        IReadOnlyList<CliOptionDefinition> options)
-    {
-        if (candidate.RequiredAlternativeGroups.Count == 0)
-        {
-            return [];
-        }
-
-        // Recheck each inline branch with known option shapes. A presence-only flag
-        // followed by an operand is a conjunction, which a flat OR cannot represent.
-        var resolved = ParseInlineRequiredAlternativeGroups(
+        IReadOnlyList<CliOptionDefinition> options) =>
+        ParseInlineRequiredAlternativeGroups(
             Tokenize(candidate.Synopsis ?? ""), CommandLinePhase.EarlyOperand, options);
-        return [.. candidate.RequiredAlternativeGroups.Where(group =>
-            resolved.Any(resolvedGroup => resolvedGroup.Members.SequenceEqual(group.Members)))];
-    }
 
     private static IReadOnlyList<CliPositionalArgument> ProjectRequiredness(
         IReadOnlyList<CliPositionalArgument> arguments,
@@ -1382,7 +1375,8 @@ public static class UsageSynopsisParser
             {
                 associatedOptionSwitch = optionSwitch;
             }
-            if (IsRequiredUsageToken(nestedToken))
+            if (IsRequiredUsageToken(nestedToken)
+                && SplitTopLevelAlternatives(TrimWrapper(nestedToken)).Count <= 1)
             {
                 parsedRequiredOptions.AddRange(GetOptionSwitches(nestedToken));
             }
