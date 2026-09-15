@@ -10,6 +10,43 @@ namespace ModularPipelines.OptionsGenerator.Tests.Scrapers;
 public class PnpmCliScraperTests
 {
     [Test]
+    [Arguments("", ".")]
+    [Arguments(".", ".")]
+    [Arguments("!", "!")]
+    [Arguments("?", "?")]
+    [Arguments(":", ":")]
+    [Arguments(";", ";")]
+    public async Task Clap_Paragraphs_Preserve_Sentences_And_Metadata(string ending, string expectedEnding)
+    {
+        var helpText = $"""
+            Usage: pnpm install [OPTIONS]
+
+            Options:
+                  --reporter <REPORTER>
+                      Select the reporter{ending}
+
+                      Reporter output wraps
+                      across terminal lines.
+
+                      [possible values: default,
+                      silent]
+
+                      [default: default]
+
+                  --offline
+                      Use cached packages.
+            """;
+        var command = await new TestPnpmCliScraper().Parse(["pnpm", "install"], helpText);
+        var reporter = command!.Options.Single(option => option.SwitchName == "--reporter");
+        await Assert.That(reporter.Description)
+            .IsEqualTo($"Select the reporter{expectedEnding} Reporter output wraps across terminal lines. [default: default]");
+        await Assert.That(reporter.EnumDefinition!.Values.Select(value => value.CliValue))
+            .IsEquivalentTo(["default", "silent"]);
+        await Assert.That(command.Options.Single(option => option.SwitchName == "--offline").Description)
+            .IsEqualTo("Use cached packages.");
+    }
+
+    [Test]
     [Arguments("--custom <VALUE>", "The authentication token value.", true)]
     [Arguments("--custom <VALUE>", "Select the output format.", false)]
     [Arguments("--custom", "Show the authentication token value.", false)]

@@ -1940,6 +1940,7 @@ public abstract partial class CliScraperBase : ICliScraper
         int? descriptionColumn = null;
         var listingValues = false;
         var pendingTrailer = string.Empty;
+        var startsParagraph = false;
         while (index + 1 < lines.Count)
         {
             var line = lines[index + 1];
@@ -1947,6 +1948,7 @@ public abstract partial class CliScraperBase : ICliScraper
             {
                 index++;
                 listingValues = false;
+                startsParagraph = true;
                 continue;
             }
 
@@ -1974,7 +1976,8 @@ public abstract partial class CliScraperBase : ICliScraper
 
             if (!listingValues)
             {
-                prose.Add(text);
+                AppendClapProse(prose, text, startsParagraph);
+                startsParagraph = false;
                 continue;
             }
 
@@ -2000,6 +2003,18 @@ public abstract partial class CliScraperBase : ICliScraper
         }
 
         return new ClapOptionBlock(string.Join(' ', prose), possibleValues);
+    }
+
+    private static void AppendClapProse(List<string> prose, string text, bool startsParagraph)
+    {
+        // Wrapped lines stay in the same sentence; blank lines separate prose
+        // paragraphs even when clap omits punctuation from the first paragraph.
+        if (startsParagraph && prose.Count > 0 && prose[^1][^1] is not ('.' or '!' or '?' or ':' or ';'))
+        {
+            prose[^1] += ".";
+        }
+
+        prose.Add(text);
     }
 
     private static bool TryReadClapTrailer(

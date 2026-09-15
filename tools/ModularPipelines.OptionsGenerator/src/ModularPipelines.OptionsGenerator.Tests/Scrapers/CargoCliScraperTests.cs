@@ -11,6 +11,28 @@ namespace ModularPipelines.OptionsGenerator.Tests.Scrapers;
 public class CargoCliScraperTests
 {
     [Test]
+    [Arguments("--optional", "Mark the dependency as optional. The package name will be exposed as feature of your crate.")]
+    [Arguments("--no-optional", "Mark the dependency as required. The package will be removed from your features.")]
+    [Arguments("--public", "Mark the dependency as public (unstable). The dependency can be referenced in your library's public API.")]
+    public async Task Captured_Add_Help_Preserves_Paragraph_Boundaries(string switchName, string expectedDescription)
+    {
+        // Plain text extracted from Cargo's terminal snapshot at commit 797e8a9bc:
+        // https://github.com/rust-lang/cargo/blob/797e8a9bc/tests/testsuite/cargo_add/help/stdout.term.svg
+        var help = await File.ReadAllTextAsync(Path.Combine(AppContext.BaseDirectory, "Fixtures", "cargo-1.98.1-add-help.txt"));
+        var command = (await new TestCargoCliScraper().Parse(["cargo", "add"], help))!;
+        await Assert.That(GetOption(command, switchName).Description).IsEqualTo(expectedDescription);
+        var generated = await new OptionsClassGenerator().GenerateAsync(new CliToolDefinition
+        {
+            ToolName = "cargo",
+            NamespacePrefix = "Cargo",
+            TargetNamespace = "ModularPipelines.Rust",
+            OutputDirectory = "output",
+            Commands = [command],
+        });
+        await Assert.That(generated.Single().Content).Contains(expectedDescription);
+    }
+
+    [Test]
     [Arguments("--custom <VALUE>", "The authentication token value.", true)]
     [Arguments("--custom <VALUE>", "Select the output format.", false)]
     [Arguments("--custom", "Show the authentication token value.", false)]
