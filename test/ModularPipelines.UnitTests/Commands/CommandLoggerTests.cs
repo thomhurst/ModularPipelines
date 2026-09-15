@@ -373,6 +373,7 @@ public class CommandLoggerTests : TestBase
     public async Task Command_Header_Precedes_Streamed_Output_And_Completion()
     {
         var marker = $"ordered-output-{Guid.NewGuid():N}";
+        var secondMarker = $"{marker}-second";
         var messages = new ConcurrentQueue<string>();
         using var loggingProvider = new RecordingLoggerProvider(messages);
         var result = await GetService<ICommandContext>(collection =>
@@ -383,7 +384,8 @@ public class CommandLoggerTests : TestBase
         try
         {
             await result.T.ExecuteCommandLineToolAsync(
-                new PowerShellScriptOptions($"Write-Output '{marker}'; Start-Sleep -Milliseconds 750"),
+                // Two lines force streaming without depending on the delayed flush timer.
+                new PowerShellScriptOptions($"Write-Output '{marker}'; Write-Output '{secondMarker}'"),
                 new CommandExecutionOptions
                 {
                     Logging = new CommandLoggingOptions { Verbosity = CommandLogVerbosity.Detailed },
@@ -403,11 +405,13 @@ public class CommandLoggerTests : TestBase
             $"{Environment.CurrentDirectory}> pwsh",
             StringComparison.Ordinal);
         var outputIndex = logFile.IndexOf($"↳ {marker}", StringComparison.Ordinal);
+        var secondOutputIndex = logFile.IndexOf($"↳ {secondMarker}", StringComparison.Ordinal);
         var completionIndex = logFile.LastIndexOf("✓ [", StringComparison.Ordinal);
 
         await Assert.That(headerIndex).IsGreaterThanOrEqualTo(0);
         await Assert.That(outputIndex).IsGreaterThan(headerIndex);
-        await Assert.That(completionIndex).IsGreaterThan(outputIndex);
+        await Assert.That(secondOutputIndex).IsGreaterThan(outputIndex);
+        await Assert.That(completionIndex).IsGreaterThan(secondOutputIndex);
 
         var lines = logFile.Split(Environment.NewLine);
         var headerLine = lines.Single(line =>

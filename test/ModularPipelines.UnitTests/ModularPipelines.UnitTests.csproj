@@ -33,6 +33,7 @@
     <ProjectReference Include="..\ModularPipelines.VisualBasic.TestFixtures\ModularPipelines.VisualBasic.TestFixtures.vbproj" />
     <ProjectReference Include="..\ModularPipelines.TestHelpers\ModularPipelines.TestHelpers.csproj" />
     <ProjectReference Include="..\ModularPipelines.ExecutionBackend.TestFixtures\ModularPipelines.ExecutionBackend.TestFixtures.csproj" />
+    <ProjectReference Include="..\ModularPipelines.ProcessTestHost\ModularPipelines.ProcessTestHost.csproj" />
   </ItemGroup>
   <ItemGroup>
     <!-- Exercise build orchestration helpers without referencing the build executable. -->

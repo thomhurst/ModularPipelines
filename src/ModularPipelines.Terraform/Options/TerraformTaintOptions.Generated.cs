@@ -15,14 +15,28 @@ namespace ModularPipelines.Terraform.Options;
 /// <summary>
 /// Terraform uses the term "tainted" to describe a resource instance
 /// </summary>
-/// <param name="Address">The &lt;address&gt; operand.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("taint")]
-public record TerraformTaintOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Address
-) : TerraformOptions
+public record TerraformTaintOptions : TerraformOptions
 {
+    /// <summary>
+    /// Terraform uses the term "tainted" to describe a resource instance
+    /// </summary>
+    /// <param name="Address">The &lt;address&gt; operand.</param>
+    public TerraformTaintOptions(
+        string Address
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Address);
+        this.Address = Address;
+    }
+
+    public void Deconstruct(out string Address)
+    {
+        Address = this.Address;
+    }
+
     /// <summary>
     /// If specified, the command will succeed (exit code 0) even if the resource is missing.
     /// </summary>
@@ -52,5 +66,11 @@ public record TerraformTaintOptions(
     /// </summary>
     [CliOption("-var-file", Format = OptionFormat.EqualsSeparated)]
     public string? VarFile { get; set; }
+
+    /// <summary>
+    /// The &lt;address&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string Address { get; private init; }
 
 }

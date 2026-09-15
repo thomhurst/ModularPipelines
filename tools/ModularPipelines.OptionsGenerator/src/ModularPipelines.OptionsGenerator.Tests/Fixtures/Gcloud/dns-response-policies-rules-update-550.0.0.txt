@@ -1,0 +1,107 @@
+NAME
+    gcloud dns response-policies rules update - updates a new Cloud DNS
+        response policy rule
+
+SYNOPSIS
+    gcloud dns response-policies rules update
+        (RESPONSE_POLICY_RULE : --response-policy=RESPONSE_POLICY)
+        [--behavior=BEHAVIOR] [--dns-name=DNS_NAME]
+        [--local-data=[LOCAL_DATA,...]] [--location=LOCATION]
+        [GCLOUD_WIDE_FLAG ...]
+
+DESCRIPTION
+    This command updates a new Cloud DNS response policy rule.
+
+EXAMPLES
+    To update a new response policy rule with DNS name, run:
+
+        $ gcloud dns response-policies rules update myresponsepolicyrule \
+            --response-policy="myresponsepolicy" \
+            --dns-name="www.newzone.com." # pylint: disable=line-too-long
+
+    To update a new response policy rule with local data rrsets, run:
+
+        $ gcloud dns response-policies rules update myresponsepolicyrule \
+            --response-policy="myresponsepolicy" \
+            --local-data=name=www.zone.com.,type=A,ttl=21600,rrdatas=1.2.3.4
+
+    To update a new response policy rule with behavior, run:
+
+        $ gcloud dns response-policies rules update myresponsepolicyrule \
+            --response-policy="myresponsepolicy" \
+            --behavior=bypassResponsePolicy
+
+POSITIONAL ARGUMENTS
+     Response policy rule resource - The response policy rule to update. The
+     arguments in this group can be used to specify the attributes of this
+     resource. (NOTE) Some attributes are not given arguments in this group but
+     can be set in other ways.
+
+     To set the project attribute:
+      * provide the argument response_policy_rule on the command line with a
+        fully specified name;
+      * set the property core/project.
+
+     This must be specified.
+
+       RESPONSE_POLICY_RULE
+          ID of the response_policy_rule or fully qualified identifier for the
+          response_policy_rule.
+
+          To set the response-policy-rule attribute:
+          + provide the argument response_policy_rule on the command line.
+
+          This positional argument must be specified if any of the other
+          arguments in this group are specified.
+
+       --response-policy=RESPONSE_POLICY
+          The Cloud DNS response policy name response_policy_rule.
+
+          To set the response-policy attribute:
+          + provide the argument response_policy_rule on the command line
+            with a fully specified name;
+          + provide the argument --response-policy on the command line.
+
+FLAGS
+     --behavior=BEHAVIOR
+        The response policy rule query behavior. BEHAVIOR must be one of:
+        behaviorUnspecified, bypassResponsePolicy.
+
+     --dns-name=DNS_NAME
+        DNS name (wildcard or exact) to apply this rule to.
+
+     --local-data=[LOCAL_DATA,...]
+        All resource record sets for this selector, one per resource record
+        type. The name must match the dns_name.
+
+        This is a repeated argument that can be specified multiple times to
+        specify multiple local data rrsets. (e.g.
+        --local-data=name="zone.com.",type="A",ttl=21600,rrdata="1.2.3.4 "
+        --local-data=name="www.zone.com.",type="CNAME",ttl=21600,rrdata="1.2.3.4|5.6.7.8")
+
+         name
+            The DnsName of a resource record set.
+
+         type
+            Type of all resource records in this set. For example, A, AAAA,
+            SOA, MX, NS, TXT ...
+
+         ttl
+            Number of seconds that this ResourceRecordSet can be cached by
+            resolvers.
+
+         rrdatas
+            The list of datas for this record, split by "|".
+
+     --location=LOCATION
+        Specifies the desired service location the request is sent to. Defaults
+        to Cloud DNS global service. Use --location=global if you want to
+        target the global service.
+
+GCLOUD WIDE FLAGS
+    These flags are available to all commands: --access-token-file, --account,
+    --billing-project, --configuration, --flags-file, --flatten, --format,
+    --help, --impersonate-service-account, --log-http, --project, --quiet,
+    --trace-token, --user-output-enabled, --verbosity.
+
+    Run $ gcloud help for details.
