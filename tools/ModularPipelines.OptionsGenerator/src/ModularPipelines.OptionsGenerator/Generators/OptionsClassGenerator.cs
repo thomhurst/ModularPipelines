@@ -519,6 +519,11 @@ public class OptionsClassGenerator : ICodeGenerator
             return $"{propertyName} is not null";
         }
 
+        if (option?.ValueArity == CliOptionValueArity.Optional)
+        {
+            return GetTypedCollectionPresenceExpression(propertyName, "CliOptionValue", "false");
+        }
+
         var collectionPresence = GetTypedCollectionPresenceExpression(propertyName, "KeyValue", $"{propertyName}?.Cast<object>().Any() == true");
         // Character sequences use scalar rendering; validation must not consume them.
         var presence = $"((object?){propertyName} is global::System.Collections.Generic.IEnumerable<char>"
@@ -582,7 +587,7 @@ public class OptionsClassGenerator : ICodeGenerator
         var propertyType = option.IsRequired && requiredPropertiesAreNonNullable && !RequiresNullableFlagProperty(option)
             ? option.PropertyType.TrimEnd('?')
             : option.PropertyType;
-        GeneratePropertyDeclaration(sb, propertyType, option.PropertyName, option.IsRequired, participatesInAlternative, option.IsCollection);
+        GeneratePropertyDeclaration(sb, propertyType, option.PropertyName, option.IsRequired, participatesInAlternative, option.IsCollection, valueArity: option.ValueArity);
     }
 
     private static void GeneratePositionalArgument(
@@ -614,7 +619,8 @@ public class OptionsClassGenerator : ICodeGenerator
     }
 
     private static void GeneratePropertyDeclaration(
-        StringBuilder sb, string propertyType, string propertyName, bool isRequired, bool participatesInAlternative, bool? collectionOverride = null, bool preserveValuePairs = true)
+        StringBuilder sb, string propertyType, string propertyName, bool isRequired, bool participatesInAlternative, bool? collectionOverride = null, bool preserveValuePairs = true,
+        CliOptionValueArity valueArity = CliOptionValueArity.Required)
     {
         var declaration = $"    public {GetNewModifier(propertyName)}{propertyType} {propertyName}";
         // Required collections are already materialized by their constructor. Optional
@@ -624,13 +630,16 @@ public class OptionsClassGenerator : ICodeGenerator
         {
             var typedSnapshotPrefix = $"__{propertyName}Snapshot";
             var snapshot = CliOptionDefinition.GetCollectionSnapshotExpression(
-                propertyType, "values", retainUnsupportedCollections: true, typedSnapshotPrefix, preserveValuePairs);
+                propertyType, "values", retainUnsupportedCollections: true, typedSnapshotPrefix, preserveValuePairs, valueArity);
             sb.AppendLine(declaration);
             sb.AppendLine("    {");
             sb.AppendLine("        get;");
             sb.AppendLine($"        set => field = value is {{ }} values ? {snapshot} : default;");
             sb.AppendLine("    }");
-            GenerateTypedSnapshotAdapters(sb, propertyType, typedSnapshotPrefix, preserveValuePairs);
+            if (valueArity != CliOptionValueArity.Optional)
+            {
+                GenerateTypedSnapshotAdapters(sb, propertyType, typedSnapshotPrefix, preserveValuePairs);
+            }
 
             return;
         }

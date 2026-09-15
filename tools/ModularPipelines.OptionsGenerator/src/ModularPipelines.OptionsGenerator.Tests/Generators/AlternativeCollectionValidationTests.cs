@@ -983,21 +983,21 @@ public partial class RequiredConstructorValidationTests
 
         IEnumerator IEnumerable.GetEnumerator() => ((IEnumerable<char>) this).GetEnumerator();
     }
-    private static IReadOnlyList<string> RenderAlternativeCollection(object instance, bool positional)
+    private static IReadOnlyList<string> RenderAlternativeCollection(object instance, bool positional, CliOptionValueArity valueArity = CliOptionValueArity.Required)
     {
         var property = instance.GetType().GetProperty("Values")!;
         PropertyCommandLinePart part = positional
             ? new ArgumentPart("Values", property.GetValue, new CliArgumentAttribute(0))
-            : new OptionPart("Values", property.GetValue, new CliOptionAttribute("--requirement"));
+            : new OptionPart("Values", property.GetValue, new CliOptionAttribute("--requirement") { ValueArity = valueArity });
         return new CommandArgumentBuilder().BuildArguments([part], instance);
     }
-    private static Task<string> GenerateAlternativeCollection(bool positional, string collectionType, bool? isCollection = null)
+    private static Task<string> GenerateAlternativeCollection(bool positional, string collectionType, bool? isCollection = null, CliOptionValueArity valueArity = CliOptionValueArity.Required)
     {
         List<CliOptionDefinition> options =
             [new() { SwitchName = "--fallback", PropertyName = "Fallback", CSharpType = "string?" }];
         if (!positional)
         {
-            options.Add(new() { SwitchName = "--requirement", PropertyName = "Values", CSharpType = collectionType, IsCollection = isCollection });
+            options.Add(new() { SwitchName = "--requirement", PropertyName = "Values", CSharpType = collectionType, IsCollection = isCollection, ValueArity = valueArity });
         }
 
         var member = new CliRequiredAlternativeMember

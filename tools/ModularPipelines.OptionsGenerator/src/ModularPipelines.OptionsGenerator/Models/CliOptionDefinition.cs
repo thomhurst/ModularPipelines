@@ -89,7 +89,8 @@ public record CliOptionDefinition
     }
 
     internal static string GetCollectionSnapshotExpression(
-        string cSharpType, string valueExpression, bool retainUnsupportedCollections = false, string typedSnapshotPrefix = "__Snapshot", bool preserveValuePairs = true)
+        string cSharpType, string valueExpression, bool retainUnsupportedCollections = false, string typedSnapshotPrefix = "__Snapshot", bool preserveValuePairs = true,
+        CliOptionValueArity valueArity = CliOptionValueArity.Required)
     {
         var shape = CollectionShapes.GetOrAdd(cSharpType, static typeName => ResolveCollectionShape(typeName));
         if (retainUnsupportedCollections)
@@ -102,7 +103,12 @@ public record CliOptionDefinition
 
             // Optional properties must continue accepting every implementation allowed by
             // their declared contract. Retain it when no assignable safe copy is available.
-            var snapshotExpression = preserveValuePairs ? shape.OptionalValuePairSnapshotExpression : shape.OptionalSnapshotExpression;
+            var snapshotExpression = (valueArity, preserveValuePairs) switch
+            {
+                (CliOptionValueArity.Optional, _) => shape.OptionalDeclaredSnapshotExpression,
+                (_, true) => shape.OptionalValuePairSnapshotExpression,
+                (_, false) => shape.OptionalSnapshotExpression,
+            };
             return snapshotExpression?.Replace("{0}", valueExpression, StringComparison.Ordinal)
                        .Replace("{1}", typedSnapshotPrefix, StringComparison.Ordinal)
                    ?? valueExpression;
@@ -215,7 +221,10 @@ public record CliOptionDefinition
                 : null,
             TypedSnapshotCollectionType: typedSnapshotCollectionType,
             ElementTypeName: elementType.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat),
-            ElementTypeIdentity: GetElementTypeIdentity(elementType));
+            ElementTypeIdentity: GetElementTypeIdentity(elementType),
+            OptionalDeclaredSnapshotExpression: isCollection
+                ? GetSnapshotExpression(compilation, propertyType, elementType, isArrayAssignable, retainUnsupportedCollections: true)
+                : null);
     }
 
     private static string? GetTypedSnapshotCollectionType(
@@ -480,7 +489,8 @@ public record CliOptionDefinition
         bool IsResolved, bool IsCollection, bool IsReferenceType,
         string? SnapshotExpression = null, string? OptionalSnapshotExpression = null,
         string? OptionalValuePairSnapshotExpression = null, string? TypedSnapshotCollectionType = null,
-        string? ElementTypeName = null, string? ElementTypeIdentity = null);
+        string? ElementTypeName = null, string? ElementTypeIdentity = null,
+        string? OptionalDeclaredSnapshotExpression = null);
 
     /// <summary>
     /// Description for XML documentation.

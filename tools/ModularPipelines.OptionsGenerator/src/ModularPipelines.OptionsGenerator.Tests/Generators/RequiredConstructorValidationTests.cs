@@ -408,7 +408,10 @@ public partial class RequiredConstructorValidationTests
             global using System.Linq;
             namespace ModularPipelines.Attributes
             {
-                public sealed class CliOptionAttribute(string name) : System.Attribute;
+                public sealed class CliOptionAttribute(string name) : System.Attribute
+                {
+                    public CliOptionValueArity ValueArity { get; set; }
+                }
                 public sealed class CliSubCommandAttribute(params string[] parts) : System.Attribute;
                 public sealed class CliArgumentAttribute(int position) : System.Attribute
                 {
