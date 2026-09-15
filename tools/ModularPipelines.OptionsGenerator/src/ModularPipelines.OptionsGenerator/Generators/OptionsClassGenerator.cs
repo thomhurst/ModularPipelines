@@ -630,19 +630,79 @@ public class OptionsClassGenerator : ICodeGenerator
             sb.AppendLine("        get;");
             sb.AppendLine($"        set => field = value is {{ }} values ? {snapshot} : default;");
             sb.AppendLine("    }");
-            if (CliOptionDefinition.GetTypedSnapshotCollectionType(propertyType) == "List")
-            {
-                GenerateTypedSnapshotAdapter(sb, typedSnapshotPrefix, "KeyValue");
-                if (preserveValuePairs)
-                {
-                    GenerateTypedSnapshotAdapter(sb, typedSnapshotPrefix, "CliValuePair");
-                }
-            }
+            GenerateTypedSnapshotAdapters(sb, propertyType, typedSnapshotPrefix, preserveValuePairs);
 
             return;
         }
 
         sb.AppendLine($"{declaration} {{ get; {GetPropertyAccessor(isRequired)}; }}");
+    }
+
+    private static void GenerateTypedSnapshotAdapters(StringBuilder sb, string propertyType, string typePrefix, bool preserveValuePairs)
+    {
+        var collectionType = CliOptionDefinition.GetTypedSnapshotCollectionType(propertyType);
+        if (collectionType is null or "HashSet")
+        {
+            return;
+        }
+
+        foreach (var elementName in new[] { "KeyValue", "CliValuePair" })
+        {
+            if ((elementName == "CliValuePair" && !preserveValuePairs)
+                || CliOptionDefinition.IsSnapshotElementType(propertyType, elementName))
+            {
+                continue;
+            }
+
+            if (collectionType == "List")
+            {
+                GenerateTypedSnapshotAdapter(sb, typePrefix, elementName);
+            }
+            else
+            {
+                GenerateReadOnlyTypedSnapshotAdapter(sb, propertyType, typePrefix, elementName, collectionType);
+            }
+        }
+    }
+
+    private static void GenerateReadOnlyTypedSnapshotAdapter(
+        StringBuilder sb, string propertyType, string typePrefix, string elementName, string collectionType)
+    {
+        var elementType = $"global::ModularPipelines.Models.{elementName}";
+        var declaredElement = CliOptionDefinition.GetSnapshotElementTypeName(propertyType);
+        var sourceType = propertyType.TrimEnd('?');
+        sb.AppendLine();
+        sb.AppendLine($$"""
+                private sealed class {{typePrefix}}{{elementName}}(
+                    {{sourceType}} source,
+                    global::System.Collections.Generic.IEnumerable<{{elementType}}> values)
+                    : {{sourceType}}, global::System.Collections.Generic.IEnumerable<{{elementType}}>
+                {
+                    private readonly {{elementType}}[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+                    global::System.Collections.Generic.IEnumerator<{{declaredElement}}>
+                        global::System.Collections.Generic.IEnumerable<{{declaredElement}}>.GetEnumerator() => source.GetEnumerator();
+
+                    global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+                        ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+                    global::System.Collections.Generic.IEnumerator<{{elementType}}>
+                        global::System.Collections.Generic.IEnumerable<{{elementType}}>.GetEnumerator() =>
+                            ((global::System.Collections.Generic.IEnumerable<{{elementType}}>)_values).GetEnumerator();
+            """);
+        if (collectionType is "IReadOnlyCollection" or "IReadOnlyList")
+        {
+            sb.AppendLine();
+            sb.AppendLine("        public int Count => source.Count;");
+        }
+
+        if (collectionType == "IReadOnlyList")
+        {
+            sb.AppendLine();
+            sb.AppendLine($"        public {declaredElement} this[int index] => source[index];");
+        }
+
+        sb.AppendLine("    }");
     }
 
     private static void GenerateTypedSnapshotAdapter(StringBuilder sb, string typePrefix, string elementName)

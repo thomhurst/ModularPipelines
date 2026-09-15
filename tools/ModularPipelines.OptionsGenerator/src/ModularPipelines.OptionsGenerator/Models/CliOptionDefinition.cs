@@ -116,6 +116,13 @@ public record CliOptionDefinition
     internal static string? GetTypedSnapshotCollectionType(string cSharpType) =>
         CollectionShapes.GetOrAdd(cSharpType, static typeName => ResolveCollectionShape(typeName)).TypedSnapshotCollectionType;
 
+    internal static string GetSnapshotElementTypeName(string cSharpType) =>
+        CollectionShapes.GetOrAdd(cSharpType, static typeName => ResolveCollectionShape(typeName)).ElementTypeName
+        ?? throw new InvalidOperationException($"Collection element type for '{cSharpType}' is unresolved.");
+
+    internal static bool IsSnapshotElementType(string cSharpType, string elementName) =>
+        MatchesRendererElementType(CollectionShapes.GetOrAdd(cSharpType, static typeName => ResolveCollectionShape(typeName)).ElementTypeIdentity, elementName);
+
     internal static int FindIndexBySwitch(
         IReadOnlyList<CliOptionDefinition> options,
         string optionSwitch) =>
@@ -206,18 +213,31 @@ public record CliOptionDefinition
             OptionalValuePairSnapshotExpression: isCollection
                 ? GetOptionalSnapshotExpression(compilation, propertyType, elementType, isArrayAssignable, typedSnapshotCollectionType, preserveValuePairs: true)
                 : null,
-            TypedSnapshotCollectionType: typedSnapshotCollectionType);
+            TypedSnapshotCollectionType: typedSnapshotCollectionType,
+            ElementTypeName: elementType.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat),
+            ElementTypeIdentity: GetElementTypeIdentity(elementType));
     }
 
     private static string? GetTypedSnapshotCollectionType(
         CSharpCompilation compilation, ITypeSymbol propertyType, ITypeSymbol elementType, bool isArrayAssignable)
     {
+        if (elementType.SpecialType != SpecialType.System_Object)
+        {
+            return propertyType.OriginalDefinition.SpecialType switch
+            {
+                SpecialType.System_Collections_Generic_IEnumerable_T => "IEnumerable",
+                SpecialType.System_Collections_Generic_IReadOnlyCollection_T => "IReadOnlyCollection",
+                SpecialType.System_Collections_Generic_IReadOnlyList_T => "IReadOnlyList",
+                _ => null,
+            };
+        }
+
         if (IsMutableObjectCollection(compilation, propertyType, elementType))
         {
             return "List";
         }
 
-        if (isArrayAssignable || elementType.SpecialType != SpecialType.System_Object)
+        if (isArrayAssignable)
         {
             return null;
         }
@@ -246,9 +266,9 @@ public record CliOptionDefinition
         CSharpCompilation compilation, ITypeSymbol propertyType, ITypeSymbol elementType, bool isArrayAssignable, string? typedSnapshotCollectionType, bool preserveValuePairs)
     {
         var snapshot = GetSnapshotExpression(compilation, propertyType, elementType, isArrayAssignable, retainUnsupportedCollections: true) ?? "{0}";
-        var supportsTypedSnapshot = (isArrayAssignable || typedSnapshotCollectionType is not null) && elementType.SpecialType == SpecialType.System_Object;
+        var supportsTypedSnapshot = typedSnapshotCollectionType is not null || (isArrayAssignable && elementType.SpecialType == SpecialType.System_Object);
         snapshot = supportsTypedSnapshot
-            ? GetTypedSnapshotExpression(propertyType, typedSnapshotCollectionType, "KeyValue", "keyValues", snapshot)
+            ? GetTypedSnapshotExpression(propertyType, elementType, typedSnapshotCollectionType, "KeyValue", "keyValues", snapshot)
             : RetainIncompatibleTypedView(elementType, "KeyValue", snapshot);
 
         // Scalar character rendering precedes ordinary collection rendering, while
@@ -260,11 +280,23 @@ public record CliOptionDefinition
         }
 
         return supportsTypedSnapshot
-            ? GetTypedSnapshotExpression(propertyType, typedSnapshotCollectionType, "CliValuePair", "valuePairs", snapshot)
+            ? GetTypedSnapshotExpression(propertyType, elementType, typedSnapshotCollectionType, "CliValuePair", "valuePairs", snapshot)
             : RetainIncompatibleTypedView(elementType, "CliValuePair", snapshot);
     }
 
     private static string RetainIncompatibleTypedView(ITypeSymbol declaredElementType, string elementName, string fallback)
+    {
+        if (MatchesRendererElementType(GetElementTypeIdentity(declaredElementType), elementName))
+        {
+            return fallback;
+        }
+
+        // A snapshot of the declared elements cannot represent this different runtime
+        // view. Preserve the implementation and its mutation behavior without enumerating it.
+        return $"(object){{0}} is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.{elementName}> ? {{0}} : ({fallback})";
+    }
+
+    private static string GetElementTypeIdentity(ITypeSymbol declaredElementType)
     {
         // Unresolved domain names can be bound as Nullable<T> in the probe even
         // though the generated property uses the real reference type.
@@ -277,23 +309,21 @@ public record CliOptionDefinition
             declaredElementType = nullableType.TypeArguments[0];
         }
 
-        var elementType = $"global::ModularPipelines.Models.{elementName}";
-        var declaredName = declaredElementType.WithNullableAnnotation(NullableAnnotation.None).ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat);
-        // Generated options import ModularPipelines.Models, so an unqualified domain
-        // name also denotes the matching renderer element type when the probe cannot resolve it.
-        if (declaredName == elementName || declaredName == elementType)
+        return declaredElementType.WithNullableAnnotation(NullableAnnotation.None).ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat);
+    }
+
+    // Generated options import ModularPipelines.Models, including domain names the probe cannot resolve.
+    private static bool MatchesRendererElementType(string? declaredName, string elementName) =>
+        declaredName == elementName || declaredName == $"global::ModularPipelines.Models.{elementName}";
+
+    private static string GetTypedSnapshotExpression(
+        ITypeSymbol propertyType, ITypeSymbol declaredElementType, string? collectionType, string elementName, string variableName, string fallback)
+    {
+        if (MatchesRendererElementType(GetElementTypeIdentity(declaredElementType), elementName))
         {
             return fallback;
         }
 
-        // A snapshot of the declared elements cannot represent this different runtime
-        // view. Preserve the implementation and its mutation behavior without enumerating it.
-        return $"(object){{0}} is global::System.Collections.Generic.IEnumerable<{elementType}> ? {{0}} : ({fallback})";
-    }
-
-    private static string GetTypedSnapshotExpression(
-        ITypeSymbol propertyType, string? collectionType, string elementName, string variableName, string fallback)
-    {
         var elementType = $"global::ModularPipelines.Models.{elementName}";
         if (collectionType == "HashSet")
         {
@@ -309,6 +339,11 @@ public record CliOptionDefinition
         var snapshot = collectionType is not null
             ? $"new {{1}}{elementName}({values})"
             : $"({propertyName})(object)global::System.Linq.Enumerable.ToArray({values})";
+        if (collectionType is "IEnumerable" or "IReadOnlyCollection" or "IReadOnlyList")
+        {
+            snapshot = $"new {{1}}{elementName}({{0}}, {values})";
+        }
+
         return $"(object){{0}} is global::System.Collections.Generic.IEnumerable<{elementType}> {variableName} ? {snapshot} : ({fallback})";
     }
 
@@ -438,7 +473,8 @@ public record CliOptionDefinition
     private readonly record struct CollectionShapeResolution(
         bool IsResolved, bool IsCollection, bool IsReferenceType,
         string? SnapshotExpression = null, string? OptionalSnapshotExpression = null,
-        string? OptionalValuePairSnapshotExpression = null, string? TypedSnapshotCollectionType = null);
+        string? OptionalValuePairSnapshotExpression = null, string? TypedSnapshotCollectionType = null,
+        string? ElementTypeName = null, string? ElementTypeIdentity = null);
 
     /// <summary>
     /// Description for XML documentation.

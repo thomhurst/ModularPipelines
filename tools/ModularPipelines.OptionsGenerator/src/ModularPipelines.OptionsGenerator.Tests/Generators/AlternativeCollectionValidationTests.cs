@@ -627,7 +627,10 @@ public partial class RequiredConstructorValidationTests
             await Assert.That(RenderAlternativeCollection(instance, positional)).IsEquivalentTo(expected);
         }
 
-        await Assert.That(property.GetValue(instance)).IsSameReferenceAs(input);
+        if (!collectionType.StartsWith("IEnumerable<", StringComparison.Ordinal))
+        {
+            await Assert.That(property.GetValue(instance)).IsSameReferenceAs(input);
+        }
     }
 
     [Test]
@@ -680,15 +683,76 @@ public partial class RequiredConstructorValidationTests
     {
         yield return new("typed", "value");
     }
+    [Test]
+    [Arguments(false, "IEnumerable<string>?")]
+    [Arguments(true, "IEnumerable<string>?")]
+    [Arguments(false, "IReadOnlyCollection<string>?")]
+    [Arguments(true, "IReadOnlyCollection<string>?")]
+    [Arguments(false, "IReadOnlyList<string>?")]
+    [Arguments(true, "IReadOnlyList<string>?")]
+    public async Task Alternative_ReadOnly_Contracts_Snapshot_A_SingleUse_Renderer_View(bool positional, string collectionType)
+    {
+        var options = Compile(await GenerateAlternativeCollection(positional, collectionType))
+            .GetType("ModularPipelines.Tool.Options.ToolRunOptions")!;
+        var instance = Activator.CreateInstance(options)!;
+        var input = new StringRendererViews(singleUse: true);
+        var property = options.GetProperty("Values")!;
+        property.SetValue(instance, input);
+        for (var pass = 0; pass < 2; pass++)
+        {
+            await Assert.That(((IValidatableObject) instance).Validate(new(instance))).IsEmpty();
+            string[] expected = positional ? ["typed=value"] : ["--requirement", "typed", "value"];
+            await Assert.That(RenderAlternativeCollection(instance, positional)).IsEquivalentTo(expected);
+            await Assert.That((IEnumerable<string>) property.GetValue(instance)!).IsEquivalentTo(["ordinary"]);
+        }
+
+        if (property.GetValue(instance) is IReadOnlyCollection<string> collection)
+        {
+            await Assert.That(collection.Count).IsEqualTo(1);
+        }
+
+        if (property.GetValue(instance) is IReadOnlyList<string> list)
+        {
+            await Assert.That(list[0]).IsEqualTo("ordinary");
+        }
+
+        await Assert.That(input.PairEnumerationCount).IsEqualTo(positional ? 0 : 1);
+        await Assert.That(input.KeyValueEnumerationCount).IsEqualTo(positional ? 1 : 0);
+    }
+
     private sealed class StringRendererViews : List<string>, IEnumerable<ModularPipelines.Models.CliValuePair>, IEnumerable<ModularPipelines.Models.KeyValue>
     {
-        public StringRendererViews() => Add("ordinary");
+        private readonly bool _singleUse;
 
-        IEnumerator<ModularPipelines.Models.CliValuePair> IEnumerable<ModularPipelines.Models.CliValuePair>.GetEnumerator() =>
-            CreatePairView();
+        public StringRendererViews(bool singleUse = false)
+        {
+            _singleUse = singleUse;
+            Add("ordinary");
+        }
 
-        IEnumerator<ModularPipelines.Models.KeyValue> IEnumerable<ModularPipelines.Models.KeyValue>.GetEnumerator() =>
-            CreateKeyValueView();
+        public int PairEnumerationCount { get; private set; }
+
+        public int KeyValueEnumerationCount { get; private set; }
+
+        IEnumerator<ModularPipelines.Models.CliValuePair> IEnumerable<ModularPipelines.Models.CliValuePair>.GetEnumerator()
+        {
+            if (++PairEnumerationCount > 1 && _singleUse)
+            {
+                throw new InvalidOperationException("Pair input can only be enumerated once.");
+            }
+
+            yield return new("typed", "value");
+        }
+
+        IEnumerator<ModularPipelines.Models.KeyValue> IEnumerable<ModularPipelines.Models.KeyValue>.GetEnumerator()
+        {
+            if (++KeyValueEnumerationCount > 1 && _singleUse)
+            {
+                throw new InvalidOperationException("KeyValue input can only be enumerated once.");
+            }
+
+            yield return new("typed", "value");
+        }
     }
 
     private sealed class KeyValueListWithPairView : List<ModularPipelines.Models.KeyValue>, IEnumerable<ModularPipelines.Models.CliValuePair>
