@@ -1072,10 +1072,11 @@ public abstract partial class CliScraperBase : ICliScraper
                      .Select(group => TryResolveRequiredAlternativeGroup(command, group))
                      .OfType<CliRequiredAlternativeGroup>())
         {
-            var identities = inferred.Members.Select(GetRequiredAlternativeIdentity).ToHashSet(StringComparer.Ordinal);
+            var identities = GetAlternativeGroupIdentities(inferred).ToHashSet(StringComparer.Ordinal);
             // A richer required help constraint already enforces presence over these members.
             // Optional help constraints cannot replace a synopsis requirement.
-            if (!groups.Any(group => group.IsRequired && identities.SetEquals(GetAlternativeGroupIdentities(group))))
+            if (inferred.IsUsageFormChoice
+                || !groups.Any(group => group.IsRequired && identities.SetEquals(GetAlternativeGroupIdentities(group))))
             {
                 groups.Add(inferred);
             }
@@ -1095,7 +1096,8 @@ public abstract partial class CliScraperBase : ICliScraper
         var members = group.Members
             .Select(member => TryResolveRequiredAlternativeMember(command, member))
             .ToArray();
-        if (members.Any(static member => member is null))
+        var groups = group.Groups.Select(nested => TryResolveRequiredAlternativeGroup(command, nested)).ToArray();
+        if (members.Any(static member => member is null) || groups.Any(static nested => nested is null))
         {
             // Synopsis inference can reference an inherited, global, or filtered switch.
             // Discard that inferred constraint without dropping the command itself.
@@ -1104,9 +1106,12 @@ public abstract partial class CliScraperBase : ICliScraper
 
         return new CliRequiredAlternativeGroup
         {
+            IsChoice = group.IsChoice,
+            IsUsageFormChoice = group.IsChoice && group.Groups.Count > 0,
             Members = [.. members
-                .Select(static member => member!)
+                .Select(member => member! with { IsRequired = !group.IsChoice })
                 .DistinctBy(GetRequiredAlternativeIdentity, StringComparer.Ordinal)],
+            Groups = [.. groups.Select(static nested => nested!)],
         };
     }
 

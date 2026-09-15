@@ -9,7 +9,7 @@ using ModularPipelines.OptionsGenerator.TypeDetection;
 
 namespace ModularPipelines.OptionsGenerator.Tests.Scrapers.Cli;
 
-public class CliScraperTraversalTests
+public partial class CliScraperTraversalTests
 {
     [Test]
     public async Task CobraParentDoesNotUseChildDescription()
