@@ -9,6 +9,41 @@ namespace ModularPipelines.OptionsGenerator.Tests.Scrapers.Cli;
 public class GcloudResourceArgumentTests
 {
     [Test]
+    [Arguments("compute-ssh", "compute ssh", "Instance,SshArgs")]
+    [Arguments("compute-scp", "compute scp", "Src,Dest")]
+    [Arguments("iam-service-accounts-keys-create", "iam service-accounts keys create", "OutputFile")]
+    [Arguments("ai-custom-jobs-local-run", "ai custom-jobs local-run", "Args")]
+    [Arguments("resource-manager-tags-keys-create", "resource-manager tags keys create", "ShortName")]
+    public async Task Captured_Compound_And_Grouped_Operands_Are_Preserved(string fixture, string path, string names)
+    {
+        var help = await File.ReadAllTextAsync(Path.Combine(AppContext.BaseDirectory, "Fixtures", "Gcloud", fixture + "-550.0.0.txt"));
+        var command = (await ScrapeFixture(path, help)).Single();
+        await Assert.That(command.PositionalArguments.Select(argument => argument.PropertyName))
+            .IsEquivalentTo(names.Split(','), TUnit.Assertions.Enums.CollectionOrdering.Matching);
+        foreach (var operand in command.PositionalArguments)
+        {
+            var forwarded = operand.PropertyName is "Args" or "SshArgs";
+            await Assert.That(operand.IsRequired).IsEqualTo(!forwarded);
+            await Assert.That(operand.PrependOptionTerminator).IsEqualTo(forwarded);
+            await Assert.That(operand.IsVariadic).IsEqualTo(forwarded || operand.PropertyName == "Src");
+        }
+    }
+
+    [Test]
+    public async Task Group_Repeatability_Produces_Repeated_Structured_Options()
+    {
+        var help = await File.ReadAllTextAsync(Path.Combine(AppContext.BaseDirectory, "Fixtures", "Gcloud", "compute-network-endpoint-groups-update-550.0.0.txt"));
+        var command = (await ScrapeFixture("compute network-endpoint-groups update", help)).Single();
+        foreach (var name in new[] { "--add-endpoint", "--remove-endpoint" })
+        {
+            var option = command.Options.Single(option => option.SwitchName == name);
+            await Assert.That(option.AcceptsMultipleValues).IsTrue();
+            await Assert.That(option.CSharpType).IsEqualTo("IEnumerable<string>?");
+            await Assert.That(option.CollectionSeparator).IsNull();
+        }
+    }
+
+    [Test]
     [Arguments("B")]
     [Arguments("[B]")]
     public async Task Incomplete_Synopsis_Does_Not_Guess_Operand_Order_Or_Requiredness(string middle)

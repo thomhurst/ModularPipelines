@@ -1162,6 +1162,12 @@ public static class UsageSynopsisParser
         var isRequired = IsRequiredUsageToken(trimmed);
         var content = TrimWrapper(trimmed).Trim();
         var canonicalName = SelectCanonicalAlternative(content);
+        var compoundSuffix = GetWrappedPrefixSuffix(content)?.TrimStart(':').TrimEnd('.', '…').Trim();
+        if (!string.IsNullOrEmpty(compoundSuffix)
+            && compoundSuffix.All(character => char.IsUpper(character) || char.IsDigit(character) || character is '_' or '-' or '/'))
+        {
+            canonicalName = compoundSuffix;
+        }
         if (HasMixedOptionOperandAlternatives(content))
         {
             isRequired = false;
@@ -1265,7 +1271,8 @@ public static class UsageSynopsisParser
             return true;
         }
 
-        if (!content.Contains('[') || content.Contains('|'))
+        if ((!content.Contains('[') && !nestedTokens.Any(nestedToken => GetOptionSwitches(nestedToken).Count > 0))
+            || content.Contains('|'))
         {
             return false;
         }
@@ -1275,7 +1282,7 @@ public static class UsageSynopsisParser
             return false;
         }
 
-        return TryParseOptionalNestedOperands(nestedTokens, positionIndex, phase, out arguments);
+        return TryParseNestedOperands(nestedTokens, IsRequiredUsageToken(normalizedToken), positionIndex, phase, out arguments);
     }
 
     private static bool ContainsOnlyInlineOptions(IEnumerable<string> tokens)
@@ -1286,8 +1293,9 @@ public static class UsageSynopsisParser
             : GetOptionSwitches(token).Count > 0);
     }
 
-    private static bool TryParseOptionalNestedOperands(
+    private static bool TryParseNestedOperands(
         List<string> nestedTokens,
+        bool isRequiredGroup,
         int positionIndex,
         CommandLinePhase phase,
         out IReadOnlyList<CliPositionalArgument> arguments)
@@ -1301,6 +1309,11 @@ public static class UsageSynopsisParser
             if (isOptionSwitch)
             {
                 associatedOptionSwitch = optionSwitch;
+            }
+
+            if (TryApplyStandaloneRepeat(nestedToken, parsedArguments))
+            {
+                continue;
             }
 
             if (IsNonOperandSyntax(nestedToken))
@@ -1324,8 +1337,8 @@ public static class UsageSynopsisParser
 
             parsedArguments.Add(argument with
             {
-                CSharpType = GetCSharpType(isRequired: false, argument.IsVariadic),
-                IsRequired = false,
+                CSharpType = GetCSharpType(isRequiredGroup && argument.IsRequired, argument.IsVariadic),
+                IsRequired = isRequiredGroup && argument.IsRequired,
                 AssociatedOptionSwitch = associatedOptionSwitch,
             });
             associatedOptionSwitch = null;
@@ -1370,16 +1383,32 @@ public static class UsageSynopsisParser
     private static string TrimTrailingOperandPunctuation(string token) =>
         token.Trim().TrimEnd(',', ';', ':');
 
-    private static bool HasRequiredSuffixOutsideOptionalPrefix(string token)
+    private static bool HasRequiredSuffixOutsideOptionalPrefix(string token) =>
+        token.StartsWith('[') && GetWrappedPrefixSuffix(token)?.Any(char.IsLetterOrDigit) == true;
+
+    private static string? GetWrappedPrefixSuffix(string token)
     {
-        if (!token.StartsWith('['))
+        if (token.Length == 0 || token[0] is not ('[' or '('))
         {
-            return false;
+            return null;
         }
 
-        var closingBracketIndex = token.IndexOf(']');
-        return closingBracketIndex >= 0
-               && token[(closingBracketIndex + 1)..].Any(char.IsLetterOrDigit);
+        var opening = token[0];
+        var closing = opening == '[' ? ']' : ')';
+        var depth = 0;
+        for (var index = 0; index < token.Length; index++)
+        {
+            if (token[index] == opening)
+            {
+                depth++;
+            }
+            else if (token[index] == closing && --depth == 0)
+            {
+                return token[(index + 1)..];
+            }
+        }
+
+        return null;
     }
 
     private static bool TrySelectRequiredCompoundPlaceholder(
@@ -1543,6 +1572,10 @@ public static class UsageSynopsisParser
         }
 
         operand = content[2..].Trim();
+        if (token.StartsWith('[') && IsWrapped(token) && operand.Length > 0 && IsRequiredUsageToken(operand))
+        {
+            operand = $"[{operand}]";
+        }
         return !string.IsNullOrWhiteSpace(operand);
     }
 

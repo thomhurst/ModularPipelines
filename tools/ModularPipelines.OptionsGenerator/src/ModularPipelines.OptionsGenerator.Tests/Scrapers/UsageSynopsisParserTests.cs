@@ -10,6 +10,26 @@ namespace ModularPipelines.OptionsGenerator.Tests.Scrapers;
 public class UsageSynopsisParserTests
 {
     [Test]
+    [Arguments("[USER@]INSTANCE", "Instance", true, false)]
+    [Arguments("[[USER@]INSTANCE:]SRC", "Src", true, false)]
+    [Arguments("[[[USER@]INSTANCE:]SRC ...]", "Src", false, true)]
+    [Arguments("(cloudshell|localhost):SRC", "Src", true, false)]
+    [Arguments("[(cloudshell|localhost):SRC ...]", "Src", false, true)]
+    [Arguments("[-- ARGS ...]", "Args", false, true)]
+    [Arguments("(RESOURCE --parent=PARENT)", "Resource", true, false)]
+    [Arguments("[RESOURCE --parent=PARENT]", "Resource", false, false)]
+    public async Task Compound_And_Grouped_Operands_Retain_Their_Value_Contract(
+        string syntax, string name, bool required, bool variadic)
+    {
+        var result = UsageSynopsisParser.Parse($"Usage: tool run {syntax}", ["tool", "run"]);
+        var operand = result.PositionalArguments.Single();
+        await Assert.That(operand.PropertyName).IsEqualTo(name);
+        await Assert.That(operand.IsRequired).IsEqualTo(required);
+        await Assert.That(operand.IsVariadic).IsEqualTo(variadic);
+        await Assert.That(result.UnparsedOperandTokens).IsEmpty();
+    }
+
+    [Test]
     [Arguments("[(--spark-main-class=CLASS | --spark-main-jar-file-uri=JAR) : --vpc-network-name=NETWORK | --vpc-sub-network-name=SUBNET]")]
     [Arguments("[(--spark-main-class=CLASS | --spark-main-jar-file-uri=JAR) : --packages=[PACKAGES, ...] --vpc-network-name=NETWORK | --vpc-sub-network-name=SUBNET]")]
     [Arguments("[(--spark-main-class=CLASS|--spark-main-jar-file-uri=JAR) : --vpc-network-name=NETWORK|--vpc-sub-network-name=SUBNET]")]
