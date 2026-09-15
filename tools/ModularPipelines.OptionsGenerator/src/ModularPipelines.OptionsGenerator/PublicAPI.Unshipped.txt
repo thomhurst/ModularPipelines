@@ -194,3 +194,6 @@ ModularPipelines.OptionsGenerator.Models.CliRequiredAlternativeGroup.Groups.get 
 ModularPipelines.OptionsGenerator.Models.CliRequiredAlternativeGroup.Groups.init -> void
 ModularPipelines.OptionsGenerator.Models.CliRequiredAlternativeMember.IsRequired.get -> bool
 ModularPipelines.OptionsGenerator.Models.CliRequiredAlternativeMember.IsRequired.init -> void
+*REMOVED*ModularPipelines.OptionsGenerator.Scrapers.Cli.CliScraperBase.ParseUsageSynopsis(string![]! commandPath, string! helpText) -> ModularPipelines.OptionsGenerator.Scrapers.Cli.UsageSynopsisParseResult!
+virtual ModularPipelines.OptionsGenerator.Scrapers.Cli.CliScraperBase.ParseUsageSynopsis(string![]! commandPath, string! helpText) -> ModularPipelines.OptionsGenerator.Scrapers.Cli.UsageSynopsisParseResult!
+override ModularPipelines.OptionsGenerator.Scrapers.Cli.GcloudCliScraper.ParseUsageSynopsis(string![]! commandPath, string! helpText) -> ModularPipelines.OptionsGenerator.Scrapers.Cli.UsageSynopsisParseResult!
