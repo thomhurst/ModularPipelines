@@ -358,7 +358,8 @@ public partial class AwsCliScraper(ICliCommandExecutor executor, IHelpTextCache 
         var optionMatches = AwsOptionPattern().Matches(optionsSection);
         var booleanSwitches = optionMatches
             .Where(match => match.Groups["type"].Value is "boolean" or "bool")
-            .Select(match => match.Groups["long"].Value)
+            .SelectMany(match => new[] { match.Groups["long"].Value, match.Groups["alternate"].Value })
+            .Where(name => !string.IsNullOrEmpty(name))
             .ToHashSet(StringComparer.OrdinalIgnoreCase);
         var requiredSynopsisOptions = GetRequiredSynopsisOptions(helpText, booleanSwitches);
 
@@ -453,7 +454,8 @@ public partial class AwsCliScraper(ICliCommandExecutor executor, IHelpTextCache 
                 Description = description,
                 IsFlag = isFlag,
                 IsRequired = match.Groups["required"].Success
-                             || requiredSynopsisOptions.Contains(longForm),
+                             || requiredSynopsisOptions.Contains(longForm)
+                             || (negatedLongForm is not null && requiredSynopsisOptions.Contains(negatedLongForm)),
                 AcceptsMultipleValues = isArray,
                 GroupValues = isArray && !isKeyValue,
                 CollectionSeparator = isKeyValue ? "," : null,

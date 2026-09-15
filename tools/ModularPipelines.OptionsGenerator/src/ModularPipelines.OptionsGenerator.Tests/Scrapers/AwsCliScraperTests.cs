@@ -408,6 +408,26 @@ public class AwsCliScraperTests
     }
 
     [Test]
+    [Arguments("--egress | --ingress", "--ingress | --egress", true)]
+    [Arguments("--ingress | --egress", "--egress | --ingress", true)]
+    [Arguments("[--egress | --ingress]", "--ingress | --egress", false)]
+    public async Task Boolean_Pair_Requiredness_Is_Independent_Of_Declaration_Order(
+        string synopsis, string declaration, bool required)
+    {
+        var helpText = $"""
+            SYNOPSIS
+                   aws fixture apply
+                   {synopsis}
+
+            OPTIONS
+                   {declaration} (boolean)
+                    Select the traffic direction.
+            """;
+        var command = (await new TestAwsCliScraper().Parse(["aws", "fixture", "apply"], helpText))!;
+        await Assert.That(command.Options.Single().IsRequired).IsEqualTo(required);
+    }
+
+    [Test]
     public async Task Paired_Boolean_Switches_Become_One_Negatable_Option()
     {
         var scraper = new AwsCliScraper(
