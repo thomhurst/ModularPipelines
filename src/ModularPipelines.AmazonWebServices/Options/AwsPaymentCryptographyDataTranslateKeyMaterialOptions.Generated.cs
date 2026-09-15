@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,13 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("payment-cryptography-data", "translate-key-material")]
-public record AwsPaymentCryptographyDataTranslateKeyMaterialOptions : AwsOptions
+public record AwsPaymentCryptographyDataTranslateKeyMaterialOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--incoming-key-material")]
-    public string? IncomingKeyMaterial { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Translates an cryptographic key between different wrapping keys without importing the key into Amazon Web Services Payment Cryptography. This operation can be used when key material is frequently rotated, such as during every card transaction, and there is a need to avoid im- porting short-lived keys into Amazon Web Services Payment Cryptography. It translates short-lived transaction keys such as PEK generated for each transaction and wrapped with an ECDH derived wrapping key to an- other KEK wr...
+    /// </summary>
+    /// <param name="IncomingKeyMaterial">Parameter information of the TR31WrappedKeyBlock containing the transaction key. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: DiffieHellmanTr31KeyBlock. DiffieHellmanTr31KeyBlock -&gt; (structure) Parameter information of the TR31WrappedKeyBlock containing the transaction key wrapped using an ECDH dervied key. PrivateKeyIdentifier -&gt; (string) [required] The keyARN of the asymmetric ECC key pair. Constraints: o min: 7 o max: 322 o pattern: arn:aws:payment-cryptogra- phy:[a-z]{2}-[a-z]{1,16}-[0-9]+:[0-9]{12}:(key/[0-9a-zA-Z]{16,64}|alias/[a-zA-Z0-9/_-]+)$|^alias/[a-zA-Z0-9/_-]+ CertificateAuthorityPublicKeyIdentifier -&gt; (string) [required] The keyArn of the certificate that signed the client's Pub- licKeyCertificate . Constraints: o min: 7 o max: 322 o pattern: arn:aws:payment-cryptogra- phy:[a-z]{2}-[a-z]{1,16}-[0-9]+:[0-9]{12}:(key/[0-9a-zA-Z]{16,64}|alias/[a-zA-Z0-9/_-]+)$|^alias/[a-zA-Z0-9/_-]+ PublicKeyCertificate -&gt; (string) [required] The client's public key certificate in PEM format (base64 en- coded) to use for ECDH key derivation. Constraints: o min: 1 o max: 32768 o pattern: [^\[;\]&lt;&gt;]+ DeriveKeyAlgorithm -&gt; (string) [required] The key algorithm of the derived ECDH key. Possible values: o TDES_2KEY o TDES_3KEY o AES_128 o AES_192 o AES_256 o HMAC_SHA256 o HMAC_SHA384 o HMAC_SHA512 o HMAC_SHA224 KeyDerivationFunction -&gt; (string) [required] The key derivation function to use for deriving a key using ECDH. Possible values: o NIST_SP800 o ANSI_X963 KeyDerivationHashAlgorithm -&gt; (string) [required] The hash type to use for deriving a key using ECDH. Possible values: o SHA_256 o SHA_384 o SHA_512 DerivationData -&gt; (tagged union structure) [required] The shared information used when deriving a key using ECDH. NOTE: This is a Tagged Union structure. Only one of the follow- ing top level keys can be set: SharedInformation. SharedInformation -&gt; (string) A string containing information that binds the ECDH de- rived key to the two parties involved or to the context of the key. It may include details like identities of the two parties deriving the key, context of the operation, session IDs, and optionally a nonce. It must not contain zero bytes. It is not recommended to reuse shared information for multiple ECDH key derivations, as it could result in de- rived key material being the same across different de- rivations. Constraints: o min: 2 o max: 2048 o pattern: (?:[0-9a-fA-F][0-9a-fA-F])+ WrappedKeyBlock -&gt; (string) [required] The WrappedKeyBlock containing the transaction key wrapped using an ECDH dervied key. Constraints: o min: 56 o max: 9984 o pattern: [0-9a-zA-Z]+ Shorthand Syntax: DiffieHellmanTr31KeyBlock={PrivateKeyIdentifier=string,CertificateAuthorityPublicKeyIdentifier=string,PublicKeyCertificate=string,DeriveKeyAlgorithm=string,KeyDerivationFunction=string,KeyDerivationHashAlgorithm=string,DerivationData={SharedInformation=string},WrappedKeyBlock=string} JSON Syntax: { "DiffieHellmanTr31KeyBlock": { "PrivateKeyIdentifier": "string", "CertificateAuthorityPublicKeyIdentifier": "string", "PublicKeyCertificate": "string", "DeriveKeyAlgorithm": "TDES_2KEY"|"TDES_3KEY"|"AES_128"|"AES_192"|"AES_256"|"HMAC_SHA256"|"HMAC_SHA384"|"HMAC_SHA512"|"HMAC_SHA224", "KeyDerivationFunction": "NIST_SP800"|"ANSI_X963", "KeyDerivationHashAlgorithm": "SHA_256"|"SHA_384"|"SHA_512", "DerivationData": { "SharedInformation": "string" }, "WrappedKeyBlock": "string" } }</param>
+    /// <param name="OutgoingKeyMaterial">Parameter information of the wrapping key used to wrap the transac- tion key in the outgoing TR31WrappedKeyBlock. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: Tr31KeyBlock. Tr31KeyBlock -&gt; (structure) Parameter information of the TR31WrappedKeyBlock containing the transaction key wrapped using a KEK. WrappingKeyIdentifier -&gt; (string) [required] The keyARN of the KEK used to wrap the transaction key. Constraints: o min: 7 o max: 322 o pattern: arn:aws:payment-cryptogra- phy:[a-z]{2}-[a-z]{1,16}-[0-9]+:[0-9]{12}:(key/[0-9a-zA-Z]{16,64}|alias/[a-zA-Z0-9/_-]+)$|^alias/[a-zA-Z0-9/_-]+ Shorthand Syntax: Tr31KeyBlock={WrappingKeyIdentifier=string} JSON Syntax: { "Tr31KeyBlock": { "WrappingKeyIdentifier": "string" } }</param>
+    public AwsPaymentCryptographyDataTranslateKeyMaterialOptions(
+        string IncomingKeyMaterial,
+        string OutgoingKeyMaterial
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(IncomingKeyMaterial);
+        this.IncomingKeyMaterial = IncomingKeyMaterial;
+        global::System.ArgumentNullException.ThrowIfNull(OutgoingKeyMaterial);
+        this.OutgoingKeyMaterial = OutgoingKeyMaterial;
+    }
+
+    private AwsPaymentCryptographyDataTranslateKeyMaterialOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsPaymentCryptographyDataTranslateKeyMaterialOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsPaymentCryptographyDataTranslateKeyMaterialOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Parameter information of the TR31WrappedKeyBlock containing the transaction key. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: DiffieHellmanTr31KeyBlock. DiffieHellmanTr31KeyBlock -&gt; (structure) Parameter information of the TR31WrappedKeyBlock containing the transaction key wrapped using an ECDH dervied key. PrivateKeyIdentifier -&gt; (string) [required] The keyARN of the asymmetric ECC key pair. Constraints: o min: 7 o max: 322 o pattern: arn:aws:payment-cryptogra- phy:[a-z]{2}-[a-z]{1,16}-[0-9]+:[0-9]{12}:(key/[0-9a-zA-Z]{16,64}|alias/[a-zA-Z0-9/_-]+)$|^alias/[a-zA-Z0-9/_-]+ CertificateAuthorityPublicKeyIdentifier -&gt; (string) [required] The keyArn of the certificate that signed the client's Pub- licKeyCertificate . Constraints: o min: 7 o max: 322 o pattern: arn:aws:payment-cryptogra- phy:[a-z]{2}-[a-z]{1,16}-[0-9]+:[0-9]{12}:(key/[0-9a-zA-Z]{16,64}|alias/[a-zA-Z0-9/_-]+)$|^alias/[a-zA-Z0-9/_-]+ PublicKeyCertificate -&gt; (string) [required] The client's public key certificate in PEM format (base64 en- coded) to use for ECDH key derivation. Constraints: o min: 1 o max: 32768 o pattern: [^\[;\]&lt;&gt;]+ DeriveKeyAlgorithm -&gt; (string) [required] The key algorithm of the derived ECDH key. Possible values: o TDES_2KEY o TDES_3KEY o AES_128 o AES_192 o AES_256 o HMAC_SHA256 o HMAC_SHA384 o HMAC_SHA512 o HMAC_SHA224 KeyDerivationFunction -&gt; (string) [required] The key derivation function to use for deriving a key using ECDH. Possible values: o NIST_SP800 o ANSI_X963 KeyDerivationHashAlgorithm -&gt; (string) [required] The hash type to use for deriving a key using ECDH. Possible values: o SHA_256 o SHA_384 o SHA_512 DerivationData -&gt; (tagged union structure) [required] The shared information used when deriving a key using ECDH. NOTE: This is a Tagged Union structure. Only one of the follow- ing top level keys can be set: SharedInformation. SharedInformation -&gt; (string) A string containing information that binds the ECDH de- rived key to the two parties involved or to the context of the key. It may include details like identities of the two parties deriving the key, context of the operation, session IDs, and optionally a nonce. It must not contain zero bytes. It is not recommended to reuse shared information for multiple ECDH key derivations, as it could result in de- rived key material being the same across different de- rivations. Constraints: o min: 2 o max: 2048 o pattern: (?:[0-9a-fA-F][0-9a-fA-F])+ WrappedKeyBlock -&gt; (string) [required] The WrappedKeyBlock containing the transaction key wrapped using an ECDH dervied key. Constraints: o min: 56 o max: 9984 o pattern: [0-9a-zA-Z]+ Shorthand Syntax: DiffieHellmanTr31KeyBlock={PrivateKeyIdentifier=string,CertificateAuthorityPublicKeyIdentifier=string,PublicKeyCertificate=string,DeriveKeyAlgorithm=string,KeyDerivationFunction=string,KeyDerivationHashAlgorithm=string,DerivationData={SharedInformation=string},WrappedKeyBlock=string} JSON Syntax: { "DiffieHellmanTr31KeyBlock": { "PrivateKeyIdentifier": "string", "CertificateAuthorityPublicKeyIdentifier": "string", "PublicKeyCertificate": "string", "DeriveKeyAlgorithm": "TDES_2KEY"|"TDES_3KEY"|"AES_128"|"AES_192"|"AES_256"|"HMAC_SHA256"|"HMAC_SHA384"|"HMAC_SHA512"|"HMAC_SHA224", "KeyDerivationFunction": "NIST_SP800"|"ANSI_X963", "KeyDerivationHashAlgorithm": "SHA_256"|"SHA_384"|"SHA_512", "DerivationData": { "SharedInformation": "string" }, "WrappedKeyBlock": "string" } }
+    /// </summary>
+    [CliOption("--incoming-key-material")]
+    public string? IncomingKeyMaterial { get; private init; }
+
+    /// <summary>
+    /// Parameter information of the wrapping key used to wrap the transac- tion key in the outgoing TR31WrappedKeyBlock. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: Tr31KeyBlock. Tr31KeyBlock -&gt; (structure) Parameter information of the TR31WrappedKeyBlock containing the transaction key wrapped using a KEK. WrappingKeyIdentifier -&gt; (string) [required] The keyARN of the KEK used to wrap the transaction key. Constraints: o min: 7 o max: 322 o pattern: arn:aws:payment-cryptogra- phy:[a-z]{2}-[a-z]{1,16}-[0-9]+:[0-9]{12}:(key/[0-9a-zA-Z]{16,64}|alias/[a-zA-Z0-9/_-]+)$|^alias/[a-zA-Z0-9/_-]+ Shorthand Syntax: Tr31KeyBlock={WrappingKeyIdentifier=string} JSON Syntax: { "Tr31KeyBlock": { "WrappingKeyIdentifier": "string" } }
+    /// </summary>
     [CliOption("--outgoing-key-material")]
-    public string? OutgoingKeyMaterial { get; set; }
+    public string? OutgoingKeyMaterial { get; private init; }
 
     /// <summary>
     /// The key check value (KCV) algorithm used for calculating the KCV of the derived key. Possible values: o CMAC o ANSI_X9_24 o HMAC o SHA_1
@@ -39,5 +83,22 @@ public record AwsPaymentCryptographyDataTranslateKeyMaterialOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

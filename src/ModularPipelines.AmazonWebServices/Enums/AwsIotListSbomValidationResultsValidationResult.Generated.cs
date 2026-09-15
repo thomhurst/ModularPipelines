@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --validationresult.
+/// Allowed values for --validation-result.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsIotListSbomValidationResultsValidationResult
 {
     [EnumValue("FAILED")]
-    Failed = 1,
+    Failed,
 
     [EnumValue("SUCCEEDED")]
-    Succeeded = 2
+    Succeeded
 }

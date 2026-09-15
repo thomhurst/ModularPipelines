@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,10 +22,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("apigatewayv2", "update-api")]
-public record AwsApigatewayv2UpdateApiOptions : AwsOptions
+public record AwsApigatewayv2UpdateApiOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates an Api resource. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ApiId">The API identifier.</param>
+    public AwsApigatewayv2UpdateApiOptions(
+        string ApiId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ApiId);
+        this.ApiId = ApiId;
+    }
+
+    private AwsApigatewayv2UpdateApiOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsApigatewayv2UpdateApiOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsApigatewayv2UpdateApiOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The API identifier.
+    /// </summary>
     [CliOption("--api-id")]
-    public string? ApiId { get; set; }
+    public string? ApiId { get; private init; }
 
     /// <summary>
     /// An API key selection expression. Supported only for WebSocket APIs. See API Key Selection Expressions .
@@ -52,10 +89,16 @@ public record AwsApigatewayv2UpdateApiOptions : AwsOptions
     [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CliFlag("--disable-schema-validation")]
+    /// <summary>
+    /// Avoid validating models when creating a deployment. Supported only for WebSocket APIs.
+    /// </summary>
+    [CliFlag("--disable-schema-validation", NegatedName = "--no-disable-schema-validation")]
     public bool? DisableSchemaValidation { get; set; }
 
-    [CliFlag("--disable-execute-api-endpoint")]
+    /// <summary>
+    /// Specifies whether clients can invoke your API by using the default execute-api endpoint. By default, clients can invoke your API with the default https://{api_id}.execute-api.{region}.amazonaws.com end- point. To require that clients use a custom domain name to invoke your API, disable the default endpoint.
+    /// </summary>
+    [CliFlag("--disable-execute-api-endpoint", NegatedName = "--no-disable-execute-api-endpoint")]
     public bool? DisableExecuteApiEndpoint { get; set; }
 
     /// <summary>
@@ -99,5 +142,22 @@ public record AwsApigatewayv2UpdateApiOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

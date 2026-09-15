@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --matchforversiontype.
+/// Allowed values for --match-for-version-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsIotsitewiseCreateAssetModelCompositeModelMatchForVersionType
 {
-    [EnumValue("LATEST")]
-    Latest = 1,
-
     [EnumValue("ACTIVE")]
-    Active = 2
+    Active,
+
+    [EnumValue("LATEST")]
+    Latest
 }

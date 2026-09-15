@@ -51,10 +51,16 @@ public record AwsServicecatalogDescribeProvisioningArtifactOptions : AwsOptions
     [CliOption("--product-name")]
     public string? ProductName { get; set; }
 
-    [CliFlag("--verbose")]
+    /// <summary>
+    /// Indicates whether a verbose level of detail is enabled.
+    /// </summary>
+    [CliFlag("--verbose", NegatedName = "--no-verbose")]
     public bool? Verbose { get; set; }
 
-    [CliFlag("--include-provisioning-artifact-parameters")]
+    /// <summary>
+    /// ing-artifact-parameters (boolean) Indicates if the API call response does or does not include addi- tional details about the provisioning parameters.
+    /// </summary>
+    [CliFlag("--include-provisioning-artifact-parameters", NegatedName = "--no-include-provisioning-artifact-parameters")]
     public bool? IncludeProvisioningArtifactParameters { get; set; }
 
     [CliOption("--cli-input-json")]

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,16 +20,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("customer-profiles", "get-auto-merging-preview")]
-public record AwsCustomerProfilesGetAutoMergingPreviewOptions : AwsOptions
+public record AwsCustomerProfilesGetAutoMergingPreviewOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Tests the auto-merging settings of your Identity Resolution Job without merging your data. It randomly selects a sample of matching groups from the existing matching results, and applies the automerging settings that you provided. You can then view the number of profiles in the sam- ple, the number of matches, and the number of profiles identified to be merged. This enables you to evaluate the accuracy of the attributes in your matching list. You can't view which profiles are matched and would b...
+    /// </summary>
+    /// <param name="DomainName">The unique name of the domain. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$</param>
+    /// <param name="Consolidation">A list of matching attributes that represent matching criteria. MatchingAttributesList -&gt; (list) [required] A list of matching criteria. Constraints: o min: 1 o max: 10 (list) Constraints: o min: 1 o max: 20 (string) Constraints: o min: 1 o max: 255 Shorthand Syntax: MatchingAttributesList=[[string,string],[string,string]] JSON Syntax: { "MatchingAttributesList": [ ["string", ...] ... ] }</param>
+    /// <param name="ConflictResolution">How the auto-merging process should resolve conflicts between dif- ferent profiles. ConflictResolvingModel -&gt; (string) [required] How the auto-merging process should resolve conflicts between different profiles. o RECENCY : Uses the data that was most recently updated. o SOURCE : Uses the data from a specific source. For example, if a company has been aquired or two departments have merged, data from the specified source is used. If two duplicate pro- files are from the same source, then RECENCY is used again. Possible values: o RECENCY o SOURCE SourceName -&gt; (string) The ObjectType name that is used to resolve profile merging con- flicts when choosing SOURCE as the ConflictResolvingModel . Constraints: o min: 1 o max: 255 Shorthand Syntax: ConflictResolvingModel=string,SourceName=string JSON Syntax: { "ConflictResolvingModel": "RECENCY"|"SOURCE", "SourceName": "string" }</param>
+    public AwsCustomerProfilesGetAutoMergingPreviewOptions(
+        string DomainName,
+        string Consolidation,
+        string ConflictResolution
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DomainName);
+        this.DomainName = DomainName;
+        global::System.ArgumentNullException.ThrowIfNull(Consolidation);
+        this.Consolidation = Consolidation;
+        global::System.ArgumentNullException.ThrowIfNull(ConflictResolution);
+        this.ConflictResolution = ConflictResolution;
+    }
+
+    private AwsCustomerProfilesGetAutoMergingPreviewOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCustomerProfilesGetAutoMergingPreviewOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCustomerProfilesGetAutoMergingPreviewOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique name of the domain. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$
+    /// </summary>
     [CliOption("--domain-name")]
-    public string? DomainName { get; set; }
+    public string? DomainName { get; private init; }
 
+    /// <summary>
+    /// A list of matching attributes that represent matching criteria. MatchingAttributesList -&gt; (list) [required] A list of matching criteria. Constraints: o min: 1 o max: 10 (list) Constraints: o min: 1 o max: 20 (string) Constraints: o min: 1 o max: 255 Shorthand Syntax: MatchingAttributesList=[[string,string],[string,string]] JSON Syntax: { "MatchingAttributesList": [ ["string", ...] ... ] }
+    /// </summary>
     [CliOption("--consolidation")]
-    public string? Consolidation { get; set; }
+    public string? Consolidation { get; private init; }
 
+    /// <summary>
+    /// How the auto-merging process should resolve conflicts between dif- ferent profiles. ConflictResolvingModel -&gt; (string) [required] How the auto-merging process should resolve conflicts between different profiles. o RECENCY : Uses the data that was most recently updated. o SOURCE : Uses the data from a specific source. For example, if a company has been aquired or two departments have merged, data from the specified source is used. If two duplicate pro- files are from the same source, then RECENCY is used again. Possible values: o RECENCY o SOURCE SourceName -&gt; (string) The ObjectType name that is used to resolve profile merging con- flicts when choosing SOURCE as the ConflictResolvingModel . Constraints: o min: 1 o max: 255 Shorthand Syntax: ConflictResolvingModel=string,SourceName=string JSON Syntax: { "ConflictResolvingModel": "RECENCY"|"SOURCE", "SourceName": "string" }
+    /// </summary>
     [CliOption("--conflict-resolution")]
-    public string? ConflictResolution { get; set; }
+    public string? ConflictResolution { get; private init; }
 
     /// <summary>
     /// Minimum confidence score required for profiles within a matching group to be merged during the auto-merge process. Constraints: o min: 0.0 o max: 1.0
@@ -41,5 +92,22 @@ public record AwsCustomerProfilesGetAutoMergingPreviewOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +21,88 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cognito-idp", "update-user-pool-replica")]
-public record AwsCognitoIdpUpdateUserPoolReplicaOptions : AwsOptions
+public record AwsCognitoIdpUpdateUserPoolReplicaOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates replica-specific settings for a user pool replica. You can mod- ify the status to activate or deactivate the replica. This request can be made in both primary and secondary regions of the user pool. NOTE: Amazon Cognito evaluates Identity and Access Management (IAM) poli- cies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy. Learn more o Signing Amazon Web ...
+    /// </summary>
+    /// <param name="UserPoolId">The ID of the user pool that contains the replica to update. Constraints: o min: 1 o max: 55 o pattern: [\w-]+_[0-9a-zA-Z]+</param>
+    /// <param name="RegionName">The Amazon Web Services Region of the replica to update. Constraints: o min: 5 o max: 32</param>
+    /// <param name="Status">The status to set for the replica. Valid values are ACTIVE and INAC- TIVE. Possible values: o ACTIVE o INACTIVE</param>
+    public AwsCognitoIdpUpdateUserPoolReplicaOptions(
+        string UserPoolId,
+        string RegionName,
+        AwsCognitoIdpUpdateUserPoolReplicaStatus Status
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(UserPoolId);
+        this.UserPoolId = UserPoolId;
+        global::System.ArgumentNullException.ThrowIfNull(RegionName);
+        this.RegionName = RegionName;
+        global::System.ArgumentNullException.ThrowIfNull(Status);
+        this.Status = Status;
+    }
+
+    private AwsCognitoIdpUpdateUserPoolReplicaOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCognitoIdpUpdateUserPoolReplicaOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCognitoIdpUpdateUserPoolReplicaOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the user pool that contains the replica to update. Constraints: o min: 1 o max: 55 o pattern: [\w-]+_[0-9a-zA-Z]+
+    /// </summary>
     [CliOption("--user-pool-id")]
-    public string? UserPoolId { get; set; }
+    public string? UserPoolId { get; private init; }
 
+    /// <summary>
+    /// The Amazon Web Services Region of the replica to update. Constraints: o min: 5 o max: 32
+    /// </summary>
     [CliOption("--region-name")]
-    public string? RegionName { get; set; }
+    public string? RegionName { get; private init; }
 
+    /// <summary>
+    /// The status to set for the replica. Valid values are ACTIVE and INAC- TIVE. Possible values: o ACTIVE o INACTIVE
+    /// </summary>
     [CliOption("--status")]
-    public string? Status { get; set; }
+    public AwsCognitoIdpUpdateUserPoolReplicaStatus? Status { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

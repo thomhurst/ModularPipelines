@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,8 +21,67 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("transfer", "create-user")]
-public record AwsTransferCreateUserOptions : AwsOptions
+public record AwsTransferCreateUserOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a user and associates them with an existing file transfer pro- tocol-enabled server. You can only create and associate users with servers that have the IdentityProviderType set to SERVICE_MANAGED . Us- ing parameters for CreateUser , you can specify the user name, set the home directory, store the user's public key, and assign the user's Identity and Access Management (IAM) role. You can also optionally add a session policy, and assign metadata with tags that can be used to group and sea...
+    /// </summary>
+    /// <param name="Role">The Amazon Resource Name (ARN) of the Identity and Access Management (IAM) role that controls your users' access to your Amazon S3 bucket or Amazon EFS file system. The policies attached to this role deter- mine the level of access that you want to provide your users when transferring files into and out of your Amazon S3 bucket or Amazon EFS file system. The IAM role should also contain a trust relation- ship that allows the server to access your resources when servicing your users' transfer requests. Constraints: o min: 20 o max: 2048 o pattern: arn:.*role/\S+</param>
+    /// <param name="ServerId">A system-assigned unique identifier for a server instance. This is the specific server that you added your user to. Constraints: o min: 19 o max: 19 o pattern: s-([0-9a-f]{17})</param>
+    /// <param name="UserName">A unique string that identifies a user and is associated with a ServerId . This user name must be a minimum of 3 and a maximum of 100 characters long. The following are valid characters: a-z, A-Z, 0-9, underscore '_', hyphen '-', period '.', and at sign '@'. The user name can't start with a hyphen, period, or at sign. Constraints: o min: 3 o max: 100 o pattern: [\w][\w@.-]{2,99}</param>
+    public AwsTransferCreateUserOptions(
+        string Role,
+        string ServerId,
+        string UserName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Role);
+        this.Role = Role;
+        global::System.ArgumentNullException.ThrowIfNull(ServerId);
+        this.ServerId = ServerId;
+        global::System.ArgumentNullException.ThrowIfNull(UserName);
+        this.UserName = UserName;
+    }
+
+    private AwsTransferCreateUserOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsTransferCreateUserOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsTransferCreateUserOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the Identity and Access Management (IAM) role that controls your users' access to your Amazon S3 bucket or Amazon EFS file system. The policies attached to this role deter- mine the level of access that you want to provide your users when transferring files into and out of your Amazon S3 bucket or Amazon EFS file system. The IAM role should also contain a trust relation- ship that allows the server to access your resources when servicing your users' transfer requests. Constraints: o min: 20 o max: 2048 o pattern: arn:.*role/\S+
+    /// </summary>
+    [CliOption("--role")]
+    public string? Role { get; private init; }
+
+    /// <summary>
+    /// A system-assigned unique identifier for a server instance. This is the specific server that you added your user to. Constraints: o min: 19 o max: 19 o pattern: s-([0-9a-f]{17})
+    /// </summary>
+    [CliOption("--server-id")]
+    public string? ServerId { get; private init; }
+
+    /// <summary>
+    /// A unique string that identifies a user and is associated with a ServerId . This user name must be a minimum of 3 and a maximum of 100 characters long. The following are valid characters: a-z, A-Z, 0-9, underscore '_', hyphen '-', period '.', and at sign '@'. The user name can't start with a hyphen, period, or at sign. Constraints: o min: 3 o max: 100 o pattern: [\w][\w@.-]{2,99}
+    /// </summary>
+    [CliOption("--user-name")]
+    public string? UserName { get; private init; }
+
     /// <summary>
     /// The landing directory (folder) for a user when they log in to the server using the client. A HomeDirectory example is /bucket_name/home/mydirectory . NOTE: You can use the HomeDirectory parameter for HomeDirectoryType when it is set to either PATH or LOGICAL . Constraints: o min: 0 o max: 1024 o pattern: (|/.*)
     /// </summary>
@@ -52,12 +112,6 @@ public record AwsTransferCreateUserOptions : AwsOptions
     [CliOption("--posix-profile")]
     public string? PosixProfile { get; set; }
 
-    [CliOption("--role")]
-    public string? Role { get; set; }
-
-    [CliOption("--server-id")]
-    public string? ServerId { get; set; }
-
     /// <summary>
     /// The public portion of the Secure Shell (SSH) key used to authenti- cate the user to the server. The three standard SSH public key format elements are &lt;key type&gt; , &lt;body base64&gt; , and an optional &lt;comment&gt; , with spaces between each element. Transfer Family accepts RSA, ECDSA, and ED25519 keys. o For RSA keys, the key type is ssh-rsa . o For ED25519 keys, the key type is ssh-ed25519 . o For ECDSA keys, the key type is either ecdsa-sha2-nistp256 , ecdsa-sha2-nistp384 , or ecdsa-sha2-nistp521 , depending on the size of the key you generated. Constraints: o min: 0 o max: 2048 o pattern: \s*(ssh|ecdsa)-[a-z0-9-]+[ \t]+(([A-Za-z0-9+/]{4})*([A-Za-z0-9+/]{1,3})?(={0,3})?)(\s*|[ \t]+[\S \t]*\s*)
     /// </summary>
@@ -70,13 +124,27 @@ public record AwsTransferCreateUserOptions : AwsOptions
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
-    [CliOption("--user-name")]
-    public string? UserName { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

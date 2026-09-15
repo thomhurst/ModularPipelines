@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,8 +20,58 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("s3vectors", "put-vectors")]
-public record AwsS3vectorsPutVectorsOptions : AwsOptions
+public record AwsS3vectorsPutVectorsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Adds one or more vectors to a vector index. To specify the vector in- dex, you can either use both the vector bucket name and the vector in- dex name, or use the vector index Amazon Resource Name (ARN). For more information about limits, see Limitations and restrictions in the Amazon S3 User Guide . NOTE: When inserting vector data into your vector index, you must provide the vector data as float32 (32-bit floating point) values. If you pass higher-precision values to an Amazon Web Services SDK,...
+    /// </summary>
+    /// <param name="Vectors">The vectors to add to a vector index. The number of vectors in a single request must not exceed the resource capacity, otherwise the request will be rejected with the error ServiceUnavailableException with the error message "Currently unable to handle the request". Constraints: o min: 1 o max: 500 (structure) The attributes of a vector to add to a vector index. key -&gt; (string) [required] The name of the vector. The key uniquely identifies the vec- tor in a vector index. Constraints: o min: 1 o max: 1024 data -&gt; (tagged union structure) [required] The vector data of the vector. Vector dimensions must match the dimension count that's con- figured for the vector index. o For the cosine distance metric, zero vectors (vectors con- taining all zeros) aren't allowed. o For both cosine and euclidean distance metrics, vector data must contain only valid floating-point values. Invalid val- ues such as NaN (Not a Number) or Infinity aren't allowed. NOTE: This is a Tagged Union structure. Only one of the follow- ing top level keys can be set: float32. float32 -&gt; (list) The vector data as 32-bit floating point numbers. The number of elements in this array must exactly match the dimension of the vector index where the operation is be- ing performed. (float) metadata -&gt; (document) Metadata about the vector. All metadata entries undergo vali- dation to ensure they meet the format requirements for size and data types. Shorthand Syntax: key=string,data={float32=[float,float]} ... JSON Syntax: [ { "key": "string", "data": { "float32": [float, ...] }, "metadata": {...} } ... ]</param>
+    public AwsS3vectorsPutVectorsOptions(
+        IEnumerable<string> Vectors
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Vectors);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Vectors));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Vectors));
+            }
+
+            Vectors = materialized;
+        }
+        this.Vectors = Vectors;
+    }
+
+    private AwsS3vectorsPutVectorsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsS3vectorsPutVectorsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsS3vectorsPutVectorsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The vectors to add to a vector index. The number of vectors in a single request must not exceed the resource capacity, otherwise the request will be rejected with the error ServiceUnavailableException with the error message "Currently unable to handle the request". Constraints: o min: 1 o max: 500 (structure) The attributes of a vector to add to a vector index. key -&gt; (string) [required] The name of the vector. The key uniquely identifies the vec- tor in a vector index. Constraints: o min: 1 o max: 1024 data -&gt; (tagged union structure) [required] The vector data of the vector. Vector dimensions must match the dimension count that's con- figured for the vector index. o For the cosine distance metric, zero vectors (vectors con- taining all zeros) aren't allowed. o For both cosine and euclidean distance metrics, vector data must contain only valid floating-point values. Invalid val- ues such as NaN (Not a Number) or Infinity aren't allowed. NOTE: This is a Tagged Union structure. Only one of the follow- ing top level keys can be set: float32. float32 -&gt; (list) The vector data as 32-bit floating point numbers. The number of elements in this array must exactly match the dimension of the vector index where the operation is be- ing performed. (float) metadata -&gt; (document) Metadata about the vector. All metadata entries undergo vali- dation to ensure they meet the format requirements for size and data types. Shorthand Syntax: key=string,data={float32=[float,float]} ... JSON Syntax: [ { "key": "string", "data": { "float32": [float, ...] }, "metadata": {...} } ... ]
+    /// </summary>
+    [CliOption("--vectors", GroupValues = true)]
+    public IEnumerable<string>? Vectors { get; private init; }
+
     /// <summary>
     /// The name of the vector bucket that contains the vector index. Constraints: o min: 3 o max: 63
     /// </summary>
@@ -39,13 +90,27 @@ public record AwsS3vectorsPutVectorsOptions : AwsOptions
     [CliOption("--index-arn")]
     public string? IndexArn { get; set; }
 
-    [CliOption("--vectors", GroupValues = true)]
-    public IEnumerable<string>? Vectors { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

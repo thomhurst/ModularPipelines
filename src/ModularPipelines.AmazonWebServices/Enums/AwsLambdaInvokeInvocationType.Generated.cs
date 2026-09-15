@@ -11,17 +11,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --invocationtype.
+/// Allowed values for --invocation-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsLambdaInvokeInvocationType
 {
+    [EnumValue("DryRun")]
+    DryRun,
+
     [EnumValue("Event")]
-    Event = 1,
+    Event,
 
     [EnumValue("RequestResponse")]
-    RequestResponse = 2,
-
-    [EnumValue("DryRun")]
-    DryRun = 3
+    RequestResponse
 }

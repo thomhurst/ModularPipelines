@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,68 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("dms", "delete-data-provider")]
-public record AwsDmsDeleteDataProviderOptions : AwsOptions
+public record AwsDmsDeleteDataProviderOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Deletes the specified data provider. Required permissions: dms:DeleteDataProvider . For more informa- tion, see Actions, resources, and condition keys for Database Migra- tion Service . NOTE: All migration projects associated with the data provider must be deleted or modified before you can delete the data provider. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DataProviderIdentifier">The identifier of the data provider to delete.</param>
+    public AwsDmsDeleteDataProviderOptions(
+        string DataProviderIdentifier
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DataProviderIdentifier);
+        this.DataProviderIdentifier = DataProviderIdentifier;
+    }
+
+    private AwsDmsDeleteDataProviderOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDmsDeleteDataProviderOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDmsDeleteDataProviderOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the data provider to delete.
+    /// </summary>
     [CliOption("--data-provider-identifier")]
-    public string? DataProviderIdentifier { get; set; }
+    public string? DataProviderIdentifier { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

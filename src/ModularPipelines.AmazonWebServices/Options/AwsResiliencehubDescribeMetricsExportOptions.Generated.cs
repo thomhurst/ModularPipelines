@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,68 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("resiliencehub", "describe-metrics-export")]
-public record AwsResiliencehubDescribeMetricsExportOptions : AwsOptions
+public record AwsResiliencehubDescribeMetricsExportOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Describes the metrics of the application configuration being exported. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="MetricsExportId">Identifier of the metrics export task. Constraints: o min: 1 o max: 255</param>
+    public AwsResiliencehubDescribeMetricsExportOptions(
+        string MetricsExportId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(MetricsExportId);
+        this.MetricsExportId = MetricsExportId;
+    }
+
+    private AwsResiliencehubDescribeMetricsExportOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsResiliencehubDescribeMetricsExportOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsResiliencehubDescribeMetricsExportOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Identifier of the metrics export task. Constraints: o min: 1 o max: 255
+    /// </summary>
     [CliOption("--metrics-export-id")]
-    public string? MetricsExportId { get; set; }
+    public string? MetricsExportId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -11,17 +11,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --deleteoption.
+/// Allowed values for --delete-option.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsGameliftDeleteGameServerGroupDeleteOption
 {
-    [EnumValue("SAFE_DELETE")]
-    SafeDelete = 1,
-
     [EnumValue("FORCE_DELETE")]
-    ForceDelete = 2,
+    ForceDelete,
 
     [EnumValue("RETAIN")]
-    Retain = 3
+    Retain,
+
+    [EnumValue("SAFE_DELETE")]
+    SafeDelete
 }

@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,8 +22,57 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("dataexchange", "send-data-set-notification")]
-public record AwsDataexchangeSendDataSetNotificationOptions : AwsOptions
+public record AwsDataexchangeSendDataSetNotificationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// The type of event associated with the data set. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DataSetId">Affected data set of the notification. Constraints: o pattern: [a-zA-Z0-9]{30,40}</param>
+    /// <param name="Type">The type of the notification. Describing the kind of event the noti- fication is alerting you to. Possible values: o DATA_DELAY o DATA_UPDATE o DEPRECATION o SCHEMA_CHANGE</param>
+    public AwsDataexchangeSendDataSetNotificationOptions(
+        string DataSetId,
+        AwsDataexchangeSendDataSetNotificationType Type
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DataSetId);
+        this.DataSetId = DataSetId;
+        global::System.ArgumentNullException.ThrowIfNull(Type);
+        this.Type = Type;
+    }
+
+    private AwsDataexchangeSendDataSetNotificationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDataexchangeSendDataSetNotificationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDataexchangeSendDataSetNotificationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Affected data set of the notification. Constraints: o pattern: [a-zA-Z0-9]{30,40}
+    /// </summary>
+    [CliOption("--data-set-id")]
+    public string? DataSetId { get; private init; }
+
+    /// <summary>
+    /// The type of the notification. Describing the kind of event the noti- fication is alerting you to. Possible values: o DATA_DELAY o DATA_UPDATE o DEPRECATION o SCHEMA_CHANGE
+    /// </summary>
+    [CliOption("--type")]
+    public AwsDataexchangeSendDataSetNotificationType? Type { get; private init; }
+
     /// <summary>
     /// Affected scope of this notification such as the underlying resources affected by the notification event. LakeFormationTagPolicies -&gt; (list) Underlying LF resources that will be affected by this notifica- tion. (structure) Extra details specific to the affected scope in this LF data set. Database -&gt; (string) The underlying Glue database that the notification is re- ferring to. Table -&gt; (string) The underlying Glue table that the notification is refer- ring to. RedshiftDataShares -&gt; (list) Underlying Redshift resources that will be affected by this no- tification. (structure) Extra details specific to the affected scope in this Redshift data set. Arn -&gt; (string) [required] The ARN of the underlying Redshift data share that is be- ing affected by this notification. Database -&gt; (string) [required] The database name in the Redshift data share that is be- ing affected by this notification. Function -&gt; (string) A function name in the Redshift database that is being affected by this notification. Table -&gt; (string) A table name in the Redshift database that is being af- fected by this notification. Schema -&gt; (string) A schema name in the Redshift database that is being af- fected by this notification. View -&gt; (string) A view name in the Redshift database that is being af- fected by this notification. S3DataAccesses -&gt; (list) Underlying S3 resources that will be affected by this notifica- tion. (structure) Extra details specific to the affected scope in this S3 Data Access data set. KeyPrefixes -&gt; (list) A list of the key prefixes affected by this notification. This can have up to 50 entries. (string) Keys -&gt; (list) A list of the keys affected by this notification. This can have up to 50 entries. (string) JSON Syntax: { "LakeFormationTagPolicies": [ { "Database": "string", "Table": "string" } ... ], "RedshiftDataShares": [ { "Arn": "string", "Database": "string", "Function": "string", "Table": "string", "Schema": "string", "View": "string" } ... ], "S3DataAccesses": [ { "KeyPrefixes": ["string", ...], "Keys": ["string", ...] } ... ] }
     /// </summary>
@@ -41,22 +92,33 @@ public record AwsDataexchangeSendDataSetNotificationOptions : AwsOptions
     [CliOption("--comment")]
     public string? Comment { get; set; }
 
-    [CliOption("--data-set-id")]
-    public string? DataSetId { get; set; }
-
     /// <summary>
     /// Extra details specific to this notification type. DataUpdate -&gt; (structure) Extra details specific to a data update type notification. DataUpdatedAt -&gt; (timestamp) A datetime in the past when the data was updated. This typi- cally means that the underlying resource supporting the data set was updated. Deprecation -&gt; (structure) Extra details specific to a deprecation type notification. DeprecationAt -&gt; (timestamp) [required] A datetime in the future when the data set will be depre- cated. SchemaChange -&gt; (structure) Extra details specific to a schema change type notification. Changes -&gt; (list) List of schema changes happening in the scope of this notifi- cation. This can have up to 100 entries. (structure) Object encompassing information about a schema change to a single, particular field, a notification can have up to 100 of these. Name -&gt; (string) [required] Name of the changing field. This value can be up to 255 characters long. Type -&gt; (string) [required] Is the field being added, removed, or modified? Possible values: o ADD o REMOVE o MODIFY Description -&gt; (string) Description of what's changing about this field. This value can be up to 512 characters long. SchemaChangeAt -&gt; (timestamp) [required] A date in the future when the schema change is taking effect. JSON Syntax: { "DataUpdate": { "DataUpdatedAt": timestamp }, "Deprecation": { "DeprecationAt": timestamp }, "SchemaChange": { "Changes": [ { "Name": "string", "Type": "ADD"|"REMOVE"|"MODIFY", "Description": "string" } ... ], "SchemaChangeAt": timestamp } }
     /// </summary>
     [CliOption("--details")]
     public string? Details { get; set; }
 
-    [CliOption("--type")]
-    public string? Type { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

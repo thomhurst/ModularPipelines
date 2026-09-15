@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +21,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("rtbfabric", "create-link")]
-public record AwsRtbfabricCreateLinkOptions : AwsOptions
+public record AwsRtbfabricCreateLinkOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--gateway-id")]
-    public string? GatewayId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates a new link between gateways. Establishes a connection that allows gateways to communicate and ex- change bid requests and responses. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="GatewayId">The unique identifier of the gateway. Constraints: o min: 8 o max: 32 o pattern: rtb-gw-[a-z0-9-]{1,25}</param>
+    /// <param name="PeerGatewayId">The unique identifier of the peer gateway. Constraints: o min: 8 o max: 32 o pattern: rtb-gw-[a-z0-9-]{1,25}</param>
+    /// <param name="LogSettings">Application log settings for the link. This value is required. Under applicationLogs.sampling , the errorLog and filterLog fields set the percentage of eligible events to log. Valid values range from 0 through 100 . To turn off application logs, set both fields to 0 , as in {"applicationLogs":{"sampling":{"errorLog":0,"filterLog":0}}} . applicationLogs -&gt; (structure) [required] Describes the configuration of a link application log. sampling -&gt; (structure) [required] Describes a link application log sample. errorLog -&gt; (double) [required] An error log entry. Constraints: o min: 0.0 o max: 100.0 filterLog -&gt; (double) [required] A filter log entry. Constraints: o min: 0.0 o max: 100.0 Shorthand Syntax: applicationLogs={sampling={errorLog=double,filterLog=double}} JSON Syntax: { "applicationLogs": { "sampling": { "errorLog": double, "filterLog": double } } }</param>
+    public AwsRtbfabricCreateLinkOptions(
+        string GatewayId,
+        string PeerGatewayId,
+        string LogSettings
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(GatewayId);
+        this.GatewayId = GatewayId;
+        global::System.ArgumentNullException.ThrowIfNull(PeerGatewayId);
+        this.PeerGatewayId = PeerGatewayId;
+        global::System.ArgumentNullException.ThrowIfNull(LogSettings);
+        this.LogSettings = LogSettings;
+    }
+
+    private AwsRtbfabricCreateLinkOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRtbfabricCreateLinkOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRtbfabricCreateLinkOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier of the gateway. Constraints: o min: 8 o max: 32 o pattern: rtb-gw-[a-z0-9-]{1,25}
+    /// </summary>
+    [CliOption("--gateway-id")]
+    public string? GatewayId { get; private init; }
+
+    /// <summary>
+    /// The unique identifier of the peer gateway. Constraints: o min: 8 o max: 32 o pattern: rtb-gw-[a-z0-9-]{1,25}
+    /// </summary>
     [CliOption("--peer-gateway-id")]
-    public string? PeerGatewayId { get; set; }
+    public string? PeerGatewayId { get; private init; }
+
+    /// <summary>
+    /// Application log settings for the link. This value is required. Under applicationLogs.sampling , the errorLog and filterLog fields set the percentage of eligible events to log. Valid values range from 0 through 100 . To turn off application logs, set both fields to 0 , as in {"applicationLogs":{"sampling":{"errorLog":0,"filterLog":0}}} . applicationLogs -&gt; (structure) [required] Describes the configuration of a link application log. sampling -&gt; (structure) [required] Describes a link application log sample. errorLog -&gt; (double) [required] An error log entry. Constraints: o min: 0.0 o max: 100.0 filterLog -&gt; (double) [required] A filter log entry. Constraints: o min: 0.0 o max: 100.0 Shorthand Syntax: applicationLogs={sampling={errorLog=double,filterLog=double}} JSON Syntax: { "applicationLogs": { "sampling": { "errorLog": double, "filterLog": double } } }
+    /// </summary>
+    [CliOption("--log-settings")]
+    public string? LogSettings { get; private init; }
 
     /// <summary>
     /// Attributes of the link. responderErrorMasking -&gt; (list) Describes the masking for HTTP error codes. Constraints: o min: 1 o max: 200 (structure) Describes the masking for HTTP error codes. httpCode -&gt; (string) [required] The HTTP error code. Constraints: o min: 3 o max: 7 o pattern: DEFAULT|4XX|5XX|\d{3} action -&gt; (string) [required] The action for the error.. Possible values: o NO_BID o PASSTHROUGH loggingTypes -&gt; (list) [required] The error log type. Constraints: o min: 1 o max: 2 (string) Possible values: o NONE o METRIC o RESPONSE responseLoggingPercentage -&gt; (float) The percentage of response logging. Constraints: o min: 0 o max: 100 customerProvidedId -&gt; (string) The customer-provided unique identifier of the link. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z0-9_-]+ JSON Syntax: { "responderErrorMasking": [ { "httpCode": "string", "action": "NO_BID"|"PASSTHROUGH", "loggingTypes": ["NONE"|"METRIC"|"RESPONSE", ...], "responseLoggingPercentage": float } ... ], "customerProvidedId": "string" }
@@ -34,7 +88,10 @@ public record AwsRtbfabricCreateLinkOptions : AwsOptions
     [CliOption("--attributes")]
     public string? Attributes { get; set; }
 
-    [CliFlag("--http-responder-allowed")]
+    /// <summary>
+    /// Boolean to specify if an HTTP responder is allowed.
+    /// </summary>
+    [CliFlag("--http-responder-allowed", NegatedName = "--no-http-responder-allowed")]
     public bool? HttpResponderAllowed { get; set; }
 
     /// <summary>
@@ -42,9 +99,6 @@ public record AwsRtbfabricCreateLinkOptions : AwsOptions
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
-
-    [CliOption("--log-settings")]
-    public string? LogSettings { get; set; }
 
     /// <summary>
     /// The timeout value in milliseconds. Constraints: o min: 100 o max: 5000
@@ -57,5 +111,22 @@ public record AwsRtbfabricCreateLinkOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

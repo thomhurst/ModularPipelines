@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,8 +21,58 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("billing", "get-billing-preferences")]
-public record AwsBillingGetBillingPreferencesOptions : AwsOptions
+public record AwsBillingGetBillingPreferencesOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Retrieves billing preferences for the specified feature. Each feature controls a distinct billing capability: which accounts can share Re- served Instances or credits, whether billing alerts are enabled, the historical record of sharing changes, and per-credit options. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Features">The feature to retrieve. Specify exactly one value. Valid values: BILLING_ALERTS , RI_SHARING , RI_SHARING_HISTORY , CREDIT_SHARING , CREDIT_SHARING_HISTORY , CREDIT_LEVEL_SHARING , CREDIT_PREFER- ENCE_OPTIONS . Constraints: o min: 1 o max: 1 (string) Possible values: o RI_SHARING o RI_SHARING_HISTORY o CREDIT_SHARING o CREDIT_SHARING_HISTORY o CREDIT_LEVEL_SHARING o BILLING_ALERTS o CREDIT_PREFERENCE_OPTIONS Syntax: "string" "string" ...</param>
+    public AwsBillingGetBillingPreferencesOptions(
+        IEnumerable<string> Features
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Features);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Features));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Features));
+            }
+
+            Features = materialized;
+        }
+        this.Features = Features;
+    }
+
+    private AwsBillingGetBillingPreferencesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsBillingGetBillingPreferencesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsBillingGetBillingPreferencesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The feature to retrieve. Specify exactly one value. Valid values: BILLING_ALERTS , RI_SHARING , RI_SHARING_HISTORY , CREDIT_SHARING , CREDIT_SHARING_HISTORY , CREDIT_LEVEL_SHARING , CREDIT_PREFER- ENCE_OPTIONS . Constraints: o min: 1 o max: 1 (string) Possible values: o RI_SHARING o RI_SHARING_HISTORY o CREDIT_SHARING o CREDIT_SHARING_HISTORY o CREDIT_LEVEL_SHARING o BILLING_ALERTS o CREDIT_PREFERENCE_OPTIONS Syntax: "string" "string" ...
+    /// </summary>
+    [CliOption("--features", GroupValues = true)]
+    public IEnumerable<string>? Features { get; private init; }
+
     /// <summary>
     /// Pagination token from a previous response. Pass the value returned in nextToken to retrieve the next page of results. Constraints: o min: 1 o max: 4095 o pattern: [-a-zA-Z0-9+=/_]+
     /// </summary>
@@ -35,9 +86,6 @@ public record AwsBillingGetBillingPreferencesOptions : AwsOptions
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
-    [CliOption("--features", GroupValues = true)]
-    public IEnumerable<string>? Features { get; set; }
-
     /// <summary>
     /// Filters to narrow results. Specify exactly one filter when supplied. The supported filter name is PREFERENCE_KEY , which accepts 1 to 10 values to match preference keys. Constraints: o min: 1 o max: 1 (structure) A filter that narrows the set of preferences returned by Get- BillingPreferences . name -&gt; (string) The filter name. Currently the only supported value is PREF- ERENCE_KEY . Possible values: o PREFERENCE_KEY value -&gt; (list) The filter values to match. For PREFERENCE_KEY , supply 1 to 10 preference key values to match. Constraints: o min: 1 o max: 10 (string) Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z0-9-/]+ Shorthand Syntax: name=string,value=string,string ... JSON Syntax: [ { "name": "PREFERENCE_KEY", "value": ["string", ...] } ... ]
     /// </summary>
@@ -49,5 +97,22 @@ public record AwsBillingGetBillingPreferencesOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

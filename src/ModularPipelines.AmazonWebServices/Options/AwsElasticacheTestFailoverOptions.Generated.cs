@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("elasticache", "test-failover")]
-public record AwsElasticacheTestFailoverOptions : AwsOptions
+public record AwsElasticacheTestFailoverOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--replication-group-id")]
-    public string? ReplicationGroupId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Represents the input of a TestFailover operation which tests automatic failover on a specified node group (called shard in the console) in a replication group (called cluster in the console). This API is designed for testing the behavior of your application in case of ElastiCache failover. It is not designed to be an operational tool for initiating a failover to overcome a problem you may have with the cluster. Moreover, in certain conditions such as large-scale opera- tional events, Amazon may ...
+    /// </summary>
+    /// <param name="ReplicationGroupId">The name of the replication group (console: cluster) whose automatic failover is being tested by this operation.</param>
+    /// <param name="NodeGroupId">The name of the node group (called shard in the console) in this replication group on which automatic failover is to be tested. You may test automatic failover on up to 15 node groups in any rolling 24-hour period. Constraints: o min: 1 o max: 4 o pattern: \d+</param>
+    public AwsElasticacheTestFailoverOptions(
+        string ReplicationGroupId,
+        string NodeGroupId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ReplicationGroupId);
+        this.ReplicationGroupId = ReplicationGroupId;
+        global::System.ArgumentNullException.ThrowIfNull(NodeGroupId);
+        this.NodeGroupId = NodeGroupId;
+    }
+
+    private AwsElasticacheTestFailoverOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsElasticacheTestFailoverOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsElasticacheTestFailoverOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the replication group (console: cluster) whose automatic failover is being tested by this operation.
+    /// </summary>
+    [CliOption("--replication-group-id")]
+    public string? ReplicationGroupId { get; private init; }
+
+    /// <summary>
+    /// The name of the node group (called shard in the console) in this replication group on which automatic failover is to be tested. You may test automatic failover on up to 15 node groups in any rolling 24-hour period. Constraints: o min: 1 o max: 4 o pattern: \d+
+    /// </summary>
     [CliOption("--node-group-id")]
-    public string? NodeGroupId { get; set; }
+    public string? NodeGroupId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

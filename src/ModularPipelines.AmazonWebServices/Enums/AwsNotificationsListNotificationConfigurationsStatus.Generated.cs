@@ -17,14 +17,14 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsNotificationsListNotificationConfigurationsStatus
 {
     [EnumValue("ACTIVE")]
-    Active = 1,
-
-    [EnumValue("PARTIALLY_ACTIVE")]
-    PartiallyActive = 2,
-
-    [EnumValue("INACTIVE")]
-    Inactive = 3,
+    Active,
 
     [EnumValue("DELETING")]
-    Deleting = 4
+    Deleting,
+
+    [EnumValue("INACTIVE")]
+    Inactive,
+
+    [EnumValue("PARTIALLY_ACTIVE")]
+    PartiallyActive
 }

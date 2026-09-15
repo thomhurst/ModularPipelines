@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +20,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("rds", "create-blue-green-deployment")]
-public record AwsRdsCreateBlueGreenDeploymentOptions : AwsOptions
+public record AwsRdsCreateBlueGreenDeploymentOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--blue-green-deployment-name")]
-    public string? BlueGreenDeploymentName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates a blue/green deployment. A blue/green deployment creates a staging environment that copies the production environment. In a blue/green deployment, the blue environ- ment is the current production environment. The green environment is the staging environment, and it stays in sync with the current produc- tion environment. You can make changes to the databases in the green environment without affecting production workloads. For example, you can upgrade the major or minor DB engine version,...
+    /// </summary>
+    /// <param name="BlueGreenDeploymentName">The name of the blue/green deployment. Constraints: o Can't be the same as an existing blue/green deployment name in the same account and Amazon Web Services Region. Constraints: o min: 1 o max: 60 o pattern: [a-zA-Z](?:-?[a-zA-Z0-9]+)*</param>
+    /// <param name="Source">The Amazon Resource Name (ARN) of the source production database. Specify the database that you want to clone. The blue/green deploy- ment creates this database in the green environment. You can make updates to the database in the green environment, such as an engine version upgrade. When you are ready, you can switch the database in the green environment to be the production database. Constraints: o min: 1 o max: 2048 o pattern: arn:[A-Za-z][0-9A-Za-z-:._]*</param>
+    public AwsRdsCreateBlueGreenDeploymentOptions(
+        string BlueGreenDeploymentName,
+        string Source
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(BlueGreenDeploymentName);
+        this.BlueGreenDeploymentName = BlueGreenDeploymentName;
+        global::System.ArgumentNullException.ThrowIfNull(Source);
+        this.Source = Source;
+    }
+
+    private AwsRdsCreateBlueGreenDeploymentOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRdsCreateBlueGreenDeploymentOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRdsCreateBlueGreenDeploymentOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the blue/green deployment. Constraints: o Can't be the same as an existing blue/green deployment name in the same account and Amazon Web Services Region. Constraints: o min: 1 o max: 60 o pattern: [a-zA-Z](?:-?[a-zA-Z0-9]+)*
+    /// </summary>
+    [CliOption("--blue-green-deployment-name")]
+    public string? BlueGreenDeploymentName { get; private init; }
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the source production database. Specify the database that you want to clone. The blue/green deploy- ment creates this database in the green environment. You can make updates to the database in the green environment, such as an engine version upgrade. When you are ready, you can switch the database in the green environment to be the production database. Constraints: o min: 1 o max: 2048 o pattern: arn:[A-Za-z][0-9A-Za-z-:._]*
+    /// </summary>
     [CliOption("--source")]
-    public string? Source { get; set; }
+    public string? Source { get; private init; }
 
     /// <summary>
     /// The engine version of the database in the green environment. Specify the engine version to upgrade to in the green environment. Constraints: o min: 1 o max: 64 o pattern: [0-9A-Za-z-_.]+
@@ -57,7 +101,10 @@ public record AwsRdsCreateBlueGreenDeploymentOptions : AwsOptions
     [CliOption("--target-db-instance-class")]
     public string? TargetDbInstanceClass { get; set; }
 
-    [CliFlag("--upgrade-target-storage-config")]
+    /// <summary>
+    /// Whether to upgrade the storage file system configuration on the green database. This option migrates the green DB instance from the older 32-bit file system to the preferred configuration. For more information, see Upgrading the storage file system for a DB instance .
+    /// </summary>
+    [CliFlag("--upgrade-target-storage-config", NegatedName = "--no-upgrade-target-storage-config")]
     public bool? UpgradeTargetStorageConfig { get; set; }
 
     /// <summary>
@@ -89,5 +136,22 @@ public record AwsRdsCreateBlueGreenDeploymentOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

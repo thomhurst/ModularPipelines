@@ -11,11 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --stopconnectedentity.
+/// Allowed values for --stop-connected-entity.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsSsmSapStopApplicationStopConnectedEntity
 {
     [EnumValue("DBMS")]
-    Dbms = 1
+    Dbms,
+
+    [EnumValue("o")]
+    O
 }

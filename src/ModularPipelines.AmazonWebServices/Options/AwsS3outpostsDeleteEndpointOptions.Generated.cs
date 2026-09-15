@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("s3outposts", "delete-endpoint")]
-public record AwsS3outpostsDeleteEndpointOptions : AwsOptions
+public record AwsS3outpostsDeleteEndpointOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--endpoint-id")]
-    public string? EndpointId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Deletes an endpoint. NOTE: It can take up to 5 minutes for this action to finish. Related actions include: o CreateEndpoint o ListEndpoints See also: AWS API Documentation
+    /// </summary>
+    /// <param name="EndpointId">The ID of the endpoint. Constraints: o pattern: ^[a-zA-Z0-9]{19}$</param>
+    /// <param name="OutpostId">The ID of the Outposts. Constraints: o pattern: ^(op-[a-f0-9]{17}|\d{12}|ec2)$</param>
+    public AwsS3outpostsDeleteEndpointOptions(
+        string EndpointId,
+        string OutpostId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(EndpointId);
+        this.EndpointId = EndpointId;
+        global::System.ArgumentNullException.ThrowIfNull(OutpostId);
+        this.OutpostId = OutpostId;
+    }
+
+    private AwsS3outpostsDeleteEndpointOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsS3outpostsDeleteEndpointOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsS3outpostsDeleteEndpointOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the endpoint. Constraints: o pattern: ^[a-zA-Z0-9]{19}$
+    /// </summary>
+    [CliOption("--endpoint-id")]
+    public string? EndpointId { get; private init; }
+
+    /// <summary>
+    /// The ID of the Outposts. Constraints: o pattern: ^(op-[a-f0-9]{17}|\d{12}|ec2)$
+    /// </summary>
     [CliOption("--outpost-id")]
-    public string? OutpostId { get; set; }
+    public string? OutpostId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

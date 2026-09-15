@@ -11,20 +11,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --processingstatus.
+/// Allowed values for --processing-status.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsDatazoneListLineageEventsProcessingStatus
 {
-    [EnumValue("REQUESTED")]
-    Requested = 1,
+    [EnumValue("FAILED")]
+    Failed,
 
     [EnumValue("PROCESSING")]
-    Processing = 2,
+    Processing,
+
+    [EnumValue("REQUESTED")]
+    Requested,
 
     [EnumValue("SUCCESS")]
-    Success = 3,
-
-    [EnumValue("FAILED")]
-    Failed = 4
+    Success
 }

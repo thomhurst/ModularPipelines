@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storagegateway", "update-vtl-device-type")]
-public record AwsStoragegatewayUpdateVtlDeviceTypeOptions : AwsOptions
+public record AwsStoragegatewayUpdateVtlDeviceTypeOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--vtl-device-arn")]
-    public string? VtlDeviceArn { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Updates the type of medium changer in a tape gateway. When you activate a tape gateway, you select a medium changer type for the tape gateway. This operation enables you to select a different type of medium changer after a tape gateway is activated. This operation is only supported in the tape gateway type. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="VtlDeviceArn">The Amazon Resource Name (ARN) of the medium changer you want to se- lect. Constraints: o min: 50 o max: 500</param>
+    /// <param name="DeviceType">The type of medium changer you want to select. Valid Values: STK-L700 | AWS-Gateway-VTL | IBM-03584L32-0402 Constraints: o min: 2 o max: 50</param>
+    public AwsStoragegatewayUpdateVtlDeviceTypeOptions(
+        string VtlDeviceArn,
+        string DeviceType
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(VtlDeviceArn);
+        this.VtlDeviceArn = VtlDeviceArn;
+        global::System.ArgumentNullException.ThrowIfNull(DeviceType);
+        this.DeviceType = DeviceType;
+    }
+
+    private AwsStoragegatewayUpdateVtlDeviceTypeOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsStoragegatewayUpdateVtlDeviceTypeOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsStoragegatewayUpdateVtlDeviceTypeOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the medium changer you want to se- lect. Constraints: o min: 50 o max: 500
+    /// </summary>
+    [CliOption("--vtl-device-arn")]
+    public string? VtlDeviceArn { get; private init; }
+
+    /// <summary>
+    /// The type of medium changer you want to select. Valid Values: STK-L700 | AWS-Gateway-VTL | IBM-03584L32-0402 Constraints: o min: 2 o max: 50
+    /// </summary>
     [CliOption("--device-type")]
-    public string? DeviceType { get; set; }
+    public string? DeviceType { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

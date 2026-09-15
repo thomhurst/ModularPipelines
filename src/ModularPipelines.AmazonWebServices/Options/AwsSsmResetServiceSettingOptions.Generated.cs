@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,68 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ssm", "reset-service-setting")]
-public record AwsSsmResetServiceSettingOptions : AwsOptions
+public record AwsSsmResetServiceSettingOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// ServiceSetting is an account-level setting for an Amazon Web Ser- vices service. This setting defines how a user interacts with or uses a service or a feature of a service. For example, if an Amazon Web Services service charges money to the account based on feature or service usage, then the Amazon Web Services service team might create a default setting of "false". This means the user can't use this feature unless they change the setting to "true" and intention- ally opt in for a paid feature. ...
+    /// </summary>
+    /// <param name="SettingId">The Amazon Resource Name (ARN) of the service setting to reset. The setting ID can be one of the following. o /ssm/appmanager/appmanager-enabled o /ssm/automation/customer-script-log-destination o /ssm/automation/customer-script-log-group-name o /ssm/automation/enable-adaptive-concurrency o /ssm/documents/console/public-sharing-permission o /ssm/managed-instance/activation-tier o /ssm/managed-instance/default-ec2-instance-management-role o /ssm/opsinsights/opscenter o /ssm/parameter-store/default-parameter-tier o /ssm/parameter-store/high-throughput-enabled Constraints: o min: 1 o max: 1000</param>
+    public AwsSsmResetServiceSettingOptions(
+        string SettingId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SettingId);
+        this.SettingId = SettingId;
+    }
+
+    private AwsSsmResetServiceSettingOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSsmResetServiceSettingOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSsmResetServiceSettingOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the service setting to reset. The setting ID can be one of the following. o /ssm/appmanager/appmanager-enabled o /ssm/automation/customer-script-log-destination o /ssm/automation/customer-script-log-group-name o /ssm/automation/enable-adaptive-concurrency o /ssm/documents/console/public-sharing-permission o /ssm/managed-instance/activation-tier o /ssm/managed-instance/default-ec2-instance-management-role o /ssm/opsinsights/opscenter o /ssm/parameter-store/default-parameter-tier o /ssm/parameter-store/high-throughput-enabled Constraints: o min: 1 o max: 1000
+    /// </summary>
     [CliOption("--setting-id")]
-    public string? SettingId { get; set; }
+    public string? SettingId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

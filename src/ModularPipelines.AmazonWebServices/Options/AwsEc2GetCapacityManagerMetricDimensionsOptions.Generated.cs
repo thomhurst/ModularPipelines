@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,98 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ec2", "get-capacity-manager-metric-dimensions")]
-public record AwsEc2GetCapacityManagerMetricDimensionsOptions : AwsOptions
+public record AwsEc2GetCapacityManagerMetricDimensionsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Retrieves the available dimension values for capacity metrics within a specified time range. This is useful for discovering what accounts, re- gions, instance families, and other dimensions have data available for filtering and grouping. See also: AWS API Documentation get-capacity-manager-metric-dimensions is a paginated operation. Multi- ple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate ar- gument. When us...
+    /// </summary>
+    /// <param name="GroupBy">The dimensions to group by when retrieving available dimension val- ues. This determines which dimension combinations are returned. Re- quired parameter. Constraints: o min: 0 o max: 20 (string) Possible values: o resource-region o availability-zone-id o account-id o account-name o instance-family o instance-type o instance-platform o reservation-arn o reservation-id o reservation-type o reservation-create-timestamp o reservation-start-timestamp o reservation-end-timestamp o reservation-end-date-type o tenancy o reservation-state o reservation-instance-match-criteria o reservation-unused-financial-owner Constraints: o min: 0 o max: 300 Syntax: "string" "string" ...</param>
+    /// <param name="StartTime">The start time for the dimension query, in ISO 8601 format. Only di- mensions with data in this time range will be returned.</param>
+    /// <param name="EndTime">The end time for the dimension query, in ISO 8601 format. Only di- mensions with data in this time range will be returned.</param>
+    /// <param name="MetricNames">The metric names to use as an additional filter when retrieving di- mensions. Only dimensions that have data for these metrics will be returned. Required parameter with maximum size of 1 for v1. Constraints: o min: 0 o max: 40 (string) Possible values: o reservation-total-capacity-hrs-vcpu o reservation-total-capacity-hrs-inst o reservation-max-size-vcpu o reservation-max-size-inst o reservation-min-size-vcpu o reservation-min-size-inst o reservation-unused-total-capacity-hrs-vcpu o reservation-unused-total-capacity-hrs-inst o reservation-unused-total-estimated-cost o reservation-max-unused-size-vcpu o reservation-max-unused-size-inst o reservation-min-unused-size-vcpu o reservation-min-unused-size-inst o reservation-max-utilization o reservation-min-utilization o reservation-avg-utilization-vcpu o reservation-avg-utilization-inst o reservation-total-count o reservation-total-estimated-cost o reservation-avg-future-size-vcpu o reservation-avg-future-size-inst o reservation-min-future-size-vcpu o reservation-min-future-size-inst o reservation-max-future-size-vcpu o reservation-max-future-size-inst o reservation-avg-committed-size-vcpu o reservation-avg-committed-size-inst o reservation-max-committed-size-vcpu o reservation-max-committed-size-inst o reservation-min-committed-size-vcpu o reservation-min-committed-size-inst o reserved-total-usage-hrs-vcpu o reserved-total-usage-hrs-inst o reserved-total-estimated-cost o unreserved-total-usage-hrs-vcpu o unreserved-total-usage-hrs-inst o unreserved-total-estimated-cost o spot-total-usage-hrs-vcpu o spot-total-usage-hrs-inst o spot-total-estimated-cost o spot-avg-run-time-before-interruption-inst o spot-max-run-time-before-interruption-inst o spot-min-run-time-before-interruption-inst o spot-total-interruptions-inst o spot-total-interruptions-vcpu o spot-total-count-inst o spot-total-count-vcpu o spot-interruption-rate-inst o spot-interruption-rate-vcpu Syntax: "string" "string" ...</param>
+    public AwsEc2GetCapacityManagerMetricDimensionsOptions(
+        IEnumerable<string> GroupBy,
+        string StartTime,
+        string EndTime,
+        IEnumerable<string> MetricNames
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(GroupBy);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(GroupBy));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(GroupBy));
+            }
+
+            GroupBy = materialized;
+        }
+        this.GroupBy = GroupBy;
+        global::System.ArgumentNullException.ThrowIfNull(StartTime);
+        this.StartTime = StartTime;
+        global::System.ArgumentNullException.ThrowIfNull(EndTime);
+        this.EndTime = EndTime;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(MetricNames);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(MetricNames));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(MetricNames));
+            }
+
+            MetricNames = materialized;
+        }
+        this.MetricNames = MetricNames;
+    }
+
+    private AwsEc2GetCapacityManagerMetricDimensionsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEc2GetCapacityManagerMetricDimensionsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEc2GetCapacityManagerMetricDimensionsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The dimensions to group by when retrieving available dimension val- ues. This determines which dimension combinations are returned. Re- quired parameter. Constraints: o min: 0 o max: 20 (string) Possible values: o resource-region o availability-zone-id o account-id o account-name o instance-family o instance-type o instance-platform o reservation-arn o reservation-id o reservation-type o reservation-create-timestamp o reservation-start-timestamp o reservation-end-timestamp o reservation-end-date-type o tenancy o reservation-state o reservation-instance-match-criteria o reservation-unused-financial-owner Constraints: o min: 0 o max: 300 Syntax: "string" "string" ...
+    /// </summary>
     [CliOption("--group-by", GroupValues = true)]
-    public IEnumerable<string>? GroupBy { get; set; }
+    public IEnumerable<string>? GroupBy { get; private init; }
+
+    /// <summary>
+    /// The start time for the dimension query, in ISO 8601 format. Only di- mensions with data in this time range will be returned.
+    /// </summary>
+    [CliOption("--start-time")]
+    public string? StartTime { get; private init; }
+
+    /// <summary>
+    /// The end time for the dimension query, in ISO 8601 format. Only di- mensions with data in this time range will be returned.
+    /// </summary>
+    [CliOption("--end-time")]
+    public string? EndTime { get; private init; }
+
+    /// <summary>
+    /// The metric names to use as an additional filter when retrieving di- mensions. Only dimensions that have data for these metrics will be returned. Required parameter with maximum size of 1 for v1. Constraints: o min: 0 o max: 40 (string) Possible values: o reservation-total-capacity-hrs-vcpu o reservation-total-capacity-hrs-inst o reservation-max-size-vcpu o reservation-max-size-inst o reservation-min-size-vcpu o reservation-min-size-inst o reservation-unused-total-capacity-hrs-vcpu o reservation-unused-total-capacity-hrs-inst o reservation-unused-total-estimated-cost o reservation-max-unused-size-vcpu o reservation-max-unused-size-inst o reservation-min-unused-size-vcpu o reservation-min-unused-size-inst o reservation-max-utilization o reservation-min-utilization o reservation-avg-utilization-vcpu o reservation-avg-utilization-inst o reservation-total-count o reservation-total-estimated-cost o reservation-avg-future-size-vcpu o reservation-avg-future-size-inst o reservation-min-future-size-vcpu o reservation-min-future-size-inst o reservation-max-future-size-vcpu o reservation-max-future-size-inst o reservation-avg-committed-size-vcpu o reservation-avg-committed-size-inst o reservation-max-committed-size-vcpu o reservation-max-committed-size-inst o reservation-min-committed-size-vcpu o reservation-min-committed-size-inst o reserved-total-usage-hrs-vcpu o reserved-total-usage-hrs-inst o reserved-total-estimated-cost o unreserved-total-usage-hrs-vcpu o unreserved-total-usage-hrs-inst o unreserved-total-estimated-cost o spot-total-usage-hrs-vcpu o spot-total-usage-hrs-inst o spot-total-estimated-cost o spot-avg-run-time-before-interruption-inst o spot-max-run-time-before-interruption-inst o spot-min-run-time-before-interruption-inst o spot-total-interruptions-inst o spot-total-interruptions-vcpu o spot-total-count-inst o spot-total-count-vcpu o spot-interruption-rate-inst o spot-interruption-rate-vcpu Syntax: "string" "string" ...
+    /// </summary>
+    [CliOption("--metric-names", GroupValues = true)]
+    public IEnumerable<string>? MetricNames { get; private init; }
 
     /// <summary>
     /// Conditions to filter which dimension values are returned. Each fil- ter specifies a dimension, comparison operator, and values to match against. Constraints: o min: 0 o max: 20 (structure) Represents a filter condition for Capacity Manager queries. Con- tains dimension-based filtering criteria used to narrow down metric data and dimension results. DimensionCondition -&gt; (structure) The dimension-based condition that specifies how to filter the data based on dimension values. Dimension -&gt; (string) The name of the dimension to filter by. Possible values: o resource-region o availability-zone-id o account-id o account-name o instance-family o instance-type o instance-platform o reservation-arn o reservation-id o reservation-type o reservation-create-timestamp o reservation-start-timestamp o reservation-end-timestamp o reservation-end-date-type o tenancy o reservation-state o reservation-instance-match-criteria o reservation-unused-financial-owner Constraints: o min: 0 o max: 300 Comparison -&gt; (string) The comparison operator to use for the filter. Possible values: o equals o in Values -&gt; (list) The list of values to match against the specified dimen- sion. For 'equals' comparison, only the first value is used. For 'in' comparison, any matching value will sat- isfy the condition. Constraints: o min: 0 o max: 10 (string) Constraints: o min: 0 o max: 300 Shorthand Syntax: DimensionCondition={Dimension=string,Comparison=string,Values=[string,string]} ... JSON Syntax: [ { "DimensionCondition": { "Dimension": "resource-region"|"availability-zone-id"|"account-id"|"account-name"|"instance-family"|"instance-type"|"instance-platform"|"reservation-arn"|"reservation-id"|"reservation-type"|"reservation-create-timestamp"|"reservation-start-timestamp"|"reservation-end-timestamp"|"reservation-end-date-type"|"tenancy"|"reservation-state"|"reservation-instance-match-criteria"|"reservation-unused-financial-owner", "Comparison": "equals"|"in", "Values": ["string", ...] } } ... ]
@@ -31,16 +120,10 @@ public record AwsEc2GetCapacityManagerMetricDimensionsOptions : AwsOptions
     [CliOption("--filter-by", GroupValues = true)]
     public IEnumerable<string>? FilterBy { get; set; }
 
-    [CliOption("--start-time")]
-    public string? StartTime { get; set; }
-
-    [CliOption("--end-time")]
-    public string? EndTime { get; set; }
-
-    [CliOption("--metric-names", GroupValues = true)]
-    public IEnumerable<string>? MetricNames { get; set; }
-
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -67,5 +150,22 @@ public record AwsEc2GetCapacityManagerMetricDimensionsOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

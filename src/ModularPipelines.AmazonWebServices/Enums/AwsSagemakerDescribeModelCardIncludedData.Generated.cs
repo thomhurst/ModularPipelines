@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --includeddata.
+/// Allowed values for --included-data.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsSagemakerDescribeModelCardIncludedData
 {
     [EnumValue("AllData")]
-    AllData = 1,
+    AllData,
 
     [EnumValue("MetadataOnly")]
-    MetadataOnly = 2
+    MetadataOnly
 }

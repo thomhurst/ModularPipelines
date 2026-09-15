@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("workmail", "create-identity-center-application")]
-public record AwsWorkmailCreateIdentityCenterApplicationOptions : AwsOptions
+public record AwsWorkmailCreateIdentityCenterApplicationOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--name")]
-    public string? Name { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates the WorkMail application in IAM Identity Center that can be used later in the WorkMail - IdC integration. For more information, see PutIdentityProviderConfiguration. This action does not affect the au- thentication settings for any WorkMail organizations. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Name">The name of the IAM Identity Center application. Constraints: o min: 0 o max: 255 o pattern: ^[\w+=,.@-]+$</param>
+    /// <param name="InstanceArn">The Amazon Resource Name (ARN) of the instance. Constraints: o min: 10 o max: 1124 o pattern: ^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso:::in- stance/(sso)?ins-[a-zA-Z0-9-.]{16}$</param>
+    public AwsWorkmailCreateIdentityCenterApplicationOptions(
+        string Name,
+        string InstanceArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(InstanceArn);
+        this.InstanceArn = InstanceArn;
+    }
+
+    private AwsWorkmailCreateIdentityCenterApplicationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsWorkmailCreateIdentityCenterApplicationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsWorkmailCreateIdentityCenterApplicationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the IAM Identity Center application. Constraints: o min: 0 o max: 255 o pattern: ^[\w+=,.@-]+$
+    /// </summary>
+    [CliOption("--name")]
+    public string? Name { get; private init; }
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the instance. Constraints: o min: 10 o max: 1124 o pattern: ^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso:::in- stance/(sso)?ins-[a-zA-Z0-9-.]{16}$
+    /// </summary>
     [CliOption("--instance-arn")]
-    public string? InstanceArn { get; set; }
+    public string? InstanceArn { get; private init; }
 
     /// <summary>
     /// The idempotency token associated with the request. Constraints: o min: 1 o max: 128 o pattern: [\x21-\x7e]+
@@ -40,5 +84,22 @@ public record AwsWorkmailCreateIdentityCenterApplicationOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

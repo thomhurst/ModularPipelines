@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,89 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iam", "tag-policy")]
-public record AwsIamTagPolicyOptions : AwsOptions
+public record AwsIamTagPolicyOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--policy-arn")]
-    public string? PolicyArn { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Adds one or more tags to an IAM customer managed policy. If a tag with the same key name already exists, then that tag is overwritten with the new value. A tag consists of a key name and an associated value. By assigning tags to your resources, you can do the following: o Administrative grouping and discovery - Attach tags to resources to aid in organization and search. For example, you could search for all resources with the key name Project and the value MyImportantProject . Or search for all ...
+    /// </summary>
+    /// <param name="PolicyArn">The ARN of the IAM customer managed policy to which you want to add tags. This parameter allows (through its regex pattern ) a string of char- acters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following charac- ters: _+=,.@- Constraints: o min: 20 o max: 2048</param>
+    /// <param name="Tags">The list of tags that you want to attach to the IAM customer managed policy. Each tag consists of a key name and an associated value. Constraints: o max: 50 (structure) A structure that represents user-provided metadata that can be associated with an IAM resource. For more information about tag- ging, see Tagging IAM resources in the IAM User Guide . Key -&gt; (string) [required] The key name that can be used to look up or retrieve the as- sociated value. For example, Department or Cost Center are common choices. Constraints: o min: 1 o max: 128 o pattern: [\p{L}\p{Z}\p{N}_.:/=+\-@]+ Value -&gt; (string) [required] The value associated with this tag. For example, tags with a key name of Department could have values such as Human Re- sources , Accounting , and Support . Tags with a key name of Cost Center might have values that consist of the number as- sociated with the different cost centers in your company. Typically, many resources have tags with the same key name but with different values. Constraints: o min: 0 o max: 256 o pattern: [\p{L}\p{Z}\p{N}_.:/=+\-@]* Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]</param>
+    public AwsIamTagPolicyOptions(
+        string PolicyArn,
+        IEnumerable<string> Tags
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PolicyArn);
+        this.PolicyArn = PolicyArn;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Tags);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Tags));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Tags));
+            }
+
+            Tags = materialized;
+        }
+        this.Tags = Tags;
+    }
+
+    private AwsIamTagPolicyOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsIamTagPolicyOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsIamTagPolicyOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ARN of the IAM customer managed policy to which you want to add tags. This parameter allows (through its regex pattern ) a string of char- acters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following charac- ters: _+=,.@- Constraints: o min: 20 o max: 2048
+    /// </summary>
+    [CliOption("--policy-arn")]
+    public string? PolicyArn { get; private init; }
+
+    /// <summary>
+    /// The list of tags that you want to attach to the IAM customer managed policy. Each tag consists of a key name and an associated value. Constraints: o max: 50 (structure) A structure that represents user-provided metadata that can be associated with an IAM resource. For more information about tag- ging, see Tagging IAM resources in the IAM User Guide . Key -&gt; (string) [required] The key name that can be used to look up or retrieve the as- sociated value. For example, Department or Cost Center are common choices. Constraints: o min: 1 o max: 128 o pattern: [\p{L}\p{Z}\p{N}_.:/=+\-@]+ Value -&gt; (string) [required] The value associated with this tag. For example, tags with a key name of Department could have values such as Human Re- sources , Accounting , and Support . Tags with a key name of Cost Center might have values that consist of the number as- sociated with the different cost centers in your company. Typically, many resources have tags with the same key name but with different values. Constraints: o min: 0 o max: 256 o pattern: [\p{L}\p{Z}\p{N}_.:/=+\-@]* Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// </summary>
     [CliOption("--tags", GroupValues = true)]
-    public IEnumerable<string>? Tags { get; set; }
+    public IEnumerable<string>? Tags { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

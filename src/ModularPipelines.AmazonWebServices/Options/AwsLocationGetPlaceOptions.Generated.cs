@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +20,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("location", "get-place")]
-public record AwsLocationGetPlaceOptions : AwsOptions
+public record AwsLocationGetPlaceOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--index-name")]
-    public string? IndexName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// WARNING: This operation is no longer current and may be deprecated in the fu- ture. We recommend you upgrade to the V2 ``GetPlace` /location/lat- est/APIReference/API_geoplaces_GetPlace.html`__ operation unless you require Grab data. o This version of GetPlace is part of a previous Amazon Location Service Places API (version 1) which has been superseded by a more intuitive, powerful, and complete API (version 2). o Version 2 of the GetPlace operation interoperates with the rest of the Places V2 ...
+    /// </summary>
+    /// <param name="IndexName">The name of the place index resource that you want to use for the search. Constraints: o min: 1 o max: 100 o pattern: [-._\w]+</param>
+    /// <param name="PlaceId">The identifier of the place to find.</param>
+    public AwsLocationGetPlaceOptions(
+        string IndexName,
+        string PlaceId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(IndexName);
+        this.IndexName = IndexName;
+        global::System.ArgumentNullException.ThrowIfNull(PlaceId);
+        this.PlaceId = PlaceId;
+    }
+
+    private AwsLocationGetPlaceOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsLocationGetPlaceOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsLocationGetPlaceOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the place index resource that you want to use for the search. Constraints: o min: 1 o max: 100 o pattern: [-._\w]+
+    /// </summary>
+    [CliOption("--index-name")]
+    public string? IndexName { get; private init; }
+
+    /// <summary>
+    /// The identifier of the place to find.
+    /// </summary>
     [CliOption("--place-id")]
-    public string? PlaceId { get; set; }
+    public string? PlaceId { get; private init; }
 
     /// <summary>
     /// The preferred language used to return results. The value must be a valid BCP 47 language tag, for example, en for English. This setting affects the languages used in the results, but not the results themselves. If no language is specified, or not supported for a particular result, the partner automatically chooses a lan- guage for the result. For an example, we'll use the Greek language. You search for a loca- tion around Athens, Greece, with the language parameter set to en . The city in the results will most likely be returned as Athens . If you set the language parameter to el , for Greek, then the city in the results will more likely be returned as . If the data provider does not have a value for Greek, the result will be in a language that the provider does support. Constraints: o min: 2 o max: 35
@@ -44,5 +88,22 @@ public record AwsLocationGetPlaceOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

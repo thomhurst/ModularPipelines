@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --storageclass.
+/// Allowed values for --storage-class.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsMediastoreDataPutObjectStorageClass
 {
-    [EnumValue("TEMPORAL")]
-    Temporal = 1,
+    [EnumValue("o")]
+    O,
 
-    [EnumValue("Constraints")]
-    Constraints = 2
+    [EnumValue("TEMPORAL")]
+    Temporal
 }

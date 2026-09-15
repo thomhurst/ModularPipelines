@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,19 +21,62 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ram", "replace-permission-associations")]
-public record AwsRamReplacePermissionAssociationsOptions : AwsOptions
+public record AwsRamReplacePermissionAssociationsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates all resource shares that use a managed permission to a differ- ent managed permission. This operation always applies the default ver- sion of the target managed permission. You can optionally specify that the update applies to only resource shares that currently use a speci- fied version. This enables you to update to the latest version, without changing the which managed permission is used. You can use this operation to update all of your resource shares to use the current default versi...
+    /// </summary>
+    /// <param name="FromPermissionArn">Specifies the Amazon Resource Name (ARN) of the managed permission that you want to replace.</param>
+    /// <param name="ToPermissionArn">Specifies the ARN of the managed permission that you want to asso- ciate with resource shares in place of the one specified by fromPerssionArn and fromPermissionVersion . The operation always associates the version that is currently the default for the specified managed permission.</param>
+    public AwsRamReplacePermissionAssociationsOptions(
+        string FromPermissionArn,
+        string ToPermissionArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(FromPermissionArn);
+        this.FromPermissionArn = FromPermissionArn;
+        global::System.ArgumentNullException.ThrowIfNull(ToPermissionArn);
+        this.ToPermissionArn = ToPermissionArn;
+    }
+
+    private AwsRamReplacePermissionAssociationsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRamReplacePermissionAssociationsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRamReplacePermissionAssociationsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Specifies the Amazon Resource Name (ARN) of the managed permission that you want to replace.
+    /// </summary>
     [CliOption("--from-permission-arn")]
-    public string? FromPermissionArn { get; set; }
+    public string? FromPermissionArn { get; private init; }
+
+    /// <summary>
+    /// Specifies the ARN of the managed permission that you want to asso- ciate with resource shares in place of the one specified by fromPerssionArn and fromPermissionVersion . The operation always associates the version that is currently the default for the specified managed permission.
+    /// </summary>
+    [CliOption("--to-permission-arn")]
+    public string? ToPermissionArn { get; private init; }
 
     /// <summary>
     /// Specifies that you want to updated the permissions for only those resource shares that use the specified version of the managed per- mission.
     /// </summary>
     [CliOption("--from-permission-version")]
     public int? FromPermissionVersion { get; set; }
-
-    [CliOption("--to-permission-arn")]
-    public string? ToPermissionArn { get; set; }
 
     /// <summary>
     /// Specifies a unique, case-sensitive identifier that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other parameters. We recommend that you use a UUID type of value. . If you don't provide this value, then Amazon Web Services generates a random one for you. If you retry the operation with the same ClientToken , but with dif- ferent parameters, the retry fails with an IdempotentParameterMis- match error.
@@ -46,5 +90,22 @@ public record AwsRamReplacePermissionAssociationsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

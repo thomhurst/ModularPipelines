@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sagemaker", "describe-feature-group")]
-public record AwsSagemakerDescribeFeatureGroupOptions : AwsOptions
+public record AwsSagemakerDescribeFeatureGroupOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Use this operation to describe a FeatureGroup . The response includes information on the creation time, FeatureGroup name, the unique identi- fier for each FeatureGroup , and more. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="FeatureGroupName">The name or Amazon Resource Name (ARN) of the FeatureGroup you want described. Constraints: o min: 1 o max: 256 o pattern: (arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:fea- ture-group\/)?([a-zA-Z0-9]([_-]*[a-zA-Z0-9]){0,63})</param>
+    public AwsSagemakerDescribeFeatureGroupOptions(
+        string FeatureGroupName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(FeatureGroupName);
+        this.FeatureGroupName = FeatureGroupName;
+    }
+
+    private AwsSagemakerDescribeFeatureGroupOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSagemakerDescribeFeatureGroupOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSagemakerDescribeFeatureGroupOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name or Amazon Resource Name (ARN) of the FeatureGroup you want described. Constraints: o min: 1 o max: 256 o pattern: (arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:fea- ture-group\/)?([a-zA-Z0-9]([_-]*[a-zA-Z0-9]){0,63})
+    /// </summary>
     [CliOption("--feature-group-name")]
-    public string? FeatureGroupName { get; set; }
+    public string? FeatureGroupName { get; private init; }
 
     /// <summary>
     /// A token to resume pagination of the list of Features (FeatureDefini- tions ). 2,500 Features are returned by default. Constraints: o min: 0 o max: 8192 o pattern: .*
@@ -37,5 +74,22 @@ public record AwsSagemakerDescribeFeatureGroupOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

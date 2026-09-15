@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +20,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sesv2", "create-contact")]
-public record AwsSesv2CreateContactOptions : AwsOptions
+public record AwsSesv2CreateContactOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--contact-list-name")]
-    public string? ContactListName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates a contact, which is an end-user who is receiving the email, and adds them to a contact list. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ContactListName">The name of the contact list to which the contact should be added.</param>
+    /// <param name="EmailAddress">The contact's email address.</param>
+    public AwsSesv2CreateContactOptions(
+        string ContactListName,
+        string EmailAddress
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ContactListName);
+        this.ContactListName = ContactListName;
+        global::System.ArgumentNullException.ThrowIfNull(EmailAddress);
+        this.EmailAddress = EmailAddress;
+    }
+
+    private AwsSesv2CreateContactOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSesv2CreateContactOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSesv2CreateContactOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the contact list to which the contact should be added.
+    /// </summary>
+    [CliOption("--contact-list-name")]
+    public string? ContactListName { get; private init; }
+
+    /// <summary>
+    /// The contact's email address.
+    /// </summary>
     [CliOption("--email-address")]
-    public string? EmailAddress { get; set; }
+    public string? EmailAddress { get; private init; }
 
     /// <summary>
     /// The contact's preferences for being opted-in to or opted-out of top- ics. (structure) The contact's preference for being opted-in to or opted-out of a topic. TopicName -&gt; (string) [required] The name of the topic. SubscriptionStatus -&gt; (string) [required] The contact's subscription status to a topic which is either OPT_IN or OPT_OUT . Possible values: o OPT_IN o OPT_OUT Shorthand Syntax: TopicName=string,SubscriptionStatus=string ... JSON Syntax: [ { "TopicName": "string", "SubscriptionStatus": "OPT_IN"|"OPT_OUT" } ... ]
@@ -33,7 +77,10 @@ public record AwsSesv2CreateContactOptions : AwsOptions
     [CliOption("--topic-preferences", GroupValues = true)]
     public IEnumerable<string>? TopicPreferences { get; set; }
 
-    [CliFlag("--unsubscribe-all")]
+    /// <summary>
+    /// A boolean value status noting if the contact is unsubscribed from all contact list topics.
+    /// </summary>
+    [CliFlag("--unsubscribe-all", NegatedName = "--no-unsubscribe-all")]
     public bool? UnsubscribeAll { get; set; }
 
     /// <summary>
@@ -47,5 +94,22 @@ public record AwsSesv2CreateContactOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

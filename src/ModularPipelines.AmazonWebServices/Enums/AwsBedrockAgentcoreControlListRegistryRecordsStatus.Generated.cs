@@ -16,30 +16,30 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsBedrockAgentcoreControlListRegistryRecordsStatus
 {
-    [EnumValue("DRAFT")]
-    Draft = 1,
-
-    [EnumValue("PENDING_APPROVAL")]
-    PendingApproval = 2,
-
     [EnumValue("APPROVED")]
-    Approved = 3,
-
-    [EnumValue("REJECTED")]
-    Rejected = 4,
-
-    [EnumValue("DEPRECATED")]
-    Deprecated = 5,
-
-    [EnumValue("CREATING")]
-    Creating = 6,
-
-    [EnumValue("UPDATING")]
-    Updating = 7,
+    Approved,
 
     [EnumValue("CREATE_FAILED")]
-    CreateFailed = 8,
+    CreateFailed,
+
+    [EnumValue("CREATING")]
+    Creating,
+
+    [EnumValue("DEPRECATED")]
+    Deprecated,
+
+    [EnumValue("DRAFT")]
+    Draft,
+
+    [EnumValue("PENDING_APPROVAL")]
+    PendingApproval,
+
+    [EnumValue("REJECTED")]
+    Rejected,
 
     [EnumValue("UPDATE_FAILED")]
-    UpdateFailed = 9
+    UpdateFailed,
+
+    [EnumValue("UPDATING")]
+    Updating
 }

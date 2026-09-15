@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --internetprotocol.
+/// Allowed values for --internet-protocol.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsMgnCreateReplicationConfigurationTemplateInternetProtocol
 {
     [EnumValue("IPV4")]
-    Ipv4 = 1,
+    Ipv4,
 
     [EnumValue("IPV6")]
-    Ipv6 = 2
+    Ipv6
 }

@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --templatetype.
+/// Allowed values for --template-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsDeadlineUpdateQueueEnvironmentTemplateType
 {
     [EnumValue("JSON")]
-    Json = 1,
+    Json,
 
     [EnumValue("YAML")]
-    Yaml = 2
+    Yaml
 }

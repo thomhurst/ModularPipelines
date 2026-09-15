@@ -12,6 +12,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -22,10 +23,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("connect", "create-contact")]
-public record AwsConnectCreateContactOptions : AwsOptions
+public record AwsConnectCreateContactOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// WARNING: Only the VOICE, EMAIL, and TASK channels are supported. o For VOICE: The supported initiation method is TRANSFER . The con- tacts created with this initiation method have a subtype con- nect:ExternalAudio . o For EMAIL: The supported initiation methods are OUTBOUND , AGENT_REPLY , and FLOW . o For TASK: The supported initiation method is API . Contacts cre- ated with this API have a sub-type of connect:ExternalTask . Creates a new VOICE, EMAIL, or TASK contact. After a contact is create...
+    /// </summary>
+    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100</param>
+    /// <param name="Channel">The channel for the contact. WARNING: The CHAT channel is not supported. The following information is incorrect. We're working to correct it. Possible values: o VOICE o CHAT o TASK o EMAIL</param>
+    /// <param name="InitiationMethod">Indicates how the contact was initiated. WARNING: CreateContact only supports the following initiation methods. Valid values by channel are: o For VOICE: TRANSFER and the subtype connect:ExternalAudio o For EMAIL: OUTBOUND | AGENT_REPLY | FLOW o For TASK: API The other channels listed below are incorrect. We're working to correct this information. Possible values: o INBOUND o OUTBOUND o TRANSFER o QUEUE_TRANSFER o CALLBACK o API o DISCONNECT o MONITOR o EXTERNAL_OUTBOUND o WEBRTC_API o AGENT_REPLY o FLOW</param>
+    public AwsConnectCreateContactOptions(
+        string InstanceId,
+        AwsConnectCreateContactChannel Channel,
+        AwsConnectCreateContactInitiationMethod InitiationMethod
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(InstanceId);
+        this.InstanceId = InstanceId;
+        global::System.ArgumentNullException.ThrowIfNull(Channel);
+        this.Channel = Channel;
+        global::System.ArgumentNullException.ThrowIfNull(InitiationMethod);
+        this.InitiationMethod = InitiationMethod;
+    }
+
+    private AwsConnectCreateContactOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsConnectCreateContactOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsConnectCreateContactOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100
+    /// </summary>
     [CliOption("--instance-id")]
-    public string? InstanceId { get; set; }
+    public string? InstanceId { get; private init; }
+
+    /// <summary>
+    /// The channel for the contact. WARNING: The CHAT channel is not supported. The following information is incorrect. We're working to correct it. Possible values: o VOICE o CHAT o TASK o EMAIL
+    /// </summary>
+    [CliOption("--channel")]
+    public AwsConnectCreateContactChannel? Channel { get; private init; }
+
+    /// <summary>
+    /// Indicates how the contact was initiated. WARNING: CreateContact only supports the following initiation methods. Valid values by channel are: o For VOICE: TRANSFER and the subtype connect:ExternalAudio o For EMAIL: OUTBOUND | AGENT_REPLY | FLOW o For TASK: API The other channels listed below are incorrect. We're working to correct this information. Possible values: o INBOUND o OUTBOUND o TRANSFER o QUEUE_TRANSFER o CALLBACK o API o DISCONNECT o MONITOR o EXTERNAL_OUTBOUND o WEBRTC_API o AGENT_REPLY o FLOW
+    /// </summary>
+    [CliOption("--initiation-method")]
+    public AwsConnectCreateContactInitiationMethod? InitiationMethod { get; private init; }
 
     /// <summary>
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs . Constraints: o max: 500
@@ -51,12 +108,6 @@ public record AwsConnectCreateContactOptions : AwsOptions
     /// </summary>
     [CliOption("--references", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? References { get; set; }
-
-    [CliOption("--channel")]
-    public string? Channel { get; set; }
-
-    [CliOption("--initiation-method")]
-    public string? InitiationMethod { get; set; }
 
     /// <summary>
     /// Number of minutes the contact will be active for before expiring
@@ -105,5 +156,22 @@ public record AwsConnectCreateContactOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

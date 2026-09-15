@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --credentialsscope.
+/// Allowed values for --credentials-scope.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsLakeformationGetTemporaryDataLocationCredentialsCredentialsScope
 {
     [EnumValue("READ")]
-    Read = 1,
+    Read,
 
     [EnumValue("READWRITE")]
-    Readwrite = 2
+    Readwrite
 }

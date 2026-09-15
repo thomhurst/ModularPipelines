@@ -12,6 +12,8 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -21,13 +23,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("imagebuilder", "create-component")]
-public record AwsImagebuilderCreateComponentOptions : AwsOptions
+public record AwsImagebuilderCreateComponentOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--name")]
-    public string? Name { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates a new component that can be used to build, validate, test, and assess your image. The component is based on a YAML document that you specify using exactly one of the following methods: o Inline, using the data property in the request body. o A URL that points to a YAML document file stored in Amazon S3, using the uri property in the request body. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Name">The name of the component. Constraints: o pattern: ^[-_A-Za-z-0-9][-_A-Za-z0-9 ]{1,126}[-_A-Za-z-0-9]$</param>
+    /// <param name="SemanticVersion">The semantic version of the component. This version follows the se- mantic version syntax. NOTE: The semantic version has four nodes: &lt;major&gt;.&lt;mi- nor&gt;.&lt;patch&gt;/&lt;build&gt;. You can assign values for the first three, and can filter on all of them. Assignment: For the first three nodes, you can assign any positive integer value, including zero. The upper limit is 2^30-1, or 1073741823, for each node. Image Builder automati- cally assigns the build number to the fourth node. Patterns: You can use any numeric pattern that adheres to the assignment requirements for the nodes that you can assign. For example, you might choose a software version pattern, such as 1.0.0, or a date, such as 2021.01.01. Constraints: o pattern: ^[0-9]+\.[0-9]+\.[0-9]+$</param>
+    /// <param name="Platform">The operating system platform of the component. Possible values: o Windows o Linux o macOS</param>
+    public AwsImagebuilderCreateComponentOptions(
+        string Name,
+        string SemanticVersion,
+        AwsImagebuilderCreateComponentPlatform Platform
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(SemanticVersion);
+        this.SemanticVersion = SemanticVersion;
+        global::System.ArgumentNullException.ThrowIfNull(Platform);
+        this.Platform = Platform;
+    }
+
+    private AwsImagebuilderCreateComponentOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsImagebuilderCreateComponentOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsImagebuilderCreateComponentOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the component. Constraints: o pattern: ^[-_A-Za-z-0-9][-_A-Za-z0-9 ]{1,126}[-_A-Za-z-0-9]$
+    /// </summary>
+    [CliOption("--name")]
+    public string? Name { get; private init; }
+
+    /// <summary>
+    /// The semantic version of the component. This version follows the se- mantic version syntax. NOTE: The semantic version has four nodes: &lt;major&gt;.&lt;mi- nor&gt;.&lt;patch&gt;/&lt;build&gt;. You can assign values for the first three, and can filter on all of them. Assignment: For the first three nodes, you can assign any positive integer value, including zero. The upper limit is 2^30-1, or 1073741823, for each node. Image Builder automati- cally assigns the build number to the fourth node. Patterns: You can use any numeric pattern that adheres to the assignment requirements for the nodes that you can assign. For example, you might choose a software version pattern, such as 1.0.0, or a date, such as 2021.01.01. Constraints: o pattern: ^[0-9]+\.[0-9]+\.[0-9]+$
+    /// </summary>
     [CliOption("--semantic-version")]
-    public string? SemanticVersion { get; set; }
+    public string? SemanticVersion { get; private init; }
+
+    /// <summary>
+    /// The operating system platform of the component. Possible values: o Windows o Linux o macOS
+    /// </summary>
+    [CliOption("--platform")]
+    public AwsImagebuilderCreateComponentPlatform? Platform { get; private init; }
 
     /// <summary>
     /// Describes the contents of the component. Constraints: o min: 1 o max: 1024
@@ -40,9 +95,6 @@ public record AwsImagebuilderCreateComponentOptions : AwsOptions
     /// </summary>
     [CliOption("--change-description")]
     public string? ChangeDescription { get; set; }
-
-    [CliOption("--platform")]
-    public string? Platform { get; set; }
 
     /// <summary>
     /// The operating system (OS) version supported by the component. If the OS information is available, a prefix match is performed against the base image OS version during image recipe creation. Constraints: o min: 1 o max: 25 (string) Constraints: o min: 1 Syntax: "string" "string" ...
@@ -57,7 +109,7 @@ public record AwsImagebuilderCreateComponentOptions : AwsOptions
     public string? Data { get; set; }
 
     /// <summary>
-    /// The uri of a YAML component document file. This must be an S3 URL (s3://bucket/key ), and the requester must have permission to access the S3 bucket it points to. If you use Amazon S3, you can specify component content up to your service quota. Alternatively, you can specify the YAML document inline, using the component data property. You cannot specify both properties.
+    /// The uri of a YAML component document file. This must be an S3 URL (s3://bucket/key ), and you must have permission to access the S3 bucket it points to. If you use Amazon S3, you can specify component content up to your service quota. Alternatively, you can specify the YAML document inline, using the component data property. You cannot specify both properties.
     /// </summary>
     [CliOption("--uri")]
     public string? Uri { get; set; }
@@ -75,13 +127,16 @@ public record AwsImagebuilderCreateComponentOptions : AwsOptions
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>
-    /// Unique, case-sensitive identifier you provide to ensure idempotency of the request. For more information, see Ensuring idempotency in the Amazon EC2 API Reference . Constraints: o min: 1 o max: 64
+    /// A unique, case-sensitive identifier you provide to ensure that the operation completes no more than one time. If this token matches a previous request, the service ignores the request, but does not re- turn an error. For more information, see Ensuring idempotency in the Amazon EC2 API Reference . Constraints: o min: 1 o max: 64
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// Validates the required permissions and request parameters without making the request. If validation succeeds, the operation returns a DryRunOperationException error response.
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -89,5 +144,22 @@ public record AwsImagebuilderCreateComponentOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

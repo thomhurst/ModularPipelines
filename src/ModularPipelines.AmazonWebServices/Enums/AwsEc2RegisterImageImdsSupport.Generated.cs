@@ -11,11 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --imdssupport.
+/// Allowed values for --imds-support.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsEc2RegisterImageImdsSupport
 {
-    [EnumValue("v2")]
-    V2 = 1
+    [EnumValue("o")]
+    O,
+
+    [EnumValue("v2.0")]
+    V20
 }

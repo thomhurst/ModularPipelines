@@ -11,17 +11,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --sourcetype.
+/// Allowed values for --source-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsLookoutequipmentListModelVersionsSourceType
 {
-    [EnumValue("TRAINING")]
-    Training = 1,
+    [EnumValue("IMPORT")]
+    Import,
 
     [EnumValue("RETRAINING")]
-    Retraining = 2,
+    Retraining,
 
-    [EnumValue("IMPORT")]
-    Import = 3
+    [EnumValue("TRAINING")]
+    Training
 }

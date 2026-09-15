@@ -11,17 +11,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --engagementtype.
+/// Allowed values for --engagement-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsSecurityIrUpdateCaseEngagementType
 {
-    [EnumValue("Security")]
-    Security = 1,
-
     [EnumValue("Incident")]
-    Incident = 2,
+    Incident,
 
     [EnumValue("Investigation")]
-    Investigation = 3
+    Investigation,
+
+    [EnumValue("o")]
+    O,
+
+    [EnumValue("Security")]
+    Security
 }

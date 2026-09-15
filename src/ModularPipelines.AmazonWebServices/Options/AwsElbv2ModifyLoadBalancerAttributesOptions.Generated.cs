@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,89 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("elbv2", "modify-load-balancer-attributes")]
-public record AwsElbv2ModifyLoadBalancerAttributesOptions : AwsOptions
+public record AwsElbv2ModifyLoadBalancerAttributesOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--load-balancer-arn")]
-    public string? LoadBalancerArn { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Modifies the specified attributes of the specified Application Load Balancer, Network Load Balancer, or Gateway Load Balancer. If any of the specified attributes can't be modified as requested, the call fails. Any existing attributes that you do not modify retain their current values. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="LoadBalancerArn">The Amazon Resource Name (ARN) of the load balancer.</param>
+    /// <param name="Attributes">The load balancer attributes. Constraints: o max: 20 (structure) Information about a load balancer attribute. Key -&gt; (string) The name of the attribute. The following attributes are supported by all load balancers: o deletion_protection.enabled - Indicates whether deletion protection is enabled. The value is true or false . The de- fault is false . o load_balancing.cross_zone.enabled - Indicates whether cross-zone load balancing is enabled. The possible values are true and false . The default for Network Load Balancers and Gateway Load Balancers is false . The default for Ap- plication Load Balancers is true , and can't be changed. The following attributes are supported by both Application Load Balancers and Network Load Balancers: o access_logs.s3.enabled - Indicates whether access logs are enabled. The value is true or false . The default is false . o access_logs.s3.bucket - The name of the S3 bucket for the access logs. This attribute is required if access logs are enabled. The bucket must exist in the same region as the load balancer and have a bucket policy that grants Elastic Load Balancing permissions to write to the bucket. o access_logs.s3.prefix - The prefix for the location in the S3 bucket for the access logs. o ipv6.deny_all_igw_traffic - Blocks internet gateway (IGW) access to the load balancer. It is set to false for inter- net-facing load balancers and true for internal load bal- ancers, preventing unintended access to your internal load balancer through an internet gateway. o zonal_shift.config.enabled - Indicates whether zonal shift is enabled. The possible values are true and false . The default is false . The following attributes are supported by only Application Load Balancers: o idle_timeout.timeout_seconds - The idle timeout value, in seconds. The valid range is 1-4000 seconds. The default is 60 seconds. o client_keep_alive.seconds - The client keep alive value, in seconds. The valid range is 60-604800 seconds. The default is 3600 seconds. o connection_logs.s3.enabled - Indicates whether connection logs are enabled. The value is true or false . The default is false . o connection_logs.s3.bucket - The name of the S3 bucket for the connection logs. This attribute is required if connec- tion logs are enabled. The bucket must exist in the same region as the load balancer and have a bucket policy that grants Elastic Load Balancing permissions to write to the bucket. o connection_logs.s3.prefix - The prefix for the location in the S3 bucket for the connection logs. o health_check_logs.s3.enabled - Indicates whether health check logs are enabled. The value is true or false . The default is false . o health_check_logs.s3.bucket - The name of the S3 bucket for the health check logs. This attribute is required if health check logs are enabled. The bucket must exist in the same region as the load balancer and have a bucket policy that grants Elastic Load Balancing permissions to write to the bucket. o health_check_logs.s3.prefix - The prefix for the location in the S3 bucket for the health check logs. o routing.http.desync_mitigation_mode - Determines how the load balancer handles requests that might pose a security risk to your application. The possible values are monitor , defensive , and strictest . The default is defensive . o routing.http.drop_invalid_header_fields.enabled - Indicates whether HTTP headers with invalid header fields are removed by the load balancer (true ) or routed to targets (false ). The default is false . o routing.http.preserve_host_header.enabled - Indicates whether the Application Load Balancer should preserve the Host header in the HTTP request and send it to the target without any change. The possible values are true and false . The default is false . o routing.http.x_amzn_tls_version_and_cipher_suite.enabled - Indicates whether the two headers (x-amzn-tls-version and x-amzn-tls-cipher-suite ), which contain information about the negotiated TLS version and cipher suite, are added to the client request before sending it to the target. The x-amzn-tls-version header has information about the TLS protocol version negotiated with the client, and the x-amzn-tls-cipher-suite header has information about the cipher suite negotiated with the client. Both headers are in OpenSSL format. The possible values for the attribute are true and false . The default is false . o routing.http.xff_client_port.enabled - Indicates whether the X-Forwarded-For header should preserve the source port that the client used to connect to the load balancer. The possible values are true and false . The default is false . o routing.http.xff_header_processing.mode - Enables you to modify, preserve, or remove the X-Forwarded-For header in the HTTP request before the Application Load Balancer sends the request to the target. The possible values are append , preserve , and remove . The default is append . o If the value is append , the Application Load Balancer adds the client IP address (of the last hop) to the X-Forwarded-For header in the HTTP request before it sends it to targets. o If the value is preserve the Application Load Balancer preserves the X-Forwarded-For header in the HTTP request, and sends it to targets without any change. o If the value is remove , the Application Load Balancer removes the X-Forwarded-For header in the HTTP request before it sends it to targets. o routing.http2.enabled - Indicates whether clients can con- nect to the load balancer using HTTP/2. If true , clients can connect using HTTP/2 or HTTP/1.1. However, all client requests are subject to the stricter HTTP/2 header valida- tion rules. For example, message header names must contain only alphanumeric characters and hyphens. If false , clients must connect using HTTP/1.1. The default is true . o waf.fail_open.enabled - Indicates whether to allow a WAF-enabled load balancer to route requests to targets if it is unable to forward the request to Amazon Web Services WAF. The possible values are true and false . The default is false . The following attributes are supported by only Network Load Balancers: o dns_record.client_routing_policy - Indicates how traffic is distributed among the load balancer Availability Zones. The possible values are availability_zone_affinity with 100 percent zonal affinity, partial_availability_zone_affinity with 85 percent zonal affinity, and any_availability_zone with 0 percent zonal affinity. o secondary_ips.auto_assigned.per_subnet - The number of sec- ondary IP addresses to configure for your load balancer nodes. Use to address port allocation errors if you can't add targets. The valid range is 0 to 7. The default is 0. After you set this value, you can't decrease it. Constraints: o max: 256 o pattern: ^[a-zA-Z0-9._]+$ Value -&gt; (string) The value of the attribute. Constraints: o max: 1024 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]</param>
+    public AwsElbv2ModifyLoadBalancerAttributesOptions(
+        string LoadBalancerArn,
+        IEnumerable<string> Attributes
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(LoadBalancerArn);
+        this.LoadBalancerArn = LoadBalancerArn;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Attributes);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Attributes));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Attributes));
+            }
+
+            Attributes = materialized;
+        }
+        this.Attributes = Attributes;
+    }
+
+    private AwsElbv2ModifyLoadBalancerAttributesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsElbv2ModifyLoadBalancerAttributesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsElbv2ModifyLoadBalancerAttributesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the load balancer.
+    /// </summary>
+    [CliOption("--load-balancer-arn")]
+    public string? LoadBalancerArn { get; private init; }
+
+    /// <summary>
+    /// The load balancer attributes. Constraints: o max: 20 (structure) Information about a load balancer attribute. Key -&gt; (string) The name of the attribute. The following attributes are supported by all load balancers: o deletion_protection.enabled - Indicates whether deletion protection is enabled. The value is true or false . The de- fault is false . o load_balancing.cross_zone.enabled - Indicates whether cross-zone load balancing is enabled. The possible values are true and false . The default for Network Load Balancers and Gateway Load Balancers is false . The default for Ap- plication Load Balancers is true , and can't be changed. The following attributes are supported by both Application Load Balancers and Network Load Balancers: o access_logs.s3.enabled - Indicates whether access logs are enabled. The value is true or false . The default is false . o access_logs.s3.bucket - The name of the S3 bucket for the access logs. This attribute is required if access logs are enabled. The bucket must exist in the same region as the load balancer and have a bucket policy that grants Elastic Load Balancing permissions to write to the bucket. o access_logs.s3.prefix - The prefix for the location in the S3 bucket for the access logs. o ipv6.deny_all_igw_traffic - Blocks internet gateway (IGW) access to the load balancer. It is set to false for inter- net-facing load balancers and true for internal load bal- ancers, preventing unintended access to your internal load balancer through an internet gateway. o zonal_shift.config.enabled - Indicates whether zonal shift is enabled. The possible values are true and false . The default is false . The following attributes are supported by only Application Load Balancers: o idle_timeout.timeout_seconds - The idle timeout value, in seconds. The valid range is 1-4000 seconds. The default is 60 seconds. o client_keep_alive.seconds - The client keep alive value, in seconds. The valid range is 60-604800 seconds. The default is 3600 seconds. o connection_logs.s3.enabled - Indicates whether connection logs are enabled. The value is true or false . The default is false . o connection_logs.s3.bucket - The name of the S3 bucket for the connection logs. This attribute is required if connec- tion logs are enabled. The bucket must exist in the same region as the load balancer and have a bucket policy that grants Elastic Load Balancing permissions to write to the bucket. o connection_logs.s3.prefix - The prefix for the location in the S3 bucket for the connection logs. o health_check_logs.s3.enabled - Indicates whether health check logs are enabled. The value is true or false . The default is false . o health_check_logs.s3.bucket - The name of the S3 bucket for the health check logs. This attribute is required if health check logs are enabled. The bucket must exist in the same region as the load balancer and have a bucket policy that grants Elastic Load Balancing permissions to write to the bucket. o health_check_logs.s3.prefix - The prefix for the location in the S3 bucket for the health check logs. o routing.http.desync_mitigation_mode - Determines how the load balancer handles requests that might pose a security risk to your application. The possible values are monitor , defensive , and strictest . The default is defensive . o routing.http.drop_invalid_header_fields.enabled - Indicates whether HTTP headers with invalid header fields are removed by the load balancer (true ) or routed to targets (false ). The default is false . o routing.http.preserve_host_header.enabled - Indicates whether the Application Load Balancer should preserve the Host header in the HTTP request and send it to the target without any change. The possible values are true and false . The default is false . o routing.http.x_amzn_tls_version_and_cipher_suite.enabled - Indicates whether the two headers (x-amzn-tls-version and x-amzn-tls-cipher-suite ), which contain information about the negotiated TLS version and cipher suite, are added to the client request before sending it to the target. The x-amzn-tls-version header has information about the TLS protocol version negotiated with the client, and the x-amzn-tls-cipher-suite header has information about the cipher suite negotiated with the client. Both headers are in OpenSSL format. The possible values for the attribute are true and false . The default is false . o routing.http.xff_client_port.enabled - Indicates whether the X-Forwarded-For header should preserve the source port that the client used to connect to the load balancer. The possible values are true and false . The default is false . o routing.http.xff_header_processing.mode - Enables you to modify, preserve, or remove the X-Forwarded-For header in the HTTP request before the Application Load Balancer sends the request to the target. The possible values are append , preserve , and remove . The default is append . o If the value is append , the Application Load Balancer adds the client IP address (of the last hop) to the X-Forwarded-For header in the HTTP request before it sends it to targets. o If the value is preserve the Application Load Balancer preserves the X-Forwarded-For header in the HTTP request, and sends it to targets without any change. o If the value is remove , the Application Load Balancer removes the X-Forwarded-For header in the HTTP request before it sends it to targets. o routing.http2.enabled - Indicates whether clients can con- nect to the load balancer using HTTP/2. If true , clients can connect using HTTP/2 or HTTP/1.1. However, all client requests are subject to the stricter HTTP/2 header valida- tion rules. For example, message header names must contain only alphanumeric characters and hyphens. If false , clients must connect using HTTP/1.1. The default is true . o waf.fail_open.enabled - Indicates whether to allow a WAF-enabled load balancer to route requests to targets if it is unable to forward the request to Amazon Web Services WAF. The possible values are true and false . The default is false . The following attributes are supported by only Network Load Balancers: o dns_record.client_routing_policy - Indicates how traffic is distributed among the load balancer Availability Zones. The possible values are availability_zone_affinity with 100 percent zonal affinity, partial_availability_zone_affinity with 85 percent zonal affinity, and any_availability_zone with 0 percent zonal affinity. o secondary_ips.auto_assigned.per_subnet - The number of sec- ondary IP addresses to configure for your load balancer nodes. Use to address port allocation errors if you can't add targets. The valid range is 0 to 7. The default is 0. After you set this value, you can't decrease it. Constraints: o max: 256 o pattern: ^[a-zA-Z0-9._]+$ Value -&gt; (string) The value of the attribute. Constraints: o max: 1024 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// </summary>
     [CliOption("--attributes", GroupValues = true)]
-    public IEnumerable<string>? Attributes { get; set; }
+    public IEnumerable<string>? Attributes { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

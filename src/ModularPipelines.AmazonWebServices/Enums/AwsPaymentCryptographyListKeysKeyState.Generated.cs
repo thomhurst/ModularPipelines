@@ -11,20 +11,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --keystate.
+/// Allowed values for --key-state.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsPaymentCryptographyListKeysKeyState
 {
-    [EnumValue("CREATE_IN_PROGRESS")]
-    CreateInProgress = 1,
-
     [EnumValue("CREATE_COMPLETE")]
-    CreateComplete = 2,
+    CreateComplete,
 
-    [EnumValue("DELETE_PENDING")]
-    DeletePending = 3,
+    [EnumValue("CREATE_IN_PROGRESS")]
+    CreateInProgress,
 
     [EnumValue("DELETE_COMPLETE")]
-    DeleteComplete = 4
+    DeleteComplete,
+
+    [EnumValue("DELETE_PENDING")]
+    DeletePending
 }

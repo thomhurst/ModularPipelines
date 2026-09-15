@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,11 +21,47 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("secretsmanager", "put-secret-value")]
-public record AwsSecretsmanagerPutSecretValueOptions : AwsOptions
+public record AwsSecretsmanagerPutSecretValueOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a new version of your secret by creating a new encrypted value and attaching it to the secret. version can contain a new SecretString value or a new SecretBinary value. Do not call PutSecretValue at a sustained rate of more than once every 10 minutes. When you update the secret value, Secrets Manager creates a new version of the secret. Secrets Manager keeps 100 of the most recent versions, but it keeps all secret versions created in the last 24 hours. If you call PutSecretValue more tha...
+    /// </summary>
+    /// <param name="SecretId">The ARN or name of the secret to add a new version to. For an ARN, we recommend that you specify a complete ARN rather than a partial ARN. See Finding a secret from a partial ARN . If the secret doesn't already exist, use CreateSecret instead. Constraints: o min: 1 o max: 2048</param>
+    public AwsSecretsmanagerPutSecretValueOptions(
+        string SecretId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SecretId);
+        this.SecretId = SecretId;
+    }
+
+    private AwsSecretsmanagerPutSecretValueOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSecretsmanagerPutSecretValueOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSecretsmanagerPutSecretValueOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ARN or name of the secret to add a new version to. For an ARN, we recommend that you specify a complete ARN rather than a partial ARN. See Finding a secret from a partial ARN . If the secret doesn't already exist, use CreateSecret instead. Constraints: o min: 1 o max: 2048
+    /// </summary>
     [SecretValue]
     [CliOption("--secret-id")]
-    public string? SecretId { get; set; }
+    public string? SecretId { get; private init; }
 
     /// <summary>
     /// A unique identifier for the new version of the secret. NOTE: If you use the Amazon Web Services CLI or one of the Amazon Web Services SDKs to call this operation, then you can leave this parameter empty. The CLI or SDK generates a random UUID for you and includes it as the value for this parameter in the request. If you generate a raw HTTP request to the Secrets Manager service endpoint, then you must generate a ClientRequestToken and include it in the request. This value helps ensure idempotency. Secrets Manager uses this value to prevent the accidental creation of duplicate versions if there are failures and retries during a rotation. We recommend that you generate a UUID-type value to ensure uniqueness of your versions within the specified secret. o If the ClientRequestToken value isn't already associated with a version of the secret then a new version of the secret is created. o If a version with this value already exists and that version's Se- cretString or SecretBinary values are the same as those in the re- quest then the request is ignored. The operation is idempotent. o If a version with this value already exists and the version of the SecretString and SecretBinary values are different from those in the request, then the request fails because you can't modify a se- cret version. You can only create new versions to store new secret values. This value becomes the VersionId of the new version. Constraints: o min: 32 o max: 64
@@ -65,5 +102,22 @@ public record AwsSecretsmanagerPutSecretValueOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

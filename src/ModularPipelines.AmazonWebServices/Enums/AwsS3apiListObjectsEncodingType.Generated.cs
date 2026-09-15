@@ -11,11 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --encodingtype.
+/// Allowed values for --encoding-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsS3apiListObjectsEncodingType
 {
+    [EnumValue("o")]
+    O,
+
     [EnumValue("url")]
-    Url = 1
+    Url
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("marketplace-catalog", "cancel-change-set")]
-public record AwsMarketplaceCatalogCancelChangeSetOptions : AwsOptions
+public record AwsMarketplaceCatalogCancelChangeSetOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--catalog")]
-    public string? Catalog { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Used to cancel an open change request. Must be sent before the status of the request changes to APPLYING , the final stage of completing your change request. You can describe a change during the 60-day request history retention period for API calls. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Catalog">Required. The catalog related to the request. Fixed value: AWSMar- ketplace . Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z]+$</param>
+    /// <param name="ChangeSetId">Required. The unique identifier of the StartChangeSet request that you want to cancel. Constraints: o min: 1 o max: 255 o pattern: ^[\w\-]+$</param>
+    public AwsMarketplaceCatalogCancelChangeSetOptions(
+        string Catalog,
+        string ChangeSetId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Catalog);
+        this.Catalog = Catalog;
+        global::System.ArgumentNullException.ThrowIfNull(ChangeSetId);
+        this.ChangeSetId = ChangeSetId;
+    }
+
+    private AwsMarketplaceCatalogCancelChangeSetOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsMarketplaceCatalogCancelChangeSetOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsMarketplaceCatalogCancelChangeSetOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Required. The catalog related to the request. Fixed value: AWSMar- ketplace . Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z]+$
+    /// </summary>
+    [CliOption("--catalog")]
+    public string? Catalog { get; private init; }
+
+    /// <summary>
+    /// Required. The unique identifier of the StartChangeSet request that you want to cancel. Constraints: o min: 1 o max: 255 o pattern: ^[\w\-]+$
+    /// </summary>
     [CliOption("--change-set-id")]
-    public string? ChangeSetId { get; set; }
+    public string? ChangeSetId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

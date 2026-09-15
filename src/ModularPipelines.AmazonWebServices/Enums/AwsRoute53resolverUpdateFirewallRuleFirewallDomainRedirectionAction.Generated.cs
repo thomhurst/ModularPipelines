@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --firewalldomainredirectionaction.
+/// Allowed values for --firewall-domain-redirection-action.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsRoute53resolverUpdateFirewallRuleFirewallDomainRedirectionAction
 {
     [EnumValue("INSPECT_REDIRECTION_DOMAIN")]
-    InspectRedirectionDomain = 1,
+    InspectRedirectionDomain,
 
     [EnumValue("TRUST_REDIRECTION_DOMAIN")]
-    TrustRedirectionDomain = 2
+    TrustRedirectionDomain
 }

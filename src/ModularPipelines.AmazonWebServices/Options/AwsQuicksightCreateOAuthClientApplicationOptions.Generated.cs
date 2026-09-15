@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,30 +22,108 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("quicksight", "create-o-auth-client-application")]
-public record AwsQuicksightCreateOAuthClientApplicationOptions : AwsOptions
+public record AwsQuicksightCreateOAuthClientApplicationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates an OAuthClientApplication. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="AwsAccountId">The Amazon Web Services account ID. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$</param>
+    /// <param name="OAuthClientApplicationId">An ID for the OAuthClientApplication that you want to create. This ID is unique per Amazon Web Services Region for each Amazon Web Ser- vices account. Constraints: o min: 1 o max: 256 o pattern: [^/][^\p{Cc}]*</param>
+    /// <param name="Name">The display name for the OAuthClientApplication. Constraints: o min: 1 o max: 128</param>
+    /// <param name="OAuthClientAuthenticationType">The authentication type to use for the OAuthClientApplication. This determines the OAuth 2.0 grant flow that is used when the data source connects to the identity provider. Valid values are TOKEN . Possible values: o TOKEN</param>
+    /// <param name="ClientId">The client ID of the OAuth application that is registered with the identity provider. Constraints: o min: 1 o max: 256 o pattern: [^\p{Cc}]+</param>
+    /// <param name="ClientSecret">The client secret of the OAuth application that is registered with the identity provider. Constraints: o min: 1 o max: 2048 o pattern: [^\p{Cc}]+</param>
+    /// <param name="OAuthTokenEndpointUrl">The token endpoint URL of the identity provider that is used to ob- tain access tokens. Constraints: o min: 1 o max: 2048 o pattern: ^https://[^\p{Cc}]+</param>
+    public AwsQuicksightCreateOAuthClientApplicationOptions(
+        string AwsAccountId,
+        string OAuthClientApplicationId,
+        string Name,
+        AwsQuicksightCreateOAuthClientApplicationOAuthClientAuthenticationType OAuthClientAuthenticationType,
+        string ClientId,
+        string ClientSecret,
+        string OAuthTokenEndpointUrl
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AwsAccountId);
+        this.AwsAccountId = AwsAccountId;
+        global::System.ArgumentNullException.ThrowIfNull(OAuthClientApplicationId);
+        this.OAuthClientApplicationId = OAuthClientApplicationId;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(OAuthClientAuthenticationType);
+        this.OAuthClientAuthenticationType = OAuthClientAuthenticationType;
+        global::System.ArgumentNullException.ThrowIfNull(ClientId);
+        this.ClientId = ClientId;
+        global::System.ArgumentNullException.ThrowIfNull(ClientSecret);
+        this.ClientSecret = ClientSecret;
+        global::System.ArgumentNullException.ThrowIfNull(OAuthTokenEndpointUrl);
+        this.OAuthTokenEndpointUrl = OAuthTokenEndpointUrl;
+    }
+
+    private AwsQuicksightCreateOAuthClientApplicationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsQuicksightCreateOAuthClientApplicationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsQuicksightCreateOAuthClientApplicationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Web Services account ID. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$
+    /// </summary>
     [CliOption("--aws-account-id")]
-    public string? AwsAccountId { get; set; }
+    public string? AwsAccountId { get; private init; }
 
+    /// <summary>
+    /// An ID for the OAuthClientApplication that you want to create. This ID is unique per Amazon Web Services Region for each Amazon Web Ser- vices account. Constraints: o min: 1 o max: 256 o pattern: [^/][^\p{Cc}]*
+    /// </summary>
     [CliOption("--o-auth-client-application-id")]
-    public string? OAuthClientApplicationId { get; set; }
+    public string? OAuthClientApplicationId { get; private init; }
 
+    /// <summary>
+    /// The display name for the OAuthClientApplication. Constraints: o min: 1 o max: 128
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
 
+    /// <summary>
+    /// The authentication type to use for the OAuthClientApplication. This determines the OAuth 2.0 grant flow that is used when the data source connects to the identity provider. Valid values are TOKEN . Possible values: o TOKEN
+    /// </summary>
     [CliOption("--o-auth-client-authentication-type")]
-    public string? OAuthClientAuthenticationType { get; set; }
+    public AwsQuicksightCreateOAuthClientApplicationOAuthClientAuthenticationType? OAuthClientAuthenticationType { get; private init; }
 
+    /// <summary>
+    /// The client ID of the OAuth application that is registered with the identity provider. Constraints: o min: 1 o max: 256 o pattern: [^\p{Cc}]+
+    /// </summary>
     [CliOption("--client-id")]
-    public string? ClientId { get; set; }
+    public string? ClientId { get; private init; }
 
+    /// <summary>
+    /// The client secret of the OAuth application that is registered with the identity provider. Constraints: o min: 1 o max: 2048 o pattern: [^\p{Cc}]+
+    /// </summary>
     [SecretValue]
     [CliOption("--client-secret")]
-    public string? ClientSecret { get; set; }
+    public string? ClientSecret { get; private init; }
 
+    /// <summary>
+    /// The token endpoint URL of the identity provider that is used to ob- tain access tokens. Constraints: o min: 1 o max: 2048 o pattern: ^https://[^\p{Cc}]+
+    /// </summary>
     [SecretValue]
     [CliOption("--o-auth-token-endpoint-url")]
-    public string? OAuthTokenEndpointUrl { get; set; }
+    public string? OAuthTokenEndpointUrl { get; private init; }
 
     /// <summary>
     /// The authorization endpoint URL of the identity provider that is used to obtain authorization codes. Constraints: o min: 1 o max: 2048 o pattern: ^https://[^\p{Cc}]+
@@ -80,5 +160,22 @@ public record AwsQuicksightCreateOAuthClientApplicationOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

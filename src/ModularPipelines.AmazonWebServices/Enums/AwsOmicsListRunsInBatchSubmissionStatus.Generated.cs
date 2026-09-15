@@ -11,29 +11,26 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --submissionstatus.
+/// Allowed values for --submission-status.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsOmicsListRunsInBatchSubmissionStatus
 {
-    [EnumValue("SUCCESS")]
-    Success = 1,
-
-    [EnumValue("FAILED")]
-    Failed = 2,
+    [EnumValue("CANCEL_FAILED")]
+    CancelFailed,
 
     [EnumValue("CANCEL_SUCCESS")]
-    CancelSuccess = 3,
-
-    [EnumValue("CANCEL_FAILED")]
-    CancelFailed = 4,
-
-    [EnumValue("DELETE_SUCCESS")]
-    DeleteSuccess = 5,
+    CancelSuccess,
 
     [EnumValue("DELETE_FAILED")]
-    DeleteFailed = 6,
+    DeleteFailed,
 
-    [EnumValue("Constraints")]
-    Constraints = 7
+    [EnumValue("DELETE_SUCCESS")]
+    DeleteSuccess,
+
+    [EnumValue("FAILED")]
+    Failed,
+
+    [EnumValue("SUCCESS")]
+    Success
 }

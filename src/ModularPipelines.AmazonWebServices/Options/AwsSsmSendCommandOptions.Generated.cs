@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,8 +22,47 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ssm", "send-command")]
-public record AwsSsmSendCommandOptions : AwsOptions
+public record AwsSsmSendCommandOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Runs commands on one or more managed nodes. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DocumentName">The name of the Amazon Web Services Systems Manager document (SSM document) to run. This can be a public document or a custom docu- ment. To run a shared document belonging to another account, specify the document Amazon Resource Name (ARN). For more information about how to use shared documents, see Sharing SSM documents in the Amazon Web Services Systems Manager User Guide . NOTE: If you specify a document name or ARN that hasn't been shared with your account, you receive an InvalidDocument error. Constraints: o pattern: ^[a-zA-Z0-9_\-.:/]{3,128}$</param>
+    public AwsSsmSendCommandOptions(
+        string DocumentName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DocumentName);
+        this.DocumentName = DocumentName;
+    }
+
+    private AwsSsmSendCommandOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSsmSendCommandOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSsmSendCommandOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the Amazon Web Services Systems Manager document (SSM document) to run. This can be a public document or a custom docu- ment. To run a shared document belonging to another account, specify the document Amazon Resource Name (ARN). For more information about how to use shared documents, see Sharing SSM documents in the Amazon Web Services Systems Manager User Guide . NOTE: If you specify a document name or ARN that hasn't been shared with your account, you receive an InvalidDocument error. Constraints: o pattern: ^[a-zA-Z0-9_\-.:/]{3,128}$
+    /// </summary>
+    [CliOption("--document-name")]
+    public string? DocumentName { get; private init; }
+
     /// <summary>
     /// The IDs of the managed nodes where the command should run. Specify- ing managed node IDs is most useful when you are targeting a limited number of managed nodes, though you can specify up to 50 IDs. To target a larger number of managed nodes, or if you prefer not to list individual node IDs, we recommend using the Targets option in- stead. Using Targets , which accepts tag key-value pairs to identify the managed nodes to send commands to, you can a send command to tens, hundreds, or thousands of nodes at once. For more information about how to use targets, see Run commands at scale in the Amazon Web Services Systems Manager User Guide . Constraints: o min: 0 o max: 50 (string) Constraints: o pattern: (^i-(\w{8}|\w{17})$)|(^mi-\w{17}$) Syntax: "string" "string" ...
     /// </summary>
@@ -34,9 +74,6 @@ public record AwsSsmSendCommandOptions : AwsOptions
     /// </summary>
     [CliOption("--targets", GroupValues = true)]
     public IEnumerable<string>? Targets { get; set; }
-
-    [CliOption("--document-name")]
-    public string? DocumentName { get; set; }
 
     /// <summary>
     /// The SSM document version to use in the request. You can specify $DE- FAULT, $LATEST, or a specific version number. If you run commands by using the Command Line Interface (Amazon Web Services CLI), then you must escape the first two options by using a backslash. If you spec- ify a version number, then you don't need to use the backslash. For example: -- document-version "$DEFAULT" --document-version "$LATEST" -- document-version "3" Constraints: o pattern: ([$]LATEST|[$]DEFAULT|^[1-9][0-9]*$)
@@ -133,5 +170,22 @@ public record AwsSsmSendCommandOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

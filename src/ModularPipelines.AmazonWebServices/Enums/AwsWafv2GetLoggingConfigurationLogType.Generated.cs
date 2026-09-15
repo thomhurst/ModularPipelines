@@ -11,11 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --logtype.
+/// Allowed values for --log-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsWafv2GetLoggingConfigurationLogType
 {
+    [EnumValue("o")]
+    O,
+
     [EnumValue("WAF_LOGS")]
-    WafLogs = 1
+    WafLogs
 }

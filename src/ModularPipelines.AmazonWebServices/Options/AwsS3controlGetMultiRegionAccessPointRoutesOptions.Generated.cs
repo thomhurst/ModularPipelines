@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("s3control", "get-multi-region-access-point-routes")]
-public record AwsS3controlGetMultiRegionAccessPointRoutesOptions : AwsOptions
+public record AwsS3controlGetMultiRegionAccessPointRoutesOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--account-id")]
-    public string? AccountId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// NOTE: This operation is not supported by directory buckets. Returns the routing configuration for a Multi-Region Access Point, in- dicating which Regions are active or passive. To obtain routing control changes and failover requests, use the Amazon S3 failover control infrastructure endpoints in these five Amazon Web Services Regions: o us-east-1 o us-west-2 o ap-southeast-2 o ap-northeast-1 o eu-west-1 See also: AWS API Documentation
+    /// </summary>
+    /// <param name="AccountId">The Amazon Web Services account ID for the owner of the Multi-Region Access Point. Constraints: o max: 64 o pattern: ^\d{12}$</param>
+    /// <param name="Mrap">The Multi-Region Access Point ARN. Constraints: o max: 200 o pattern: ^[a-zA-Z0-9\:.-]{3,200}$</param>
+    public AwsS3controlGetMultiRegionAccessPointRoutesOptions(
+        string AccountId,
+        string Mrap
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AccountId);
+        this.AccountId = AccountId;
+        global::System.ArgumentNullException.ThrowIfNull(Mrap);
+        this.Mrap = Mrap;
+    }
+
+    private AwsS3controlGetMultiRegionAccessPointRoutesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsS3controlGetMultiRegionAccessPointRoutesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsS3controlGetMultiRegionAccessPointRoutesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Web Services account ID for the owner of the Multi-Region Access Point. Constraints: o max: 64 o pattern: ^\d{12}$
+    /// </summary>
+    [CliOption("--account-id")]
+    public string? AccountId { get; private init; }
+
+    /// <summary>
+    /// The Multi-Region Access Point ARN. Constraints: o max: 200 o pattern: ^[a-zA-Z0-9\:.-]{3,200}$
+    /// </summary>
     [CliOption("--mrap")]
-    public string? Mrap { get; set; }
+    public string? Mrap { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

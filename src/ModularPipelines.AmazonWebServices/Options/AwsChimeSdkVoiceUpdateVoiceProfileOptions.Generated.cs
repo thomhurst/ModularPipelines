@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("chime-sdk-voice", "update-voice-profile")]
-public record AwsChimeSdkVoiceUpdateVoiceProfileOptions : AwsOptions
+public record AwsChimeSdkVoiceUpdateVoiceProfileOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--voice-profile-id")]
-    public string? VoiceProfileId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Updates the specified voice profiles voice print and refreshes its ex- piration timestamp. WARNING: As a condition of using this feature, you acknowledge that the col- lection, use, storage, and retention of your callers biometric iden- tifiers and biometric information (biometric data) in the form of a digital voiceprint requires the callers informed consent via a writ- ten release. Such consent is required under various state laws, in- cluding biometrics laws in Illinois, Texas, Washington and...
+    /// </summary>
+    /// <param name="VoiceProfileId">The profile ID. Constraints: o min: 1 o max: 256 o pattern: .*\S.*</param>
+    /// <param name="SpeakerSearchTaskId">The ID of the speaker search task. Constraints: o min: 1 o max: 256 o pattern: .*\S.*</param>
+    public AwsChimeSdkVoiceUpdateVoiceProfileOptions(
+        string VoiceProfileId,
+        string SpeakerSearchTaskId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(VoiceProfileId);
+        this.VoiceProfileId = VoiceProfileId;
+        global::System.ArgumentNullException.ThrowIfNull(SpeakerSearchTaskId);
+        this.SpeakerSearchTaskId = SpeakerSearchTaskId;
+    }
+
+    private AwsChimeSdkVoiceUpdateVoiceProfileOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsChimeSdkVoiceUpdateVoiceProfileOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsChimeSdkVoiceUpdateVoiceProfileOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The profile ID. Constraints: o min: 1 o max: 256 o pattern: .*\S.*
+    /// </summary>
+    [CliOption("--voice-profile-id")]
+    public string? VoiceProfileId { get; private init; }
+
+    /// <summary>
+    /// The ID of the speaker search task. Constraints: o min: 1 o max: 256 o pattern: .*\S.*
+    /// </summary>
     [CliOption("--speaker-search-task-id")]
-    public string? SpeakerSearchTaskId { get; set; }
+    public string? SpeakerSearchTaskId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

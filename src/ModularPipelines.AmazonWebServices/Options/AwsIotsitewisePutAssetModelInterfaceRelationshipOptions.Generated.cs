@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,16 +21,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iotsitewise", "put-asset-model-interface-relationship")]
-public record AwsIotsitewisePutAssetModelInterfaceRelationshipOptions : AwsOptions
+public record AwsIotsitewisePutAssetModelInterfaceRelationshipOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates or updates an interface relationship between an asset model and an interface asset model. This operation applies an interface to an as- set model. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="AssetModelId">The ID of the asset model. This can be either the actual ID in UUID format, or else externalId: followed by the external ID. Constraints: o min: 13 o max: 139 o pattern: ^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$|^ex- ternalId:[a-zA-Z0-9_][a-zA-Z_\-0-9.:]*[a-zA-Z0-9_]+</param>
+    /// <param name="InterfaceAssetModelId">The ID of the interface asset model. This can be either the actual ID in UUID format, or else externalId: followed by the external ID. Constraints: o min: 13 o max: 139 o pattern: ^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$|^ex- ternalId:[a-zA-Z0-9_][a-zA-Z_\-0-9.:]*[a-zA-Z0-9_]+</param>
+    /// <param name="PropertyMappingConfiguration">The configuration for mapping properties from the interface asset model to the asset model where the interface is applied. This con- figuration controls how properties are matched and created during the interface application process. matchByPropertyName -&gt; (boolean) If true, properties are matched by name between the interface asset model and the asset model where the interface is applied. createMissingProperty -&gt; (boolean) If true, missing properties from the interface asset model are automatically created in the asset model where the interface is applied. overrides -&gt; (list) A list of specific property mappings that override the automatic mapping by name when an interface is applied to an asset model. (structure) Maps a property from an interface asset model to a property in the asset model where the interface is applied. assetModelPropertyId -&gt; (string) [required] The ID of the property in the asset model where the in- terface is applied. Constraints: o min: 13 o max: 139 o pattern: ^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$|^ex- ternalId:[a-zA-Z0-9_][a-zA-Z_\-0-9.:]*[a-zA-Z0-9_]+ interfaceAssetModelPropertyId -&gt; (string) [required] The ID of the property in the interface asset model. Constraints: o min: 13 o max: 139 o pattern: ^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$|^ex- ternalId:[a-zA-Z0-9_][a-zA-Z_\-0-9.:]*[a-zA-Z0-9_]+ Shorthand Syntax: matchByPropertyName=boolean,createMissingProperty=boolean,overrides=[{assetModelPropertyId=string,interfaceAssetModelPropertyId=string},{assetModelPropertyId=string,interfaceAssetModelPropertyId=string}] JSON Syntax: { "matchByPropertyName": true|false, "createMissingProperty": true|false, "overrides": [ { "assetModelPropertyId": "string", "interfaceAssetModelPropertyId": "string" } ... ] }</param>
+    public AwsIotsitewisePutAssetModelInterfaceRelationshipOptions(
+        string AssetModelId,
+        string InterfaceAssetModelId,
+        string PropertyMappingConfiguration
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AssetModelId);
+        this.AssetModelId = AssetModelId;
+        global::System.ArgumentNullException.ThrowIfNull(InterfaceAssetModelId);
+        this.InterfaceAssetModelId = InterfaceAssetModelId;
+        global::System.ArgumentNullException.ThrowIfNull(PropertyMappingConfiguration);
+        this.PropertyMappingConfiguration = PropertyMappingConfiguration;
+    }
+
+    private AwsIotsitewisePutAssetModelInterfaceRelationshipOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsIotsitewisePutAssetModelInterfaceRelationshipOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsIotsitewisePutAssetModelInterfaceRelationshipOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the asset model. This can be either the actual ID in UUID format, or else externalId: followed by the external ID. Constraints: o min: 13 o max: 139 o pattern: ^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$|^ex- ternalId:[a-zA-Z0-9_][a-zA-Z_\-0-9.:]*[a-zA-Z0-9_]+
+    /// </summary>
     [CliOption("--asset-model-id")]
-    public string? AssetModelId { get; set; }
+    public string? AssetModelId { get; private init; }
 
+    /// <summary>
+    /// The ID of the interface asset model. This can be either the actual ID in UUID format, or else externalId: followed by the external ID. Constraints: o min: 13 o max: 139 o pattern: ^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$|^ex- ternalId:[a-zA-Z0-9_][a-zA-Z_\-0-9.:]*[a-zA-Z0-9_]+
+    /// </summary>
     [CliOption("--interface-asset-model-id")]
-    public string? InterfaceAssetModelId { get; set; }
+    public string? InterfaceAssetModelId { get; private init; }
 
+    /// <summary>
+    /// The configuration for mapping properties from the interface asset model to the asset model where the interface is applied. This con- figuration controls how properties are matched and created during the interface application process. matchByPropertyName -&gt; (boolean) If true, properties are matched by name between the interface asset model and the asset model where the interface is applied. createMissingProperty -&gt; (boolean) If true, missing properties from the interface asset model are automatically created in the asset model where the interface is applied. overrides -&gt; (list) A list of specific property mappings that override the automatic mapping by name when an interface is applied to an asset model. (structure) Maps a property from an interface asset model to a property in the asset model where the interface is applied. assetModelPropertyId -&gt; (string) [required] The ID of the property in the asset model where the in- terface is applied. Constraints: o min: 13 o max: 139 o pattern: ^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$|^ex- ternalId:[a-zA-Z0-9_][a-zA-Z_\-0-9.:]*[a-zA-Z0-9_]+ interfaceAssetModelPropertyId -&gt; (string) [required] The ID of the property in the interface asset model. Constraints: o min: 13 o max: 139 o pattern: ^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$|^ex- ternalId:[a-zA-Z0-9_][a-zA-Z_\-0-9.:]*[a-zA-Z0-9_]+ Shorthand Syntax: matchByPropertyName=boolean,createMissingProperty=boolean,overrides=[{assetModelPropertyId=string,interfaceAssetModelPropertyId=string},{assetModelPropertyId=string,interfaceAssetModelPropertyId=string}] JSON Syntax: { "matchByPropertyName": true|false, "createMissingProperty": true|false, "overrides": [ { "assetModelPropertyId": "string", "interfaceAssetModelPropertyId": "string" } ... ] }
+    /// </summary>
     [CliOption("--property-mapping-configuration")]
-    public string? PropertyMappingConfiguration { get; set; }
+    public string? PropertyMappingConfiguration { get; private init; }
 
     /// <summary>
     /// A unique case-sensitive identifier that you can provide to ensure the idempotency of the request. Don't reuse this client token if a new idempotent request is required. Constraints: o min: 36 o max: 64 o pattern: \S{36,64}
@@ -43,5 +94,22 @@ public record AwsIotsitewisePutAssetModelInterfaceRelationshipOptions : AwsOptio
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

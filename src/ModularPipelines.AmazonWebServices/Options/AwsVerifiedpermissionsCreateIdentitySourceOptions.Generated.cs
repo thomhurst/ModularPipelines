@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,20 +21,63 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("verifiedpermissions", "create-identity-source")]
-public record AwsVerifiedpermissionsCreateIdentitySourceOptions : AwsOptions
+public record AwsVerifiedpermissionsCreateIdentitySourceOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Adds an identity source to a policy storean Amazon Cognito user pool or OpenID Connect (OIDC) identity provider (IdP). After you create an identity source, you can use the identities pro- vided by the IdP as proxies for the principal in authorization queries that use the IsAuthorizedWithToken or BatchIsAuthorizedWithToken API operations. These identities take the form of tokens that contain claims about the user, such as IDs, attributes and group memberships. Identity sources provide identity (I...
+    /// </summary>
+    /// <param name="PolicyStoreId">Specifies the ID of the policy store in which you want to store this identity source. Only policies and requests made using this policy store can reference identities from the identity provider configured in the new identity source. To specify a policy store, use its ID or alias name. When using an alias name, prefix it with policy-store-alias/ . For example: o ID: PSEXAMPLEabcdefg111111 o Alias name: policy-store-alias/example-policy-store To view aliases, use ListPolicyStoreAliases . Constraints: o min: 1 o max: 200 o pattern: [a-zA-Z0-9-/_]*</param>
+    /// <param name="Configuration">Specifies the details required to communicate with the identity provider (IdP) associated with this identity source. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: cognitoUserPoolConfiguration, openIdCon- nectConfiguration. cognitoUserPoolConfiguration -&gt; (structure) Contains configuration details of a Amazon Cognito user pool that Verified Permissions can use as a source of authenticated identities as entities. It specifies the Amazon Resource Name (ARN) of a Amazon Cognito user pool and one or more application client IDs. Example: "configuration":{"cognitoUserPoolConfiguration":{"user- PoolArn":"arn:aws:cognito-idp:us-east-1:123456789012:user- pool/us-east-1_1a2b3c4d5","clientIds": ["a1b2c3d4e5f6g7h8i9j0kalbmc"],"groupConfiguration": {"groupEn- tityType": "MyCorp::Group"}}} userPoolArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the Amazon Cognito user pool that contains the identities to be authorized. Example: "UserPoolArn": "arn:aws:cog- nito-idp:us-east-1:123456789012:userpool/us-east-1_1a2b3c4d5" Constraints: o min: 1 o max: 255 o pattern: arn:[a-zA-Z0-9-]+:cog- nito-idp:(([a-zA-Z0-9-]+:\d{12}:user- pool/[\w-]+_[0-9a-zA-Z]+)) clientIds -&gt; (list) The unique application client IDs that are associated with the specified Amazon Cognito user pool. Example: "ClientIds": ["&amp;ExampleCogClientId;"] Constraints: o min: 0 o max: 1000 (string) Constraints: o min: 1 o max: 255 o pattern: .* groupConfiguration -&gt; (structure) The type of entity that a policy store maps to groups from an Amazon Cognito user pool identity source. groupEntityType -&gt; (string) [required] The name of the schema entity type that's mapped to the user pool group. Defaults to AWS::CognitoGroup . Constraints: o min: 1 o max: 200 o pattern: ([_a-zA-Z][_a-zA-Z0-9]*::)*[_a-zA-Z][_a-zA-Z0-9]* openIdConnectConfiguration -&gt; (structure) Contains configuration details of an OpenID Connect (OIDC) iden- tity provider, or identity source, that Verified Permissions can use to generate entities from authenticated identities. It spec- ifies the issuer URL, token type that you want to use, and pol- icy store entity details. Example:"configuration":{"openIdConnectConfiguration":{"is- suer":"https://auth.example.com","tokenSelection":{"accessTo- kenOnly":{"audiences":["https://myapp.exam- ple.com","https://myapp2.example.com"],"principalId- Claim":"sub"}},"entityIdPrefix":"MyOIDCProvider","groupConfigu- ration":{"groupClaim":"groups","groupEntityType":"MyCorp::User- Group"}}} issuer -&gt; (string) [required] The issuer URL of an OIDC identity provider. This URL must have an OIDC discovery endpoint at the path .well-known/openid-configuration . Constraints: o min: 1 o max: 2048 o pattern: https://.* entityIdPrefix -&gt; (string) A descriptive string that you want to prefix to user entities from your OIDC identity provider. For example, if you set an entityIdPrefix of MyOIDCProvider , you can reference princi- pals in your policies in the format MyCorp::User::MyOID- CProvider|Carlos . Constraints: o min: 1 o max: 100 groupConfiguration -&gt; (structure) The claim in OIDC identity provider tokens that indicates a user's group membership, and the entity type that you want to map it to. For example, this object can map the contents of a groups claim to MyCorp::UserGroup . groupClaim -&gt; (string) [required] The token claim that you want Verified Permissions to in- terpret as group membership. For example, groups . Constraints: o min: 1 groupEntityType -&gt; (string) [required] The policy store entity type that you want to map your users' group claim to. For example, MyCorp::UserGroup . A group entity type is an entity that can have a user en- tity type as a member. Constraints: o min: 1 o max: 200 o pattern: ([_a-zA-Z][_a-zA-Z0-9]*::)*[_a-zA-Z][_a-zA-Z0-9]* tokenSelection -&gt; (tagged union structure) [required] The token type that you want to process from your OIDC iden- tity provider. Your policy store can process either identity (ID) or access tokens from a given OIDC identity source. NOTE: This is a Tagged Union structure. Only one of the follow- ing top level keys can be set: accessTokenOnly, identity- TokenOnly. accessTokenOnly -&gt; (structure) The OIDC configuration for processing access tokens. Con- tains allowed audience claims, for example https://auth.example.com , and the claim that you want to map to the principal, for example sub . principalIdClaim -&gt; (string) The claim that determines the principal in OIDC access tokens. For example, sub . Constraints: o min: 1 audiences -&gt; (list) The access token aud claim values that you want to ac- cept in your policy store. For example, https://myapp.example.com, https://myapp2.example.com . Constraints: o min: 1 o max: 255 (string) Constraints: o min: 1 o max: 255 identityTokenOnly -&gt; (structure) The OIDC configuration for processing identity (ID) to- kens. Contains allowed client ID claims, for example 1ex- ample23456789 , and the claim that you want to map to the principal, for example sub . principalIdClaim -&gt; (string) The claim that determines the principal in OIDC access tokens. For example, sub . Constraints: o min: 1 clientIds -&gt; (list) The ID token audience, or client ID, claim values that you want to accept in your policy store from an OIDC identity provider. For example, 1example23456789, 2ex- ample10111213 . Constraints: o min: 0 o max: 1000 (string) Constraints: o min: 1 o max: 255 o pattern: .* JSON Syntax: { "cognitoUserPoolConfiguration": { "userPoolArn": "string", "clientIds": ["string", ...], "groupConfiguration": { "groupEntityType": "string" } }, "openIdConnectConfiguration": { "issuer": "string", "entityIdPrefix": "string", "groupConfiguration": { "groupClaim": "string", "groupEntityType": "string" }, "tokenSelection": { "accessTokenOnly": { "principalIdClaim": "string", "audiences": ["string", ...] }, "identityTokenOnly": { "principalIdClaim": "string", "clientIds": ["string", ...] } } } }</param>
+    public AwsVerifiedpermissionsCreateIdentitySourceOptions(
+        string PolicyStoreId,
+        string Configuration
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PolicyStoreId);
+        this.PolicyStoreId = PolicyStoreId;
+        global::System.ArgumentNullException.ThrowIfNull(Configuration);
+        this.Configuration = Configuration;
+    }
+
+    private AwsVerifiedpermissionsCreateIdentitySourceOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsVerifiedpermissionsCreateIdentitySourceOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsVerifiedpermissionsCreateIdentitySourceOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Specifies the ID of the policy store in which you want to store this identity source. Only policies and requests made using this policy store can reference identities from the identity provider configured in the new identity source. To specify a policy store, use its ID or alias name. When using an alias name, prefix it with policy-store-alias/ . For example: o ID: PSEXAMPLEabcdefg111111 o Alias name: policy-store-alias/example-policy-store To view aliases, use ListPolicyStoreAliases . Constraints: o min: 1 o max: 200 o pattern: [a-zA-Z0-9-/_]*
+    /// </summary>
+    [CliOption("--policy-store-id")]
+    public string? PolicyStoreId { get; private init; }
+
+    /// <summary>
+    /// Specifies the details required to communicate with the identity provider (IdP) associated with this identity source. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: cognitoUserPoolConfiguration, openIdCon- nectConfiguration. cognitoUserPoolConfiguration -&gt; (structure) Contains configuration details of a Amazon Cognito user pool that Verified Permissions can use as a source of authenticated identities as entities. It specifies the Amazon Resource Name (ARN) of a Amazon Cognito user pool and one or more application client IDs. Example: "configuration":{"cognitoUserPoolConfiguration":{"user- PoolArn":"arn:aws:cognito-idp:us-east-1:123456789012:user- pool/us-east-1_1a2b3c4d5","clientIds": ["a1b2c3d4e5f6g7h8i9j0kalbmc"],"groupConfiguration": {"groupEn- tityType": "MyCorp::Group"}}} userPoolArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the Amazon Cognito user pool that contains the identities to be authorized. Example: "UserPoolArn": "arn:aws:cog- nito-idp:us-east-1:123456789012:userpool/us-east-1_1a2b3c4d5" Constraints: o min: 1 o max: 255 o pattern: arn:[a-zA-Z0-9-]+:cog- nito-idp:(([a-zA-Z0-9-]+:\d{12}:user- pool/[\w-]+_[0-9a-zA-Z]+)) clientIds -&gt; (list) The unique application client IDs that are associated with the specified Amazon Cognito user pool. Example: "ClientIds": ["&amp;ExampleCogClientId;"] Constraints: o min: 0 o max: 1000 (string) Constraints: o min: 1 o max: 255 o pattern: .* groupConfiguration -&gt; (structure) The type of entity that a policy store maps to groups from an Amazon Cognito user pool identity source. groupEntityType -&gt; (string) [required] The name of the schema entity type that's mapped to the user pool group. Defaults to AWS::CognitoGroup . Constraints: o min: 1 o max: 200 o pattern: ([_a-zA-Z][_a-zA-Z0-9]*::)*[_a-zA-Z][_a-zA-Z0-9]* openIdConnectConfiguration -&gt; (structure) Contains configuration details of an OpenID Connect (OIDC) iden- tity provider, or identity source, that Verified Permissions can use to generate entities from authenticated identities. It spec- ifies the issuer URL, token type that you want to use, and pol- icy store entity details. Example:"configuration":{"openIdConnectConfiguration":{"is- suer":"https://auth.example.com","tokenSelection":{"accessTo- kenOnly":{"audiences":["https://myapp.exam- ple.com","https://myapp2.example.com"],"principalId- Claim":"sub"}},"entityIdPrefix":"MyOIDCProvider","groupConfigu- ration":{"groupClaim":"groups","groupEntityType":"MyCorp::User- Group"}}} issuer -&gt; (string) [required] The issuer URL of an OIDC identity provider. This URL must have an OIDC discovery endpoint at the path .well-known/openid-configuration . Constraints: o min: 1 o max: 2048 o pattern: https://.* entityIdPrefix -&gt; (string) A descriptive string that you want to prefix to user entities from your OIDC identity provider. For example, if you set an entityIdPrefix of MyOIDCProvider , you can reference princi- pals in your policies in the format MyCorp::User::MyOID- CProvider|Carlos . Constraints: o min: 1 o max: 100 groupConfiguration -&gt; (structure) The claim in OIDC identity provider tokens that indicates a user's group membership, and the entity type that you want to map it to. For example, this object can map the contents of a groups claim to MyCorp::UserGroup . groupClaim -&gt; (string) [required] The token claim that you want Verified Permissions to in- terpret as group membership. For example, groups . Constraints: o min: 1 groupEntityType -&gt; (string) [required] The policy store entity type that you want to map your users' group claim to. For example, MyCorp::UserGroup . A group entity type is an entity that can have a user en- tity type as a member. Constraints: o min: 1 o max: 200 o pattern: ([_a-zA-Z][_a-zA-Z0-9]*::)*[_a-zA-Z][_a-zA-Z0-9]* tokenSelection -&gt; (tagged union structure) [required] The token type that you want to process from your OIDC iden- tity provider. Your policy store can process either identity (ID) or access tokens from a given OIDC identity source. NOTE: This is a Tagged Union structure. Only one of the follow- ing top level keys can be set: accessTokenOnly, identity- TokenOnly. accessTokenOnly -&gt; (structure) The OIDC configuration for processing access tokens. Con- tains allowed audience claims, for example https://auth.example.com , and the claim that you want to map to the principal, for example sub . principalIdClaim -&gt; (string) The claim that determines the principal in OIDC access tokens. For example, sub . Constraints: o min: 1 audiences -&gt; (list) The access token aud claim values that you want to ac- cept in your policy store. For example, https://myapp.example.com, https://myapp2.example.com . Constraints: o min: 1 o max: 255 (string) Constraints: o min: 1 o max: 255 identityTokenOnly -&gt; (structure) The OIDC configuration for processing identity (ID) to- kens. Contains allowed client ID claims, for example 1ex- ample23456789 , and the claim that you want to map to the principal, for example sub . principalIdClaim -&gt; (string) The claim that determines the principal in OIDC access tokens. For example, sub . Constraints: o min: 1 clientIds -&gt; (list) The ID token audience, or client ID, claim values that you want to accept in your policy store from an OIDC identity provider. For example, 1example23456789, 2ex- ample10111213 . Constraints: o min: 0 o max: 1000 (string) Constraints: o min: 1 o max: 255 o pattern: .* JSON Syntax: { "cognitoUserPoolConfiguration": { "userPoolArn": "string", "clientIds": ["string", ...], "groupConfiguration": { "groupEntityType": "string" } }, "openIdConnectConfiguration": { "issuer": "string", "entityIdPrefix": "string", "groupConfiguration": { "groupClaim": "string", "groupEntityType": "string" }, "tokenSelection": { "accessTokenOnly": { "principalIdClaim": "string", "audiences": ["string", ...] }, "identityTokenOnly": { "principalIdClaim": "string", "clientIds": ["string", ...] } } } }
+    /// </summary>
+    [CliOption("--configuration")]
+    public string? Configuration { get; private init; }
+
     /// <summary>
     /// Specifies a unique, case-sensitive ID that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other parameters. We recommend that you use a UUID type of value. . If you don't provide this value, then Amazon Web Services generates a random one for you. If you retry the operation with the same ClientToken , but with dif- ferent parameters, the retry fails with an ConflictException error. Verified Permissions recognizes a ClientToken for eight hours. After eight hours, the next request with the same parameters performs the operation again regardless of the value of ClientToken . Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9-]*
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
-
-    [CliOption("--policy-store-id")]
-    public string? PolicyStoreId { get; set; }
-
-    [CliOption("--configuration")]
-    public string? Configuration { get; set; }
 
     /// <summary>
     /// Specifies the namespace and data type of the principals generated for identities authenticated by the new identity source. Constraints: o min: 1 o max: 200 o pattern: .*
@@ -46,5 +90,22 @@ public record AwsVerifiedpermissionsCreateIdentitySourceOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

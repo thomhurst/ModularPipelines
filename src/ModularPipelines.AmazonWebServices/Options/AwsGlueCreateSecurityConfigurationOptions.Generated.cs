@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("glue", "create-security-configuration")]
-public record AwsGlueCreateSecurityConfigurationOptions : AwsOptions
+public record AwsGlueCreateSecurityConfigurationOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--name")]
-    public string? Name { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates a new security configuration. A security configuration is a set of security properties that can be used by Glue. You can use a security configuration to encrypt data at rest. For information about using se- curity configurations in Glue, see Encrypting Data Written by Crawlers, Jobs, and Development Endpoints . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Name">The name for the new security configuration. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*</param>
+    /// <param name="EncryptionConfiguration">The encryption configuration for the new security configuration. S3Encryption -&gt; (list) The encryption configuration for Amazon Simple Storage Service (Amazon S3) data. (structure) Specifies how Amazon Simple Storage Service (Amazon S3) data should be encrypted. S3EncryptionMode -&gt; (string) The encryption mode to use for Amazon S3 data. Possible values: o DISABLED o SSE-KMS o SSE-S3 KmsKeyArn -&gt; (string) The Amazon Resource Name (ARN) of the KMS key to be used to encrypt the data. Constraints: o pattern: ^$|arn:aws[a-z0-9-]*:kms:.* CloudWatchEncryption -&gt; (structure) The encryption configuration for Amazon CloudWatch. CloudWatchEncryptionMode -&gt; (string) The encryption mode to use for CloudWatch data. Possible values: o DISABLED o SSE-KMS KmsKeyArn -&gt; (string) The Amazon Resource Name (ARN) of the KMS key to be used to encrypt the data. Constraints: o pattern: ^$|arn:aws[a-z0-9-]*:kms:.* JobBookmarksEncryption -&gt; (structure) The encryption configuration for job bookmarks. JobBookmarksEncryptionMode -&gt; (string) The encryption mode to use for job bookmarks data. Possible values: o DISABLED o CSE-KMS KmsKeyArn -&gt; (string) The Amazon Resource Name (ARN) of the KMS key to be used to encrypt the data. Constraints: o pattern: ^$|arn:aws[a-z0-9-]*:kms:.* DataQualityEncryption -&gt; (structure) The encryption configuration for Glue Data Quality assets. DataQualityEncryptionMode -&gt; (string) The encryption mode to use for encrypting Data Quality as- sets. These assets include data quality rulesets, results, statistics, anomaly detection models and observations. Valid values are SSEKMS for encryption using a customer-man- aged KMS key, or DISABLED . Possible values: o DISABLED o SSE-KMS KmsKeyArn -&gt; (string) The Amazon Resource Name (ARN) of the KMS key to be used to encrypt the data. Constraints: o pattern: ^$|arn:aws[a-z0-9-]*:kms:.* Shorthand Syntax: S3Encryption=[{S3EncryptionMode=string,KmsKeyArn=string},{S3EncryptionMode=string,KmsKeyArn=string}],CloudWatchEncryption={CloudWatchEncryptionMode=string,KmsKeyArn=string},JobBookmarksEncryption={JobBookmarksEncryptionMode=string,KmsKeyArn=string},DataQualityEncryption={DataQualityEncryptionMode=string,KmsKeyArn=string} JSON Syntax: { "S3Encryption": [ { "S3EncryptionMode": "DISABLED"|"SSE-KMS"|"SSE-S3", "KmsKeyArn": "string" } ... ], "CloudWatchEncryption": { "CloudWatchEncryptionMode": "DISABLED"|"SSE-KMS", "KmsKeyArn": "string" }, "JobBookmarksEncryption": { "JobBookmarksEncryptionMode": "DISABLED"|"CSE-KMS", "KmsKeyArn": "string" }, "DataQualityEncryption": { "DataQualityEncryptionMode": "DISABLED"|"SSE-KMS", "KmsKeyArn": "string" } }</param>
+    public AwsGlueCreateSecurityConfigurationOptions(
+        string Name,
+        string EncryptionConfiguration
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(EncryptionConfiguration);
+        this.EncryptionConfiguration = EncryptionConfiguration;
+    }
+
+    private AwsGlueCreateSecurityConfigurationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsGlueCreateSecurityConfigurationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsGlueCreateSecurityConfigurationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name for the new security configuration. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
+    /// </summary>
+    [CliOption("--name")]
+    public string? Name { get; private init; }
+
+    /// <summary>
+    /// The encryption configuration for the new security configuration. S3Encryption -&gt; (list) The encryption configuration for Amazon Simple Storage Service (Amazon S3) data. (structure) Specifies how Amazon Simple Storage Service (Amazon S3) data should be encrypted. S3EncryptionMode -&gt; (string) The encryption mode to use for Amazon S3 data. Possible values: o DISABLED o SSE-KMS o SSE-S3 KmsKeyArn -&gt; (string) The Amazon Resource Name (ARN) of the KMS key to be used to encrypt the data. Constraints: o pattern: ^$|arn:aws[a-z0-9-]*:kms:.* CloudWatchEncryption -&gt; (structure) The encryption configuration for Amazon CloudWatch. CloudWatchEncryptionMode -&gt; (string) The encryption mode to use for CloudWatch data. Possible values: o DISABLED o SSE-KMS KmsKeyArn -&gt; (string) The Amazon Resource Name (ARN) of the KMS key to be used to encrypt the data. Constraints: o pattern: ^$|arn:aws[a-z0-9-]*:kms:.* JobBookmarksEncryption -&gt; (structure) The encryption configuration for job bookmarks. JobBookmarksEncryptionMode -&gt; (string) The encryption mode to use for job bookmarks data. Possible values: o DISABLED o CSE-KMS KmsKeyArn -&gt; (string) The Amazon Resource Name (ARN) of the KMS key to be used to encrypt the data. Constraints: o pattern: ^$|arn:aws[a-z0-9-]*:kms:.* DataQualityEncryption -&gt; (structure) The encryption configuration for Glue Data Quality assets. DataQualityEncryptionMode -&gt; (string) The encryption mode to use for encrypting Data Quality as- sets. These assets include data quality rulesets, results, statistics, anomaly detection models and observations. Valid values are SSEKMS for encryption using a customer-man- aged KMS key, or DISABLED . Possible values: o DISABLED o SSE-KMS KmsKeyArn -&gt; (string) The Amazon Resource Name (ARN) of the KMS key to be used to encrypt the data. Constraints: o pattern: ^$|arn:aws[a-z0-9-]*:kms:.* Shorthand Syntax: S3Encryption=[{S3EncryptionMode=string,KmsKeyArn=string},{S3EncryptionMode=string,KmsKeyArn=string}],CloudWatchEncryption={CloudWatchEncryptionMode=string,KmsKeyArn=string},JobBookmarksEncryption={JobBookmarksEncryptionMode=string,KmsKeyArn=string},DataQualityEncryption={DataQualityEncryptionMode=string,KmsKeyArn=string} JSON Syntax: { "S3Encryption": [ { "S3EncryptionMode": "DISABLED"|"SSE-KMS"|"SSE-S3", "KmsKeyArn": "string" } ... ], "CloudWatchEncryption": { "CloudWatchEncryptionMode": "DISABLED"|"SSE-KMS", "KmsKeyArn": "string" }, "JobBookmarksEncryption": { "JobBookmarksEncryptionMode": "DISABLED"|"CSE-KMS", "KmsKeyArn": "string" }, "DataQualityEncryption": { "DataQualityEncryptionMode": "DISABLED"|"SSE-KMS", "KmsKeyArn": "string" } }
+    /// </summary>
     [CliOption("--encryption-configuration")]
-    public string? EncryptionConfiguration { get; set; }
+    public string? EncryptionConfiguration { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

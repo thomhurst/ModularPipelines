@@ -16,21 +16,21 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsSagemakerCreateActionStatus
 {
-    [EnumValue("Unknown")]
-    Unknown = 1,
-
-    [EnumValue("InProgress")]
-    InProgress = 2,
-
     [EnumValue("Completed")]
-    Completed = 3,
+    Completed,
 
     [EnumValue("Failed")]
-    Failed = 4,
+    Failed,
 
-    [EnumValue("Stopping")]
-    Stopping = 5,
+    [EnumValue("InProgress")]
+    InProgress,
 
     [EnumValue("Stopped")]
-    Stopped = 6
+    Stopped,
+
+    [EnumValue("Stopping")]
+    Stopping,
+
+    [EnumValue("Unknown")]
+    Unknown
 }

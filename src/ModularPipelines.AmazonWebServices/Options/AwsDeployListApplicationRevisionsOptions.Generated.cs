@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,10 +22,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("deploy", "list-application-revisions")]
-public record AwsDeployListApplicationRevisionsOptions : AwsOptions
+public record AwsDeployListApplicationRevisionsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Lists information about revisions for an application. See also: AWS API Documentation list-application-revisions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: revisions
+    /// </summary>
+    /// <param name="ApplicationName">The name of an CodeDeploy application associated with the user or Amazon Web Services account. Constraints: o min: 1 o max: 100 o pattern: [A-Za-z0-9+=,.@_-]*</param>
+    public AwsDeployListApplicationRevisionsOptions(
+        string ApplicationName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ApplicationName);
+        this.ApplicationName = ApplicationName;
+    }
+
+    private AwsDeployListApplicationRevisionsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDeployListApplicationRevisionsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDeployListApplicationRevisionsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of an CodeDeploy application associated with the user or Amazon Web Services account. Constraints: o min: 1 o max: 100 o pattern: [A-Za-z0-9+=,.@_-]*
+    /// </summary>
     [CliOption("--application-name")]
-    public string? ApplicationName { get; set; }
+    public string? ApplicationName { get; private init; }
 
     /// <summary>
     /// The column name to use to sort the list results: o registerTime : Sort by the time the revisions were registered with CodeDeploy. o firstUsedTime : Sort by the time the revisions were first used in a deployment. o lastUsedTime : Sort by the time the revisions were last used in a deployment. If not specified or set to null, the results are returned in an ar- bitrary order. Possible values: o registerTime o firstUsedTime o lastUsedTime
@@ -74,5 +111,22 @@ public record AwsDeployListApplicationRevisionsOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

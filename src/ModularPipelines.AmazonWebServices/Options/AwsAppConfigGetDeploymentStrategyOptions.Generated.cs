@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,68 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("appconfig", "get-deployment-strategy")]
-public record AwsAppConfigGetDeploymentStrategyOptions : AwsOptions
+public record AwsAppConfigGetDeploymentStrategyOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Retrieves information about a deployment strategy. A deployment strat- egy defines important criteria for rolling out your configuration to the designated targets. A deployment strategy includes the overall du- ration required, a percentage of targets to receive the deployment dur- ing each interval, an algorithm that defines how percentage grows, and bake time. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DeploymentStrategyId">The ID of the deployment strategy to get. Constraints: o pattern: (^[a-z0-9]{4,7}$|^AppConfig\.[A-Za-z0-9]{9,40}$)</param>
+    public AwsAppConfigGetDeploymentStrategyOptions(
+        string DeploymentStrategyId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DeploymentStrategyId);
+        this.DeploymentStrategyId = DeploymentStrategyId;
+    }
+
+    private AwsAppConfigGetDeploymentStrategyOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsAppConfigGetDeploymentStrategyOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsAppConfigGetDeploymentStrategyOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the deployment strategy to get. Constraints: o pattern: (^[a-z0-9]{4,7}$|^AppConfig\.[A-Za-z0-9]{9,40}$)
+    /// </summary>
     [CliOption("--deployment-strategy-id")]
-    public string? DeploymentStrategyId { get; set; }
+    public string? DeploymentStrategyId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

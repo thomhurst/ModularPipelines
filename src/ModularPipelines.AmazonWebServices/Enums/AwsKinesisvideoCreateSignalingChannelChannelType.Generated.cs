@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --channeltype.
+/// Allowed values for --channel-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsKinesisvideoCreateSignalingChannelChannelType
 {
-    [EnumValue("SINGLE_MASTER")]
-    SingleMaster = 1,
-
     [EnumValue("FULL_MESH")]
-    FullMesh = 2
+    FullMesh,
+
+    [EnumValue("SINGLE_MASTER")]
+    SingleMaster
 }

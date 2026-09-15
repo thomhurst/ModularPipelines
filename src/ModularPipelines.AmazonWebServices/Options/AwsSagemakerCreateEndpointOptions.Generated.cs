@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +20,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sagemaker", "create-endpoint")]
-public record AwsSagemakerCreateEndpointOptions : AwsOptions
+public record AwsSagemakerCreateEndpointOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--endpoint-name")]
-    public string? EndpointName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates an endpoint using the endpoint configuration specified in the request. SageMaker uses the endpoint to provision resources and deploy models. You create the endpoint configuration with the CreateEndpointConfig API. Use this API to deploy models using SageMaker hosting services. NOTE: You must not delete an EndpointConfig that is in use by an endpoint that is live or while the UpdateEndpoint or CreateEndpoint opera- tions are being performed on the endpoint. To update an endpoint, you must...
+    /// </summary>
+    /// <param name="EndpointName">The name of the endpoint.The name must be unique within an Amazon Web Services Region in your Amazon Web Services account. The name is case-insensitive in CreateEndpoint , but the case is preserved and must be matched in InvokeEndpoint . Constraints: o min: 0 o max: 63 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}</param>
+    /// <param name="EndpointConfigName">The name of an endpoint configuration. For more information, see CreateEndpointConfig . Constraints: o min: 0 o max: 63 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}</param>
+    public AwsSagemakerCreateEndpointOptions(
+        string EndpointName,
+        string EndpointConfigName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(EndpointName);
+        this.EndpointName = EndpointName;
+        global::System.ArgumentNullException.ThrowIfNull(EndpointConfigName);
+        this.EndpointConfigName = EndpointConfigName;
+    }
+
+    private AwsSagemakerCreateEndpointOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSagemakerCreateEndpointOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSagemakerCreateEndpointOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the endpoint.The name must be unique within an Amazon Web Services Region in your Amazon Web Services account. The name is case-insensitive in CreateEndpoint , but the case is preserved and must be matched in InvokeEndpoint . Constraints: o min: 0 o max: 63 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}
+    /// </summary>
+    [CliOption("--endpoint-name")]
+    public string? EndpointName { get; private init; }
+
+    /// <summary>
+    /// The name of an endpoint configuration. For more information, see CreateEndpointConfig . Constraints: o min: 0 o max: 63 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}
+    /// </summary>
     [CliOption("--endpoint-config-name")]
-    public string? EndpointConfigName { get; set; }
+    public string? EndpointConfigName { get; private init; }
 
     /// <summary>
     /// The deployment configuration for an endpoint, which contains the de- sired deployment strategy and rollback configurations. BlueGreenUpdatePolicy -&gt; (structure) Update policy for a blue/green deployment. If this update policy is specified, SageMaker creates a new fleet during the deploy- ment while maintaining the old fleet. SageMaker flips traffic to the new fleet according to the specified traffic routing config- uration. Only one update policy should be used in the deployment configuration. If no update policy is specified, SageMaker uses a blue/green deployment strategy with all at once traffic shift- ing by default. TrafficRoutingConfiguration -&gt; (structure) [required] Defines the traffic routing strategy to shift traffic from the old fleet to the new fleet during an endpoint deployment. Type -&gt; (string) [required] Traffic routing strategy type. o ALL_AT_ONCE : Endpoint traffic shifts to the new fleet in a single step. o CANARY : Endpoint traffic shifts to the new fleet in two steps. The first step is the canary, which is a small portion of the traffic. The second step is the remainder of the traffic. o LINEAR : Endpoint traffic shifts to the new fleet in n steps of a configurable size. Possible values: o ALL_AT_ONCE o CANARY o LINEAR WaitIntervalInSeconds -&gt; (integer) [required] The waiting time (in seconds) between incremental steps to turn on traffic on the new endpoint fleet. Constraints: o min: 0 o max: 3600 CanarySize -&gt; (structure) Batch size for the first step to turn on traffic on the new endpoint fleet. Value must be less than or equal to 50% of the variant's total instance count. Type -&gt; (string) [required] Specifies the endpoint capacity type. o INSTANCE_COUNT : The endpoint activates based on the number of instances. o CAPACITY_PERCENT : The endpoint activates based on the specified percentage of capacity. Possible values: o INSTANCE_COUNT o CAPACITY_PERCENT Value -&gt; (integer) [required] Defines the capacity size, either as a number of in- stances or a capacity percentage. Constraints: o min: 1 LinearStepSize -&gt; (structure) Batch size for each step to turn on traffic on the new endpoint fleet. Value must be 10-50% of the variant's to- tal instance count. Type -&gt; (string) [required] Specifies the endpoint capacity type. o INSTANCE_COUNT : The endpoint activates based on the number of instances. o CAPACITY_PERCENT : The endpoint activates based on the specified percentage of capacity. Possible values: o INSTANCE_COUNT o CAPACITY_PERCENT Value -&gt; (integer) [required] Defines the capacity size, either as a number of in- stances or a capacity percentage. Constraints: o min: 1 TerminationWaitInSeconds -&gt; (integer) Additional waiting time in seconds after the completion of an endpoint deployment before terminating the old endpoint fleet. Default is 0. Constraints: o min: 0 o max: 3600 MaximumExecutionTimeoutInSeconds -&gt; (integer) Maximum execution timeout for the deployment. Note that the timeout value should be larger than the total waiting time specified in TerminationWaitInSeconds and WaitIntervalInSec- onds . Constraints: o min: 600 o max: 28800 RollingUpdatePolicy -&gt; (structure) Specifies a rolling deployment strategy for updating a SageMaker endpoint. MaximumBatchSize -&gt; (structure) [required] Batch size for each rolling step to provision capacity and turn on traffic on the new endpoint fleet, and terminate ca- pacity on the old endpoint fleet. Value must be between 5% to 50% of the variant's total instance count. Type -&gt; (string) [required] Specifies the endpoint capacity type. o INSTANCE_COUNT : The endpoint activates based on the number of instances. o CAPACITY_PERCENT : The endpoint activates based on the specified percentage of capacity. Possible values: o INSTANCE_COUNT o CAPACITY_PERCENT Value -&gt; (integer) [required] Defines the capacity size, either as a number of in- stances or a capacity percentage. Constraints: o min: 1 WaitIntervalInSeconds -&gt; (integer) [required] The length of the baking period, during which SageMaker moni- tors alarms for each batch on the new fleet. Constraints: o min: 0 o max: 3600 MaximumExecutionTimeoutInSeconds -&gt; (integer) The time limit for the total deployment. Exceeding this limit causes a timeout. Constraints: o min: 600 o max: 28800 RollbackMaximumBatchSize -&gt; (structure) Batch size for rollback to the old endpoint fleet. Each rolling step to provision capacity and turn on traffic on the old endpoint fleet, and terminate capacity on the new end- point fleet. If this field is absent, the default value will be set to 100% of total capacity which means to bring up the whole capacity of the old fleet at once during rollback. Type -&gt; (string) [required] Specifies the endpoint capacity type. o INSTANCE_COUNT : The endpoint activates based on the number of instances. o CAPACITY_PERCENT : The endpoint activates based on the specified percentage of capacity. Possible values: o INSTANCE_COUNT o CAPACITY_PERCENT Value -&gt; (integer) [required] Defines the capacity size, either as a number of in- stances or a capacity percentage. Constraints: o min: 1 AutoRollbackConfiguration -&gt; (structure) Automatic rollback configuration for handling endpoint deploy- ment failures and recovery. Alarms -&gt; (list) List of CloudWatch alarms in your account that are configured to monitor metrics on an endpoint. If any alarms are tripped during a deployment, SageMaker rolls back the deployment. Constraints: o min: 1 o max: 10 (structure) An Amazon CloudWatch alarm configured to monitor metrics on an endpoint. AlarmName -&gt; (string) The name of a CloudWatch alarm in your account. Constraints: o min: 1 o max: 255 o pattern: (?!\s*$).+ JSON Syntax: { "BlueGreenUpdatePolicy": { "TrafficRoutingConfiguration": { "Type": "ALL_AT_ONCE"|"CANARY"|"LINEAR", "WaitIntervalInSeconds": integer, "CanarySize": { "Type": "INSTANCE_COUNT"|"CAPACITY_PERCENT", "Value": integer }, "LinearStepSize": { "Type": "INSTANCE_COUNT"|"CAPACITY_PERCENT", "Value": integer } }, "TerminationWaitInSeconds": integer, "MaximumExecutionTimeoutInSeconds": integer }, "RollingUpdatePolicy": { "MaximumBatchSize": { "Type": "INSTANCE_COUNT"|"CAPACITY_PERCENT", "Value": integer }, "WaitIntervalInSeconds": integer, "MaximumExecutionTimeoutInSeconds": integer, "RollbackMaximumBatchSize": { "Type": "INSTANCE_COUNT"|"CAPACITY_PERCENT", "Value": integer } }, "AutoRollbackConfiguration": { "Alarms": [ { "AlarmName": "string" } ... ] } }
@@ -44,5 +88,22 @@ public record AwsSagemakerCreateEndpointOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,13 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("gamelift", "update-game-server")]
-public record AwsGameliftUpdateGameServerOptions : AwsOptions
+public record AwsGameliftUpdateGameServerOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--game-server-group-name")]
-    public string? GameServerGroupName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// This API works with the following fleet types: EC2 (FleetIQ) Updates information about a registered game server to help Amazon GameLift Servers FleetIQ track game server availability. This operation is called by a game server process that is running on an instance in a game server group. Use this operation to update the following types of game server infor- mation. You can make all three types of updates in the same request: o To update the game server's utilization status from AVAILABLE (when t...
+    /// </summary>
+    /// <param name="GameServerGroupName">A unique identifier for the game server group where the game server is running. Constraints: o min: 1 o max: 256 o pattern: ^([a-zA-Z0-9-\.]+|arn:.*:gameserver- group\/[a-zA-Z0-9-\.]+)$</param>
+    /// <param name="GameServerId">A custom string that uniquely identifies the game server to update. Constraints: o min: 3 o max: 128 o pattern: ^[a-zA-Z0-9-\.]+$</param>
+    public AwsGameliftUpdateGameServerOptions(
+        string GameServerGroupName,
+        string GameServerId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(GameServerGroupName);
+        this.GameServerGroupName = GameServerGroupName;
+        global::System.ArgumentNullException.ThrowIfNull(GameServerId);
+        this.GameServerId = GameServerId;
+    }
+
+    private AwsGameliftUpdateGameServerOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsGameliftUpdateGameServerOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsGameliftUpdateGameServerOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A unique identifier for the game server group where the game server is running. Constraints: o min: 1 o max: 256 o pattern: ^([a-zA-Z0-9-\.]+|arn:.*:gameserver- group\/[a-zA-Z0-9-\.]+)$
+    /// </summary>
+    [CliOption("--game-server-group-name")]
+    public string? GameServerGroupName { get; private init; }
+
+    /// <summary>
+    /// A custom string that uniquely identifies the game server to update. Constraints: o min: 3 o max: 128 o pattern: ^[a-zA-Z0-9-\.]+$
+    /// </summary>
     [CliOption("--game-server-id")]
-    public string? GameServerId { get; set; }
+    public string? GameServerId { get; private init; }
 
     /// <summary>
     /// A set of custom game server properties, formatted as a single string value. This data is passed to a game client or service when it re- quests information on game servers. Constraints: o min: 1 o max: 1024 o pattern: ^.*\S.*$
@@ -51,5 +95,22 @@ public record AwsGameliftUpdateGameServerOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

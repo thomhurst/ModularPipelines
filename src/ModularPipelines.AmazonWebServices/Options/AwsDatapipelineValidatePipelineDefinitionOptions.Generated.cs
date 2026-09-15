@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +20,67 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("datapipeline", "validate-pipeline-definition")]
-public record AwsDatapipelineValidatePipelineDefinitionOptions : AwsOptions
+public record AwsDatapipelineValidatePipelineDefinitionOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--pipeline-id")]
-    public string? PipelineId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Validates the specified pipeline definition to ensure that it is well formed and can be run without error. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="PipelineId">The ID of the pipeline. Constraints: o min: 1 o max: 1024 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*</param>
+    /// <param name="PipelineObjects">The objects that define the pipeline changes to validate against the pipeline. (structure) Contains information about a pipeline object. This can be a log- ical, physical, or physical attempt pipeline object. The com- plete set of components of a pipeline defines the pipeline. id -&gt; (string) [required] The ID of the object. Constraints: o min: 1 o max: 1024 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]* name -&gt; (string) [required] The name of the object. Constraints: o min: 1 o max: 1024 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]* fields -&gt; (list) [required] Key-value pairs that define the properties of the object. (structure) A key-value pair that describes a property of a pipeline object. The value is specified as either a string value (StringValue ) or a reference to another object (RefValue ) but not as both. key -&gt; (string) [required] The field identifier. Constraints: o min: 1 o max: 256 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]* stringValue -&gt; (string) The field value, expressed as a String. Constraints: o min: 0 o max: 10240 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]* refValue -&gt; (string) The field value, expressed as the identifier of an- other object. Constraints: o min: 1 o max: 256 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]* Shorthand Syntax: id=string,name=string,fields=[{key=string,stringValue=string,refValue=string},{key=string,stringValue=string,refValue=string}] ... JSON Syntax: [ { "id": "string", "name": "string", "fields": [ { "key": "string", "stringValue": "string", "refValue": "string" } ... ] } ... ]</param>
+    public AwsDatapipelineValidatePipelineDefinitionOptions(
+        string PipelineId,
+        IEnumerable<string> PipelineObjects
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PipelineId);
+        this.PipelineId = PipelineId;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(PipelineObjects);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(PipelineObjects));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(PipelineObjects));
+            }
+
+            PipelineObjects = materialized;
+        }
+        this.PipelineObjects = PipelineObjects;
+    }
+
+    private AwsDatapipelineValidatePipelineDefinitionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDatapipelineValidatePipelineDefinitionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDatapipelineValidatePipelineDefinitionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the pipeline. Constraints: o min: 1 o max: 1024 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*
+    /// </summary>
+    [CliOption("--pipeline-id")]
+    public string? PipelineId { get; private init; }
+
+    /// <summary>
+    /// The objects that define the pipeline changes to validate against the pipeline. (structure) Contains information about a pipeline object. This can be a log- ical, physical, or physical attempt pipeline object. The com- plete set of components of a pipeline defines the pipeline. id -&gt; (string) [required] The ID of the object. Constraints: o min: 1 o max: 1024 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]* name -&gt; (string) [required] The name of the object. Constraints: o min: 1 o max: 1024 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]* fields -&gt; (list) [required] Key-value pairs that define the properties of the object. (structure) A key-value pair that describes a property of a pipeline object. The value is specified as either a string value (StringValue ) or a reference to another object (RefValue ) but not as both. key -&gt; (string) [required] The field identifier. Constraints: o min: 1 o max: 256 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]* stringValue -&gt; (string) The field value, expressed as a String. Constraints: o min: 0 o max: 10240 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]* refValue -&gt; (string) The field value, expressed as the identifier of an- other object. Constraints: o min: 1 o max: 256 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]* Shorthand Syntax: id=string,name=string,fields=[{key=string,stringValue=string,refValue=string},{key=string,stringValue=string,refValue=string}] ... JSON Syntax: [ { "id": "string", "name": "string", "fields": [ { "key": "string", "stringValue": "string", "refValue": "string" } ... ] } ... ]
+    /// </summary>
     [CliOption("--pipeline-objects", GroupValues = true)]
-    public IEnumerable<string>? PipelineObjects { get; set; }
+    public IEnumerable<string>? PipelineObjects { get; private init; }
 
     /// <summary>
     /// The parameter objects used with the pipeline. (structure) Contains information about a parameter object. id -&gt; (string) [required] The ID of the parameter object. Constraints: o min: 1 o max: 256 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]* attributes -&gt; (list) [required] The attributes of the parameter object. (structure) The attributes allowed or specified with a parameter ob- ject. key -&gt; (string) [required] The field identifier. Constraints: o min: 1 o max: 256 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]* stringValue -&gt; (string) [required] The field value, expressed as a String. Constraints: o min: 0 o max: 10240 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]* Shorthand Syntax: id=string,attributes=[{key=string,stringValue=string},{key=string,stringValue=string}] ... JSON Syntax: [ { "id": "string", "attributes": [ { "key": "string", "stringValue": "string" } ... ] } ... ]
@@ -44,5 +99,22 @@ public record AwsDatapipelineValidatePipelineDefinitionOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

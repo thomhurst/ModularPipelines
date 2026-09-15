@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +22,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("organizations", "list-outbound-responsibility-transfers")]
-public record AwsOrganizationsListOutboundResponsibilityTransfersOptions : AwsOptions
+public record AwsOrganizationsListOutboundResponsibilityTransfersOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Lists transfers that allow an account outside your organization to man- age the specified responsibilities for your organization. This opera- tion returns both transfer invitations and transfers. NOTE: When calling List* operations, always check the NextToken response parameter value, even if you receive an empty result set. These op- erations can occasionally return an empty set of results even when more results are available. Continue making requests until NextToken returns null. A null NextTo...
+    /// </summary>
+    /// <param name="Type">The type of responsibility. Currently, only BILLING is supported. Possible values: o BILLING</param>
+    public AwsOrganizationsListOutboundResponsibilityTransfersOptions(
+        AwsOrganizationsListOutboundResponsibilityTransfersType Type
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Type);
+        this.Type = Type;
+    }
+
+    private AwsOrganizationsListOutboundResponsibilityTransfersOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsOrganizationsListOutboundResponsibilityTransfersOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsOrganizationsListOutboundResponsibilityTransfersOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The type of responsibility. Currently, only BILLING is supported. Possible values: o BILLING
+    /// </summary>
     [CliOption("--type")]
-    public string? Type { get; set; }
+    public AwsOrganizationsListOutboundResponsibilityTransfersType? Type { get; private init; }
 
     /// <summary>
     /// The parameter for receiving additional results if you receive a NextToken response in a previous request. A NextToken response indi- cates that more output is available. Set this parameter to the value of the previous call's NextToken response to indicate where the out- put should continue from. Constraints: o max: 100000 o pattern: [\s\S]*
@@ -43,5 +81,22 @@ public record AwsOrganizationsListOutboundResponsibilityTransfersOptions : AwsOp
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

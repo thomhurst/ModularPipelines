@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("mediatailor", "get-channel-schedule")]
-public record AwsMediatailorGetChannelScheduleOptions : AwsOptions
+public record AwsMediatailorGetChannelScheduleOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Retrieves information about your channel's schedule. See also: AWS API Documentation get-channel-schedule is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Items
+    /// </summary>
+    /// <param name="ChannelName">The name of the channel associated with this Channel Schedule.</param>
+    public AwsMediatailorGetChannelScheduleOptions(
+        string ChannelName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ChannelName);
+        this.ChannelName = ChannelName;
+    }
+
+    private AwsMediatailorGetChannelScheduleOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsMediatailorGetChannelScheduleOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsMediatailorGetChannelScheduleOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the channel associated with this Channel Schedule.
+    /// </summary>
     [CliOption("--channel-name")]
-    public string? ChannelName { get; set; }
+    public string? ChannelName { get; private init; }
 
     /// <summary>
     /// The duration in minutes of the channel schedule.
@@ -61,5 +98,22 @@ public record AwsMediatailorGetChannelScheduleOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --actionaftercompletion.
+/// Allowed values for --action-after-completion.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsSchedulerUpdateScheduleActionAfterCompletion
 {
-    [EnumValue("NONE")]
-    None = 1,
-
     [EnumValue("DELETE")]
-    Delete = 2
+    Delete,
+
+    [EnumValue("NONE")]
+    None
 }

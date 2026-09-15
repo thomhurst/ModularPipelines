@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +20,55 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("dax", "increase-replication-factor")]
-public record AwsDaxIncreaseReplicationFactorOptions : AwsOptions
+public record AwsDaxIncreaseReplicationFactorOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--cluster-name")]
-    public string? ClusterName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Adds one or more nodes to a DAX cluster. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ClusterName">The name of the DAX cluster that will receive additional nodes.</param>
+    /// <param name="NewReplicationFactor">The new number of nodes for the DAX cluster.</param>
+    public AwsDaxIncreaseReplicationFactorOptions(
+        string ClusterName,
+        int NewReplicationFactor
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ClusterName);
+        this.ClusterName = ClusterName;
+        this.NewReplicationFactor = NewReplicationFactor;
+    }
+
+    private AwsDaxIncreaseReplicationFactorOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDaxIncreaseReplicationFactorOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDaxIncreaseReplicationFactorOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the DAX cluster that will receive additional nodes.
+    /// </summary>
+    [CliOption("--cluster-name")]
+    public string? ClusterName { get; private init; }
+
+    /// <summary>
+    /// The new number of nodes for the DAX cluster.
+    /// </summary>
     [CliOption("--new-replication-factor")]
-    public int? NewReplicationFactor { get; set; }
+    public int? NewReplicationFactor { get; private init; }
 
     /// <summary>
     /// The Availability Zones (AZs) in which the cluster nodes will be cre- ated. All nodes belonging to the cluster are placed in these Avail- ability Zones. Use this parameter if you want to distribute the nodes across multiple AZs. (string) Syntax: "string" "string" ...
@@ -38,5 +81,22 @@ public record AwsDaxIncreaseReplicationFactorOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,8 +20,47 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cloudfront", "list-distributions-by-response-headers-policy-id")]
-public record AwsCloudfrontListDistributionsByResponseHeadersPolicyIdOptions : AwsOptions
+public record AwsCloudfrontListDistributionsByResponseHeadersPolicyIdOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Gets a list of distribution IDs for distributions that have a cache be- havior that's associated with the specified response headers policy. You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the max- imum that you specify, or the default maximum, the response is pagi- nated. To get the next page of items, send a subsequent request that specifies the NextMarker value from the current response as the Marker value in ...
+    /// </summary>
+    /// <param name="ResponseHeadersPolicyId">The ID of the response headers policy whose associated distribution IDs you want to list.</param>
+    public AwsCloudfrontListDistributionsByResponseHeadersPolicyIdOptions(
+        string ResponseHeadersPolicyId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ResponseHeadersPolicyId);
+        this.ResponseHeadersPolicyId = ResponseHeadersPolicyId;
+    }
+
+    private AwsCloudfrontListDistributionsByResponseHeadersPolicyIdOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCloudfrontListDistributionsByResponseHeadersPolicyIdOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCloudfrontListDistributionsByResponseHeadersPolicyIdOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the response headers policy whose associated distribution IDs you want to list.
+    /// </summary>
+    [CliOption("--response-headers-policy-id")]
+    public string? ResponseHeadersPolicyId { get; private init; }
+
     /// <summary>
     /// Use this field when paginating results to indicate where to begin in your list of distribution IDs. The response includes distribution IDs in the list that occur after the marker. To get the next page of the list, set this field's value to the value of NextMarker from the current page's response.
     /// </summary>
@@ -33,13 +73,27 @@ public record AwsCloudfrontListDistributionsByResponseHeadersPolicyIdOptions : A
     [CliOption("--max-items")]
     public string? MaxItems { get; set; }
 
-    [CliOption("--response-headers-policy-id")]
-    public string? ResponseHeadersPolicyId { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

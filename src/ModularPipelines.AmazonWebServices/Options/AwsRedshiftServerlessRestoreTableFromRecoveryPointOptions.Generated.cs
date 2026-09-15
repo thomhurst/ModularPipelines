@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,31 +20,108 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("redshift-serverless", "restore-table-from-recovery-point")]
-public record AwsRedshiftServerlessRestoreTableFromRecoveryPointOptions : AwsOptions
+public record AwsRedshiftServerlessRestoreTableFromRecoveryPointOptions : AwsOptions, IValidatableObject
 {
-    [CliFlag("--activate-case-sensitive-identifier")]
-    public bool? ActivateCaseSensitiveIdentifier { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Restores a table from a recovery point to your Amazon Redshift Server- less instance. You can't use this operation to restore tables with in- terleaved sort keys. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="NamespaceName">Namespace of the recovery point to restore from.</param>
+    /// <param name="NewTableName">The name of the table to create from the restore operation.</param>
+    /// <param name="RecoveryPointId">The ID of the recovery point to restore the table from.</param>
+    /// <param name="SourceDatabaseName">The name of the source database that contains the table being re- stored.</param>
+    /// <param name="SourceTableName">The name of the source table being restored.</param>
+    /// <param name="WorkgroupName">The workgroup to restore the table to.</param>
+    public AwsRedshiftServerlessRestoreTableFromRecoveryPointOptions(
+        string NamespaceName,
+        string NewTableName,
+        string RecoveryPointId,
+        string SourceDatabaseName,
+        string SourceTableName,
+        string WorkgroupName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(NamespaceName);
+        this.NamespaceName = NamespaceName;
+        global::System.ArgumentNullException.ThrowIfNull(NewTableName);
+        this.NewTableName = NewTableName;
+        global::System.ArgumentNullException.ThrowIfNull(RecoveryPointId);
+        this.RecoveryPointId = RecoveryPointId;
+        global::System.ArgumentNullException.ThrowIfNull(SourceDatabaseName);
+        this.SourceDatabaseName = SourceDatabaseName;
+        global::System.ArgumentNullException.ThrowIfNull(SourceTableName);
+        this.SourceTableName = SourceTableName;
+        global::System.ArgumentNullException.ThrowIfNull(WorkgroupName);
+        this.WorkgroupName = WorkgroupName;
+    }
+
+    private AwsRedshiftServerlessRestoreTableFromRecoveryPointOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRedshiftServerlessRestoreTableFromRecoveryPointOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRedshiftServerlessRestoreTableFromRecoveryPointOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Namespace of the recovery point to restore from.
+    /// </summary>
     [CliOption("--namespace-name")]
-    public string? NamespaceName { get; set; }
+    public string? NamespaceName { get; private init; }
 
+    /// <summary>
+    /// The name of the table to create from the restore operation.
+    /// </summary>
     [CliOption("--new-table-name")]
-    public string? NewTableName { get; set; }
+    public string? NewTableName { get; private init; }
 
+    /// <summary>
+    /// The ID of the recovery point to restore the table from.
+    /// </summary>
     [CliOption("--recovery-point-id")]
-    public string? RecoveryPointId { get; set; }
+    public string? RecoveryPointId { get; private init; }
 
+    /// <summary>
+    /// The name of the source database that contains the table being re- stored.
+    /// </summary>
     [CliOption("--source-database-name")]
-    public string? SourceDatabaseName { get; set; }
+    public string? SourceDatabaseName { get; private init; }
+
+    /// <summary>
+    /// The name of the source table being restored.
+    /// </summary>
+    [CliOption("--source-table-name")]
+    public string? SourceTableName { get; private init; }
+
+    /// <summary>
+    /// The workgroup to restore the table to.
+    /// </summary>
+    [CliOption("--workgroup-name")]
+    public string? WorkgroupName { get; private init; }
+
+    /// <summary>
+    /// tive-identifier (boolean) Indicates whether name identifiers for database, schema, and table are case sensitive. If true, the names are case sensitive. If false, the names are not case sensitive. The default is false.
+    /// </summary>
+    [CliFlag("--activate-case-sensitive-identifier", NegatedName = "--no-activate-case-sensitive-identifier")]
+    public bool? ActivateCaseSensitiveIdentifier { get; set; }
 
     /// <summary>
     /// The name of the source schema that contains the table being re- stored.
     /// </summary>
     [CliOption("--source-schema-name")]
     public string? SourceSchemaName { get; set; }
-
-    [CliOption("--source-table-name")]
-    public string? SourceTableName { get; set; }
 
     /// <summary>
     /// The name of the database to restore the table to.
@@ -57,13 +135,27 @@ public record AwsRedshiftServerlessRestoreTableFromRecoveryPointOptions : AwsOpt
     [CliOption("--target-schema-name")]
     public string? TargetSchemaName { get; set; }
 
-    [CliOption("--workgroup-name")]
-    public string? WorkgroupName { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

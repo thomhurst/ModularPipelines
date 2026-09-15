@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --resourcetype.
+/// Allowed values for --resource-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsSecurityagentListIntegratedResourcesResourceType
 {
     [EnumValue("CODE_REPOSITORY")]
-    CodeRepository = 1,
+    CodeRepository,
 
     [EnumValue("DOCUMENT")]
-    Document = 2
+    Document
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +20,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sso-oidc", "register-client")]
-public record AwsSsoOidcRegisterClientOptions : AwsOptions
+public record AwsSsoOidcRegisterClientOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--client-name")]
-    public string? ClientName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Registers a public client with IAM Identity Center. This allows clients to perform authorization using the authorization code grant with Proof Key for Code Exchange (PKCE) or the device code grant. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ClientName">The friendly name of the client.</param>
+    /// <param name="ClientType">The type of client. The service supports only public as a client type. Anything other than public will be rejected by the service.</param>
+    public AwsSsoOidcRegisterClientOptions(
+        string ClientName,
+        string ClientType
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ClientName);
+        this.ClientName = ClientName;
+        global::System.ArgumentNullException.ThrowIfNull(ClientType);
+        this.ClientType = ClientType;
+    }
+
+    private AwsSsoOidcRegisterClientOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSsoOidcRegisterClientOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSsoOidcRegisterClientOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The friendly name of the client.
+    /// </summary>
+    [CliOption("--client-name")]
+    public string? ClientName { get; private init; }
+
+    /// <summary>
+    /// The type of client. The service supports only public as a client type. Anything other than public will be rejected by the service.
+    /// </summary>
     [CliOption("--client-type")]
-    public string? ClientType { get; set; }
+    public string? ClientType { get; private init; }
 
     /// <summary>
     /// The list of scopes that are defined by the client. Upon authoriza- tion, this list is used to restrict permissions when granting an ac- cess token. (string) Syntax: "string" "string" ...
@@ -62,5 +106,22 @@ public record AwsSsoOidcRegisterClientOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

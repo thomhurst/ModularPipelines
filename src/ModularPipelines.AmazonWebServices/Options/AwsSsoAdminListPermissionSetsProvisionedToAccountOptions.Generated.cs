@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,19 +22,62 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sso-admin", "list-permission-sets-provisioned-to-account")]
-public record AwsSsoAdminListPermissionSetsProvisionedToAccountOptions : AwsOptions
+public record AwsSsoAdminListPermissionSetsProvisionedToAccountOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--instance-arn")]
-    public string? InstanceArn { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Lists all the permission sets that are provisioned to a specified Ama- zon Web Services account. See also: AWS API Documentation list-permission-sets-provisioned-to-account is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-pagi- nate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the re- sults of the follo...
+    /// </summary>
+    /// <param name="InstanceArn">The ARN of the IAM Identity Center instance under which the opera- tion will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference . Constraints: o min: 10 o max: 1224 o pattern: arn:aws(-[a-z]{1,5}){0,3}:sso:::in- stance/(sso)?ins-[a-zA-Z0-9-.]{16}</param>
+    /// <param name="AccountId">The identifier of the Amazon Web Services account from which to list the assignments. Constraints: o min: 12 o max: 12 o pattern: \d{12}</param>
+    public AwsSsoAdminListPermissionSetsProvisionedToAccountOptions(
+        string InstanceArn,
+        string AccountId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(InstanceArn);
+        this.InstanceArn = InstanceArn;
+        global::System.ArgumentNullException.ThrowIfNull(AccountId);
+        this.AccountId = AccountId;
+    }
+
+    private AwsSsoAdminListPermissionSetsProvisionedToAccountOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSsoAdminListPermissionSetsProvisionedToAccountOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSsoAdminListPermissionSetsProvisionedToAccountOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ARN of the IAM Identity Center instance under which the opera- tion will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference . Constraints: o min: 10 o max: 1224 o pattern: arn:aws(-[a-z]{1,5}){0,3}:sso:::in- stance/(sso)?ins-[a-zA-Z0-9-.]{16}
+    /// </summary>
+    [CliOption("--instance-arn")]
+    public string? InstanceArn { get; private init; }
+
+    /// <summary>
+    /// The identifier of the Amazon Web Services account from which to list the assignments. Constraints: o min: 12 o max: 12 o pattern: \d{12}
+    /// </summary>
     [CliOption("--account-id")]
-    public string? AccountId { get; set; }
+    public string? AccountId { get; private init; }
 
     /// <summary>
     /// The status object for the permission set provisioning operation. Possible values: o LATEST_PERMISSION_SET_PROVISIONED o LATEST_PERMISSION_SET_NOT_PROVISIONED
     /// </summary>
     [CliOption("--provisioning-status")]
-    public string? ProvisioningStatus { get; set; }
+    public AwsSsoAdminListPermissionSetsProvisionedToAccountProvisioningStatus? ProvisioningStatus { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
@@ -58,5 +103,22 @@ public record AwsSsoAdminListPermissionSetsProvisionedToAccountOptions : AwsOpti
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

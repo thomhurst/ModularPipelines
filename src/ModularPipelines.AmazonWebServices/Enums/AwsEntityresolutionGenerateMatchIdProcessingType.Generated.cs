@@ -11,17 +11,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --processingtype.
+/// Allowed values for --processing-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsEntityresolutionGenerateMatchIdProcessingType
 {
     [EnumValue("CONSISTENT")]
-    Consistent = 1,
+    Consistent,
 
     [EnumValue("EVENTUAL")]
-    Eventual = 2,
+    Eventual,
 
     [EnumValue("EVENTUAL_NO_LOOKUP")]
-    EventualNoLookup = 3
+    EventualNoLookup
 }

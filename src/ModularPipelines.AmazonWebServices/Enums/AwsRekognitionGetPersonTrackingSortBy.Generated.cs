@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --sortby.
+/// Allowed values for --sort-by.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsRekognitionGetPersonTrackingSortBy
 {
     [EnumValue("INDEX")]
-    Index = 1,
+    Index,
 
     [EnumValue("TIMESTAMP")]
-    Timestamp = 2
+    Timestamp
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("gamelift", "delete-vpc-peering-authorization")]
-public record AwsGameliftDeleteVpcPeeringAuthorizationOptions : AwsOptions
+public record AwsGameliftDeleteVpcPeeringAuthorizationOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--game-lift-aws-account-id")]
-    public string? GameLiftAwsAccountId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// This API works with the following fleet types: EC2 Cancels a pending VPC peering authorization for the specified VPC. If you need to delete an existing VPC peering connection, use DeleteVpcPeeringConnection . Related actions All APIs by task See also: AWS API Documentation
+    /// </summary>
+    /// <param name="GameLiftAwsAccountId">A unique identifier for the Amazon Web Services account that you use to manage your Amazon GameLift Servers fleet. You can find your Ac- count ID in the Amazon Web Services Management Console under account settings. Constraints: o min: 1 o max: 1024</param>
+    /// <param name="PeerVpcId">A unique identifier for a VPC with resources to be accessed by your Amazon GameLift Servers fleet. The VPC must be in the same Region as your fleet. To look up a VPC ID, use the VPC Dashboard in the Amazon Web Services Management Console. Learn more about VPC peering in VPC Peering with Amazon GameLift Servers Fleets . Constraints: o min: 1 o max: 1024</param>
+    public AwsGameliftDeleteVpcPeeringAuthorizationOptions(
+        string GameLiftAwsAccountId,
+        string PeerVpcId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(GameLiftAwsAccountId);
+        this.GameLiftAwsAccountId = GameLiftAwsAccountId;
+        global::System.ArgumentNullException.ThrowIfNull(PeerVpcId);
+        this.PeerVpcId = PeerVpcId;
+    }
+
+    private AwsGameliftDeleteVpcPeeringAuthorizationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsGameliftDeleteVpcPeeringAuthorizationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsGameliftDeleteVpcPeeringAuthorizationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A unique identifier for the Amazon Web Services account that you use to manage your Amazon GameLift Servers fleet. You can find your Ac- count ID in the Amazon Web Services Management Console under account settings. Constraints: o min: 1 o max: 1024
+    /// </summary>
+    [CliOption("--game-lift-aws-account-id")]
+    public string? GameLiftAwsAccountId { get; private init; }
+
+    /// <summary>
+    /// A unique identifier for a VPC with resources to be accessed by your Amazon GameLift Servers fleet. The VPC must be in the same Region as your fleet. To look up a VPC ID, use the VPC Dashboard in the Amazon Web Services Management Console. Learn more about VPC peering in VPC Peering with Amazon GameLift Servers Fleets . Constraints: o min: 1 o max: 1024
+    /// </summary>
     [CliOption("--peer-vpc-id")]
-    public string? PeerVpcId { get; set; }
+    public string? PeerVpcId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,89 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("athena", "put-capacity-assignment-configuration")]
-public record AwsAthenaPutCapacityAssignmentConfigurationOptions : AwsOptions
+public record AwsAthenaPutCapacityAssignmentConfigurationOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--capacity-reservation-name")]
-    public string? CapacityReservationName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Puts a new capacity assignment configuration for a specified capacity reservation. If a capacity assignment configuration already exists for the capacity reservation, replaces the existing capacity assignment configuration. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="CapacityReservationName">The name of the capacity reservation to put a capacity assignment configuration for. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9._-]+</param>
+    /// <param name="CapacityAssignments">The list of assignments for the capacity assignment configuration. (structure) A mapping between one or more workgroups and a capacity reserva- tion. WorkGroupNames -&gt; (list) The list of workgroup names for the capacity assignment. (string) Constraints: o pattern: [a-zA-Z0-9._-]{1,128} Shorthand Syntax: WorkGroupNames=string,string ... JSON Syntax: [ { "WorkGroupNames": ["string", ...] } ... ]</param>
+    public AwsAthenaPutCapacityAssignmentConfigurationOptions(
+        string CapacityReservationName,
+        IEnumerable<string> CapacityAssignments
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(CapacityReservationName);
+        this.CapacityReservationName = CapacityReservationName;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(CapacityAssignments);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(CapacityAssignments));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(CapacityAssignments));
+            }
+
+            CapacityAssignments = materialized;
+        }
+        this.CapacityAssignments = CapacityAssignments;
+    }
+
+    private AwsAthenaPutCapacityAssignmentConfigurationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsAthenaPutCapacityAssignmentConfigurationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsAthenaPutCapacityAssignmentConfigurationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the capacity reservation to put a capacity assignment configuration for. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9._-]+
+    /// </summary>
+    [CliOption("--capacity-reservation-name")]
+    public string? CapacityReservationName { get; private init; }
+
+    /// <summary>
+    /// The list of assignments for the capacity assignment configuration. (structure) A mapping between one or more workgroups and a capacity reserva- tion. WorkGroupNames -&gt; (list) The list of workgroup names for the capacity assignment. (string) Constraints: o pattern: [a-zA-Z0-9._-]{1,128} Shorthand Syntax: WorkGroupNames=string,string ... JSON Syntax: [ { "WorkGroupNames": ["string", ...] } ... ]
+    /// </summary>
     [CliOption("--capacity-assignments", GroupValues = true)]
-    public IEnumerable<string>? CapacityAssignments { get; set; }
+    public IEnumerable<string>? CapacityAssignments { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

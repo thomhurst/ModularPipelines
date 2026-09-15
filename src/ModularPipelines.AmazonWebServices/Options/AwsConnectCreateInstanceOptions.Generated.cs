@@ -12,6 +12,8 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -21,17 +23,65 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("connect", "create-instance")]
-public record AwsConnectCreateInstanceOptions : AwsOptions
+public record AwsConnectCreateInstanceOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// This API is in preview release for Connect Customer and is subject to change. Initiates an Connect Customer instance with all the supported channels enabled. It does not attach any storage, such as Amazon Simple Storage Service (Amazon S3) or Amazon Kinesis. It also does not allow for any configurations on features, such as Contact Lens for Connect Customer. For more information, see Create an Connect Customer instance in the Connect Customer Administrator Guide . Connect Customer enforces a lim...
+    /// </summary>
+    /// <param name="IdentityManagementType">The type of identity management for your Connect Customer users. Possible values: o SAML o CONNECT_MANAGED o EXISTING_DIRECTORY</param>
+    /// <param name="InboundCallsEnabled"></param>
+    /// <param name="OutboundCallsEnabled"></param>
+    public AwsConnectCreateInstanceOptions(
+        AwsConnectCreateInstanceIdentityManagementType IdentityManagementType,
+        bool InboundCallsEnabled,
+        bool OutboundCallsEnabled
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(IdentityManagementType);
+        this.IdentityManagementType = IdentityManagementType;
+        this.InboundCallsEnabled = InboundCallsEnabled;
+        this.OutboundCallsEnabled = OutboundCallsEnabled;
+    }
+
+    private AwsConnectCreateInstanceOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsConnectCreateInstanceOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsConnectCreateInstanceOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The type of identity management for your Connect Customer users. Possible values: o SAML o CONNECT_MANAGED o EXISTING_DIRECTORY
+    /// </summary>
+    [CliOption("--identity-management-type")]
+    public AwsConnectCreateInstanceIdentityManagementType? IdentityManagementType { get; private init; }
+
+    [CliFlag("--inbound-calls-enabled", NegatedName = "--no-inbound-calls-enabled")]
+    public bool? InboundCallsEnabled { get; private init; }
+
+    [CliFlag("--outbound-calls-enabled", NegatedName = "--no-outbound-calls-enabled")]
+    public bool? OutboundCallsEnabled { get; private init; }
+
     /// <summary>
     /// The idempotency token. Constraints: o max: 500
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
-
-    [CliOption("--identity-management-type")]
-    public string? IdentityManagementType { get; set; }
 
     /// <summary>
     /// The name for your instance. Constraints: o min: 1 o max: 45 o pattern: ^(?!d-)([\da-zA-Z]+)([-]*[\da-zA-Z])*$
@@ -45,12 +95,6 @@ public record AwsConnectCreateInstanceOptions : AwsOptions
     [CliOption("--directory-id")]
     public string? DirectoryId { get; set; }
 
-    [CliFlag("--inbound-calls-enabled")]
-    public bool? InboundCallsEnabled { get; set; }
-
-    [CliFlag("--outbound-calls-enabled")]
-    public bool? OutboundCallsEnabled { get; set; }
-
     /// <summary>
     /// The tags used to organize, track, or control access for this re- source. For example, { "tags": {"key1":"value1", "key2":"value2"} } . Constraints: o min: 1 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ^(?!aws:)[\p{L}\p{Z}\p{N}_.:/=+\-@]*$ value -&gt; (string) Constraints: o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
@@ -62,5 +106,22 @@ public record AwsConnectCreateInstanceOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

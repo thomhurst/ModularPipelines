@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,8 +21,68 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iottwinmaker", "get-property-value")]
-public record AwsIottwinmakerGetPropertyValueOptions : AwsOptions
+public record AwsIottwinmakerGetPropertyValueOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Gets the property values for a component, component type, entity, or workspace. You must specify a value for either componentName , componentTypeId , entityId , or workspaceId . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="SelectedProperties">The properties whose values the operation returns. Constraints: o min: 1 o max: 10 (string) Constraints: o min: 1 o max: 256 o pattern: .* Syntax: "string" "string" ...</param>
+    /// <param name="WorkspaceId">The ID of the workspace whose values the operation returns. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z_0-9][a-zA-Z_\-0-9]*[a-zA-Z0-9]+</param>
+    public AwsIottwinmakerGetPropertyValueOptions(
+        IEnumerable<string> SelectedProperties,
+        string WorkspaceId
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(SelectedProperties);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(SelectedProperties));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(SelectedProperties));
+            }
+
+            SelectedProperties = materialized;
+        }
+        this.SelectedProperties = SelectedProperties;
+        global::System.ArgumentNullException.ThrowIfNull(WorkspaceId);
+        this.WorkspaceId = WorkspaceId;
+    }
+
+    private AwsIottwinmakerGetPropertyValueOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsIottwinmakerGetPropertyValueOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsIottwinmakerGetPropertyValueOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The properties whose values the operation returns. Constraints: o min: 1 o max: 10 (string) Constraints: o min: 1 o max: 256 o pattern: .* Syntax: "string" "string" ...
+    /// </summary>
+    [CliOption("--selected-properties", GroupValues = true)]
+    public IEnumerable<string>? SelectedProperties { get; private init; }
+
+    /// <summary>
+    /// The ID of the workspace whose values the operation returns. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z_0-9][a-zA-Z_\-0-9]*[a-zA-Z0-9]+
+    /// </summary>
+    [CliOption("--workspace-id")]
+    public string? WorkspaceId { get; private init; }
+
     /// <summary>
     /// The name of the component whose property values the operation re- turns. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z_\-0-9]+
     /// </summary>
@@ -46,12 +107,6 @@ public record AwsIottwinmakerGetPropertyValueOptions : AwsOptions
     [CliOption("--entity-id")]
     public string? EntityId { get; set; }
 
-    [CliOption("--selected-properties", GroupValues = true)]
-    public IEnumerable<string>? SelectedProperties { get; set; }
-
-    [CliOption("--workspace-id")]
-    public string? WorkspaceId { get; set; }
-
     /// <summary>
     /// The maximum number of results to return at one time. The default is 25. Valid Range: Minimum value of 1. Maximum value of 250. Constraints: o min: 0 o max: 200
     /// </summary>
@@ -74,13 +129,30 @@ public record AwsIottwinmakerGetPropertyValueOptions : AwsOptions
     /// <summary>
     /// The tabular conditions. orderBy -&gt; (list) Filter criteria that orders the output. It can be sorted in as- cending or descending order. Constraints: o min: 1 o max: 10 (structure) Filter criteria that orders the return output. It can be sorted in ascending or descending order. order -&gt; (string) The set order that filters results. Possible values: o ASCENDING o DESCENDING propertyName -&gt; (string) [required] The property name. Constraints: o min: 1 o max: 256 o pattern: .* propertyFilters -&gt; (list) You can filter the request using various logical operators and a key-value format. For example: {"key": "serverType", "value": "webServer"} Constraints: o min: 1 o max: 10 (structure) An object that filters items returned by a property request. propertyName -&gt; (string) The property name associated with this property filter. Constraints: o min: 1 o max: 256 o pattern: .* operator -&gt; (string) The operator associated with this property filter. Constraints: o min: 1 o max: 256 o pattern: .* value -&gt; (structure) The value associated with this property filter. booleanValue -&gt; (boolean) A Boolean value. doubleValue -&gt; (double) A double value. integerValue -&gt; (integer) An integer value. longValue -&gt; (long) A long value. stringValue -&gt; (string) A string value. Constraints: o min: 1 o max: 256 o pattern: .* listValue -&gt; (list) A list of multiple values. Constraints: o min: 0 o max: 50 (structure) An object that specifies a value for a property. booleanValue -&gt; (boolean) A Boolean value. doubleValue -&gt; (double) A double value. integerValue -&gt; (integer) An integer value. longValue -&gt; (long) A long value. stringValue -&gt; (string) A string value. Constraints: o min: 1 o max: 256 o pattern: .* listValue -&gt; (list) A list of multiple values. Constraints: o min: 0 o max: 50 ( ... recursive ... ) mapValue -&gt; (map) An object that maps strings to multiple DataValue objects. Constraints: o min: 0 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 256 o pattern: .* ( ... recursive ... ) relationshipValue -&gt; (structure) A value that relates a component to another component. targetEntityId -&gt; (string) The ID of the target entity associated with this relationship value. Constraints: o min: 1 o max: 128 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}|^[a-zA-Z0-9][a-zA-Z_\-0-9.:]*[a-zA-Z0-9]+ targetComponentName -&gt; (string) The name of the target component associated with the relationship value. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z_\-0-9]+ expression -&gt; (string) An expression that produces the value. Constraints: o min: 1 o max: 316 o pattern: (^\$\{Parame- ters\.[a-zA-z]+([a-zA-z_0-9]*)}$) mapValue -&gt; (map) An object that maps strings to multiple DataValue ob- jects. Constraints: o min: 0 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 256 o pattern: .* value -&gt; (structure) An object that specifies a value for a property. booleanValue -&gt; (boolean) A Boolean value. doubleValue -&gt; (double) A double value. integerValue -&gt; (integer) An integer value. longValue -&gt; (long) A long value. stringValue -&gt; (string) A string value. Constraints: o min: 1 o max: 256 o pattern: .* listValue -&gt; (list) A list of multiple values. Constraints: o min: 0 o max: 50 ( ... recursive ... ) mapValue -&gt; (map) An object that maps strings to multiple DataValue objects. Constraints: o min: 0 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 256 o pattern: .* ( ... recursive ... ) relationshipValue -&gt; (structure) A value that relates a component to another component. targetEntityId -&gt; (string) The ID of the target entity associated with this relationship value. Constraints: o min: 1 o max: 128 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}|^[a-zA-Z0-9][a-zA-Z_\-0-9.:]*[a-zA-Z0-9]+ targetComponentName -&gt; (string) The name of the target component associated with the relationship value. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z_\-0-9]+ expression -&gt; (string) An expression that produces the value. Constraints: o min: 1 o max: 316 o pattern: (^\$\{Parame- ters\.[a-zA-z]+([a-zA-z_0-9]*)}$) relationshipValue -&gt; (structure) A value that relates a component to another component. targetEntityId -&gt; (string) The ID of the target entity associated with this relationship value. Constraints: o min: 1 o max: 128 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}|^[a-zA-Z0-9][a-zA-Z_\-0-9.:]*[a-zA-Z0-9]+ targetComponentName -&gt; (string) The name of the target component associated with the relationship value. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z_\-0-9]+ expression -&gt; (string) An expression that produces the value. Constraints: o min: 1 o max: 316 o pattern: (^\$\{Parame- ters\.[a-zA-z]+([a-zA-z_0-9]*)}$) JSON Syntax: { "orderBy": [ { "order": "ASCENDING"|"DESCENDING", "propertyName": "string" } ... ], "propertyFilters": [ { "propertyName": "string", "operator": "string", "value": { "booleanValue": true|false, "doubleValue": double, "integerValue": integer, "longValue": long, "stringValue": "string", "listValue": [ { "booleanValue": true|false, "doubleValue": double, "integerValue": integer, "longValue": long, "stringValue": "string", "listValue": [ { ... recursive ... } ... ], "mapValue": {"string": { ... recursive ... } ...}, "relationshipValue": { "targetEntityId": "string", "targetComponentName": "string" }, "expression": "string" } ... ], "mapValue": {"string": { "booleanValue": true|false, "doubleValue": double, "integerValue": integer, "longValue": long, "stringValue": "string", "listValue": [ { ... recursive ... } ... ], "mapValue": {"string": { ... recursive ... } ...}, "relationshipValue": { "targetEntityId": "string", "targetComponentName": "string" }, "expression": "string" } ...}, "relationshipValue": { "targetEntityId": "string", "targetComponentName": "string" }, "expression": "string" } } ... ] }
     /// </summary>
-    [CliOption("--tabular-conditions", GroupValues = true)]
-    public IEnumerable<string>? TabularConditions { get; set; }
+    [CliOption("--tabular-conditions")]
+    public string? TabularConditions { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

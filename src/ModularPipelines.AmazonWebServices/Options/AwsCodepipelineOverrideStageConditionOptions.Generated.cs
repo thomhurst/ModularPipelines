@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,24 +21,98 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("codepipeline", "override-stage-condition")]
-public record AwsCodepipelineOverrideStageConditionOptions : AwsOptions
+public record AwsCodepipelineOverrideStageConditionOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Used to override a stage condition. For more information about condi- tions, see Stage conditions and How do stage conditions work? . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="PipelineName">The name of the pipeline with the stage that will override the con- dition. Constraints: o min: 1 o max: 100 o pattern: [A-Za-z0-9.@\-_]+</param>
+    /// <param name="StageName">The name of the stage for the override. Constraints: o min: 1 o max: 100 o pattern: [A-Za-z0-9.@\-_]+</param>
+    /// <param name="PipelineExecutionId">The ID of the pipeline execution for the override. Constraints: o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
+    /// <param name="ConditionType">The type of condition to override for the stage, such as entry con- ditions, failure conditions, or success conditions. Possible values: o BEFORE_ENTRY o ON_SUCCESS</param>
+    public AwsCodepipelineOverrideStageConditionOptions(
+        string PipelineName,
+        string StageName,
+        string PipelineExecutionId,
+        AwsCodepipelineOverrideStageConditionConditionType ConditionType
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PipelineName);
+        this.PipelineName = PipelineName;
+        global::System.ArgumentNullException.ThrowIfNull(StageName);
+        this.StageName = StageName;
+        global::System.ArgumentNullException.ThrowIfNull(PipelineExecutionId);
+        this.PipelineExecutionId = PipelineExecutionId;
+        global::System.ArgumentNullException.ThrowIfNull(ConditionType);
+        this.ConditionType = ConditionType;
+    }
+
+    private AwsCodepipelineOverrideStageConditionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCodepipelineOverrideStageConditionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCodepipelineOverrideStageConditionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the pipeline with the stage that will override the con- dition. Constraints: o min: 1 o max: 100 o pattern: [A-Za-z0-9.@\-_]+
+    /// </summary>
     [CliOption("--pipeline-name")]
-    public string? PipelineName { get; set; }
+    public string? PipelineName { get; private init; }
 
+    /// <summary>
+    /// The name of the stage for the override. Constraints: o min: 1 o max: 100 o pattern: [A-Za-z0-9.@\-_]+
+    /// </summary>
     [CliOption("--stage-name")]
-    public string? StageName { get; set; }
+    public string? StageName { get; private init; }
 
+    /// <summary>
+    /// The ID of the pipeline execution for the override. Constraints: o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
+    /// </summary>
     [CliOption("--pipeline-execution-id")]
-    public string? PipelineExecutionId { get; set; }
+    public string? PipelineExecutionId { get; private init; }
 
+    /// <summary>
+    /// The type of condition to override for the stage, such as entry con- ditions, failure conditions, or success conditions. Possible values: o BEFORE_ENTRY o ON_SUCCESS
+    /// </summary>
     [CliOption("--condition-type")]
-    public string? ConditionType { get; set; }
+    public AwsCodepipelineOverrideStageConditionConditionType? ConditionType { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

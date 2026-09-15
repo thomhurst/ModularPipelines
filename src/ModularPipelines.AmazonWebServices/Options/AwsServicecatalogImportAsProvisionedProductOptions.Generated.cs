@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,25 +21,82 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("servicecatalog", "import-as-provisioned-product")]
-public record AwsServicecatalogImportAsProvisionedProductOptions : AwsOptions
+public record AwsServicecatalogImportAsProvisionedProductOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Requests the import of a resource as an Service Catalog provisioned product that is associated to an Service Catalog product and provision- ing artifact. Once imported, all supported governance actions are sup- ported on the provisioned product. Resource import only supports CloudFormation stack ARNs. CloudFormation StackSets, and non-root nested stacks, are not supported. The CloudFormation stack must have one of the following statuses to be imported: CREATE_COMPLETE , UPDATE_COMPLETE , UPDATE_...
+    /// </summary>
+    /// <param name="ProductId">The product identifier. Constraints: o min: 1 o max: 100 o pattern: ^[a-zA-Z0-9_\-]*</param>
+    /// <param name="ProvisioningArtifactId">The identifier of the provisioning artifact. Constraints: o min: 1 o max: 100 o pattern: ^[a-zA-Z0-9_\-]*</param>
+    /// <param name="ProvisionedProductName">The user-friendly name of the provisioned product. The value must be unique for the Amazon Web Services account. The name cannot be up- dated after the product is provisioned. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9][a-zA-Z0-9._-]*</param>
+    /// <param name="PhysicalId">The unique identifier of the resource to be imported. It only cur- rently supports CloudFormation stack IDs.</param>
+    public AwsServicecatalogImportAsProvisionedProductOptions(
+        string ProductId,
+        string ProvisioningArtifactId,
+        string ProvisionedProductName,
+        string PhysicalId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ProductId);
+        this.ProductId = ProductId;
+        global::System.ArgumentNullException.ThrowIfNull(ProvisioningArtifactId);
+        this.ProvisioningArtifactId = ProvisioningArtifactId;
+        global::System.ArgumentNullException.ThrowIfNull(ProvisionedProductName);
+        this.ProvisionedProductName = ProvisionedProductName;
+        global::System.ArgumentNullException.ThrowIfNull(PhysicalId);
+        this.PhysicalId = PhysicalId;
+    }
+
+    private AwsServicecatalogImportAsProvisionedProductOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsServicecatalogImportAsProvisionedProductOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsServicecatalogImportAsProvisionedProductOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The product identifier. Constraints: o min: 1 o max: 100 o pattern: ^[a-zA-Z0-9_\-]*
+    /// </summary>
+    [CliOption("--product-id")]
+    public string? ProductId { get; private init; }
+
+    /// <summary>
+    /// The identifier of the provisioning artifact. Constraints: o min: 1 o max: 100 o pattern: ^[a-zA-Z0-9_\-]*
+    /// </summary>
+    [CliOption("--provisioning-artifact-id")]
+    public string? ProvisioningArtifactId { get; private init; }
+
+    /// <summary>
+    /// The user-friendly name of the provisioned product. The value must be unique for the Amazon Web Services account. The name cannot be up- dated after the product is provisioned. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9][a-zA-Z0-9._-]*
+    /// </summary>
+    [CliOption("--provisioned-product-name")]
+    public string? ProvisionedProductName { get; private init; }
+
+    /// <summary>
+    /// The unique identifier of the resource to be imported. It only cur- rently supports CloudFormation stack IDs.
+    /// </summary>
+    [CliOption("--physical-id")]
+    public string? PhysicalId { get; private init; }
+
     /// <summary>
     /// The language code. o jp - Japanese o zh - Chinese Constraints: o max: 100
     /// </summary>
     [CliOption("--accept-language")]
     public string? AcceptLanguage { get; set; }
-
-    [CliOption("--product-id")]
-    public string? ProductId { get; set; }
-
-    [CliOption("--provisioning-artifact-id")]
-    public string? ProvisioningArtifactId { get; set; }
-
-    [CliOption("--provisioned-product-name")]
-    public string? ProvisionedProductName { get; set; }
-
-    [CliOption("--physical-id")]
-    public string? PhysicalId { get; set; }
 
     /// <summary>
     /// A unique identifier that you provide to ensure idempotency. If mul- tiple requests differ only by the idempotency token, the same re- sponse is returned for each repeated request. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9][a-zA-Z0-9_-]*
@@ -52,5 +110,22 @@ public record AwsServicecatalogImportAsProvisionedProductOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

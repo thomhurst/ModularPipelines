@@ -11,17 +11,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --identitytype.
+/// Allowed values for --identity-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsIotsitewiseListAccessPoliciesIdentityType
 {
-    [EnumValue("USER")]
-    User = 1,
-
     [EnumValue("GROUP")]
-    Group = 2,
+    Group,
 
     [EnumValue("IAM")]
-    Iam = 3
+    Iam,
+
+    [EnumValue("USER")]
+    User
 }

@@ -11,17 +11,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --sortby.
+/// Allowed values for --sort-by.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsCodebuildListProjectsSortBy
 {
-    [EnumValue("NAME")]
-    Name = 1,
-
     [EnumValue("CREATED_TIME")]
-    CreatedTime = 2,
+    CreatedTime,
 
     [EnumValue("LAST_MODIFIED_TIME")]
-    LastModifiedTime = 3
+    LastModifiedTime,
+
+    [EnumValue("NAME")]
+    Name
 }

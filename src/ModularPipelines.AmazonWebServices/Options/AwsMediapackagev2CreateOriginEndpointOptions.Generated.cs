@@ -12,6 +12,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -22,19 +23,76 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("mediapackagev2", "create-origin-endpoint")]
-public record AwsMediapackagev2CreateOriginEndpointOptions : AwsOptions
+public record AwsMediapackagev2CreateOriginEndpointOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// The endpoint is attached to a channel, and represents the output of the live content. You can associate multiple endpoints to a single channel. Each endpoint gives players and downstream CDNs (such as Amazon Cloud- Front) access to the content for playback. Content can't be served from a channel until it has an endpoint. You can create only one endpoint with each request. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ChannelGroupName">The name that describes the channel group. The name is the primary identifier for the channel group, and must be unique for your ac- count in the AWS Region. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9_-]+</param>
+    /// <param name="ChannelName">The name that describes the channel. The name is the primary identi- fier for the channel, and must be unique for your account in the AWS Region and channel group. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9_-]+</param>
+    /// <param name="OriginEndpointName">The name that describes the origin endpoint. The name is the primary identifier for the origin endpoint, and must be unique for your ac- count in the AWS Region and channel. You can't use spaces in the name. You can't change the name after you create the endpoint. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9_-]+</param>
+    /// <param name="ContainerType">The type of container to attach to this origin endpoint. A container type is a file format that encapsulates one or more media streams, such as audio and video, into a single file. You can't change the container type after you create the endpoint. Possible values: o TS o CMAF o ISM</param>
+    public AwsMediapackagev2CreateOriginEndpointOptions(
+        string ChannelGroupName,
+        string ChannelName,
+        string OriginEndpointName,
+        AwsMediapackagev2CreateOriginEndpointContainerType ContainerType
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ChannelGroupName);
+        this.ChannelGroupName = ChannelGroupName;
+        global::System.ArgumentNullException.ThrowIfNull(ChannelName);
+        this.ChannelName = ChannelName;
+        global::System.ArgumentNullException.ThrowIfNull(OriginEndpointName);
+        this.OriginEndpointName = OriginEndpointName;
+        global::System.ArgumentNullException.ThrowIfNull(ContainerType);
+        this.ContainerType = ContainerType;
+    }
+
+    private AwsMediapackagev2CreateOriginEndpointOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsMediapackagev2CreateOriginEndpointOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsMediapackagev2CreateOriginEndpointOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name that describes the channel group. The name is the primary identifier for the channel group, and must be unique for your ac- count in the AWS Region. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9_-]+
+    /// </summary>
     [CliOption("--channel-group-name")]
-    public string? ChannelGroupName { get; set; }
+    public string? ChannelGroupName { get; private init; }
 
+    /// <summary>
+    /// The name that describes the channel. The name is the primary identi- fier for the channel, and must be unique for your account in the AWS Region and channel group. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9_-]+
+    /// </summary>
     [CliOption("--channel-name")]
-    public string? ChannelName { get; set; }
+    public string? ChannelName { get; private init; }
 
+    /// <summary>
+    /// The name that describes the origin endpoint. The name is the primary identifier for the origin endpoint, and must be unique for your ac- count in the AWS Region and channel. You can't use spaces in the name. You can't change the name after you create the endpoint. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9_-]+
+    /// </summary>
     [CliOption("--origin-endpoint-name")]
-    public string? OriginEndpointName { get; set; }
+    public string? OriginEndpointName { get; private init; }
 
+    /// <summary>
+    /// The type of container to attach to this origin endpoint. A container type is a file format that encapsulates one or more media streams, such as audio and video, into a single file. You can't change the container type after you create the endpoint. Possible values: o TS o CMAF o ISM
+    /// </summary>
     [CliOption("--container-type")]
-    public string? ContainerType { get; set; }
+    public AwsMediapackagev2CreateOriginEndpointContainerType? ContainerType { get; private init; }
 
     /// <summary>
     /// The segment configuration, including the segment name, duration, and other configuration values. SegmentDurationSeconds -&gt; (integer) The duration (in seconds) of each segment. Enter a value equal to, or a multiple of, the input segment duration. If the value that you enter is different from the input segment duration, Me- diaPackage rounds segments to the nearest multiple of the input segment duration. Constraints: o min: 1 o max: 30 SegmentName -&gt; (string) The name that describes the segment. The name is the base name of the segment used in all content manifests inside of the end- point. You can't use spaces in the name. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9_-]+ TsUseAudioRenditionGroup -&gt; (boolean) When selected, MediaPackage bundles all audio tracks in a rendi- tion group. All other tracks in the stream can be used with any audio rendition from the group. IncludeIframeOnlyStreams -&gt; (boolean) When selected, the stream set includes an additional I-frame only stream, along with the other tracks. If false, this extra stream is not included. MediaPackage generates an I-frame only stream from the first rendition in the manifest. The service in- serts EXT-I-FRAMES-ONLY tags in the output manifest, and then generates and includes an I-frames only playlist in the stream. This playlist permits player functionality like fast forward and rewind. TsIncludeDvbSubtitles -&gt; (boolean) By default, MediaPackage excludes all digital video broadcasting (DVB) subtitles from the output. When selected, MediaPackage passes through DVB subtitles into the output. Scte -&gt; (structure) The SCTE configuration options in the segment settings. ScteFilter -&gt; (list) The SCTE-35 message types that you want to be treated as ad markers in the output. Constraints: o min: 0 o max: 100 (string) Possible values: o SPLICE_INSERT o BREAK o PROVIDER_ADVERTISEMENT o DISTRIBUTOR_ADVERTISEMENT o PROVIDER_PLACEMENT_OPPORTUNITY o DISTRIBUTOR_PLACEMENT_OPPORTUNITY o PROVIDER_OVERLAY_PLACEMENT_OPPORTUNITY o DISTRIBUTOR_OVERLAY_PLACEMENT_OPPORTUNITY o PROGRAM o CHAPTER o UNSCHEDULED_EVENT o ALTERNATE_CONTENT_OPPORTUNITY o NETWORK o PROVIDER_PROMO o DISTRIBUTOR_PROMO o PROVIDER_AD_BLOCK o DISTRIBUTOR_AD_BLOCK o CONTENT_IDENTIFICATION o CALL_AD_SERVER ScteInSegments -&gt; (string) Controls whether SCTE-35 messages are included in segment files. o None SCTE-35 messages are not included in segments (de- fault) o All SCTE-35 messages are embedded in segment data o MatchesFilter SCTE-35 messages which match the ScteFilter are embedded in segment data For DASH manifests, when set to All or MatchesFilter , an In- bandEventStream tag signals that SCTE messages are present in segments. This setting works independently of manifest ad markers. Possible values: o NONE o ALL o MATCHES_FILTER CustomAdTypes -&gt; (list) A list of additional non-Ad SCTE-35 event types to treat as advertisements. When configured, events matching these types produce ad markers (such as SCTE35-OUT and SCTE35-IN in HLS DATERANGE tags) in manifests. Valid values: PROGRAM | CHAPTER | UNSCHEDULED_EVENT | ALTER- NATE_CONTENT_OPPORTUNITY | NETWORK If you don't specify any values, the default is empty (only default ad types are used). Constraints: o min: 0 o max: 25 (string) Possible values: o PROGRAM o CHAPTER o UNSCHEDULED_EVENT o ALTERNATE_CONTENT_OPPORTUNITY o NETWORK Encryption -&gt; (structure) The parameters for encrypting content. ConstantInitializationVector -&gt; (string) A 128-bit, 16-byte hex value represented by a 32-character string, used in conjunction with the key for encrypting con- tent. If you don't specify a value, then MediaPackage creates the constant initialization vector (IV). Constraints: o min: 32 o max: 32 o pattern: [0-9a-fA-F]+ EncryptionMethod -&gt; (structure) [required] The encryption method to use. TsEncryptionMethod -&gt; (string) The encryption method to use. Possible values: o AES_128 o SAMPLE_AES CmafEncryptionMethod -&gt; (string) The encryption method to use. Possible values: o CENC o CBCS IsmEncryptionMethod -&gt; (string) The encryption method used for Microsoft Smooth Streaming (MSS) content. This specifies how the MSS segments are encrypted to protect the content during delivery to client players. Possible values: o CENC KeyRotationIntervalSeconds -&gt; (integer) The frequency (in seconds) of key changes for live workflows, in which content is streamed real time. The service retrieves content keys before the live content begins streaming, and then retrieves them as needed over the lifetime of the work- flow. By default, key rotation is set to 300 seconds (5 min- utes), the minimum rotation interval, which is equivalent to setting it to 300. If you don't enter an interval, content keys aren't rotated. The following example setting causes the service to rotate keys every thirty minutes: 1800 Constraints: o min: 300 o max: 31536000 CmafExcludeSegmentDrmMetadata -&gt; (boolean) Excludes SEIG and SGPD boxes from segment metadata in CMAF containers. When set to true , MediaPackage omits these DRM metadata boxes from CMAF segments, which can improve compatibility with certain devices and players that don't support these boxes. Important considerations: o This setting only affects CMAF container formats o Key rotation can still be handled through media playlist signaling o PSSH and TENC boxes remain unaffected o Default behavior is preserved when this setting is disabled Valid values: true | false Default: false SpekeKeyProvider -&gt; (structure) [required] The parameters for the SPEKE key provider. EncryptionContractConfiguration -&gt; (structure) [required] Configure one or more content encryption keys for your endpoints that use SPEKE Version 2.0. The encryption con- tract defines which content keys are used to encrypt the audio and video tracks in your stream. To configure the encryption contract, specify which audio and video en- cryption presets to use. PresetSpeke20Audio -&gt; (string) [required] A collection of audio encryption presets. Value description: o PRESET-AUDIO-1 - Use one content key to encrypt all of the audio tracks in your stream. o PRESET-AUDIO-2 - Use one content key to encrypt all of the stereo audio tracks and one content key to encrypt all of the multichannel audio tracks. o PRESET-AUDIO-3 - Use one content key to encrypt all of the stereo audio tracks, one content key to en- crypt all of the multichannel audio tracks with 3 to 6 channels, and one content key to encrypt all of the multichannel audio tracks with more than 6 chan- nels. o SHARED - Use the same content key for all of the au- dio and video tracks in your stream. o UNENCRYPTED - Don't encrypt any of the audio tracks in your stream. Possible values: o PRESET_AUDIO_1 o PRESET_AUDIO_2 o PRESET_AUDIO_3 o SHARED o UNENCRYPTED PresetSpeke20Video -&gt; (string) [required] A collection of video encryption presets. Value description: o PRESET-VIDEO-1 - Use one content key to encrypt all of the video tracks in your stream. o PRESET-VIDEO-2 - Use one content key to encrypt all of the SD video tracks and one content key for all HD and higher resolutions video tracks. o PRESET-VIDEO-3 - Use one content key to encrypt all of the SD video tracks, one content key for HD video tracks and one content key for all UHD video tracks. o PRESET-VIDEO-4 - Use one content key to encrypt all of the SD video tracks, one content key for HD video tracks, one content key for all UHD1 video tracks and one content key for all UHD2 video tracks. o PRESET-VIDEO-5 - Use one content key to encrypt all of the SD video tracks, one content key for HD1 video tracks, one content key for HD2 video tracks, one content key for all UHD1 video tracks and one content key for all UHD2 video tracks. o PRESET-VIDEO-6 - Use one content key to encrypt all of the SD video tracks, one content key for HD1 video tracks, one content key for HD2 video tracks and one content key for all UHD video tracks. o PRESET-VIDEO-7 - Use one content key to encrypt all of the SD+HD1 video tracks, one content key for HD2 video tracks and one content key for all UHD video tracks. o PRESET-VIDEO-8 - Use one content key to encrypt all of the SD+HD1 video tracks, one content key for HD2 video tracks, one content key for all UHD1 video tracks and one content key for all UHD2 video tracks. o SHARED - Use the same content key for all of the video and audio tracks in your stream. o UNENCRYPTED - Don't encrypt any of the video tracks in your stream. Possible values: o PRESET_VIDEO_1 o PRESET_VIDEO_2 o PRESET_VIDEO_3 o PRESET_VIDEO_4 o PRESET_VIDEO_5 o PRESET_VIDEO_6 o PRESET_VIDEO_7 o PRESET_VIDEO_8 o SHARED o UNENCRYPTED ResourceId -&gt; (string) [required] The unique identifier for the content. The service sends this to the key server to identify the current endpoint. How unique you make this depends on how fine-grained you want access controls to be. The service does not permit you to use the same ID for two simultaneous encryption processes. The resource ID is also known as the content ID. The following example shows a resource ID: MovieNight20171126093045 Constraints: o min: 1 o max: 256 o pattern: [0-9a-zA-Z_-]+ DrmSystems -&gt; (list) [required] The DRM solution provider you're using to protect your content during distribution. Constraints: o min: 1 o max: 4 (string) Possible values: o CLEAR_KEY_AES_128 o FAIRPLAY o PLAYREADY o WIDEVINE o IRDETO RoleArn -&gt; (string) [required] The ARN for the IAM role granted by the key provider that provides access to the key provider API. This role must have a trust policy that allows MediaPackage to assume the role, and it must have a sufficient permissions pol- icy to allow access to the specific key retrieval URL. Get this from your DRM solution provider. Valid format: arn:aws:iam::{accountID}:role/{name} . The following example shows a role ARN: arn:aws:iam::444455556666:role/SpekeAccess Constraints: o min: 1 o max: 2048 Url -&gt; (string) [required] The URL of the API Gateway proxy that you set up to talk to your key server. The API Gateway proxy must reside in the same AWS Region as MediaPackage and must start with https://. The following example shows a URL: https://1wm2dx1f33.ex- ecute-api.us-west-2.amazonaws.com/SpekeSample/copyProtec- tion Constraints: o min: 1 o max: 1024 CertificateArn -&gt; (string) The ARN for the certificate that you imported to Amazon Web Services Certificate Manager to add content key en- cryption to this endpoint. For this feature to work, your DRM key provider must support content key encryption. Constraints: o min: 20 o max: 2048 o pattern: arn:([^:\n]+):acm:([^:\n]+):([0-9]+):certifi- cate/[a-zA-Z0-9-_]+ OutputTimestampMode -&gt; (string) The output timestamp mode for the origin endpoint's segments. This setting is only configurable on channels with OutputLock- ingMode set to NON_EPOCH_LOCKED . This value is immutable after endpoint creation. If you don't specify a value, the default is PASSTHROUGH . The allowed values are: o PASSTHROUGH - Output PTS (Presentation Timestamp) values pass through unchanged from the input. o REBASED_TO_CHANNEL_START - Output PTS is rebased relative to the channel start time. Possible values: o PASSTHROUGH o REBASED_TO_CHANNEL_START JSON Syntax: { "SegmentDurationSeconds": integer, "SegmentName": "string", "TsUseAudioRenditionGroup": true|false, "IncludeIframeOnlyStreams": true|false, "TsIncludeDvbSubtitles": true|false, "Scte": { "ScteFilter": ["SPLICE_INSERT"|"BREAK"|"PROVIDER_ADVERTISEMENT"|"DISTRIBUTOR_ADVERTISEMENT"|"PROVIDER_PLACEMENT_OPPORTUNITY"|"DISTRIBUTOR_PLACEMENT_OPPORTUNITY"|"PROVIDER_OVERLAY_PLACEMENT_OPPORTUNITY"|"DISTRIBUTOR_OVERLAY_PLACEMENT_OPPORTUNITY"|"PROGRAM"|"CHAPTER"|"UNSCHEDULED_EVENT"|"ALTERNATE_CONTENT_OPPORTUNITY"|"NETWORK"|"PROVIDER_PROMO"|"DISTRIBUTOR_PROMO"|"PROVIDER_AD_BLOCK"|"DISTRIBUTOR_AD_BLOCK"|"CONTENT_IDENTIFICATION"|"CALL_AD_SERVER", ...], "ScteInSegments": "NONE"|"ALL"|"MATCHES_FILTER", "CustomAdTypes": ["PROGRAM"|"CHAPTER"|"UNSCHEDULED_EVENT"|"ALTERNATE_CONTENT_OPPORTUNITY"|"NETWORK", ...] }, "Encryption": { "ConstantInitializationVector": "string", "EncryptionMethod": { "TsEncryptionMethod": "AES_128"|"SAMPLE_AES", "CmafEncryptionMethod": "CENC"|"CBCS", "IsmEncryptionMethod": "CENC" }, "KeyRotationIntervalSeconds": integer, "CmafExcludeSegmentDrmMetadata": true|false, "SpekeKeyProvider": { "EncryptionContractConfiguration": { "PresetSpeke20Audio": "PRESET_AUDIO_1"|"PRESET_AUDIO_2"|"PRESET_AUDIO_3"|"SHARED"|"UNENCRYPTED", "PresetSpeke20Video": "PRESET_VIDEO_1"|"PRESET_VIDEO_2"|"PRESET_VIDEO_3"|"PRESET_VIDEO_4"|"PRESET_VIDEO_5"|"PRESET_VIDEO_6"|"PRESET_VIDEO_7"|"PRESET_VIDEO_8"|"SHARED"|"UNENCRYPTED" }, "ResourceId": "string", "DrmSystems": ["CLEAR_KEY_AES_128"|"FAIRPLAY"|"PLAYREADY"|"WIDEVINE"|"IRDETO", ...], "RoleArn": "string", "Url": "string", "CertificateArn": "string" } }, "OutputTimestampMode": "PASSTHROUGH"|"REBASED_TO_CHANNEL_START" }
@@ -114,5 +172,22 @@ public record AwsMediapackagev2CreateOriginEndpointOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

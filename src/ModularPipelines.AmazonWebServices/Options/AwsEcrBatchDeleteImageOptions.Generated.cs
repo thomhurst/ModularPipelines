@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,24 +20,95 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ecr", "batch-delete-image")]
-public record AwsEcrBatchDeleteImageOptions : AwsOptions
+public record AwsEcrBatchDeleteImageOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Deletes a list of specified images within a repository. Images are specified with either an imageTag or imageDigest . You can remove a tag from an image by specifying the image's tag in your request. When you remove the last tag from an image, the image is deleted from your repository. You can completely delete an image (and all of its tags) by specifying the image's digest in your request. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="RepositoryName">The repository that contains the image to delete. Constraints: o min: 2 o max: 256 o pattern: [a-z0-9]+((\.|_|__|-+)[a-z0-9]+)*(\/[a-z0-9]+((\.|_|__|-+)[a-z0-9]+)*)*</param>
+    /// <param name="ImageIds">A list of image ID references that correspond to images to delete. The format of the imageIds reference is imageTag=tag or imageDi- gest=digest . Constraints: o min: 1 o max: 100 (structure) An object with identifying information for an image in an Amazon ECR repository. imageDigest -&gt; (string) The sha256 digest of the image manifest. imageTag -&gt; (string) The tag used for the image. Constraints: o min: 1 o max: 300 Shorthand Syntax: imageDigest=string,imageTag=string ... JSON Syntax: [ { "imageDigest": "string", "imageTag": "string" } ... ]</param>
+    public AwsEcrBatchDeleteImageOptions(
+        string RepositoryName,
+        IEnumerable<string> ImageIds
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(RepositoryName);
+        this.RepositoryName = RepositoryName;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(ImageIds);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(ImageIds));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(ImageIds));
+            }
+
+            ImageIds = materialized;
+        }
+        this.ImageIds = ImageIds;
+    }
+
+    private AwsEcrBatchDeleteImageOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEcrBatchDeleteImageOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEcrBatchDeleteImageOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The repository that contains the image to delete. Constraints: o min: 2 o max: 256 o pattern: [a-z0-9]+((\.|_|__|-+)[a-z0-9]+)*(\/[a-z0-9]+((\.|_|__|-+)[a-z0-9]+)*)*
+    /// </summary>
+    [CliOption("--repository-name")]
+    public string? RepositoryName { get; private init; }
+
+    /// <summary>
+    /// A list of image ID references that correspond to images to delete. The format of the imageIds reference is imageTag=tag or imageDi- gest=digest . Constraints: o min: 1 o max: 100 (structure) An object with identifying information for an image in an Amazon ECR repository. imageDigest -&gt; (string) The sha256 digest of the image manifest. imageTag -&gt; (string) The tag used for the image. Constraints: o min: 1 o max: 300 Shorthand Syntax: imageDigest=string,imageTag=string ... JSON Syntax: [ { "imageDigest": "string", "imageTag": "string" } ... ]
+    /// </summary>
+    [CliOption("--image-ids", GroupValues = true)]
+    public IEnumerable<string>? ImageIds { get; private init; }
+
     /// <summary>
     /// The Amazon Web Services account ID associated with the registry that contains the image to delete. If you do not specify a registry, the default registry is assumed. Constraints: o pattern: [0-9]{12}
     /// </summary>
     [CliOption("--registry-id")]
     public string? RegistryId { get; set; }
 
-    [CliOption("--repository-name")]
-    public string? RepositoryName { get; set; }
-
-    [CliOption("--image-ids", GroupValues = true)]
-    public IEnumerable<string>? ImageIds { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

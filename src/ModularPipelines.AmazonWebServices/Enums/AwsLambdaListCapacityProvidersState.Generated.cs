@@ -16,15 +16,15 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsLambdaListCapacityProvidersState
 {
-    [EnumValue("Pending")]
-    Pending = 1,
-
     [EnumValue("Active")]
-    Active = 2,
-
-    [EnumValue("Failed")]
-    Failed = 3,
+    Active,
 
     [EnumValue("Deleting")]
-    Deleting = 4
+    Deleting,
+
+    [EnumValue("Failed")]
+    Failed,
+
+    [EnumValue("Pending")]
+    Pending
 }

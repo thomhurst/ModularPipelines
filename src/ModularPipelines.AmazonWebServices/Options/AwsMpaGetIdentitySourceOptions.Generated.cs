@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,68 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("mpa", "get-identity-source")]
-public record AwsMpaGetIdentitySourceOptions : AwsOptions
+public record AwsMpaGetIdentitySourceOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Returns details for an identity source. For more information, see Identity Source in the Multi-party approval User Guide . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="IdentitySourceArn">Amazon Resource Name (ARN) for the identity source. Constraints: o min: 0 o max: 1000</param>
+    public AwsMpaGetIdentitySourceOptions(
+        string IdentitySourceArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(IdentitySourceArn);
+        this.IdentitySourceArn = IdentitySourceArn;
+    }
+
+    private AwsMpaGetIdentitySourceOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsMpaGetIdentitySourceOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsMpaGetIdentitySourceOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Amazon Resource Name (ARN) for the identity source. Constraints: o min: 0 o max: 1000
+    /// </summary>
     [CliOption("--identity-source-arn")]
-    public string? IdentitySourceArn { get; set; }
+    public string? IdentitySourceArn { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,12 +21,61 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("mq", "update-user")]
-public record AwsMqUpdateUserOptions : AwsOptions
+public record AwsMqUpdateUserOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--broker-id")]
-    public string? BrokerId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
-    [CliFlag("--console-access")]
+    /// <summary>
+    /// Updates the information for an ActiveMQ user. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="BrokerId">The unique ID that Amazon MQ generates for the broker.</param>
+    /// <param name="Username">The username of the ActiveMQ user. This value can contain only al- phanumeric characters, dashes, periods, underscores, and tildes (- . _ ~). This value must be 2-100 characters long.</param>
+    public AwsMqUpdateUserOptions(
+        string BrokerId,
+        string Username
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(BrokerId);
+        this.BrokerId = BrokerId;
+        global::System.ArgumentNullException.ThrowIfNull(Username);
+        this.Username = Username;
+    }
+
+    private AwsMqUpdateUserOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsMqUpdateUserOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsMqUpdateUserOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique ID that Amazon MQ generates for the broker.
+    /// </summary>
+    [CliOption("--broker-id")]
+    public string? BrokerId { get; private init; }
+
+    /// <summary>
+    /// The username of the ActiveMQ user. This value can contain only al- phanumeric characters, dashes, periods, underscores, and tildes (- . _ ~). This value must be 2-100 characters long.
+    /// </summary>
+    [CliOption("--username")]
+    public string? Username { get; private init; }
+
+    /// <summary>
+    /// Enables access to the the ActiveMQ Web Console for the ActiveMQ user.
+    /// </summary>
+    [CliFlag("--console-access", NegatedName = "--no-console-access")]
     public bool? ConsoleAccess { get; set; }
 
     /// <summary>
@@ -41,10 +91,10 @@ public record AwsMqUpdateUserOptions : AwsOptions
     [CliOption("--password")]
     public string? Password { get; set; }
 
-    [CliOption("--username")]
-    public string? Username { get; set; }
-
-    [CliFlag("--replication-user")]
+    /// <summary>
+    /// Defines whether the user is intended for data replication.
+    /// </summary>
+    [CliFlag("--replication-user", NegatedName = "--no-replication-user")]
     public bool? ReplicationUser { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -52,5 +102,22 @@ public record AwsMqUpdateUserOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

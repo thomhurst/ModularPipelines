@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,16 +21,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("license-manager-user-subscriptions", "associate-user")]
-public record AwsLicenseManagerUserSubscriptionsAssociateUserOptions : AwsOptions
+public record AwsLicenseManagerUserSubscriptionsAssociateUserOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Associates the user to an EC2 instance to utilize user-based subscrip- tions. NOTE: Your estimated bill for charges on the number of users and related costs will take 48 hours to appear for billing periods that haven't closed (marked as Pending billing status) in Amazon Web Services Billing. For more information, see Viewing your monthly charges in the Amazon Web Services Billing User Guide . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Username">The user name from the identity provider.</param>
+    /// <param name="InstanceId">The ID of the EC2 instance that provides the user-based subscrip- tion.</param>
+    /// <param name="IdentityProvider">The identity provider for the user. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: ActiveDirectoryIdentityProvider. ActiveDirectoryIdentityProvider -&gt; (structure) The ActiveDirectoryIdentityProvider resource contains settings and other details about a specific Active Directory identity provider. DirectoryId -&gt; (string) The directory ID for an Active Directory identity provider. Constraints: o pattern: (d|sd)-[0-9a-f]{10} ActiveDirectorySettings -&gt; (structure) The ActiveDirectorySettings resource contains details about the Active Directory, including network access details such as domain name and IP addresses, and the credential provider for user administration. DomainName -&gt; (string) The domain name for the Active Directory. DomainIpv4List -&gt; (list) A list of domain IPv4 addresses that are used for the Ac- tive Directory. Constraints: o min: 1 o max: 2 (string) Constraints: o pattern: (?:(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9][0-9]|[0-9])(\.(?!$)|$)){4} DomainIpv6List -&gt; (list) A list of domain IPv6 addresses that are used for the Ac- tive Directory. Constraints: o min: 1 o max: 2 (string) Constraints: o pattern: ([0-9a-fA-F]{1,4}:){7}[0-9a-fA-F]{1,4}|::|::[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4} DomainCredentialsProvider -&gt; (tagged union structure) Points to the CredentialsProvider resource that contains information about the credential provider for user admin- istration. NOTE: This is a Tagged Union structure. Only one of the fol- lowing top level keys can be set: SecretsManagerCre- dentialsProvider. SecretsManagerCredentialsProvider -&gt; (structure) Identifies the Secrets Manager secret that contains credentials needed for user administration in the Ac- tive Directory. SecretId -&gt; (string) The ID of the Secrets Manager secret that contains credentials. Constraints: o min: 1 DomainNetworkSettings -&gt; (structure) The DomainNetworkSettings resource contains an array of subnets that apply for the Active Directory. Subnets -&gt; (list) [required] Contains a list of subnets that apply for the Active Directory domain. Constraints: o min: 1 (string) Constraints: o pattern: subnet-[a-z0-9]{8,17}.* ActiveDirectoryType -&gt; (string) The type of Active Directory either a self-managed Active Directory or an Amazon Web Services Managed Active Directory. Possible values: o SELF_MANAGED o AWS_MANAGED IsSharedActiveDirectory -&gt; (boolean) Whether this directory is shared from an Amazon Web Services Managed Active Directory. The default value is false. JSON Syntax: { "ActiveDirectoryIdentityProvider": { "DirectoryId": "string", "ActiveDirectorySettings": { "DomainName": "string", "DomainIpv4List": ["string", ...], "DomainIpv6List": ["string", ...], "DomainCredentialsProvider": { "SecretsManagerCredentialsProvider": { "SecretId": "string" } }, "DomainNetworkSettings": { "Subnets": ["string", ...] } }, "ActiveDirectoryType": "SELF_MANAGED"|"AWS_MANAGED", "IsSharedActiveDirectory": true|false } }</param>
+    public AwsLicenseManagerUserSubscriptionsAssociateUserOptions(
+        string Username,
+        string InstanceId,
+        string IdentityProvider
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Username);
+        this.Username = Username;
+        global::System.ArgumentNullException.ThrowIfNull(InstanceId);
+        this.InstanceId = InstanceId;
+        global::System.ArgumentNullException.ThrowIfNull(IdentityProvider);
+        this.IdentityProvider = IdentityProvider;
+    }
+
+    private AwsLicenseManagerUserSubscriptionsAssociateUserOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsLicenseManagerUserSubscriptionsAssociateUserOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsLicenseManagerUserSubscriptionsAssociateUserOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The user name from the identity provider.
+    /// </summary>
     [CliOption("--username")]
-    public string? Username { get; set; }
+    public string? Username { get; private init; }
 
+    /// <summary>
+    /// The ID of the EC2 instance that provides the user-based subscrip- tion.
+    /// </summary>
     [CliOption("--instance-id")]
-    public string? InstanceId { get; set; }
+    public string? InstanceId { get; private init; }
 
+    /// <summary>
+    /// The identity provider for the user. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: ActiveDirectoryIdentityProvider. ActiveDirectoryIdentityProvider -&gt; (structure) The ActiveDirectoryIdentityProvider resource contains settings and other details about a specific Active Directory identity provider. DirectoryId -&gt; (string) The directory ID for an Active Directory identity provider. Constraints: o pattern: (d|sd)-[0-9a-f]{10} ActiveDirectorySettings -&gt; (structure) The ActiveDirectorySettings resource contains details about the Active Directory, including network access details such as domain name and IP addresses, and the credential provider for user administration. DomainName -&gt; (string) The domain name for the Active Directory. DomainIpv4List -&gt; (list) A list of domain IPv4 addresses that are used for the Ac- tive Directory. Constraints: o min: 1 o max: 2 (string) Constraints: o pattern: (?:(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9][0-9]|[0-9])(\.(?!$)|$)){4} DomainIpv6List -&gt; (list) A list of domain IPv6 addresses that are used for the Ac- tive Directory. Constraints: o min: 1 o max: 2 (string) Constraints: o pattern: ([0-9a-fA-F]{1,4}:){7}[0-9a-fA-F]{1,4}|::|::[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4} DomainCredentialsProvider -&gt; (tagged union structure) Points to the CredentialsProvider resource that contains information about the credential provider for user admin- istration. NOTE: This is a Tagged Union structure. Only one of the fol- lowing top level keys can be set: SecretsManagerCre- dentialsProvider. SecretsManagerCredentialsProvider -&gt; (structure) Identifies the Secrets Manager secret that contains credentials needed for user administration in the Ac- tive Directory. SecretId -&gt; (string) The ID of the Secrets Manager secret that contains credentials. Constraints: o min: 1 DomainNetworkSettings -&gt; (structure) The DomainNetworkSettings resource contains an array of subnets that apply for the Active Directory. Subnets -&gt; (list) [required] Contains a list of subnets that apply for the Active Directory domain. Constraints: o min: 1 (string) Constraints: o pattern: subnet-[a-z0-9]{8,17}.* ActiveDirectoryType -&gt; (string) The type of Active Directory either a self-managed Active Directory or an Amazon Web Services Managed Active Directory. Possible values: o SELF_MANAGED o AWS_MANAGED IsSharedActiveDirectory -&gt; (boolean) Whether this directory is shared from an Amazon Web Services Managed Active Directory. The default value is false. JSON Syntax: { "ActiveDirectoryIdentityProvider": { "DirectoryId": "string", "ActiveDirectorySettings": { "DomainName": "string", "DomainIpv4List": ["string", ...], "DomainIpv6List": ["string", ...], "DomainCredentialsProvider": { "SecretsManagerCredentialsProvider": { "SecretId": "string" } }, "DomainNetworkSettings": { "Subnets": ["string", ...] } }, "ActiveDirectoryType": "SELF_MANAGED"|"AWS_MANAGED", "IsSharedActiveDirectory": true|false } }
+    /// </summary>
     [CliOption("--identity-provider")]
-    public string? IdentityProvider { get; set; }
+    public string? IdentityProvider { get; private init; }
 
     /// <summary>
     /// The domain name of the Active Directory that contains information for the user to associate.
@@ -48,5 +99,22 @@ public record AwsLicenseManagerUserSubscriptionsAssociateUserOptions : AwsOption
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

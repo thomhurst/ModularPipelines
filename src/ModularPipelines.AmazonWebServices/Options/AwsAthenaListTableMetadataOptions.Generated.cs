@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("athena", "list-table-metadata")]
-public record AwsAthenaListTableMetadataOptions : AwsOptions
+public record AwsAthenaListTableMetadataOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--catalog-name")]
-    public string? CatalogName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Lists the metadata for the tables in the specified data catalog data- base. See also: AWS API Documentation list-table-metadata is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: TableMetadataList
+    /// </summary>
+    /// <param name="CatalogName">The name of the data catalog for which table metadata should be re- turned. Constraints: o min: 1 o max: 256 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*</param>
+    /// <param name="DatabaseName">The name of the database for which table metadata should be re- turned. Constraints: o min: 1 o max: 128</param>
+    public AwsAthenaListTableMetadataOptions(
+        string CatalogName,
+        string DatabaseName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(CatalogName);
+        this.CatalogName = CatalogName;
+        global::System.ArgumentNullException.ThrowIfNull(DatabaseName);
+        this.DatabaseName = DatabaseName;
+    }
+
+    private AwsAthenaListTableMetadataOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsAthenaListTableMetadataOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsAthenaListTableMetadataOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the data catalog for which table metadata should be re- turned. Constraints: o min: 1 o max: 256 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
+    /// </summary>
+    [CliOption("--catalog-name")]
+    public string? CatalogName { get; private init; }
+
+    /// <summary>
+    /// The name of the database for which table metadata should be re- turned. Constraints: o min: 1 o max: 128
+    /// </summary>
     [CliOption("--database-name")]
-    public string? DatabaseName { get; set; }
+    public string? DatabaseName { get; private init; }
 
     /// <summary>
     /// A regex filter that pattern-matches table names. If no expression is supplied, metadata for all tables are listed. Constraints: o min: 0 o max: 256
@@ -64,5 +108,22 @@ public record AwsAthenaListTableMetadataOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

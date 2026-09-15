@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --chronologicalorder.
+/// Allowed values for --chronological-order.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsConfigserviceGetResourceConfigHistoryChronologicalOrder
 {
-    [EnumValue("Reverse")]
-    Reverse = 1,
-
     [EnumValue("Forward")]
-    Forward = 2
+    Forward,
+
+    [EnumValue("Reverse")]
+    Reverse
 }

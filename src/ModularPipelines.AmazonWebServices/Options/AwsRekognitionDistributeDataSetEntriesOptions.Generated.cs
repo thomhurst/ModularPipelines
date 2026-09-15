@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,79 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("rekognition", "distribute-dataset-entries")]
-public record AwsRekognitionDistributeDataSetEntriesOptions : AwsOptions
+public record AwsRekognitionDistributeDataSetEntriesOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// NOTE: This operation applies only to Amazon Rekognition Custom Labels. Distributes the entries (images) in a training dataset across the training dataset and the test dataset for a project. DistributeDatase- tEntries moves 20% of the training dataset images to the test dataset. An entry is a JSON Line that describes an image. You supply the Amazon Resource Names (ARN) of a project's training dataset and test dataset. The training dataset must contain the images that you want to split. The test d...
+    /// </summary>
+    /// <param name="Datasets">The ARNS for the training dataset and test dataset that you want to use. The datasets must belong to the same project. The test dataset must be empty. Constraints: o min: 2 o max: 2 (structure) A training dataset or a test dataset used in a dataset distribu- tion operation. For more information, see DistributeDatasetEn- tries . Arn -&gt; (string) [required] The Amazon Resource Name (ARN) of the dataset that you want to use. Constraints: o min: 20 o max: 2048 o pattern: (^arn:[a-z\d-]+:rekogni- tion:[a-z\d-]+:\d{12}:project\/[a-zA-Z0-9_.\-]{1,255}\/dataset\/(train|test)\/[0-9]+$) Shorthand Syntax: Arn=string ... JSON Syntax: [ { "Arn": "string" } ... ]</param>
+    public AwsRekognitionDistributeDataSetEntriesOptions(
+        IEnumerable<string> Datasets
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Datasets);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Datasets));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Datasets));
+            }
+
+            Datasets = materialized;
+        }
+        this.Datasets = Datasets;
+    }
+
+    private AwsRekognitionDistributeDataSetEntriesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRekognitionDistributeDataSetEntriesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRekognitionDistributeDataSetEntriesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ARNS for the training dataset and test dataset that you want to use. The datasets must belong to the same project. The test dataset must be empty. Constraints: o min: 2 o max: 2 (structure) A training dataset or a test dataset used in a dataset distribu- tion operation. For more information, see DistributeDatasetEn- tries . Arn -&gt; (string) [required] The Amazon Resource Name (ARN) of the dataset that you want to use. Constraints: o min: 20 o max: 2048 o pattern: (^arn:[a-z\d-]+:rekogni- tion:[a-z\d-]+:\d{12}:project\/[a-zA-Z0-9_.\-]{1,255}\/dataset\/(train|test)\/[0-9]+$) Shorthand Syntax: Arn=string ... JSON Syntax: [ { "Arn": "string" } ... ]
+    /// </summary>
     [CliOption("--datasets", GroupValues = true)]
-    public IEnumerable<string>? Datasets { get; set; }
+    public IEnumerable<string>? Datasets { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

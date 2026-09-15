@@ -12,6 +12,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -21,16 +22,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("eks", "create-cluster")]
-public record AwsEksCreateClusterOptions : AwsOptions
+public record AwsEksCreateClusterOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates an Amazon EKS control plane. The Amazon EKS control plane consists of control plane instances that run the Kubernetes software, such as etcd and the API server. The con- trol plane runs in an account managed by Amazon Web Services, and the Kubernetes API is exposed by the Amazon EKS API server endpoint. Each Amazon EKS cluster control plane is single tenant and unique. It runs on its own set of Amazon EC2 instances. The cluster control plane is provisioned across multiple Availability Zo...
+    /// </summary>
+    /// <param name="Name">The unique name to give to your cluster. The name can contain only alphanumeric characters (case-sensitive), hyphens, and underscores. It must start with an alphanumeric character and can't be longer than 100 characters. The name must be unique within the Amazon Web Services Region and Amazon Web Services account that you're creating the cluster in. Constraints: o min: 1 o max: 100 o pattern: ^[0-9A-Za-z][A-Za-z0-9\-_]*</param>
+    /// <param name="RoleArn">The Amazon Resource Name (ARN) of the IAM role that provides permis- sions for the Kubernetes control plane to make calls to Amazon Web Services API operations on your behalf. For more information, see Amazon EKS Service IAM Role in the * Amazon EKS User Guide * .</param>
+    /// <param name="ResourcesVpcConfig">The VPC configuration that's used by the cluster control plane. Ama- zon EKS VPC resources have specific requirements to work properly with Kubernetes. For more information, see Cluster VPC Considera- tions and Cluster Security Group Considerations in the Amazon EKS User Guide . You must specify at least two subnets. You can specify up to five security groups. However, we recommend that you use a dedicated security group for your cluster control plane. subnetIds -&gt; (list) Specify subnets for your Amazon EKS nodes. Amazon EKS creates cross-account elastic network interfaces in these subnets to al- low communication between your nodes and the Kubernetes control plane. (string) securityGroupIds -&gt; (list) Specify one or more security groups for the cross-account elas- tic network interfaces that Amazon EKS creates to use that allow communication between your nodes and the Kubernetes control plane. If you don't specify any security groups, then familiar- ize yourself with the difference between Amazon EKS defaults for clusters deployed with Kubernetes. For more information, see Amazon EKS security group considerations in the * Amazon EKS User Guide * . (string) endpointPublicAccess -&gt; (boolean) Set this value to false to disable public access to your clus- ter's Kubernetes API server endpoint. If you disable public ac- cess, your cluster's Kubernetes API server can only receive re- quests from within the cluster VPC. The default value for this parameter is true , which enables public access for your Kuber- netes API server. The endpoint domain name and IP address family depends on the value of the ipFamily for the cluster. For more information, see Cluster API server endpoint in the * Amazon EKS User Guide * . endpointPrivateAccess -&gt; (boolean) Set this value to true to enable private access for your clus- ter's Kubernetes API server endpoint. If you enable private ac- cess, Kubernetes API requests from within your cluster's VPC use the private VPC endpoint. The default value for this parameter is false , which disables private access for your Kubernetes API server. If you disable private access and you have nodes or Far- gate pods in the cluster, then ensure that publicAccessCidrs in- cludes the necessary CIDR blocks for communication with the nodes or Fargate pods. For more information, see Cluster API server endpoint in the * Amazon EKS User Guide * . publicAccessCidrs -&gt; (list) The CIDR blocks that are allowed access to your cluster's public Kubernetes API server endpoint. Communication to the endpoint from addresses outside of the CIDR blocks that you specify is denied. The default value is 0.0.0.0/0 and additionally ::/0 for dual-stack IPv6 clusters. If you've disabled private endpoint access, make sure that you specify the necessary CIDR blocks for every node and Fargate Pod in the cluster. For more information, see Cluster API server endpoint in the * Amazon EKS User Guide * . Note that the public endpoints are dual-stack for only IPv6 clusters that are made after October 2024. You can't add IPv6 CIDR blocks to IPv4 clusters or IPv6 clusters that were made be- fore October 2024. (string) controlPlaneEgressMode -&gt; (string) Specifies the control plane egress routing mode for the cluster. If the cluster is set to AWS_MANAGED , Amazon EKS manages the egress path from the control plane and you don't need to config- ure NAT gateways or other routing infrastructure for control plane traffic. If the cluster is set to CUSTOMER_ROUTED , you manage the egress path from the control plane in your VPC sub- nets. You are responsible for ensuring that the control plane can reach required endpoints such as webhook servers and OIDC providers. The default value is AWS_MANAGED . Once set to CUS- TOMER_ROUTED , this setting cannot be changed back to AWS_MAN- AGED on the same cluster. Learn more about control plane egress routing in the *Amazon EKS User Guide* . Possible values: o AWS_MANAGED o CUSTOMER_ROUTED o CUSTOMER_ISOLATED Shorthand Syntax: subnetIds=string,string,securityGroupIds=string,string,endpointPublicAccess=boolean,endpointPrivateAccess=boolean,publicAccessCidrs=string,string,controlPlaneEgressMode=string JSON Syntax: { "subnetIds": ["string", ...], "securityGroupIds": ["string", ...], "endpointPublicAccess": true|false, "endpointPrivateAccess": true|false, "publicAccessCidrs": ["string", ...], "controlPlaneEgressMode": "AWS_MANAGED"|"CUSTOMER_ROUTED"|"CUSTOMER_ISOLATED" }</param>
+    public AwsEksCreateClusterOptions(
+        string Name,
+        string RoleArn,
+        string ResourcesVpcConfig
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(RoleArn);
+        this.RoleArn = RoleArn;
+        global::System.ArgumentNullException.ThrowIfNull(ResourcesVpcConfig);
+        this.ResourcesVpcConfig = ResourcesVpcConfig;
+    }
+
+    private AwsEksCreateClusterOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEksCreateClusterOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEksCreateClusterOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique name to give to your cluster. The name can contain only alphanumeric characters (case-sensitive), hyphens, and underscores. It must start with an alphanumeric character and can't be longer than 100 characters. The name must be unique within the Amazon Web Services Region and Amazon Web Services account that you're creating the cluster in. Constraints: o min: 1 o max: 100 o pattern: ^[0-9A-Za-z][A-Za-z0-9\-_]*
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
 
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the IAM role that provides permis- sions for the Kubernetes control plane to make calls to Amazon Web Services API operations on your behalf. For more information, see Amazon EKS Service IAM Role in the * Amazon EKS User Guide * .
+    /// </summary>
     [CliOption("--role-arn")]
-    public string? RoleArn { get; set; }
+    public string? RoleArn { get; private init; }
 
+    /// <summary>
+    /// The VPC configuration that's used by the cluster control plane. Ama- zon EKS VPC resources have specific requirements to work properly with Kubernetes. For more information, see Cluster VPC Considera- tions and Cluster Security Group Considerations in the Amazon EKS User Guide . You must specify at least two subnets. You can specify up to five security groups. However, we recommend that you use a dedicated security group for your cluster control plane. subnetIds -&gt; (list) Specify subnets for your Amazon EKS nodes. Amazon EKS creates cross-account elastic network interfaces in these subnets to al- low communication between your nodes and the Kubernetes control plane. (string) securityGroupIds -&gt; (list) Specify one or more security groups for the cross-account elas- tic network interfaces that Amazon EKS creates to use that allow communication between your nodes and the Kubernetes control plane. If you don't specify any security groups, then familiar- ize yourself with the difference between Amazon EKS defaults for clusters deployed with Kubernetes. For more information, see Amazon EKS security group considerations in the * Amazon EKS User Guide * . (string) endpointPublicAccess -&gt; (boolean) Set this value to false to disable public access to your clus- ter's Kubernetes API server endpoint. If you disable public ac- cess, your cluster's Kubernetes API server can only receive re- quests from within the cluster VPC. The default value for this parameter is true , which enables public access for your Kuber- netes API server. The endpoint domain name and IP address family depends on the value of the ipFamily for the cluster. For more information, see Cluster API server endpoint in the * Amazon EKS User Guide * . endpointPrivateAccess -&gt; (boolean) Set this value to true to enable private access for your clus- ter's Kubernetes API server endpoint. If you enable private ac- cess, Kubernetes API requests from within your cluster's VPC use the private VPC endpoint. The default value for this parameter is false , which disables private access for your Kubernetes API server. If you disable private access and you have nodes or Far- gate pods in the cluster, then ensure that publicAccessCidrs in- cludes the necessary CIDR blocks for communication with the nodes or Fargate pods. For more information, see Cluster API server endpoint in the * Amazon EKS User Guide * . publicAccessCidrs -&gt; (list) The CIDR blocks that are allowed access to your cluster's public Kubernetes API server endpoint. Communication to the endpoint from addresses outside of the CIDR blocks that you specify is denied. The default value is 0.0.0.0/0 and additionally ::/0 for dual-stack IPv6 clusters. If you've disabled private endpoint access, make sure that you specify the necessary CIDR blocks for every node and Fargate Pod in the cluster. For more information, see Cluster API server endpoint in the * Amazon EKS User Guide * . Note that the public endpoints are dual-stack for only IPv6 clusters that are made after October 2024. You can't add IPv6 CIDR blocks to IPv4 clusters or IPv6 clusters that were made be- fore October 2024. (string) controlPlaneEgressMode -&gt; (string) Specifies the control plane egress routing mode for the cluster. If the cluster is set to AWS_MANAGED , Amazon EKS manages the egress path from the control plane and you don't need to config- ure NAT gateways or other routing infrastructure for control plane traffic. If the cluster is set to CUSTOMER_ROUTED , you manage the egress path from the control plane in your VPC sub- nets. You are responsible for ensuring that the control plane can reach required endpoints such as webhook servers and OIDC providers. The default value is AWS_MANAGED . Once set to CUS- TOMER_ROUTED , this setting cannot be changed back to AWS_MAN- AGED on the same cluster. Learn more about control plane egress routing in the *Amazon EKS User Guide* . Possible values: o AWS_MANAGED o CUSTOMER_ROUTED o CUSTOMER_ISOLATED Shorthand Syntax: subnetIds=string,string,securityGroupIds=string,string,endpointPublicAccess=boolean,endpointPrivateAccess=boolean,publicAccessCidrs=string,string,controlPlaneEgressMode=string JSON Syntax: { "subnetIds": ["string", ...], "securityGroupIds": ["string", ...], "endpointPublicAccess": true|false, "endpointPrivateAccess": true|false, "publicAccessCidrs": ["string", ...], "controlPlaneEgressMode": "AWS_MANAGED"|"CUSTOMER_ROUTED"|"CUSTOMER_ISOLATED" }
+    /// </summary>
     [CliOption("--resources-vpc-config")]
-    public string? ResourcesVpcConfig { get; set; }
+    public string? ResourcesVpcConfig { get; private init; }
 
     /// <summary>
     /// The Kubernetes network configuration for the cluster. serviceIpv4Cidr -&gt; (string) Don't specify a value if you select ipv6 for ipFamily . The CIDR block to assign Kubernetes service IP addresses from. If you don't specify a block, Kubernetes assigns addresses from either the 10.100.0.0/16 or 172.20.0.0/16 CIDR blocks. We recommend that you specify a block that does not overlap with resources in other networks that are peered or connected to your VPC. The block must meet the following requirements: o Within one of the following private IP address blocks: 10.0.0.0/8 , 172.16.0.0/12 , or 192.168.0.0/16 . o Doesn't overlap with any CIDR block assigned to the VPC that you selected for VPC. o Between /24 and /12 . WARNING: You can only specify a custom CIDR block when you create a cluster. You can't change this value after the cluster is created. ipFamily -&gt; (string) Specify which IP family is used to assign Kubernetes pod and service IP addresses. If you don't specify a value, ipv4 is used by default. You can only specify an IP family when you create a cluster and can't change this value once the cluster is created. If you specify ipv6 , the VPC and subnets that you specify for cluster creation must have both IPv4 and IPv6 CIDR blocks as- signed to them. You can't specify ipv6 for clusters in China Re- gions. You can only specify ipv6 for 1.21 and later clusters that use version 1.10.1 or later of the Amazon VPC CNI add-on. If you specify ipv6 , then ensure that your VPC meets the requirements listed in the considerations listed in Assigning IPv6 addresses to pods and services in the Amazon EKS User Guide . Kubernetes assigns services IPv6 addresses from the unique local address range (fc00::/7) . You can't specify a custom IPv6 CIDR block. Pod addresses are assigned from the subnet's IPv6 CIDR. Possible values: o ipv4 o ipv6 elasticLoadBalancing -&gt; (structure) Request to enable or disable the load balancing capability on your EKS Auto Mode cluster. For more information, see EKS Auto Mode load balancing capability in the Amazon EKS User Guide . enabled -&gt; (boolean) Indicates if the load balancing capability is enabled on your EKS Auto Mode cluster. If the load balancing capability is enabled, EKS Auto Mode will create and delete load balancers in your Amazon Web Services account. Shorthand Syntax: serviceIpv4Cidr=string,ipFamily=string,elasticLoadBalancing={enabled=boolean} JSON Syntax: { "serviceIpv4Cidr": "string", "ipFamily": "ipv4"|"ipv6", "elasticLoadBalancing": { "enabled": true|false } }
@@ -58,7 +109,7 @@ public record AwsEksCreateClusterOptions : AwsOptions
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>
-    /// The encryption configuration for the cluster. Constraints: o max: 1 (structure) The encryption configuration for the cluster. resources -&gt; (list) Specifies the resources to be encrypted. The only supported value is secrets . (string) provider -&gt; (structure) Key Management Service (KMS) key. Either the ARN or the alias can be used. keyArn -&gt; (string) Amazon Resource Name (ARN) or alias of the KMS key. The KMS key must be symmetric and created in the same Amazon Web Services Region as the cluster. If the KMS key was created in a different account, the IAM principal must have access to the KMS key. For more information, see Allowing users in other accounts to use a KMS key in the Key Management Service Developer Guide . Shorthand Syntax: resources=string,string,provider={keyArn=string} ... JSON Syntax: [ { "resources": ["string", ...], "provider": { "keyArn": "string" } } ... ]
+    /// The encryption configuration for the cluster. Constraints: o max: 1 (structure) The encryption configuration for the cluster. resources -&gt; (list) WARNING: Amazon EKS encrypts all Kubernetes API data with envelope encryption by default for clusters running Kubernetes version 1.28 or higher, so this field no longer affects which resources are encrypted. Specifies the resources to be encrypted. The only supported value is secrets . (string) provider -&gt; (structure) Key Management Service (KMS) key. Either the ARN or the alias can be used. keyArn -&gt; (string) Amazon Resource Name (ARN) or alias of the KMS key. The KMS key must be symmetric and created in the same Amazon Web Services Region as the cluster. If the KMS key was created in a different account, the IAM principal must have access to the KMS key. For more information, see Allowing users in other accounts to use a KMS key in the Key Management Service Developer Guide . Shorthand Syntax: resources=string,string,provider={keyArn=string} ... JSON Syntax: [ { "resources": ["string", ...], "provider": { "keyArn": "string" } } ... ]
     /// </summary>
     [CliOption("--encryption-config", GroupValues = true)]
     public IEnumerable<string>? EncryptionConfig { get; set; }
@@ -75,7 +126,10 @@ public record AwsEksCreateClusterOptions : AwsOptions
     [CliOption("--access-config")]
     public string? AccessConfig { get; set; }
 
-    [CliFlag("--bootstrap-self-managed-addons")]
+    /// <summary>
+    /// If you set this value to False when creating a cluster, the default networking add-ons will not be installed. The default networking add-ons include vpc-cni , coredns , and kube-proxy . Use this option when you plan to install third-party alternative add-ons or self-manage the default networking add-ons.
+    /// </summary>
+    [CliFlag("--bootstrap-self-managed-addons", NegatedName = "--no-bootstrap-self-managed-addons")]
     public bool? BootstrapSelfManagedAddons { get; set; }
 
     /// <summary>
@@ -108,7 +162,10 @@ public record AwsEksCreateClusterOptions : AwsOptions
     [CliOption("--storage-config")]
     public string? StorageConfig { get; set; }
 
-    [CliFlag("--deletion-protection")]
+    /// <summary>
+    /// Indicates whether to enable deletion protection for the cluster. When enabled, the cluster cannot be deleted unless deletion protec- tion is first disabled. This helps prevent accidental cluster dele- tion. Default value is false .
+    /// </summary>
+    [CliFlag("--deletion-protection", NegatedName = "--no-deletion-protection")]
     public bool? DeletionProtection { get; set; }
 
     /// <summary>
@@ -146,5 +203,22 @@ public record AwsEksCreateClusterOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -11,26 +11,26 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --sortby.
+/// Allowed values for --sort-by.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsInspector2ListCisScanResultsAggregatedByTargetResourceSortBy
 {
-    [EnumValue("RESOURCE_ID")]
-    ResourceId = 1,
+    [EnumValue("ACCOUNT_ID")]
+    AccountId,
 
     [EnumValue("FAILED_COUNTS")]
-    FailedCounts = 2,
-
-    [EnumValue("ACCOUNT_ID")]
-    AccountId = 3,
+    FailedCounts,
 
     [EnumValue("PLATFORM")]
-    Platform = 4,
+    Platform,
+
+    [EnumValue("RESOURCE_ID")]
+    ResourceId,
 
     [EnumValue("TARGET_STATUS")]
-    TargetStatus = 5,
+    TargetStatus,
 
     [EnumValue("TARGET_STATUS_REASON")]
-    TargetStatusReason = 6
+    TargetStatusReason
 }

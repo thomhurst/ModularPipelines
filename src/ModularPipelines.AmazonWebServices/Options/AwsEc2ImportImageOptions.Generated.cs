@@ -54,10 +54,16 @@ public record AwsEc2ImportImageOptions : AwsOptions
     [CliOption("--disk-containers", GroupValues = true)]
     public IEnumerable<string>? DiskContainers { get; set; }
 
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
-    [CliFlag("--encrypted")]
+    /// <summary>
+    /// Specifies whether the destination AMI of the imported image should be encrypted. The default KMS key for EBS is used unless you specify a non-default KMS key using KmsKeyId . For more information, see Amazon EBS Encryption in the Amazon Elastic Compute Cloud User Guide .
+    /// </summary>
+    [CliFlag("--encrypted", NegatedName = "--no-encrypted")]
     public bool? Encrypted { get; set; }
 
     /// <summary>

@@ -11,11 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --resolvetoresourcetype.
+/// Allowed values for --resolve-to-resource-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsIotsitewiseDescribeComputationModelExecutionSummaryResolveToResourceType
 {
     [EnumValue("ASSET")]
-    Asset = 1
+    Asset,
+
+    [EnumValue("o")]
+    O
 }

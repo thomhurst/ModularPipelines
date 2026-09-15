@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +20,88 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("workmail", "disassociate-member-from-group")]
-public record AwsWorkmailDisassociateMemberFromGroupOptions : AwsOptions
+public record AwsWorkmailDisassociateMemberFromGroupOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Removes a member from a group. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="OrganizationId">The identifier for the organization under which the group exists. Constraints: o min: 34 o max: 34 o pattern: ^m-[0-9a-f]{32}$</param>
+    /// <param name="GroupId">The identifier for the group from which members are removed. The identifier can accept GroupId , Groupname , or email . The fol- lowing identity formats are available: o Group ID: 12345678-1234-1234-1234-123456789012 or S-1-1-12-1234567890-123456789-123456789-1234 o Email address: group@domain.tld o Group name: group Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9._%+@-]+</param>
+    /// <param name="MemberId">The identifier for the member to be removed from the group. The member ID can accept UserID or GroupId , Username or Groupname , or email . o Member ID: 12345678-1234-1234-1234-123456789012 or S-1-1-12-1234567890-123456789-123456789-1234 o Email address: member@domain.tld o Member name: member Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9._%+@-]+</param>
+    public AwsWorkmailDisassociateMemberFromGroupOptions(
+        string OrganizationId,
+        string GroupId,
+        string MemberId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(OrganizationId);
+        this.OrganizationId = OrganizationId;
+        global::System.ArgumentNullException.ThrowIfNull(GroupId);
+        this.GroupId = GroupId;
+        global::System.ArgumentNullException.ThrowIfNull(MemberId);
+        this.MemberId = MemberId;
+    }
+
+    private AwsWorkmailDisassociateMemberFromGroupOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsWorkmailDisassociateMemberFromGroupOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsWorkmailDisassociateMemberFromGroupOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier for the organization under which the group exists. Constraints: o min: 34 o max: 34 o pattern: ^m-[0-9a-f]{32}$
+    /// </summary>
     [CliOption("--organization-id")]
-    public string? OrganizationId { get; set; }
+    public string? OrganizationId { get; private init; }
 
+    /// <summary>
+    /// The identifier for the group from which members are removed. The identifier can accept GroupId , Groupname , or email . The fol- lowing identity formats are available: o Group ID: 12345678-1234-1234-1234-123456789012 or S-1-1-12-1234567890-123456789-123456789-1234 o Email address: group@domain.tld o Group name: group Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9._%+@-]+
+    /// </summary>
     [CliOption("--group-id")]
-    public string? GroupId { get; set; }
+    public string? GroupId { get; private init; }
 
+    /// <summary>
+    /// The identifier for the member to be removed from the group. The member ID can accept UserID or GroupId , Username or Groupname , or email . o Member ID: 12345678-1234-1234-1234-123456789012 or S-1-1-12-1234567890-123456789-123456789-1234 o Email address: member@domain.tld o Member name: member Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9._%+@-]+
+    /// </summary>
     [CliOption("--member-id")]
-    public string? MemberId { get; set; }
+    public string? MemberId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

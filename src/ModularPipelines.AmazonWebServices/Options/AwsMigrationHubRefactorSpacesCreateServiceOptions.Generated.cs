@@ -12,6 +12,8 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -21,10 +23,76 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("migration-hub-refactor-spaces", "create-service")]
-public record AwsMigrationHubRefactorSpacesCreateServiceOptions : AwsOptions
+public record AwsMigrationHubRefactorSpacesCreateServiceOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates an Amazon Web Services Migration Hub Refactor Spaces service. The account owner of the service is always the environment owner, re- gardless of which account in the environment creates the service. Ser- vices have either a URL endpoint in a virtual private cloud (VPC), or a Lambda function endpoint. WARNING: If an Amazon Web Services resource is launched in a service VPC, and you want it to be accessible to all of an environments services with VPCs and routes, apply the RefactorSpacesSec...
+    /// </summary>
+    /// <param name="ApplicationIdentifier">The ID of the application which the service is created. Constraints: o min: 14 o max: 14 o pattern: ^app-[0-9A-Za-z]{10}$</param>
+    /// <param name="EndpointType">The type of endpoint to use for the service. The type can be a URL in a VPC or an Lambda function. Possible values: o LAMBDA o URL</param>
+    /// <param name="EnvironmentIdentifier">The ID of the environment in which the service is created. Constraints: o min: 14 o max: 14 o pattern: ^env-[0-9A-Za-z]{10}$</param>
+    /// <param name="Name">The name of the service. Constraints: o min: 3 o max: 63 o pattern: ^(?!svc-)[a-zA-Z0-9]+[a-zA-Z0-9-_ ]+$</param>
+    public AwsMigrationHubRefactorSpacesCreateServiceOptions(
+        string ApplicationIdentifier,
+        AwsMigrationHubRefactorSpacesCreateServiceEndpointType EndpointType,
+        string EnvironmentIdentifier,
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ApplicationIdentifier);
+        this.ApplicationIdentifier = ApplicationIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(EndpointType);
+        this.EndpointType = EndpointType;
+        global::System.ArgumentNullException.ThrowIfNull(EnvironmentIdentifier);
+        this.EnvironmentIdentifier = EnvironmentIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    private AwsMigrationHubRefactorSpacesCreateServiceOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsMigrationHubRefactorSpacesCreateServiceOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsMigrationHubRefactorSpacesCreateServiceOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the application which the service is created. Constraints: o min: 14 o max: 14 o pattern: ^app-[0-9A-Za-z]{10}$
+    /// </summary>
     [CliOption("--application-identifier")]
-    public string? ApplicationIdentifier { get; set; }
+    public string? ApplicationIdentifier { get; private init; }
+
+    /// <summary>
+    /// The type of endpoint to use for the service. The type can be a URL in a VPC or an Lambda function. Possible values: o LAMBDA o URL
+    /// </summary>
+    [CliOption("--endpoint-type")]
+    public AwsMigrationHubRefactorSpacesCreateServiceEndpointType? EndpointType { get; private init; }
+
+    /// <summary>
+    /// The ID of the environment in which the service is created. Constraints: o min: 14 o max: 14 o pattern: ^env-[0-9A-Za-z]{10}$
+    /// </summary>
+    [CliOption("--environment-identifier")]
+    public string? EnvironmentIdentifier { get; private init; }
+
+    /// <summary>
+    /// The name of the service. Constraints: o min: 3 o max: 63 o pattern: ^(?!svc-)[a-zA-Z0-9]+[a-zA-Z0-9-_ ]+$
+    /// </summary>
+    [CliOption("--name")]
+    public string? Name { get; private init; }
 
     /// <summary>
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Constraints: o min: 1 o max: 64 o pattern: ^[\x20-\x7E]{1,64}$
@@ -39,20 +107,11 @@ public record AwsMigrationHubRefactorSpacesCreateServiceOptions : AwsOptions
     [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CliOption("--endpoint-type")]
-    public string? EndpointType { get; set; }
-
-    [CliOption("--environment-identifier")]
-    public string? EnvironmentIdentifier { get; set; }
-
     /// <summary>
     /// The configuration for the Lambda endpoint type. Arn -&gt; (string) [required] The Amazon Resource Name (ARN) of the Lambda function or alias. Constraints: o min: 1 o max: 2048 o pattern: ^arn:(aws[a-zA-Z-]*)?:lambda:[a-z]{2}((-gov)|(-iso(b?)))?-[a-z]+-\d{1}:\d{12}:func- tion:[a-zA-Z0-9-_]+(:(\$LATEST|[a-zA-Z0-9-_]+))?$ Shorthand Syntax: Arn=string JSON Syntax: { "Arn": "string" }
     /// </summary>
     [CliOption("--lambda-endpoint")]
     public string? LambdaEndpoint { get; set; }
-
-    [CliOption("--name")]
-    public string? Name { get; set; }
 
     /// <summary>
     /// The tags to assign to the service. A tag is a label that you assign to an Amazon Web Services resource. Each tag consists of a key-value pair.. Constraints: o min: 0 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ^(?!aws:).+ value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
@@ -77,5 +136,22 @@ public record AwsMigrationHubRefactorSpacesCreateServiceOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

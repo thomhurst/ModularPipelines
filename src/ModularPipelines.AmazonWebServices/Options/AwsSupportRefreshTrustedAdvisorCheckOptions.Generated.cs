@@ -10,24 +10,78 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Refreshes the Trusted Advisor check that you specify using the check ID. You can get the check IDs by calling the DescribeTrustedAdvisor- Checks operation. Some checks are refreshed automatically. If you call the Re- freshTrustedAdvisorCheck operation to refresh them, you might see the InvalidParameterValue error. The response contains a TrustedAdvisorCheckRefreshStatus object. NOTE: o You must have a Business, Enterprise On-Ramp, or Enterprise Sup- port plan to use the Amazon Web Services Suppo...
+/// Refreshes the Trusted Advisor check that you specify using the check ID. You can get the check IDs by calling the DescribeTrustedAdvisor- Checks operation. Some checks are refreshed automatically. If you call the Re- freshTrustedAdvisorCheck operation to refresh them, you might see the InvalidParameterValue error. The response contains a TrustedAdvisorCheckRefreshStatus object. NOTE: o You must have an Amazon Web Services Business Support+, Amazon Web Services Enterprise Support, or Amazon Web S...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("support", "refresh-trusted-advisor-check")]
-public record AwsSupportRefreshTrustedAdvisorCheckOptions : AwsOptions
+public record AwsSupportRefreshTrustedAdvisorCheckOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Refreshes the Trusted Advisor check that you specify using the check ID. You can get the check IDs by calling the DescribeTrustedAdvisor- Checks operation. Some checks are refreshed automatically. If you call the Re- freshTrustedAdvisorCheck operation to refresh them, you might see the InvalidParameterValue error. The response contains a TrustedAdvisorCheckRefreshStatus object. NOTE: o You must have an Amazon Web Services Business Support+, Amazon Web Services Enterprise Support, or Amazon Web S...
+    /// </summary>
+    /// <param name="CheckId">The unique identifier for the Trusted Advisor check to refresh. NOTE: Specifying the check ID of a check that is automatically re- freshed causes an InvalidParameterValue error.</param>
+    public AwsSupportRefreshTrustedAdvisorCheckOptions(
+        string CheckId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(CheckId);
+        this.CheckId = CheckId;
+    }
+
+    private AwsSupportRefreshTrustedAdvisorCheckOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSupportRefreshTrustedAdvisorCheckOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSupportRefreshTrustedAdvisorCheckOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier for the Trusted Advisor check to refresh. NOTE: Specifying the check ID of a check that is automatically re- freshed causes an InvalidParameterValue error.
+    /// </summary>
     [CliOption("--check-id")]
-    public string? CheckId { get; set; }
+    public string? CheckId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

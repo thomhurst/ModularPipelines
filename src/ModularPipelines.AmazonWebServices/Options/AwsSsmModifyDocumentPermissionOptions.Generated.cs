@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ssm", "modify-document-permission")]
-public record AwsSsmModifyDocumentPermissionOptions : AwsOptions
+public record AwsSsmModifyDocumentPermissionOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--name")]
-    public string? Name { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Shares a Amazon Web Services Systems Manager document (SSM docu- ment)publicly or privately. If you share a document privately, you must specify the Amazon Web Services user IDs for those people who can use the document. If you share a document publicly, you must specify All as the account ID. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Name">The name of the document that you want to share. Constraints: o pattern: ^[a-zA-Z0-9_\-.]{3,128}$</param>
+    /// <param name="PermissionType">The permission type for the document. The permission type can be Share . Possible values: o Share</param>
+    public AwsSsmModifyDocumentPermissionOptions(
+        string Name,
+        AwsSsmModifyDocumentPermissionPermissionType PermissionType
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(PermissionType);
+        this.PermissionType = PermissionType;
+    }
+
+    private AwsSsmModifyDocumentPermissionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSsmModifyDocumentPermissionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSsmModifyDocumentPermissionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the document that you want to share. Constraints: o pattern: ^[a-zA-Z0-9_\-.]{3,128}$
+    /// </summary>
+    [CliOption("--name")]
+    public string? Name { get; private init; }
+
+    /// <summary>
+    /// The permission type for the document. The permission type can be Share . Possible values: o Share
+    /// </summary>
     [CliOption("--permission-type")]
-    public string? PermissionType { get; set; }
+    public AwsSsmModifyDocumentPermissionPermissionType? PermissionType { get; private init; }
 
     /// <summary>
     /// The Amazon Web Services users that should have access to the docu- ment. The account IDs can either be a group of account IDs or All . You must specify a value for this parameter or the AccountIdsToRe- move parameter. Constraints: o max: 20 (string) Constraints: o pattern: (?i)all|[0-9]{12} Syntax: "string" "string" ...
@@ -50,5 +95,22 @@ public record AwsSsmModifyDocumentPermissionOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

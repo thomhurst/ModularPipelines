@@ -11,11 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --providertype.
+/// Allowed values for --provider-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsQuicksightUpdateDlpSettingProviderType
 {
     [EnumValue("MICROSOFT_PURVIEW")]
-    MicrosoftPurview = 1
+    MicrosoftPurview,
+
+    [EnumValue("o")]
+    O
 }

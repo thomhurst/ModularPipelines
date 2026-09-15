@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,25 +20,96 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("dms", "create-replication-config")]
-public record AwsDmsCreateReplicationConfigOptions : AwsOptions
+public record AwsDmsCreateReplicationConfigOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a configuration that you can later provide to configure and start an DMS Serverless replication. You can also provide options to validate the configuration inputs before you start the replication. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ReplicationConfigIdentifier">A unique identifier that you want to use to create a ReplicationCon- figArn that is returned as part of the output from this action. You can then pass this output ReplicationConfigArn as the value of the ReplicationConfigArn option for other actions to identify both DMS Serverless replications and replication configurations that you want those actions to operate on. For some actions, you can also use ei- ther this unique identifier or a corresponding ARN in action filters to identify the specific replication and replication configuration to operate on.</param>
+    /// <param name="SourceEndpointArn">The Amazon Resource Name (ARN) of the source endpoint for this DMS Serverless replication configuration.</param>
+    /// <param name="TargetEndpointArn">The Amazon Resource Name (ARN) of the target endpoint for this DMS serverless replication configuration.</param>
+    /// <param name="ComputeConfig">Configuration parameters for provisioning an DMS Serverless replica- tion. AvailabilityZone -&gt; (string) The Availability Zone where the DMS Serverless replication using this configuration will run. The default value is a random, sys- tem-chosen Availability Zone in the configuration's Amazon Web Services Region, for example, "us-west-2" . You can't set this parameter if the MultiAZ parameter is set to true . DnsNameServers -&gt; (string) A list of custom DNS name servers supported for the DMS Server- less replication to access your source or target database. This list overrides the default name servers supported by the DMS Serverless replication. You can specify a comma-separated list of internet addresses for up to four DNS name servers. For exam- ple: "1.1.1.1,2.2.2.2,3.3.3.3,4.4.4.4" KmsKeyId -&gt; (string) An Key Management Service (KMS) key Amazon Resource Name (ARN) that is used to encrypt the data during DMS Serverless replica- tion. If you don't specify a value for the KmsKeyId parameter, DMS uses your default encryption key. KMS creates the default encryption key for your Amazon Web Ser- vices account. Your Amazon Web Services account has a different default encryption key for each Amazon Web Services Region. MaxCapacityUnits -&gt; (integer) Specifies the maximum value of the DMS capacity units (DCUs) for which a given DMS Serverless replication can be provisioned. A single DCU is 2GB of RAM, with 1 DCU as the minimum value al- lowed. The list of valid DCU values includes 1, 2, 4, 8, 16, 32, 64, 128, 192, 256, and 384. So, the maximum value that you can specify for DMS Serverless is 384. The MaxCapacityUnits parame- ter is the only DCU parameter you are required to specify. MinCapacityUnits -&gt; (integer) Specifies the minimum value of the DMS capacity units (DCUs) for which a given DMS Serverless replication can be provisioned. A single DCU is 2GB of RAM, with 1 DCU as the minimum value al- lowed. The list of valid DCU values includes 1, 2, 4, 8, 16, 32, 64, 128, 192, 256, and 384. So, the minimum DCU value that you can specify for DMS Serverless is 1. If you don't set this value, DMS sets this parameter to the minimum DCU value allowed, 1. If there is no current source activity, DMS scales down your replication until it reaches the value specified in MinCapaci- tyUnits . MultiAZ -&gt; (boolean) Specifies whether the DMS Serverless replication is a Multi-AZ deployment. You can't set the AvailabilityZone parameter if the MultiAZ parameter is set to true . PreferredMaintenanceWindow -&gt; (string) The weekly time range during which system maintenance can occur for the DMS Serverless replication, in Universal Coordinated Time (UTC). The format is ddd:hh24:mi-ddd:hh24:mi . The default is a 30-minute window selected at random from an 8-hour block of time per Amazon Web Services Region. This main- tenance occurs on a random day of the week. Valid values for days of the week include Mon , Tue , Wed , Thu , Fri , Sat , and Sun . Constraints include a minimum 30-minute window. ReplicationSubnetGroupId -&gt; (string) Specifies a subnet group identifier to associate with the DMS Serverless replication. VpcSecurityGroupIds -&gt; (list) Specifies the virtual private cloud (VPC) security group to use with the DMS Serverless replication. The VPC security group must work with the VPC containing the replication. (string) Shorthand Syntax: AvailabilityZone=string,DnsNameServers=string,KmsKeyId=string,MaxCapacityUnits=integer,MinCapacityUnits=integer,MultiAZ=boolean,PreferredMaintenanceWindow=string,ReplicationSubnetGroupId=string,VpcSecurityGroupIds=string,string JSON Syntax: { "AvailabilityZone": "string", "DnsNameServers": "string", "KmsKeyId": "string", "MaxCapacityUnits": integer, "MinCapacityUnits": integer, "MultiAZ": true|false, "PreferredMaintenanceWindow": "string", "ReplicationSubnetGroupId": "string", "VpcSecurityGroupIds": ["string", ...] }</param>
+    /// <param name="ReplicationType">The type of DMS Serverless replication to provision using this replication configuration. Possible values: o "full-load" o "cdc" o "full-load-and-cdc" Possible values: o full-load o cdc o full-load-and-cdc</param>
+    /// <param name="TableMappings">JSON table mappings for DMS Serverless replications that are provi- sioned using this replication configuration. For more information, see Specifying table selection and transformations rules using JSON .</param>
+    public AwsDmsCreateReplicationConfigOptions(
+        string ReplicationConfigIdentifier,
+        string SourceEndpointArn,
+        string TargetEndpointArn,
+        string ComputeConfig,
+        string ReplicationType,
+        string TableMappings
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ReplicationConfigIdentifier);
+        this.ReplicationConfigIdentifier = ReplicationConfigIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(SourceEndpointArn);
+        this.SourceEndpointArn = SourceEndpointArn;
+        global::System.ArgumentNullException.ThrowIfNull(TargetEndpointArn);
+        this.TargetEndpointArn = TargetEndpointArn;
+        global::System.ArgumentNullException.ThrowIfNull(ComputeConfig);
+        this.ComputeConfig = ComputeConfig;
+        global::System.ArgumentNullException.ThrowIfNull(ReplicationType);
+        this.ReplicationType = ReplicationType;
+        global::System.ArgumentNullException.ThrowIfNull(TableMappings);
+        this.TableMappings = TableMappings;
+    }
+
+    private AwsDmsCreateReplicationConfigOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDmsCreateReplicationConfigOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDmsCreateReplicationConfigOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A unique identifier that you want to use to create a ReplicationCon- figArn that is returned as part of the output from this action. You can then pass this output ReplicationConfigArn as the value of the ReplicationConfigArn option for other actions to identify both DMS Serverless replications and replication configurations that you want those actions to operate on. For some actions, you can also use ei- ther this unique identifier or a corresponding ARN in action filters to identify the specific replication and replication configuration to operate on.
+    /// </summary>
     [CliOption("--replication-config-identifier")]
-    public string? ReplicationConfigIdentifier { get; set; }
+    public string? ReplicationConfigIdentifier { get; private init; }
 
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the source endpoint for this DMS Serverless replication configuration.
+    /// </summary>
     [CliOption("--source-endpoint-arn")]
-    public string? SourceEndpointArn { get; set; }
+    public string? SourceEndpointArn { get; private init; }
 
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the target endpoint for this DMS serverless replication configuration.
+    /// </summary>
     [CliOption("--target-endpoint-arn")]
-    public string? TargetEndpointArn { get; set; }
+    public string? TargetEndpointArn { get; private init; }
 
+    /// <summary>
+    /// Configuration parameters for provisioning an DMS Serverless replica- tion. AvailabilityZone -&gt; (string) The Availability Zone where the DMS Serverless replication using this configuration will run. The default value is a random, sys- tem-chosen Availability Zone in the configuration's Amazon Web Services Region, for example, "us-west-2" . You can't set this parameter if the MultiAZ parameter is set to true . DnsNameServers -&gt; (string) A list of custom DNS name servers supported for the DMS Server- less replication to access your source or target database. This list overrides the default name servers supported by the DMS Serverless replication. You can specify a comma-separated list of internet addresses for up to four DNS name servers. For exam- ple: "1.1.1.1,2.2.2.2,3.3.3.3,4.4.4.4" KmsKeyId -&gt; (string) An Key Management Service (KMS) key Amazon Resource Name (ARN) that is used to encrypt the data during DMS Serverless replica- tion. If you don't specify a value for the KmsKeyId parameter, DMS uses your default encryption key. KMS creates the default encryption key for your Amazon Web Ser- vices account. Your Amazon Web Services account has a different default encryption key for each Amazon Web Services Region. MaxCapacityUnits -&gt; (integer) Specifies the maximum value of the DMS capacity units (DCUs) for which a given DMS Serverless replication can be provisioned. A single DCU is 2GB of RAM, with 1 DCU as the minimum value al- lowed. The list of valid DCU values includes 1, 2, 4, 8, 16, 32, 64, 128, 192, 256, and 384. So, the maximum value that you can specify for DMS Serverless is 384. The MaxCapacityUnits parame- ter is the only DCU parameter you are required to specify. MinCapacityUnits -&gt; (integer) Specifies the minimum value of the DMS capacity units (DCUs) for which a given DMS Serverless replication can be provisioned. A single DCU is 2GB of RAM, with 1 DCU as the minimum value al- lowed. The list of valid DCU values includes 1, 2, 4, 8, 16, 32, 64, 128, 192, 256, and 384. So, the minimum DCU value that you can specify for DMS Serverless is 1. If you don't set this value, DMS sets this parameter to the minimum DCU value allowed, 1. If there is no current source activity, DMS scales down your replication until it reaches the value specified in MinCapaci- tyUnits . MultiAZ -&gt; (boolean) Specifies whether the DMS Serverless replication is a Multi-AZ deployment. You can't set the AvailabilityZone parameter if the MultiAZ parameter is set to true . PreferredMaintenanceWindow -&gt; (string) The weekly time range during which system maintenance can occur for the DMS Serverless replication, in Universal Coordinated Time (UTC). The format is ddd:hh24:mi-ddd:hh24:mi . The default is a 30-minute window selected at random from an 8-hour block of time per Amazon Web Services Region. This main- tenance occurs on a random day of the week. Valid values for days of the week include Mon , Tue , Wed , Thu , Fri , Sat , and Sun . Constraints include a minimum 30-minute window. ReplicationSubnetGroupId -&gt; (string) Specifies a subnet group identifier to associate with the DMS Serverless replication. VpcSecurityGroupIds -&gt; (list) Specifies the virtual private cloud (VPC) security group to use with the DMS Serverless replication. The VPC security group must work with the VPC containing the replication. (string) Shorthand Syntax: AvailabilityZone=string,DnsNameServers=string,KmsKeyId=string,MaxCapacityUnits=integer,MinCapacityUnits=integer,MultiAZ=boolean,PreferredMaintenanceWindow=string,ReplicationSubnetGroupId=string,VpcSecurityGroupIds=string,string JSON Syntax: { "AvailabilityZone": "string", "DnsNameServers": "string", "KmsKeyId": "string", "MaxCapacityUnits": integer, "MinCapacityUnits": integer, "MultiAZ": true|false, "PreferredMaintenanceWindow": "string", "ReplicationSubnetGroupId": "string", "VpcSecurityGroupIds": ["string", ...] }
+    /// </summary>
     [CliOption("--compute-config")]
-    public string? ComputeConfig { get; set; }
+    public string? ComputeConfig { get; private init; }
 
+    /// <summary>
+    /// The type of DMS Serverless replication to provision using this replication configuration. Possible values: o "full-load" o "cdc" o "full-load-and-cdc" Possible values: o full-load o cdc o full-load-and-cdc
+    /// </summary>
     [CliOption("--replication-type")]
-    public string? ReplicationType { get; set; }
+    public string? ReplicationType { get; private init; }
 
+    /// <summary>
+    /// JSON table mappings for DMS Serverless replications that are provi- sioned using this replication configuration. For more information, see Specifying table selection and transformations rules using JSON .
+    /// </summary>
     [CliOption("--table-mappings")]
-    public string? TableMappings { get; set; }
+    public string? TableMappings { get; private init; }
 
     /// <summary>
     /// Optional JSON settings for DMS Serverless replications that are pro- visioned using this replication configuration. For example, see Change processing tuning settings .
@@ -68,5 +140,22 @@ public record AwsDmsCreateReplicationConfigOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

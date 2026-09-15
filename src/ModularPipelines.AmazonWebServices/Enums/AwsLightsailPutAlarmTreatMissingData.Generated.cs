@@ -11,20 +11,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --treatmissingdata.
+/// Allowed values for --treat-missing-data.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsLightsailPutAlarmTreatMissingData
 {
     [EnumValue("breaching")]
-    Breaching = 1,
-
-    [EnumValue("notBreaching")]
-    NotBreaching = 2,
+    Breaching,
 
     [EnumValue("ignore")]
-    Ignore = 3,
+    Ignore,
 
     [EnumValue("missing")]
-    Missing = 4
+    Missing,
+
+    [EnumValue("notBreaching")]
+    NotBreaching
 }

@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,17 +21,53 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("workdocs", "get-folder-path")]
-public record AwsWorkdocsGetFolderPathOptions : AwsOptions
+public record AwsWorkdocsGetFolderPathOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Retrieves the path information (the hierarchy from the root folder) for the specified folder. By default, Amazon WorkDocs returns a maximum of 100 levels upwards from the requested folder and only includes the IDs of the parent fold- ers in the path. You can limit the maximum number of levels. You can also request the parent folder names. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="FolderId">The ID of the folder. Constraints: o min: 1 o max: 256 o pattern: [&amp;\w+-.@]+</param>
+    public AwsWorkdocsGetFolderPathOptions(
+        string FolderId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(FolderId);
+        this.FolderId = FolderId;
+    }
+
+    private AwsWorkdocsGetFolderPathOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsWorkdocsGetFolderPathOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsWorkdocsGetFolderPathOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the folder. Constraints: o min: 1 o max: 256 o pattern: [&amp;\w+-.@]+
+    /// </summary>
+    [CliOption("--folder-id")]
+    public string? FolderId { get; private init; }
+
     /// <summary>
     /// Amazon WorkDocs authentication token. Not required when using Amazon Web Services administrator credentials to access the API. Constraints: o min: 1 o max: 8199
     /// </summary>
     [SecretValue]
     [CliOption("--authentication-token")]
     public string? AuthenticationToken { get; set; }
-
-    [CliOption("--folder-id")]
-    public string? FolderId { get; set; }
 
     /// <summary>
     /// The maximum number of levels in the hierarchy to return. Constraints: o min: 1 o max: 999
@@ -55,5 +92,22 @@ public record AwsWorkdocsGetFolderPathOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

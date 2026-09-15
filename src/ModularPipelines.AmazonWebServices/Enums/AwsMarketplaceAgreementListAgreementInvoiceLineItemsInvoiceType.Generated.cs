@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --invoicetype.
+/// Allowed values for --invoice-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsMarketplaceAgreementListAgreementInvoiceLineItemsInvoiceType
 {
-    [EnumValue("INVOICE")]
-    Invoice = 1,
-
     [EnumValue("CREDIT_MEMO")]
-    CreditMemo = 2
+    CreditMemo,
+
+    [EnumValue("INVOICE")]
+    Invoice
 }

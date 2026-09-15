@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --transportprotocol.
+/// Allowed values for --transport-protocol.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsEc2CreateClientVpnEndpointTransportProtocol
 {
     [EnumValue("tcp")]
-    Tcp = 1,
+    Tcp,
 
     [EnumValue("udp")]
-    Udp = 2
+    Udp
 }

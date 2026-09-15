@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,19 +21,76 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("arc-region-switch", "approve-plan-execution-step")]
-public record AwsArcRegionSwitchApprovePlanExecutionStepOptions : AwsOptions
+public record AwsArcRegionSwitchApprovePlanExecutionStepOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Approves a step in a plan execution that requires manual approval. When you create a plan, you can include approval steps that require manual intervention before the execution can proceed. This operation allows you to provide that approval. You must specify the plan ARN, execution ID, step name, and approval status. You can also provide an optional comment explaining the ap- proval decision. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="PlanArn">The Amazon Resource Name (ARN) of the plan. Constraints: o pattern: arn:aws[a-zA-Z-]*:arc-re- gion-switch::[0-9]{12}:plan/([a-zA-Z0-9](?:[a-zA-Z0-9-]{0,30}[a-zA-Z0-9])?):([a-z0-9]{6})</param>
+    /// <param name="ExecutionId">The execution identifier of a plan execution.</param>
+    /// <param name="StepName">The name of a step in a plan execution.</param>
+    /// <param name="Approval">The status of approval for a plan execution step. Possible values: o approve o decline</param>
+    public AwsArcRegionSwitchApprovePlanExecutionStepOptions(
+        string PlanArn,
+        string ExecutionId,
+        string StepName,
+        AwsArcRegionSwitchApprovePlanExecutionStepApproval Approval
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PlanArn);
+        this.PlanArn = PlanArn;
+        global::System.ArgumentNullException.ThrowIfNull(ExecutionId);
+        this.ExecutionId = ExecutionId;
+        global::System.ArgumentNullException.ThrowIfNull(StepName);
+        this.StepName = StepName;
+        global::System.ArgumentNullException.ThrowIfNull(Approval);
+        this.Approval = Approval;
+    }
+
+    private AwsArcRegionSwitchApprovePlanExecutionStepOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsArcRegionSwitchApprovePlanExecutionStepOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsArcRegionSwitchApprovePlanExecutionStepOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the plan. Constraints: o pattern: arn:aws[a-zA-Z-]*:arc-re- gion-switch::[0-9]{12}:plan/([a-zA-Z0-9](?:[a-zA-Z0-9-]{0,30}[a-zA-Z0-9])?):([a-z0-9]{6})
+    /// </summary>
     [CliOption("--plan-arn")]
-    public string? PlanArn { get; set; }
+    public string? PlanArn { get; private init; }
 
+    /// <summary>
+    /// The execution identifier of a plan execution.
+    /// </summary>
     [CliOption("--execution-id")]
-    public string? ExecutionId { get; set; }
+    public string? ExecutionId { get; private init; }
 
+    /// <summary>
+    /// The name of a step in a plan execution.
+    /// </summary>
     [CliOption("--step-name")]
-    public string? StepName { get; set; }
+    public string? StepName { get; private init; }
 
+    /// <summary>
+    /// The status of approval for a plan execution step. Possible values: o approve o decline
+    /// </summary>
     [CliOption("--approval")]
-    public string? Approval { get; set; }
+    public AwsArcRegionSwitchApprovePlanExecutionStepApproval? Approval { get; private init; }
 
     /// <summary>
     /// A comment that you can enter about a plan execution. Constraints: o min: 0 o max: 1024
@@ -44,5 +103,22 @@ public record AwsArcRegionSwitchApprovePlanExecutionStepOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

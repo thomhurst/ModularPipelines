@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,13 +22,52 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ec2", "create-instance-connect-endpoint")]
-public record AwsEc2CreateInstanceConnectEndpointOptions : AwsOptions
+public record AwsEc2CreateInstanceConnectEndpointOptions : AwsOptions, IValidatableObject
 {
-    [CliFlag("--dry-run")]
-    public bool? DryRun { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates an EC2 Instance Connect Endpoint. An EC2 Instance Connect Endpoint allows you to connect to an instance, without requiring the instance to have a public IPv4 or public IPv6 ad- dress. For more information, see Connect to your instances using EC2 Instance Connect Endpoint in the Amazon EC2 User Guide . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="SubnetId">The ID of the subnet in which to create the EC2 Instance Connect Endpoint.</param>
+    public AwsEc2CreateInstanceConnectEndpointOptions(
+        string SubnetId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SubnetId);
+        this.SubnetId = SubnetId;
+    }
+
+    private AwsEc2CreateInstanceConnectEndpointOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEc2CreateInstanceConnectEndpointOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEc2CreateInstanceConnectEndpointOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the subnet in which to create the EC2 Instance Connect Endpoint.
+    /// </summary>
     [CliOption("--subnet-id")]
-    public string? SubnetId { get; set; }
+    public string? SubnetId { get; private init; }
+
+    /// <summary>
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
+    public bool? DryRun { get; set; }
 
     /// <summary>
     /// One or more security groups to associate with the endpoint. If you don't specify a security group, the default security group for your VPC will be associated with the endpoint. Constraints: o min: 0 o max: 16 (string) Syntax: "string" "string" ...
@@ -35,7 +75,10 @@ public record AwsEc2CreateInstanceConnectEndpointOptions : AwsOptions
     [CliOption("--security-group-ids", GroupValues = true)]
     public IEnumerable<string>? SecurityGroupIds { get; set; }
 
-    [CliFlag("--preserve-client-ip")]
+    /// <summary>
+    /// Indicates whether the client IP address is preserved as the source. The following are the possible values. o true - Use the client IP address as the source. o false - Use the network interface IP address as the source. NOTE: PreserveClientIp is only supported on IPv4 EC2 Instance Connect Endpoints. To use PreserveClientIp , the value for IpAddressType must be ipv4 . Default: false
+    /// </summary>
+    [CliFlag("--preserve-client-ip", NegatedName = "--no-preserve-client-ip")]
     public bool? PreserveClientIp { get; set; }
 
     /// <summary>
@@ -62,5 +105,22 @@ public record AwsEc2CreateInstanceConnectEndpointOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsResiliencehubv2ListAssertionsSource
 {
     [EnumValue("AI_GENERATED")]
-    AiGenerated = 1,
+    AiGenerated,
 
     [EnumValue("USER")]
-    User = 2
+    User
 }

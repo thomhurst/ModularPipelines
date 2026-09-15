@@ -11,11 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --workflowtype.
+/// Allowed values for --workflow-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsCustomerProfilesListWorkflowsWorkflowType
 {
     [EnumValue("APPFLOW_INTEGRATION")]
-    AppflowIntegration = 1
+    AppflowIntegration,
+
+    [EnumValue("o")]
+    O
 }

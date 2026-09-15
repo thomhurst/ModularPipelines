@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,22 +22,85 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("mgn", "put-template-action")]
-public record AwsMgnPutTemplateActionOptions : AwsOptions
+public record AwsMgnPutTemplateActionOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Put template post migration custom action. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="LaunchConfigurationTemplateId">Launch configuration template ID. Constraints: o min: 21 o max: 21 o pattern: lct-[0-9a-zA-Z]{17}</param>
+    /// <param name="ActionName">Template post migration custom action name. Constraints: o min: 0 o max: 256</param>
+    /// <param name="DocumentIdentifier">Template post migration custom action document identifier. Constraints: o min: 0 o max: 256</param>
+    /// <param name="Order">Template post migration custom action order. Constraints: o min: 1001 o max: 10000</param>
+    /// <param name="ActionId">Template post migration custom action ID. Constraints: o min: 1 o max: 64 o pattern: .*[0-9a-zA-Z]</param>
+    public AwsMgnPutTemplateActionOptions(
+        string LaunchConfigurationTemplateId,
+        string ActionName,
+        string DocumentIdentifier,
+        int Order,
+        string ActionId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(LaunchConfigurationTemplateId);
+        this.LaunchConfigurationTemplateId = LaunchConfigurationTemplateId;
+        global::System.ArgumentNullException.ThrowIfNull(ActionName);
+        this.ActionName = ActionName;
+        global::System.ArgumentNullException.ThrowIfNull(DocumentIdentifier);
+        this.DocumentIdentifier = DocumentIdentifier;
+        this.Order = Order;
+        global::System.ArgumentNullException.ThrowIfNull(ActionId);
+        this.ActionId = ActionId;
+    }
+
+    private AwsMgnPutTemplateActionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsMgnPutTemplateActionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsMgnPutTemplateActionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Launch configuration template ID. Constraints: o min: 21 o max: 21 o pattern: lct-[0-9a-zA-Z]{17}
+    /// </summary>
     [CliOption("--launch-configuration-template-id")]
-    public string? LaunchConfigurationTemplateId { get; set; }
+    public string? LaunchConfigurationTemplateId { get; private init; }
 
+    /// <summary>
+    /// Template post migration custom action name. Constraints: o min: 0 o max: 256
+    /// </summary>
     [CliOption("--action-name")]
-    public string? ActionName { get; set; }
+    public string? ActionName { get; private init; }
 
+    /// <summary>
+    /// Template post migration custom action document identifier. Constraints: o min: 0 o max: 256
+    /// </summary>
     [CliOption("--document-identifier")]
-    public string? DocumentIdentifier { get; set; }
+    public string? DocumentIdentifier { get; private init; }
 
+    /// <summary>
+    /// Template post migration custom action order. Constraints: o min: 1001 o max: 10000
+    /// </summary>
     [CliOption("--order")]
-    public int? Order { get; set; }
+    public int? Order { get; private init; }
 
+    /// <summary>
+    /// Template post migration custom action ID. Constraints: o min: 1 o max: 64 o pattern: .*[0-9a-zA-Z]
+    /// </summary>
     [CliOption("--action-id")]
-    public string? ActionId { get; set; }
+    public string? ActionId { get; private init; }
 
     /// <summary>
     /// Template post migration custom action document version. Constraints: o pattern: (\$DEFAULT|\$LATEST|[0-9]+)
@@ -44,7 +108,10 @@ public record AwsMgnPutTemplateActionOptions : AwsOptions
     [CliOption("--document-version")]
     public string? DocumentVersion { get; set; }
 
-    [CliFlag("--active")]
+    /// <summary>
+    /// Template post migration custom action active status.
+    /// </summary>
+    [CliFlag("--active", NegatedName = "--no-active")]
     public bool? Active { get; set; }
 
     /// <summary>
@@ -53,7 +120,10 @@ public record AwsMgnPutTemplateActionOptions : AwsOptions
     [CliOption("--timeout-seconds")]
     public int? TimeoutSeconds { get; set; }
 
-    [CliFlag("--must-succeed-for-cutover")]
+    /// <summary>
+    /// Template post migration custom action must succeed for cutover.
+    /// </summary>
+    [CliFlag("--must-succeed-for-cutover", NegatedName = "--no-must-succeed-for-cutover")]
     public bool? MustSucceedForCutover { get; set; }
 
     /// <summary>
@@ -91,5 +161,22 @@ public record AwsMgnPutTemplateActionOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

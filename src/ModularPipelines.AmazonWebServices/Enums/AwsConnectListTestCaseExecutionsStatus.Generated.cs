@@ -16,18 +16,18 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsConnectListTestCaseExecutionsStatus
 {
-    [EnumValue("INITIATED")]
-    Initiated = 1,
-
-    [EnumValue("PASSED")]
-    Passed = 2,
-
     [EnumValue("FAILED")]
-    Failed = 3,
+    Failed,
+
+    [EnumValue("INITIATED")]
+    Initiated,
 
     [EnumValue("IN_PROGRESS")]
-    InProgress = 4,
+    InProgress,
+
+    [EnumValue("PASSED")]
+    Passed,
 
     [EnumValue("STOPPED")]
-    Stopped = 5
+    Stopped
 }

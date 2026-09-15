@@ -65,7 +65,10 @@ public record AwsBedrockListCustomModelsOptions : AwsOptions
     [CliOption("--sort-order")]
     public AwsBedrockListCustomModelsSortOrder? SortOrder { get; set; }
 
-    [CliFlag("--is-owned")]
+    /// <summary>
+    /// Return custom models depending on if the current account owns them (true ) or if they were shared with the current account (false ).
+    /// </summary>
+    [CliFlag("--is-owned", NegatedName = "--no-is-owned")]
     public bool? IsOwned { get; set; }
 
     /// <summary>

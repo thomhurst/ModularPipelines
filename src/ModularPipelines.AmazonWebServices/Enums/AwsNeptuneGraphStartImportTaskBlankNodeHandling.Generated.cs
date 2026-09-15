@@ -11,11 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --blanknodehandling.
+/// Allowed values for --blank-node-handling.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsNeptuneGraphStartImportTaskBlankNodeHandling
 {
     [EnumValue("convertToIri")]
-    ConvertToIri = 1
+    ConvertToIri,
+
+    [EnumValue("o")]
+    O
 }

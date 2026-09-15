@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -37,7 +38,7 @@ public record AwsRoute53ListTrafficPolicyInstancesOptions : AwsOptions
     /// If the value of IsTruncated in the previous response was true , you have more traffic policy instances. To get more traffic policy in- stances, submit another ListTrafficPolicyInstances request. For the value of trafficpolicyinstancetype , specify the value of Traf- ficPolicyInstanceTypeMarker from the previous response, which is the type of the first traffic policy instance in the next group of traf- fic policy instances. If the value of IsTruncated in the previous response was false , there are no more traffic policy instances to get. Possible values: o SOA o A o TXT o NS o CNAME o MX o NAPTR o PTR o SRV o SPF o AAAA o CAA o DS o TLSA o SSHFP o SVCB o HTTPS
     /// </summary>
     [CliOption("--traffic-policy-instance-type-marker")]
-    public string? TrafficPolicyInstanceTypeMarker { get; set; }
+    public AwsRoute53ListTrafficPolicyInstancesTrafficPolicyInstanceTypeMarker? TrafficPolicyInstanceTypeMarker { get; set; }
 
     /// <summary>
     /// The maximum number of traffic policy instances that you want Amazon Route 53 to return in response to a ListTrafficPolicyInstances re- quest. If you have more than MaxItems traffic policy instances, the value of the IsTruncated element in the response is true , and the values of HostedZoneIdMarker , TrafficPolicyInstanceNameMarker , and TrafficPolicyInstanceTypeMarker represent the first traffic policy instance in the next group of MaxItems traffic policy instances.

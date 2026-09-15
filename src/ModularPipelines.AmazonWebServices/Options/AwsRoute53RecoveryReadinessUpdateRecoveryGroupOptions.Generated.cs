@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,89 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("route53-recovery-readiness", "update-recovery-group")]
-public record AwsRoute53RecoveryReadinessUpdateRecoveryGroupOptions : AwsOptions
+public record AwsRoute53RecoveryReadinessUpdateRecoveryGroupOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--cells", GroupValues = true)]
-    public IEnumerable<string>? Cells { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Updates a recovery group. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Cells">A list of cell Amazon Resource Names (ARNs). This list completely replaces the previous list. (string) Syntax: "string" "string" ...</param>
+    /// <param name="RecoveryGroupName">The name of a recovery group.</param>
+    public AwsRoute53RecoveryReadinessUpdateRecoveryGroupOptions(
+        IEnumerable<string> Cells,
+        string RecoveryGroupName
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Cells);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Cells));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Cells));
+            }
+
+            Cells = materialized;
+        }
+        this.Cells = Cells;
+        global::System.ArgumentNullException.ThrowIfNull(RecoveryGroupName);
+        this.RecoveryGroupName = RecoveryGroupName;
+    }
+
+    private AwsRoute53RecoveryReadinessUpdateRecoveryGroupOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRoute53RecoveryReadinessUpdateRecoveryGroupOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRoute53RecoveryReadinessUpdateRecoveryGroupOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A list of cell Amazon Resource Names (ARNs). This list completely replaces the previous list. (string) Syntax: "string" "string" ...
+    /// </summary>
+    [CliOption("--cells", GroupValues = true)]
+    public IEnumerable<string>? Cells { get; private init; }
+
+    /// <summary>
+    /// The name of a recovery group.
+    /// </summary>
     [CliOption("--recovery-group-name")]
-    public string? RecoveryGroupName { get; set; }
+    public string? RecoveryGroupName { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

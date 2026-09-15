@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --sourceurltype.
+/// Allowed values for --source-url-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsAmplifyStartDeploymentSourceUrlType
 {
-    [EnumValue("ZIP")]
-    Zip = 1,
-
     [EnumValue("BUCKET_PREFIX")]
-    BucketPrefix = 2
+    BucketPrefix,
+
+    [EnumValue("ZIP")]
+    Zip
 }

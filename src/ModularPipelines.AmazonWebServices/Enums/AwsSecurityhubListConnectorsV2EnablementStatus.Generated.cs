@@ -11,29 +11,29 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --enablementstatus.
+/// Allowed values for --enablement-status.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsSecurityhubListConnectorsV2EnablementStatus
 {
     [EnumValue("ENABLED")]
-    Enabled = 1,
-
-    [EnumValue("PENDING_ENABLEMENT")]
-    PendingEnablement = 2,
-
-    [EnumValue("FAILED_TO_ENABLE")]
-    FailedToEnable = 3,
-
-    [EnumValue("PENDING_UPDATE")]
-    PendingUpdate = 4,
-
-    [EnumValue("FAILED_TO_UPDATE")]
-    FailedToUpdate = 5,
-
-    [EnumValue("PENDING_DELETION")]
-    PendingDeletion = 6,
+    Enabled,
 
     [EnumValue("FAILED_TO_DELETE")]
-    FailedToDelete = 7
+    FailedToDelete,
+
+    [EnumValue("FAILED_TO_ENABLE")]
+    FailedToEnable,
+
+    [EnumValue("FAILED_TO_UPDATE")]
+    FailedToUpdate,
+
+    [EnumValue("PENDING_DELETION")]
+    PendingDeletion,
+
+    [EnumValue("PENDING_ENABLEMENT")]
+    PendingEnablement,
+
+    [EnumValue("PENDING_UPDATE")]
+    PendingUpdate
 }

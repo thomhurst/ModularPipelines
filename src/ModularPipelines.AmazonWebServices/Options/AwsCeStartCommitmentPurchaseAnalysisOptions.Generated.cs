@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,68 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ce", "start-commitment-purchase-analysis")]
-public record AwsCeStartCommitmentPurchaseAnalysisOptions : AwsOptions
+public record AwsCeStartCommitmentPurchaseAnalysisOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Specifies the parameters of a planned commitment purchase and starts the generation of the analysis. This enables you to estimate the cost, coverage, and utilization impact of your planned commitment purchases. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="CommitmentPurchaseAnalysisConfiguration">The configuration for the commitment purchase analysis. SavingsPlansPurchaseAnalysisConfiguration -&gt; (structure) The configuration for the Savings Plans purchase analysis. AccountScope -&gt; (string) The account scope that you want your analysis for. Possible values: o PAYER o LINKED AccountId -&gt; (string) The account that the analysis is for. Constraints: o min: 12 o max: 12 o pattern: [0-9]{12} AnalysisType -&gt; (string) [required] The type of analysis. Possible values: o MAX_SAVINGS o CUSTOM_COMMITMENT o TARGET_AVERAGE_COVERAGE SavingsPlansToAdd -&gt; (list) [required] Savings Plans to include in the analysis. Constraints: o min: 1 o max: 1 (structure) The Savings Plans commitment details. PaymentOption -&gt; (string) The payment option for the Savings Plans commitment. Possible values: o NO_UPFRONT o PARTIAL_UPFRONT o ALL_UPFRONT o LIGHT_UTILIZATION o MEDIUM_UTILIZATION o HEAVY_UTILIZATION SavingsPlansType -&gt; (string) The Savings Plans type. Possible values: o COMPUTE_SP o EC2_INSTANCE_SP o SAGEMAKER_SP o DATABASE_SP Region -&gt; (string) The Region associated with the Savings Plans commit- ment. Constraints: o min: 0 o max: 1024 o pattern: [\S\s]* InstanceFamily -&gt; (string) The instance family of the Savings Plans commitment. Constraints: o min: 0 o max: 1024 o pattern: [\S\s]* TermInYears -&gt; (string) The term that you want the Savings Plans commitment for. Possible values: o ONE_YEAR o THREE_YEARS SavingsPlansCommitment -&gt; (double) The Savings Plans commitment. Constraints: o min: 0.001 o max: 5000 OfferingId -&gt; (string) The unique ID that's used to distinguish Savings Plans commitments from one another. Constraints: o min: 0 o max: 1024 o pattern: [\S\s]* SavingsPlansToExclude -&gt; (list) Savings Plans to exclude from the analysis. Constraints: o min: 0 o max: 1000 (string) Constraints: o min: 36 o max: 36 o pattern: ^[\S\s]{8}-[\S\s]{4}-[\S\s]{4}-[\S\s]{4}-[\S\s]{12}$ LookBackTimePeriod -&gt; (structure) [required] The time period associated with the analysis. Start -&gt; (string) [required] The beginning of the time period. The start date is in- clusive. For example, if start is 2017-01-01 , Amazon Web Services retrieves cost and usage data starting at 2017-01-01 up to the end date. The start date must be equal to or no later than the current date to avoid a validation error. Constraints: o min: 0 o max: 40 o pattern: (\d{4}-\d{2}-\d{2})(T\d{2}:\d{2}:\d{2}Z)? End -&gt; (string) [required] The end of the time period. The end date is exclusive. For example, if end is 2017-05-01 , Amazon Web Services retrieves cost and usage data from the start date up to, but not including, 2017-05-01 . Constraints: o min: 0 o max: 40 o pattern: (\d{4}-\d{2}-\d{2})(T\d{2}:\d{2}:\d{2}Z)? SavingsPlansTargetCoverage -&gt; (integer) Specifies the target Savings Plans coverage as a percentage from 10 to 100 . This field is required when AnalysisType is TARGET_AVERAGE_COVERAGE . It defines the target average hourly coverage that the recommended Savings Plans commitment should achieve over the lookback period. Constraints: o min: 10 o max: 100 JSON Syntax: { "SavingsPlansPurchaseAnalysisConfiguration": { "AccountScope": "PAYER"|"LINKED", "AccountId": "string", "AnalysisType": "MAX_SAVINGS"|"CUSTOM_COMMITMENT"|"TARGET_AVERAGE_COVERAGE", "SavingsPlansToAdd": [ { "PaymentOption": "NO_UPFRONT"|"PARTIAL_UPFRONT"|"ALL_UPFRONT"|"LIGHT_UTILIZATION"|"MEDIUM_UTILIZATION"|"HEAVY_UTILIZATION", "SavingsPlansType": "COMPUTE_SP"|"EC2_INSTANCE_SP"|"SAGEMAKER_SP"|"DATABASE_SP", "Region": "string", "InstanceFamily": "string", "TermInYears": "ONE_YEAR"|"THREE_YEARS", "SavingsPlansCommitment": double, "OfferingId": "string" } ... ], "SavingsPlansToExclude": ["string", ...], "LookBackTimePeriod": { "Start": "string", "End": "string" }, "SavingsPlansTargetCoverage": integer } }</param>
+    public AwsCeStartCommitmentPurchaseAnalysisOptions(
+        string CommitmentPurchaseAnalysisConfiguration
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(CommitmentPurchaseAnalysisConfiguration);
+        this.CommitmentPurchaseAnalysisConfiguration = CommitmentPurchaseAnalysisConfiguration;
+    }
+
+    private AwsCeStartCommitmentPurchaseAnalysisOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCeStartCommitmentPurchaseAnalysisOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCeStartCommitmentPurchaseAnalysisOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The configuration for the commitment purchase analysis. SavingsPlansPurchaseAnalysisConfiguration -&gt; (structure) The configuration for the Savings Plans purchase analysis. AccountScope -&gt; (string) The account scope that you want your analysis for. Possible values: o PAYER o LINKED AccountId -&gt; (string) The account that the analysis is for. Constraints: o min: 12 o max: 12 o pattern: [0-9]{12} AnalysisType -&gt; (string) [required] The type of analysis. Possible values: o MAX_SAVINGS o CUSTOM_COMMITMENT o TARGET_AVERAGE_COVERAGE SavingsPlansToAdd -&gt; (list) [required] Savings Plans to include in the analysis. Constraints: o min: 1 o max: 1 (structure) The Savings Plans commitment details. PaymentOption -&gt; (string) The payment option for the Savings Plans commitment. Possible values: o NO_UPFRONT o PARTIAL_UPFRONT o ALL_UPFRONT o LIGHT_UTILIZATION o MEDIUM_UTILIZATION o HEAVY_UTILIZATION SavingsPlansType -&gt; (string) The Savings Plans type. Possible values: o COMPUTE_SP o EC2_INSTANCE_SP o SAGEMAKER_SP o DATABASE_SP Region -&gt; (string) The Region associated with the Savings Plans commit- ment. Constraints: o min: 0 o max: 1024 o pattern: [\S\s]* InstanceFamily -&gt; (string) The instance family of the Savings Plans commitment. Constraints: o min: 0 o max: 1024 o pattern: [\S\s]* TermInYears -&gt; (string) The term that you want the Savings Plans commitment for. Possible values: o ONE_YEAR o THREE_YEARS SavingsPlansCommitment -&gt; (double) The Savings Plans commitment. Constraints: o min: 0.001 o max: 5000 OfferingId -&gt; (string) The unique ID that's used to distinguish Savings Plans commitments from one another. Constraints: o min: 0 o max: 1024 o pattern: [\S\s]* SavingsPlansToExclude -&gt; (list) Savings Plans to exclude from the analysis. Constraints: o min: 0 o max: 1000 (string) Constraints: o min: 36 o max: 36 o pattern: ^[\S\s]{8}-[\S\s]{4}-[\S\s]{4}-[\S\s]{4}-[\S\s]{12}$ LookBackTimePeriod -&gt; (structure) [required] The time period associated with the analysis. Start -&gt; (string) [required] The beginning of the time period. The start date is in- clusive. For example, if start is 2017-01-01 , Amazon Web Services retrieves cost and usage data starting at 2017-01-01 up to the end date. The start date must be equal to or no later than the current date to avoid a validation error. Constraints: o min: 0 o max: 40 o pattern: (\d{4}-\d{2}-\d{2})(T\d{2}:\d{2}:\d{2}Z)? End -&gt; (string) [required] The end of the time period. The end date is exclusive. For example, if end is 2017-05-01 , Amazon Web Services retrieves cost and usage data from the start date up to, but not including, 2017-05-01 . Constraints: o min: 0 o max: 40 o pattern: (\d{4}-\d{2}-\d{2})(T\d{2}:\d{2}:\d{2}Z)? SavingsPlansTargetCoverage -&gt; (integer) Specifies the target Savings Plans coverage as a percentage from 10 to 100 . This field is required when AnalysisType is TARGET_AVERAGE_COVERAGE . It defines the target average hourly coverage that the recommended Savings Plans commitment should achieve over the lookback period. Constraints: o min: 10 o max: 100 JSON Syntax: { "SavingsPlansPurchaseAnalysisConfiguration": { "AccountScope": "PAYER"|"LINKED", "AccountId": "string", "AnalysisType": "MAX_SAVINGS"|"CUSTOM_COMMITMENT"|"TARGET_AVERAGE_COVERAGE", "SavingsPlansToAdd": [ { "PaymentOption": "NO_UPFRONT"|"PARTIAL_UPFRONT"|"ALL_UPFRONT"|"LIGHT_UTILIZATION"|"MEDIUM_UTILIZATION"|"HEAVY_UTILIZATION", "SavingsPlansType": "COMPUTE_SP"|"EC2_INSTANCE_SP"|"SAGEMAKER_SP"|"DATABASE_SP", "Region": "string", "InstanceFamily": "string", "TermInYears": "ONE_YEAR"|"THREE_YEARS", "SavingsPlansCommitment": double, "OfferingId": "string" } ... ], "SavingsPlansToExclude": ["string", ...], "LookBackTimePeriod": { "Start": "string", "End": "string" }, "SavingsPlansTargetCoverage": integer } }
+    /// </summary>
     [CliOption("--commitment-purchase-analysis-configuration")]
-    public string? CommitmentPurchaseAnalysisConfiguration { get; set; }
+    public string? CommitmentPurchaseAnalysisConfiguration { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

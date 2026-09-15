@@ -16,12 +16,12 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsIotManagedIntegrationsStartDeviceDiscoveryProtocol
 {
-    [EnumValue("ZWAVE")]
-    Zwave = 1,
+    [EnumValue("CUSTOM")]
+    Custom,
 
     [EnumValue("ZIGBEE")]
-    Zigbee = 2,
+    Zigbee,
 
-    [EnumValue("CUSTOM")]
-    Custom = 3
+    [EnumValue("ZWAVE")]
+    Zwave
 }

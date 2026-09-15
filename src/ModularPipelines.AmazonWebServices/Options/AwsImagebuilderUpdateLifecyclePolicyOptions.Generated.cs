@@ -11,20 +11,108 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Update the specified lifecycle policy. See also: AWS API Documentation
+/// Updates the specified lifecycle policy. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("imagebuilder", "update-lifecycle-policy")]
-public record AwsImagebuilderUpdateLifecyclePolicyOptions : AwsOptions
+public record AwsImagebuilderUpdateLifecyclePolicyOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates the specified lifecycle policy. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="LifecyclePolicyArn">The Amazon Resource Name (ARN) of the lifecycle policy resource. Constraints: o max: 1024 o pattern: ^arn:aws(?:-[a-z]+)*:image- builder:[a-z]{2,}(?:-[a-z]+)+-[0-9]+:(?:[0-9]{12}|aws):lifecy- cle-policy/[a-z0-9-_]+$</param>
+    /// <param name="ExecutionRole">The name or Amazon Resource Name (ARN) of the IAM role that Image Builder uses to update the lifecycle policy. Constraints: o min: 1 o max: 2048 o pattern: ^(?:arn:aws(?:-[a-z]+)*:iam::[0-9]{12}:role/)?[a-zA-Z_0-9+=,.@\-_/]+$</param>
+    /// <param name="ResourceType">The type of image resource that the lifecycle policy applies to. Possible values: o AMI_IMAGE o CONTAINER_IMAGE</param>
+    /// <param name="PolicyDetails">The configuration details for a lifecycle policy resource. Constraints: o min: 1 o max: 3 (structure) The configuration details for a lifecycle policy resource. action -&gt; (structure) [required] Configuration details for the policy action. type -&gt; (string) [required] Specifies the lifecycle action to take. Possible values: o DELETE o DEPRECATE o DISABLE includeResources -&gt; (structure) Specifies the resources that the lifecycle policy applies to. amis -&gt; (boolean) Specifies whether the lifecycle action should apply to distributed AMIs. snapshots -&gt; (boolean) Specifies whether the lifecycle action should apply to snapshots associated with distributed AMIs. containers -&gt; (boolean) Specifies whether the lifecycle action should apply to distributed containers. filter -&gt; (structure) [required] Specifies the resources that the lifecycle policy applies to. type -&gt; (string) [required] Filter resources based on either age or count . Possible values: o AGE o COUNT value -&gt; (integer) [required] The number of units for the time period or for the count. For example, a value of 6 might refer to six months or six AMIs. NOTE: For count-based filters, this value represents the minimum number of resources to keep on hand. If you have fewer resources than this number, the resource is excluded from lifecycle actions. Constraints: o min: 1 o max: 1000 unit -&gt; (string) Defines the unit of time that the lifecycle policy uses to determine impacted resources. This is required for age-based rules. Possible values: o DAYS o WEEKS o MONTHS o YEARS retainAtLeast -&gt; (integer) For age-based filters, this is the number of resources to keep on hand after the lifecycle DELETE action is ap- plied. Impacted resources are only deleted if you have more than this number of resources. If you have fewer re- sources than this number, the impacted resource is not deleted. Constraints: o min: 1 o max: 10 exclusionRules -&gt; (structure) Additional rules to specify resources that should be exempt from policy actions. tagMap -&gt; (map) Contains a list of tags that Image Builder uses to skip lifecycle actions for Image Builder image resources that have them. Constraints: o min: 1 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ^(?!aws:)[a-zA-Z0-9\s_.:/=+\-@]*$ value -&gt; (string) Constraints: o max: 256 amis -&gt; (structure) Lists configuration values that apply to AMIs that Image Builder should exclude from the lifecycle action. isPublic -&gt; (boolean) Configures whether public AMIs are excluded from the lifecycle action. regions -&gt; (list) Configures Amazon Web Services Regions that are ex- cluded from the lifecycle action. (string) Constraints: o min: 1 o max: 1024 sharedAccounts -&gt; (list) Specifies Amazon Web Services accounts whose resources are excluded from the lifecycle action. Constraints: o min: 1 o max: 1536 (string) Constraints: o pattern: ^[0-9]{12}$ lastLaunched -&gt; (structure) Specifies configuration details for Image Builder to exclude the most recent resources from lifecycle ac- tions. value -&gt; (integer) [required] The integer number of units for the time period. For example 6 (months). Constraints: o min: 1 o max: 365 unit -&gt; (string) [required] Defines the unit of time that the lifecycle policy uses to calculate elapsed time since the last in- stance launched from the AMI. For example: days, weeks, months, or years. Possible values: o DAYS o WEEKS o MONTHS o YEARS tagMap -&gt; (map) Lists tags that should be excluded from lifecycle ac- tions for the AMIs that have them. Constraints: o min: 1 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ^(?!aws:)[a-zA-Z0-9\s_.:/=+\-@]*$ value -&gt; (string) Constraints: o max: 256 JSON Syntax: [ { "action": { "type": "DELETE"|"DEPRECATE"|"DISABLE", "includeResources": { "amis": true|false, "snapshots": true|false, "containers": true|false } }, "filter": { "type": "AGE"|"COUNT", "value": integer, "unit": "DAYS"|"WEEKS"|"MONTHS"|"YEARS", "retainAtLeast": integer }, "exclusionRules": { "tagMap": {"string": "string" ...}, "amis": { "isPublic": true|false, "regions": ["string", ...], "sharedAccounts": ["string", ...], "lastLaunched": { "value": integer, "unit": "DAYS"|"WEEKS"|"MONTHS"|"YEARS" }, "tagMap": {"string": "string" ...} } } } ... ]</param>
+    /// <param name="ResourceSelection">Selection criteria for resources that the lifecycle policy applies to. recipes -&gt; (list) A list of recipes that are used as selection criteria for the output images that the lifecycle policy applies to. Constraints: o min: 1 o max: 50 (structure) Specifies an Image Builder recipe that the lifecycle policy uses for resource selection. name -&gt; (string) [required] The name of an Image Builder recipe that the lifecycle policy uses for resource selection. Constraints: o pattern: ^[-_A-Za-z-0-9][-_A-Za-z0-9 ]{1,126}[-_A-Za-z-0-9]$ semanticVersion -&gt; (string) [required] The version of the Image Builder recipe specified by the name field. Constraints: o pattern: ^(?:[0-9]+|x)\.(?:[0-9]+|x)\.(?:[0-9]+|x)$ tagMap -&gt; (map) A list of tags that are used as selection criteria for the Image Builder image resources that the lifecycle policy applies to. Constraints: o min: 1 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ^(?!aws:)[a-zA-Z0-9\s_.:/=+\-@]*$ value -&gt; (string) Constraints: o max: 256 Shorthand Syntax: recipes=[{name=string,semanticVersion=string},{name=string,semanticVersion=string}],tagMap={KeyName1=string,KeyName2=string} JSON Syntax: { "recipes": [ { "name": "string", "semanticVersion": "string" } ... ], "tagMap": {"string": "string" ...} }</param>
+    public AwsImagebuilderUpdateLifecyclePolicyOptions(
+        string LifecyclePolicyArn,
+        string ExecutionRole,
+        AwsImagebuilderUpdateLifecyclePolicyResourceType ResourceType,
+        IEnumerable<string> PolicyDetails,
+        string ResourceSelection
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(LifecyclePolicyArn);
+        this.LifecyclePolicyArn = LifecyclePolicyArn;
+        global::System.ArgumentNullException.ThrowIfNull(ExecutionRole);
+        this.ExecutionRole = ExecutionRole;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceType);
+        this.ResourceType = ResourceType;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(PolicyDetails);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(PolicyDetails));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(PolicyDetails));
+            }
+
+            PolicyDetails = materialized;
+        }
+        this.PolicyDetails = PolicyDetails;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceSelection);
+        this.ResourceSelection = ResourceSelection;
+    }
+
+    private AwsImagebuilderUpdateLifecyclePolicyOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsImagebuilderUpdateLifecyclePolicyOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsImagebuilderUpdateLifecyclePolicyOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the lifecycle policy resource. Constraints: o max: 1024 o pattern: ^arn:aws(?:-[a-z]+)*:image- builder:[a-z]{2,}(?:-[a-z]+)+-[0-9]+:(?:[0-9]{12}|aws):lifecy- cle-policy/[a-z0-9-_]+$
+    /// </summary>
     [CliOption("--lifecycle-policy-arn")]
-    public string? LifecyclePolicyArn { get; set; }
+    public string? LifecyclePolicyArn { get; private init; }
+
+    /// <summary>
+    /// The name or Amazon Resource Name (ARN) of the IAM role that Image Builder uses to update the lifecycle policy. Constraints: o min: 1 o max: 2048 o pattern: ^(?:arn:aws(?:-[a-z]+)*:iam::[0-9]{12}:role/)?[a-zA-Z_0-9+=,.@\-_/]+$
+    /// </summary>
+    [CliOption("--execution-role")]
+    public string? ExecutionRole { get; private init; }
+
+    /// <summary>
+    /// The type of image resource that the lifecycle policy applies to. Possible values: o AMI_IMAGE o CONTAINER_IMAGE
+    /// </summary>
+    [CliOption("--resource-type")]
+    public AwsImagebuilderUpdateLifecyclePolicyResourceType? ResourceType { get; private init; }
+
+    /// <summary>
+    /// The configuration details for a lifecycle policy resource. Constraints: o min: 1 o max: 3 (structure) The configuration details for a lifecycle policy resource. action -&gt; (structure) [required] Configuration details for the policy action. type -&gt; (string) [required] Specifies the lifecycle action to take. Possible values: o DELETE o DEPRECATE o DISABLE includeResources -&gt; (structure) Specifies the resources that the lifecycle policy applies to. amis -&gt; (boolean) Specifies whether the lifecycle action should apply to distributed AMIs. snapshots -&gt; (boolean) Specifies whether the lifecycle action should apply to snapshots associated with distributed AMIs. containers -&gt; (boolean) Specifies whether the lifecycle action should apply to distributed containers. filter -&gt; (structure) [required] Specifies the resources that the lifecycle policy applies to. type -&gt; (string) [required] Filter resources based on either age or count . Possible values: o AGE o COUNT value -&gt; (integer) [required] The number of units for the time period or for the count. For example, a value of 6 might refer to six months or six AMIs. NOTE: For count-based filters, this value represents the minimum number of resources to keep on hand. If you have fewer resources than this number, the resource is excluded from lifecycle actions. Constraints: o min: 1 o max: 1000 unit -&gt; (string) Defines the unit of time that the lifecycle policy uses to determine impacted resources. This is required for age-based rules. Possible values: o DAYS o WEEKS o MONTHS o YEARS retainAtLeast -&gt; (integer) For age-based filters, this is the number of resources to keep on hand after the lifecycle DELETE action is ap- plied. Impacted resources are only deleted if you have more than this number of resources. If you have fewer re- sources than this number, the impacted resource is not deleted. Constraints: o min: 1 o max: 10 exclusionRules -&gt; (structure) Additional rules to specify resources that should be exempt from policy actions. tagMap -&gt; (map) Contains a list of tags that Image Builder uses to skip lifecycle actions for Image Builder image resources that have them. Constraints: o min: 1 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ^(?!aws:)[a-zA-Z0-9\s_.:/=+\-@]*$ value -&gt; (string) Constraints: o max: 256 amis -&gt; (structure) Lists configuration values that apply to AMIs that Image Builder should exclude from the lifecycle action. isPublic -&gt; (boolean) Configures whether public AMIs are excluded from the lifecycle action. regions -&gt; (list) Configures Amazon Web Services Regions that are ex- cluded from the lifecycle action. (string) Constraints: o min: 1 o max: 1024 sharedAccounts -&gt; (list) Specifies Amazon Web Services accounts whose resources are excluded from the lifecycle action. Constraints: o min: 1 o max: 1536 (string) Constraints: o pattern: ^[0-9]{12}$ lastLaunched -&gt; (structure) Specifies configuration details for Image Builder to exclude the most recent resources from lifecycle ac- tions. value -&gt; (integer) [required] The integer number of units for the time period. For example 6 (months). Constraints: o min: 1 o max: 365 unit -&gt; (string) [required] Defines the unit of time that the lifecycle policy uses to calculate elapsed time since the last in- stance launched from the AMI. For example: days, weeks, months, or years. Possible values: o DAYS o WEEKS o MONTHS o YEARS tagMap -&gt; (map) Lists tags that should be excluded from lifecycle ac- tions for the AMIs that have them. Constraints: o min: 1 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ^(?!aws:)[a-zA-Z0-9\s_.:/=+\-@]*$ value -&gt; (string) Constraints: o max: 256 JSON Syntax: [ { "action": { "type": "DELETE"|"DEPRECATE"|"DISABLE", "includeResources": { "amis": true|false, "snapshots": true|false, "containers": true|false } }, "filter": { "type": "AGE"|"COUNT", "value": integer, "unit": "DAYS"|"WEEKS"|"MONTHS"|"YEARS", "retainAtLeast": integer }, "exclusionRules": { "tagMap": {"string": "string" ...}, "amis": { "isPublic": true|false, "regions": ["string", ...], "sharedAccounts": ["string", ...], "lastLaunched": { "value": integer, "unit": "DAYS"|"WEEKS"|"MONTHS"|"YEARS" }, "tagMap": {"string": "string" ...} } } } ... ]
+    /// </summary>
+    [CliOption("--policy-details", GroupValues = true)]
+    public IEnumerable<string>? PolicyDetails { get; private init; }
+
+    /// <summary>
+    /// Selection criteria for resources that the lifecycle policy applies to. recipes -&gt; (list) A list of recipes that are used as selection criteria for the output images that the lifecycle policy applies to. Constraints: o min: 1 o max: 50 (structure) Specifies an Image Builder recipe that the lifecycle policy uses for resource selection. name -&gt; (string) [required] The name of an Image Builder recipe that the lifecycle policy uses for resource selection. Constraints: o pattern: ^[-_A-Za-z-0-9][-_A-Za-z0-9 ]{1,126}[-_A-Za-z-0-9]$ semanticVersion -&gt; (string) [required] The version of the Image Builder recipe specified by the name field. Constraints: o pattern: ^(?:[0-9]+|x)\.(?:[0-9]+|x)\.(?:[0-9]+|x)$ tagMap -&gt; (map) A list of tags that are used as selection criteria for the Image Builder image resources that the lifecycle policy applies to. Constraints: o min: 1 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ^(?!aws:)[a-zA-Z0-9\s_.:/=+\-@]*$ value -&gt; (string) Constraints: o max: 256 Shorthand Syntax: recipes=[{name=string,semanticVersion=string},{name=string,semanticVersion=string}],tagMap={KeyName1=string,KeyName2=string} JSON Syntax: { "recipes": [ { "name": "string", "semanticVersion": "string" } ... ], "tagMap": {"string": "string" ...} }
+    /// </summary>
+    [CliOption("--resource-selection")]
+    public string? ResourceSelection { get; private init; }
 
     /// <summary>
     /// Optional description for the lifecycle policy. Constraints: o min: 1 o max: 1024
@@ -38,20 +126,8 @@ public record AwsImagebuilderUpdateLifecyclePolicyOptions : AwsOptions
     [CliOption("--status")]
     public AwsImagebuilderUpdateLifecyclePolicyStatus? Status { get; set; }
 
-    [CliOption("--execution-role")]
-    public string? ExecutionRole { get; set; }
-
-    [CliOption("--resource-type")]
-    public string? ResourceType { get; set; }
-
-    [CliOption("--policy-details", GroupValues = true)]
-    public IEnumerable<string>? PolicyDetails { get; set; }
-
-    [CliOption("--resource-selection")]
-    public string? ResourceSelection { get; set; }
-
     /// <summary>
-    /// Unique, case-sensitive identifier you provide to ensure idempotency of the request. For more information, see Ensuring idempotency in the Amazon EC2 API Reference . Constraints: o min: 1 o max: 64
+    /// A unique, case-sensitive identifier you provide to ensure that the operation completes no more than one time. If this token matches a previous request, the service ignores the request, but does not re- turn an error. For more information, see Ensuring idempotency in the Amazon EC2 API Reference . Constraints: o min: 1 o max: 64
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
@@ -62,5 +138,22 @@ public record AwsImagebuilderUpdateLifecyclePolicyOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

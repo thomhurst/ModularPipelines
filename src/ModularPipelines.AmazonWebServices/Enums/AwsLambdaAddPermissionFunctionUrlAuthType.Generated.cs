@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --functionurlauthtype.
+/// Allowed values for --function-url-auth-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsLambdaAddPermissionFunctionUrlAuthType
 {
-    [EnumValue("NONE")]
-    None = 1,
-
     [EnumValue("AWS_IAM")]
-    AwsIam = 2
+    AwsIam,
+
+    [EnumValue("NONE")]
+    None
 }

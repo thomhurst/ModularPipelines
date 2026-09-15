@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +20,88 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("quicksight", "start-dashboard-snapshot-job-schedule")]
-public record AwsQuicksightStartDashboardSnapshotJobScheduleOptions : AwsOptions
+public record AwsQuicksightStartDashboardSnapshotJobScheduleOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Starts an asynchronous job that runs an existing dashboard schedule and sends the dashboard snapshot through email. Only one job can run simultaneously in a given schedule. Repeated re- quests are skipped with a 202 HTTP status code. For more information, see Scheduling and sending Amazon Quick Sight re- ports by email and Configuring email report settings for a Amazon Quick Sight dashboard in the Amazon Quick Sight User Guide . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="AwsAccountId">The ID of the Amazon Web Services account that the dashboard snap- shot job is executed in. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$</param>
+    /// <param name="DashboardId">The ID of the dashboard that you want to start a snapshot job sched- ule for. Constraints: o min: 1 o max: 512 o pattern: [\w\-]+</param>
+    /// <param name="ScheduleId">The ID of the schedule that you want to start a snapshot job sched- ule for. The schedule ID can be found in the Amazon Quick Sight con- sole in the Schedules pane of the dashboard that the schedule is configured for. Constraints: o min: 1 o max: 512 o pattern: [\w\-]+</param>
+    public AwsQuicksightStartDashboardSnapshotJobScheduleOptions(
+        string AwsAccountId,
+        string DashboardId,
+        string ScheduleId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AwsAccountId);
+        this.AwsAccountId = AwsAccountId;
+        global::System.ArgumentNullException.ThrowIfNull(DashboardId);
+        this.DashboardId = DashboardId;
+        global::System.ArgumentNullException.ThrowIfNull(ScheduleId);
+        this.ScheduleId = ScheduleId;
+    }
+
+    private AwsQuicksightStartDashboardSnapshotJobScheduleOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsQuicksightStartDashboardSnapshotJobScheduleOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsQuicksightStartDashboardSnapshotJobScheduleOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the Amazon Web Services account that the dashboard snap- shot job is executed in. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$
+    /// </summary>
     [CliOption("--aws-account-id")]
-    public string? AwsAccountId { get; set; }
+    public string? AwsAccountId { get; private init; }
 
+    /// <summary>
+    /// The ID of the dashboard that you want to start a snapshot job sched- ule for. Constraints: o min: 1 o max: 512 o pattern: [\w\-]+
+    /// </summary>
     [CliOption("--dashboard-id")]
-    public string? DashboardId { get; set; }
+    public string? DashboardId { get; private init; }
 
+    /// <summary>
+    /// The ID of the schedule that you want to start a snapshot job sched- ule for. The schedule ID can be found in the Amazon Quick Sight con- sole in the Schedules pane of the dashboard that the schedule is configured for. Constraints: o min: 1 o max: 512 o pattern: [\w\-]+
+    /// </summary>
     [CliOption("--schedule-id")]
-    public string? ScheduleId { get; set; }
+    public string? ScheduleId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

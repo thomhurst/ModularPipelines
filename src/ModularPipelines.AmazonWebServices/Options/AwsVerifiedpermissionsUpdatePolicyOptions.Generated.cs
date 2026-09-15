@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +20,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("verifiedpermissions", "update-policy")]
-public record AwsVerifiedpermissionsUpdatePolicyOptions : AwsOptions
+public record AwsVerifiedpermissionsUpdatePolicyOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--policy-store-id")]
-    public string? PolicyStoreId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Modifies a Cedar static policy in the specified policy store. You can change only certain elements of the UpdatePolicyDefinition parameter. You can directly update only static policies. To change a tem- plate-linked policy, you must update the template instead, using UpdatePolicyTemplate . NOTE: o If policy validation is enabled in the policy store, then updating a static policy causes Verified Permissions to validate the policy against the schema in the policy store. If the updated static pol- ...
+    /// </summary>
+    /// <param name="PolicyStoreId">Specifies the ID of the policy store that contains the policy that you want to update. To specify a policy store, use its ID or alias name. When using an alias name, prefix it with policy-store-alias/ . For example: o ID: PSEXAMPLEabcdefg111111 o Alias name: policy-store-alias/example-policy-store To view aliases, use ListPolicyStoreAliases . Constraints: o min: 1 o max: 200 o pattern: [a-zA-Z0-9-/_]*</param>
+    /// <param name="PolicyId">Specifies the ID of the policy that you want to update. To find this value, you can use ListPolicies . You can use the policy name in place of the policy ID. When using a name, prefix it with name/ . For example: o ID: SPEXAMPLEabcdefg111111 o Name: name/example-policy Constraints: o min: 1 o max: 200 o pattern: [a-zA-Z0-9-/_]*</param>
+    public AwsVerifiedpermissionsUpdatePolicyOptions(
+        string PolicyStoreId,
+        string PolicyId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PolicyStoreId);
+        this.PolicyStoreId = PolicyStoreId;
+        global::System.ArgumentNullException.ThrowIfNull(PolicyId);
+        this.PolicyId = PolicyId;
+    }
+
+    private AwsVerifiedpermissionsUpdatePolicyOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsVerifiedpermissionsUpdatePolicyOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsVerifiedpermissionsUpdatePolicyOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Specifies the ID of the policy store that contains the policy that you want to update. To specify a policy store, use its ID or alias name. When using an alias name, prefix it with policy-store-alias/ . For example: o ID: PSEXAMPLEabcdefg111111 o Alias name: policy-store-alias/example-policy-store To view aliases, use ListPolicyStoreAliases . Constraints: o min: 1 o max: 200 o pattern: [a-zA-Z0-9-/_]*
+    /// </summary>
+    [CliOption("--policy-store-id")]
+    public string? PolicyStoreId { get; private init; }
+
+    /// <summary>
+    /// Specifies the ID of the policy that you want to update. To find this value, you can use ListPolicies . You can use the policy name in place of the policy ID. When using a name, prefix it with name/ . For example: o ID: SPEXAMPLEabcdefg111111 o Name: name/example-policy Constraints: o min: 1 o max: 200 o pattern: [a-zA-Z0-9-/_]*
+    /// </summary>
     [CliOption("--policy-id")]
-    public string? PolicyId { get; set; }
+    public string? PolicyId { get; private init; }
 
     /// <summary>
     /// Specifies the updated policy content that you want to replace on the specified policy. The content must be valid Cedar policy language text. If you don't specify this parameter, the existing policy definition remains unchanged. You can change only the following elements from the policy defini- tion: o The action referenced by the policy. o Any conditional clauses, such as when or unless clauses. You can't change the following elements: o Changing from static to templateLinked . o Changing the effect of the policy from permit or forbid . o The principal referenced by the policy. o The resource referenced by the policy. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: static. static -&gt; (structure) Contains details about the updates to be applied to a static policy. description -&gt; (string) Specifies the description to be added to or replaced on the static policy. Constraints: o min: 0 o max: 150 statement -&gt; (string) [required] Specifies the Cedar policy language text to be added to or replaced on the static policy. WARNING: You can change only the following elements from the orig- inal content: o The action referenced by the policy. o Any conditional clauses, such as when or unless clauses. You can't change the following elements: o Changing from StaticPolicy to TemplateLinkedPolicy . o The effect (permit or forbid ) of the policy. o The principal referenced by the policy. o The resource referenced by the policy. Constraints: o min: 1 Shorthand Syntax: static={description=string,statement=string} JSON Syntax: { "static": { "description": "string", "statement": "string" } }
@@ -44,5 +88,22 @@ public record AwsVerifiedpermissionsUpdatePolicyOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

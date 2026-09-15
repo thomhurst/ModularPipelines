@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --profileownertype.
+/// Allowed values for --profile-owner-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsWellarchitectedListProfilesProfileOwnerType
 {
     [EnumValue("SELF")]
-    Self = 1,
+    Self,
 
     [EnumValue("SHARED")]
-    Shared = 2
+    Shared
 }

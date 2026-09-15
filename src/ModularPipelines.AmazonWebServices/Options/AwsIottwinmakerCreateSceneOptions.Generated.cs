@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,16 +21,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iottwinmaker", "create-scene")]
-public record AwsIottwinmakerCreateSceneOptions : AwsOptions
+public record AwsIottwinmakerCreateSceneOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a scene. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="WorkspaceId">The ID of the workspace that contains the scene. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z_0-9][a-zA-Z_\-0-9]*[a-zA-Z0-9]+</param>
+    /// <param name="SceneId">The ID of the scene. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z_0-9][a-zA-Z_\-0-9]*[a-zA-Z0-9]+</param>
+    /// <param name="ContentLocation">The relative path that specifies the location of the content defini- tion file. Constraints: o min: 0 o max: 256 o pattern: [sS]3://[A-Za-z0-9._/-]+</param>
+    public AwsIottwinmakerCreateSceneOptions(
+        string WorkspaceId,
+        string SceneId,
+        string ContentLocation
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(WorkspaceId);
+        this.WorkspaceId = WorkspaceId;
+        global::System.ArgumentNullException.ThrowIfNull(SceneId);
+        this.SceneId = SceneId;
+        global::System.ArgumentNullException.ThrowIfNull(ContentLocation);
+        this.ContentLocation = ContentLocation;
+    }
+
+    private AwsIottwinmakerCreateSceneOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsIottwinmakerCreateSceneOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsIottwinmakerCreateSceneOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the workspace that contains the scene. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z_0-9][a-zA-Z_\-0-9]*[a-zA-Z0-9]+
+    /// </summary>
     [CliOption("--workspace-id")]
-    public string? WorkspaceId { get; set; }
+    public string? WorkspaceId { get; private init; }
 
+    /// <summary>
+    /// The ID of the scene. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z_0-9][a-zA-Z_\-0-9]*[a-zA-Z0-9]+
+    /// </summary>
     [CliOption("--scene-id")]
-    public string? SceneId { get; set; }
+    public string? SceneId { get; private init; }
 
+    /// <summary>
+    /// The relative path that specifies the location of the content defini- tion file. Constraints: o min: 0 o max: 256 o pattern: [sS]3://[A-Za-z0-9._/-]+
+    /// </summary>
     [CliOption("--content-location")]
-    public string? ContentLocation { get; set; }
+    public string? ContentLocation { get; private init; }
 
     /// <summary>
     /// The description for this scene. Constraints: o min: 0 o max: 2048 o pattern: .*
@@ -60,5 +111,22 @@ public record AwsIottwinmakerCreateSceneOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

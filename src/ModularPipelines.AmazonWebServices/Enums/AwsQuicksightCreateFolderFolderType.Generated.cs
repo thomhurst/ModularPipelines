@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --foldertype.
+/// Allowed values for --folder-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsQuicksightCreateFolderFolderType
 {
-    [EnumValue("SHARED")]
-    Shared = 1,
-
     [EnumValue("RESTRICTED")]
-    Restricted = 2
+    Restricted,
+
+    [EnumValue("SHARED")]
+    Shared
 }

@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("apigatewayv2", "create-route-response")]
-public record AwsApigatewayv2CreateRouteResponseOptions : AwsOptions
+public record AwsApigatewayv2CreateRouteResponseOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a RouteResponse for a Route. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ApiId">The API identifier.</param>
+    /// <param name="RouteId">The route ID.</param>
+    /// <param name="RouteResponseKey">The route response key.</param>
+    public AwsApigatewayv2CreateRouteResponseOptions(
+        string ApiId,
+        string RouteId,
+        string RouteResponseKey
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ApiId);
+        this.ApiId = ApiId;
+        global::System.ArgumentNullException.ThrowIfNull(RouteId);
+        this.RouteId = RouteId;
+        global::System.ArgumentNullException.ThrowIfNull(RouteResponseKey);
+        this.RouteResponseKey = RouteResponseKey;
+    }
+
+    private AwsApigatewayv2CreateRouteResponseOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsApigatewayv2CreateRouteResponseOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsApigatewayv2CreateRouteResponseOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The API identifier.
+    /// </summary>
     [CliOption("--api-id")]
-    public string? ApiId { get; set; }
+    public string? ApiId { get; private init; }
+
+    /// <summary>
+    /// The route ID.
+    /// </summary>
+    [CliOption("--route-id")]
+    public string? RouteId { get; private init; }
+
+    /// <summary>
+    /// The route response key.
+    /// </summary>
+    [CliOption("--route-response-key")]
+    public string? RouteResponseKey { get; private init; }
 
     /// <summary>
     /// The model selection expression for the route response. Supported only for WebSocket APIs.
@@ -43,16 +100,27 @@ public record AwsApigatewayv2CreateRouteResponseOptions : AwsOptions
     [CliOption("--response-parameters", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? ResponseParameters { get; set; }
 
-    [CliOption("--route-id")]
-    public string? RouteId { get; set; }
-
-    [CliOption("--route-response-key")]
-    public string? RouteResponseKey { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

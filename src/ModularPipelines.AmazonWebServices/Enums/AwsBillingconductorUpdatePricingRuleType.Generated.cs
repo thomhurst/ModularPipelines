@@ -16,12 +16,12 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsBillingconductorUpdatePricingRuleType
 {
-    [EnumValue("MARKUP")]
-    Markup = 1,
-
     [EnumValue("DISCOUNT")]
-    Discount = 2,
+    Discount,
+
+    [EnumValue("MARKUP")]
+    Markup,
 
     [EnumValue("TIERING")]
-    Tiering = 3
+    Tiering
 }

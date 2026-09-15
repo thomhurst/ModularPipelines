@@ -29,7 +29,7 @@ public record AwsLambdaListEventSourceMappingsOptions : AwsOptions
     public string? EventSourceArn { get; set; }
 
     /// <summary>
-    /// The name or ARN of the Lambda function. Name formats o Function name MyFunction . o Function ARN arn:aws:lambda:us-west-2:123456789012:function:My- Function . o Version or Alias ARN arn:aws:lambda:us-west-2:123456789012:func- tion:MyFunction:PROD . o Partial ARN 123456789012:function:MyFunction . The length constraint applies only to the full ARN. If you specify only the function name, it's limited to 64 characters in length. Constraints: o min: 1 o max: 256 o pattern: (arn:(aws[a-zA-Z-]*)?:lambda:(eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\d{1}:\d{12}:|(((eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\d{1}:)?(\d{12}:)?))(func- tion:)?([a-zA-Z0-9-_\.]+)(:(\$LATEST(\.PUB- LISHED)?|[a-zA-Z0-9-_]+))?
+    /// The name or ARN of the Lambda function. Name formats o Function name MyFunction . o Function ARN arn:aws:lambda:us-west-2:123456789012:function:My- Function . o Version or Alias ARN arn:aws:lambda:us-west-2:123456789012:func- tion:MyFunction:PROD . o Partial ARN 123456789012:function:MyFunction . The length constraint applies only to the full ARN. If you specify only the function name, it's limited to 64 characters in length. Constraints: o min: 1 o max: 256 o pattern: (arn:(aws[a-zA-Z-]*)?:lambda:)?((eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\d{1}:)?(\d{12}:)?(func- tion:)?([a-zA-Z0-9-_\.]+)(:(\$LATEST(\.PUB- LISHED)?|[a-zA-Z0-9-_]+))?
     /// </summary>
     [CliOption("--function-name")]
     public string? FunctionName { get; set; }

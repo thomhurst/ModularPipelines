@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,22 +21,86 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("rekognition", "copy-project-version")]
-public record AwsRekognitionCopyProjectVersionOptions : AwsOptions
+public record AwsRekognitionCopyProjectVersionOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// NOTE: This operation applies only to Amazon Rekognition Custom Labels. Copies a version of an Amazon Rekognition Custom Labels model from a source project to a destination project. The source and destination projects can be in different AWS accounts but must be in the same AWS Region. You can't copy a model to another AWS service. To copy a model version to a different AWS account, you need to create a resource-based policy known as a project policy . You attach the project policy to the source ...
+    /// </summary>
+    /// <param name="SourceProjectArn">The ARN of the source project in the trusting AWS account. Constraints: o min: 20 o max: 2048 o pattern: (^arn:[a-z\d-]+:rekogni- tion:[a-z\d-]+:\d{12}:project\/[a-zA-Z0-9_.\-]{1,255}\/[0-9]+$)</param>
+    /// <param name="SourceProjectVersionArn">The ARN of the model version in the source project that you want to copy to a destination project. Constraints: o min: 20 o max: 2048 o pattern: (^arn:[a-z\d-]+:rekogni- tion:[a-z\d-]+:\d{12}:project\/[a-zA-Z0-9_.\-]{1,255}\/ver- sion\/[a-zA-Z0-9_.\-]{1,255}\/[0-9]+$)</param>
+    /// <param name="DestinationProjectArn">The ARN of the project in the trusted AWS account that you want to copy the model version to. Constraints: o min: 20 o max: 2048 o pattern: (^arn:[a-z\d-]+:rekogni- tion:[a-z\d-]+:\d{12}:project\/[a-zA-Z0-9_.\-]{1,255}\/[0-9]+$)</param>
+    /// <param name="VersionName">A name for the version of the model that's copied to the destination project. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z0-9_.\-]+</param>
+    /// <param name="OutputConfig">The S3 bucket and folder location where the training output for the source model version is placed. S3Bucket -&gt; (string) The S3 bucket where training output is placed. Constraints: o min: 3 o max: 255 o pattern: [0-9A-Za-z\.\-_]* S3KeyPrefix -&gt; (string) The prefix applied to the training output files. Constraints: o max: 1024 Shorthand Syntax: S3Bucket=string,S3KeyPrefix=string JSON Syntax: { "S3Bucket": "string", "S3KeyPrefix": "string" }</param>
+    public AwsRekognitionCopyProjectVersionOptions(
+        string SourceProjectArn,
+        string SourceProjectVersionArn,
+        string DestinationProjectArn,
+        string VersionName,
+        string OutputConfig
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SourceProjectArn);
+        this.SourceProjectArn = SourceProjectArn;
+        global::System.ArgumentNullException.ThrowIfNull(SourceProjectVersionArn);
+        this.SourceProjectVersionArn = SourceProjectVersionArn;
+        global::System.ArgumentNullException.ThrowIfNull(DestinationProjectArn);
+        this.DestinationProjectArn = DestinationProjectArn;
+        global::System.ArgumentNullException.ThrowIfNull(VersionName);
+        this.VersionName = VersionName;
+        global::System.ArgumentNullException.ThrowIfNull(OutputConfig);
+        this.OutputConfig = OutputConfig;
+    }
+
+    private AwsRekognitionCopyProjectVersionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRekognitionCopyProjectVersionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRekognitionCopyProjectVersionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ARN of the source project in the trusting AWS account. Constraints: o min: 20 o max: 2048 o pattern: (^arn:[a-z\d-]+:rekogni- tion:[a-z\d-]+:\d{12}:project\/[a-zA-Z0-9_.\-]{1,255}\/[0-9]+$)
+    /// </summary>
     [CliOption("--source-project-arn")]
-    public string? SourceProjectArn { get; set; }
+    public string? SourceProjectArn { get; private init; }
 
+    /// <summary>
+    /// The ARN of the model version in the source project that you want to copy to a destination project. Constraints: o min: 20 o max: 2048 o pattern: (^arn:[a-z\d-]+:rekogni- tion:[a-z\d-]+:\d{12}:project\/[a-zA-Z0-9_.\-]{1,255}\/ver- sion\/[a-zA-Z0-9_.\-]{1,255}\/[0-9]+$)
+    /// </summary>
     [CliOption("--source-project-version-arn")]
-    public string? SourceProjectVersionArn { get; set; }
+    public string? SourceProjectVersionArn { get; private init; }
 
+    /// <summary>
+    /// The ARN of the project in the trusted AWS account that you want to copy the model version to. Constraints: o min: 20 o max: 2048 o pattern: (^arn:[a-z\d-]+:rekogni- tion:[a-z\d-]+:\d{12}:project\/[a-zA-Z0-9_.\-]{1,255}\/[0-9]+$)
+    /// </summary>
     [CliOption("--destination-project-arn")]
-    public string? DestinationProjectArn { get; set; }
+    public string? DestinationProjectArn { get; private init; }
 
+    /// <summary>
+    /// A name for the version of the model that's copied to the destination project. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z0-9_.\-]+
+    /// </summary>
     [CliOption("--version-name")]
-    public string? VersionName { get; set; }
+    public string? VersionName { get; private init; }
 
+    /// <summary>
+    /// The S3 bucket and folder location where the training output for the source model version is placed. S3Bucket -&gt; (string) The S3 bucket where training output is placed. Constraints: o min: 3 o max: 255 o pattern: [0-9A-Za-z\.\-_]* S3KeyPrefix -&gt; (string) The prefix applied to the training output files. Constraints: o max: 1024 Shorthand Syntax: S3Bucket=string,S3KeyPrefix=string JSON Syntax: { "S3Bucket": "string", "S3KeyPrefix": "string" }
+    /// </summary>
     [CliOption("--output-config")]
-    public string? OutputConfig { get; set; }
+    public string? OutputConfig { get; private init; }
 
     /// <summary>
     /// The key-value tags to assign to the model version. Constraints: o min: 0 o max: 200 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ^(?!aws:)[\p{L}\p{Z}\p{N}_.:/=+\-@]*$ value -&gt; (string) Constraints: o min: 0 o max: 256 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
@@ -54,5 +119,22 @@ public record AwsRekognitionCopyProjectVersionOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

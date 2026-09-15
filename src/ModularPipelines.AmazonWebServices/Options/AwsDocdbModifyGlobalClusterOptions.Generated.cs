@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("docdb", "modify-global-cluster")]
-public record AwsDocdbModifyGlobalClusterOptions : AwsOptions
+public record AwsDocdbModifyGlobalClusterOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Modify a setting for an Amazon DocumentDB global cluster. You can change one or more configuration parameters (for example: deletion pro- tection), or the global cluster identifier by specifying these parame- ters and the new values in the request. NOTE: This action only applies to Amazon DocumentDB clusters. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="GlobalClusterIdentifier">The identifier for the global cluster being modified. This parameter isn't case-sensitive. Constraints: o Must match the identifier of an existing global cluster. Constraints: o min: 1 o max: 255 o pattern: [A-Za-z][0-9A-Za-z-:._]*</param>
+    public AwsDocdbModifyGlobalClusterOptions(
+        string GlobalClusterIdentifier
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(GlobalClusterIdentifier);
+        this.GlobalClusterIdentifier = GlobalClusterIdentifier;
+    }
+
+    private AwsDocdbModifyGlobalClusterOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDocdbModifyGlobalClusterOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDocdbModifyGlobalClusterOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier for the global cluster being modified. This parameter isn't case-sensitive. Constraints: o Must match the identifier of an existing global cluster. Constraints: o min: 1 o max: 255 o pattern: [A-Za-z][0-9A-Za-z-:._]*
+    /// </summary>
     [CliOption("--global-cluster-identifier")]
-    public string? GlobalClusterIdentifier { get; set; }
+    public string? GlobalClusterIdentifier { get; private init; }
 
     /// <summary>
     /// The new identifier for a global cluster when you modify a global cluster. This value is stored as a lowercase string. o Must contain from 1 to 63 letters, numbers, or hyphens The first character must be a letter Can't end with a hyphen or contain two consecutive hyphens Example: my-cluster2 Constraints: o min: 1 o max: 255 o pattern: [A-Za-z][0-9A-Za-z-:._]*
@@ -30,7 +67,10 @@ public record AwsDocdbModifyGlobalClusterOptions : AwsOptions
     [CliOption("--new-global-cluster-identifier")]
     public string? NewGlobalClusterIdentifier { get; set; }
 
-    [CliFlag("--deletion-protection")]
+    /// <summary>
+    /// Indicates if the global cluster has deletion protection enabled. The global cluster can't be deleted when deletion protection is enabled.
+    /// </summary>
+    [CliFlag("--deletion-protection", NegatedName = "--no-deletion-protection")]
     public bool? DeletionProtection { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -38,5 +78,22 @@ public record AwsDocdbModifyGlobalClusterOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

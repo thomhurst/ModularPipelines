@@ -11,38 +11,41 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --trafficsourcetype.
+/// Allowed values for --traffic-source-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsAutoscalingDescribeTrafficSourcesTrafficSourceType
 {
-    [EnumValue("elb")]
-    Elb = 1,
-
-    [EnumValue("if")]
-    If = 2,
-
-    [EnumValue("the")]
-    The = 3,
-
-    [EnumValue("traffic")]
-    Traffic = 4,
-
-    [EnumValue("source")]
-    Source = 5,
-
-    [EnumValue("is")]
-    Is = 6,
-
     [EnumValue("a")]
-    A = 7,
-
-    [EnumValue("Classic")]
-    Classic = 8,
-
-    [EnumValue("Load")]
-    Load = 9,
+    A,
 
     [EnumValue("Balancer")]
-    Balancer = 10
+    Balancer,
+
+    [EnumValue("Classic")]
+    Classic,
+
+    [EnumValue("elb")]
+    Elb,
+
+    [EnumValue("if")]
+    If,
+
+    [EnumValue("is")]
+    Is,
+
+    [EnumValue("Load")]
+    Load,
+
+    [EnumValue("o")]
+    O,
+
+    [EnumValue("source")]
+    Source,
+
+    [EnumValue("the")]
+    The,
+
+    [EnumValue("traffic")]
+    Traffic
 }

@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,28 +22,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("rds", "create-db-instance")]
-public record AwsRdsCreateDbInstanceOptions : AwsOptions
+public record AwsRdsCreateDbInstanceOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a new DB instance. The new DB instance can be an RDS DB instance, or it can be a DB in- stance in an Aurora DB cluster. For an Aurora DB cluster, you can call this operation multiple times to add more than one DB instance to the cluster. For more information about creating an RDS DB instance, see Creating an Amazon RDS DB instance in the Amazon RDS User Guide . For more information about creating a DB instance in an Aurora DB clus- ter, see Creating an Amazon Aurora DB cluster in the Ama...
+    /// </summary>
+    /// <param name="DbInstanceIdentifier">The identifier for this DB instance. This parameter is stored as a lowercase string. Constraints: o Must contain from 1 to 63 letters, numbers, or hyphens. o First character must be a letter. o Can't end with a hyphen or contain two consecutive hyphens. Example: mydbinstance</param>
+    /// <param name="DbInstanceClass">The compute and memory capacity of the DB instance, for example db.m5.large . Not all DB instance classes are available in all Ama- zon Web Services Regions, or for all database engines. For the full list of DB instance classes, and availability for your engine, see DB instance classes in the Amazon RDS User Guide or Aurora DB in- stance classes in the Amazon Aurora User Guide .</param>
+    /// <param name="Engine">The database engine to use for this DB instance. Not every database engine is available in every Amazon Web Services Region. Valid Values: o aurora-mysql (for Aurora MySQL DB instances) o aurora-postgresql (for Aurora PostgreSQL DB instances) o custom-oracle-ee (for RDS Custom for Oracle DB instances) o custom-oracle-ee-cdb (for RDS Custom for Oracle DB instances) o custom-oracle-se2 (for RDS Custom for Oracle DB instances) o custom-oracle-se2-cdb (for RDS Custom for Oracle DB instances) o custom-sqlserver-ee (for RDS Custom for SQL Server DB instances) o custom-sqlserver-se (for RDS Custom for SQL Server DB instances) o custom-sqlserver-web (for RDS Custom for SQL Server DB instances) o custom-sqlserver-dev (for RDS Custom for SQL Server DB instances) o db2-ae o db2-ce o db2-se o mariadb o mysql o oracle-ee o oracle-ee-cdb o oracle-se2 o oracle-se2-cdb o postgres o sqlserver-dev-ee o sqlserver-ee o sqlserver-se o sqlserver-ex o sqlserver-web</param>
+    public AwsRdsCreateDbInstanceOptions(
+        string DbInstanceIdentifier,
+        string DbInstanceClass,
+        string Engine
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DbInstanceIdentifier);
+        this.DbInstanceIdentifier = DbInstanceIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(DbInstanceClass);
+        this.DbInstanceClass = DbInstanceClass;
+        global::System.ArgumentNullException.ThrowIfNull(Engine);
+        this.Engine = Engine;
+    }
+
+    private AwsRdsCreateDbInstanceOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRdsCreateDbInstanceOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRdsCreateDbInstanceOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier for this DB instance. This parameter is stored as a lowercase string. Constraints: o Must contain from 1 to 63 letters, numbers, or hyphens. o First character must be a letter. o Can't end with a hyphen or contain two consecutive hyphens. Example: mydbinstance
+    /// </summary>
+    [CliOption("--db-instance-identifier")]
+    public string? DbInstanceIdentifier { get; private init; }
+
+    /// <summary>
+    /// The compute and memory capacity of the DB instance, for example db.m5.large . Not all DB instance classes are available in all Ama- zon Web Services Regions, or for all database engines. For the full list of DB instance classes, and availability for your engine, see DB instance classes in the Amazon RDS User Guide or Aurora DB in- stance classes in the Amazon Aurora User Guide .
+    /// </summary>
+    [CliOption("--db-instance-class")]
+    public string? DbInstanceClass { get; private init; }
+
+    /// <summary>
+    /// The database engine to use for this DB instance. Not every database engine is available in every Amazon Web Services Region. Valid Values: o aurora-mysql (for Aurora MySQL DB instances) o aurora-postgresql (for Aurora PostgreSQL DB instances) o custom-oracle-ee (for RDS Custom for Oracle DB instances) o custom-oracle-ee-cdb (for RDS Custom for Oracle DB instances) o custom-oracle-se2 (for RDS Custom for Oracle DB instances) o custom-oracle-se2-cdb (for RDS Custom for Oracle DB instances) o custom-sqlserver-ee (for RDS Custom for SQL Server DB instances) o custom-sqlserver-se (for RDS Custom for SQL Server DB instances) o custom-sqlserver-web (for RDS Custom for SQL Server DB instances) o custom-sqlserver-dev (for RDS Custom for SQL Server DB instances) o db2-ae o db2-ce o db2-se o mariadb o mysql o oracle-ee o oracle-ee-cdb o oracle-se2 o oracle-se2-cdb o postgres o sqlserver-dev-ee o sqlserver-ee o sqlserver-se o sqlserver-ex o sqlserver-web
+    /// </summary>
+    [CliOption("--engine")]
+    public string? Engine { get; private init; }
+
     /// <summary>
     /// The meaning of this parameter differs according to the database en- gine you use. Amazon Aurora MySQL The name of the database to create when the primary DB instance of the Aurora MySQL DB cluster is created. If this parameter isn't specified for an Aurora MySQL DB cluster, no database is created in the DB cluster. Constraints: o Must contain 1 to 64 alphanumeric characters. o Must begin with a letter. Subsequent characters can be letters, underscores, or digits (0-9). o Can't be a word reserved by the database engine. Amazon Aurora PostgreSQL The name of the database to create when the primary DB instance of the Aurora PostgreSQL DB cluster is created. A database named post- gres is always created. If this parameter is specified, an addi- tional database with this name is created. Constraints: o It must contain 1 to 63 alphanumeric characters. o Must begin with a letter. Subsequent characters can be letters, underscores, or digits (0 to 9). o Can't be a word reserved by the database engine. Amazon RDS Custom for Oracle The Oracle System ID (SID) of the created RDS Custom DB instance. If you don't specify a value, the default value is ORCL for non-CDBs and RDSCDB for CDBs. Default: ORCL Constraints: o Must contain 1 to 8 alphanumeric characters. o Must contain a letter. o Can't be a word reserved by the database engine. Amazon RDS Custom for SQL Server Not applicable. Must be null. RDS for Db2 The name of the database to create when the DB instance is created. If this parameter isn't specified, no database is created in the DB instance. In some cases, we recommend that you don't add a database name. For more information, see Additional considerations in the Amazon RDS User Guide . Constraints: o Must contain 1 to 64 letters or numbers. o Must begin with a letter. Subsequent characters can be letters, underscores, or digits (0-9). o Can't be a word reserved by the specified database engine. RDS for MariaDB The name of the database to create when the DB instance is created. If this parameter isn't specified, no database is created in the DB instance. Constraints: o Must contain 1 to 64 letters or numbers. o Must begin with a letter. Subsequent characters can be letters, underscores, or digits (0-9). o Can't be a word reserved by the specified database engine. RDS for MySQL The name of the database to create when the DB instance is created. If this parameter isn't specified, no database is created in the DB instance. Constraints: o Must contain 1 to 64 letters or numbers. o Must begin with a letter. Subsequent characters can be letters, underscores, or digits (0-9). o Can't be a word reserved by the specified database engine. RDS for Oracle The Oracle System ID (SID) of the created DB instance. If you don't specify a value, the default value is ORCL . You can't specify the string null , or any other reserved word, for DBName . Default: ORCL Constraints: o Can't be longer than 8 characters. RDS for PostgreSQL The name of the database to create when the DB instance is created. A database named postgres is always created. If this parameter is specified, an additional database with this name is created. Constraints: o Must contain 1 to 63 letters, numbers, or underscores. o Must begin with a letter. Subsequent characters can be letters, underscores, or digits (0-9). o Can't be a word reserved by the specified database engine. RDS for SQL Server Not applicable. Must be null.
     /// </summary>
     [CliOption("--db-name")]
     public string? DbName { get; set; }
 
-    [CliOption("--db-instance-identifier")]
-    public string? DbInstanceIdentifier { get; set; }
-
     /// <summary>
     /// The amount of storage in gibibytes (GiB) to allocate for the DB in- stance. This setting doesn't apply to Amazon Aurora DB instances. Aurora cluster volumes automatically grow as the amount of data in your database increases, though you are only charged for the space that you use in an Aurora cluster volume. Amazon RDS Custom Constraints to the amount of storage for each storage type are the following: o General Purpose (SSD) storage (gp2, gp3): Must be an integer from 40 to 65536 for RDS Custom for Oracle, 16384 for RDS Custom for SQL Server. o Provisioned IOPS storage (io1, io2): Must be an integer from 40 to 65536 for RDS Custom for Oracle, 16384 for RDS Custom for SQL Server. RDS for Db2 Constraints to the amount of storage for each storage type are the following: o General Purpose (SSD) storage (gp3): Must be an integer from 20 to 65536. o Provisioned IOPS storage (io1, io2): Must be an integer from 100 to 65536. RDS for MariaDB Constraints to the amount of storage for each storage type are the following: o General Purpose (SSD) storage (gp2, gp3): Must be an integer from 20 to 65536. o Provisioned IOPS storage (io1, io2): Must be an integer from 100 to 65536. o Magnetic storage (standard): Must be an integer from 5 to 3072. RDS for MySQL Constraints to the amount of storage for each storage type are the following: o General Purpose (SSD) storage (gp2, gp3): Must be an integer from 20 to 65536. o Provisioned IOPS storage (io1, io2): Must be an integer from 100 to 65536. o Magnetic storage (standard): Must be an integer from 5 to 3072. RDS for Oracle Constraints to the amount of storage for each storage type are the following: o General Purpose (SSD) storage (gp2, gp3): Must be an integer from 20 to 65536. o Provisioned IOPS storage (io1, io2): Must be an integer from 100 to 65536. o Magnetic storage (standard): Must be an integer from 10 to 3072. RDS for PostgreSQL Constraints to the amount of storage for each storage type are the following: o General Purpose (SSD) storage (gp2, gp3): Must be an integer from 20 to 65536. o Provisioned IOPS storage (io1, io2): Must be an integer from 100 to 65536. o Magnetic storage (standard): Must be an integer from 5 to 3072. RDS for SQL Server Constraints to the amount of storage for each storage type are the following: o General Purpose (SSD) storage (gp2, gp3): o Enterprise and Standard editions: Must be an integer from 20 to 16384. o Web and Express editions: Must be an integer from 20 to 16384. o Provisioned IOPS storage (io1, io2): o Enterprise and Standard editions: Must be an integer from 100 to 16384. o Web and Express editions: Must be an integer from 100 to 16384. o Magnetic storage (standard): o Enterprise and Standard editions: Must be an integer from 20 to 1024. o Web and Express editions: Must be an integer from 20 to 1024.
     /// </summary>
     [CliOption("--allocated-storage")]
     public int? AllocatedStorage { get; set; }
-
-    [CliOption("--db-instance-class")]
-    public string? DbInstanceClass { get; set; }
-
-    [CliOption("--engine")]
-    public string? Engine { get; set; }
 
     /// <summary>
     /// The name for the master user. This setting doesn't apply to Amazon Aurora DB instances. The name for the master user is managed by the DB cluster. This setting is required for RDS DB instances. Constraints: o Must be 1 to 16 letters, numbers, or underscores. o First character must be a letter. o Can't be a reserved word for the chosen database engine.
@@ -111,7 +162,10 @@ public record AwsRdsCreateDbInstanceOptions : AwsOptions
     [CliOption("--port")]
     public int? Port { get; set; }
 
-    [CliFlag("--multi-az")]
+    /// <summary>
+    /// Specifies whether the DB instance is a Multi-AZ deployment. You can't set the AvailabilityZone parameter if the DB instance is a Multi-AZ deployment. This setting doesn't apply to Amazon Aurora because the DB instance Availability Zones (AZs) are managed by the DB cluster.
+    /// </summary>
+    [CliFlag("--multi-az", NegatedName = "--no-multi-az")]
     public bool? MultiAz { get; set; }
 
     /// <summary>
@@ -120,14 +174,17 @@ public record AwsRdsCreateDbInstanceOptions : AwsOptions
     [CliOption("--engine-version")]
     public string? EngineVersion { get; set; }
 
-    [CliFlag("--auto-minor-version-upgrade")]
+    /// <summary>
+    /// Specifies whether minor engine upgrades are applied automatically to the DB instance during the maintenance window. By default, minor en- gine upgrades are applied automatically. If you create an RDS Custom DB instance, you must set AutoMinorVer- sionUpgrade to false . For more information about automatic minor version upgrades, see Automatically upgrading the minor engine version .
+    /// </summary>
+    [CliFlag("--auto-minor-version-upgrade", NegatedName = "--no-auto-minor-version-upgrade")]
     public bool? AutoMinorVersionUpgrade { get; set; }
 
     /// <summary>
     /// The license model information for this DB instance. NOTE: License models for RDS for Db2 require additional configuration. The bring your own license (BYOL) model requires a custom para- meter group and an Amazon Web Services License Manager self-man- aged license. The Db2 license through Amazon Web Services Mar- ketplace model requires an Amazon Web Services Marketplace sub- scription. For more information, see Amazon RDS for Db2 licens- ing options in the Amazon RDS User Guide . The default for RDS for Db2 is bring-your-own-license . This setting doesn't apply to Amazon Aurora or RDS Custom DB in- stances. Valid Values: o RDS for Db2 - bring-your-own-license | marketplace-license o RDS for MariaDB - general-public-license o RDS for Microsoft SQL Server - license-included | bring-your-own-media o RDS for MySQL - general-public-license o RDS for Oracle - bring-your-own-license | license-included o RDS for PostgreSQL - postgresql-license
     /// </summary>
     [CliOption("--license-model")]
-    public AwsRdsCreateDbInstanceLicenseModel? LicenseModel { get; set; }
+    public string? LicenseModel { get; set; }
 
     /// <summary>
     /// The amount of Provisioned IOPS (input/output operations per second) to initially allocate for the DB instance. For information about valid IOPS values, see Amazon RDS DB instance storage in the Amazon RDS User Guide . This setting doesn't apply to Amazon Aurora DB instances. Storage is managed by the DB cluster. Constraints: o For RDS for Db2, MariaDB, MySQL, Oracle, and PostgreSQL - Must be a multiple between .5 and 50 of the storage amount for the DB in- stance. o For RDS for SQL Server - Must be a multiple between 1 and 50 of the storage amount for the DB instance.
@@ -159,7 +216,10 @@ public record AwsRdsCreateDbInstanceOptions : AwsOptions
     [CliOption("--nchar-character-set-name")]
     public string? NcharCharacterSetName { get; set; }
 
-    [CliFlag("--publicly-accessible")]
+    /// <summary>
+    /// Specifies whether the DB instance is publicly accessible. When the DB instance is publicly accessible and you connect from outside of the DB instance's virtual private cloud (VPC), its domain name system (DNS) endpoint resolves to the public IP address. When you connect from within the same VPC as the DB instance, the end- point resolves to the private IP address. Access to the DB instance is controlled by its security group settings. When the DB instance isn't publicly accessible, it is an internal DB instance with a DNS name that resolves to a private IP address. The default behavior when PubliclyAccessible is not specified de- pends on whether a DBSubnetGroup is specified. If DBSubnetGroup isn't specified, PubliclyAccessible defaults to false for Aurora instances and true for non-Aurora instances. If DBSubnetGroup is specified, PubliclyAccessible defaults to false unless the value of DBSubnetGroup is default , in which case Pub- liclyAccessible defaults to true . If PubliclyAccessible is true and the VPC that the DBSubnetGroup is in doesn't have an internet gateway attached to it, Amazon RDS re- turns an error.
+    /// </summary>
+    [CliFlag("--publicly-accessible", NegatedName = "--no-publicly-accessible")]
     public bool? PubliclyAccessible { get; set; }
 
     /// <summary>
@@ -194,7 +254,10 @@ public record AwsRdsCreateDbInstanceOptions : AwsOptions
     [CliOption("--tde-credential-password")]
     public string? TdeCredentialPassword { get; set; }
 
-    [CliFlag("--storage-encrypted")]
+    /// <summary>
+    /// Specifes whether the DB instance is encrypted. By default, it isn't encrypted. For RDS Custom DB instances, either enable this setting or leave it unset. Otherwise, Amazon RDS reports an error. This setting doesn't apply to Amazon Aurora DB instances. The en- cryption for DB instances is managed by the DB cluster.
+    /// </summary>
+    [CliFlag("--storage-encrypted", NegatedName = "--no-storage-encrypted")]
     public bool? StorageEncrypted { get; set; }
 
     /// <summary>
@@ -234,7 +297,10 @@ public record AwsRdsCreateDbInstanceOptions : AwsOptions
     [CliOption("--domain-dns-ips", GroupValues = true)]
     public IEnumerable<string>? DomainDnsIps { get; set; }
 
-    [CliFlag("--copy-tags-to-snapshot")]
+    /// <summary>
+    /// Specifies whether to copy tags from the DB instance to snapshots of the DB instance. By default, tags are not copied. This setting doesn't apply to Amazon Aurora DB instances. Copying tags to snapshots is managed by the DB cluster. Setting this value for an Aurora DB instance has no effect on the DB cluster setting.
+    /// </summary>
+    [CliFlag("--copy-tags-to-snapshot", NegatedName = "--no-copy-tags-to-snapshot")]
     public bool? CopyTagsToSnapshot { get; set; }
 
     /// <summary>
@@ -267,7 +333,10 @@ public record AwsRdsCreateDbInstanceOptions : AwsOptions
     [CliOption("--timezone")]
     public string? Timezone { get; set; }
 
-    [CliFlag("--enable-iam-database-authentication")]
+    /// <summary>
+    /// tication (boolean) Specifies whether to enable mapping of Amazon Web Services Identity and Access Management (IAM) accounts to database accounts. By de- fault, mapping isn't enabled. For more information, see IAM Database Authentication for MySQL and PostgreSQL in the Amazon RDS User Guide . This setting doesn't apply to the following DB instances: o Amazon Aurora (Mapping Amazon Web Services IAM accounts to data- base accounts is managed by the DB cluster.) o RDS Custom
+    /// </summary>
+    [CliFlag("--enable-iam-database-authentication", NegatedName = "--no-enable-iam-database-authentication")]
     public bool? EnableIamDatabaseAuthentication { get; set; }
 
     /// <summary>
@@ -276,7 +345,10 @@ public record AwsRdsCreateDbInstanceOptions : AwsOptions
     [CliOption("--database-insights-mode")]
     public AwsRdsCreateDbInstanceDatabaseInsightsMode? DatabaseInsightsMode { get; set; }
 
-    [CliFlag("--enable-performance-insights")]
+    /// <summary>
+    /// Specifies whether to enable Performance Insights for the DB in- stance. For more information, see Using Amazon Performance Insights in the Amazon RDS User Guide . This setting doesn't apply to RDS Custom DB instances.
+    /// </summary>
+    [CliFlag("--enable-performance-insights", NegatedName = "--no-enable-performance-insights")]
     public bool? EnablePerformanceInsights { get; set; }
 
     /// <summary>
@@ -303,7 +375,10 @@ public record AwsRdsCreateDbInstanceOptions : AwsOptions
     [CliOption("--processor-features", GroupValues = true)]
     public IEnumerable<string>? ProcessorFeatures { get; set; }
 
-    [CliFlag("--deletion-protection")]
+    /// <summary>
+    /// Specifies whether the DB instance has deletion protection enabled. The database can't be deleted when deletion protection is enabled. By default, deletion protection isn't enabled. For more information, see Deleting a DB Instance . This setting doesn't apply to Amazon Aurora DB instances. You can enable or disable deletion protection for the DB cluster. For more information, see CreateDBCluster . DB instances in a DB cluster can be deleted even when deletion protection is enabled for the DB clus- ter.
+    /// </summary>
+    [CliFlag("--deletion-protection", NegatedName = "--no-deletion-protection")]
     public bool? DeletionProtection { get; set; }
 
     /// <summary>
@@ -312,7 +387,10 @@ public record AwsRdsCreateDbInstanceOptions : AwsOptions
     [CliOption("--max-allocated-storage")]
     public int? MaxAllocatedStorage { get; set; }
 
-    [CliFlag("--enable-customer-owned-ip")]
+    /// <summary>
+    /// Specifies whether to enable a customer-owned IP address (CoIP) for an RDS on Outposts DB instance. A CoIP provides local or external connectivity to resources in your Outpost subnets through your on-premises network. For some use cases, a CoIP can provide lower latency for connections to the DB instance from outside of its virtual private cloud (VPC) on your lo- cal network. For more information about RDS on Outposts, see Working with Amazon RDS on Amazon Web Services Outposts in the Amazon RDS User Guide . For more information about CoIPs, see Customer-owned IP addresses in the Amazon Web Services Outposts User Guide .
+    /// </summary>
+    [CliFlag("--enable-customer-owned-ip", NegatedName = "--no-enable-customer-owned-ip")]
     public bool? EnableCustomerOwnedIp { get; set; }
 
     /// <summary>
@@ -325,7 +403,7 @@ public record AwsRdsCreateDbInstanceOptions : AwsOptions
     /// The location for storing automated backups and manual snapshots. Valid Values: o local (Dedicated Local Zone) o outposts (Amazon Web Services Outposts) o region (Amazon Web Services Region) Default: region For more information, see Working with Amazon RDS on Amazon Web Ser- vices Outposts in the Amazon RDS User Guide .
     /// </summary>
     [CliOption("--backup-target")]
-    public AwsRdsCreateDbInstanceBackupTarget? BackupTarget { get; set; }
+    public string? BackupTarget { get; set; }
 
     /// <summary>
     /// The instance profile associated with the underlying Amazon EC2 in- stance of an RDS Custom DB instance. This setting is required for RDS Custom. Constraints: o The profile must exist in your account. o The profile must have an IAM role that Amazon EC2 has permissions to assume. o The instance profile name and the associated IAM role name must start with the prefix AWSRDSCustom . For the list of permissions required for the IAM role, see Configure IAM and your VPC in the Amazon RDS User Guide .
@@ -345,20 +423,28 @@ public record AwsRdsCreateDbInstanceOptions : AwsOptions
     [CliOption("--ca-certificate-identifier")]
     public string? CaCertificateIdentifier { get; set; }
 
-    [CliFlag("--manage-master-user-password")]
+    /// <summary>
+    /// Specifies whether to manage the master user password with Amazon Web Services Secrets Manager. For more information, see Password management with Amazon Web Ser- vices Secrets Manager in the Amazon RDS User Guide. Constraints: o Can't manage the master user password with Amazon Web Services Se- crets Manager if MasterUserPassword is specified.
+    /// </summary>
+    [CliFlag("--manage-master-user-password", NegatedName = "--no-manage-master-user-password")]
     public bool? ManageMasterUserPassword { get; set; }
 
     /// <summary>
     /// The Amazon Web Services KMS key identifier to encrypt a secret that is automatically generated and managed in Amazon Web Services Se- crets Manager. This setting is valid only if the master user password is managed by RDS in Amazon Web Services Secrets Manager for the DB instance. The Amazon Web Services KMS key identifier is the key ARN, key ID, alias ARN, or alias name for the KMS key. To use a KMS key in a dif- ferent Amazon Web Services account, specify the key ARN or alias ARN. If you don't specify MasterUserSecretKmsKeyId , then the aws/se- cretsmanager KMS key is used to encrypt the secret. If the secret is in a different Amazon Web Services account, then you can't use the aws/secretsmanager KMS key to encrypt the secret, and you must use a customer managed KMS key. There is a default KMS key for your Amazon Web Services account. Your Amazon Web Services account has a different default KMS key for each Amazon Web Services Region.
     /// </summary>
-    [SecretValue]
     [CliOption("--master-user-secret-kms-key-id")]
     public string? MasterUserSecretKmsKeyId { get; set; }
 
-    [CliFlag("--multi-tenant")]
+    /// <summary>
+    /// Specifies whether to use the multi-tenant configuration or the sin- gle-tenant configuration (default). This parameter only applies to RDS for Oracle container database (CDB) engines. Note the following restrictions: o The DB engine that you specify in the request must support the multi-tenant configuration. If you attempt to enable the multi-tenant configuration on a DB engine that doesn't support it, the request fails. o If you specify the multi-tenant configuration when you create your DB instance, you can't later modify this DB instance to use the single-tenant configuration.
+    /// </summary>
+    [CliFlag("--multi-tenant", NegatedName = "--no-multi-tenant")]
     public bool? MultiTenant { get; set; }
 
-    [CliFlag("--dedicated-log-volume")]
+    /// <summary>
+    /// Indicates whether the DB instance has a dedicated log volume (DLV) enabled.
+    /// </summary>
+    [CliFlag("--dedicated-log-volume", NegatedName = "--no-dedicated-log-volume")]
     public bool? DedicatedLogVolume { get; set; }
 
     /// <summary>
@@ -390,5 +476,22 @@ public record AwsRdsCreateDbInstanceOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

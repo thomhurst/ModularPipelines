@@ -22,7 +22,10 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("backup", "list-backup-plans")]
 public record AwsBackupListBackupPlansOptions : AwsOptions
 {
-    [CliFlag("--include-deleted")]
+    /// <summary>
+    /// A Boolean value with a default value of FALSE that returns deleted backup plans when set to TRUE .
+    /// </summary>
+    [CliFlag("--include-deleted", NegatedName = "--no-include-deleted")]
     public bool? IncludeDeleted { get; set; }
 
     [CliOption("--cli-input-json")]

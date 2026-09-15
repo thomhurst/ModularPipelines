@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsApigatewayImportDocumentationPartsMode
 {
     [EnumValue("merge")]
-    Merge = 1,
+    Merge,
 
     [EnumValue("overwrite")]
-    Overwrite = 2
+    Overwrite
 }

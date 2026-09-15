@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("opensearch", "list-instance-type-details")]
-public record AwsOpensearchListInstanceTypeDetailsOptions : AwsOptions
+public record AwsOpensearchListInstanceTypeDetailsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Lists all instance types and available features for a given OpenSearch or Elasticsearch version. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="EngineVersion">The version of OpenSearch or Elasticsearch, in the format Elastic- search_X.Y or OpenSearch_X.Y. Defaults to the latest version of OpenSearch. Constraints: o min: 14 o max: 18 o pattern: ^Elastic- search_[0-9]{1}\.[0-9]{1,2}$|^OpenSearch_[0-9]{1,2}\.[0-9]{1,2}$</param>
+    public AwsOpensearchListInstanceTypeDetailsOptions(
+        string EngineVersion
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(EngineVersion);
+        this.EngineVersion = EngineVersion;
+    }
+
+    private AwsOpensearchListInstanceTypeDetailsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsOpensearchListInstanceTypeDetailsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsOpensearchListInstanceTypeDetailsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The version of OpenSearch or Elasticsearch, in the format Elastic- search_X.Y or OpenSearch_X.Y. Defaults to the latest version of OpenSearch. Constraints: o min: 14 o max: 18 o pattern: ^Elastic- search_[0-9]{1}\.[0-9]{1,2}$|^OpenSearch_[0-9]{1,2}\.[0-9]{1,2}$
+    /// </summary>
     [CliOption("--engine-version")]
-    public string? EngineVersion { get; set; }
+    public string? EngineVersion { get; private init; }
 
     /// <summary>
     /// The name of the domain. Constraints: o min: 3 o max: 28 o pattern: [a-z][a-z0-9\-]+
@@ -44,7 +81,10 @@ public record AwsOpensearchListInstanceTypeDetailsOptions : AwsOptions
     [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
-    [CliFlag("--retrieve-azs")]
+    /// <summary>
+    /// An optional parameter that specifies the Availability Zones for the domain.
+    /// </summary>
+    [CliFlag("--retrieve-azs", NegatedName = "--no-retrieve-azs")]
     public bool? RetrieveAzs { get; set; }
 
     /// <summary>
@@ -58,5 +98,22 @@ public record AwsOpensearchListInstanceTypeDetailsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

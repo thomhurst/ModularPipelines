@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +20,88 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cognito-idp", "describe-terms-by-client")]
-public record AwsCognitoIdpDescribeTermsByClientOptions : AwsOptions
+public record AwsCognitoIdpDescribeTermsByClientOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Returns details for the terms documents that are associated with an app client, identified by the app client ID, user pool ID, and terms name. For more information, see Terms documents . To call DescribeTermsByClient , you must have the cognito-idp:Descri- beTermsByClient Identity and Access Management (IAM) permission. This operation additionally validates your permission for cognito-idp:De- scribeTerms , the action for . As a result, an IAM policy that denies cognito-idp:DescribeTerms also den...
+    /// </summary>
+    /// <param name="ClientId">The ID of the app client that the terms documents are associated with. Constraints: o min: 1 o max: 128 o pattern: [\w+]+</param>
+    /// <param name="UserPoolId">The ID of the user pool that contains the terms documents that you want to describe. Constraints: o min: 1 o max: 55 o pattern: [\w-]+_[0-9a-zA-Z]+</param>
+    /// <param name="TermsName">The name of the terms documents that you want to describe. Constraints: o pattern: ^(terms-of-use|privacy-policy)$</param>
+    public AwsCognitoIdpDescribeTermsByClientOptions(
+        string ClientId,
+        string UserPoolId,
+        string TermsName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ClientId);
+        this.ClientId = ClientId;
+        global::System.ArgumentNullException.ThrowIfNull(UserPoolId);
+        this.UserPoolId = UserPoolId;
+        global::System.ArgumentNullException.ThrowIfNull(TermsName);
+        this.TermsName = TermsName;
+    }
+
+    private AwsCognitoIdpDescribeTermsByClientOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCognitoIdpDescribeTermsByClientOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCognitoIdpDescribeTermsByClientOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the app client that the terms documents are associated with. Constraints: o min: 1 o max: 128 o pattern: [\w+]+
+    /// </summary>
     [CliOption("--client-id")]
-    public string? ClientId { get; set; }
+    public string? ClientId { get; private init; }
 
+    /// <summary>
+    /// The ID of the user pool that contains the terms documents that you want to describe. Constraints: o min: 1 o max: 55 o pattern: [\w-]+_[0-9a-zA-Z]+
+    /// </summary>
     [CliOption("--user-pool-id")]
-    public string? UserPoolId { get; set; }
+    public string? UserPoolId { get; private init; }
 
+    /// <summary>
+    /// The name of the terms documents that you want to describe. Constraints: o pattern: ^(terms-of-use|privacy-policy)$
+    /// </summary>
     [CliOption("--terms-name")]
-    public string? TermsName { get; set; }
+    public string? TermsName { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

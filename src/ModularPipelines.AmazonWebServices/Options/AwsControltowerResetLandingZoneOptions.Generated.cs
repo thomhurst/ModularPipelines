@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,68 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("controltower", "reset-landing-zone")]
-public record AwsControltowerResetLandingZoneOptions : AwsOptions
+public record AwsControltowerResetLandingZoneOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// This API call resets a landing zone. It starts an asynchronous opera- tion that resets the landing zone to the parameters specified in the original configuration, which you specified in the manifest file. Noth- ing in the manifest file's original landing zone configuration is changed during the reset process, by default. This API is not the same as a rollback of a landing zone version, which is not a supported oper- ation. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="LandingZoneIdentifier">The unique identifier of the landing zone.</param>
+    public AwsControltowerResetLandingZoneOptions(
+        string LandingZoneIdentifier
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(LandingZoneIdentifier);
+        this.LandingZoneIdentifier = LandingZoneIdentifier;
+    }
+
+    private AwsControltowerResetLandingZoneOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsControltowerResetLandingZoneOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsControltowerResetLandingZoneOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier of the landing zone.
+    /// </summary>
     [CliOption("--landing-zone-identifier")]
-    public string? LandingZoneIdentifier { get; set; }
+    public string? LandingZoneIdentifier { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

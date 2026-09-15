@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("efs", "put-backup-policy")]
-public record AwsEfsPutBackupPolicyOptions : AwsOptions
+public record AwsEfsPutBackupPolicyOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--file-system-id")]
-    public string? FileSystemId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Updates the file system's backup policy. Use this action to start or stop automatic backups of the file system. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="FileSystemId">Specifies which EFS file system to update the backup policy for. Constraints: o max: 128 o pattern: ^(arn:aws[-a-z]*:elasticfilesystem:[0-9a-z-:]+:file-sys- tem/fs-[0-9a-f]{8,40}|fs-[0-9a-f]{8,40})$</param>
+    /// <param name="BackupPolicy">The backup policy included in the PutBackupPolicy request. Status -&gt; (string) [required] Describes the status of the file system's backup policy. o ** ENABLED ** EFS is automatically backing up the file system. System Message: WARNING/2 (&lt;string&gt;:, line 99) Inline strong start-string without end-string. o ** ENABLING ** EFS is turning on automatic backups for the file system. System Message: WARNING/2 (&lt;string&gt;:, line 101) Inline strong start-string without end-string. o ** DISABLED ** Automatic back ups are turned off for the file system. System Message: WARNING/2 (&lt;string&gt;:, line 103) Inline strong start-string without end-string. o ** DISABLING ** EFS is turning off automatic backups for the file system. System Message: WARNING/2 (&lt;string&gt;:, line 105) Inline strong start-string without end-string. Possible values: o ENABLED o ENABLING o DISABLED o DISABLING Shorthand Syntax: Status=string JSON Syntax: { "Status": "ENABLED"|"ENABLING"|"DISABLED"|"DISABLING" }</param>
+    public AwsEfsPutBackupPolicyOptions(
+        string FileSystemId,
+        string BackupPolicy
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(FileSystemId);
+        this.FileSystemId = FileSystemId;
+        global::System.ArgumentNullException.ThrowIfNull(BackupPolicy);
+        this.BackupPolicy = BackupPolicy;
+    }
+
+    private AwsEfsPutBackupPolicyOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEfsPutBackupPolicyOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEfsPutBackupPolicyOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Specifies which EFS file system to update the backup policy for. Constraints: o max: 128 o pattern: ^(arn:aws[-a-z]*:elasticfilesystem:[0-9a-z-:]+:file-sys- tem/fs-[0-9a-f]{8,40}|fs-[0-9a-f]{8,40})$
+    /// </summary>
+    [CliOption("--file-system-id")]
+    public string? FileSystemId { get; private init; }
+
+    /// <summary>
+    /// The backup policy included in the PutBackupPolicy request. Status -&gt; (string) [required] Describes the status of the file system's backup policy. o ** ENABLED ** EFS is automatically backing up the file system. System Message: WARNING/2 (&lt;string&gt;:, line 99) Inline strong start-string without end-string. o ** ENABLING ** EFS is turning on automatic backups for the file system. System Message: WARNING/2 (&lt;string&gt;:, line 101) Inline strong start-string without end-string. o ** DISABLED ** Automatic back ups are turned off for the file system. System Message: WARNING/2 (&lt;string&gt;:, line 103) Inline strong start-string without end-string. o ** DISABLING ** EFS is turning off automatic backups for the file system. System Message: WARNING/2 (&lt;string&gt;:, line 105) Inline strong start-string without end-string. Possible values: o ENABLED o ENABLING o DISABLED o DISABLING Shorthand Syntax: Status=string JSON Syntax: { "Status": "ENABLED"|"ENABLING"|"DISABLED"|"DISABLING" }
+    /// </summary>
     [CliOption("--backup-policy")]
-    public string? BackupPolicy { get; set; }
+    public string? BackupPolicy { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

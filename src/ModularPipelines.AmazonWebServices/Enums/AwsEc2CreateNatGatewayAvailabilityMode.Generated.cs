@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --availabilitymode.
+/// Allowed values for --availability-mode.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsEc2CreateNatGatewayAvailabilityMode
 {
-    [EnumValue("zonal")]
-    Zonal = 1,
-
     [EnumValue("regional")]
-    Regional = 2
+    Regional,
+
+    [EnumValue("zonal")]
+    Zonal
 }

@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ssm-sap", "list-operations")]
-public record AwsSsmSapListOperationsOptions : AwsOptions
+public record AwsSsmSapListOperationsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Lists the operations performed by AWS Systems Manager for SAP. See also: AWS API Documentation list-operations is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Operations
+    /// </summary>
+    /// <param name="ApplicationId">The ID of the application. Constraints: o min: 1 o max: 60 o pattern: [\w\d\.-]+</param>
+    public AwsSsmSapListOperationsOptions(
+        string ApplicationId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ApplicationId);
+        this.ApplicationId = ApplicationId;
+    }
+
+    private AwsSsmSapListOperationsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSsmSapListOperationsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSsmSapListOperationsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the application. Constraints: o min: 1 o max: 60 o pattern: [\w\d\.-]+
+    /// </summary>
     [CliOption("--application-id")]
-    public string? ApplicationId { get; set; }
+    public string? ApplicationId { get; private init; }
 
     /// <summary>
     /// The filters of an operation. Constraints: o min: 1 o max: 10 (structure) A specific result obtained by specifying the name, value, and operator. Name -&gt; (string) [required] The name of the filter. Filter names are case-sensitive. Constraints: o min: 1 o max: 32 Value -&gt; (string) [required] The filter values. Filter values are case-sensitive. If you specify multiple values for a filter, the values are joined with an OR, and the request returns all results that match any of the specified values Constraints: o min: 1 o max: 64 Operator -&gt; (string) [required] The operator for the filter. Possible values: o Equals o GreaterThanOrEquals o LessThanOrEquals Shorthand Syntax: Name=string,Value=string,Operator=string ... JSON Syntax: [ { "Name": "string", "Value": "string", "Operator": "Equals"|"GreaterThanOrEquals"|"LessThanOrEquals" } ... ]
@@ -55,5 +92,22 @@ public record AwsSsmSapListOperationsOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

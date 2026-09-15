@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("odb", "update-cloud-exadata-infrastructure")]
-public record AwsOdbUpdateCloudExadataInfrastructureOptions : AwsOptions
+public record AwsOdbUpdateCloudExadataInfrastructureOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates the properties of an Exadata infrastructure resource. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="CloudExadataInfrastructureId">The unique identifier of the Exadata infrastructure to update. Constraints: o min: 6 o max: 2048 o pattern: (arn:(?:aws|aws-cn|aws-us-gov|aws-iso-{0,1}[a-z]{0,1}):[a-z0-9-]+:[a-z0-9-]*:[0-9]+:[a-z0-9-]+/[a-zA-Z0-9_~.-]{6,64}|[a-zA-Z0-9_~.-]{6,64})</param>
+    public AwsOdbUpdateCloudExadataInfrastructureOptions(
+        string CloudExadataInfrastructureId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(CloudExadataInfrastructureId);
+        this.CloudExadataInfrastructureId = CloudExadataInfrastructureId;
+    }
+
+    private AwsOdbUpdateCloudExadataInfrastructureOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsOdbUpdateCloudExadataInfrastructureOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsOdbUpdateCloudExadataInfrastructureOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier of the Exadata infrastructure to update. Constraints: o min: 6 o max: 2048 o pattern: (arn:(?:aws|aws-cn|aws-us-gov|aws-iso-{0,1}[a-z]{0,1}):[a-z0-9-]+:[a-z0-9-]*:[0-9]+:[a-z0-9-]+/[a-zA-Z0-9_~.-]{6,64}|[a-zA-Z0-9_~.-]{6,64})
+    /// </summary>
     [CliOption("--cloud-exadata-infrastructure-id")]
-    public string? CloudExadataInfrastructureId { get; set; }
+    public string? CloudExadataInfrastructureId { get; private init; }
 
     /// <summary>
     /// The scheduling details for the maintenance window. Patching and sys- tem updates take place during the maintenance window. customActionTimeoutInMins -&gt; (integer) The custom action timeout in minutes for the maintenance window. Constraints: o min: 15 o max: 120 daysOfWeek -&gt; (list) The days of the week when maintenance can be performed. (structure) An enumeration of days of the week used for scheduling main- tenance windows. name -&gt; (string) The name of the day of the week. Possible values: o MONDAY o TUESDAY o WEDNESDAY o THURSDAY o FRIDAY o SATURDAY o SUNDAY hoursOfDay -&gt; (list) The hours of the day when maintenance can be performed. (integer) isCustomActionTimeoutEnabled -&gt; (boolean) Indicates whether custom action timeout is enabled for the main- tenance window. leadTimeInWeeks -&gt; (integer) The lead time in weeks before the maintenance window. Constraints: o min: 1 o max: 4 months -&gt; (list) The months when maintenance can be performed. (structure) An enumeration of months used for scheduling maintenance win- dows. name -&gt; (string) The name of the month. Possible values: o JANUARY o FEBRUARY o MARCH o APRIL o MAY o JUNE o JULY o AUGUST o SEPTEMBER o OCTOBER o NOVEMBER o DECEMBER patchingMode -&gt; (string) The patching mode for the maintenance window. Possible values: o ROLLING o NONROLLING preference -&gt; (string) The preference for the maintenance window scheduling. Possible values: o NO_PREFERENCE o CUSTOM_PREFERENCE skipRu -&gt; (boolean) Indicates whether to skip release updates during maintenance. weeksOfMonth -&gt; (list) The weeks of the month when maintenance can be performed. (integer) Shorthand Syntax: customActionTimeoutInMins=integer,daysOfWeek=[{name=string},{name=string}],hoursOfDay=integer,integer,isCustomActionTimeoutEnabled=boolean,leadTimeInWeeks=integer,months=[{name=string},{name=string}],patchingMode=string,preference=string,skipRu=boolean,weeksOfMonth=integer,integer JSON Syntax: { "customActionTimeoutInMins": integer, "daysOfWeek": [ { "name": "MONDAY"|"TUESDAY"|"WEDNESDAY"|"THURSDAY"|"FRIDAY"|"SATURDAY"|"SUNDAY" } ... ], "hoursOfDay": [integer, ...], "isCustomActionTimeoutEnabled": true|false, "leadTimeInWeeks": integer, "months": [ { "name": "JANUARY"|"FEBRUARY"|"MARCH"|"APRIL"|"MAY"|"JUNE"|"JULY"|"AUGUST"|"SEPTEMBER"|"OCTOBER"|"NOVEMBER"|"DECEMBER" } ... ], "patchingMode": "ROLLING"|"NONROLLING", "preference": "NO_PREFERENCE"|"CUSTOM_PREFERENCE", "skipRu": true|false, "weeksOfMonth": [integer, ...] }
@@ -35,5 +72,22 @@ public record AwsOdbUpdateCloudExadataInfrastructureOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

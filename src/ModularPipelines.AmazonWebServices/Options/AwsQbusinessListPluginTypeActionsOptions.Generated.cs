@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +22,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("qbusiness", "list-plugin-type-actions")]
-public record AwsQbusinessListPluginTypeActionsOptions : AwsOptions
+public record AwsQbusinessListPluginTypeActionsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Lists configured Amazon Q Business actions for any plugin typeboth built-in and custom. See also: AWS API Documentation list-plugin-type-actions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: items
+    /// </summary>
+    /// <param name="PluginType">The type of the plugin. Possible values: o SERVICE_NOW o SALESFORCE o JIRA o ZENDESK o CUSTOM o QUICKSIGHT o SERVICENOW_NOW_PLATFORM o JIRA_CLOUD o SALESFORCE_CRM o ZENDESK_SUITE o ATLASSIAN_CONFLUENCE o GOOGLE_CALENDAR o MICROSOFT_TEAMS o MICROSOFT_EXCHANGE o PAGERDUTY_ADVANCE o SMARTSHEET o ASANA</param>
+    public AwsQbusinessListPluginTypeActionsOptions(
+        AwsQbusinessListPluginTypeActionsPluginType PluginType
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PluginType);
+        this.PluginType = PluginType;
+    }
+
+    private AwsQbusinessListPluginTypeActionsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsQbusinessListPluginTypeActionsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsQbusinessListPluginTypeActionsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The type of the plugin. Possible values: o SERVICE_NOW o SALESFORCE o JIRA o ZENDESK o CUSTOM o QUICKSIGHT o SERVICENOW_NOW_PLATFORM o JIRA_CLOUD o SALESFORCE_CRM o ZENDESK_SUITE o ATLASSIAN_CONFLUENCE o GOOGLE_CALENDAR o MICROSOFT_TEAMS o MICROSOFT_EXCHANGE o PAGERDUTY_ADVANCE o SMARTSHEET o ASANA
+    /// </summary>
     [CliOption("--plugin-type")]
-    public string? PluginType { get; set; }
+    public AwsQbusinessListPluginTypeActionsPluginType? PluginType { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
@@ -49,5 +87,22 @@ public record AwsQbusinessListPluginTypeActionsOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

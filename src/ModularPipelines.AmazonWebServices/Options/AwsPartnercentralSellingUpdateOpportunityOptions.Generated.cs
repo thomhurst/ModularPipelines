@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,10 +21,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("partnercentral-selling", "update-opportunity")]
-public record AwsPartnercentralSellingUpdateOpportunityOptions : AwsOptions
+public record AwsPartnercentralSellingUpdateOpportunityOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates the Opportunity record identified by a given Identifier . This operation allows you to modify the details of an existing opportunity to reflect the latest information and progress. Use this action to keep the opportunity record up-to-date and accurate. When you perform updates, include the entire payload with each request. If any field is omitted, the API assumes that the field is set to null . The best practice is to always perform a GetOpportunity to retrieve the latest values, then se...
+    /// </summary>
+    /// <param name="Catalog">Specifies the catalog associated with the request. This field takes a string value from a predefined list: AWS or Sandbox . The catalog determines which environment the opportunity is updated in. Use AWS to update real opportunities in the production environment, and Sandbox for testing in secure, isolated environments. When you use the Sandbox catalog, it allows you to simulate and validate your in- teractions with Amazon Web Services services without affecting live data or operations. Constraints: o pattern: [a-zA-Z]+</param>
+    /// <param name="LastModifiedDate">DateTime when the opportunity was last modified.</param>
+    /// <param name="Identifier">Read-only, system generated Opportunity unique identifier. Constraints: o pattern: O[0-9]{1,19}</param>
+    public AwsPartnercentralSellingUpdateOpportunityOptions(
+        string Catalog,
+        string LastModifiedDate,
+        string Identifier
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Catalog);
+        this.Catalog = Catalog;
+        global::System.ArgumentNullException.ThrowIfNull(LastModifiedDate);
+        this.LastModifiedDate = LastModifiedDate;
+        global::System.ArgumentNullException.ThrowIfNull(Identifier);
+        this.Identifier = Identifier;
+    }
+
+    private AwsPartnercentralSellingUpdateOpportunityOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsPartnercentralSellingUpdateOpportunityOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsPartnercentralSellingUpdateOpportunityOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Specifies the catalog associated with the request. This field takes a string value from a predefined list: AWS or Sandbox . The catalog determines which environment the opportunity is updated in. Use AWS to update real opportunities in the production environment, and Sandbox for testing in secure, isolated environments. When you use the Sandbox catalog, it allows you to simulate and validate your in- teractions with Amazon Web Services services without affecting live data or operations. Constraints: o pattern: [a-zA-Z]+
+    /// </summary>
     [CliOption("--catalog")]
-    public string? Catalog { get; set; }
+    public string? Catalog { get; private init; }
+
+    /// <summary>
+    /// DateTime when the opportunity was last modified.
+    /// </summary>
+    [CliOption("--last-modified-date")]
+    public string? LastModifiedDate { get; private init; }
+
+    /// <summary>
+    /// Read-only, system generated Opportunity unique identifier. Constraints: o pattern: O[0-9]{1,19}
+    /// </summary>
+    [CliOption("--identifier")]
+    public string? Identifier { get; private init; }
 
     /// <summary>
     /// Identifies the type of support the partner needs from Amazon Web Services. Valid values: o CosellArchitectural Validation: Confirmation from Amazon Web Ser- vices that the partner's proposed solution architecture is aligned with Amazon Web Services best practices and poses minimal archi- tectural risks. o CosellBusiness Presentation: Request Amazon Web Services seller's participation in a joint customer presentation. o CosellCompetitive Information: Access to Amazon Web Services com- petitive resources and support for the partner's proposed solu- tion. o CosellPricing Assistance: Connect with an AWS seller for support situations where a partner may be receiving an upfront discount on a service (for example: EDP deals). o CosellTechnical Consultation: Connection with an Amazon Web Ser- vices Solutions Architect to address the partner's questions about the proposed solution. o CosellTotal Cost of Ownership Evaluation: Assistance with quoting different cost savings of proposed solutions on Amazon Web Ser- vices versus on-premises or a traditional hosting environment. o CosellDeal Support: Request Amazon Web Services seller's support to progress the opportunity (for example: joint customer call, strategic positioning). o CosellSupport for Public Tender/RFx: Opportunity related to the public sector where the partner needs RFx support from Amazon Web Services. (string) Possible values: o Co-Sell - Architectural Validation o Co-Sell - Business Presentation o Co-Sell - Competitive Information o Co-Sell - Pricing Assistance o Co-Sell - Technical Consultation o Co-Sell - Total Cost of Ownership Evaluation o Co-Sell - Deal Support o Co-Sell - Support for Public Tender / RFx Syntax: "string" "string" ...
@@ -73,12 +130,6 @@ public record AwsPartnercentralSellingUpdateOpportunityOptions : AwsOptions
     [CliOption("--software-revenue")]
     public string? SoftwareRevenue { get; set; }
 
-    [CliOption("--last-modified-date")]
-    public string? LastModifiedDate { get; set; }
-
-    [CliOption("--identifier")]
-    public string? Identifier { get; set; }
-
     /// <summary>
     /// An object that contains lifecycle details for the Opportunity . Stage -&gt; (string) Specifies the current stage of the Opportunity 's lifecycle as it maps to Amazon Web Services stages from the current stage in the partner CRM. This field provides a translated value of the stage, and offers insight into the Opportunity 's progression in the sales cycle, according to Amazon Web Services definitions. NOTE: A lead and a prospect must be further matured to a Qualified opportunity before submission. Opportunities that were closed/lost before submission aren't suitable for submission. The descriptions of each sales stage are: o Prospect: Amazon Web Services identifies the opportunity. It can be active (Comes directly from the end customer through a lead) or latent (Your account team believes it exists based on research, account plans, sales plays). o Qualified: Your account team engaged with the customer to dis- cuss viability and requirements. The customer agreed that the opportunity is real, of interest, and may solve business/tech- nical needs. o Technical Validation: All parties understand the implementa- tion plan. o Business Validation: Pricing was proposed, and all parties agree to the steps to close. o Committed: The customer signed the contract, but Amazon Web Services hasn't started billing. o Launched: The workload is complete, and Amazon Web Services has started billing. o Closed Lost: The opportunity is lost, and there are no steps to move forward. Possible values: o Prospect o Qualified o Technical Validation o Business Validation o Committed o Launched o Closed Lost ClosedLostReason -&gt; (string) Specifies the reason code when an opportunity is marked as Closed Lost . When you select an appropriate reason code, you communicate the context for closing the Opportunity , and aid in accurate reports and analysis of opportunity outcomes. The pos- sible values are: o Customer Deficiency: The customer lacked necessary resources or capabilities. o Delay/Cancellation of Project: The project was delayed or can- celed. o Legal/Tax/Regulatory: Legal, tax, or regulatory issues pre- vented progress. o Lost to CompetitorGoogle: The opportunity was lost to Google. o Lost to CompetitorMicrosoft: The opportunity was lost to Mi- crosoft. o Lost to CompetitorSoftLayer: The opportunity was lost to Soft- Layer. o Lost to CompetitorVMWare: The opportunity was lost to VMWare. o Lost to CompetitorOther: The opportunity was lost to a com- petitor not listed above. o No Opportunity: There was no opportunity to pursue. o On Premises Deployment: The customer chose an on-premises so- lution. o Partner Gap: The partner lacked necessary resources or capa- bilities. o Price: The price was not competitive or acceptable to the cus- tomer. o Security/Compliance: Security or compliance issues prevented progress. o Technical Limitations: Technical limitations prevented progress. o Customer Experience: Issues related to the customer's experi- ence impacted the decision. o Other: Any reason not covered by the other values. o People/Relationship/Governance: Issues related to people, re- lationships, or governance. o Product/Technology: Issues related to the product or technol- ogy. o Financial/Commercial: Financial or commercial issues impacted the decision. Possible values: o Customer Deficiency o Delay / Cancellation of Project o Legal / Tax / Regulatory o Lost to Competitor - Google o Lost to Competitor - Microsoft o Lost to Competitor - SoftLayer o Lost to Competitor - VMWare o Lost to Competitor - Other o No Opportunity o On Premises Deployment o Partner Gap o Price o Security / Compliance o Technical Limitations o Customer Experience o Other o People/Relationship/Governance o Product/Technology o Financial/Commercial NextSteps -&gt; (string) Specifies the upcoming actions or tasks for the Opportunity . Use this field to communicate with Amazon Web Services about the next actions required for the Opportunity . Constraints: o pattern: (?s).{0,255} TargetCloseDate -&gt; (string) Specifies the date when Amazon Web Services expects to start significant billing, when the project finishes, and when it moves into production. This field informs the Amazon Web Ser- vices seller about when the opportunity launches and starts to incur Amazon Web Services usage. Ensure the Target Close Date isn't in the past. Constraints: o pattern: [1-9][0-9]{3}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01]) ReviewStatus -&gt; (string) Indicates the review status of an opportunity referred by a partner. This field is read-only and only applicable for partner referrals. The possible values are: o Pending Submission: Not submitted for validation (editable). o Submitted: Submitted for validation, and Amazon Web Services hasn't reviewed it (read-only). o In Review: Amazon Web Services is validating (read-only). o Action Required: Issues that Amazon Web Services highlights need to be addressed. Partners should use the UpdateOpportu- nity API action to update the opportunity and helps to ensure that all required changes are made. Only the following fields are editable when the Lifecycle.ReviewStatus is Action Re- quired : o Customer.Account.Address.City o Customer.Account.Address.CountryCode o Customer.Account.Address.PostalCode o Customer.Account.Address.StateOrRegion o Customer.Account.Address.StreetAddress o Customer.Account.WebsiteUrl o LifeCycle.TargetCloseDate o Project.ExpectedMonthlyAWSRevenue.Amount o Project.ExpectedMonthlyAWSRevenue.CurrencyCode o Project.CustomerBusinessProblem o PartnerOpportunityIdentifier After updates, the opportunity re-enters the validation phase. This process repeats until all issues are resolved, and the op- portunity's Lifecycle.ReviewStatus is set to Approved or Re- jected . o Approved: Validated and converted into the Amazon Web Services seller's pipeline (editable). o Rejected: Disqualified (read-only). Possible values: o Pending Submission o Submitted o In review o Approved o Rejected o Action Required ReviewComments -&gt; (string) Contains detailed feedback from Amazon Web Services when re- questing additional information from partners. Provides specific guidance on what partners need to provide or clarify for oppor- tunity validation, complementing the ReviewStatusReason field. ReviewStatusReason -&gt; (string) Code indicating the validation decision during the Amazon Web Services opportunity review. Applies when status is Rejected or Action Required . Used to document validation results for AWS Partner Referrals and indicate when additional information is needed from partners as part of the APN Customer Engagement (ACE) program. NextStepsHistory -&gt; (list) Captures a chronological record of the next steps or actions planned or taken for the current opportunity, along with the timestamp. Constraints: o min: 0 o max: 50 (structure) Read-only; shows the last 50 values and change dates for the NextSteps field. Value -&gt; (string) [required] Indicates the step's execution details. Time -&gt; (timestamp) [required] Indicates the step execution time. Shorthand Syntax: Stage=string,ClosedLostReason=string,NextSteps=string,TargetCloseDate=string,ReviewStatus=string,ReviewComments=string,ReviewStatusReason=string,NextStepsHistory=[{Value=string,Time=timestamp},{Value=string,Time=timestamp}] JSON Syntax: { "Stage": "Prospect"|"Qualified"|"Technical Validation"|"Business Validation"|"Committed"|"Launched"|"Closed Lost", "ClosedLostReason": "Customer Deficiency"|"Delay / Cancellation of Project"|"Legal / Tax / Regulatory"|"Lost to Competitor - Google"|"Lost to Competitor - Microsoft"|"Lost to Competitor - SoftLayer"|"Lost to Competitor - VMWare"|"Lost to Competitor - Other"|"No Opportunity"|"On Premises Deployment"|"Partner Gap"|"Price"|"Security / Compliance"|"Technical Limitations"|"Customer Experience"|"Other"|"People/Relationship/Governance"|"Product/Technology"|"Financial/Commercial", "NextSteps": "string", "TargetCloseDate": "string", "ReviewStatus": "Pending Submission"|"Submitted"|"In review"|"Approved"|"Rejected"|"Action Required", "ReviewComments": "string", "ReviewStatusReason": "string", "NextStepsHistory": [ { "Value": "string", "Time": timestamp } ... ] }
     /// </summary>
@@ -90,5 +141,22 @@ public record AwsPartnercentralSellingUpdateOpportunityOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

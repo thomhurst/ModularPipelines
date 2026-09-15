@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("es", "authorize-vpc-endpoint-access")]
-public record AwsEsAuthorizeVpcEndpointAccessOptions : AwsOptions
+public record AwsEsAuthorizeVpcEndpointAccessOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--domain-name")]
-    public string? DomainName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Provides access to an Amazon OpenSearch Service domain through the use of an interface VPC endpoint. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DomainName">The name of the OpenSearch Service domain to provide access to. Constraints: o min: 3 o max: 28 o pattern: [a-z][a-z0-9\-]+</param>
+    /// <param name="Account">The account ID to grant access to. Constraints: o pattern: ^[0-9]+$</param>
+    public AwsEsAuthorizeVpcEndpointAccessOptions(
+        string DomainName,
+        string Account
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DomainName);
+        this.DomainName = DomainName;
+        global::System.ArgumentNullException.ThrowIfNull(Account);
+        this.Account = Account;
+    }
+
+    private AwsEsAuthorizeVpcEndpointAccessOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEsAuthorizeVpcEndpointAccessOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEsAuthorizeVpcEndpointAccessOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the OpenSearch Service domain to provide access to. Constraints: o min: 3 o max: 28 o pattern: [a-z][a-z0-9\-]+
+    /// </summary>
+    [CliOption("--domain-name")]
+    public string? DomainName { get; private init; }
+
+    /// <summary>
+    /// The account ID to grant access to. Constraints: o pattern: ^[0-9]+$
+    /// </summary>
     [CliOption("--account")]
-    public string? Account { get; set; }
+    public string? Account { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

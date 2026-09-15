@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,8 +22,57 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("codestar-connections", "list-sync-configurations")]
-public record AwsCodestarConnectionsListSyncConfigurationsOptions : AwsOptions
+public record AwsCodestarConnectionsListSyncConfigurationsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Returns a list of sync configurations for a specified repository. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="RepositoryLinkId">The ID of the repository link for the requested list of sync config- urations. Constraints: o pattern: ^[0-9a-fA-F]{8}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{12}$</param>
+    /// <param name="SyncType">The sync type for the requested list of sync configurations. Possible values: o CFN_STACK_SYNC</param>
+    public AwsCodestarConnectionsListSyncConfigurationsOptions(
+        string RepositoryLinkId,
+        AwsCodestarConnectionsListSyncConfigurationsSyncType SyncType
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(RepositoryLinkId);
+        this.RepositoryLinkId = RepositoryLinkId;
+        global::System.ArgumentNullException.ThrowIfNull(SyncType);
+        this.SyncType = SyncType;
+    }
+
+    private AwsCodestarConnectionsListSyncConfigurationsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCodestarConnectionsListSyncConfigurationsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCodestarConnectionsListSyncConfigurationsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the repository link for the requested list of sync config- urations. Constraints: o pattern: ^[0-9a-fA-F]{8}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{12}$
+    /// </summary>
+    [CliOption("--repository-link-id")]
+    public string? RepositoryLinkId { get; private init; }
+
+    /// <summary>
+    /// The sync type for the requested list of sync configurations. Possible values: o CFN_STACK_SYNC
+    /// </summary>
+    [CliOption("--sync-type")]
+    public AwsCodestarConnectionsListSyncConfigurationsSyncType? SyncType { get; private init; }
+
     /// <summary>
     /// A non-zero, non-negative integer used to limit the number of re- turned results. Constraints: o min: 0 o max: 100
     /// </summary>
@@ -35,16 +86,27 @@ public record AwsCodestarConnectionsListSyncConfigurationsOptions : AwsOptions
     [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
-    [CliOption("--repository-link-id")]
-    public string? RepositoryLinkId { get; set; }
-
-    [CliOption("--sync-type")]
-    public string? SyncType { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

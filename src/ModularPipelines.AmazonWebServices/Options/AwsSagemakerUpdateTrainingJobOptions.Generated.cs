@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sagemaker", "update-training-job")]
-public record AwsSagemakerUpdateTrainingJobOptions : AwsOptions
+public record AwsSagemakerUpdateTrainingJobOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Update a model training job to request a new Debugger profiling config- uration or to change warm pool retention length. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="TrainingJobName">The name of a training job to update the Debugger profiling configu- ration. Constraints: o min: 1 o max: 63 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}</param>
+    public AwsSagemakerUpdateTrainingJobOptions(
+        string TrainingJobName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(TrainingJobName);
+        this.TrainingJobName = TrainingJobName;
+    }
+
+    private AwsSagemakerUpdateTrainingJobOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSagemakerUpdateTrainingJobOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSagemakerUpdateTrainingJobOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of a training job to update the Debugger profiling configu- ration. Constraints: o min: 1 o max: 63 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}
+    /// </summary>
     [CliOption("--training-job-name")]
-    public string? TrainingJobName { get; set; }
+    public string? TrainingJobName { get; private init; }
 
     /// <summary>
     /// Configuration information for Amazon SageMaker Debugger system moni- toring, framework profiling, and storage paths. S3OutputPath -&gt; (string) Path to Amazon S3 storage location for system and framework met- rics. Constraints: o min: 0 o max: 1024 o pattern: (https|s3)://([^/]+)/?(.*) ProfilingIntervalInMilliseconds -&gt; (long) A time interval for capturing system metrics in milliseconds. Available values are 100, 200, 500, 1000 (1 second), 5000 (5 seconds), and 60000 (1 minute) milliseconds. The default value is 500 milliseconds. ProfilingParameters -&gt; (map) Configuration information for capturing framework metrics. Available key strings for different profiling options are De- tailedProfilingConfig , PythonProfilingConfig , and DataLoader- ProfilingConfig . The following codes are configuration struc- tures for the ProfilingParameters parameter. To learn more about how to configure the ProfilingParameters parameter, see Use the SageMaker and Debugger Configuration API Operations to Create, Update, and Debug Your Training Job . Constraints: o min: 0 o max: 20 key -&gt; (string) Constraints: o min: 1 o max: 256 o pattern: .* value -&gt; (string) Constraints: o min: 0 o max: 256 o pattern: .* DisableProfiler -&gt; (boolean) To turn off Amazon SageMaker Debugger monitoring and profiling while a training job is in progress, set to True . Shorthand Syntax: S3OutputPath=string,ProfilingIntervalInMilliseconds=long,ProfilingParameters={KeyName1=string,KeyName2=string},DisableProfiler=boolean JSON Syntax: { "S3OutputPath": "string", "ProfilingIntervalInMilliseconds": long, "ProfilingParameters": {"string": "string" ...}, "DisableProfiler": true|false }
@@ -53,5 +90,22 @@ public record AwsSagemakerUpdateTrainingJobOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

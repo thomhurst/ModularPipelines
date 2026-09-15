@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,72 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("guardduty", "invite-members")]
-public record AwsGuarddutyInviteMembersOptions : AwsOptions
+public record AwsGuarddutyInviteMembersOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Invites Amazon Web Services accounts to become members of an organiza- tion administered by the Amazon Web Services account that invokes this API. If you are using Amazon Web Services Organizations to manage your GuardDuty environment, this step is not needed. For more information, see Managing accounts with organizations . To invite Amazon Web Services accounts, the first step is to ensure that GuardDuty has been enabled in the potential member accounts. You can now invoke this API to add accou...
+    /// </summary>
+    /// <param name="DetectorId">The unique ID of the detector of the GuardDuty account with which you want to invite members. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the ListDetectors API. Constraints: o min: 1 o max: 300</param>
+    /// <param name="AccountIds">A list of account IDs of the accounts that you want to invite to GuardDuty as members. Constraints: o min: 1 o max: 50 (string) Constraints: o min: 12 o max: 12 Syntax: "string" "string" ...</param>
+    public AwsGuarddutyInviteMembersOptions(
+        string DetectorId,
+        IEnumerable<string> AccountIds
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DetectorId);
+        this.DetectorId = DetectorId;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(AccountIds);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(AccountIds));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(AccountIds));
+            }
+
+            AccountIds = materialized;
+        }
+        this.AccountIds = AccountIds;
+    }
+
+    private AwsGuarddutyInviteMembersOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsGuarddutyInviteMembersOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsGuarddutyInviteMembersOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique ID of the detector of the GuardDuty account with which you want to invite members. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the ListDetectors API. Constraints: o min: 1 o max: 300
+    /// </summary>
     [CliOption("--detector-id")]
-    public string? DetectorId { get; set; }
+    public string? DetectorId { get; private init; }
 
+    /// <summary>
+    /// A list of account IDs of the accounts that you want to invite to GuardDuty as members. Constraints: o min: 1 o max: 50 (string) Constraints: o min: 12 o max: 12 Syntax: "string" "string" ...
+    /// </summary>
     [CliOption("--account-ids", GroupValues = true)]
-    public IEnumerable<string>? AccountIds { get; set; }
+    public IEnumerable<string>? AccountIds { get; private init; }
 
-    [CliFlag("--disable-email-notification")]
+    /// <summary>
+    /// A Boolean value that specifies whether you want to disable email no- tification to the accounts that you are inviting to GuardDuty as members.
+    /// </summary>
+    [CliFlag("--disable-email-notification", NegatedName = "--no-disable-email-notification")]
     public bool? DisableEmailNotification { get; set; }
 
     /// <summary>
@@ -41,5 +99,22 @@ public record AwsGuarddutyInviteMembersOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

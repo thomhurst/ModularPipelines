@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("backupsearch", "list-search-job-backups")]
-public record AwsBackupsearchListSearchJobBackupsOptions : AwsOptions
+public record AwsBackupsearchListSearchJobBackupsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// This operation returns a list of all backups (recovery points) in a paginated format that were included in the search job. If a search does not display an expected backup in the results, you can call this operation to display each backup included in the search. Any backups that were not included because they have a FAILED status from a permissions issue will be displayed, along with a status message. Only recovery points with a backup index that has a status of ACTIVE will be included in search ...
+    /// </summary>
+    /// <param name="SearchJobIdentifier">The unique string that specifies the search job.</param>
+    public AwsBackupsearchListSearchJobBackupsOptions(
+        string SearchJobIdentifier
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SearchJobIdentifier);
+        this.SearchJobIdentifier = SearchJobIdentifier;
+    }
+
+    private AwsBackupsearchListSearchJobBackupsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsBackupsearchListSearchJobBackupsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsBackupsearchListSearchJobBackupsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique string that specifies the search job.
+    /// </summary>
     [CliOption("--search-job-identifier")]
-    public string? SearchJobIdentifier { get; set; }
+    public string? SearchJobIdentifier { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
@@ -49,5 +86,22 @@ public record AwsBackupsearchListSearchJobBackupsOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

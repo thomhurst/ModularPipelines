@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,13 +22,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("notifications", "create-notification-configuration")]
-public record AwsNotificationsCreateNotificationConfigurationOptions : AwsOptions
+public record AwsNotificationsCreateNotificationConfigurationOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--name")]
-    public string? Name { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates a new NotificationConfiguration . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Name">The name of the NotificationConfiguration . Supports RFC 3986's un- reserved characters. Constraints: o min: 1 o max: 64 o pattern: [A-Za-z0-9_\-]+</param>
+    /// <param name="Description">The description of the NotificationConfiguration . Constraints: o min: 0 o max: 256 o pattern: [^\u0001-\u001F\u007F-\u009F]*</param>
+    public AwsNotificationsCreateNotificationConfigurationOptions(
+        string Name,
+        string Description
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(Description);
+        this.Description = Description;
+    }
+
+    private AwsNotificationsCreateNotificationConfigurationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsNotificationsCreateNotificationConfigurationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsNotificationsCreateNotificationConfigurationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the NotificationConfiguration . Supports RFC 3986's un- reserved characters. Constraints: o min: 1 o max: 64 o pattern: [A-Za-z0-9_\-]+
+    /// </summary>
+    [CliOption("--name")]
+    public string? Name { get; private init; }
+
+    /// <summary>
+    /// The description of the NotificationConfiguration . Constraints: o min: 0 o max: 256 o pattern: [^\u0001-\u001F\u007F-\u009F]*
+    /// </summary>
     [CliOption("--description")]
-    public string? Description { get; set; }
+    public string? Description { get; private init; }
 
     /// <summary>
     /// The aggregation preference of the NotificationConfiguration . o Values: o LONG o Aggregate notifications for long periods of time (12 hours). o SHORT o Aggregate notifications for short periods of time (5 minutes). o NONE o Don't aggregate notifications. Possible values: o LONG o SHORT o NONE
@@ -46,5 +90,22 @@ public record AwsNotificationsCreateNotificationConfigurationOptions : AwsOption
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

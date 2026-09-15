@@ -11,11 +11,41 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --instancetype.
+/// Allowed values for --instance-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsSagemakerSearchTrainingPlanOfferingsInstanceType
 {
-    [EnumValue("ml")]
-    Ml = 1
+    [EnumValue("ml.p4d.24xlarge")]
+    MlP4D24Xlarge,
+
+    [EnumValue("ml.p4de.24xlarge")]
+    MlP4De24Xlarge,
+
+    [EnumValue("ml.p5.48xlarge")]
+    MlP548Xlarge,
+
+    [EnumValue("ml.p5.4xlarge")]
+    MlP54Xlarge,
+
+    [EnumValue("ml.p5e.48xlarge")]
+    MlP5E48Xlarge,
+
+    [EnumValue("ml.p5en.48xlarge")]
+    MlP5En48Xlarge,
+
+    [EnumValue("ml.p6-b200.48xlarge")]
+    MlP6B20048Xlarge,
+
+    [EnumValue("ml.p6-b300.48xlarge")]
+    MlP6B30048Xlarge,
+
+    [EnumValue("ml.p6e-gb200.36xlarge")]
+    MlP6EGb20036Xlarge,
+
+    [EnumValue("ml.trn1.32xlarge")]
+    MlTrn132Xlarge,
+
+    [EnumValue("ml.trn2.48xlarge")]
+    MlTrn248Xlarge
 }

@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,13 +22,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sagemakerjobruntime", "complete-rollout")]
-public record AwsSagemakerjobruntimeCompleteRolloutOptions : AwsOptions
+public record AwsSagemakerjobruntimeCompleteRolloutOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--job-arn")]
-    public string? JobArn { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Marks a rollout as complete, indicating that no further turns will be appended to the trajectory. After calling this operation, the trajec- tory is sealed and eligible for reward submission via the UpdateReward operation. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="JobArn">The job ARN. Constraints: o min: 1 o max: 256 o pattern: arn:aws[a-z\-]*:sage- maker:[a-z0-9\-]*:[0-9]{12}:job/[a-zA-Z0-9_\-]+/[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}</param>
+    /// <param name="TrajectoryId">The trajectory ID to mark as complete. Constraints: o min: 1 o max: 256</param>
+    public AwsSagemakerjobruntimeCompleteRolloutOptions(
+        string JobArn,
+        string TrajectoryId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(JobArn);
+        this.JobArn = JobArn;
+        global::System.ArgumentNullException.ThrowIfNull(TrajectoryId);
+        this.TrajectoryId = TrajectoryId;
+    }
+
+    private AwsSagemakerjobruntimeCompleteRolloutOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSagemakerjobruntimeCompleteRolloutOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSagemakerjobruntimeCompleteRolloutOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The job ARN. Constraints: o min: 1 o max: 256 o pattern: arn:aws[a-z\-]*:sage- maker:[a-z0-9\-]*:[0-9]{12}:job/[a-zA-Z0-9_\-]+/[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}
+    /// </summary>
+    [CliOption("--job-arn")]
+    public string? JobArn { get; private init; }
+
+    /// <summary>
+    /// The trajectory ID to mark as complete. Constraints: o min: 1 o max: 256
+    /// </summary>
     [CliOption("--trajectory-id")]
-    public string? TrajectoryId { get; set; }
+    public string? TrajectoryId { get; private init; }
 
     /// <summary>
     /// The target status for the trajectory. Defaults to READY if not spec- ified. Set to FAILED if the rollout encountered an error and the trajectory should not be used for processing. Possible values: o ready o failed
@@ -47,5 +91,22 @@ public record AwsSagemakerjobruntimeCompleteRolloutOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

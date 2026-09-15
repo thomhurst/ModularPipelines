@@ -12,6 +12,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -22,13 +23,87 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("eks", "create-nodegroup")]
-public record AwsEksCreateNodegroupOptions : AwsOptions
+public record AwsEksCreateNodegroupOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--cluster-name")]
-    public string? ClusterName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates a managed node group for an Amazon EKS cluster. You can only create a node group for your cluster that is equal to the current Kubernetes version for the cluster. All node groups are created with the latest AMI release version for the respective minor Kubernetes version of the cluster, unless you deploy a custom AMI using a launch template. For later updates, you will only be able to update a node group using a launch template only if it was originally deployed with a launch tem- plate. ...
+    /// </summary>
+    /// <param name="ClusterName">The name of your cluster.</param>
+    /// <param name="NodegroupName">The unique name to give your node group.</param>
+    /// <param name="Subnets">The subnets to use for the Auto Scaling group that is created for your node group. If you specify launchTemplate , then don't specify `` SubnetId `` in your launch template, or the node group deployment will fail. For more information about using launch templates with Amazon EKS, see Customizing managed nodes with launch templates in the Amazon EKS User Guide . (string) Syntax: "string" "string" ...</param>
+    /// <param name="NodeRole">The Amazon Resource Name (ARN) of the IAM role to associate with your node group. The Amazon EKS worker node kubelet daemon makes calls to Amazon Web Services APIs on your behalf. Nodes receive per- missions for these API calls through an IAM instance profile and as- sociated policies. Before you can launch nodes and register them into a cluster, you must create an IAM role for those nodes to use when they are launched. For more information, see Amazon EKS node IAM role in the * Amazon EKS User Guide * . If you specify launchTemplate , then don't specify `` IamInstanceProfile `` in your launch template, or the node group deployment will fail. For more information about using launch templates with Amazon EKS, see Customizing managed nodes with launch templates in the Amazon EKS User Guide .</param>
+    public AwsEksCreateNodegroupOptions(
+        string ClusterName,
+        string NodegroupName,
+        IEnumerable<string> Subnets,
+        string NodeRole
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ClusterName);
+        this.ClusterName = ClusterName;
+        global::System.ArgumentNullException.ThrowIfNull(NodegroupName);
+        this.NodegroupName = NodegroupName;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Subnets);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Subnets));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Subnets));
+            }
+
+            Subnets = materialized;
+        }
+        this.Subnets = Subnets;
+        global::System.ArgumentNullException.ThrowIfNull(NodeRole);
+        this.NodeRole = NodeRole;
+    }
+
+    private AwsEksCreateNodegroupOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEksCreateNodegroupOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEksCreateNodegroupOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of your cluster.
+    /// </summary>
+    [CliOption("--cluster-name")]
+    public string? ClusterName { get; private init; }
+
+    /// <summary>
+    /// The unique name to give your node group.
+    /// </summary>
     [CliOption("--nodegroup-name")]
-    public string? NodegroupName { get; set; }
+    public string? NodegroupName { get; private init; }
+
+    /// <summary>
+    /// The subnets to use for the Auto Scaling group that is created for your node group. If you specify launchTemplate , then don't specify `` SubnetId `` in your launch template, or the node group deployment will fail. For more information about using launch templates with Amazon EKS, see Customizing managed nodes with launch templates in the Amazon EKS User Guide . (string) Syntax: "string" "string" ...
+    /// </summary>
+    [CliOption("--subnets", GroupValues = true)]
+    public IEnumerable<string>? Subnets { get; private init; }
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the IAM role to associate with your node group. The Amazon EKS worker node kubelet daemon makes calls to Amazon Web Services APIs on your behalf. Nodes receive per- missions for these API calls through an IAM instance profile and as- sociated policies. Before you can launch nodes and register them into a cluster, you must create an IAM role for those nodes to use when they are launched. For more information, see Amazon EKS node IAM role in the * Amazon EKS User Guide * . If you specify launchTemplate , then don't specify `` IamInstanceProfile `` in your launch template, or the node group deployment will fail. For more information about using launch templates with Amazon EKS, see Customizing managed nodes with launch templates in the Amazon EKS User Guide .
+    /// </summary>
+    [CliOption("--node-role")]
+    public string? NodeRole { get; private init; }
 
     /// <summary>
     /// The scaling configuration details for the Auto Scaling group that is created for your node group. minSize -&gt; (integer) The minimum number of nodes that the managed node group can scale in to. Constraints: o min: 0 maxSize -&gt; (integer) The maximum number of nodes that the managed node group can scale out to. For information about the maximum number that you can specify, see Amazon EKS service quotas in the Amazon EKS User Guide . Constraints: o min: 1 desiredSize -&gt; (integer) The current number of nodes that the managed node group should maintain. WARNING: If you use the Kubernetes Cluster Autoscaler , you shouldn't change the desiredSize value directly, as this can cause the Cluster Autoscaler to suddenly scale up or scale down. Whenever this parameter changes, the number of worker nodes in the node group is updated to the specified size. If this parame- ter is given a value that is smaller than the current number of running worker nodes, the necessary number of worker nodes are terminated to match the given value. When using CloudFormation, no action occurs if you remove this parameter from your CFN tem- plate. This parameter can be different from minSize in some cases, such as when starting with extra hosts for testing. This parameter can also be different when you want to start with an estimated number of needed hosts, but let the Cluster Autoscaler reduce the number if there are too many. When the Cluster Autoscaler is used, the desiredSize parameter is altered by the Cluster Au- toscaler (but can be out-of-date for short periods of time). the Cluster Autoscaler doesn't scale a managed node group lower than minSize or higher than maxSize . Constraints: o min: 0 Shorthand Syntax: minSize=integer,maxSize=integer,desiredSize=integer JSON Syntax: { "minSize": integer, "maxSize": integer, "desiredSize": integer }
@@ -41,9 +116,6 @@ public record AwsEksCreateNodegroupOptions : AwsOptions
     /// </summary>
     [CliOption("--disk-size")]
     public int? DiskSize { get; set; }
-
-    [CliOption("--subnets", GroupValues = true)]
-    public IEnumerable<string>? Subnets { get; set; }
 
     /// <summary>
     /// Specify the instance types for a node group. If you specify a GPU instance type, make sure to also specify an applicable GPU AMI type with the amiType parameter. If you specify launchTemplate , then you can specify zero or one instance type in your launch template or you can specify 0-20 instance types for instanceTypes . If however, you specify an instance type in your launch template and specify any in- stanceTypes , the node group deployment will fail. If you don't specify an instance type in a launch template or for instanceTypes , then t3.medium is used, by default. If you specify Spot for capaci- tyType , then we recommend specifying multiple values for instance- Types . For more information, see Managed node group capacity types and Customizing managed nodes with launch templates in the Amazon EKS User Guide . (string) Syntax: "string" "string" ...
@@ -62,9 +134,6 @@ public record AwsEksCreateNodegroupOptions : AwsOptions
     /// </summary>
     [CliOption("--remote-access")]
     public string? RemoteAccess { get; set; }
-
-    [CliOption("--node-role")]
-    public string? NodeRole { get; set; }
 
     /// <summary>
     /// The Kubernetes labels to apply to the nodes in the node group when they are created. key -&gt; (string) Constraints: o min: 1 o max: 63 value -&gt; (string) Constraints: o min: 1 o max: 63 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
@@ -138,5 +207,22 @@ public record AwsEksCreateNodegroupOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

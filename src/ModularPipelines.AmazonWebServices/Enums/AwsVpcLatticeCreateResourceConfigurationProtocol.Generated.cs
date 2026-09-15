@@ -16,6 +16,9 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsVpcLatticeCreateResourceConfigurationProtocol
 {
+    [EnumValue("o")]
+    O,
+
     [EnumValue("TCP")]
-    Tcp = 1
+    Tcp
 }

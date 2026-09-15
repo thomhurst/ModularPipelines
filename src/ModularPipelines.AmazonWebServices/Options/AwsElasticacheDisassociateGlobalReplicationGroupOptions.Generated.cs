@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +20,88 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("elasticache", "disassociate-global-replication-group")]
-public record AwsElasticacheDisassociateGlobalReplicationGroupOptions : AwsOptions
+public record AwsElasticacheDisassociateGlobalReplicationGroupOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Remove a secondary cluster from the Global datastore using the Global datastore name. The secondary cluster will no longer receive updates from the primary cluster, but will remain as a standalone cluster in that Amazon region. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="GlobalReplicationGroupId">The name of the Global datastore</param>
+    /// <param name="ReplicationGroupId">The name of the secondary cluster you wish to remove from the Global datastore</param>
+    /// <param name="ReplicationGroupRegion">The Amazon region of secondary cluster you wish to remove from the Global datastore</param>
+    public AwsElasticacheDisassociateGlobalReplicationGroupOptions(
+        string GlobalReplicationGroupId,
+        string ReplicationGroupId,
+        string ReplicationGroupRegion
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(GlobalReplicationGroupId);
+        this.GlobalReplicationGroupId = GlobalReplicationGroupId;
+        global::System.ArgumentNullException.ThrowIfNull(ReplicationGroupId);
+        this.ReplicationGroupId = ReplicationGroupId;
+        global::System.ArgumentNullException.ThrowIfNull(ReplicationGroupRegion);
+        this.ReplicationGroupRegion = ReplicationGroupRegion;
+    }
+
+    private AwsElasticacheDisassociateGlobalReplicationGroupOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsElasticacheDisassociateGlobalReplicationGroupOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsElasticacheDisassociateGlobalReplicationGroupOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the Global datastore
+    /// </summary>
     [CliOption("--global-replication-group-id")]
-    public string? GlobalReplicationGroupId { get; set; }
+    public string? GlobalReplicationGroupId { get; private init; }
 
+    /// <summary>
+    /// The name of the secondary cluster you wish to remove from the Global datastore
+    /// </summary>
     [CliOption("--replication-group-id")]
-    public string? ReplicationGroupId { get; set; }
+    public string? ReplicationGroupId { get; private init; }
 
+    /// <summary>
+    /// The Amazon region of secondary cluster you wish to remove from the Global datastore
+    /// </summary>
     [CliOption("--replication-group-region")]
-    public string? ReplicationGroupRegion { get; set; }
+    public string? ReplicationGroupRegion { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

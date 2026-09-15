@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +21,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("finspace", "update-kx-cluster-databases")]
-public record AwsFinspaceUpdateKxClusterDatabasesOptions : AwsOptions
+public record AwsFinspaceUpdateKxClusterDatabasesOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--environment-id")]
-    public string? EnvironmentId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Updates the databases mounted on a kdb cluster, which includes the changesetId and all the dbPaths to be cached. This API does not allow you to change a database name or add a database if you created a clus- ter without one. Using this API you can point a cluster to a different changeset and modify a list of partitions being cached. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="EnvironmentId">The unique identifier of a kdb environment. Constraints: o min: 1 o max: 32 o pattern: ^[a-z0-9]+$</param>
+    /// <param name="ClusterName">A unique name for the cluster that you want to modify. Constraints: o min: 3 o max: 63 o pattern: ^[a-zA-Z0-9][a-zA-Z0-9-_]*[a-zA-Z0-9]$</param>
+    /// <param name="Databases">The structure of databases mounted on the cluster. (structure) The configuration of data that is available for querying from this database. databaseName -&gt; (string) [required] The name of the kdb database. When this parameter is speci- fied in the structure, S3 with the whole database is included by default. Constraints: o min: 3 o max: 63 o pattern: ^[a-zA-Z0-9][a-zA-Z0-9-_]*[a-zA-Z0-9]$ cacheConfigurations -&gt; (list) Configuration details for the disk cache used to increase performance reading from a kdb database mounted to the clus- ter. (structure) The structure of database cache configuration that is used for mapping database paths to cache types in clus- ters. cacheType -&gt; (string) [required] The type of disk cache. This parameter is used to map the database path to cache storage. The valid values are: o CACHE_1000 This type provides at least 1000 MB/s disk access throughput. Constraints: o min: 8 o max: 10 dbPaths -&gt; (list) [required] Specifies the portions of database that will be loaded into the cache for access. (string) Constraints: o min: 1 o max: 1025 o pattern: ^(\*)*[\/\?\*]([^\/]+\/){0,2}[^\/]*$ dataviewName -&gt; (string) The name of the dataview to be used for caching his- torical data on disk. Constraints: o min: 3 o max: 63 o pattern: ^[a-zA-Z0-9][a-zA-Z0-9-_]*[a-zA-Z0-9]$ changesetId -&gt; (string) A unique identifier of the changeset that is associated with the cluster. Constraints: o min: 1 o max: 26 o pattern: ^[a-zA-Z0-9]+$ dataviewName -&gt; (string) The name of the dataview to be used for caching historical data on disk. Constraints: o min: 3 o max: 63 o pattern: ^[a-zA-Z0-9][a-zA-Z0-9-_]*[a-zA-Z0-9]$ dataviewConfiguration -&gt; (structure) The configuration of the dataview to be used with specified cluster. dataviewName -&gt; (string) The unique identifier of the dataview. Constraints: o min: 3 o max: 63 o pattern: ^[a-zA-Z0-9][a-zA-Z0-9-_]*[a-zA-Z0-9]$ dataviewVersionId -&gt; (string) The version of the dataview corresponding to a given changeset. Constraints: o min: 1 o max: 26 changesetId -&gt; (string) A unique identifier for the changeset. Constraints: o min: 1 o max: 26 o pattern: ^[a-zA-Z0-9]+$ segmentConfigurations -&gt; (list) The db path and volume configuration for the segmented database. Constraints: o min: 0 o max: 50 (structure) The configuration that contains the database path of the data that you want to place on each selected vol- ume. Each segment must have a unique database path for each volume. If you do not explicitly specify any database path for a volume, they are accessible from the cluster through the default S3/object store seg- ment. dbPaths -&gt; (list) [required] The database path of the data that you want to place on each selected volume for the segment. Each segment must have a unique database path for each volume. Constraints: o min: 1 o max: 30 (string) Constraints: o min: 1 o max: 1025 o pattern: ^(\*)*[\/\?\*]([^\/]+\/){0,2}[^\/]*$ volumeName -&gt; (string) [required] The name of the volume where you want to add data. Constraints: o min: 3 o max: 63 o pattern: ^[a-zA-Z0-9][a-zA-Z0-9-_]*[a-zA-Z0-9]$ onDemand -&gt; (boolean) Enables on-demand caching on the selected database path when a particular file or a column of the database is accessed. When on demand caching is True , dataviews perform minimal loading of files on the filesystem as needed. When it is set to False , everything is cached. The default value is False . JSON Syntax: [ { "databaseName": "string", "cacheConfigurations": [ { "cacheType": "string", "dbPaths": ["string", ...], "dataviewName": "string" } ... ], "changesetId": "string", "dataviewName": "string", "dataviewConfiguration": { "dataviewName": "string", "dataviewVersionId": "string", "changesetId": "string", "segmentConfigurations": [ { "dbPaths": ["string", ...], "volumeName": "string", "onDemand": true|false } ... ] } } ... ]</param>
+    public AwsFinspaceUpdateKxClusterDatabasesOptions(
+        string EnvironmentId,
+        string ClusterName,
+        IEnumerable<string> Databases
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(EnvironmentId);
+        this.EnvironmentId = EnvironmentId;
+        global::System.ArgumentNullException.ThrowIfNull(ClusterName);
+        this.ClusterName = ClusterName;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Databases);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Databases));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Databases));
+            }
+
+            Databases = materialized;
+        }
+        this.Databases = Databases;
+    }
+
+    private AwsFinspaceUpdateKxClusterDatabasesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsFinspaceUpdateKxClusterDatabasesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsFinspaceUpdateKxClusterDatabasesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier of a kdb environment. Constraints: o min: 1 o max: 32 o pattern: ^[a-z0-9]+$
+    /// </summary>
+    [CliOption("--environment-id")]
+    public string? EnvironmentId { get; private init; }
+
+    /// <summary>
+    /// A unique name for the cluster that you want to modify. Constraints: o min: 3 o max: 63 o pattern: ^[a-zA-Z0-9][a-zA-Z0-9-_]*[a-zA-Z0-9]$
+    /// </summary>
     [CliOption("--cluster-name")]
-    public string? ClusterName { get; set; }
+    public string? ClusterName { get; private init; }
+
+    /// <summary>
+    /// The structure of databases mounted on the cluster. (structure) The configuration of data that is available for querying from this database. databaseName -&gt; (string) [required] The name of the kdb database. When this parameter is speci- fied in the structure, S3 with the whole database is included by default. Constraints: o min: 3 o max: 63 o pattern: ^[a-zA-Z0-9][a-zA-Z0-9-_]*[a-zA-Z0-9]$ cacheConfigurations -&gt; (list) Configuration details for the disk cache used to increase performance reading from a kdb database mounted to the clus- ter. (structure) The structure of database cache configuration that is used for mapping database paths to cache types in clus- ters. cacheType -&gt; (string) [required] The type of disk cache. This parameter is used to map the database path to cache storage. The valid values are: o CACHE_1000 This type provides at least 1000 MB/s disk access throughput. Constraints: o min: 8 o max: 10 dbPaths -&gt; (list) [required] Specifies the portions of database that will be loaded into the cache for access. (string) Constraints: o min: 1 o max: 1025 o pattern: ^(\*)*[\/\?\*]([^\/]+\/){0,2}[^\/]*$ dataviewName -&gt; (string) The name of the dataview to be used for caching his- torical data on disk. Constraints: o min: 3 o max: 63 o pattern: ^[a-zA-Z0-9][a-zA-Z0-9-_]*[a-zA-Z0-9]$ changesetId -&gt; (string) A unique identifier of the changeset that is associated with the cluster. Constraints: o min: 1 o max: 26 o pattern: ^[a-zA-Z0-9]+$ dataviewName -&gt; (string) The name of the dataview to be used for caching historical data on disk. Constraints: o min: 3 o max: 63 o pattern: ^[a-zA-Z0-9][a-zA-Z0-9-_]*[a-zA-Z0-9]$ dataviewConfiguration -&gt; (structure) The configuration of the dataview to be used with specified cluster. dataviewName -&gt; (string) The unique identifier of the dataview. Constraints: o min: 3 o max: 63 o pattern: ^[a-zA-Z0-9][a-zA-Z0-9-_]*[a-zA-Z0-9]$ dataviewVersionId -&gt; (string) The version of the dataview corresponding to a given changeset. Constraints: o min: 1 o max: 26 changesetId -&gt; (string) A unique identifier for the changeset. Constraints: o min: 1 o max: 26 o pattern: ^[a-zA-Z0-9]+$ segmentConfigurations -&gt; (list) The db path and volume configuration for the segmented database. Constraints: o min: 0 o max: 50 (structure) The configuration that contains the database path of the data that you want to place on each selected vol- ume. Each segment must have a unique database path for each volume. If you do not explicitly specify any database path for a volume, they are accessible from the cluster through the default S3/object store seg- ment. dbPaths -&gt; (list) [required] The database path of the data that you want to place on each selected volume for the segment. Each segment must have a unique database path for each volume. Constraints: o min: 1 o max: 30 (string) Constraints: o min: 1 o max: 1025 o pattern: ^(\*)*[\/\?\*]([^\/]+\/){0,2}[^\/]*$ volumeName -&gt; (string) [required] The name of the volume where you want to add data. Constraints: o min: 3 o max: 63 o pattern: ^[a-zA-Z0-9][a-zA-Z0-9-_]*[a-zA-Z0-9]$ onDemand -&gt; (boolean) Enables on-demand caching on the selected database path when a particular file or a column of the database is accessed. When on demand caching is True , dataviews perform minimal loading of files on the filesystem as needed. When it is set to False , everything is cached. The default value is False . JSON Syntax: [ { "databaseName": "string", "cacheConfigurations": [ { "cacheType": "string", "dbPaths": ["string", ...], "dataviewName": "string" } ... ], "changesetId": "string", "dataviewName": "string", "dataviewConfiguration": { "dataviewName": "string", "dataviewVersionId": "string", "changesetId": "string", "segmentConfigurations": [ { "dbPaths": ["string", ...], "volumeName": "string", "onDemand": true|false } ... ] } } ... ]
+    /// </summary>
+    [CliOption("--databases", GroupValues = true)]
+    public IEnumerable<string>? Databases { get; private init; }
 
     /// <summary>
     /// A token that ensures idempotency. This token expires in 10 minutes. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9-]+$
@@ -34,9 +99,6 @@ public record AwsFinspaceUpdateKxClusterDatabasesOptions : AwsOptions
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
-
-    [CliOption("--databases", GroupValues = true)]
-    public IEnumerable<string>? Databases { get; set; }
 
     /// <summary>
     /// The configuration that allows you to choose how you want to update the databases on a cluster. deploymentStrategy -&gt; (string) [required] The type of deployment that you want on a cluster. o ROLLING This options updates the cluster by stopping the ex- iting q process and starting a new q process with updated con- figuration. o NO_RESTART This option updates the cluster without stopping the running q process. It is only available for HDB type clus- ter. This option is quicker as it reduces the turn around time to update configuration on a cluster. With this deployment mode, you cannot update the initializationScript and command- LineArguments parameters. Possible values: o NO_RESTART o ROLLING Shorthand Syntax: deploymentStrategy=string JSON Syntax: { "deploymentStrategy": "NO_RESTART"|"ROLLING" }
@@ -49,5 +111,22 @@ public record AwsFinspaceUpdateKxClusterDatabasesOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

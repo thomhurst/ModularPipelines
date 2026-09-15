@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --principaltype.
+/// Allowed values for --principal-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsServicecatalogDisassociatePrincipalFromPortfolioPrincipalType
 {
     [EnumValue("IAM")]
-    Iam = 1,
+    Iam,
 
     [EnumValue("IAM_PATTERN")]
-    IamPattern = 2
+    IamPattern
 }

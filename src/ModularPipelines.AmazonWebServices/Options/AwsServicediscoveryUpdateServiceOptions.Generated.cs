@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("servicediscovery", "update-service")]
-public record AwsServicediscoveryUpdateServiceOptions : AwsOptions
+public record AwsServicediscoveryUpdateServiceOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--id")]
-    public string? Id { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Submits a request to perform the following operations: o Update the TTL setting for existing DnsRecords configurations o Add, update, or delete HealthCheckConfig for a specified service NOTE: You can't add, update, or delete a HealthCheckCustomConfig configu- ration. For public and private DNS namespaces, note the following: o If you omit any existing DnsRecords or HealthCheckConfig configura- tions from an UpdateService request, the configurations are deleted from the service. o If you omit an ...
+    /// </summary>
+    /// <param name="Id">The ID or Amazon Resource Name (ARN) of the service that you want to update. If the namespace associated with the service is shared with your Amazon Web Services account, specify the service ARN. For more information about shared namespaces, see Cross-account Cloud Map namespace sharing in the Cloud Map Developer Guide Constraints: o max: 255</param>
+    /// <param name="Service">A complex type that contains the new settings for the service. You can specify a maximum of 30 attributes (key-value pairs). Description -&gt; (string) A description for the service. Constraints: o max: 1024 DnsConfig -&gt; (structure) Information about the Route 53 DNS records that you want Cloud Map to create when you register an instance. DnsRecords -&gt; (list) [required] An array that contains one DnsRecord object for each Route 53 record that you want Cloud Map to create when you register an instance. (structure) A complex type that contains information about the Route 53 DNS records that you want Cloud Map to create when you register an instance. Type -&gt; (string) [required] The type of the resource, which indicates the type of value that Route 53 returns in response to DNS queries. You can specify values for Type in the fol- lowing combinations: o ** A ** System Message: WARNING/2 (&lt;string&gt;:, line 187) Inline strong start-string without end-string. o ** AAAA ** System Message: WARNING/2 (&lt;string&gt;:, line 189) Inline strong start-string without end-string. o ** A ** and ** AAAA ** System Message: WARNING/2 (&lt;string&gt;:, line 191) Inline strong start-string without end-string. o ** SRV ** System Message: WARNING/2 (&lt;string&gt;:, line 193) Inline strong start-string without end-string. o ** CNAME ** System Message: WARNING/2 (&lt;string&gt;:, line 195) Inline strong start-string without end-string. If you want Cloud Map to create a Route 53 alias record when you register an instance, specify A or AAAA for Type . You specify other settings, such as the IP address for A and AAAA records, when you register an instance. For more information, see RegisterInstance . The following values are supported: A Route 53 returns the IP address of the resource in IPv4 format, such as 192.0.2.44. AAAA Route 53 returns the IP address of the resource in IPv6 format, such as 2001:0db8:85a3:0000:0000:abcd:0001:2345. CNAME Route 53 returns the domain name of the resource, such as www.example.com. Note the following: o You specify the domain name that you want to route traffic to when you register an instance. For more information, see Attributes in the topic RegisterInstance . o You must specify WEIGHTED for the value of Routing- Policy . o You can't specify both CNAME for Type and settings for HealthCheckConfig . If you do, the request will fail with an InvalidInput error. SRV Route 53 returns the value for an SRV record. The value for an SRV record uses the following values: priority weight port service-hostname Note the following about the values: o The values of priority and weight are both set to 1 and can't be changed. o The value of port comes from the value that you specify for the AWS_INSTANCE_PORT attribute when you submit a RegisterInstance request. o The value of service-hostname is a concatenation of the following values: o The value that you specify for InstanceId when you register an instance. o The name of the service. o The name of the namespace. For example, if the value of InstanceId is test , the name of the service is backend , and the name of the namespace is example.com , the value of service-host- name is the following: test.backend.example.com If you specify settings for an SRV record, note the following: o If you specify values for AWS_INSTANCE_IPV4 , AWS_INSTANCE_IPV6 , or both in the RegisterInstance request, Cloud Map automatically creates A and/or AAAA records that have the same name as the value of service-hostname in the SRV record. You can ignore these records. o If you're using a system that requires a specific SRV format, such as HAProxy, see the Name element in the documentation about CreateService for informa- tion about how to specify the correct name format. Possible values: o SRV o A o AAAA o CNAME TTL -&gt; (long) [required] The amount of time, in seconds, that you want DNS re- solvers to cache the settings for this record. NOTE: Alias records don't include a TTL because Route 53 uses the TTL for the Amazon Web Services resource that an alias record routes traffic to. If you in- clude the AWS_ALIAS_DNS_NAME attribute when you submit a RegisterInstance request, the TTL value is ignored. Always specify a TTL for the service; you can use a service to register instances that create either alias or non-alias records. Constraints: o min: 0 o max: 2147483647 HealthCheckConfig -&gt; (structure) Public DNS and HTTP namespaces only. Settings for an optional health check. If you specify settings for a health check, Cloud Map associates the health check with the records that you specify in DnsConfig . Type -&gt; (string) [required] The type of health check that you want to create, which indi- cates how Route 53 determines whether an endpoint is healthy. WARNING: You can't change the value of Type after you create a health check. You can create the following types of health checks: o HTTP : Route 53 tries to establish a TCP connection. If successful, Route 53 submits an HTTP request and waits for an HTTP status code of 200 or greater and less than 400. o HTTPS : Route 53 tries to establish a TCP connection. If successful, Route 53 submits an HTTPS request and waits for an HTTP status code of 200 or greater and less than 400. WARNING: If you specify HTTPS for the value of Type , the endpoint must support TLS v1.0 or later. o TCP : Route 53 tries to establish a TCP connection. If you specify TCP for Type , don't specify a value for Resour- cePath . For more information, see How Route 53 Determines Whether an Endpoint Is Healthy in the Route 53 Developer Guide . Possible values: o HTTP o HTTPS o TCP ResourcePath -&gt; (string) The path that you want Route 53 to request when performing health checks. The path can be any value that your endpoint returns an HTTP status code of a 2xx or 3xx format for when the endpoint is healthy. An example file is /docs/route53-health-check.html . Route 53 automatically adds the DNS name for the service. If you don't specify a value for ResourcePath , the default value is / . If you specify TCP for Type , you must not specify a value for ResourcePath . Constraints: o max: 255 FailureThreshold -&gt; (integer) The number of consecutive health checks that an endpoint must pass or fail for Route 53 to change the current status of the endpoint from unhealthy to healthy or the other way around. For more information, see How Route 53 Determines Whether an Endpoint Is Healthy in the Route 53 Developer Guide . Constraints: o min: 1 o max: 10 JSON Syntax: { "Description": "string", "DnsConfig": { "DnsRecords": [ { "Type": "SRV"|"A"|"AAAA"|"CNAME", "TTL": long } ... ] }, "HealthCheckConfig": { "Type": "HTTP"|"HTTPS"|"TCP", "ResourcePath": "string", "FailureThreshold": integer } }</param>
+    public AwsServicediscoveryUpdateServiceOptions(
+        string Id,
+        string Service
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Id);
+        this.Id = Id;
+        global::System.ArgumentNullException.ThrowIfNull(Service);
+        this.Service = Service;
+    }
+
+    private AwsServicediscoveryUpdateServiceOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsServicediscoveryUpdateServiceOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsServicediscoveryUpdateServiceOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID or Amazon Resource Name (ARN) of the service that you want to update. If the namespace associated with the service is shared with your Amazon Web Services account, specify the service ARN. For more information about shared namespaces, see Cross-account Cloud Map namespace sharing in the Cloud Map Developer Guide Constraints: o max: 255
+    /// </summary>
+    [CliOption("--id")]
+    public string? Id { get; private init; }
+
+    /// <summary>
+    /// A complex type that contains the new settings for the service. You can specify a maximum of 30 attributes (key-value pairs). Description -&gt; (string) A description for the service. Constraints: o max: 1024 DnsConfig -&gt; (structure) Information about the Route 53 DNS records that you want Cloud Map to create when you register an instance. DnsRecords -&gt; (list) [required] An array that contains one DnsRecord object for each Route 53 record that you want Cloud Map to create when you register an instance. (structure) A complex type that contains information about the Route 53 DNS records that you want Cloud Map to create when you register an instance. Type -&gt; (string) [required] The type of the resource, which indicates the type of value that Route 53 returns in response to DNS queries. You can specify values for Type in the fol- lowing combinations: o ** A ** System Message: WARNING/2 (&lt;string&gt;:, line 187) Inline strong start-string without end-string. o ** AAAA ** System Message: WARNING/2 (&lt;string&gt;:, line 189) Inline strong start-string without end-string. o ** A ** and ** AAAA ** System Message: WARNING/2 (&lt;string&gt;:, line 191) Inline strong start-string without end-string. o ** SRV ** System Message: WARNING/2 (&lt;string&gt;:, line 193) Inline strong start-string without end-string. o ** CNAME ** System Message: WARNING/2 (&lt;string&gt;:, line 195) Inline strong start-string without end-string. If you want Cloud Map to create a Route 53 alias record when you register an instance, specify A or AAAA for Type . You specify other settings, such as the IP address for A and AAAA records, when you register an instance. For more information, see RegisterInstance . The following values are supported: A Route 53 returns the IP address of the resource in IPv4 format, such as 192.0.2.44. AAAA Route 53 returns the IP address of the resource in IPv6 format, such as 2001:0db8:85a3:0000:0000:abcd:0001:2345. CNAME Route 53 returns the domain name of the resource, such as www.example.com. Note the following: o You specify the domain name that you want to route traffic to when you register an instance. For more information, see Attributes in the topic RegisterInstance . o You must specify WEIGHTED for the value of Routing- Policy . o You can't specify both CNAME for Type and settings for HealthCheckConfig . If you do, the request will fail with an InvalidInput error. SRV Route 53 returns the value for an SRV record. The value for an SRV record uses the following values: priority weight port service-hostname Note the following about the values: o The values of priority and weight are both set to 1 and can't be changed. o The value of port comes from the value that you specify for the AWS_INSTANCE_PORT attribute when you submit a RegisterInstance request. o The value of service-hostname is a concatenation of the following values: o The value that you specify for InstanceId when you register an instance. o The name of the service. o The name of the namespace. For example, if the value of InstanceId is test , the name of the service is backend , and the name of the namespace is example.com , the value of service-host- name is the following: test.backend.example.com If you specify settings for an SRV record, note the following: o If you specify values for AWS_INSTANCE_IPV4 , AWS_INSTANCE_IPV6 , or both in the RegisterInstance request, Cloud Map automatically creates A and/or AAAA records that have the same name as the value of service-hostname in the SRV record. You can ignore these records. o If you're using a system that requires a specific SRV format, such as HAProxy, see the Name element in the documentation about CreateService for informa- tion about how to specify the correct name format. Possible values: o SRV o A o AAAA o CNAME TTL -&gt; (long) [required] The amount of time, in seconds, that you want DNS re- solvers to cache the settings for this record. NOTE: Alias records don't include a TTL because Route 53 uses the TTL for the Amazon Web Services resource that an alias record routes traffic to. If you in- clude the AWS_ALIAS_DNS_NAME attribute when you submit a RegisterInstance request, the TTL value is ignored. Always specify a TTL for the service; you can use a service to register instances that create either alias or non-alias records. Constraints: o min: 0 o max: 2147483647 HealthCheckConfig -&gt; (structure) Public DNS and HTTP namespaces only. Settings for an optional health check. If you specify settings for a health check, Cloud Map associates the health check with the records that you specify in DnsConfig . Type -&gt; (string) [required] The type of health check that you want to create, which indi- cates how Route 53 determines whether an endpoint is healthy. WARNING: You can't change the value of Type after you create a health check. You can create the following types of health checks: o HTTP : Route 53 tries to establish a TCP connection. If successful, Route 53 submits an HTTP request and waits for an HTTP status code of 200 or greater and less than 400. o HTTPS : Route 53 tries to establish a TCP connection. If successful, Route 53 submits an HTTPS request and waits for an HTTP status code of 200 or greater and less than 400. WARNING: If you specify HTTPS for the value of Type , the endpoint must support TLS v1.0 or later. o TCP : Route 53 tries to establish a TCP connection. If you specify TCP for Type , don't specify a value for Resour- cePath . For more information, see How Route 53 Determines Whether an Endpoint Is Healthy in the Route 53 Developer Guide . Possible values: o HTTP o HTTPS o TCP ResourcePath -&gt; (string) The path that you want Route 53 to request when performing health checks. The path can be any value that your endpoint returns an HTTP status code of a 2xx or 3xx format for when the endpoint is healthy. An example file is /docs/route53-health-check.html . Route 53 automatically adds the DNS name for the service. If you don't specify a value for ResourcePath , the default value is / . If you specify TCP for Type , you must not specify a value for ResourcePath . Constraints: o max: 255 FailureThreshold -&gt; (integer) The number of consecutive health checks that an endpoint must pass or fail for Route 53 to change the current status of the endpoint from unhealthy to healthy or the other way around. For more information, see How Route 53 Determines Whether an Endpoint Is Healthy in the Route 53 Developer Guide . Constraints: o min: 1 o max: 10 JSON Syntax: { "Description": "string", "DnsConfig": { "DnsRecords": [ { "Type": "SRV"|"A"|"AAAA"|"CNAME", "TTL": long } ... ] }, "HealthCheckConfig": { "Type": "HTTP"|"HTTPS"|"TCP", "ResourcePath": "string", "FailureThreshold": integer } }
+    /// </summary>
     [CliOption("--service")]
-    public string? Service { get; set; }
+    public string? Service { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

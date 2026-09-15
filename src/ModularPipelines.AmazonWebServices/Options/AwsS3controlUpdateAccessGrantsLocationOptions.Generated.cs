@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +20,88 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("s3control", "update-access-grants-location")]
-public record AwsS3controlUpdateAccessGrantsLocationOptions : AwsOptions
+public record AwsS3controlUpdateAccessGrantsLocationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates the IAM role of a registered location in your S3 Access Grants instance. Permissions You must have the s3:UpdateAccessGrantsLocation permission to use this operation. Additional Permissions You must also have the following permission: iam:PassRole See also: AWS API Documentation
+    /// </summary>
+    /// <param name="AccountId">The Amazon Web Services account ID of the S3 Access Grants instance. Constraints: o max: 64 o pattern: ^\d{12}$</param>
+    /// <param name="AccessGrantsLocationId">The ID of the registered location that you are updating. S3 Access Grants assigns this ID when you register the location. S3 Access Grants assigns the ID default to the default location s3:// and as- signs an auto-generated ID to other locations that you register. The ID of the registered location to which you are granting access. S3 Access Grants assigned this ID when you registered the location. S3 Access Grants assigns the ID default to the default location s3:// and assigns an auto-generated ID to other locations that you register. If you are passing the default location, you cannot create an access grant for the entire default location. You must also specify a bucket or a bucket and prefix in the Subprefix field. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9\-]+</param>
+    /// <param name="IamRoleArn">The Amazon Resource Name (ARN) of the IAM role for the registered location. S3 Access Grants assumes this role to manage access to the registered location. Constraints: o min: 1 o max: 2048 o pattern: arn:[^:]+:iam::\d{12}:role/.*</param>
+    public AwsS3controlUpdateAccessGrantsLocationOptions(
+        string AccountId,
+        string AccessGrantsLocationId,
+        string IamRoleArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AccountId);
+        this.AccountId = AccountId;
+        global::System.ArgumentNullException.ThrowIfNull(AccessGrantsLocationId);
+        this.AccessGrantsLocationId = AccessGrantsLocationId;
+        global::System.ArgumentNullException.ThrowIfNull(IamRoleArn);
+        this.IamRoleArn = IamRoleArn;
+    }
+
+    private AwsS3controlUpdateAccessGrantsLocationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsS3controlUpdateAccessGrantsLocationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsS3controlUpdateAccessGrantsLocationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Web Services account ID of the S3 Access Grants instance. Constraints: o max: 64 o pattern: ^\d{12}$
+    /// </summary>
     [CliOption("--account-id")]
-    public string? AccountId { get; set; }
+    public string? AccountId { get; private init; }
 
+    /// <summary>
+    /// The ID of the registered location that you are updating. S3 Access Grants assigns this ID when you register the location. S3 Access Grants assigns the ID default to the default location s3:// and as- signs an auto-generated ID to other locations that you register. The ID of the registered location to which you are granting access. S3 Access Grants assigned this ID when you registered the location. S3 Access Grants assigns the ID default to the default location s3:// and assigns an auto-generated ID to other locations that you register. If you are passing the default location, you cannot create an access grant for the entire default location. You must also specify a bucket or a bucket and prefix in the Subprefix field. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9\-]+
+    /// </summary>
     [CliOption("--access-grants-location-id")]
-    public string? AccessGrantsLocationId { get; set; }
+    public string? AccessGrantsLocationId { get; private init; }
 
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the IAM role for the registered location. S3 Access Grants assumes this role to manage access to the registered location. Constraints: o min: 1 o max: 2048 o pattern: arn:[^:]+:iam::\d{12}:role/.*
+    /// </summary>
     [CliOption("--iam-role-arn")]
-    public string? IamRoleArn { get; set; }
+    public string? IamRoleArn { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

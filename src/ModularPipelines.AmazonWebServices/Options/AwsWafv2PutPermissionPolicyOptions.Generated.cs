@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("wafv2", "put-permission-policy")]
-public record AwsWafv2PutPermissionPolicyOptions : AwsOptions
+public record AwsWafv2PutPermissionPolicyOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--resource-arn")]
-    public string? ResourceArn { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Use this to share a rule group with other accounts. This action attaches an IAM policy to the specified resource. You must be the owner of the rule group to perform this operation. This action is subject to the following restrictions: o You can attach only one policy with each PutPermissionPolicy request. o The ARN in the request must be a valid WAF RuleGroup ARN and the rule group must exist in the same Region. o The user making the request must be the owner of the rule group. If a rule group h...
+    /// </summary>
+    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the RuleGroup to which you want to attach the policy. Constraints: o min: 20 o max: 2048 o pattern: .*\S.*</param>
+    /// <param name="Policy">The policy to attach to the specified rule group. The policy specifications must conform to the following: o The policy must be composed using IAM Policy version 2012-10-17. o The policy must include specifications for Effect , Action , and Principal . o Effect must specify Allow . o Action must specify wafv2:CreateWebACL , wafv2:UpdateWebACL , and wafv2:PutFirewallManagerRuleGroups and may optionally specify wafv2:GetRuleGroup . WAF rejects any extra actions or wildcard ac- tions in the policy. o The policy must not include a Resource parameter. For more information, see IAM Policies . Constraints: o min: 1 o max: 395000 o pattern: .*\S.*</param>
+    public AwsWafv2PutPermissionPolicyOptions(
+        string ResourceArn,
+        string Policy
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ResourceArn);
+        this.ResourceArn = ResourceArn;
+        global::System.ArgumentNullException.ThrowIfNull(Policy);
+        this.Policy = Policy;
+    }
+
+    private AwsWafv2PutPermissionPolicyOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsWafv2PutPermissionPolicyOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsWafv2PutPermissionPolicyOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the RuleGroup to which you want to attach the policy. Constraints: o min: 20 o max: 2048 o pattern: .*\S.*
+    /// </summary>
+    [CliOption("--resource-arn")]
+    public string? ResourceArn { get; private init; }
+
+    /// <summary>
+    /// The policy to attach to the specified rule group. The policy specifications must conform to the following: o The policy must be composed using IAM Policy version 2012-10-17. o The policy must include specifications for Effect , Action , and Principal . o Effect must specify Allow . o Action must specify wafv2:CreateWebACL , wafv2:UpdateWebACL , and wafv2:PutFirewallManagerRuleGroups and may optionally specify wafv2:GetRuleGroup . WAF rejects any extra actions or wildcard ac- tions in the policy. o The policy must not include a Resource parameter. For more information, see IAM Policies . Constraints: o min: 1 o max: 395000 o pattern: .*\S.*
+    /// </summary>
     [CliOption("--policy")]
-    public string? Policy { get; set; }
+    public string? Policy { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

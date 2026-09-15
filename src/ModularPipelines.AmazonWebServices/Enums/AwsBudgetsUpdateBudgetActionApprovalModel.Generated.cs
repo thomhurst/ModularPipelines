@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --approvalmodel.
+/// Allowed values for --approval-model.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsBudgetsUpdateBudgetActionApprovalModel
 {
     [EnumValue("AUTOMATIC")]
-    Automatic = 1,
+    Automatic,
 
     [EnumValue("MANUAL")]
-    Manual = 2
+    Manual
 }

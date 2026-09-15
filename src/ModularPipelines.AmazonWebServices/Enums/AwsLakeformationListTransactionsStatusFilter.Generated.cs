@@ -11,23 +11,23 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --statusfilter.
+/// Allowed values for --status-filter.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsLakeformationListTransactionsStatusFilter
 {
-    [EnumValue("ALL")]
-    All = 1,
-
-    [EnumValue("COMPLETED")]
-    Completed = 2,
+    [EnumValue("ABORTED")]
+    Aborted,
 
     [EnumValue("ACTIVE")]
-    Active = 3,
+    Active,
+
+    [EnumValue("ALL")]
+    All,
 
     [EnumValue("COMMITTED")]
-    Committed = 4,
+    Committed,
 
-    [EnumValue("ABORTED")]
-    Aborted = 5
+    [EnumValue("COMPLETED")]
+    Completed
 }

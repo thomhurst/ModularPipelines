@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --sourcetype.
+/// Allowed values for --source-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsRdsDescribeExportTasksSourceType
 {
-    [EnumValue("SNAPSHOT")]
-    Snapshot = 1,
-
     [EnumValue("CLUSTER")]
-    Cluster = 2
+    Cluster,
+
+    [EnumValue("SNAPSHOT")]
+    Snapshot
 }

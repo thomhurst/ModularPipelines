@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,57 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ec2", "disable-fast-launch")]
-public record AwsEc2DisableFastLaunchOptions : AwsOptions
+public record AwsEc2DisableFastLaunchOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--image-id")]
-    public string? ImageId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
-    [CliFlag("--force")]
+    /// <summary>
+    /// Discontinue Windows fast launch for a Windows AMI, and clean up exist- ing pre-provisioned snapshots. After you disable Windows fast launch, the AMI uses the standard launch process for each new instance. Amazon EC2 must remove all pre-provisioned snapshots before you can enable Windows fast launch again. NOTE: You can only change these settings for Windows AMIs that you own or that have been shared with you. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ImageId">Specify the ID of the image for which to disable Windows fast launch.</param>
+    public AwsEc2DisableFastLaunchOptions(
+        string ImageId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ImageId);
+        this.ImageId = ImageId;
+    }
+
+    private AwsEc2DisableFastLaunchOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEc2DisableFastLaunchOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEc2DisableFastLaunchOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Specify the ID of the image for which to disable Windows fast launch.
+    /// </summary>
+    [CliOption("--image-id")]
+    public string? ImageId { get; private init; }
+
+    /// <summary>
+    /// Forces the image settings to turn off Windows fast launch for your Windows AMI. This parameter overrides any errors that are encoun- tered while cleaning up resources in your account.
+    /// </summary>
+    [CliFlag("--force", NegatedName = "--no-force")]
     public bool? Force { get; set; }
 
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -35,5 +78,22 @@ public record AwsEc2DisableFastLaunchOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

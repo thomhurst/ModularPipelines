@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("rekognition", "update-stream-processor")]
-public record AwsRekognitionUpdateStreamProcessorOptions : AwsOptions
+public record AwsRekognitionUpdateStreamProcessorOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Allows you to update a stream processor. You can change some settings and regions of interest and delete certain parameters. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Name">Name of the stream processor that you want to update. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_.\-]+</param>
+    public AwsRekognitionUpdateStreamProcessorOptions(
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    private AwsRekognitionUpdateStreamProcessorOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRekognitionUpdateStreamProcessorOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRekognitionUpdateStreamProcessorOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Name of the stream processor that you want to update. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_.\-]+
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
 
     /// <summary>
     /// The stream processor settings that you want to update. Label detec- tion settings can be updated to detect different labels with a dif- ferent minimum confidence. ConnectedHomeForUpdate -&gt; (structure) The label detection settings you want to use for your stream processor. Labels -&gt; (list) Specifies what you want to detect in the video, such as peo- ple, packages, or pets. The current valid labels you can in- clude in this list are: "PERSON", "PET", "PACKAGE", and "ALL". Constraints: o min: 1 o max: 128 (string) MinConfidence -&gt; (float) The minimum confidence required to label an object in the video. Constraints: o min: 0 o max: 100 Shorthand Syntax: ConnectedHomeForUpdate={Labels=[string,string],MinConfidence=float} JSON Syntax: { "ConnectedHomeForUpdate": { "Labels": ["string", ...], "MinConfidence": float } }
@@ -53,5 +90,22 @@ public record AwsRekognitionUpdateStreamProcessorOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

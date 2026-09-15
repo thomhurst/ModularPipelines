@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("docdb", "switchover-global-cluster")]
-public record AwsDocdbSwitchoverGlobalClusterOptions : AwsOptions
+public record AwsDocdbSwitchoverGlobalClusterOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--global-cluster-identifier")]
-    public string? GlobalClusterIdentifier { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Switches over the specified secondary Amazon DocumentDB cluster to be the new primary Amazon DocumentDB cluster in the global database clus- ter. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="GlobalClusterIdentifier">The identifier of the Amazon DocumentDB global database cluster to switch over. The identifier is the unique key assigned by the user when the cluster is created. In other words, it's the name of the global cluster. This parameter isnt case-sensitive. Constraints: o Must match the identifier of an existing global cluster (Amazon DocumentDB global database). o Minimum length of 1. Maximum length of 255. Pattern: [A-Za-z][0-9A-Za-z-:._]* Constraints: o min: 1 o max: 255 o pattern: [A-Za-z][0-9A-Za-z-:._]*</param>
+    /// <param name="TargetDbClusterIdentifier">The identifier of the secondary Amazon DocumentDB cluster to promote to the new primary for the global database cluster. Use the Amazon Resource Name (ARN) for the identifier so that Amazon DocumentDB can locate the cluster in its Amazon Web Services region. Constraints: o Must match the identifier of an existing secondary cluster. o Minimum length of 1. Maximum length of 255. Pattern: [A-Za-z][0-9A-Za-z-:._]* Constraints: o min: 1 o max: 255 o pattern: [A-Za-z][0-9A-Za-z-:._]*</param>
+    public AwsDocdbSwitchoverGlobalClusterOptions(
+        string GlobalClusterIdentifier,
+        string TargetDbClusterIdentifier
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(GlobalClusterIdentifier);
+        this.GlobalClusterIdentifier = GlobalClusterIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(TargetDbClusterIdentifier);
+        this.TargetDbClusterIdentifier = TargetDbClusterIdentifier;
+    }
+
+    private AwsDocdbSwitchoverGlobalClusterOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDocdbSwitchoverGlobalClusterOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDocdbSwitchoverGlobalClusterOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the Amazon DocumentDB global database cluster to switch over. The identifier is the unique key assigned by the user when the cluster is created. In other words, it's the name of the global cluster. This parameter isnt case-sensitive. Constraints: o Must match the identifier of an existing global cluster (Amazon DocumentDB global database). o Minimum length of 1. Maximum length of 255. Pattern: [A-Za-z][0-9A-Za-z-:._]* Constraints: o min: 1 o max: 255 o pattern: [A-Za-z][0-9A-Za-z-:._]*
+    /// </summary>
+    [CliOption("--global-cluster-identifier")]
+    public string? GlobalClusterIdentifier { get; private init; }
+
+    /// <summary>
+    /// The identifier of the secondary Amazon DocumentDB cluster to promote to the new primary for the global database cluster. Use the Amazon Resource Name (ARN) for the identifier so that Amazon DocumentDB can locate the cluster in its Amazon Web Services region. Constraints: o Must match the identifier of an existing secondary cluster. o Minimum length of 1. Maximum length of 255. Pattern: [A-Za-z][0-9A-Za-z-:._]* Constraints: o min: 1 o max: 255 o pattern: [A-Za-z][0-9A-Za-z-:._]*
+    /// </summary>
     [CliOption("--target-db-cluster-identifier")]
-    public string? TargetDbClusterIdentifier { get; set; }
+    public string? TargetDbClusterIdentifier { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

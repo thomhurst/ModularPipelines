@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --importstrategy.
+/// Allowed values for --import-strategy.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsResiliencehubImportResourcesToDraftAppVersionImportStrategy
 {
     [EnumValue("AddOnly")]
-    AddOnly = 1,
+    AddOnly,
 
     [EnumValue("ReplaceAll")]
-    ReplaceAll = 2
+    ReplaceAll
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("firehose", "create-delivery-stream")]
-public record AwsFirehoseCreateDeliveryStreamOptions : AwsOptions
+public record AwsFirehoseCreateDeliveryStreamOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a Firehose stream. By default, you can create up to 5,000 Firehose streams per Amazon Web Services Region. This is an asynchronous operation that immediately returns. The initial status of the Firehose stream is CREATING . After the Firehose stream is created, its status is ACTIVE and it now accepts data. If the Fire- hose stream creation fails, the status transitions to CREATING_FAILED . Attempts to send data to a delivery stream that is not in the ACTIVE state cause an exception. To ch...
+    /// </summary>
+    /// <param name="DeliveryStreamName">The name of the Firehose stream. This name must be unique per Amazon Web Services account in the same Amazon Web Services Region. If the Firehose streams are in different accounts or different Regions, you can have multiple Firehose streams with the same name. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_.-]+</param>
+    public AwsFirehoseCreateDeliveryStreamOptions(
+        string DeliveryStreamName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DeliveryStreamName);
+        this.DeliveryStreamName = DeliveryStreamName;
+    }
+
+    private AwsFirehoseCreateDeliveryStreamOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsFirehoseCreateDeliveryStreamOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsFirehoseCreateDeliveryStreamOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the Firehose stream. This name must be unique per Amazon Web Services account in the same Amazon Web Services Region. If the Firehose streams are in different accounts or different Regions, you can have multiple Firehose streams with the same name. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_.-]+
+    /// </summary>
     [CliOption("--delivery-stream-name")]
-    public string? DeliveryStreamName { get; set; }
+    public string? DeliveryStreamName { get; private init; }
 
     /// <summary>
     /// The Firehose stream type. This parameter can be one of the following values: o DirectPut : Provider applications access the Firehose stream di- rectly. o KinesisStreamAsSource : The Firehose stream uses a Kinesis data stream as a source. Possible values: o DirectPut o KinesisStreamAsSource o MSKAsSource o DatabaseAsSource
@@ -132,5 +169,22 @@ public record AwsFirehoseCreateDeliveryStreamOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

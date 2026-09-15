@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,57 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ec2", "modify-volume-attribute")]
-public record AwsEc2ModifyVolumeAttributeOptions : AwsOptions
+public record AwsEc2ModifyVolumeAttributeOptions : AwsOptions, IValidatableObject
 {
-    [CliFlag("--auto-enable-io")]
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Modifies a volume attribute. By default, all I/O operations for the volume are suspended when the data on the volume is determined to be potentially inconsistent, to prevent undetectable, latent data corruption. The I/O access to the volume can be resumed by first enabling I/O access and then checking the data consistency on your volume. You can change the default behavior to resume I/O operations. We recom- mend that you change this only for boot volumes or for volumes that are stateless or dis...
+    /// </summary>
+    /// <param name="VolumeId">The ID of the volume.</param>
+    public AwsEc2ModifyVolumeAttributeOptions(
+        string VolumeId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(VolumeId);
+        this.VolumeId = VolumeId;
+    }
+
+    private AwsEc2ModifyVolumeAttributeOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEc2ModifyVolumeAttributeOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEc2ModifyVolumeAttributeOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the volume.
+    /// </summary>
+    [CliOption("--volume-id")]
+    public string? VolumeId { get; private init; }
+
+    /// <summary>
+    /// Indicates whether the volume should be auto-enabled for I/O opera- tions. Value -&gt; (boolean) The attribute value. The valid values are true or false .
+    /// </summary>
+    [CliFlag("--auto-enable-io", NegatedName = "--no-auto-enable-io")]
     public bool? AutoEnableIo { get; set; }
 
-    [CliOption("--volume-id")]
-    public string? VolumeId { get; set; }
-
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -35,5 +78,22 @@ public record AwsEc2ModifyVolumeAttributeOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

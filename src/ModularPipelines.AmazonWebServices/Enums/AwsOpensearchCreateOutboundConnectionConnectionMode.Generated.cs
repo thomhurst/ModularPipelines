@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --connectionmode.
+/// Allowed values for --connection-mode.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsOpensearchCreateOutboundConnectionConnectionMode
 {
     [EnumValue("DIRECT")]
-    Direct = 1,
+    Direct,
 
     [EnumValue("VPC_ENDPOINT")]
-    VpcEndpoint = 2
+    VpcEndpoint
 }

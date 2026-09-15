@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --scantypefilter.
+/// Allowed values for --scan-type-filter.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsCloudformationListResourceScansScanTypeFilter
 {
     [EnumValue("FULL")]
-    Full = 1,
+    Full,
 
     [EnumValue("PARTIAL")]
-    Partial = 2
+    Partial
 }

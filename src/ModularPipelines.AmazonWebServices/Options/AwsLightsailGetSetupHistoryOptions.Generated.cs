@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("lightsail", "get-setup-history")]
-public record AwsLightsailGetSetupHistoryOptions : AwsOptions
+public record AwsLightsailGetSetupHistoryOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Returns detailed information for five of the most recent SetupInstance- Https requests that were ran on the target instance. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ResourceName">The name of the resource for which you are requesting information. Constraints: o pattern: \w[\w\-]*\w</param>
+    public AwsLightsailGetSetupHistoryOptions(
+        string ResourceName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ResourceName);
+        this.ResourceName = ResourceName;
+    }
+
+    private AwsLightsailGetSetupHistoryOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsLightsailGetSetupHistoryOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsLightsailGetSetupHistoryOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the resource for which you are requesting information. Constraints: o pattern: \w[\w\-]*\w
+    /// </summary>
     [CliOption("--resource-name")]
-    public string? ResourceName { get; set; }
+    public string? ResourceName { get; private init; }
 
     /// <summary>
     /// The token to advance to the next page of results from your request. To get a page token, perform an initial GetSetupHistory request. If your results are paginated, the response will return a next page to- ken that you can specify as the page token in a subsequent request. Constraints: o min: 24 o max: 40 o pattern: ^[A-Za-z0-9+/=]+$
@@ -37,5 +74,22 @@ public record AwsLightsailGetSetupHistoryOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

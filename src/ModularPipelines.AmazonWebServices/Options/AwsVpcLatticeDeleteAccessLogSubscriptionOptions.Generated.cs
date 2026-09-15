@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,68 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("vpc-lattice", "delete-access-log-subscription")]
-public record AwsVpcLatticeDeleteAccessLogSubscriptionOptions : AwsOptions
+public record AwsVpcLatticeDeleteAccessLogSubscriptionOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Deletes the specified access log subscription. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="AccessLogSubscriptionIdentifier">The ID or ARN of the access log subscription. Constraints: o min: 17 o max: 2048 o pattern: ((als-[0-9a-z]{17})|(arn:[a-z0-9\-]+:vpc-lat- tice:[a-zA-Z0-9\-]+:\d{12}:accesslogsubscrip- tion/als-[0-9a-z]{17}))</param>
+    public AwsVpcLatticeDeleteAccessLogSubscriptionOptions(
+        string AccessLogSubscriptionIdentifier
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AccessLogSubscriptionIdentifier);
+        this.AccessLogSubscriptionIdentifier = AccessLogSubscriptionIdentifier;
+    }
+
+    private AwsVpcLatticeDeleteAccessLogSubscriptionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsVpcLatticeDeleteAccessLogSubscriptionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsVpcLatticeDeleteAccessLogSubscriptionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID or ARN of the access log subscription. Constraints: o min: 17 o max: 2048 o pattern: ((als-[0-9a-z]{17})|(arn:[a-z0-9\-]+:vpc-lat- tice:[a-zA-Z0-9\-]+:\d{12}:accesslogsubscrip- tion/als-[0-9a-z]{17}))
+    /// </summary>
     [CliOption("--access-log-subscription-identifier")]
-    public string? AccessLogSubscriptionIdentifier { get; set; }
+    public string? AccessLogSubscriptionIdentifier { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

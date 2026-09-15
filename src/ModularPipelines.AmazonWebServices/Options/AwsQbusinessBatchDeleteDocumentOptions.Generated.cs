@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,16 +20,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("qbusiness", "batch-delete-document")]
-public record AwsQbusinessBatchDeleteDocumentOptions : AwsOptions
+public record AwsQbusinessBatchDeleteDocumentOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Asynchronously deletes one or more documents added using the BatchPut- Document API from an Amazon Q Business index. You can see the progress of the deletion, and any error messages re- lated to the process, by using CloudWatch. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ApplicationId">The identifier of the Amazon Q Business application. Constraints: o min: 36 o max: 36 o pattern: [a-zA-Z0-9][a-zA-Z0-9-]{35}</param>
+    /// <param name="IndexId">The identifier of the Amazon Q Business index that contains the doc- uments to delete. Constraints: o min: 36 o max: 36 o pattern: [a-zA-Z0-9][a-zA-Z0-9-]{35}</param>
+    /// <param name="Documents">Documents deleted from the Amazon Q Business index. (structure) A document deleted from an Amazon Q Business data source connec- tor. documentId -&gt; (string) [required] The identifier of the deleted document. Constraints: o min: 1 o max: 1825 o pattern: \P{C}* Shorthand Syntax: documentId=string ... JSON Syntax: [ { "documentId": "string" } ... ]</param>
+    public AwsQbusinessBatchDeleteDocumentOptions(
+        string ApplicationId,
+        string IndexId,
+        IEnumerable<string> Documents
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ApplicationId);
+        this.ApplicationId = ApplicationId;
+        global::System.ArgumentNullException.ThrowIfNull(IndexId);
+        this.IndexId = IndexId;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Documents);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Documents));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Documents));
+            }
+
+            Documents = materialized;
+        }
+        this.Documents = Documents;
+    }
+
+    private AwsQbusinessBatchDeleteDocumentOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsQbusinessBatchDeleteDocumentOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsQbusinessBatchDeleteDocumentOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the Amazon Q Business application. Constraints: o min: 36 o max: 36 o pattern: [a-zA-Z0-9][a-zA-Z0-9-]{35}
+    /// </summary>
     [CliOption("--application-id")]
-    public string? ApplicationId { get; set; }
+    public string? ApplicationId { get; private init; }
 
+    /// <summary>
+    /// The identifier of the Amazon Q Business index that contains the doc- uments to delete. Constraints: o min: 36 o max: 36 o pattern: [a-zA-Z0-9][a-zA-Z0-9-]{35}
+    /// </summary>
     [CliOption("--index-id")]
-    public string? IndexId { get; set; }
+    public string? IndexId { get; private init; }
 
+    /// <summary>
+    /// Documents deleted from the Amazon Q Business index. (structure) A document deleted from an Amazon Q Business data source connec- tor. documentId -&gt; (string) [required] The identifier of the deleted document. Constraints: o min: 1 o max: 1825 o pattern: \P{C}* Shorthand Syntax: documentId=string ... JSON Syntax: [ { "documentId": "string" } ... ]
+    /// </summary>
     [CliOption("--documents", GroupValues = true)]
-    public IEnumerable<string>? Documents { get; set; }
+    public IEnumerable<string>? Documents { get; private init; }
 
     /// <summary>
     /// The identifier of the data source sync during which the documents were deleted. Constraints: o min: 36 o max: 36 o pattern: [a-zA-Z0-9][a-zA-Z0-9-]{35}
@@ -41,5 +103,22 @@ public record AwsQbusinessBatchDeleteDocumentOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

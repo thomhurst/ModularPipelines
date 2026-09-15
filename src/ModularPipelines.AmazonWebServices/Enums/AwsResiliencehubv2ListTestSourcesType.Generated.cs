@@ -16,9 +16,9 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsResiliencehubv2ListTestSourcesType
 {
-    [EnumValue("SUCCESS_CRITERIA")]
-    SuccessCriteria = 1,
-
     [EnumValue("OBSERVABILITY")]
-    Observability = 2
+    Observability,
+
+    [EnumValue("SUCCESS_CRITERIA")]
+    SuccessCriteria
 }

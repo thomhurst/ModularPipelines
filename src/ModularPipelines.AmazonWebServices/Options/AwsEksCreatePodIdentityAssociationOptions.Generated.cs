@@ -12,6 +12,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -21,19 +22,76 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("eks", "create-pod-identity-association")]
-public record AwsEksCreatePodIdentityAssociationOptions : AwsOptions
+public record AwsEksCreatePodIdentityAssociationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates an EKS Pod Identity association between a service account in an Amazon EKS cluster and an IAM role with EKS Pod Identity . Use EKS Pod Identity to give temporary IAM credentials to Pods and the credentials are rotated automatically. Amazon EKS Pod Identity associations provide the ability to manage cre- dentials for your applications, similar to the way that Amazon EC2 in- stance profiles provide credentials to Amazon EC2 instances. If a Pod uses a service account that has an association...
+    /// </summary>
+    /// <param name="ClusterName">The name of the cluster to create the EKS Pod Identity association in.</param>
+    /// <param name="Namespace">The name of the Kubernetes namespace inside the cluster to create the EKS Pod Identity association in. The service account and the Pods that use the service account must be in this namespace.</param>
+    /// <param name="ServiceAccount">The name of the Kubernetes service account inside the cluster to as- sociate the IAM credentials with.</param>
+    /// <param name="RoleArn">The Amazon Resource Name (ARN) of the IAM role to associate with the service account. The EKS Pod Identity agent manages credentials to assume this role for applications in the containers in the Pods that use this service account.</param>
+    public AwsEksCreatePodIdentityAssociationOptions(
+        string ClusterName,
+        string Namespace,
+        string ServiceAccount,
+        string RoleArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ClusterName);
+        this.ClusterName = ClusterName;
+        global::System.ArgumentNullException.ThrowIfNull(Namespace);
+        this.Namespace = Namespace;
+        global::System.ArgumentNullException.ThrowIfNull(ServiceAccount);
+        this.ServiceAccount = ServiceAccount;
+        global::System.ArgumentNullException.ThrowIfNull(RoleArn);
+        this.RoleArn = RoleArn;
+    }
+
+    private AwsEksCreatePodIdentityAssociationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEksCreatePodIdentityAssociationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEksCreatePodIdentityAssociationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the cluster to create the EKS Pod Identity association in.
+    /// </summary>
     [CliOption("--cluster-name")]
-    public string? ClusterName { get; set; }
+    public string? ClusterName { get; private init; }
 
+    /// <summary>
+    /// The name of the Kubernetes namespace inside the cluster to create the EKS Pod Identity association in. The service account and the Pods that use the service account must be in this namespace.
+    /// </summary>
     [CliOption("--namespace")]
-    public string? Namespace { get; set; }
+    public string? Namespace { get; private init; }
 
+    /// <summary>
+    /// The name of the Kubernetes service account inside the cluster to as- sociate the IAM credentials with.
+    /// </summary>
     [CliOption("--service-account")]
-    public string? ServiceAccount { get; set; }
+    public string? ServiceAccount { get; private init; }
 
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the IAM role to associate with the service account. The EKS Pod Identity agent manages credentials to assume this role for applications in the containers in the Pods that use this service account.
+    /// </summary>
     [CliOption("--role-arn")]
-    public string? RoleArn { get; set; }
+    public string? RoleArn { get; private init; }
 
     /// <summary>
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
@@ -48,7 +106,10 @@ public record AwsEksCreatePodIdentityAssociationOptions : AwsOptions
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
-    [CliFlag("--disable-session-tags")]
+    /// <summary>
+    /// Disable the automatic sessions tags that are appended by EKS Pod Identity. EKS Pod Identity adds a pre-defined set of session tags when it as- sumes the role. You can use these tags to author a single role that can work across resources by allowing access to Amazon Web Services resources based on matching tags. By default, EKS Pod Identity at- taches six tags, including tags for cluster name, namespace, and service account name. For the list of tags added by EKS Pod Iden- tity, see List of session tags added by EKS Pod Identity in the Ama- zon EKS User Guide . Amazon Web Services compresses inline session policies, managed pol- icy ARNs, and session tags into a packed binary format that has a separate limit. If you receive a PackedPolicyTooLarge error indicat- ing the packed binary format has exceeded the size limit, you can attempt to reduce the size by disabling the session tags added by EKS Pod Identity.
+    /// </summary>
+    [CliFlag("--disable-session-tags", NegatedName = "--no-disable-session-tags")]
     public bool? DisableSessionTags { get; set; }
 
     /// <summary>
@@ -68,5 +129,22 @@ public record AwsEksCreatePodIdentityAssociationOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,24 +20,98 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("dms", "start-metadata-model-creation")]
-public record AwsDmsStartMetadataModelCreationOptions : AwsOptions
+public record AwsDmsStartMetadataModelCreationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Queues the creation of a metadata model in the source metadata tree. If other requests created by Start* operations are already in the migra- tion project's queue, the creation begins after they complete. NOTE: This operation supports only Microsoft SQL Server to Aurora Post- greSQL and Microsoft SQL Server to Amazon RDS for PostgreSQL conver- sion paths. To check the status of the creation request, call DescribeMetadataModelCreations using the returned RequestIdentifier as a filter. To cancel a...
+    /// </summary>
+    /// <param name="MigrationProjectIdentifier">The migration project name or Amazon Resource Name (ARN). Constraints: o max: 255</param>
+    /// <param name="SelectionRules">A JSON string that identifies the source schema for the metadata model. For the selection rule format and examples, see Selection rules in DMS Schema Conversion . Usage: o Accepts only source selection rules, where server-name in the ob- ject locator matches the source data provider. o Supports only explicit rule actions. o Exactly one rule is allowed.</param>
+    /// <param name="MetadataModelName">The name for the metadata model to use in subsequent operations.</param>
+    /// <param name="Properties">The properties of the metadata model. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: StatementProperties. StatementProperties -&gt; (structure) The properties of the SQL statement. Definition -&gt; (string) [required] The SQL text of the statement. Shorthand Syntax: StatementProperties={Definition=string} JSON Syntax: { "StatementProperties": { "Definition": "string" } }</param>
+    public AwsDmsStartMetadataModelCreationOptions(
+        string MigrationProjectIdentifier,
+        string SelectionRules,
+        string MetadataModelName,
+        string Properties
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(MigrationProjectIdentifier);
+        this.MigrationProjectIdentifier = MigrationProjectIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(SelectionRules);
+        this.SelectionRules = SelectionRules;
+        global::System.ArgumentNullException.ThrowIfNull(MetadataModelName);
+        this.MetadataModelName = MetadataModelName;
+        global::System.ArgumentNullException.ThrowIfNull(Properties);
+        this.Properties = Properties;
+    }
+
+    private AwsDmsStartMetadataModelCreationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDmsStartMetadataModelCreationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDmsStartMetadataModelCreationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The migration project name or Amazon Resource Name (ARN). Constraints: o max: 255
+    /// </summary>
     [CliOption("--migration-project-identifier")]
-    public string? MigrationProjectIdentifier { get; set; }
+    public string? MigrationProjectIdentifier { get; private init; }
 
+    /// <summary>
+    /// A JSON string that identifies the source schema for the metadata model. For the selection rule format and examples, see Selection rules in DMS Schema Conversion . Usage: o Accepts only source selection rules, where server-name in the ob- ject locator matches the source data provider. o Supports only explicit rule actions. o Exactly one rule is allowed.
+    /// </summary>
     [CliOption("--selection-rules")]
-    public string? SelectionRules { get; set; }
+    public string? SelectionRules { get; private init; }
 
+    /// <summary>
+    /// The name for the metadata model to use in subsequent operations.
+    /// </summary>
     [CliOption("--metadata-model-name")]
-    public string? MetadataModelName { get; set; }
+    public string? MetadataModelName { get; private init; }
 
+    /// <summary>
+    /// The properties of the metadata model. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: StatementProperties. StatementProperties -&gt; (structure) The properties of the SQL statement. Definition -&gt; (string) [required] The SQL text of the statement. Shorthand Syntax: StatementProperties={Definition=string} JSON Syntax: { "StatementProperties": { "Definition": "string" } }
+    /// </summary>
     [CliOption("--properties")]
-    public string? Properties { get; set; }
+    public string? Properties { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

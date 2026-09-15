@@ -17,5 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsNeptunedataGetPropertygraphStreamEncoding
 {
     [EnumValue("gzip")]
-    Gzip = 1
+    Gzip,
+
+    [EnumValue("o")]
+    O
 }

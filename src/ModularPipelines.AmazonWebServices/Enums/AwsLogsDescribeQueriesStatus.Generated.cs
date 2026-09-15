@@ -16,24 +16,24 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsLogsDescribeQueriesStatus
 {
-    [EnumValue("Scheduled")]
-    Scheduled = 1,
-
-    [EnumValue("Running")]
-    Running = 2,
+    [EnumValue("Cancelled")]
+    Cancelled,
 
     [EnumValue("Complete")]
-    Complete = 3,
+    Complete,
 
     [EnumValue("Failed")]
-    Failed = 4,
+    Failed,
 
-    [EnumValue("Cancelled")]
-    Cancelled = 5,
+    [EnumValue("Running")]
+    Running,
+
+    [EnumValue("Scheduled")]
+    Scheduled,
 
     [EnumValue("Timeout")]
-    Timeout = 6,
+    Timeout,
 
     [EnumValue("Unknown")]
-    Unknown = 7
+    Unknown
 }

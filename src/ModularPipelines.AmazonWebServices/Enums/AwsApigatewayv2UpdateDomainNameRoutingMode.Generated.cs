@@ -11,17 +11,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --routingmode.
+/// Allowed values for --routing-mode.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsApigatewayv2UpdateDomainNameRoutingMode
 {
     [EnumValue("API_MAPPING_ONLY")]
-    ApiMappingOnly = 1,
+    ApiMappingOnly,
 
     [EnumValue("ROUTING_RULE_ONLY")]
-    RoutingRuleOnly = 2,
+    RoutingRuleOnly,
 
     [EnumValue("ROUTING_RULE_THEN_API_MAPPING")]
-    RoutingRuleThenApiMapping = 3
+    RoutingRuleThenApiMapping
 }

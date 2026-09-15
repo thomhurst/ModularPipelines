@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,24 +21,98 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("migration-hub-refactor-spaces", "update-route")]
-public record AwsMigrationHubRefactorSpacesUpdateRouteOptions : AwsOptions
+public record AwsMigrationHubRefactorSpacesUpdateRouteOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates an Amazon Web Services Migration Hub Refactor Spaces route. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ActivationState">If set to ACTIVE , traffic is forwarded to this routes service after the route is updated. Possible values: o ACTIVE o INACTIVE</param>
+    /// <param name="ApplicationIdentifier">The ID of the application within which the route is being updated. Constraints: o min: 14 o max: 14 o pattern: ^app-[0-9A-Za-z]{10}$</param>
+    /// <param name="EnvironmentIdentifier">The ID of the environment in which the route is being updated. Constraints: o min: 14 o max: 14 o pattern: ^env-[0-9A-Za-z]{10}$</param>
+    /// <param name="RouteIdentifier">The unique identifier of the route to update. Constraints: o min: 14 o max: 14 o pattern: ^rte-[0-9A-Za-z]{10}$</param>
+    public AwsMigrationHubRefactorSpacesUpdateRouteOptions(
+        AwsMigrationHubRefactorSpacesUpdateRouteActivationState ActivationState,
+        string ApplicationIdentifier,
+        string EnvironmentIdentifier,
+        string RouteIdentifier
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ActivationState);
+        this.ActivationState = ActivationState;
+        global::System.ArgumentNullException.ThrowIfNull(ApplicationIdentifier);
+        this.ApplicationIdentifier = ApplicationIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(EnvironmentIdentifier);
+        this.EnvironmentIdentifier = EnvironmentIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(RouteIdentifier);
+        this.RouteIdentifier = RouteIdentifier;
+    }
+
+    private AwsMigrationHubRefactorSpacesUpdateRouteOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsMigrationHubRefactorSpacesUpdateRouteOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsMigrationHubRefactorSpacesUpdateRouteOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// If set to ACTIVE , traffic is forwarded to this routes service after the route is updated. Possible values: o ACTIVE o INACTIVE
+    /// </summary>
     [CliOption("--activation-state")]
-    public string? ActivationState { get; set; }
+    public AwsMigrationHubRefactorSpacesUpdateRouteActivationState? ActivationState { get; private init; }
 
+    /// <summary>
+    /// The ID of the application within which the route is being updated. Constraints: o min: 14 o max: 14 o pattern: ^app-[0-9A-Za-z]{10}$
+    /// </summary>
     [CliOption("--application-identifier")]
-    public string? ApplicationIdentifier { get; set; }
+    public string? ApplicationIdentifier { get; private init; }
 
+    /// <summary>
+    /// The ID of the environment in which the route is being updated. Constraints: o min: 14 o max: 14 o pattern: ^env-[0-9A-Za-z]{10}$
+    /// </summary>
     [CliOption("--environment-identifier")]
-    public string? EnvironmentIdentifier { get; set; }
+    public string? EnvironmentIdentifier { get; private init; }
 
+    /// <summary>
+    /// The unique identifier of the route to update. Constraints: o min: 14 o max: 14 o pattern: ^rte-[0-9A-Za-z]{10}$
+    /// </summary>
     [CliOption("--route-identifier")]
-    public string? RouteIdentifier { get; set; }
+    public string? RouteIdentifier { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

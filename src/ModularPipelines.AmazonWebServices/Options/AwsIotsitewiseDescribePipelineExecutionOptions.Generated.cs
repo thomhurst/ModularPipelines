@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,16 +21,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iotsitewise", "describe-pipeline-execution")]
-public record AwsIotsitewiseDescribePipelineExecutionOptions : AwsOptions
+public record AwsIotsitewiseDescribePipelineExecutionOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Retrieves detailed information about a specific pipeline execution, in- cluding the overall execution status and the status of each individual compute node. Use this operation to monitor execution progress and in- spect per-node results, environment variables, and error details. See also: AWS API Documentation describe-pipeline-execution is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --...
+    /// </summary>
+    /// <param name="WorkspaceName">The name of the workspace. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$</param>
+    /// <param name="PipelineName">The name of the pipeline. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_-]+</param>
+    /// <param name="PipelineExecutionId">The unique identifier of the pipeline execution. Constraints: o min: 36 o max: 36 o pattern: ^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$</param>
+    public AwsIotsitewiseDescribePipelineExecutionOptions(
+        string WorkspaceName,
+        string PipelineName,
+        string PipelineExecutionId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(WorkspaceName);
+        this.WorkspaceName = WorkspaceName;
+        global::System.ArgumentNullException.ThrowIfNull(PipelineName);
+        this.PipelineName = PipelineName;
+        global::System.ArgumentNullException.ThrowIfNull(PipelineExecutionId);
+        this.PipelineExecutionId = PipelineExecutionId;
+    }
+
+    private AwsIotsitewiseDescribePipelineExecutionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsIotsitewiseDescribePipelineExecutionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsIotsitewiseDescribePipelineExecutionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the workspace. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$
+    /// </summary>
     [CliOption("--workspace-name")]
-    public string? WorkspaceName { get; set; }
+    public string? WorkspaceName { get; private init; }
 
+    /// <summary>
+    /// The name of the pipeline. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_-]+
+    /// </summary>
     [CliOption("--pipeline-name")]
-    public string? PipelineName { get; set; }
+    public string? PipelineName { get; private init; }
 
+    /// <summary>
+    /// The unique identifier of the pipeline execution. Constraints: o min: 36 o max: 36 o pattern: ^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$
+    /// </summary>
     [CliOption("--pipeline-execution-id")]
-    public string? PipelineExecutionId { get; set; }
+    public string? PipelineExecutionId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
@@ -55,5 +106,22 @@ public record AwsIotsitewiseDescribePipelineExecutionOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

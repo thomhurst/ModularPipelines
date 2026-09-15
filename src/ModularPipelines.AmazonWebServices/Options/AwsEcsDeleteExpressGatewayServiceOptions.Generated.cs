@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ecs", "delete-express-gateway-service")]
-public record AwsEcsDeleteExpressGatewayServiceOptions : AwsOptions
+public record AwsEcsDeleteExpressGatewayServiceOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Deletes an Express service and removes all associated Amazon Web Ser- vices resources. This operation stops service tasks, removes the Appli- cation Load Balancer, target groups, security groups, auto-scaling policies, and other managed infrastructure components. The service enters a DRAINING state where existing tasks complete cur- rent requests without starting new tasks. After all tasks stop, the service and infrastructure are permanently removed. This operation cannot be reversed. Back up im...
+    /// </summary>
+    /// <param name="ServiceArn">The Amazon Resource Name (ARN) of the Express service to delete. The ARN uniquely identifies the service within your Amazon Web Services account and region.</param>
+    public AwsEcsDeleteExpressGatewayServiceOptions(
+        string ServiceArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ServiceArn);
+        this.ServiceArn = ServiceArn;
+    }
+
+    private AwsEcsDeleteExpressGatewayServiceOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEcsDeleteExpressGatewayServiceOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEcsDeleteExpressGatewayServiceOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the Express service to delete. The ARN uniquely identifies the service within your Amazon Web Services account and region.
+    /// </summary>
     [CliOption("--service-arn")]
-    public string? ServiceArn { get; set; }
+    public string? ServiceArn { get; private init; }
 
     [CliOption("--monitor-resources")]
     public string? MonitorResources { get; set; }
@@ -35,5 +72,22 @@ public record AwsEcsDeleteExpressGatewayServiceOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

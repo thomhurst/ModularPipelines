@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,10 +22,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ds", "describe-client-authentication-settings")]
-public record AwsDsDescribeClientAuthenticationSettingsOptions : AwsOptions
+public record AwsDsDescribeClientAuthenticationSettingsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Retrieves information about the type of client authentication for the specified directory, if the type is specified. If no type is specified, information about all client authentication types that are supported for the specified directory is retrieved. Currently, only SmartCard is supported. See also: AWS API Documentation describe-client-authentication-settings is a paginated operation. Mul- tiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagin...
+    /// </summary>
+    /// <param name="DirectoryId">The identifier of the directory for which to retrieve information. Constraints: o pattern: ^d-[0-9a-f]{10}$</param>
+    public AwsDsDescribeClientAuthenticationSettingsOptions(
+        string DirectoryId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DirectoryId);
+        this.DirectoryId = DirectoryId;
+    }
+
+    private AwsDsDescribeClientAuthenticationSettingsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDsDescribeClientAuthenticationSettingsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDsDescribeClientAuthenticationSettingsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the directory for which to retrieve information. Constraints: o pattern: ^d-[0-9a-f]{10}$
+    /// </summary>
     [CliOption("--directory-id")]
-    public string? DirectoryId { get; set; }
+    public string? DirectoryId { get; private init; }
 
     /// <summary>
     /// The type of client authentication for which to retrieve information. If no type is specified, a list of all client authentication types that are supported for the specified directory is retrieved. Possible values: o SmartCard o SmartCardOrPassword
@@ -56,5 +93,22 @@ public record AwsDsDescribeClientAuthenticationSettingsOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

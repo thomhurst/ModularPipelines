@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("mediapackage", "configure-logs")]
-public record AwsMediapackageConfigureLogsOptions : AwsOptions
+public record AwsMediapackageConfigureLogsOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--egress-access-logs")]
-    public string? EgressAccessLogs { get; set; }
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Changes the Channel's properities to configure log subscription See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Id"></param>
+    public AwsMediapackageConfigureLogsOptions(
+        string Id
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Id);
+        this.Id = Id;
+    }
+
+    private AwsMediapackageConfigureLogsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsMediapackageConfigureLogsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsMediapackageConfigureLogsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     [CliOption("--id")]
-    public string? Id { get; set; }
+    public string? Id { get; private init; }
+
+    [CliOption("--egress-access-logs")]
+    public string? EgressAccessLogs { get; set; }
 
     [CliOption("--ingress-access-logs")]
     public string? IngressAccessLogs { get; set; }
@@ -35,5 +69,22 @@ public record AwsMediapackageConfigureLogsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

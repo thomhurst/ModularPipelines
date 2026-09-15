@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("kinesisanalyticsv2", "rollback-application")]
-public record AwsKinesisanalyticsv2RollbackApplicationOptions : AwsOptions
+public record AwsKinesisanalyticsv2RollbackApplicationOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--application-name")]
-    public string? ApplicationName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Reverts the application to the previous running version. You can roll back an application if you suspect it is stuck in a transient status or in the running status. You can roll back an application only if it is in the UPDATING , AU- TOSCALING , or RUNNING statuses. When you rollback an application, it loads state data from the last successful snapshot. If the application has no snapshots, Managed Ser- vice for Apache Flink rejects the rollback request. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ApplicationName">The name of the application. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_.-]+</param>
+    /// <param name="CurrentApplicationVersionId">The current application version ID. You can retrieve the application version ID using DescribeApplication . Constraints: o min: 1 o max: 999999999</param>
+    public AwsKinesisanalyticsv2RollbackApplicationOptions(
+        string ApplicationName,
+        int CurrentApplicationVersionId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ApplicationName);
+        this.ApplicationName = ApplicationName;
+        this.CurrentApplicationVersionId = CurrentApplicationVersionId;
+    }
+
+    private AwsKinesisanalyticsv2RollbackApplicationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsKinesisanalyticsv2RollbackApplicationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsKinesisanalyticsv2RollbackApplicationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the application. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_.-]+
+    /// </summary>
+    [CliOption("--application-name")]
+    public string? ApplicationName { get; private init; }
+
+    /// <summary>
+    /// The current application version ID. You can retrieve the application version ID using DescribeApplication . Constraints: o min: 1 o max: 999999999
+    /// </summary>
     [CliOption("--current-application-version-id")]
-    public int? CurrentApplicationVersionId { get; set; }
+    public int? CurrentApplicationVersionId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

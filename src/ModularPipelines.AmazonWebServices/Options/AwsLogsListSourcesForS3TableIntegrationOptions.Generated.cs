@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("logs", "list-sources-for-s3-table-integration")]
-public record AwsLogsListSourcesForS3TableIntegrationOptions : AwsOptions
+public record AwsLogsListSourcesForS3TableIntegrationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Returns a list of data source associations for a specified S3 Table In- tegration, showing which data sources are currently associated for query access. See also: AWS API Documentation list-sources-for-s3-table-integration is a paginated operation. Multi- ple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate ar- gument. When using --output text and the --query argument on a pagi- nated response, the --query argu...
+    /// </summary>
+    /// <param name="IntegrationArn">The Amazon Resource Name (ARN) of the S3 Table Integration to list associations for.</param>
+    public AwsLogsListSourcesForS3TableIntegrationOptions(
+        string IntegrationArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(IntegrationArn);
+        this.IntegrationArn = IntegrationArn;
+    }
+
+    private AwsLogsListSourcesForS3TableIntegrationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsLogsListSourcesForS3TableIntegrationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsLogsListSourcesForS3TableIntegrationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the S3 Table Integration to list associations for.
+    /// </summary>
     [CliOption("--integration-arn")]
-    public string? IntegrationArn { get; set; }
+    public string? IntegrationArn { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
@@ -49,5 +86,22 @@ public record AwsLogsListSourcesForS3TableIntegrationOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

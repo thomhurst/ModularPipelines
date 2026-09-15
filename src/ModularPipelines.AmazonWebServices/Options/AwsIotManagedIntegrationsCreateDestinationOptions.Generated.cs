@@ -12,6 +12,8 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -21,19 +23,76 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iot-managed-integrations", "create-destination")]
-public record AwsIotManagedIntegrationsCreateDestinationOptions : AwsOptions
+public record AwsIotManagedIntegrationsCreateDestinationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Create a notification destination such as Kinesis Data Streams that re- ceive events and notifications from Managed integrations. Managed inte- grations uses the destination to determine where to deliver notifica- tions. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DeliveryDestinationArn">The Amazon Resource Name (ARN) of the customer-managed destination. Constraints: o min: 20 o max: 2048 o pattern: arn:aws:[0-9a-zA-Z]+:[0-9a-zA-Z-]+:[0-9]+:[0-9a-zA-Z]+/[0-9a-zA-Z._-]+</param>
+    /// <param name="DeliveryDestinationType">The destination type for the customer-managed destination. Possible values: o KINESIS</param>
+    /// <param name="Name">The name of the customer-managed destination. Constraints: o min: 1 o max: 128 o pattern: [\p{L}\p{N} ._-]+</param>
+    /// <param name="RoleArn">The Amazon Resource Name (ARN) of the delivery destination role.</param>
+    public AwsIotManagedIntegrationsCreateDestinationOptions(
+        string DeliveryDestinationArn,
+        AwsIotManagedIntegrationsCreateDestinationDeliveryDestinationType DeliveryDestinationType,
+        string Name,
+        string RoleArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DeliveryDestinationArn);
+        this.DeliveryDestinationArn = DeliveryDestinationArn;
+        global::System.ArgumentNullException.ThrowIfNull(DeliveryDestinationType);
+        this.DeliveryDestinationType = DeliveryDestinationType;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(RoleArn);
+        this.RoleArn = RoleArn;
+    }
+
+    private AwsIotManagedIntegrationsCreateDestinationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsIotManagedIntegrationsCreateDestinationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsIotManagedIntegrationsCreateDestinationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the customer-managed destination. Constraints: o min: 20 o max: 2048 o pattern: arn:aws:[0-9a-zA-Z]+:[0-9a-zA-Z-]+:[0-9]+:[0-9a-zA-Z]+/[0-9a-zA-Z._-]+
+    /// </summary>
     [CliOption("--delivery-destination-arn")]
-    public string? DeliveryDestinationArn { get; set; }
+    public string? DeliveryDestinationArn { get; private init; }
 
+    /// <summary>
+    /// The destination type for the customer-managed destination. Possible values: o KINESIS
+    /// </summary>
     [CliOption("--delivery-destination-type")]
-    public string? DeliveryDestinationType { get; set; }
+    public AwsIotManagedIntegrationsCreateDestinationDeliveryDestinationType? DeliveryDestinationType { get; private init; }
 
+    /// <summary>
+    /// The name of the customer-managed destination. Constraints: o min: 1 o max: 128 o pattern: [\p{L}\p{N} ._-]+
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
 
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the delivery destination role.
+    /// </summary>
     [CliOption("--role-arn")]
-    public string? RoleArn { get; set; }
+    public string? RoleArn { get; private init; }
 
     /// <summary>
     /// An idempotency token. If you retry a request that completed success- fully initially using the same client token and parameters, then the retry attempt will succeed without performing any further actions. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9=_-]+
@@ -59,5 +118,22 @@ public record AwsIotManagedIntegrationsCreateDestinationOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --masteruserauthenticationtype.
+/// Allowed values for --master-user-authentication-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsRdsCreateDbInstanceMasterUserAuthenticationType
 {
-    [EnumValue("password")]
-    Password = 1,
-
     [EnumValue("iam-db-auth")]
-    IamDbAuth = 2
+    IamDbAuth,
+
+    [EnumValue("password")]
+    Password
 }

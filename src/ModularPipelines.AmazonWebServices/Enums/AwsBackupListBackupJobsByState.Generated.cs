@@ -11,35 +11,35 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --bystate.
+/// Allowed values for --by-state.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsBackupListBackupJobsByState
 {
-    [EnumValue("CREATED")]
-    Created = 1,
-
-    [EnumValue("PENDING")]
-    Pending = 2,
-
-    [EnumValue("RUNNING")]
-    Running = 3,
+    [EnumValue("ABORTED")]
+    Aborted,
 
     [EnumValue("ABORTING")]
-    Aborting = 4,
-
-    [EnumValue("ABORTED")]
-    Aborted = 5,
+    Aborting,
 
     [EnumValue("COMPLETED")]
-    Completed = 6,
+    Completed,
 
-    [EnumValue("FAILED")]
-    Failed = 7,
+    [EnumValue("CREATED")]
+    Created,
 
     [EnumValue("EXPIRED")]
-    Expired = 8,
+    Expired,
+
+    [EnumValue("FAILED")]
+    Failed,
 
     [EnumValue("PARTIAL")]
-    Partial = 9
+    Partial,
+
+    [EnumValue("PENDING")]
+    Pending,
+
+    [EnumValue("RUNNING")]
+    Running
 }

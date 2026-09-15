@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("elasticache", "describe-cache-parameters")]
-public record AwsElasticacheDescribeCacheParametersOptions : AwsOptions
+public record AwsElasticacheDescribeCacheParametersOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Returns the detailed parameter list for a particular cache parameter group. See also: AWS API Documentation describe-cache-parameters is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: Parameters
+    /// </summary>
+    /// <param name="CacheParameterGroupName">The name of a specific cache parameter group to return details for.</param>
+    public AwsElasticacheDescribeCacheParametersOptions(
+        string CacheParameterGroupName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(CacheParameterGroupName);
+        this.CacheParameterGroupName = CacheParameterGroupName;
+    }
+
+    private AwsElasticacheDescribeCacheParametersOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsElasticacheDescribeCacheParametersOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsElasticacheDescribeCacheParametersOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of a specific cache parameter group to return details for.
+    /// </summary>
     [CliOption("--cache-parameter-group-name")]
-    public string? CacheParameterGroupName { get; set; }
+    public string? CacheParameterGroupName { get; private init; }
 
     /// <summary>
     /// The parameter types to return. Valid values: user | system | engine-default
@@ -55,5 +92,22 @@ public record AwsElasticacheDescribeCacheParametersOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

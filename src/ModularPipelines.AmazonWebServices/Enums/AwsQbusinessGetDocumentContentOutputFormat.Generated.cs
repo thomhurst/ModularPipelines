@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --outputformat.
+/// Allowed values for --output-format.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsQbusinessGetDocumentContentOutputFormat
 {
-    [EnumValue("RAW")]
-    Raw = 1,
-
     [EnumValue("EXTRACTED")]
-    Extracted = 2
+    Extracted,
+
+    [EnumValue("RAW")]
+    Raw
 }

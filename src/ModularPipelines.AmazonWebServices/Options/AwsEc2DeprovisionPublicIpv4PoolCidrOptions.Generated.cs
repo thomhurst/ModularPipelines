@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +20,84 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ec2", "deprovision-public-ipv4-pool-cidr")]
-public record AwsEc2DeprovisionPublicIpv4PoolCidrOptions : AwsOptions
+public record AwsEc2DeprovisionPublicIpv4PoolCidrOptions : AwsOptions, IValidatableObject
 {
-    [CliFlag("--dry-run")]
-    public bool? DryRun { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Deprovision a CIDR from a public IPv4 pool. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="PoolId">The ID of the pool that you want to deprovision the CIDR from.</param>
+    /// <param name="Cidr">The CIDR you want to deprovision from the pool.</param>
+    public AwsEc2DeprovisionPublicIpv4PoolCidrOptions(
+        string PoolId,
+        string Cidr
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PoolId);
+        this.PoolId = PoolId;
+        global::System.ArgumentNullException.ThrowIfNull(Cidr);
+        this.Cidr = Cidr;
+    }
+
+    private AwsEc2DeprovisionPublicIpv4PoolCidrOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEc2DeprovisionPublicIpv4PoolCidrOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEc2DeprovisionPublicIpv4PoolCidrOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the pool that you want to deprovision the CIDR from.
+    /// </summary>
     [CliOption("--pool-id")]
-    public string? PoolId { get; set; }
+    public string? PoolId { get; private init; }
 
+    /// <summary>
+    /// The CIDR you want to deprovision from the pool.
+    /// </summary>
     [CliOption("--cidr")]
-    public string? Cidr { get; set; }
+    public string? Cidr { get; private init; }
+
+    /// <summary>
+    /// A check for whether you have the required permissions for the action without actually making the request and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
+    public bool? DryRun { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

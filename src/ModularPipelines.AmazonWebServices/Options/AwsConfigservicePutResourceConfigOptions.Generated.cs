@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,25 +21,82 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("configservice", "put-resource-config")]
-public record AwsConfigservicePutResourceConfigOptions : AwsOptions
+public record AwsConfigservicePutResourceConfigOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Records the configuration state for the resource provided in the re- quest. The configuration state of a resource is represented in Config as Configuration Items. Once this API records the configuration item, you can retrieve the list of configuration items for the custom re- source type using existing Config APIs. NOTE: The custom resource type must be registered with CloudFormation. This API accepts the configuration item registered with CloudForma- tion. When you call this API, Config only st...
+    /// </summary>
+    /// <param name="ResourceType">The type of the resource. The custom resource type must be regis- tered with CloudFormation. NOTE: You cannot use the organization names amzn, amazon, alexa, cus- tom with custom resource types. It is the first part of the Re- sourceType up to the first ::. Constraints: o min: 1 o max: 196</param>
+    /// <param name="SchemaVersionId">Version of the schema registered for the ResourceType in CloudForma- tion. Constraints: o min: 1 o max: 128 o pattern: [A-Za-z0-9-]+</param>
+    /// <param name="ResourceId">Unique identifier of the resource. Constraints: o min: 1 o max: 768</param>
+    /// <param name="Configuration">The configuration object of the resource in valid JSON format. It must match the schema registered with CloudFormation. NOTE: The configuration JSON must not exceed 64 KB.</param>
+    public AwsConfigservicePutResourceConfigOptions(
+        string ResourceType,
+        string SchemaVersionId,
+        string ResourceId,
+        string Configuration
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ResourceType);
+        this.ResourceType = ResourceType;
+        global::System.ArgumentNullException.ThrowIfNull(SchemaVersionId);
+        this.SchemaVersionId = SchemaVersionId;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceId);
+        this.ResourceId = ResourceId;
+        global::System.ArgumentNullException.ThrowIfNull(Configuration);
+        this.Configuration = Configuration;
+    }
+
+    private AwsConfigservicePutResourceConfigOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsConfigservicePutResourceConfigOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsConfigservicePutResourceConfigOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The type of the resource. The custom resource type must be regis- tered with CloudFormation. NOTE: You cannot use the organization names amzn, amazon, alexa, cus- tom with custom resource types. It is the first part of the Re- sourceType up to the first ::. Constraints: o min: 1 o max: 196
+    /// </summary>
     [CliOption("--resource-type")]
-    public string? ResourceType { get; set; }
+    public string? ResourceType { get; private init; }
 
+    /// <summary>
+    /// Version of the schema registered for the ResourceType in CloudForma- tion. Constraints: o min: 1 o max: 128 o pattern: [A-Za-z0-9-]+
+    /// </summary>
     [CliOption("--schema-version-id")]
-    public string? SchemaVersionId { get; set; }
+    public string? SchemaVersionId { get; private init; }
 
+    /// <summary>
+    /// Unique identifier of the resource. Constraints: o min: 1 o max: 768
+    /// </summary>
     [CliOption("--resource-id")]
-    public string? ResourceId { get; set; }
+    public string? ResourceId { get; private init; }
+
+    /// <summary>
+    /// The configuration object of the resource in valid JSON format. It must match the schema registered with CloudFormation. NOTE: The configuration JSON must not exceed 64 KB.
+    /// </summary>
+    [CliOption("--configuration")]
+    public string? Configuration { get; private init; }
 
     /// <summary>
     /// Name of the resource.
     /// </summary>
     [CliOption("--resource-name")]
     public string? ResourceName { get; set; }
-
-    [CliOption("--configuration")]
-    public string? Configuration { get; set; }
 
     /// <summary>
     /// Tags associated with the resource. NOTE: This field is not to be confused with the Amazon Web Ser- vices-wide tag feature for Amazon Web Services resources. Tags for PutResourceConfig are tags that you supply for the configu- ration items of your custom resources. key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
@@ -51,5 +109,22 @@ public record AwsConfigservicePutResourceConfigOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,19 +22,97 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("connect", "create-routing-profile")]
-public record AwsConnectCreateRoutingProfileOptions : AwsOptions
+public record AwsConnectCreateRoutingProfileOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a new routing profile. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100</param>
+    /// <param name="Name">The name of the routing profile. Must not be more than 127 charac- ters. Constraints: o min: 1 o max: 127</param>
+    /// <param name="Description">Description of the routing profile. Must not be more than 250 char- acters. Constraints: o min: 1 o max: 250</param>
+    /// <param name="DefaultOutboundQueueId">The default outbound queue for the routing profile.</param>
+    /// <param name="MediaConcurrencies">The channels that agents can handle in the Contact Control Panel (CCP) for this routing profile. (structure) Contains information about which channels are supported, and how many contacts an agent can have on a channel simultaneously. Channel -&gt; (string) [required] The channels that agents can handle in the Contact Control Panel (CCP). Possible values: o VOICE o CHAT o TASK o EMAIL Concurrency -&gt; (integer) The number of contacts an agent can have on a channel simul- taneously. Valid Range for VOICE : Minimum value of 1. Maximum value of 1. Valid Range for CHAT : Minimum value of 1. Maximum value of 10. Valid Range for TASK : Minimum value of 1. Maximum value of 10. Constraints: o min: 0 o max: 10 CrossChannelBehavior -&gt; (structure) Defines the cross-channel routing behavior for each channel that is enabled for this Routing Profile. For example, this allows you to offer an agent a different contact from another channel when they are currently working with a contact from a Voice channel. BehaviorType -&gt; (string) [required] Specifies the other channels that can be routed to an agent handling their current channel. Possible values: o ROUTE_CURRENT_CHANNEL_ONLY o ROUTE_ANY_CHANNEL WorkloadTypeConcurrencies -&gt; (list) Defines the list of workload type concurrency configurations for a channel. When provided, enables granular concurrency control based on workload type values. Constraints: o min: 1 o max: 5 (structure) Defines the maximum number of contacts an agent can han- dle simultaneously for a specific channel and workload type combination. WorkloadType -&gt; (string) [required] The value of the workload type. Concurrency -&gt; (integer) [required] The maximum number of contacts an agent can handle si- multaneously for a specific channel and workload type combination. Valid Range for VOICE : Minimum value of 1. Maximum value of 1. Valid Range for CHAT : Minimum value of 1. Maximum value of 10. Valid Range for TASK : Minimum value of 1. Maximum value of 10. Constraints: o min: 1 o max: 10 CrossChannelWorkloadBehavior -&gt; (structure) Defines the cross-channel and workload type routing behavior for each channel and workload type combina- tion that is enabled for this Routing Profile. ChannelWorkloadBehaviorType -&gt; (string) Specifies the routing behavior for an agent han- dling their current channel and workload type. Possible values: o ROUTE_CURRENT_CHANNEL_CURRENT_WORKLOADTYPE_ONLY o ROUTE_CURRENT_CHANNEL_ANY_WORKLOADTYPE_ONLY o ROUTE_ANY_CHANNEL_ANY_WORKLOAD_TYPE JSON Syntax: [ { "Channel": "VOICE"|"CHAT"|"TASK"|"EMAIL", "Concurrency": integer, "CrossChannelBehavior": { "BehaviorType": "ROUTE_CURRENT_CHANNEL_ONLY"|"ROUTE_ANY_CHANNEL" }, "WorkloadTypeConcurrencies": [ { "WorkloadType": "string", "Concurrency": integer, "CrossChannelWorkloadBehavior": { "ChannelWorkloadBehaviorType": "ROUTE_CURRENT_CHANNEL_CURRENT_WORKLOADTYPE_ONLY"|"ROUTE_CURRENT_CHANNEL_ANY_WORKLOADTYPE_ONLY"|"ROUTE_ANY_CHANNEL_ANY_WORKLOAD_TYPE" } } ... ] } ... ]</param>
+    public AwsConnectCreateRoutingProfileOptions(
+        string InstanceId,
+        string Name,
+        string Description,
+        string DefaultOutboundQueueId,
+        IEnumerable<string> MediaConcurrencies
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(InstanceId);
+        this.InstanceId = InstanceId;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(Description);
+        this.Description = Description;
+        global::System.ArgumentNullException.ThrowIfNull(DefaultOutboundQueueId);
+        this.DefaultOutboundQueueId = DefaultOutboundQueueId;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(MediaConcurrencies);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(MediaConcurrencies));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(MediaConcurrencies));
+            }
+
+            MediaConcurrencies = materialized;
+        }
+        this.MediaConcurrencies = MediaConcurrencies;
+    }
+
+    private AwsConnectCreateRoutingProfileOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsConnectCreateRoutingProfileOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsConnectCreateRoutingProfileOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100
+    /// </summary>
     [CliOption("--instance-id")]
-    public string? InstanceId { get; set; }
+    public string? InstanceId { get; private init; }
 
+    /// <summary>
+    /// The name of the routing profile. Must not be more than 127 charac- ters. Constraints: o min: 1 o max: 127
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
 
+    /// <summary>
+    /// Description of the routing profile. Must not be more than 250 char- acters. Constraints: o min: 1 o max: 250
+    /// </summary>
     [CliOption("--description")]
-    public string? Description { get; set; }
+    public string? Description { get; private init; }
 
+    /// <summary>
+    /// The default outbound queue for the routing profile.
+    /// </summary>
     [CliOption("--default-outbound-queue-id")]
-    public string? DefaultOutboundQueueId { get; set; }
+    public string? DefaultOutboundQueueId { get; private init; }
+
+    /// <summary>
+    /// The channels that agents can handle in the Contact Control Panel (CCP) for this routing profile. (structure) Contains information about which channels are supported, and how many contacts an agent can have on a channel simultaneously. Channel -&gt; (string) [required] The channels that agents can handle in the Contact Control Panel (CCP). Possible values: o VOICE o CHAT o TASK o EMAIL Concurrency -&gt; (integer) The number of contacts an agent can have on a channel simul- taneously. Valid Range for VOICE : Minimum value of 1. Maximum value of 1. Valid Range for CHAT : Minimum value of 1. Maximum value of 10. Valid Range for TASK : Minimum value of 1. Maximum value of 10. Constraints: o min: 0 o max: 10 CrossChannelBehavior -&gt; (structure) Defines the cross-channel routing behavior for each channel that is enabled for this Routing Profile. For example, this allows you to offer an agent a different contact from another channel when they are currently working with a contact from a Voice channel. BehaviorType -&gt; (string) [required] Specifies the other channels that can be routed to an agent handling their current channel. Possible values: o ROUTE_CURRENT_CHANNEL_ONLY o ROUTE_ANY_CHANNEL WorkloadTypeConcurrencies -&gt; (list) Defines the list of workload type concurrency configurations for a channel. When provided, enables granular concurrency control based on workload type values. Constraints: o min: 1 o max: 5 (structure) Defines the maximum number of contacts an agent can han- dle simultaneously for a specific channel and workload type combination. WorkloadType -&gt; (string) [required] The value of the workload type. Concurrency -&gt; (integer) [required] The maximum number of contacts an agent can handle si- multaneously for a specific channel and workload type combination. Valid Range for VOICE : Minimum value of 1. Maximum value of 1. Valid Range for CHAT : Minimum value of 1. Maximum value of 10. Valid Range for TASK : Minimum value of 1. Maximum value of 10. Constraints: o min: 1 o max: 10 CrossChannelWorkloadBehavior -&gt; (structure) Defines the cross-channel and workload type routing behavior for each channel and workload type combina- tion that is enabled for this Routing Profile. ChannelWorkloadBehaviorType -&gt; (string) Specifies the routing behavior for an agent han- dling their current channel and workload type. Possible values: o ROUTE_CURRENT_CHANNEL_CURRENT_WORKLOADTYPE_ONLY o ROUTE_CURRENT_CHANNEL_ANY_WORKLOADTYPE_ONLY o ROUTE_ANY_CHANNEL_ANY_WORKLOAD_TYPE JSON Syntax: [ { "Channel": "VOICE"|"CHAT"|"TASK"|"EMAIL", "Concurrency": integer, "CrossChannelBehavior": { "BehaviorType": "ROUTE_CURRENT_CHANNEL_ONLY"|"ROUTE_ANY_CHANNEL" }, "WorkloadTypeConcurrencies": [ { "WorkloadType": "string", "Concurrency": integer, "CrossChannelWorkloadBehavior": { "ChannelWorkloadBehaviorType": "ROUTE_CURRENT_CHANNEL_CURRENT_WORKLOADTYPE_ONLY"|"ROUTE_CURRENT_CHANNEL_ANY_WORKLOADTYPE_ONLY"|"ROUTE_ANY_CHANNEL_ANY_WORKLOAD_TYPE" } } ... ] } ... ]
+    /// </summary>
+    [CliOption("--media-concurrencies", GroupValues = true)]
+    public IEnumerable<string>? MediaConcurrencies { get; private init; }
 
     /// <summary>
     /// The inbound queues associated with the routing profile. If no queue is added, the agent can make only outbound calls. The limit of 10 array members applies to the maximum number of Rout- ingProfileQueueConfig objects that can be passed during a CreateR- outingProfile API request. It is different from the quota of 50 queues per routing profile per instance that is listed in Connect Customer service quotas . Constraints: o min: 1 o max: 10 (structure) Contains information about the queue and channel for which pri- ority and delay can be set. QueueReference -&gt; (structure) [required] Contains information about a queue resource. QueueId -&gt; (string) [required] The identifier for the queue. Channel -&gt; (string) [required] The channels agents can handle in the Contact Control Panel (CCP) for this routing profile. Possible values: o VOICE o CHAT o TASK o EMAIL Priority -&gt; (integer) [required] The order in which contacts are to be handled for the queue. For more information, see Queues: priority and delay . Constraints: o min: 1 o max: 99 Delay -&gt; (integer) [required] The delay, in seconds, a contact should be in the queue be- fore they are routed to an available agent. For more informa- tion, see Queues: priority and delay in the Connect Customer Administrator Guide . Constraints: o min: 0 o max: 9999 Shorthand Syntax: QueueReference={QueueId=string,Channel=string},Priority=integer,Delay=integer ... JSON Syntax: [ { "QueueReference": { "QueueId": "string", "Channel": "VOICE"|"CHAT"|"TASK"|"EMAIL" }, "Priority": integer, "Delay": integer } ... ]
@@ -46,9 +125,6 @@ public record AwsConnectCreateRoutingProfileOptions : AwsOptions
     /// </summary>
     [CliOption("--manual-assignment-queue-configs", GroupValues = true)]
     public IEnumerable<string>? ManualAssignmentQueueConfigs { get; set; }
-
-    [CliOption("--media-concurrencies", GroupValues = true)]
-    public IEnumerable<string>? MediaConcurrencies { get; set; }
 
     /// <summary>
     /// The tags used to organize, track, or control access for this re- source. For example, { "Tags": {"key1":"value1", "key2":"value2"} }. Constraints: o min: 1 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ^(?!aws:)[\p{L}\p{Z}\p{N}_.:/=+\-@]*$ value -&gt; (string) Constraints: o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
@@ -67,5 +143,22 @@ public record AwsConnectCreateRoutingProfileOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

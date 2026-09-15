@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("backup", "put-restore-validation-result")]
-public record AwsBackupPutRestoreValidationResultOptions : AwsOptions
+public record AwsBackupPutRestoreValidationResultOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--restore-job-id")]
-    public string? RestoreJobId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// This request allows you to send your independent self-run restore test validation results. RestoreJobId and ValidationStatus are required. Op- tionally, you can input a ValidationStatusMessage . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="RestoreJobId">This is a unique identifier of a restore job within Backup.</param>
+    /// <param name="ValidationStatus">The status of your restore validation. Possible values: o FAILED o SUCCESSFUL o TIMED_OUT o VALIDATING</param>
+    public AwsBackupPutRestoreValidationResultOptions(
+        string RestoreJobId,
+        AwsBackupPutRestoreValidationResultValidationStatus ValidationStatus
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(RestoreJobId);
+        this.RestoreJobId = RestoreJobId;
+        global::System.ArgumentNullException.ThrowIfNull(ValidationStatus);
+        this.ValidationStatus = ValidationStatus;
+    }
+
+    private AwsBackupPutRestoreValidationResultOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsBackupPutRestoreValidationResultOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsBackupPutRestoreValidationResultOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// This is a unique identifier of a restore job within Backup.
+    /// </summary>
+    [CliOption("--restore-job-id")]
+    public string? RestoreJobId { get; private init; }
+
+    /// <summary>
+    /// The status of your restore validation. Possible values: o FAILED o SUCCESSFUL o TIMED_OUT o VALIDATING
+    /// </summary>
     [CliOption("--validation-status")]
-    public string? ValidationStatus { get; set; }
+    public AwsBackupPutRestoreValidationResultValidationStatus? ValidationStatus { get; private init; }
 
     /// <summary>
     /// This is an optional message string you can input to describe the validation status for the restore test validation.
@@ -38,5 +83,22 @@ public record AwsBackupPutRestoreValidationResultOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

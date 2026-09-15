@@ -22,14 +22,55 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("apigateway", "get-export")]
 public record AwsApigatewayGetExportOptions : AwsOptions
 {
+    /// <summary>
+    /// Exports a deployed version of a RestApi in a specified format. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="RestApiId">The string identifier of the associated RestApi.</param>
+    /// <param name="StageName">The name of the Stage that will be exported.</param>
+    /// <param name="ExportType">The type of export. Acceptable values are 'oas30' for OpenAPI 3.0.x and 'swagger' for Swagger/OpenAPI 2.0.</param>
+    /// <param name="Outfile">The &lt;outfile&gt; operand.</param>
+    public AwsApigatewayGetExportOptions(
+        string RestApiId,
+        string StageName,
+        string ExportType,
+        string Outfile
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(RestApiId);
+        this.RestApiId = RestApiId;
+        global::System.ArgumentNullException.ThrowIfNull(StageName);
+        this.StageName = StageName;
+        global::System.ArgumentNullException.ThrowIfNull(ExportType);
+        this.ExportType = ExportType;
+        global::System.ArgumentNullException.ThrowIfNull(Outfile);
+        this.Outfile = Outfile;
+    }
+
+    public void Deconstruct(out string RestApiId, out string StageName, out string ExportType, out string Outfile)
+    {
+        RestApiId = this.RestApiId;
+        StageName = this.StageName;
+        ExportType = this.ExportType;
+        Outfile = this.Outfile;
+    }
+
+    /// <summary>
+    /// The string identifier of the associated RestApi.
+    /// </summary>
     [CliOption("--rest-api-id")]
-    public string? RestApiId { get; set; }
+    public string RestApiId { get; private init; }
 
+    /// <summary>
+    /// The name of the Stage that will be exported.
+    /// </summary>
     [CliOption("--stage-name")]
-    public string? StageName { get; set; }
+    public string StageName { get; private init; }
 
+    /// <summary>
+    /// The type of export. Acceptable values are 'oas30' for OpenAPI 3.0.x and 'swagger' for Swagger/OpenAPI 2.0.
+    /// </summary>
     [CliOption("--export-type")]
-    public string? ExportType { get; set; }
+    public string ExportType { get; private init; }
 
     /// <summary>
     /// A key-value map of query string parameters that specify properties of the export, depending on the requested exportType . For export- Type oas30 and swagger , any combination of the following parame- ters are supported: extensions='integrations' or extensions='api- gateway' will export the API with x-amazon-apigateway-integration extensions. extensions='authorizers' will export the API with x-ama- zon-apigateway-authorizer extensions. postman will export the API with Postman extensions, allowing for import to the Postman tool key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
@@ -42,5 +83,11 @@ public record AwsApigatewayGetExportOptions : AwsOptions
     /// </summary>
     [CliOption("--accepts")]
     public string? Accepts { get; set; }
+
+    /// <summary>
+    /// The &lt;outfile&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string Outfile { get; private init; }
 
 }

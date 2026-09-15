@@ -11,14 +11,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --inputtype.
+/// Allowed values for --input-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsMediapackagev2CreateChannelInputType
 {
-    [EnumValue("HLS")]
-    Hls = 1,
-
     [EnumValue("CMAF")]
-    Cmaf = 2
+    Cmaf,
+
+    [EnumValue("HLS")]
+    Hls,
+
+    [EnumValue("MULTIVIEW")]
+    Multiview
 }

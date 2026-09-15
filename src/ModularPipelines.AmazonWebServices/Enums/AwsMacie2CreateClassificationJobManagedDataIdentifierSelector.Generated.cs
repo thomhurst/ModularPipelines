@@ -11,23 +11,23 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --manageddataidentifierselector.
+/// Allowed values for --managed-data-identifier-selector.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsMacie2CreateClassificationJobManagedDataIdentifierSelector
 {
     [EnumValue("ALL")]
-    All = 1,
+    All,
 
     [EnumValue("EXCLUDE")]
-    Exclude = 2,
+    Exclude,
 
     [EnumValue("INCLUDE")]
-    Include = 3,
+    Include,
 
     [EnumValue("NONE")]
-    None = 4,
+    None,
 
     [EnumValue("RECOMMENDED")]
-    Recommended = 5
+    Recommended
 }

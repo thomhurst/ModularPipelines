@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +20,99 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("codeguru-reviewer", "put-recommendation-feedback")]
-public record AwsCodeguruReviewerPutRecommendationFeedbackOptions : AwsOptions
+public record AwsCodeguruReviewerPutRecommendationFeedbackOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Stores customer feedback for a CodeGuru Reviewer recommendation. When this API is called again with different reactions the previous feedback is overwritten. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="CodeReviewArn">The Amazon Resource Name (ARN) of the CodeReview object. Constraints: o min: 1 o max: 1600 o pattern: ^arn:aws[^:\s]*:codeguru-re- viewer:[^:\s]+:[\d]{12}:[a-z-]+:[\w-]+$</param>
+    /// <param name="RecommendationId">The recommendation ID that can be used to track the provided recom- mendations and then to collect the feedback. Constraints: o min: 1 o max: 64</param>
+    /// <param name="Reactions">List for storing reactions. Reactions are utf-8 text code for emo- jis. If you send an empty list it clears all your feedback. Constraints: o min: 0 o max: 1 (string) Possible values: o ThumbsUp o ThumbsDown Syntax: "string" "string" ...</param>
+    public AwsCodeguruReviewerPutRecommendationFeedbackOptions(
+        string CodeReviewArn,
+        string RecommendationId,
+        IEnumerable<string> Reactions
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(CodeReviewArn);
+        this.CodeReviewArn = CodeReviewArn;
+        global::System.ArgumentNullException.ThrowIfNull(RecommendationId);
+        this.RecommendationId = RecommendationId;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Reactions);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Reactions));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Reactions));
+            }
+
+            Reactions = materialized;
+        }
+        this.Reactions = Reactions;
+    }
+
+    private AwsCodeguruReviewerPutRecommendationFeedbackOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCodeguruReviewerPutRecommendationFeedbackOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCodeguruReviewerPutRecommendationFeedbackOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the CodeReview object. Constraints: o min: 1 o max: 1600 o pattern: ^arn:aws[^:\s]*:codeguru-re- viewer:[^:\s]+:[\d]{12}:[a-z-]+:[\w-]+$
+    /// </summary>
     [CliOption("--code-review-arn")]
-    public string? CodeReviewArn { get; set; }
+    public string? CodeReviewArn { get; private init; }
 
+    /// <summary>
+    /// The recommendation ID that can be used to track the provided recom- mendations and then to collect the feedback. Constraints: o min: 1 o max: 64
+    /// </summary>
     [CliOption("--recommendation-id")]
-    public string? RecommendationId { get; set; }
+    public string? RecommendationId { get; private init; }
 
+    /// <summary>
+    /// List for storing reactions. Reactions are utf-8 text code for emo- jis. If you send an empty list it clears all your feedback. Constraints: o min: 0 o max: 1 (string) Possible values: o ThumbsUp o ThumbsDown Syntax: "string" "string" ...
+    /// </summary>
     [CliOption("--reactions", GroupValues = true)]
-    public IEnumerable<string>? Reactions { get; set; }
+    public IEnumerable<string>? Reactions { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

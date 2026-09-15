@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cloudsearch", "define-analysis-scheme")]
-public record AwsCloudsearchDefineAnalysisSchemeOptions : AwsOptions
+public record AwsCloudsearchDefineAnalysisSchemeOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--domain-name")]
-    public string? DomainName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Configures an analysis scheme that can be applied to a text or text-ar- ray field to define language-specific text processing options. For more information, see Configuring Analysis Schemes in the Amazon CloudSearch Developer Guide . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DomainName">A string that represents the name of a domain. Domain names are unique across the domains owned by an account within an AWS region. Domain names start with a letter or number and can contain the fol- lowing characters: a-z (lowercase), 0-9, and - (hyphen). Constraints: o min: 3 o max: 28 o pattern: [a-z][a-z0-9\-]+</param>
+    /// <param name="AnalysisScheme">Configuration information for an analysis scheme. Each analysis scheme has a unique name and specifies the language of the text to be processed. The following options can be configured for an analy- sis scheme: Synonyms , Stopwords , StemmingDictionary , JapaneseTok- enizationDictionary and AlgorithmicStemming . AnalysisSchemeName -&gt; (string) [required] Names must begin with a letter and can contain the following characters: a-z (lowercase), 0-9, and _ (underscore). Constraints: o min: 1 o max: 64 o pattern: [a-z][a-z0-9_]* AnalysisSchemeLanguage -&gt; (string) [required] An IETF RFC 4646 language code or mul for multiple languages. Possible values: o ar o bg o ca o cs o da o de o el o en o es o eu o fa o fi o fr o ga o gl o he o hi o hu o hy o id o it o ja o ko o lv o mul o nl o no o pt o ro o ru o sv o th o tr o zh-Hans o zh-Hant AnalysisOptions -&gt; (structure) Synonyms, stopwords, and stemming options for an analysis scheme. Includes tokenization dictionary for Japanese. Synonyms -&gt; (string) A JSON object that defines synonym groups and aliases. A syn- onym group is an array of arrays, where each sub-array is a group of terms where each term in the group is considered a synonym of every other term in the group. The aliases value is an object that contains a collection of string:value pairs where the string specifies a term and the array of values specifies each of the aliases for that term. An alias is con- sidered a synonym of the specified term, but the term is not considered a synonym of the alias. For more information about specifying synonyms, see Synonyms in the Amazon CloudSearch Developer Guide . Stopwords -&gt; (string) A JSON array of terms to ignore during indexing and search- ing. For example, ["a", "an", "the", "of"] . The stopwords dictionary must explicitly list each word you want to ignore. Wildcards and regular expressions are not supported. StemmingDictionary -&gt; (string) A JSON object that contains a collection of string:value pairs that each map a term to its stem. For example, {"term1": "stem1", "term2": "stem2", "term3": "stem3"} . The stemming dictionary is applied in addition to any algorithmic stemming. This enables you to override the results of the al- gorithmic stemming to correct specific cases of overstemming or understemming. The maximum size of a stemming dictionary is 500 KB. JapaneseTokenizationDictionary -&gt; (string) A JSON array that contains a collection of terms, tokens, readings and part of speech for Japanese Tokenizaiton. The Japanese tokenization dictionary enables you to override the default tokenization for selected terms. This is only valid for Japanese language fields. AlgorithmicStemming -&gt; (string) The level of algorithmic stemming to perform: none , minimal , light , or full . The available levels vary depending on the language. For more information, see Language Specific Text Processing Settings in the Amazon CloudSearch Developer Guide Possible values: o none o minimal o light o full Shorthand Syntax: AnalysisSchemeName=string,AnalysisSchemeLanguage=string,AnalysisOptions={Synonyms=string,Stopwords=string,StemmingDictionary=string,JapaneseTokenizationDictionary=string,AlgorithmicStemming=string} JSON Syntax: { "AnalysisSchemeName": "string", "AnalysisSchemeLanguage": "ar"|"bg"|"ca"|"cs"|"da"|"de"|"el"|"en"|"es"|"eu"|"fa"|"fi"|"fr"|"ga"|"gl"|"he"|"hi"|"hu"|"hy"|"id"|"it"|"ja"|"ko"|"lv"|"mul"|"nl"|"no"|"pt"|"ro"|"ru"|"sv"|"th"|"tr"|"zh-Hans"|"zh-Hant", "AnalysisOptions": { "Synonyms": "string", "Stopwords": "string", "StemmingDictionary": "string", "JapaneseTokenizationDictionary": "string", "AlgorithmicStemming": "none"|"minimal"|"light"|"full" } }</param>
+    public AwsCloudsearchDefineAnalysisSchemeOptions(
+        string DomainName,
+        string AnalysisScheme
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DomainName);
+        this.DomainName = DomainName;
+        global::System.ArgumentNullException.ThrowIfNull(AnalysisScheme);
+        this.AnalysisScheme = AnalysisScheme;
+    }
+
+    private AwsCloudsearchDefineAnalysisSchemeOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCloudsearchDefineAnalysisSchemeOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCloudsearchDefineAnalysisSchemeOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A string that represents the name of a domain. Domain names are unique across the domains owned by an account within an AWS region. Domain names start with a letter or number and can contain the fol- lowing characters: a-z (lowercase), 0-9, and - (hyphen). Constraints: o min: 3 o max: 28 o pattern: [a-z][a-z0-9\-]+
+    /// </summary>
+    [CliOption("--domain-name")]
+    public string? DomainName { get; private init; }
+
+    /// <summary>
+    /// Configuration information for an analysis scheme. Each analysis scheme has a unique name and specifies the language of the text to be processed. The following options can be configured for an analy- sis scheme: Synonyms , Stopwords , StemmingDictionary , JapaneseTok- enizationDictionary and AlgorithmicStemming . AnalysisSchemeName -&gt; (string) [required] Names must begin with a letter and can contain the following characters: a-z (lowercase), 0-9, and _ (underscore). Constraints: o min: 1 o max: 64 o pattern: [a-z][a-z0-9_]* AnalysisSchemeLanguage -&gt; (string) [required] An IETF RFC 4646 language code or mul for multiple languages. Possible values: o ar o bg o ca o cs o da o de o el o en o es o eu o fa o fi o fr o ga o gl o he o hi o hu o hy o id o it o ja o ko o lv o mul o nl o no o pt o ro o ru o sv o th o tr o zh-Hans o zh-Hant AnalysisOptions -&gt; (structure) Synonyms, stopwords, and stemming options for an analysis scheme. Includes tokenization dictionary for Japanese. Synonyms -&gt; (string) A JSON object that defines synonym groups and aliases. A syn- onym group is an array of arrays, where each sub-array is a group of terms where each term in the group is considered a synonym of every other term in the group. The aliases value is an object that contains a collection of string:value pairs where the string specifies a term and the array of values specifies each of the aliases for that term. An alias is con- sidered a synonym of the specified term, but the term is not considered a synonym of the alias. For more information about specifying synonyms, see Synonyms in the Amazon CloudSearch Developer Guide . Stopwords -&gt; (string) A JSON array of terms to ignore during indexing and search- ing. For example, ["a", "an", "the", "of"] . The stopwords dictionary must explicitly list each word you want to ignore. Wildcards and regular expressions are not supported. StemmingDictionary -&gt; (string) A JSON object that contains a collection of string:value pairs that each map a term to its stem. For example, {"term1": "stem1", "term2": "stem2", "term3": "stem3"} . The stemming dictionary is applied in addition to any algorithmic stemming. This enables you to override the results of the al- gorithmic stemming to correct specific cases of overstemming or understemming. The maximum size of a stemming dictionary is 500 KB. JapaneseTokenizationDictionary -&gt; (string) A JSON array that contains a collection of terms, tokens, readings and part of speech for Japanese Tokenizaiton. The Japanese tokenization dictionary enables you to override the default tokenization for selected terms. This is only valid for Japanese language fields. AlgorithmicStemming -&gt; (string) The level of algorithmic stemming to perform: none , minimal , light , or full . The available levels vary depending on the language. For more information, see Language Specific Text Processing Settings in the Amazon CloudSearch Developer Guide Possible values: o none o minimal o light o full Shorthand Syntax: AnalysisSchemeName=string,AnalysisSchemeLanguage=string,AnalysisOptions={Synonyms=string,Stopwords=string,StemmingDictionary=string,JapaneseTokenizationDictionary=string,AlgorithmicStemming=string} JSON Syntax: { "AnalysisSchemeName": "string", "AnalysisSchemeLanguage": "ar"|"bg"|"ca"|"cs"|"da"|"de"|"el"|"en"|"es"|"eu"|"fa"|"fi"|"fr"|"ga"|"gl"|"he"|"hi"|"hu"|"hy"|"id"|"it"|"ja"|"ko"|"lv"|"mul"|"nl"|"no"|"pt"|"ro"|"ru"|"sv"|"th"|"tr"|"zh-Hans"|"zh-Hant", "AnalysisOptions": { "Synonyms": "string", "Stopwords": "string", "StemmingDictionary": "string", "JapaneseTokenizationDictionary": "string", "AlgorithmicStemming": "none"|"minimal"|"light"|"full" } }
+    /// </summary>
     [CliOption("--analysis-scheme")]
-    public string? AnalysisScheme { get; set; }
+    public string? AnalysisScheme { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsGeoMapsGetStyleDescriptorTraffic
 {
     [EnumValue("All")]
-    All = 1,
+    All,
 
     [EnumValue("Congestion")]
-    Congestion = 2
+    Congestion
 }

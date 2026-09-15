@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,12 +20,51 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("pinpoint-email", "put-email-identity-dkim-attributes")]
-public record AwsPinpointEmailPutEmailIdentityDkimAttributesOptions : AwsOptions
+public record AwsPinpointEmailPutEmailIdentityDkimAttributesOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--email-identity")]
-    public string? EmailIdentity { get; set; }
+    private readonly bool _requiresAlternateInput;
 
-    [CliFlag("--signing-enabled")]
+    /// <summary>
+    /// Used to enable or disable DKIM authentication for an email identity. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="EmailIdentity">The email identity that you want to change the DKIM settings for.</param>
+    public AwsPinpointEmailPutEmailIdentityDkimAttributesOptions(
+        string EmailIdentity
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(EmailIdentity);
+        this.EmailIdentity = EmailIdentity;
+    }
+
+    private AwsPinpointEmailPutEmailIdentityDkimAttributesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsPinpointEmailPutEmailIdentityDkimAttributesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsPinpointEmailPutEmailIdentityDkimAttributesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The email identity that you want to change the DKIM settings for.
+    /// </summary>
+    [CliOption("--email-identity")]
+    public string? EmailIdentity { get; private init; }
+
+    /// <summary>
+    /// Sets the DKIM signing configuration for the identity. When you set this value true , then the messages that Amazon Pin- point sends from the identity are DKIM-signed. When you set this value to false , then the messages that Amazon Pinpoint sends from the identity aren't DKIM-signed.
+    /// </summary>
+    [CliFlag("--signing-enabled", NegatedName = "--no-signing-enabled")]
     public bool? SigningEnabled { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -32,5 +72,22 @@ public record AwsPinpointEmailPutEmailIdentityDkimAttributesOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

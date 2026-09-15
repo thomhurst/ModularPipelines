@@ -21,10 +21,49 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("tnb", "get-sol-network-package-content")]
 public record AwsTnbGetSolNetworkPackageContentOptions : AwsOptions
 {
-    [CliOption("--accept")]
-    public string? Accept { get; set; }
+    /// <summary>
+    /// Gets the contents of a network package. A network package is a .zip file in CSAR (Cloud Service Archive) format defines the function packages you want to deploy and the Amazon Web Services infrastructure you want to deploy them on. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Accept">The format of the package you want to download from the network package. Possible values: o application/zip</param>
+    /// <param name="NsdInfoId">ID of the network service descriptor in the network package. Constraints: o pattern: ^np-[a-f0-9]{17}$ outfile (string) [required] Filename where the content will be saved</param>
+    /// <param name="Outfile">The &lt;outfile&gt; operand.</param>
+    public AwsTnbGetSolNetworkPackageContentOptions(
+        string Accept,
+        string NsdInfoId,
+        string Outfile
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Accept);
+        this.Accept = Accept;
+        global::System.ArgumentNullException.ThrowIfNull(NsdInfoId);
+        this.NsdInfoId = NsdInfoId;
+        global::System.ArgumentNullException.ThrowIfNull(Outfile);
+        this.Outfile = Outfile;
+    }
 
+    public void Deconstruct(out string Accept, out string NsdInfoId, out string Outfile)
+    {
+        Accept = this.Accept;
+        NsdInfoId = this.NsdInfoId;
+        Outfile = this.Outfile;
+    }
+
+    /// <summary>
+    /// The format of the package you want to download from the network package. Possible values: o application/zip
+    /// </summary>
+    [CliOption("--accept")]
+    public string Accept { get; private init; }
+
+    /// <summary>
+    /// ID of the network service descriptor in the network package. Constraints: o pattern: ^np-[a-f0-9]{17}$ outfile (string) [required] Filename where the content will be saved
+    /// </summary>
     [CliOption("--nsd-info-id")]
-    public string? NsdInfoId { get; set; }
+    public string NsdInfoId { get; private init; }
+
+    /// <summary>
+    /// The &lt;outfile&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string Outfile { get; private init; }
 
 }

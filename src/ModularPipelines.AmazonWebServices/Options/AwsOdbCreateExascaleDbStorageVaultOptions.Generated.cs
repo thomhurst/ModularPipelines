@@ -12,6 +12,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -21,13 +22,55 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("odb", "create-exascale-db-storage-vault")]
-public record AwsOdbCreateExascaleDbStorageVaultOptions : AwsOptions
+public record AwsOdbCreateExascaleDbStorageVaultOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--display-name")]
-    public string? DisplayName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates an Exascale storage vault. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DisplayName">A user-friendly name for the Exascale storage vault. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z_](?!.*--)[a-zA-Z0-9_-]*</param>
+    /// <param name="HighCapacityDatabaseStorageTotalSizeInGbs">The total size of the high-capacity database storage, in gigabytes (GB), for the Exascale storage vault. Constraints: o min: 0</param>
+    public AwsOdbCreateExascaleDbStorageVaultOptions(
+        string DisplayName,
+        int HighCapacityDatabaseStorageTotalSizeInGbs
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DisplayName);
+        this.DisplayName = DisplayName;
+        this.HighCapacityDatabaseStorageTotalSizeInGbs = HighCapacityDatabaseStorageTotalSizeInGbs;
+    }
+
+    private AwsOdbCreateExascaleDbStorageVaultOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsOdbCreateExascaleDbStorageVaultOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsOdbCreateExascaleDbStorageVaultOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A user-friendly name for the Exascale storage vault. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z_](?!.*--)[a-zA-Z0-9_-]*
+    /// </summary>
+    [CliOption("--display-name")]
+    public string? DisplayName { get; private init; }
+
+    /// <summary>
+    /// The total size of the high-capacity database storage, in gigabytes (GB), for the Exascale storage vault. Constraints: o min: 0
+    /// </summary>
     [CliOption("--high-capacity-database-storage-total-size-in-gbs")]
-    public int? HighCapacityDatabaseStorageTotalSizeInGbs { get; set; }
+    public int? HighCapacityDatabaseStorageTotalSizeInGbs { get; private init; }
 
     /// <summary>
     /// The additional flash cache percentage for the Exascale storage vault. Constraints: o min: 0
@@ -59,7 +102,10 @@ public record AwsOdbCreateExascaleDbStorageVaultOptions : AwsOptions
     [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CliFlag("--is-autoscale-enabled")]
+    /// <summary>
+    /// Specifies whether autoscaling is enabled for the Exascale storage vault.
+    /// </summary>
+    [CliFlag("--is-autoscale-enabled", NegatedName = "--no-is-autoscale-enabled")]
     public bool? IsAutoscaleEnabled { get; set; }
 
     /// <summary>
@@ -75,7 +121,7 @@ public record AwsOdbCreateExascaleDbStorageVaultOptions : AwsOptions
     public string? TimeZone { get; set; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don't specify a client token, the Amazon Web Services SDK automatically generates one and uses it for the request to ensure idempotency. The client token is valid for up to 24 hours after it's first used. Constraints: o min: 8 o max: 64 o pattern: [a-zA-Z0-9_\/.=-]+
+    /// A unique, case-sensitive identifier that you provide to ensure that the operation completes no more than one time. If you submit the same request twice with the same client token, the service ignores the second request and returns the result of the first. If you don't specify a client token, the AWS SDK automatically generates one. The client token is valid for up to 24 hours after it's first used. Constraints: o min: 8 o max: 64 o pattern: [a-zA-Z0-9_\/.=-]+
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
@@ -86,5 +132,22 @@ public record AwsOdbCreateExascaleDbStorageVaultOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

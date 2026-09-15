@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,68 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("configservice", "deliver-config-snapshot")]
-public record AwsConfigserviceDeliverConfigSnapshotOptions : AwsOptions
+public record AwsConfigserviceDeliverConfigSnapshotOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Schedules delivery of a configuration snapshot to the Amazon S3 bucket in the specified delivery channel. After the delivery has started, Con- fig sends the following notifications using an Amazon SNS topic that you have specified. o Notification of the start of the delivery. o Notification of the completion of the delivery, if the delivery was successfully completed. o Notification of delivery failure, if the delivery failed. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DeliveryChannelName">The name of the delivery channel through which the snapshot is de- livered. Constraints: o min: 1 o max: 256</param>
+    public AwsConfigserviceDeliverConfigSnapshotOptions(
+        string DeliveryChannelName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DeliveryChannelName);
+        this.DeliveryChannelName = DeliveryChannelName;
+    }
+
+    private AwsConfigserviceDeliverConfigSnapshotOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsConfigserviceDeliverConfigSnapshotOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsConfigserviceDeliverConfigSnapshotOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the delivery channel through which the snapshot is de- livered. Constraints: o min: 1 o max: 256
+    /// </summary>
     [CliOption("--delivery-channel-name")]
-    public string? DeliveryChannelName { get; set; }
+    public string? DeliveryChannelName { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

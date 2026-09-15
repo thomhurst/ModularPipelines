@@ -11,11 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --extractionmode.
+/// Allowed values for --extraction-mode.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsBedrockAgentcoreCreateEventExtractionMode
 {
+    [EnumValue("o")]
+    O,
+
     [EnumValue("SKIP")]
-    Skip = 1
+    Skip
 }

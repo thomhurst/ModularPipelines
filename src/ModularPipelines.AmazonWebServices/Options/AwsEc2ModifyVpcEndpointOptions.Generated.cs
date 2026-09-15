@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,15 +21,57 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ec2", "modify-vpc-endpoint")]
-public record AwsEc2ModifyVpcEndpointOptions : AwsOptions
+public record AwsEc2ModifyVpcEndpointOptions : AwsOptions, IValidatableObject
 {
-    [CliFlag("--dry-run")]
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Modifies attributes of a specified VPC endpoint. The attributes that you can modify depend on the type of VPC endpoint (interface, gateway, or Gateway Load Balancer). For more information, see the Amazon Web Services PrivateLink Guide . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="VpcEndpointId">The ID of the endpoint.</param>
+    public AwsEc2ModifyVpcEndpointOptions(
+        string VpcEndpointId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(VpcEndpointId);
+        this.VpcEndpointId = VpcEndpointId;
+    }
+
+    private AwsEc2ModifyVpcEndpointOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEc2ModifyVpcEndpointOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEc2ModifyVpcEndpointOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the endpoint.
+    /// </summary>
+    [CliOption("--vpc-endpoint-id")]
+    public string? VpcEndpointId { get; private init; }
+
+    /// <summary>
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
-    [CliOption("--vpc-endpoint-id")]
-    public string? VpcEndpointId { get; set; }
-
-    [CliFlag("--reset-policy")]
+    /// <summary>
+    /// (Gateway endpoint) Specify true to reset the policy document to the default policy. The default policy allows full access to the ser- vice.
+    /// </summary>
+    [CliFlag("--reset-policy", NegatedName = "--no-reset-policy")]
     public bool? ResetPolicy { get; set; }
 
     /// <summary>
@@ -85,7 +128,10 @@ public record AwsEc2ModifyVpcEndpointOptions : AwsOptions
     [CliOption("--dns-options")]
     public string? DnsOptions { get; set; }
 
-    [CliFlag("--private-dns-enabled")]
+    /// <summary>
+    /// (Interface endpoint) Indicates whether a private hosted zone is as- sociated with the VPC.
+    /// </summary>
+    [CliFlag("--private-dns-enabled", NegatedName = "--no-private-dns-enabled")]
     public bool? PrivateDnsEnabled { get; set; }
 
     /// <summary>
@@ -99,5 +145,22 @@ public record AwsEc2ModifyVpcEndpointOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -16,15 +16,15 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsIotUpdateScheduledAuditFrequency
 {
-    [EnumValue("DAILY")]
-    Daily = 1,
-
-    [EnumValue("WEEKLY")]
-    Weekly = 2,
-
     [EnumValue("BIWEEKLY")]
-    Biweekly = 3,
+    Biweekly,
+
+    [EnumValue("DAILY")]
+    Daily,
 
     [EnumValue("MONTHLY")]
-    Monthly = 4
+    Monthly,
+
+    [EnumValue("WEEKLY")]
+    Weekly
 }

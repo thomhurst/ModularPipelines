@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,13 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("clouddirectory", "get-object-information")]
-public record AwsClouddirectoryGetObjectInformationOptions : AwsOptions
+public record AwsClouddirectoryGetObjectInformationOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--directory-arn")]
-    public string? DirectoryArn { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Retrieves metadata about an object. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DirectoryArn">The ARN of the directory being retrieved.</param>
+    /// <param name="ObjectReference">A reference to the object. Selector -&gt; (string) A path selector supports easy selection of an object by the par- ent/child links leading to it from the directory root. Use the link names from each parent/child link to construct the path. Path selectors start with a slash (/) and link names are sepa- rated by slashes. For more information about paths, see Access Objects . You can identify an object in one of the following ways: o $ObjectIdentifier - An object identifier is an opaque string provided by Amazon Cloud Directory. When creating objects, the system will provide you with the identifier of the created ob- ject. An objects identifier is immutable and no two objects will ever share the same object identifier. To identify an ob- ject with ObjectIdentifier, the ObjectIdentifier must be wrapped in double quotes. o /some/path - Identifies the object based on path o #SomeBatchReference - Identifies the object in a batch call Shorthand Syntax: Selector=string JSON Syntax: { "Selector": "string" }</param>
+    public AwsClouddirectoryGetObjectInformationOptions(
+        string DirectoryArn,
+        string ObjectReference
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DirectoryArn);
+        this.DirectoryArn = DirectoryArn;
+        global::System.ArgumentNullException.ThrowIfNull(ObjectReference);
+        this.ObjectReference = ObjectReference;
+    }
+
+    private AwsClouddirectoryGetObjectInformationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsClouddirectoryGetObjectInformationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsClouddirectoryGetObjectInformationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ARN of the directory being retrieved.
+    /// </summary>
+    [CliOption("--directory-arn")]
+    public string? DirectoryArn { get; private init; }
+
+    /// <summary>
+    /// A reference to the object. Selector -&gt; (string) A path selector supports easy selection of an object by the par- ent/child links leading to it from the directory root. Use the link names from each parent/child link to construct the path. Path selectors start with a slash (/) and link names are sepa- rated by slashes. For more information about paths, see Access Objects . You can identify an object in one of the following ways: o $ObjectIdentifier - An object identifier is an opaque string provided by Amazon Cloud Directory. When creating objects, the system will provide you with the identifier of the created ob- ject. An objects identifier is immutable and no two objects will ever share the same object identifier. To identify an ob- ject with ObjectIdentifier, the ObjectIdentifier must be wrapped in double quotes. o /some/path - Identifies the object based on path o #SomeBatchReference - Identifies the object in a batch call Shorthand Syntax: Selector=string JSON Syntax: { "Selector": "string" }
+    /// </summary>
     [CliOption("--object-reference")]
-    public string? ObjectReference { get; set; }
+    public string? ObjectReference { get; private init; }
 
     /// <summary>
     /// The consistency level at which to retrieve the object information. Possible values: o SERIALIZABLE o EVENTUAL
@@ -39,5 +83,22 @@ public record AwsClouddirectoryGetObjectInformationOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,68 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sqs", "delete-queue")]
-public record AwsSqsDeleteQueueOptions : AwsOptions
+public record AwsSqsDeleteQueueOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Deletes the queue specified by the QueueUrl , regardless of the queue's contents. WARNING: Be careful with the DeleteQueue action: When you delete a queue, any messages in the queue are no longer available. When you delete a queue, the deletion process takes up to 60 seconds. Requests you send involving that queue during the 60 seconds might suc- ceed. For example, a `` SendMessage `` request might succeed, but af- ter 60 seconds the queue and the message you sent no longer exist. When you delet...
+    /// </summary>
+    /// <param name="QueueUrl">The URL of the Amazon SQS queue to delete. Queue URLs and names are case-sensitive.</param>
+    public AwsSqsDeleteQueueOptions(
+        string QueueUrl
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(QueueUrl);
+        this.QueueUrl = QueueUrl;
+    }
+
+    private AwsSqsDeleteQueueOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSqsDeleteQueueOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSqsDeleteQueueOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The URL of the Amazon SQS queue to delete. Queue URLs and names are case-sensitive.
+    /// </summary>
     [CliOption("--queue-url")]
-    public string? QueueUrl { get; set; }
+    public string? QueueUrl { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

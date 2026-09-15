@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("dms", "start-metadata-model-conversion")]
-public record AwsDmsStartMetadataModelConversionOptions : AwsOptions
+public record AwsDmsStartMetadataModelConversionOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--migration-project-identifier")]
-    public string? MigrationProjectIdentifier { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Queues a conversion of the selected source metadata models (database objects such as tables, views, and procedures) to the target database format. If other requests created by Start* operations are already in the migration project's queue, the conversion begins after they com- plete. The conversion request loads metadata models that are not yet in the metadata tree, but does not reload metadata models that are already present. If your source database has changed since the metadata was loaded, re...
+    /// </summary>
+    /// <param name="MigrationProjectIdentifier">The migration project name or Amazon Resource Name (ARN). Constraints: o max: 255</param>
+    /// <param name="SelectionRules">A JSON string that identifies the metadata models to convert. For the selection rule format and examples, see Selection rules in DMS Schema Conversion . Usage: o Accepts only source selection rules, where server-name in the ob- ject locator matches the source data provider. o Supports explicit , include , and exclude rule actions.</param>
+    public AwsDmsStartMetadataModelConversionOptions(
+        string MigrationProjectIdentifier,
+        string SelectionRules
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(MigrationProjectIdentifier);
+        this.MigrationProjectIdentifier = MigrationProjectIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(SelectionRules);
+        this.SelectionRules = SelectionRules;
+    }
+
+    private AwsDmsStartMetadataModelConversionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDmsStartMetadataModelConversionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDmsStartMetadataModelConversionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The migration project name or Amazon Resource Name (ARN). Constraints: o max: 255
+    /// </summary>
+    [CliOption("--migration-project-identifier")]
+    public string? MigrationProjectIdentifier { get; private init; }
+
+    /// <summary>
+    /// A JSON string that identifies the metadata models to convert. For the selection rule format and examples, see Selection rules in DMS Schema Conversion . Usage: o Accepts only source selection rules, where server-name in the ob- ject locator matches the source data provider. o Supports explicit , include , and exclude rule actions.
+    /// </summary>
     [CliOption("--selection-rules")]
-    public string? SelectionRules { get; set; }
+    public string? SelectionRules { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

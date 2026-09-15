@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("medical-imaging", "search-image-sets")]
-public record AwsMedicalImagingSearchImageSetsOptions : AwsOptions
+public record AwsMedicalImagingSearchImageSetsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Search image sets based on defined input attributes. NOTE: SearchImageSets accepts a single search query parameter and re- turns a paginated response of all image sets that have the matching criteria. All date range queries must be input as (lowerBound, upperBound) . By default, SearchImageSets uses the updatedAt field for sorting in descending order from newest to oldest. See also: AWS API Documentation search-image-sets is a paginated operation. Multiple API calls may be issued in order to ret...
+    /// </summary>
+    /// <param name="DatastoreId">The identifier of the data store where the image sets reside. Constraints: o pattern: [0-9a-z]{32}</param>
+    public AwsMedicalImagingSearchImageSetsOptions(
+        string DatastoreId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DatastoreId);
+        this.DatastoreId = DatastoreId;
+    }
+
+    private AwsMedicalImagingSearchImageSetsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsMedicalImagingSearchImageSetsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsMedicalImagingSearchImageSetsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the data store where the image sets reside. Constraints: o pattern: [0-9a-z]{32}
+    /// </summary>
     [CliOption("--datastore-id")]
-    public string? DatastoreId { get; set; }
+    public string? DatastoreId { get; private init; }
 
     /// <summary>
     /// The search criteria that filters by applying a maximum of 1 item to SearchByAttribute . filters -&gt; (list) The filters for the search criteria. Constraints: o min: 1 o max: 2 (structure) The search filter. values -&gt; (list) [required] The search filter values. Constraints: o min: 1 o max: 2 (tagged union structure) The search input attribute value. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: DICOMPatien- tId, DICOMAccessionNumber, DICOMStudyId, DICOM- StudyInstanceUID, DICOMSeriesInstanceUID, create- dAt, updatedAt, DICOMStudyDateAndTime, isPrimary. DICOMPatientId -&gt; (string) The patient ID input for search. Constraints: o min: 0 o max: 512 DICOMAccessionNumber -&gt; (string) The DICOM accession number for search. Constraints: o min: 0 o max: 512 DICOMStudyId -&gt; (string) The DICOM study ID for search. Constraints: o min: 0 o max: 512 DICOMStudyInstanceUID -&gt; (string) The DICOM study instance UID for search. Constraints: o min: 0 o max: 512 o pattern: [0-9.]+ DICOMSeriesInstanceUID -&gt; (string) The Series Instance UID input for search. Constraints: o min: 0 o max: 512 o pattern: [0-9.]+ createdAt -&gt; (timestamp) The created at time of the image set provided for search. updatedAt -&gt; (timestamp) The timestamp input for search. DICOMStudyDateAndTime -&gt; (structure) The aggregated structure containing DICOM study date and study time for search. DICOMStudyDate -&gt; (string) [required] The DICOM study date provided in yyMMdd format. Constraints: o min: 0 o max: 36 DICOMStudyTime -&gt; (string) The DICOM study time provided in HHmmss.FFFFFF format. Constraints: o min: 0 o max: 56 isPrimary -&gt; (boolean) The primary image set flag provided for search. operator -&gt; (string) [required] The search filter operator for imageSetDateTime . Possible values: o EQUAL o BETWEEN sort -&gt; (structure) The sort input for search criteria. sortOrder -&gt; (string) [required] The sort order for search criteria. Possible values: o ASC o DESC sortField -&gt; (string) [required] The sort field for search criteria. Possible values: o updatedAt o createdAt o DICOMStudyDateAndTime JSON Syntax: { "filters": [ { "values": [ { "DICOMPatientId": "string", "DICOMAccessionNumber": "string", "DICOMStudyId": "string", "DICOMStudyInstanceUID": "string", "DICOMSeriesInstanceUID": "string", "createdAt": timestamp, "updatedAt": timestamp, "DICOMStudyDateAndTime": { "DICOMStudyDate": "string", "DICOMStudyTime": "string" }, "isPrimary": true|false } ... ], "operator": "EQUAL"|"BETWEEN" } ... ], "sort": { "sortOrder": "ASC"|"DESC", "sortField": "updatedAt"|"createdAt"|"DICOMStudyDateAndTime" } }
@@ -55,5 +92,22 @@ public record AwsMedicalImagingSearchImageSetsOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

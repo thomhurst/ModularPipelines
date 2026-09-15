@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --targettaskrunstatus.
+/// Allowed values for --target-task-run-status.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsDeadlineCreateJobTargetTaskRunStatus
 {
     [EnumValue("READY")]
-    Ready = 1,
+    Ready,
 
     [EnumValue("SUSPENDED")]
-    Suspended = 2
+    Suspended
 }

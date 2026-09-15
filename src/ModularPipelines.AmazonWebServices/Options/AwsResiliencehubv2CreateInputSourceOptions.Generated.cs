@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("resiliencehubv2", "create-input-source")]
-public record AwsResiliencehubv2CreateInputSourceOptions : AwsOptions
+public record AwsResiliencehubv2CreateInputSourceOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--service-arn")]
-    public string? ServiceArn { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates an input source for a service. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ServiceArn">ARN identifier. Constraints: o min: 31 o pattern: arn:(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:([a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-[0-9]):[0-9]{12}:[A-Za-z0-9/][A-Za-z0-9:_/+.-]{0,1023}</param>
+    /// <param name="ResourceConfiguration">Resource configuration for an input source. Provide exactly one field. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: resourceTags, cfnStackArn, tfState- FileUrl, eks, designFileS3Url. resourceTags -&gt; (list) The resource tags for tag-based resource discovery. Constraints: o min: 1 o max: 10 (structure) A tag key-value pair used for resource discovery. key -&gt; (string) [required] Tag key. Constraints: o min: 1 o max: 128 o pattern: [^\x00-\x1f\x22]+ values -&gt; (list) [required] The list of tag values. Constraints: o min: 0 o max: 10 (string) Tag value. Constraints: o min: 0 o max: 256 o pattern: [^\x00-\x1f\x22]* cfnStackArn -&gt; (string) ARN identifier. Constraints: o min: 31 o pattern: arn:(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:([a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-[0-9]):[0-9]{12}:[A-Za-z0-9/][A-Za-z0-9:_/+.-]{0,1023} tfStateFileUrl -&gt; (string) S3 URL virtual hosted-style or s3:// URI. Constraints: o min: 1 o max: 2000 o pattern: ((https://([^/]+)\.s3[^/]*\.[^/]+)|(s3://([^/]+)))/\S{1,2000} eks -&gt; (structure) The Amazon EKS configuration for resource discovery. clusterArn -&gt; (string) [required] ARN identifier. Constraints: o min: 31 o pattern: arn:(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:([a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-[0-9]):[0-9]{12}:[A-Za-z0-9/][A-Za-z0-9:_/+.-]{0,1023} namespaces -&gt; (list) [required] The list of Kubernetes namespaces within the EKS cluster. Constraints: o min: 1 o max: 10 (string) Kubernetes namespace name (RFC 1123 Label). Constraints: o min: 1 o max: 63 o pattern: [a-z0-9]([-a-z0-9]*[a-z0-9])? labelSelector -&gt; (structure) Filters discovery to the Kubernetes objects whose labels match the selector. When omitted, all supported objects in the specified namespaces are discovered. matchLabels -&gt; (map) The label key-value pairs that an object must have. All pairs must match for the object to be selected. Constraints: o min: 0 o max: 20 key -&gt; (string) A Kubernetes label key. It can include an optional DNS subdomain prefix. Constraints: o min: 1 o max: 317 o pattern: ([a-z0-9]([-a-z0-9.]*[a-z0-9])?/)?[A-Za-z0-9]([-A-Za-z0-9_.]*[A-Za-z0-9])? value -&gt; (string) A Kubernetes label value. This value can be empty. Constraints: o min: 0 o max: 63 o pattern: ([A-Za-z0-9]([-A-Za-z0-9_.]*[A-Za-z0-9])?)? matchExpressions -&gt; (list) The label requirements that an object must satisfy. All requirements in the list must match for the object to be selected. Constraints: o min: 0 o max: 20 (structure) A single label requirement in a label selector, ex- pressed as a key, an operator, and an optional list of values. key -&gt; (string) [required] The label key that the requirement applies to. Constraints: o min: 1 o max: 317 o pattern: ([a-z0-9]([-a-z0-9.]*[a-z0-9])?/)?[A-Za-z0-9]([-A-Za-z0-9_.]*[A-Za-z0-9])? operator -&gt; (string) [required] The operator that relates the label key to the values. Possible values: o IN o NOT_IN o EXISTS o DOES_NOT_EXIST values -&gt; (list) The label values to compare against. Specify val- ues when the operator is IN or NOT_IN. Leave this empty when the operator is EXISTS or DOES_NOT_EX- IST. Constraints: o min: 0 o max: 20 (string) A Kubernetes label value. This value can be empty. Constraints: o min: 0 o max: 63 o pattern: ([A-Za-z0-9]([-A-Za-z0-9_.]*[A-Za-z0-9])?)? designFileS3Url -&gt; (string) S3 URL virtual hosted-style or s3:// URI. Constraints: o min: 1 o max: 2000 o pattern: ((https://([^/]+)\.s3[^/]*\.[^/]+)|(s3://([^/]+)))/\S{1,2000} JSON Syntax: { "resourceTags": [ { "key": "string", "values": ["string", ...] } ... ], "cfnStackArn": "string", "tfStateFileUrl": "string", "eks": { "clusterArn": "string", "namespaces": ["string", ...], "labelSelector": { "matchLabels": {"string": "string" ...}, "matchExpressions": [ { "key": "string", "operator": "IN"|"NOT_IN"|"EXISTS"|"DOES_NOT_EXIST", "values": ["string", ...] } ... ] } }, "designFileS3Url": "string" }</param>
+    public AwsResiliencehubv2CreateInputSourceOptions(
+        string ServiceArn,
+        string ResourceConfiguration
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ServiceArn);
+        this.ServiceArn = ServiceArn;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceConfiguration);
+        this.ResourceConfiguration = ResourceConfiguration;
+    }
+
+    private AwsResiliencehubv2CreateInputSourceOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsResiliencehubv2CreateInputSourceOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsResiliencehubv2CreateInputSourceOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// ARN identifier. Constraints: o min: 31 o pattern: arn:(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:([a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-[0-9]):[0-9]{12}:[A-Za-z0-9/][A-Za-z0-9:_/+.-]{0,1023}
+    /// </summary>
+    [CliOption("--service-arn")]
+    public string? ServiceArn { get; private init; }
+
+    /// <summary>
+    /// Resource configuration for an input source. Provide exactly one field. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: resourceTags, cfnStackArn, tfState- FileUrl, eks, designFileS3Url. resourceTags -&gt; (list) The resource tags for tag-based resource discovery. Constraints: o min: 1 o max: 10 (structure) A tag key-value pair used for resource discovery. key -&gt; (string) [required] Tag key. Constraints: o min: 1 o max: 128 o pattern: [^\x00-\x1f\x22]+ values -&gt; (list) [required] The list of tag values. Constraints: o min: 0 o max: 10 (string) Tag value. Constraints: o min: 0 o max: 256 o pattern: [^\x00-\x1f\x22]* cfnStackArn -&gt; (string) ARN identifier. Constraints: o min: 31 o pattern: arn:(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:([a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-[0-9]):[0-9]{12}:[A-Za-z0-9/][A-Za-z0-9:_/+.-]{0,1023} tfStateFileUrl -&gt; (string) S3 URL virtual hosted-style or s3:// URI. Constraints: o min: 1 o max: 2000 o pattern: ((https://([^/]+)\.s3[^/]*\.[^/]+)|(s3://([^/]+)))/\S{1,2000} eks -&gt; (structure) The Amazon EKS configuration for resource discovery. clusterArn -&gt; (string) [required] ARN identifier. Constraints: o min: 31 o pattern: arn:(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:([a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-[0-9]):[0-9]{12}:[A-Za-z0-9/][A-Za-z0-9:_/+.-]{0,1023} namespaces -&gt; (list) [required] The list of Kubernetes namespaces within the EKS cluster. Constraints: o min: 1 o max: 10 (string) Kubernetes namespace name (RFC 1123 Label). Constraints: o min: 1 o max: 63 o pattern: [a-z0-9]([-a-z0-9]*[a-z0-9])? labelSelector -&gt; (structure) Filters discovery to the Kubernetes objects whose labels match the selector. When omitted, all supported objects in the specified namespaces are discovered. matchLabels -&gt; (map) The label key-value pairs that an object must have. All pairs must match for the object to be selected. Constraints: o min: 0 o max: 20 key -&gt; (string) A Kubernetes label key. It can include an optional DNS subdomain prefix. Constraints: o min: 1 o max: 317 o pattern: ([a-z0-9]([-a-z0-9.]*[a-z0-9])?/)?[A-Za-z0-9]([-A-Za-z0-9_.]*[A-Za-z0-9])? value -&gt; (string) A Kubernetes label value. This value can be empty. Constraints: o min: 0 o max: 63 o pattern: ([A-Za-z0-9]([-A-Za-z0-9_.]*[A-Za-z0-9])?)? matchExpressions -&gt; (list) The label requirements that an object must satisfy. All requirements in the list must match for the object to be selected. Constraints: o min: 0 o max: 20 (structure) A single label requirement in a label selector, ex- pressed as a key, an operator, and an optional list of values. key -&gt; (string) [required] The label key that the requirement applies to. Constraints: o min: 1 o max: 317 o pattern: ([a-z0-9]([-a-z0-9.]*[a-z0-9])?/)?[A-Za-z0-9]([-A-Za-z0-9_.]*[A-Za-z0-9])? operator -&gt; (string) [required] The operator that relates the label key to the values. Possible values: o IN o NOT_IN o EXISTS o DOES_NOT_EXIST values -&gt; (list) The label values to compare against. Specify val- ues when the operator is IN or NOT_IN. Leave this empty when the operator is EXISTS or DOES_NOT_EX- IST. Constraints: o min: 0 o max: 20 (string) A Kubernetes label value. This value can be empty. Constraints: o min: 0 o max: 63 o pattern: ([A-Za-z0-9]([-A-Za-z0-9_.]*[A-Za-z0-9])?)? designFileS3Url -&gt; (string) S3 URL virtual hosted-style or s3:// URI. Constraints: o min: 1 o max: 2000 o pattern: ((https://([^/]+)\.s3[^/]*\.[^/]+)|(s3://([^/]+)))/\S{1,2000} JSON Syntax: { "resourceTags": [ { "key": "string", "values": ["string", ...] } ... ], "cfnStackArn": "string", "tfStateFileUrl": "string", "eks": { "clusterArn": "string", "namespaces": ["string", ...], "labelSelector": { "matchLabels": {"string": "string" ...}, "matchExpressions": [ { "key": "string", "operator": "IN"|"NOT_IN"|"EXISTS"|"DOES_NOT_EXIST", "values": ["string", ...] } ... ] } }, "designFileS3Url": "string" }
+    /// </summary>
     [CliOption("--resource-configuration")]
-    public string? ResourceConfiguration { get; set; }
+    public string? ResourceConfiguration { get; private init; }
 
     /// <summary>
     /// Idempotency token. Constraints: o min: 1 o max: 63 o pattern: [A-Za-z0-9_.-]{0,63}
@@ -40,5 +84,22 @@ public record AwsResiliencehubv2CreateInputSourceOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

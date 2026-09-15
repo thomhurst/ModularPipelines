@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +21,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("rum", "batch-create-rum-metric-definitions")]
-public record AwsRumBatchCreateRumMetricDefinitionsOptions : AwsOptions
+public record AwsRumBatchCreateRumMetricDefinitionsOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--app-monitor-name")]
-    public string? AppMonitorName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Specifies the extended metrics and custom metrics that you want a CloudWatch RUM app monitor to send to a destination. Valid destinations include CloudWatch and Evidently. By default, RUM app monitors send some metrics to CloudWatch. These de- fault metrics are listed in CloudWatch metrics that you can collect with CloudWatch RUM . In addition to these default metrics, you can choose to send extended metrics, custom metrics, or both. o Extended metrics let you send metrics with additional dimens...
+    /// </summary>
+    /// <param name="AppMonitorName">The name of the CloudWatch RUM app monitor that is to send the met- rics. Constraints: o min: 1 o max: 255 o pattern: (?!\.)[\.\-_#A-Za-z0-9]+</param>
+    /// <param name="Destination">The destination to send the metrics to. Valid values are CloudWatch and Evidently . If you specify Evidently , you must also specify the Amazon Resource Name (ARN) of the CloudWatchEvidently experiment that will receive the metrics and an IAM role that has permission to write to the experiment. Possible values: o CloudWatch o Evidently</param>
+    /// <param name="MetricDefinitions">An array of structures which define the metrics that you want to send. (structure) Use this structure to define one extended metric or custom met- ric that RUM will send to CloudWatch or CloudWatch Evidently. For more information, see Custom metrics and extended metrics that you can send to CloudWatch and CloudWatch Evidently . This structure is validated differently for extended metrics and custom metrics. For extended metrics that are sent to the AWS/RUM namespace, the following validations apply: o The Namespace parameter must be omitted or set to AWS/RUM . o Only certain combinations of values for Name , ValueKey , and EventPattern are valid. In addition to what is displayed in the following list, the EventPattern can also include informa- tion used by the DimensionKeys field. o If Name is PerformanceNavigationDuration , then ValueKey must be event_details.duration and the EventPattern must in- clude {"event_type":["com.amazon.rum.performance_naviga- tion_event"]} o If Name is PerformanceResourceDuration , then ValueKey must be event_details.duration and the EventPattern must include {"event_type":["com.amazon.rum.performance_resource_event"]} o If Name is NavigationSatisfiedTransaction , then ValueKey must be null and the EventPattern must include { "event_type": ["com.amazon.rum.performance_naviga- tion_event"], "event_details": { "duration": [{ "numeric": ["&gt;",2000] }] } } o If Name is NavigationToleratedTransaction , then ValueKey must be null and the EventPattern must include { "event_type": ["com.amazon.rum.performance_naviga- tion_event"], "event_details": { "duration": [{ "numeric": ["&gt;=",2000,"&lt;"8000] }] } } o If Name is NavigationFrustratedTransaction , then ValueKey must be null and the EventPattern must include { "event_type": ["com.amazon.rum.performance_naviga- tion_event"], "event_details": { "duration": [{ "numeric": ["&gt;=",8000] }] } } o If Name is WebVitalsCumulativeLayoutShift , then ValueKey must be event_details.value and the EventPattern must in- clude {"event_type":["com.amazon.rum.cumulative_lay- out_shift_event"]} o If Name is WebVitalsFirstInputDelay , then ValueKey must be event_details.value and the EventPattern must include {"event_type":["com.amazon.rum.first_input_delay_event"]} o If Name is WebVitalsLargestContentfulPaint , then ValueKey must be event_details.value and the EventPattern must in- clude {"event_type":["com.amazon.rum.largest_content- ful_paint_event"]} o If Name is JsErrorCount , then ValueKey must be null and the EventPattern must include {"event_type":["com.ama- zon.rum.js_error_event"]} o If Name is HttpErrorCount , then ValueKey must be null and the EventPattern must include {"event_type":["com.ama- zon.rum.http_event"]} o If Name is SessionCount , then ValueKey must be null and the EventPattern must include {"event_type":["com.ama- zon.rum.session_start_event"]} o If Name is PageViewCount , then ValueKey must be null and the EventPattern must include {"event_type":["com.ama- zon.rum.page_view_event"]} o If Name is Http4xxCount , then ValueKey must be null and the EventPattern must include {"event_type": ["com.ama- zon.rum.http_event"],"event_details":{"response":{"sta- tus":[{"numeric":["&gt;=",400,"&lt;",500]}]}}} } o If Name is Http5xxCount , then ValueKey must be null and the EventPattern must include {"event_type": ["com.ama- zon.rum.http_event"],"event_details":{"response":{"sta- tus":[{"numeric":["&gt;=",500,"&lt;=",599]}]}}} } For custom metrics, the following validation rules apply: o The namespace can't be omitted and can't be AWS/RUM . You can use the AWS/RUM namespace only for extended metrics. o All dimensions listed in the DimensionKeys field must be present in the value of EventPattern . o The values that you specify for ValueKey , EventPattern , and DimensionKeys must be fields in RUM events, so all first-level keys in these fields must be one of the keys in the list later in this section. o If you set a value for EventPattern , it must be a JSON ob- ject. o For every non-empty event_details , there must be a non-empty event_type . o If EventPattern contains an event_details field, it must also contain an event_type . For every built-in event_type that you use, you must use a value for event_details that corresponds to that event_type . For information about event details that correspond to event types, see RUM event details . o In EventPattern , any JSON array must contain only one value. Valid key values for first-level keys in the ValueKey , Event- Pattern , and DimensionKeys fields: o account_id o application_Id o application_version o application_name o batch_id o event_details o event_id o event_interaction o event_timestamp o event_type o event_version o log_stream o metadata o sessionId o user_details o userId Name -&gt; (string) [required] The name for the metric that is defined in this structure. For custom metrics, you can specify any name that you like. For extended metrics, valid values are the following: o PerformanceNavigationDuration o PerformanceResourceDuration o NavigationSatisfiedTransaction o NavigationToleratedTransaction o NavigationFrustratedTransaction o WebVitalsCumulativeLayoutShift o WebVitalsFirstInputDelay o WebVitalsLargestContentfulPaint o JsErrorCount o HttpErrorCount o SessionCount Constraints: o min: 1 o max: 255 ValueKey -&gt; (string) The field within the event object that the metric value is sourced from. If you omit this field, a hardcoded value of 1 is pushed as the metric value. This is useful if you want to count the number of events that the filter catches. If this metric is sent to CloudWatch Evidently, this field will be passed to Evidently raw. Evidently will handle data extraction from the event. Constraints: o min: 1 o max: 280 UnitLabel -&gt; (string) The CloudWatch metric unit to use for this metric. If you omit this field, the metric is recorded with no unit. Constraints: o min: 1 o max: 256 DimensionKeys -&gt; (map) Use this field only if you are sending the metric to Cloud- Watch. This field is a map of field paths to dimension names. It de- fines the dimensions to associate with this metric in Cloud- Watch. For extended metrics, valid values for the entries in this field are the following: o "metadata.pageId": "PageId" o "metadata.browserName": "BrowserName" o "metadata.deviceType": "DeviceType" o "metadata.osName": "OSName" o "metadata.countryCode": "CountryCode" o "event_details.fileType": "FileType" For both extended metrics and custom metrics, all dimensions listed in this field must also be included in EventPattern . Constraints: o min: 0 o max: 29 key -&gt; (string) Constraints: o min: 1 o max: 280 value -&gt; (string) Constraints: o min: 1 o max: 255 o pattern: (?!:).*[^\s].* EventPattern -&gt; (string) The pattern that defines the metric, specified as a JSON ob- ject. RUM checks events that happen in a user's session against the pattern, and events that match the pattern are sent to the metric destination. When you define extended metrics, the metric definition is not valid if EventPattern is omitted. Example event patterns: o '{ "event_type": ["com.amazon.rum.js_error_event"], "meta- data": { "browserName": [ "Chrome", "Safari" ], } }' o '{ "event_type": ["com.amazon.rum.performance_naviga- tion_event"], "metadata": { "browserName": [ "Chrome", "Firefox" ] }, "event_details": { "duration": [{ "numeric": [ "&lt;", 2000 ] }] } }' o '{ "event_type": ["com.amazon.rum.performance_naviga- tion_event"], "metadata": { "browserName": [ "Chrome", "Sa- fari" ], "countryCode": [ "US" ] }, "event_details": { "du- ration": [{ "numeric": [ "&gt;=", 2000, "&lt;", 8000 ] }] } }' If the metrics destination is CloudWatch and the event also matches a value in DimensionKeys , then the metric is pub- lished with the specified dimensions. Constraints: o min: 0 o max: 4000 Namespace -&gt; (string) If this structure is for a custom metric instead of an ex- tended metrics, use this parameter to define the metric name- space for that custom metric. Do not specify this parameter if this structure is for an extended metric. You cannot use any string that starts with AWS/ for your namespace. Constraints: o min: 1 o max: 237 o pattern: .*[a-zA-Z0-9-._/#:]+ Shorthand Syntax: Name=string,ValueKey=string,UnitLabel=string,DimensionKeys={KeyName1=string,KeyName2=string},EventPattern=string,Namespace=string ... JSON Syntax: [ { "Name": "string", "ValueKey": "string", "UnitLabel": "string", "DimensionKeys": {"string": "string" ...}, "EventPattern": "string", "Namespace": "string" } ... ]</param>
+    public AwsRumBatchCreateRumMetricDefinitionsOptions(
+        string AppMonitorName,
+        AwsRumBatchCreateRumMetricDefinitionsDestination Destination,
+        IEnumerable<string> MetricDefinitions
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AppMonitorName);
+        this.AppMonitorName = AppMonitorName;
+        global::System.ArgumentNullException.ThrowIfNull(Destination);
+        this.Destination = Destination;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(MetricDefinitions);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(MetricDefinitions));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(MetricDefinitions));
+            }
+
+            MetricDefinitions = materialized;
+        }
+        this.MetricDefinitions = MetricDefinitions;
+    }
+
+    private AwsRumBatchCreateRumMetricDefinitionsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRumBatchCreateRumMetricDefinitionsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRumBatchCreateRumMetricDefinitionsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the CloudWatch RUM app monitor that is to send the met- rics. Constraints: o min: 1 o max: 255 o pattern: (?!\.)[\.\-_#A-Za-z0-9]+
+    /// </summary>
+    [CliOption("--app-monitor-name")]
+    public string? AppMonitorName { get; private init; }
+
+    /// <summary>
+    /// The destination to send the metrics to. Valid values are CloudWatch and Evidently . If you specify Evidently , you must also specify the Amazon Resource Name (ARN) of the CloudWatchEvidently experiment that will receive the metrics and an IAM role that has permission to write to the experiment. Possible values: o CloudWatch o Evidently
+    /// </summary>
     [CliOption("--destination")]
-    public string? Destination { get; set; }
+    public AwsRumBatchCreateRumMetricDefinitionsDestination? Destination { get; private init; }
+
+    /// <summary>
+    /// An array of structures which define the metrics that you want to send. (structure) Use this structure to define one extended metric or custom met- ric that RUM will send to CloudWatch or CloudWatch Evidently. For more information, see Custom metrics and extended metrics that you can send to CloudWatch and CloudWatch Evidently . This structure is validated differently for extended metrics and custom metrics. For extended metrics that are sent to the AWS/RUM namespace, the following validations apply: o The Namespace parameter must be omitted or set to AWS/RUM . o Only certain combinations of values for Name , ValueKey , and EventPattern are valid. In addition to what is displayed in the following list, the EventPattern can also include informa- tion used by the DimensionKeys field. o If Name is PerformanceNavigationDuration , then ValueKey must be event_details.duration and the EventPattern must in- clude {"event_type":["com.amazon.rum.performance_naviga- tion_event"]} o If Name is PerformanceResourceDuration , then ValueKey must be event_details.duration and the EventPattern must include {"event_type":["com.amazon.rum.performance_resource_event"]} o If Name is NavigationSatisfiedTransaction , then ValueKey must be null and the EventPattern must include { "event_type": ["com.amazon.rum.performance_naviga- tion_event"], "event_details": { "duration": [{ "numeric": ["&gt;",2000] }] } } o If Name is NavigationToleratedTransaction , then ValueKey must be null and the EventPattern must include { "event_type": ["com.amazon.rum.performance_naviga- tion_event"], "event_details": { "duration": [{ "numeric": ["&gt;=",2000,"&lt;"8000] }] } } o If Name is NavigationFrustratedTransaction , then ValueKey must be null and the EventPattern must include { "event_type": ["com.amazon.rum.performance_naviga- tion_event"], "event_details": { "duration": [{ "numeric": ["&gt;=",8000] }] } } o If Name is WebVitalsCumulativeLayoutShift , then ValueKey must be event_details.value and the EventPattern must in- clude {"event_type":["com.amazon.rum.cumulative_lay- out_shift_event"]} o If Name is WebVitalsFirstInputDelay , then ValueKey must be event_details.value and the EventPattern must include {"event_type":["com.amazon.rum.first_input_delay_event"]} o If Name is WebVitalsLargestContentfulPaint , then ValueKey must be event_details.value and the EventPattern must in- clude {"event_type":["com.amazon.rum.largest_content- ful_paint_event"]} o If Name is JsErrorCount , then ValueKey must be null and the EventPattern must include {"event_type":["com.ama- zon.rum.js_error_event"]} o If Name is HttpErrorCount , then ValueKey must be null and the EventPattern must include {"event_type":["com.ama- zon.rum.http_event"]} o If Name is SessionCount , then ValueKey must be null and the EventPattern must include {"event_type":["com.ama- zon.rum.session_start_event"]} o If Name is PageViewCount , then ValueKey must be null and the EventPattern must include {"event_type":["com.ama- zon.rum.page_view_event"]} o If Name is Http4xxCount , then ValueKey must be null and the EventPattern must include {"event_type": ["com.ama- zon.rum.http_event"],"event_details":{"response":{"sta- tus":[{"numeric":["&gt;=",400,"&lt;",500]}]}}} } o If Name is Http5xxCount , then ValueKey must be null and the EventPattern must include {"event_type": ["com.ama- zon.rum.http_event"],"event_details":{"response":{"sta- tus":[{"numeric":["&gt;=",500,"&lt;=",599]}]}}} } For custom metrics, the following validation rules apply: o The namespace can't be omitted and can't be AWS/RUM . You can use the AWS/RUM namespace only for extended metrics. o All dimensions listed in the DimensionKeys field must be present in the value of EventPattern . o The values that you specify for ValueKey , EventPattern , and DimensionKeys must be fields in RUM events, so all first-level keys in these fields must be one of the keys in the list later in this section. o If you set a value for EventPattern , it must be a JSON ob- ject. o For every non-empty event_details , there must be a non-empty event_type . o If EventPattern contains an event_details field, it must also contain an event_type . For every built-in event_type that you use, you must use a value for event_details that corresponds to that event_type . For information about event details that correspond to event types, see RUM event details . o In EventPattern , any JSON array must contain only one value. Valid key values for first-level keys in the ValueKey , Event- Pattern , and DimensionKeys fields: o account_id o application_Id o application_version o application_name o batch_id o event_details o event_id o event_interaction o event_timestamp o event_type o event_version o log_stream o metadata o sessionId o user_details o userId Name -&gt; (string) [required] The name for the metric that is defined in this structure. For custom metrics, you can specify any name that you like. For extended metrics, valid values are the following: o PerformanceNavigationDuration o PerformanceResourceDuration o NavigationSatisfiedTransaction o NavigationToleratedTransaction o NavigationFrustratedTransaction o WebVitalsCumulativeLayoutShift o WebVitalsFirstInputDelay o WebVitalsLargestContentfulPaint o JsErrorCount o HttpErrorCount o SessionCount Constraints: o min: 1 o max: 255 ValueKey -&gt; (string) The field within the event object that the metric value is sourced from. If you omit this field, a hardcoded value of 1 is pushed as the metric value. This is useful if you want to count the number of events that the filter catches. If this metric is sent to CloudWatch Evidently, this field will be passed to Evidently raw. Evidently will handle data extraction from the event. Constraints: o min: 1 o max: 280 UnitLabel -&gt; (string) The CloudWatch metric unit to use for this metric. If you omit this field, the metric is recorded with no unit. Constraints: o min: 1 o max: 256 DimensionKeys -&gt; (map) Use this field only if you are sending the metric to Cloud- Watch. This field is a map of field paths to dimension names. It de- fines the dimensions to associate with this metric in Cloud- Watch. For extended metrics, valid values for the entries in this field are the following: o "metadata.pageId": "PageId" o "metadata.browserName": "BrowserName" o "metadata.deviceType": "DeviceType" o "metadata.osName": "OSName" o "metadata.countryCode": "CountryCode" o "event_details.fileType": "FileType" For both extended metrics and custom metrics, all dimensions listed in this field must also be included in EventPattern . Constraints: o min: 0 o max: 29 key -&gt; (string) Constraints: o min: 1 o max: 280 value -&gt; (string) Constraints: o min: 1 o max: 255 o pattern: (?!:).*[^\s].* EventPattern -&gt; (string) The pattern that defines the metric, specified as a JSON ob- ject. RUM checks events that happen in a user's session against the pattern, and events that match the pattern are sent to the metric destination. When you define extended metrics, the metric definition is not valid if EventPattern is omitted. Example event patterns: o '{ "event_type": ["com.amazon.rum.js_error_event"], "meta- data": { "browserName": [ "Chrome", "Safari" ], } }' o '{ "event_type": ["com.amazon.rum.performance_naviga- tion_event"], "metadata": { "browserName": [ "Chrome", "Firefox" ] }, "event_details": { "duration": [{ "numeric": [ "&lt;", 2000 ] }] } }' o '{ "event_type": ["com.amazon.rum.performance_naviga- tion_event"], "metadata": { "browserName": [ "Chrome", "Sa- fari" ], "countryCode": [ "US" ] }, "event_details": { "du- ration": [{ "numeric": [ "&gt;=", 2000, "&lt;", 8000 ] }] } }' If the metrics destination is CloudWatch and the event also matches a value in DimensionKeys , then the metric is pub- lished with the specified dimensions. Constraints: o min: 0 o max: 4000 Namespace -&gt; (string) If this structure is for a custom metric instead of an ex- tended metrics, use this parameter to define the metric name- space for that custom metric. Do not specify this parameter if this structure is for an extended metric. You cannot use any string that starts with AWS/ for your namespace. Constraints: o min: 1 o max: 237 o pattern: .*[a-zA-Z0-9-._/#:]+ Shorthand Syntax: Name=string,ValueKey=string,UnitLabel=string,DimensionKeys={KeyName1=string,KeyName2=string},EventPattern=string,Namespace=string ... JSON Syntax: [ { "Name": "string", "ValueKey": "string", "UnitLabel": "string", "DimensionKeys": {"string": "string" ...}, "EventPattern": "string", "Namespace": "string" } ... ]
+    /// </summary>
+    [CliOption("--metric-definitions", GroupValues = true)]
+    public IEnumerable<string>? MetricDefinitions { get; private init; }
 
     /// <summary>
     /// This parameter is required if Destination is Evidently . If Destina- tion is CloudWatch , do not use this parameter. This parameter specifies the ARN of the Evidently experiment that is to receive the metrics. You must have already defined this experi- ment as a valid destination. For more information, see PutRumMetricsDestination . Constraints: o min: 0 o max: 2048 o pattern: .*arn:[^:]*:[^:]*:[^:]*:[^:]*:.*
@@ -33,13 +99,27 @@ public record AwsRumBatchCreateRumMetricDefinitionsOptions : AwsOptions
     [CliOption("--destination-arn")]
     public string? DestinationArn { get; set; }
 
-    [CliOption("--metric-definitions", GroupValues = true)]
-    public IEnumerable<string>? MetricDefinitions { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

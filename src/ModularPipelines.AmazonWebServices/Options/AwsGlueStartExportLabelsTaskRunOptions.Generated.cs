@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("glue", "start-export-labels-task-run")]
-public record AwsGlueStartExportLabelsTaskRunOptions : AwsOptions
+public record AwsGlueStartExportLabelsTaskRunOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--transform-id")]
-    public string? TransformId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Begins an asynchronous task to export all labeled data for a particular transform. This task is the only label-related API call that is not part of the typical active learning workflow. You typically use Start- ExportLabelsTaskRun when you want to work with all of your existing la- bels at the same time, such as when you want to remove or change labels that were previously submitted as truth. This API operation accepts the TransformId whose labels you want to export and an Amazon Simple Stor- ag...
+    /// </summary>
+    /// <param name="TransformId">The unique identifier of the machine learning transform. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*</param>
+    /// <param name="OutputS3Path">The Amazon S3 path where you export the labels.</param>
+    public AwsGlueStartExportLabelsTaskRunOptions(
+        string TransformId,
+        string OutputS3Path
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(TransformId);
+        this.TransformId = TransformId;
+        global::System.ArgumentNullException.ThrowIfNull(OutputS3Path);
+        this.OutputS3Path = OutputS3Path;
+    }
+
+    private AwsGlueStartExportLabelsTaskRunOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsGlueStartExportLabelsTaskRunOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsGlueStartExportLabelsTaskRunOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier of the machine learning transform. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
+    /// </summary>
+    [CliOption("--transform-id")]
+    public string? TransformId { get; private init; }
+
+    /// <summary>
+    /// The Amazon S3 path where you export the labels.
+    /// </summary>
     [CliOption("--output-s3-path")]
-    public string? OutputS3Path { get; set; }
+    public string? OutputS3Path { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

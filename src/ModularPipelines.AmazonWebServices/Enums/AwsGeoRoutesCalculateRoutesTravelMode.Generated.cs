@@ -11,26 +11,26 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --travelmode.
+/// Allowed values for --travel-mode.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsGeoRoutesCalculateRoutesTravelMode
 {
     [EnumValue("Car")]
-    Car = 1,
-
-    [EnumValue("Pedestrian")]
-    Pedestrian = 2,
-
-    [EnumValue("Scooter")]
-    Scooter = 3,
-
-    [EnumValue("Truck")]
-    Truck = 4,
+    Car,
 
     [EnumValue("Intermodal")]
-    Intermodal = 5,
+    Intermodal,
+
+    [EnumValue("Pedestrian")]
+    Pedestrian,
+
+    [EnumValue("Scooter")]
+    Scooter,
 
     [EnumValue("Transit")]
-    Transit = 6
+    Transit,
+
+    [EnumValue("Truck")]
+    Truck
 }

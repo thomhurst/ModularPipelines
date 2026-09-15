@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,22 +21,67 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("mediapackage-vod", "create-asset")]
-public record AwsMediapackageVodCreateAssetOptions : AwsOptions
+public record AwsMediapackageVodCreateAssetOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a new MediaPackage VOD Asset resource. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Id"></param>
+    /// <param name="PackagingGroupId"></param>
+    /// <param name="SourceArn"></param>
+    /// <param name="SourceRoleArn"></param>
+    public AwsMediapackageVodCreateAssetOptions(
+        string Id,
+        string PackagingGroupId,
+        string SourceArn,
+        string SourceRoleArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Id);
+        this.Id = Id;
+        global::System.ArgumentNullException.ThrowIfNull(PackagingGroupId);
+        this.PackagingGroupId = PackagingGroupId;
+        global::System.ArgumentNullException.ThrowIfNull(SourceArn);
+        this.SourceArn = SourceArn;
+        global::System.ArgumentNullException.ThrowIfNull(SourceRoleArn);
+        this.SourceRoleArn = SourceRoleArn;
+    }
+
+    private AwsMediapackageVodCreateAssetOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsMediapackageVodCreateAssetOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsMediapackageVodCreateAssetOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
     [CliOption("--id")]
-    public string? Id { get; set; }
+    public string? Id { get; private init; }
 
     [CliOption("--packaging-group-id")]
-    public string? PackagingGroupId { get; set; }
+    public string? PackagingGroupId { get; private init; }
+
+    [CliOption("--source-arn")]
+    public string? SourceArn { get; private init; }
+
+    [CliOption("--source-role-arn")]
+    public string? SourceRoleArn { get; private init; }
 
     [CliOption("--resource-id")]
     public string? ResourceId { get; set; }
-
-    [CliOption("--source-arn")]
-    public string? SourceArn { get; set; }
-
-    [CliOption("--source-role-arn")]
-    public string? SourceRoleArn { get; set; }
 
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
@@ -45,5 +91,22 @@ public record AwsMediapackageVodCreateAssetOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iam", "set-default-policy-version")]
-public record AwsIamSetDefaultPolicyVersionOptions : AwsOptions
+public record AwsIamSetDefaultPolicyVersionOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--policy-arn")]
-    public string? PolicyArn { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Sets the specified version of the specified policy as the policy's de- fault (operative) version. This operation affects all users, groups, and roles that the policy is attached to. To list the users, groups, and roles that the policy is attached to, use ListEntitiesForPolicy . For information about managed policies, see Managed policies and inline policies in the IAM User Guide . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="PolicyArn">The Amazon Resource Name (ARN) of the IAM policy whose default ver- sion you want to set. For more information about ARNs, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference . Constraints: o min: 20 o max: 2048</param>
+    /// <param name="VersionId">The version of the policy to set as the default (operative) version. For more information about managed policy versions, see Versioning for managed policies in the IAM User Guide . Constraints: o pattern: v[1-9][0-9]*(\.[A-Za-z0-9-]*)?</param>
+    public AwsIamSetDefaultPolicyVersionOptions(
+        string PolicyArn,
+        string VersionId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PolicyArn);
+        this.PolicyArn = PolicyArn;
+        global::System.ArgumentNullException.ThrowIfNull(VersionId);
+        this.VersionId = VersionId;
+    }
+
+    private AwsIamSetDefaultPolicyVersionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsIamSetDefaultPolicyVersionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsIamSetDefaultPolicyVersionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the IAM policy whose default ver- sion you want to set. For more information about ARNs, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference . Constraints: o min: 20 o max: 2048
+    /// </summary>
+    [CliOption("--policy-arn")]
+    public string? PolicyArn { get; private init; }
+
+    /// <summary>
+    /// The version of the policy to set as the default (operative) version. For more information about managed policy versions, see Versioning for managed policies in the IAM User Guide . Constraints: o pattern: v[1-9][0-9]*(\.[A-Za-z0-9-]*)?
+    /// </summary>
     [CliOption("--version-id")]
-    public string? VersionId { get; set; }
+    public string? VersionId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

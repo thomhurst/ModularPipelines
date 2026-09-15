@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,13 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("devicefarm", "create-network-profile")]
-public record AwsDevicefarmCreateNetworkProfileOptions : AwsOptions
+public record AwsDevicefarmCreateNetworkProfileOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--project-arn")]
-    public string? ProjectArn { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates a network profile. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ProjectArn">The Amazon Resource Name (ARN) of the project for which you want to create a network profile. Constraints: o min: 32 o max: 1011 o pattern: ^arn:aws:devicefarm:.+</param>
+    /// <param name="Name">The name for the new network profile. Constraints: o min: 0 o max: 256</param>
+    public AwsDevicefarmCreateNetworkProfileOptions(
+        string ProjectArn,
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ProjectArn);
+        this.ProjectArn = ProjectArn;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    private AwsDevicefarmCreateNetworkProfileOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDevicefarmCreateNetworkProfileOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDevicefarmCreateNetworkProfileOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the project for which you want to create a network profile. Constraints: o min: 32 o max: 1011 o pattern: ^arn:aws:devicefarm:.+
+    /// </summary>
+    [CliOption("--project-arn")]
+    public string? ProjectArn { get; private init; }
+
+    /// <summary>
+    /// The name for the new network profile. Constraints: o min: 0 o max: 256
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
 
     /// <summary>
     /// The description of the network profile. Constraints: o min: 0 o max: 16384
@@ -93,5 +137,22 @@ public record AwsDevicefarmCreateNetworkProfileOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

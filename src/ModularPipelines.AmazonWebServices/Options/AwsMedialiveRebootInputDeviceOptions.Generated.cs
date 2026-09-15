@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,68 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("medialive", "reboot-input-device")]
-public record AwsMedialiveRebootInputDeviceOptions : AwsOptions
+public record AwsMedialiveRebootInputDeviceOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--force")]
-    public string? Force { get; set; }
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Send a reboot command to the specified input device. The device will begin rebooting within a few seconds of sending the command. When the reboot is complete, the devices connection status will change to con- nected. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="InputDeviceId"></param>
+    public AwsMedialiveRebootInputDeviceOptions(
+        string InputDeviceId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(InputDeviceId);
+        this.InputDeviceId = InputDeviceId;
+    }
+
+    private AwsMedialiveRebootInputDeviceOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsMedialiveRebootInputDeviceOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsMedialiveRebootInputDeviceOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     [CliOption("--input-device-id")]
-    public string? InputDeviceId { get; set; }
+    public string? InputDeviceId { get; private init; }
+
+    [CliOption("--force")]
+    public string? Force { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

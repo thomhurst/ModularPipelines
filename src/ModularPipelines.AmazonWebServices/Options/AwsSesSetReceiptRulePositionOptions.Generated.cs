@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +20,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ses", "set-receipt-rule-position")]
-public record AwsSesSetReceiptRulePositionOptions : AwsOptions
+public record AwsSesSetReceiptRulePositionOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--rule-set-name")]
-    public string? RuleSetName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Sets the position of the specified receipt rule in the receipt rule set. For information about managing receipt rules, see the Amazon SES Devel- oper Guide . You can execute this operation no more than once per second. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="RuleSetName">The name of the receipt rule set that contains the receipt rule to reposition.</param>
+    /// <param name="RuleName">The name of the receipt rule to reposition.</param>
+    public AwsSesSetReceiptRulePositionOptions(
+        string RuleSetName,
+        string RuleName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(RuleSetName);
+        this.RuleSetName = RuleSetName;
+        global::System.ArgumentNullException.ThrowIfNull(RuleName);
+        this.RuleName = RuleName;
+    }
+
+    private AwsSesSetReceiptRulePositionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSesSetReceiptRulePositionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSesSetReceiptRulePositionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the receipt rule set that contains the receipt rule to reposition.
+    /// </summary>
+    [CliOption("--rule-set-name")]
+    public string? RuleSetName { get; private init; }
+
+    /// <summary>
+    /// The name of the receipt rule to reposition.
+    /// </summary>
     [CliOption("--rule-name")]
-    public string? RuleName { get; set; }
+    public string? RuleName { get; private init; }
 
     /// <summary>
     /// The name of the receipt rule after which to place the specified re- ceipt rule.
@@ -38,5 +82,22 @@ public record AwsSesSetReceiptRulePositionOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

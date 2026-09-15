@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +20,64 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("elasticache", "decrease-node-groups-in-global-replication-group")]
-public record AwsElasticacheDecreaseNodeGroupsInGlobalReplicationGroupOptions : AwsOptions
+public record AwsElasticacheDecreaseNodeGroupsInGlobalReplicationGroupOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--global-replication-group-id")]
-    public string? GlobalReplicationGroupId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Decreases the number of node groups in a Global datastore See also: AWS API Documentation
+    /// </summary>
+    /// <param name="GlobalReplicationGroupId">The name of the Global datastore</param>
+    /// <param name="NodeGroupCount">The number of node groups (shards) that results from the modifica- tion of the shard configuration</param>
+    /// <param name="ApplyImmediately">Indicates that the shard reconfiguration process begins immediately. At present, the only permitted value for this parameter is true.</param>
+    public AwsElasticacheDecreaseNodeGroupsInGlobalReplicationGroupOptions(
+        string GlobalReplicationGroupId,
+        int NodeGroupCount,
+        bool ApplyImmediately
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(GlobalReplicationGroupId);
+        this.GlobalReplicationGroupId = GlobalReplicationGroupId;
+        this.NodeGroupCount = NodeGroupCount;
+        this.ApplyImmediately = ApplyImmediately;
+    }
+
+    private AwsElasticacheDecreaseNodeGroupsInGlobalReplicationGroupOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsElasticacheDecreaseNodeGroupsInGlobalReplicationGroupOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsElasticacheDecreaseNodeGroupsInGlobalReplicationGroupOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the Global datastore
+    /// </summary>
+    [CliOption("--global-replication-group-id")]
+    public string? GlobalReplicationGroupId { get; private init; }
+
+    /// <summary>
+    /// The number of node groups (shards) that results from the modifica- tion of the shard configuration
+    /// </summary>
     [CliOption("--node-group-count")]
-    public int? NodeGroupCount { get; set; }
+    public int? NodeGroupCount { get; private init; }
+
+    /// <summary>
+    /// Indicates that the shard reconfiguration process begins immediately. At present, the only permitted value for this parameter is true.
+    /// </summary>
+    [CliFlag("--apply-immediately", NegatedName = "--no-apply-immediately")]
+    public bool? ApplyImmediately { get; private init; }
 
     /// <summary>
     /// If the value of NodeGroupCount is less than the current number of node groups (shards), then either NodeGroupsToRemove or NodeGroup- sToRetain is required. GlobalNodeGroupsToRemove is a list of Node- GroupIds to remove from the cluster. ElastiCache will attempt to re- move all node groups listed by GlobalNodeGroupsToRemove from the cluster. (string) Syntax: "string" "string" ...
@@ -39,13 +91,27 @@ public record AwsElasticacheDecreaseNodeGroupsInGlobalReplicationGroupOptions : 
     [CliOption("--global-node-groups-to-retain", GroupValues = true)]
     public IEnumerable<string>? GlobalNodeGroupsToRetain { get; set; }
 
-    [CliFlag("--apply-immediately")]
-    public bool? ApplyImmediately { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

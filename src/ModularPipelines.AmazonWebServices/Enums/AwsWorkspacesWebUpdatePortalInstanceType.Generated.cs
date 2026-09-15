@@ -11,11 +11,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --instancetype.
+/// Allowed values for --instance-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsWorkspacesWebUpdatePortalInstanceType
 {
-    [EnumValue("standard")]
-    Standard = 1
+    [EnumValue("standard.large")]
+    StandardLarge,
+
+    [EnumValue("standard.regular")]
+    StandardRegular,
+
+    [EnumValue("standard.xlarge")]
+    StandardXlarge
 }

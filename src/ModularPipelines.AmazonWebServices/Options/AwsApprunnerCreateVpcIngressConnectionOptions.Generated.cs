@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,16 +20,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("apprunner", "create-vpc-ingress-connection")]
-public record AwsApprunnerCreateVpcIngressConnectionOptions : AwsOptions
+public record AwsApprunnerCreateVpcIngressConnectionOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Create an App Runner VPC Ingress Connection resource. App Runner re- quires this resource when you want to associate your App Runner service with an Amazon VPC endpoint. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ServiceArn">The Amazon Resource Name (ARN) for this App Runner service that is used to create the VPC Ingress Connection resource. Constraints: o min: 1 o max: 1011 o pattern: arn:aws(-[\w]+)*:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[0-9]{12}:(\w|\/|-){1,1011}</param>
+    /// <param name="VpcIngressConnectionName">A name for the VPC Ingress Connection resource. It must be unique across all the active VPC Ingress Connections in your Amazon Web Services account in the Amazon Web Services Region. Constraints: o min: 4 o max: 40 o pattern: [A-Za-z0-9][A-Za-z0-9\-_]{3,39}</param>
+    /// <param name="IngressVpcConfiguration">Specifications for the customers Amazon VPC and the related Amazon Web Services PrivateLink VPC endpoint that are used to create the VPC Ingress Connection resource. VpcId -&gt; (string) The ID of the VPC that is used for the VPC endpoint. Constraints: o min: 0 o max: 51200 o pattern: .* VpcEndpointId -&gt; (string) The ID of the VPC endpoint that your App Runner service connects to. Constraints: o min: 0 o max: 51200 o pattern: .* Shorthand Syntax: VpcId=string,VpcEndpointId=string JSON Syntax: { "VpcId": "string", "VpcEndpointId": "string" }</param>
+    public AwsApprunnerCreateVpcIngressConnectionOptions(
+        string ServiceArn,
+        string VpcIngressConnectionName,
+        string IngressVpcConfiguration
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ServiceArn);
+        this.ServiceArn = ServiceArn;
+        global::System.ArgumentNullException.ThrowIfNull(VpcIngressConnectionName);
+        this.VpcIngressConnectionName = VpcIngressConnectionName;
+        global::System.ArgumentNullException.ThrowIfNull(IngressVpcConfiguration);
+        this.IngressVpcConfiguration = IngressVpcConfiguration;
+    }
+
+    private AwsApprunnerCreateVpcIngressConnectionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsApprunnerCreateVpcIngressConnectionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsApprunnerCreateVpcIngressConnectionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) for this App Runner service that is used to create the VPC Ingress Connection resource. Constraints: o min: 1 o max: 1011 o pattern: arn:aws(-[\w]+)*:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[0-9]{12}:(\w|\/|-){1,1011}
+    /// </summary>
     [CliOption("--service-arn")]
-    public string? ServiceArn { get; set; }
+    public string? ServiceArn { get; private init; }
 
+    /// <summary>
+    /// A name for the VPC Ingress Connection resource. It must be unique across all the active VPC Ingress Connections in your Amazon Web Services account in the Amazon Web Services Region. Constraints: o min: 4 o max: 40 o pattern: [A-Za-z0-9][A-Za-z0-9\-_]{3,39}
+    /// </summary>
     [CliOption("--vpc-ingress-connection-name")]
-    public string? VpcIngressConnectionName { get; set; }
+    public string? VpcIngressConnectionName { get; private init; }
 
+    /// <summary>
+    /// Specifications for the customers Amazon VPC and the related Amazon Web Services PrivateLink VPC endpoint that are used to create the VPC Ingress Connection resource. VpcId -&gt; (string) The ID of the VPC that is used for the VPC endpoint. Constraints: o min: 0 o max: 51200 o pattern: .* VpcEndpointId -&gt; (string) The ID of the VPC endpoint that your App Runner service connects to. Constraints: o min: 0 o max: 51200 o pattern: .* Shorthand Syntax: VpcId=string,VpcEndpointId=string JSON Syntax: { "VpcId": "string", "VpcEndpointId": "string" }
+    /// </summary>
     [CliOption("--ingress-vpc-configuration")]
-    public string? IngressVpcConfiguration { get; set; }
+    public string? IngressVpcConfiguration { get; private init; }
 
     /// <summary>
     /// An optional list of metadata items that you can associate with the VPC Ingress Connection resource. A tag is a key-value pair. (structure) Describes a tag that is applied to an App Runner resource. A tag is a metadata item consisting of a key-value pair. Key -&gt; (string) The key of the tag. Constraints: o min: 1 o max: 128 o pattern: ^(?!aws:).+ Value -&gt; (string) The value of the tag. Constraints: o min: 0 o max: 256 o pattern: .* Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
@@ -41,5 +92,22 @@ public record AwsApprunnerCreateVpcIngressConnectionOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

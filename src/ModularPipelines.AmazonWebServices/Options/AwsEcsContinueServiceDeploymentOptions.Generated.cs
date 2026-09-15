@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,13 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ecs", "continue-service-deployment")]
-public record AwsEcsContinueServiceDeploymentOptions : AwsOptions
+public record AwsEcsContinueServiceDeploymentOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--service-deployment-arn")]
-    public string? ServiceDeploymentArn { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Continues or rolls back an Amazon ECS service deployment that is paused at a lifecycle hook. When a service deployment reaches a lifecycle stage that has a PAUSE hook configured, the deployment pauses and waits for an explicit ac- tion. Use this API to either continue the deployment to the next stage or roll back to the previous service revision. To find the hookId of the paused hook, call DescribeServiceDeployments and inspect the lifecycleHookDetails field. For more information, see Continuing...
+    /// </summary>
+    /// <param name="ServiceDeploymentArn">The ARN of the service deployment to continue or roll back.</param>
+    /// <param name="HookId">The ID of the paused lifecycle hook to act on. You can find the hookId by calling DescribeServiceDeployments and inspecting the lifecycleHookDetails field of the service deployment.</param>
+    public AwsEcsContinueServiceDeploymentOptions(
+        string ServiceDeploymentArn,
+        string HookId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ServiceDeploymentArn);
+        this.ServiceDeploymentArn = ServiceDeploymentArn;
+        global::System.ArgumentNullException.ThrowIfNull(HookId);
+        this.HookId = HookId;
+    }
+
+    private AwsEcsContinueServiceDeploymentOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEcsContinueServiceDeploymentOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEcsContinueServiceDeploymentOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ARN of the service deployment to continue or roll back.
+    /// </summary>
+    [CliOption("--service-deployment-arn")]
+    public string? ServiceDeploymentArn { get; private init; }
+
+    /// <summary>
+    /// The ID of the paused lifecycle hook to act on. You can find the hookId by calling DescribeServiceDeployments and inspecting the lifecycleHookDetails field of the service deployment.
+    /// </summary>
     [CliOption("--hook-id")]
-    public string? HookId { get; set; }
+    public string? HookId { get; private init; }
 
     /// <summary>
     /// The action to take on the paused lifecycle hook. Valid values are: o CONTINUE - Proceeds the deployment to the next lifecycle stage. o ROLLBACK - Rolls back the deployment to the previous service revi- sion. If no value is specified, the default action is CONTINUE . Possible values: o ROLLBACK o CONTINUE
@@ -39,5 +83,22 @@ public record AwsEcsContinueServiceDeploymentOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

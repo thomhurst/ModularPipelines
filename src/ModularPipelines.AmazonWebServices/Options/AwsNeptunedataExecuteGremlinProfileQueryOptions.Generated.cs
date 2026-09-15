@@ -21,10 +21,38 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("neptunedata", "execute-gremlin-profile-query")]
 public record AwsNeptunedataExecuteGremlinProfileQueryOptions : AwsOptions
 {
-    [CliOption("--gremlin-query")]
-    public string? GremlinQuery { get; set; }
+    /// <summary>
+    /// Executes a Gremlin Profile query, which runs a specified traversal, collects various metrics about the run, and produces a profile report as output. See Gremlin profile API in Neptune for details. When invoking this operation in a Neptune cluster that has IAM authen- tication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:ReadDataViaQuery IAM action in that cluster. Note that the neptune-db:QueryLanguage:Gremlin IAM condition key can be us...
+    /// </summary>
+    /// <param name="GremlinQuery">The Gremlin query string to profile.</param>
+    /// <param name="Outfile">The &lt;outfile&gt; operand.</param>
+    public AwsNeptunedataExecuteGremlinProfileQueryOptions(
+        string GremlinQuery,
+        string Outfile
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(GremlinQuery);
+        this.GremlinQuery = GremlinQuery;
+        global::System.ArgumentNullException.ThrowIfNull(Outfile);
+        this.Outfile = Outfile;
+    }
 
-    [CliFlag("--results")]
+    public void Deconstruct(out string GremlinQuery, out string Outfile)
+    {
+        GremlinQuery = this.GremlinQuery;
+        Outfile = this.Outfile;
+    }
+
+    /// <summary>
+    /// The Gremlin query string to profile.
+    /// </summary>
+    [CliOption("--gremlin-query")]
+    public string GremlinQuery { get; private init; }
+
+    /// <summary>
+    /// If this flag is set to TRUE , the query results are gathered and displayed as part of the profile report. If FALSE , only the result count is displayed.
+    /// </summary>
+    [CliFlag("--results", NegatedName = "--no-results")]
     public bool? Results { get; set; }
 
     /// <summary>
@@ -39,7 +67,16 @@ public record AwsNeptunedataExecuteGremlinProfileQueryOptions : AwsOptions
     [CliOption("--serializer")]
     public string? Serializer { get; set; }
 
-    [CliFlag("--index-ops")]
+    /// <summary>
+    /// If this flag is set to TRUE , the results include a detailed report of all index operations that took place during query execution and serialization. outfile (string) [required] Filename where the content will be saved
+    /// </summary>
+    [CliFlag("--index-ops", NegatedName = "--no-index-ops")]
     public bool? IndexOps { get; set; }
+
+    /// <summary>
+    /// The &lt;outfile&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string Outfile { get; private init; }
 
 }

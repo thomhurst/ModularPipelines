@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("lightsail", "create-contact-method")]
-public record AwsLightsailCreateContactMethodOptions : AwsOptions
+public record AwsLightsailCreateContactMethodOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--protocol")]
-    public string? Protocol { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates an email or SMS text message contact method. A contact method is used to send you notifications about your Amazon Lightsail resources. You can add one email address and one mobile phone number contact method in each Amazon Web Services Region. However, SMS text messaging is not supported in some Amazon Web Services Regions, and SMS text messages cannot be sent to some countries/regions. For more information, see Notifications in Amazon Lightsail . The create contact method operation supp...
+    /// </summary>
+    /// <param name="Protocol">The protocol of the contact method, such as Email or SMS (text mes- saging). The SMS protocol is supported only in the following Amazon Web Ser- vices Regions. o US East (N. Virginia) (us-east-1 ) o US West (Oregon) (us-west-2 ) o Europe (Ireland) (eu-west-1 ) o Asia Pacific (Tokyo) (ap-northeast-1 ) o Asia Pacific (Singapore) (ap-southeast-1 ) o Asia Pacific (Sydney) (ap-southeast-2 ) For a list of countries/regions where SMS text messages can be sent, and the latest Amazon Web Services Regions where SMS text messaging is supported, see Supported Regions and Countries in the Amazon SNS Developer Guide . For more information about notifications in Amazon Lightsail, see Notifications in Amazon Lightsail . Possible values: o Email o SMS</param>
+    /// <param name="ContactEndpoint">The destination of the contact method, such as an email address or a mobile phone number. Use the E.164 format when specifying a mobile phone number. E.164 is a standard for the phone number structure used for international telecommunication. Phone numbers that follow this format can have a maximum of 15 digits, and they are prefixed with the plus character (+) and the country code. For example, a U.S. phone number in E.164 format would be specified as +1XXX5550100. For more information, see E.164 on Wikipedia . Constraints: o min: 1 o max: 256</param>
+    public AwsLightsailCreateContactMethodOptions(
+        AwsLightsailCreateContactMethodProtocol Protocol,
+        string ContactEndpoint
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Protocol);
+        this.Protocol = Protocol;
+        global::System.ArgumentNullException.ThrowIfNull(ContactEndpoint);
+        this.ContactEndpoint = ContactEndpoint;
+    }
+
+    private AwsLightsailCreateContactMethodOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsLightsailCreateContactMethodOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsLightsailCreateContactMethodOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The protocol of the contact method, such as Email or SMS (text mes- saging). The SMS protocol is supported only in the following Amazon Web Ser- vices Regions. o US East (N. Virginia) (us-east-1 ) o US West (Oregon) (us-west-2 ) o Europe (Ireland) (eu-west-1 ) o Asia Pacific (Tokyo) (ap-northeast-1 ) o Asia Pacific (Singapore) (ap-southeast-1 ) o Asia Pacific (Sydney) (ap-southeast-2 ) For a list of countries/regions where SMS text messages can be sent, and the latest Amazon Web Services Regions where SMS text messaging is supported, see Supported Regions and Countries in the Amazon SNS Developer Guide . For more information about notifications in Amazon Lightsail, see Notifications in Amazon Lightsail . Possible values: o Email o SMS
+    /// </summary>
+    [CliOption("--protocol")]
+    public AwsLightsailCreateContactMethodProtocol? Protocol { get; private init; }
+
+    /// <summary>
+    /// The destination of the contact method, such as an email address or a mobile phone number. Use the E.164 format when specifying a mobile phone number. E.164 is a standard for the phone number structure used for international telecommunication. Phone numbers that follow this format can have a maximum of 15 digits, and they are prefixed with the plus character (+) and the country code. For example, a U.S. phone number in E.164 format would be specified as +1XXX5550100. For more information, see E.164 on Wikipedia . Constraints: o min: 1 o max: 256
+    /// </summary>
     [CliOption("--contact-endpoint")]
-    public string? ContactEndpoint { get; set; }
+    public string? ContactEndpoint { get; private init; }
 
     /// <summary>
     /// The tag keys and optional values to add to the contact method during create. Use the TagResource action to tag a resource after it's created. (structure) Describes a tag key and optional value assigned to an Amazon Lightsail resource. For more information about tags in Lightsail, see the Amazon Lightsail Developer Guide . key -&gt; (string) The key of the tag. Constraints: Tag keys accept a maximum of 128 letters, num- bers, spaces in UTF-8, or the following characters: + - = . _ : / @ value -&gt; (string) The value of the tag. Constraints: Tag values accept a maximum of 256 letters, num- bers, spaces in UTF-8, or the following characters: + - = . _ : / @ Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
@@ -38,5 +83,22 @@ public record AwsLightsailCreateContactMethodOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

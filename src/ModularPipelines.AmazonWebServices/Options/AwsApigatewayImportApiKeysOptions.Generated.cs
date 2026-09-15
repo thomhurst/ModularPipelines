@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +21,61 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("apigateway", "import-api-keys")]
-public record AwsApigatewayImportApiKeysOptions : AwsOptions
+public record AwsApigatewayImportApiKeysOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Import API keys from an external source, such as a CSV-formatted file. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Body">The payload of the POST request to import API keys. For the payload format, see API Key File Format.</param>
+    /// <param name="Format">A query parameter to specify the input format to imported API keys. Currently, only the csv format is supported. Possible values: o csv</param>
+    public AwsApigatewayImportApiKeysOptions(
+        string Body,
+        AwsApigatewayImportApiKeysFormat Format
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Body);
+        this.Body = Body;
+        global::System.ArgumentNullException.ThrowIfNull(Format);
+        this.Format = Format;
+    }
+
+    private AwsApigatewayImportApiKeysOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsApigatewayImportApiKeysOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsApigatewayImportApiKeysOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The payload of the POST request to import API keys. For the payload format, see API Key File Format.
+    /// </summary>
     [CliOption("--body")]
-    public string? Body { get; set; }
+    public string? Body { get; private init; }
 
+    /// <summary>
+    /// A query parameter to specify the input format to imported API keys. Currently, only the csv format is supported. Possible values: o csv
+    /// </summary>
     [CliOption("--format")]
-    public string? Format { get; set; }
+    public AwsApigatewayImportApiKeysFormat? Format { get; private init; }
 
-    [CliFlag("--fail-on-warnings")]
+    /// <summary>
+    /// A query parameter to indicate whether to rollback ApiKey importation (true ) or not (false ) when error is encountered.
+    /// </summary>
+    [CliFlag("--fail-on-warnings", NegatedName = "--no-fail-on-warnings")]
     public bool? FailOnWarnings { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -35,5 +83,22 @@ public record AwsApigatewayImportApiKeysOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

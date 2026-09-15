@@ -11,32 +11,32 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --resourcetype.
+/// Allowed values for --resource-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsWafv2ListResourcesForWebAclResourceType
 {
-    [EnumValue("APPLICATION_LOAD_BALANCER")]
-    ApplicationLoadBalancer = 1,
-
-    [EnumValue("API_GATEWAY")]
-    ApiGateway = 2,
-
-    [EnumValue("APPSYNC")]
-    Appsync = 3,
-
-    [EnumValue("COGNITO_USER_POOL")]
-    CognitoUserPool = 4,
-
-    [EnumValue("APP_RUNNER_SERVICE")]
-    AppRunnerService = 5,
-
-    [EnumValue("VERIFIED_ACCESS_INSTANCE")]
-    VerifiedAccessInstance = 6,
+    [EnumValue("AGENTCORE_GATEWAY")]
+    AgentcoreGateway,
 
     [EnumValue("AMPLIFY")]
-    Amplify = 7,
+    Amplify,
 
-    [EnumValue("AGENTCORE_GATEWAY")]
-    AgentcoreGateway = 8
+    [EnumValue("API_GATEWAY")]
+    ApiGateway,
+
+    [EnumValue("APPLICATION_LOAD_BALANCER")]
+    ApplicationLoadBalancer,
+
+    [EnumValue("APPSYNC")]
+    Appsync,
+
+    [EnumValue("APP_RUNNER_SERVICE")]
+    AppRunnerService,
+
+    [EnumValue("COGNITO_USER_POOL")]
+    CognitoUserPool,
+
+    [EnumValue("VERIFIED_ACCESS_INSTANCE")]
+    VerifiedAccessInstance
 }

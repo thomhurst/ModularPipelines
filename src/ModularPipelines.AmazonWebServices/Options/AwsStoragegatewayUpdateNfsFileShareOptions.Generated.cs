@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storagegateway", "update-nfs-file-share")]
-public record AwsStoragegatewayUpdateNfsFileShareOptions : AwsOptions
+public record AwsStoragegatewayUpdateNfsFileShareOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates a Network File System (NFS) file share. This operation is only supported in S3 File Gateways. NOTE: To leave a file share field unchanged, set the corresponding input field to null. Updates the following file share settings: o Default storage class for your S3 bucket o Metadata defaults for your S3 bucket o Allowed NFS clients for your file share o Squash settings o Write status of your file share See also: AWS API Documentation
+    /// </summary>
+    /// <param name="FileShareArn">The Amazon Resource Name (ARN) of the file share to be updated. Constraints: o min: 50 o max: 500</param>
+    public AwsStoragegatewayUpdateNfsFileShareOptions(
+        string FileShareArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(FileShareArn);
+        this.FileShareArn = FileShareArn;
+    }
+
+    private AwsStoragegatewayUpdateNfsFileShareOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsStoragegatewayUpdateNfsFileShareOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsStoragegatewayUpdateNfsFileShareOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the file share to be updated. Constraints: o min: 50 o max: 500
+    /// </summary>
     [CliOption("--file-share-arn")]
-    public string? FileShareArn { get; set; }
+    public string? FileShareArn { get; private init; }
 
     /// <summary>
     /// A value that specifies the type of server-side encryption that the file share will use for the data that it stores in Amazon S3. NOTE: We recommend using EncryptionType instead of KMSEncrypted to set the file share encryption method. You do not need to provide values for both parameters. If values for both parameters exist in the same request, then the specified encryption methods must not conflict. For example, if EncryptionType is SseS3 , then KMSEncrypted must be false . If EncryptionType is SseKms or DsseKms , then KMSEncrypted must be true . Possible values: o SseS3 o SseKms o DsseKms
@@ -31,7 +68,10 @@ public record AwsStoragegatewayUpdateNfsFileShareOptions : AwsOptions
     [CliOption("--encryption-type")]
     public AwsStoragegatewayUpdateNfsFileShareEncryptionType? EncryptionType { get; set; }
 
-    [CliFlag("--kms-encrypted")]
+    /// <summary>
+    /// Optional. Set to true to use Amazon S3 server-side encryption with your own KMS key (SSE-KMS), or false to use a key managed by Amazon S3 (SSE-S3). To use dual-layer encryption (DSSE-KMS), set the En- cryptionType parameter instead. NOTE: We recommend using EncryptionType instead of KMSEncrypted to set the file share encryption method. You do not need to provide values for both parameters. If values for both parameters exist in the same request, then the specified encryption methods must not conflict. For example, if EncryptionType is SseS3 , then KMSEncrypted must be false . If EncryptionType is SseKms or DsseKms , then KMSEncrypted must be true . Valid Values: true | false
+    /// </summary>
+    [CliFlag("--kms-encrypted", NegatedName = "--no-kms-encrypted")]
     public bool? KmsEncrypted { get; set; }
 
     /// <summary>
@@ -70,13 +110,22 @@ public record AwsStoragegatewayUpdateNfsFileShareOptions : AwsOptions
     [CliOption("--squash")]
     public string? Squash { get; set; }
 
-    [CliFlag("--read-only")]
+    /// <summary>
+    /// A value that sets the write status of a file share. Set this value to true to set the write status to read-only, otherwise set to false . Valid Values: true | false
+    /// </summary>
+    [CliFlag("--read-only", NegatedName = "--no-read-only")]
     public bool? ReadOnly { get; set; }
 
-    [CliFlag("--guess-mime-type-enabled")]
+    /// <summary>
+    /// A value that enables guessing of the MIME type for uploaded objects based on file extensions. Set this value to true to enable MIME type guessing, otherwise set to false . The default value is true . Valid Values: true | false
+    /// </summary>
+    [CliFlag("--guess-mime-type-enabled", NegatedName = "--no-guess-mime-type-enabled")]
     public bool? GuessMimeTypeEnabled { get; set; }
 
-    [CliFlag("--requester-pays")]
+    /// <summary>
+    /// A value that sets who pays the cost of the request and the cost as- sociated with data download from the S3 bucket. If this value is set to true , the requester pays the costs; otherwise, the S3 bucket owner pays. However, the S3 bucket owner always pays the cost of storing data. NOTE: RequesterPays is a configuration for the S3 bucket that backs the file share, so make sure that the configuration on the file share is the same as the S3 bucket configuration. Valid Values: true | false
+    /// </summary>
+    [CliFlag("--requester-pays", NegatedName = "--no-requester-pays")]
     public bool? RequesterPays { get; set; }
 
     /// <summary>
@@ -108,5 +157,22 @@ public record AwsStoragegatewayUpdateNfsFileShareOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

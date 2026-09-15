@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,68 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("logs", "delete-index-policy")]
-public record AwsLogsDeleteIndexPolicyOptions : AwsOptions
+public record AwsLogsDeleteIndexPolicyOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Deletes a log-group level field index policy that was applied to a sin- gle log group. The indexing of the log events that happened before you delete the policy will still be used for as many as 30 days to improve CloudWatch Logs Insights queries. If the deleted policy included facet configurations, those facets will no longer be available for interactive exploration in the CloudWatch Logs Insights console for this log group. However, facet data is re- tained for up to 30 days. You can't use thi...
+    /// </summary>
+    /// <param name="LogGroupIdentifier">The log group to delete the index policy for. You can specify either the name or the ARN of the log group. Constraints: o min: 1 o max: 2048 o pattern: [\w#+=/:,.@-]*</param>
+    public AwsLogsDeleteIndexPolicyOptions(
+        string LogGroupIdentifier
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(LogGroupIdentifier);
+        this.LogGroupIdentifier = LogGroupIdentifier;
+    }
+
+    private AwsLogsDeleteIndexPolicyOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsLogsDeleteIndexPolicyOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsLogsDeleteIndexPolicyOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The log group to delete the index policy for. You can specify either the name or the ARN of the log group. Constraints: o min: 1 o max: 2048 o pattern: [\w#+=/:,.@-]*
+    /// </summary>
     [CliOption("--log-group-identifier")]
-    public string? LogGroupIdentifier { get; set; }
+    public string? LogGroupIdentifier { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

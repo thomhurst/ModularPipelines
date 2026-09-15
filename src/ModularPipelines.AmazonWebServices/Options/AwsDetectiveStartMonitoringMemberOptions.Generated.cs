@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("detective", "start-monitoring-member")]
-public record AwsDetectiveStartMonitoringMemberOptions : AwsOptions
+public record AwsDetectiveStartMonitoringMemberOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--graph-arn")]
-    public string? GraphArn { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Sends a request to enable data ingest for a member account that has a status of ACCEPTED_BUT_DISABLED . For valid member accounts, the status is updated as follows. o If Detective enabled the member account, then the new status is EN- ABLED . o If Detective cannot enable the member account, the status remains AC- CEPTED_BUT_DISABLED . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="GraphArn">The ARN of the behavior graph. Constraints: o pattern: ^arn:aws[-\w]{0,10}?:detec- tive:[-\w]{2,20}?:\d{12}?:graph:[abcdef\d]{32}?$</param>
+    /// <param name="AccountId">The account ID of the member account to try to enable. The account must be an invited member account with a status of AC- CEPTED_BUT_DISABLED . Constraints: o min: 12 o max: 12 o pattern: ^[0-9]+$</param>
+    public AwsDetectiveStartMonitoringMemberOptions(
+        string GraphArn,
+        string AccountId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(GraphArn);
+        this.GraphArn = GraphArn;
+        global::System.ArgumentNullException.ThrowIfNull(AccountId);
+        this.AccountId = AccountId;
+    }
+
+    private AwsDetectiveStartMonitoringMemberOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDetectiveStartMonitoringMemberOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDetectiveStartMonitoringMemberOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ARN of the behavior graph. Constraints: o pattern: ^arn:aws[-\w]{0,10}?:detec- tive:[-\w]{2,20}?:\d{12}?:graph:[abcdef\d]{32}?$
+    /// </summary>
+    [CliOption("--graph-arn")]
+    public string? GraphArn { get; private init; }
+
+    /// <summary>
+    /// The account ID of the member account to try to enable. The account must be an invited member account with a status of AC- CEPTED_BUT_DISABLED . Constraints: o min: 12 o max: 12 o pattern: ^[0-9]+$
+    /// </summary>
     [CliOption("--account-id")]
-    public string? AccountId { get; set; }
+    public string? AccountId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

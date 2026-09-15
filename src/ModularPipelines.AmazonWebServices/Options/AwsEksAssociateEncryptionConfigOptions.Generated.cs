@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +21,67 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("eks", "associate-encryption-config")]
-public record AwsEksAssociateEncryptionConfigOptions : AwsOptions
+public record AwsEksAssociateEncryptionConfigOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--cluster-name")]
-    public string? ClusterName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Associates an encryption configuration to an existing cluster. Use this API to enable encryption on existing clusters that don't al- ready have encryption enabled. This allows you to implement a de- fense-in-depth security strategy without migrating applications to new Amazon EKS clusters. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ClusterName">The name of your cluster.</param>
+    /// <param name="EncryptionConfig">The configuration you are using for encryption. Constraints: o max: 1 (structure) The encryption configuration for the cluster. resources -&gt; (list) WARNING: Amazon EKS encrypts all Kubernetes API data with envelope encryption by default for clusters running Kubernetes version 1.28 or higher, so this field no longer affects which resources are encrypted. Specifies the resources to be encrypted. The only supported value is secrets . (string) provider -&gt; (structure) Key Management Service (KMS) key. Either the ARN or the alias can be used. keyArn -&gt; (string) Amazon Resource Name (ARN) or alias of the KMS key. The KMS key must be symmetric and created in the same Amazon Web Services Region as the cluster. If the KMS key was created in a different account, the IAM principal must have access to the KMS key. For more information, see Allowing users in other accounts to use a KMS key in the Key Management Service Developer Guide . Shorthand Syntax: resources=string,string,provider={keyArn=string} ... JSON Syntax: [ { "resources": ["string", ...], "provider": { "keyArn": "string" } } ... ]</param>
+    public AwsEksAssociateEncryptionConfigOptions(
+        string ClusterName,
+        IEnumerable<string> EncryptionConfig
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ClusterName);
+        this.ClusterName = ClusterName;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(EncryptionConfig);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(EncryptionConfig));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(EncryptionConfig));
+            }
+
+            EncryptionConfig = materialized;
+        }
+        this.EncryptionConfig = EncryptionConfig;
+    }
+
+    private AwsEksAssociateEncryptionConfigOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEksAssociateEncryptionConfigOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEksAssociateEncryptionConfigOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of your cluster.
+    /// </summary>
+    [CliOption("--cluster-name")]
+    public string? ClusterName { get; private init; }
+
+    /// <summary>
+    /// The configuration you are using for encryption. Constraints: o max: 1 (structure) The encryption configuration for the cluster. resources -&gt; (list) WARNING: Amazon EKS encrypts all Kubernetes API data with envelope encryption by default for clusters running Kubernetes version 1.28 or higher, so this field no longer affects which resources are encrypted. Specifies the resources to be encrypted. The only supported value is secrets . (string) provider -&gt; (structure) Key Management Service (KMS) key. Either the ARN or the alias can be used. keyArn -&gt; (string) Amazon Resource Name (ARN) or alias of the KMS key. The KMS key must be symmetric and created in the same Amazon Web Services Region as the cluster. If the KMS key was created in a different account, the IAM principal must have access to the KMS key. For more information, see Allowing users in other accounts to use a KMS key in the Key Management Service Developer Guide . Shorthand Syntax: resources=string,string,provider={keyArn=string} ... JSON Syntax: [ { "resources": ["string", ...], "provider": { "keyArn": "string" } } ... ]
+    /// </summary>
     [CliOption("--encryption-config", GroupValues = true)]
-    public IEnumerable<string>? EncryptionConfig { get; set; }
+    public IEnumerable<string>? EncryptionConfig { get; private init; }
 
     /// <summary>
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
@@ -40,5 +95,22 @@ public record AwsEksAssociateEncryptionConfigOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

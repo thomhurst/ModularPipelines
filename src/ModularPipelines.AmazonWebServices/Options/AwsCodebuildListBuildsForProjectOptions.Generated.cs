@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,10 +22,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("codebuild", "list-builds-for-project")]
-public record AwsCodebuildListBuildsForProjectOptions : AwsOptions
+public record AwsCodebuildListBuildsForProjectOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Gets a list of build identifiers for the specified build project, with each build identifier representing a single build. See also: AWS API Documentation list-builds-for-project is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the foll...
+    /// </summary>
+    /// <param name="ProjectName">The name of the CodeBuild project. Constraints: o min: 1</param>
+    public AwsCodebuildListBuildsForProjectOptions(
+        string ProjectName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ProjectName);
+        this.ProjectName = ProjectName;
+    }
+
+    private AwsCodebuildListBuildsForProjectOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCodebuildListBuildsForProjectOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCodebuildListBuildsForProjectOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the CodeBuild project. Constraints: o min: 1
+    /// </summary>
     [CliOption("--project-name")]
-    public string? ProjectName { get; set; }
+    public string? ProjectName { get; private init; }
 
     /// <summary>
     /// The order to sort the results in. The results are sorted by build number, not the build identifier. If this is not specified, the re- sults are sorted in descending order. Valid values include: o ASCENDING : List the build identifiers in ascending order, by build number. o DESCENDING : List the build identifiers in descending order, by build number. If the project has more than 100 builds, setting the sort order will result in an error. Possible values: o ASCENDING o DESCENDING
@@ -50,5 +87,22 @@ public record AwsCodebuildListBuildsForProjectOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

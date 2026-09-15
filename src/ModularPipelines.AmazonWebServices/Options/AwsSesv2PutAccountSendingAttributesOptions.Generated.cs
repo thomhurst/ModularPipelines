@@ -21,7 +21,10 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("sesv2", "put-account-sending-attributes")]
 public record AwsSesv2PutAccountSendingAttributesOptions : AwsOptions
 {
-    [CliFlag("--sending-enabled")]
+    /// <summary>
+    /// Enables or disables your account's ability to send email. Set to true to enable email sending, or set to false to disable email send- ing. NOTE: If Amazon Web Services paused your account's ability to send email, you can't use this operation to resume your account's ability to send email.
+    /// </summary>
+    [CliFlag("--sending-enabled", NegatedName = "--no-sending-enabled")]
     public bool? SendingEnabled { get; set; }
 
     [CliOption("--cli-input-json")]

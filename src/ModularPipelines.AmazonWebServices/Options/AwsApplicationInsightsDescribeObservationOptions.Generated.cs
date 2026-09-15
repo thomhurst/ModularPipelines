@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("application-insights", "describe-observation")]
-public record AwsApplicationInsightsDescribeObservationOptions : AwsOptions
+public record AwsApplicationInsightsDescribeObservationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Describes an anomaly or error with the application. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ObservationId">The ID of the observation. Constraints: o min: 38 o max: 38 o pattern: o-[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}</param>
+    public AwsApplicationInsightsDescribeObservationOptions(
+        string ObservationId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ObservationId);
+        this.ObservationId = ObservationId;
+    }
+
+    private AwsApplicationInsightsDescribeObservationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsApplicationInsightsDescribeObservationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsApplicationInsightsDescribeObservationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the observation. Constraints: o min: 38 o max: 38 o pattern: o-[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}
+    /// </summary>
     [CliOption("--observation-id")]
-    public string? ObservationId { get; set; }
+    public string? ObservationId { get; private init; }
 
     /// <summary>
     /// The Amazon Web Services account ID for the resource group owner. Constraints: o min: 12 o max: 12 o pattern: ^\d{12}$
@@ -35,5 +72,22 @@ public record AwsApplicationInsightsDescribeObservationOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

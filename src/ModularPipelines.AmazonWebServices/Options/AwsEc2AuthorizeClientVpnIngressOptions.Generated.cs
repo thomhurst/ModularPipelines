@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ec2", "authorize-client-vpn-ingress")]
-public record AwsEc2AuthorizeClientVpnIngressOptions : AwsOptions
+public record AwsEc2AuthorizeClientVpnIngressOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--client-vpn-endpoint-id")]
-    public string? ClientVpnEndpointId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Adds an ingress authorization rule to a Client VPN endpoint. Ingress authorization rules act as firewall rules that grant access to net- works. You must configure ingress authorization rules to enable clients to access resources in Amazon Web Services or on-premises networks. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ClientVpnEndpointId">The ID of the Client VPN endpoint.</param>
+    /// <param name="TargetNetworkCidr">The IPv4 address range, in CIDR notation, of the network for which access is being authorized.</param>
+    public AwsEc2AuthorizeClientVpnIngressOptions(
+        string ClientVpnEndpointId,
+        string TargetNetworkCidr
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ClientVpnEndpointId);
+        this.ClientVpnEndpointId = ClientVpnEndpointId;
+        global::System.ArgumentNullException.ThrowIfNull(TargetNetworkCidr);
+        this.TargetNetworkCidr = TargetNetworkCidr;
+    }
+
+    private AwsEc2AuthorizeClientVpnIngressOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEc2AuthorizeClientVpnIngressOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEc2AuthorizeClientVpnIngressOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the Client VPN endpoint.
+    /// </summary>
+    [CliOption("--client-vpn-endpoint-id")]
+    public string? ClientVpnEndpointId { get; private init; }
+
+    /// <summary>
+    /// The IPv4 address range, in CIDR notation, of the network for which access is being authorized.
+    /// </summary>
     [CliOption("--target-network-cidr")]
-    public string? TargetNetworkCidr { get; set; }
+    public string? TargetNetworkCidr { get; private init; }
 
     /// <summary>
     /// The ID of the group to grant access to, for example, the Active Di- rectory group or identity provider (IdP) group. Required if Autho- rizeAllGroups is false or not specified.
@@ -34,7 +78,10 @@ public record AwsEc2AuthorizeClientVpnIngressOptions : AwsOptions
     [CliOption("--access-group-id")]
     public string? AccessGroupId { get; set; }
 
-    [CliFlag("--authorize-all-groups")]
+    /// <summary>
+    /// Indicates whether to grant access to all clients. Specify true to grant all clients who successfully establish a VPN connection access to the network. Must be set to true if AccessGroupId is not speci- fied.
+    /// </summary>
+    [CliFlag("--authorize-all-groups", NegatedName = "--no-authorize-all-groups")]
     public bool? AuthorizeAllGroups { get; set; }
 
     /// <summary>
@@ -50,7 +97,10 @@ public record AwsEc2AuthorizeClientVpnIngressOptions : AwsOptions
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -58,5 +108,22 @@ public record AwsEc2AuthorizeClientVpnIngressOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

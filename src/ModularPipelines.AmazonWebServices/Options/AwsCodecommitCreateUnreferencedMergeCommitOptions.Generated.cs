@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,19 +21,76 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("codecommit", "create-unreferenced-merge-commit")]
-public record AwsCodecommitCreateUnreferencedMergeCommitOptions : AwsOptions
+public record AwsCodecommitCreateUnreferencedMergeCommitOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates an unreferenced commit that represents the result of merging two branches using a specified merge strategy. This can help you deter- mine the outcome of a potential merge. This API cannot be used with the fast-forward merge strategy because that strategy does not create a merge commit. NOTE: This unreferenced merge commit can only be accessed using the Get- Commit API or through git commands such as git fetch. To retrieve this commit, you must specify its commit ID or otherwise reference...
+    /// </summary>
+    /// <param name="RepositoryName">The name of the repository where you want to create the unreferenced merge commit. Constraints: o min: 1 o max: 100 o pattern: [\w\.-]+</param>
+    /// <param name="SourceCommitSpecifier">The branch, tag, HEAD, or other fully qualified reference used to identify a commit (for example, a branch name or a full commit ID).</param>
+    /// <param name="DestinationCommitSpecifier">The branch, tag, HEAD, or other fully qualified reference used to identify a commit (for example, a branch name or a full commit ID).</param>
+    /// <param name="MergeOption">The merge option or strategy you want to use to merge the code. Possible values: o FAST_FORWARD_MERGE o SQUASH_MERGE o THREE_WAY_MERGE</param>
+    public AwsCodecommitCreateUnreferencedMergeCommitOptions(
+        string RepositoryName,
+        string SourceCommitSpecifier,
+        string DestinationCommitSpecifier,
+        AwsCodecommitCreateUnreferencedMergeCommitMergeOption MergeOption
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(RepositoryName);
+        this.RepositoryName = RepositoryName;
+        global::System.ArgumentNullException.ThrowIfNull(SourceCommitSpecifier);
+        this.SourceCommitSpecifier = SourceCommitSpecifier;
+        global::System.ArgumentNullException.ThrowIfNull(DestinationCommitSpecifier);
+        this.DestinationCommitSpecifier = DestinationCommitSpecifier;
+        global::System.ArgumentNullException.ThrowIfNull(MergeOption);
+        this.MergeOption = MergeOption;
+    }
+
+    private AwsCodecommitCreateUnreferencedMergeCommitOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCodecommitCreateUnreferencedMergeCommitOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCodecommitCreateUnreferencedMergeCommitOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the repository where you want to create the unreferenced merge commit. Constraints: o min: 1 o max: 100 o pattern: [\w\.-]+
+    /// </summary>
     [CliOption("--repository-name")]
-    public string? RepositoryName { get; set; }
+    public string? RepositoryName { get; private init; }
 
+    /// <summary>
+    /// The branch, tag, HEAD, or other fully qualified reference used to identify a commit (for example, a branch name or a full commit ID).
+    /// </summary>
     [CliOption("--source-commit-specifier")]
-    public string? SourceCommitSpecifier { get; set; }
+    public string? SourceCommitSpecifier { get; private init; }
 
+    /// <summary>
+    /// The branch, tag, HEAD, or other fully qualified reference used to identify a commit (for example, a branch name or a full commit ID).
+    /// </summary>
     [CliOption("--destination-commit-specifier")]
-    public string? DestinationCommitSpecifier { get; set; }
+    public string? DestinationCommitSpecifier { get; private init; }
 
+    /// <summary>
+    /// The merge option or strategy you want to use to merge the code. Possible values: o FAST_FORWARD_MERGE o SQUASH_MERGE o THREE_WAY_MERGE
+    /// </summary>
     [CliOption("--merge-option")]
-    public string? MergeOption { get; set; }
+    public AwsCodecommitCreateUnreferencedMergeCommitMergeOption? MergeOption { get; private init; }
 
     /// <summary>
     /// The level of conflict detail to use. If unspecified, the default FILE_LEVEL is used, which returns a not-mergeable result if the same file has differences in both branches. If LINE_LEVEL is specified, a conflict is considered not mergeable if the same file in both branches has differences on the same line. Possible values: o FILE_LEVEL o LINE_LEVEL
@@ -64,7 +122,10 @@ public record AwsCodecommitCreateUnreferencedMergeCommitOptions : AwsOptions
     [CliOption("--commit-message")]
     public string? CommitMessage { get; set; }
 
-    [CliFlag("--keep-empty-folders")]
+    /// <summary>
+    /// If the commit contains deletions, whether to keep a folder or folder structure if the changes leave the folders empty. If this is speci- fied as true, a .gitkeep file is created for empty folders. The de- fault is false.
+    /// </summary>
+    [CliFlag("--keep-empty-folders", NegatedName = "--no-keep-empty-folders")]
     public bool? KeepEmptyFolders { get; set; }
 
     /// <summary>
@@ -78,5 +139,22 @@ public record AwsCodecommitCreateUnreferencedMergeCommitOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,12 +20,51 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("logs", "delete-integration")]
-public record AwsLogsDeleteIntegrationOptions : AwsOptions
+public record AwsLogsDeleteIntegrationOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--integration-name")]
-    public string? IntegrationName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
-    [CliFlag("--force")]
+    /// <summary>
+    /// Deletes the integration between CloudWatch Logs and OpenSearch Service. If your integration has active vended logs dashboards, you must specify true for the force parameter, otherwise the operation will fail. If you delete the integration by setting force to true , all your vended logs dashboards powered by OpenSearch Service will be deleted and the data that was on them will no longer be accessible. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="IntegrationName">The name of the integration to delete. To find the name of your in- tegration, use ListIntegrations . Constraints: o min: 1 o max: 50 o pattern: [\.\-_/#A-Za-z0-9]+</param>
+    public AwsLogsDeleteIntegrationOptions(
+        string IntegrationName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(IntegrationName);
+        this.IntegrationName = IntegrationName;
+    }
+
+    private AwsLogsDeleteIntegrationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsLogsDeleteIntegrationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsLogsDeleteIntegrationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the integration to delete. To find the name of your in- tegration, use ListIntegrations . Constraints: o min: 1 o max: 50 o pattern: [\.\-_/#A-Za-z0-9]+
+    /// </summary>
+    [CliOption("--integration-name")]
+    public string? IntegrationName { get; private init; }
+
+    /// <summary>
+    /// Specify true to force the deletion of the integration even if vended logs dashboards currently exist. The default is false .
+    /// </summary>
+    [CliFlag("--force", NegatedName = "--no-force")]
     public bool? Force { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -32,5 +72,22 @@ public record AwsLogsDeleteIntegrationOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

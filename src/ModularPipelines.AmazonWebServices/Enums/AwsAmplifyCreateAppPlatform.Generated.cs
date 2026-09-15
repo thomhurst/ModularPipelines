@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsAmplifyCreateAppPlatform
 {
     [EnumValue("WEB")]
-    Web = 1,
-
-    [EnumValue("WEB_DYNAMIC")]
-    WebDynamic = 2,
+    Web,
 
     [EnumValue("WEB_COMPUTE")]
-    WebCompute = 3
+    WebCompute,
+
+    [EnumValue("WEB_DYNAMIC")]
+    WebDynamic
 }

@@ -22,9 +22,43 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsDdbPutOptions : AwsOptions
 {
     /// <summary>
+    /// put puts one or more items into a table.
+    /// </summary>
+    /// <param name="TableName">The &lt;table-name&gt; operand.</param>
+    /// <param name="Items">The &lt;items&gt; operand.</param>
+    public AwsDdbPutOptions(
+        string TableName,
+        string Items
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(TableName);
+        this.TableName = TableName;
+        global::System.ArgumentNullException.ThrowIfNull(Items);
+        this.Items = Items;
+    }
+
+    public void Deconstruct(out string TableName, out string Items)
+    {
+        TableName = this.TableName;
+        Items = this.Items;
+    }
+
+    /// <summary>
     /// A condition that must be satisfied in order for a conditional put operation to succeed. For more information, see Comparison Operator and Function Reference in the Amazon DynamoDB Developer Guide For CLI specific syntax see aws help ddb-expressions
     /// </summary>
     [CliOption("--condition")]
     public string? Condition { get; set; }
+
+    /// <summary>
+    /// The &lt;table-name&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string TableName { get; private init; }
+
+    /// <summary>
+    /// The &lt;items&gt; operand.
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Items { get; private init; }
 
 }

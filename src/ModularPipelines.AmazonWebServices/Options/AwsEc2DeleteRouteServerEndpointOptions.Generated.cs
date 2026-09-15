@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,12 +20,51 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ec2", "delete-route-server-endpoint")]
-public record AwsEc2DeleteRouteServerEndpointOptions : AwsOptions
+public record AwsEc2DeleteRouteServerEndpointOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--route-server-endpoint-id")]
-    public string? RouteServerEndpointId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// Deletes the specified route server endpoint. A route server endpoint is an Amazon Web Services-managed component in- side a subnet that facilitates BGP (Border Gateway Protocol) connec- tions between your route server and your BGP peers. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="RouteServerEndpointId">The ID of the route server endpoint to delete.</param>
+    public AwsEc2DeleteRouteServerEndpointOptions(
+        string RouteServerEndpointId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(RouteServerEndpointId);
+        this.RouteServerEndpointId = RouteServerEndpointId;
+    }
+
+    private AwsEc2DeleteRouteServerEndpointOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEc2DeleteRouteServerEndpointOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEc2DeleteRouteServerEndpointOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the route server endpoint to delete.
+    /// </summary>
+    [CliOption("--route-server-endpoint-id")]
+    public string? RouteServerEndpointId { get; private init; }
+
+    /// <summary>
+    /// A check for whether you have the required permissions for the action without actually making the request and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -32,5 +72,22 @@ public record AwsEc2DeleteRouteServerEndpointOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

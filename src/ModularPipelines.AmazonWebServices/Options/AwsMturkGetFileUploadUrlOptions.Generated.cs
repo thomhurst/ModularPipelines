@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("mturk", "get-file-upload-url")]
-public record AwsMturkGetFileUploadUrlOptions : AwsOptions
+public record AwsMturkGetFileUploadUrlOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--assignment-id")]
-    public string? AssignmentId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// The GetFileUploadURL operation generates and returns a temporary URL. You use the temporary URL to retrieve a file uploaded by a Worker as an answer to a FileUploadAnswer question for a HIT. The temporary URL is generated the instant the GetFileUploadURL operation is called, and is valid for 60 seconds. You can get a temporary file upload URL any time until the HIT is disposed. After the HIT is disposed, any uploaded files are deleted, and cannot be retrieved. Pending Deprecation on De- cember 1...
+    /// </summary>
+    /// <param name="AssignmentId">The ID of the assignment that contains the question with a FileU- ploadAnswer. Constraints: o min: 1 o max: 64 o pattern: ^[A-Z0-9]+$</param>
+    /// <param name="QuestionIdentifier">The identifier of the question with a FileUploadAnswer, as specified in the QuestionForm of the HIT.</param>
+    public AwsMturkGetFileUploadUrlOptions(
+        string AssignmentId,
+        string QuestionIdentifier
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AssignmentId);
+        this.AssignmentId = AssignmentId;
+        global::System.ArgumentNullException.ThrowIfNull(QuestionIdentifier);
+        this.QuestionIdentifier = QuestionIdentifier;
+    }
+
+    private AwsMturkGetFileUploadUrlOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsMturkGetFileUploadUrlOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsMturkGetFileUploadUrlOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the assignment that contains the question with a FileU- ploadAnswer. Constraints: o min: 1 o max: 64 o pattern: ^[A-Z0-9]+$
+    /// </summary>
+    [CliOption("--assignment-id")]
+    public string? AssignmentId { get; private init; }
+
+    /// <summary>
+    /// The identifier of the question with a FileUploadAnswer, as specified in the QuestionForm of the HIT.
+    /// </summary>
     [CliOption("--question-identifier")]
-    public string? QuestionIdentifier { get; set; }
+    public string? QuestionIdentifier { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

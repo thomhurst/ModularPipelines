@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,68 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("detective", "disassociate-membership")]
-public record AwsDetectiveDisassociateMembershipOptions : AwsOptions
+public record AwsDetectiveDisassociateMembershipOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Removes the member account from the specified behavior graph. This op- eration can only be called by an invited member account that has the ENABLED status. DisassociateMembership cannot be called by an organization account in the organization behavior graph. For the organization behavior graph, the Detective administrator account determines which organi- zation accounts to enable or disable as member accounts. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="GraphArn">The ARN of the behavior graph to remove the member account from. The member account's member status in the behavior graph must be EN- ABLED . Constraints: o pattern: ^arn:aws[-\w]{0,10}?:detec- tive:[-\w]{2,20}?:\d{12}?:graph:[abcdef\d]{32}?$</param>
+    public AwsDetectiveDisassociateMembershipOptions(
+        string GraphArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(GraphArn);
+        this.GraphArn = GraphArn;
+    }
+
+    private AwsDetectiveDisassociateMembershipOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDetectiveDisassociateMembershipOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDetectiveDisassociateMembershipOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ARN of the behavior graph to remove the member account from. The member account's member status in the behavior graph must be EN- ABLED . Constraints: o pattern: ^arn:aws[-\w]{0,10}?:detec- tive:[-\w]{2,20}?:\d{12}?:graph:[abcdef\d]{32}?$
+    /// </summary>
     [CliOption("--graph-arn")]
-    public string? GraphArn { get; set; }
+    public string? GraphArn { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

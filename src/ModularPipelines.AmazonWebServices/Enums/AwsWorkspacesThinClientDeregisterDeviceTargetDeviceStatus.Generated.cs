@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --targetdevicestatus.
+/// Allowed values for --target-device-status.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsWorkspacesThinClientDeregisterDeviceTargetDeviceStatus
 {
-    [EnumValue("DEREGISTERED")]
-    Deregistered = 1,
-
     [EnumValue("ARCHIVED")]
-    Archived = 2
+    Archived,
+
+    [EnumValue("DEREGISTERED")]
+    Deregistered
 }

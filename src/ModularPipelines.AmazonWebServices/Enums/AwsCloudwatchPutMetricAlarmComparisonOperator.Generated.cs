@@ -11,26 +11,29 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --comparisonoperator.
+/// Allowed values for --comparison-operator.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsCloudwatchPutMetricAlarmComparisonOperator
 {
     [EnumValue("GreaterThanOrEqualToThreshold")]
-    GreaterThanOrEqualToThreshold = 1,
+    GreaterThanOrEqualToThreshold,
 
     [EnumValue("GreaterThanThreshold")]
-    GreaterThanThreshold = 2,
-
-    [EnumValue("LessThanThreshold")]
-    LessThanThreshold = 3,
-
-    [EnumValue("LessThanOrEqualToThreshold")]
-    LessThanOrEqualToThreshold = 4,
-
-    [EnumValue("LessThanLowerThreshold")]
-    LessThanLowerThreshold = 5,
+    GreaterThanThreshold,
 
     [EnumValue("GreaterThanUpperThreshold")]
-    GreaterThanUpperThreshold = 6
+    GreaterThanUpperThreshold,
+
+    [EnumValue("LessThanLowerOrGreaterThanUpperThreshold")]
+    LessThanLowerOrGreaterThanUpperThreshold,
+
+    [EnumValue("LessThanLowerThreshold")]
+    LessThanLowerThreshold,
+
+    [EnumValue("LessThanOrEqualToThreshold")]
+    LessThanOrEqualToThreshold,
+
+    [EnumValue("LessThanThreshold")]
+    LessThanThreshold
 }

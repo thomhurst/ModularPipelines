@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --apikeysource.
+/// Allowed values for --api-key-source.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsApigatewayCreateRestApiApiKeySource
 {
-    [EnumValue("HEADER")]
-    Header = 1,
-
     [EnumValue("AUTHORIZER")]
-    Authorizer = 2
+    Authorizer,
+
+    [EnumValue("HEADER")]
+    Header
 }

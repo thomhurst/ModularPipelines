@@ -11,47 +11,47 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --languagecode.
+/// Allowed values for --language-code.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsSnsCreateSmsSandboxPhoneNumberLanguageCode
 {
-    [EnumValue("en-US")]
-    EnUs = 1,
+    [EnumValue("de-DE")]
+    DeDe,
 
     [EnumValue("en-GB")]
-    EnGb = 2,
+    EnGb,
+
+    [EnumValue("en-US")]
+    EnUs,
 
     [EnumValue("es-419")]
-    Es_419 = 3,
+    Es419,
 
     [EnumValue("es-ES")]
-    EsEs = 4,
-
-    [EnumValue("de-DE")]
-    DeDe = 5,
+    EsEs,
 
     [EnumValue("fr-CA")]
-    FrCa = 6,
+    FrCa,
 
     [EnumValue("fr-FR")]
-    FrFr = 7,
+    FrFr,
 
     [EnumValue("it-IT")]
-    ItIt = 8,
+    ItIt,
 
     [EnumValue("ja-JP")]
-    JaJp = 9,
-
-    [EnumValue("pt-BR")]
-    PtBr = 10,
+    JaJp,
 
     [EnumValue("kr-KR")]
-    KrKr = 11,
+    KrKr,
+
+    [EnumValue("pt-BR")]
+    PtBr,
 
     [EnumValue("zh-CN")]
-    ZhCn = 12,
+    ZhCn,
 
     [EnumValue("zh-TW")]
-    ZhTw = 13
+    ZhTw
 }

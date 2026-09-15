@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iotsitewise", "put-logging-options")]
-public record AwsIotsitewisePutLoggingOptionsOptions : AwsOptions
+public record AwsIotsitewisePutLoggingOptionsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Sets logging options for IoT SiteWise. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="LoggingOptions">The logging options to set. level -&gt; (string) [required] The IoT SiteWise logging verbosity level. Possible values: o ERROR o INFO o OFF Shorthand Syntax: level=string JSON Syntax: { "level": "ERROR"|"INFO"|"OFF" }</param>
+    public AwsIotsitewisePutLoggingOptionsOptions(
+        string LoggingOptions
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(LoggingOptions);
+        this.LoggingOptions = LoggingOptions;
+    }
+
+    private AwsIotsitewisePutLoggingOptionsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsIotsitewisePutLoggingOptionsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsIotsitewisePutLoggingOptionsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The logging options to set. level -&gt; (string) [required] The IoT SiteWise logging verbosity level. Possible values: o ERROR o INFO o OFF Shorthand Syntax: level=string JSON Syntax: { "level": "ERROR"|"INFO"|"OFF" }
+    /// </summary>
     [CliOption("--logging-options")]
-    public string? LoggingOptions { get; set; }
+    public string? LoggingOptions { get; private init; }
 
     /// <summary>
     /// The name of the workspace. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$
@@ -35,5 +72,22 @@ public record AwsIotsitewisePutLoggingOptionsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

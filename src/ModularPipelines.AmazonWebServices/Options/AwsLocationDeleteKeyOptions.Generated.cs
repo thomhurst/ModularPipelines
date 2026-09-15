@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,12 +21,51 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("location", "delete-key")]
-public record AwsLocationDeleteKeyOptions : AwsOptions
+public record AwsLocationDeleteKeyOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--key-name")]
-    public string? KeyName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
-    [CliFlag("--force-delete")]
+    /// <summary>
+    /// Deletes the specified API key. The API key must have been deactivated more than 90 days previously. For more information, see Use API keys to authenticate in the Amazon Location Service Developer Guide . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="KeyName">The name of the API key to delete. Constraints: o min: 1 o max: 100 o pattern: [-._\w]+</param>
+    public AwsLocationDeleteKeyOptions(
+        string KeyName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(KeyName);
+        this.KeyName = KeyName;
+    }
+
+    private AwsLocationDeleteKeyOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsLocationDeleteKeyOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsLocationDeleteKeyOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the API key to delete. Constraints: o min: 1 o max: 100 o pattern: [-._\w]+
+    /// </summary>
+    [CliOption("--key-name")]
+    public string? KeyName { get; private init; }
+
+    /// <summary>
+    /// ForceDelete bypasses an API key's expiry conditions and deletes the key. Set the parameter true to delete the key or to false to not preemptively delete the API key. Valid values: true , or false . Required: No NOTE: This action is irreversible. Only use ForceDelete if you are certain the key is no longer in use.
+    /// </summary>
+    [CliFlag("--force-delete", NegatedName = "--no-force-delete")]
     public bool? ForceDelete { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -32,5 +73,22 @@ public record AwsLocationDeleteKeyOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

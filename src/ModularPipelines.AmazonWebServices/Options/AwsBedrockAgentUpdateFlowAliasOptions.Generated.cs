@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,87 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bedrock-agent", "update-flow-alias")]
-public record AwsBedrockAgentUpdateFlowAliasOptions : AwsOptions
+public record AwsBedrockAgentUpdateFlowAliasOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Modifies the alias of a flow. Include both fields that you want to keep and ones that you want to change. For more information, see Deploy a flow in Amazon Bedrock in the Amazon Bedrock User Guide. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Name">The name of the alias. Constraints: o pattern: ([0-9a-zA-Z][_-]?){1,100}</param>
+    /// <param name="RoutingConfiguration">Contains information about the version to which to map the alias. Constraints: o min: 1 o max: 1 (structure) Contains information about a version that the alias maps to. flowVersion -&gt; (string) The version that the alias maps to. Constraints: o min: 1 o max: 5 o pattern: (DRAFT|[0-9]{0,4}[1-9][0-9]{0,4}) Shorthand Syntax: flowVersion=string ... JSON Syntax: [ { "flowVersion": "string" } ... ]</param>
+    /// <param name="FlowIdentifier">The unique identifier of the flow. Constraints: o pattern: (arn:aws:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:flow/[0-9a-zA-Z]{10})|([0-9a-zA-Z]{10})</param>
+    /// <param name="AliasIdentifier">The unique identifier of the alias. Constraints: o pattern: (arn:aws:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:flow/[0-9a-zA-Z]{10}/alias/[0-9a-zA-Z]{10})|(TSTAL- IASID|[0-9a-zA-Z]{10})</param>
+    public AwsBedrockAgentUpdateFlowAliasOptions(
+        string Name,
+        IEnumerable<string> RoutingConfiguration,
+        string FlowIdentifier,
+        string AliasIdentifier
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(RoutingConfiguration);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(RoutingConfiguration));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(RoutingConfiguration));
+            }
+
+            RoutingConfiguration = materialized;
+        }
+        this.RoutingConfiguration = RoutingConfiguration;
+        global::System.ArgumentNullException.ThrowIfNull(FlowIdentifier);
+        this.FlowIdentifier = FlowIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(AliasIdentifier);
+        this.AliasIdentifier = AliasIdentifier;
+    }
+
+    private AwsBedrockAgentUpdateFlowAliasOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsBedrockAgentUpdateFlowAliasOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsBedrockAgentUpdateFlowAliasOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the alias. Constraints: o pattern: ([0-9a-zA-Z][_-]?){1,100}
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
+
+    /// <summary>
+    /// Contains information about the version to which to map the alias. Constraints: o min: 1 o max: 1 (structure) Contains information about a version that the alias maps to. flowVersion -&gt; (string) The version that the alias maps to. Constraints: o min: 1 o max: 5 o pattern: (DRAFT|[0-9]{0,4}[1-9][0-9]{0,4}) Shorthand Syntax: flowVersion=string ... JSON Syntax: [ { "flowVersion": "string" } ... ]
+    /// </summary>
+    [CliOption("--routing-configuration", GroupValues = true)]
+    public IEnumerable<string>? RoutingConfiguration { get; private init; }
+
+    /// <summary>
+    /// The unique identifier of the flow. Constraints: o pattern: (arn:aws:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:flow/[0-9a-zA-Z]{10})|([0-9a-zA-Z]{10})
+    /// </summary>
+    [CliOption("--flow-identifier")]
+    public string? FlowIdentifier { get; private init; }
+
+    /// <summary>
+    /// The unique identifier of the alias. Constraints: o pattern: (arn:aws:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:flow/[0-9a-zA-Z]{10}/alias/[0-9a-zA-Z]{10})|(TSTAL- IASID|[0-9a-zA-Z]{10})
+    /// </summary>
+    [CliOption("--alias-identifier")]
+    public string? AliasIdentifier { get; private init; }
 
     /// <summary>
     /// A description for the alias. Constraints: o min: 1 o max: 200
@@ -30,25 +108,33 @@ public record AwsBedrockAgentUpdateFlowAliasOptions : AwsOptions
     [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CliOption("--routing-configuration", GroupValues = true)]
-    public IEnumerable<string>? RoutingConfiguration { get; set; }
-
     /// <summary>
     /// The configuration that specifies how nodes in the flow are executed in parallel. type -&gt; (string) [required] The type of concurrency to use for parallel node execution. Specify one of the following options: o Automatic - Amazon Bedrock determines which nodes can be exe- cuted in parallel based on the flow definition and its depen- dencies. o Manual - You specify which nodes can be executed in parallel. Possible values: o Automatic o Manual maxConcurrency -&gt; (integer) The maximum number of nodes that can be executed concurrently in the flow. Constraints: o min: 1 o max: 100 Shorthand Syntax: type=string,maxConcurrency=integer JSON Syntax: { "type": "Automatic"|"Manual", "maxConcurrency": integer }
     /// </summary>
     [CliOption("--concurrency-configuration")]
     public string? ConcurrencyConfiguration { get; set; }
 
-    [CliOption("--flow-identifier")]
-    public string? FlowIdentifier { get; set; }
-
-    [CliOption("--alias-identifier")]
-    public string? AliasIdentifier { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

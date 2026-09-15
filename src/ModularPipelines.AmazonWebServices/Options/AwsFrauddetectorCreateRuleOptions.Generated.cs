@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,28 +21,103 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("frauddetector", "create-rule")]
-public record AwsFrauddetectorCreateRuleOptions : AwsOptions
+public record AwsFrauddetectorCreateRuleOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--rule-id")]
-    public string? RuleId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates a rule for use with the specified detector. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="RuleId">The rule ID. Constraints: o min: 1 o max: 64 o pattern: ^[0-9a-z_-]+$</param>
+    /// <param name="DetectorId">The detector ID for the rule's parent detector. Constraints: o min: 1 o max: 64 o pattern: ^[0-9a-z_-]+$</param>
+    /// <param name="Expression">The rule expression. Constraints: o min: 1 o max: 4096</param>
+    /// <param name="Language">The language of the rule. Possible values: o DETECTORPL</param>
+    /// <param name="Outcomes">The outcome or outcomes returned when the rule expression matches. Constraints: o min: 1 (string) Syntax: "string" "string" ...</param>
+    public AwsFrauddetectorCreateRuleOptions(
+        string RuleId,
+        string DetectorId,
+        string Expression,
+        AwsFrauddetectorCreateRuleLanguage Language,
+        IEnumerable<string> Outcomes
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(RuleId);
+        this.RuleId = RuleId;
+        global::System.ArgumentNullException.ThrowIfNull(DetectorId);
+        this.DetectorId = DetectorId;
+        global::System.ArgumentNullException.ThrowIfNull(Expression);
+        this.Expression = Expression;
+        global::System.ArgumentNullException.ThrowIfNull(Language);
+        this.Language = Language;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Outcomes);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Outcomes));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Outcomes));
+            }
+
+            Outcomes = materialized;
+        }
+        this.Outcomes = Outcomes;
+    }
+
+    private AwsFrauddetectorCreateRuleOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsFrauddetectorCreateRuleOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsFrauddetectorCreateRuleOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The rule ID. Constraints: o min: 1 o max: 64 o pattern: ^[0-9a-z_-]+$
+    /// </summary>
+    [CliOption("--rule-id")]
+    public string? RuleId { get; private init; }
+
+    /// <summary>
+    /// The detector ID for the rule's parent detector. Constraints: o min: 1 o max: 64 o pattern: ^[0-9a-z_-]+$
+    /// </summary>
     [CliOption("--detector-id")]
-    public string? DetectorId { get; set; }
+    public string? DetectorId { get; private init; }
+
+    /// <summary>
+    /// The rule expression. Constraints: o min: 1 o max: 4096
+    /// </summary>
+    [CliOption("--expression")]
+    public string? Expression { get; private init; }
+
+    /// <summary>
+    /// The language of the rule. Possible values: o DETECTORPL
+    /// </summary>
+    [CliOption("--language")]
+    public AwsFrauddetectorCreateRuleLanguage? Language { get; private init; }
+
+    /// <summary>
+    /// The outcome or outcomes returned when the rule expression matches. Constraints: o min: 1 (string) Syntax: "string" "string" ...
+    /// </summary>
+    [CliOption("--outcomes", GroupValues = true)]
+    public IEnumerable<string>? Outcomes { get; private init; }
 
     /// <summary>
     /// The rule description. Constraints: o min: 1 o max: 128
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
-
-    [CliOption("--expression")]
-    public string? Expression { get; set; }
-
-    [CliOption("--language")]
-    public string? Language { get; set; }
-
-    [CliOption("--outcomes", GroupValues = true)]
-    public IEnumerable<string>? Outcomes { get; set; }
 
     /// <summary>
     /// A collection of key and value pairs. Constraints: o min: 0 o max: 200 (structure) A key and value pair. key -&gt; (string) [required] A tag key. Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ value -&gt; (string) [required] A value assigned to a tag key. Constraints: o min: 0 o max: 256 Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
@@ -53,5 +130,22 @@ public record AwsFrauddetectorCreateRuleOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

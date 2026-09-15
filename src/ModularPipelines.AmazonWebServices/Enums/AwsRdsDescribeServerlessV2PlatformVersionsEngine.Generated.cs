@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsRdsDescribeServerlessV2PlatformVersionsEngine
 {
     [EnumValue("aurora-mysql")]
-    AuroraMysql = 1,
+    AuroraMysql,
 
     [EnumValue("aurora-postgresql")]
-    AuroraPostgresql = 2
+    AuroraPostgresql
 }

@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,31 +22,102 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("lookoutequipment", "create-inference-scheduler")]
-public record AwsLookoutequipmentCreateInferenceSchedulerOptions : AwsOptions
+public record AwsLookoutequipmentCreateInferenceSchedulerOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--model-name")]
-    public string? ModelName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates a scheduled inference. Scheduling an inference is setting up a continuous real-time inference plan to analyze new measurement data. When setting up the schedule, you provide an S3 bucket location for the input data, assign it a delimiter between separate entries in the data, set an offset delay if desired, and set the frequency of inferencing. You must also provide an S3 bucket location for the output data. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ModelName">The name of the previously trained machine learning model being used to create the inference scheduler. Constraints: o min: 1 o max: 200 o pattern: ^[0-9a-zA-Z_-]{1,200}$</param>
+    /// <param name="InferenceSchedulerName">The name of the inference scheduler being created. Constraints: o min: 1 o max: 200 o pattern: ^[0-9a-zA-Z_-]{1,200}$</param>
+    /// <param name="DataUploadFrequency">How often data is uploaded to the source Amazon S3 bucket for the input data. The value chosen is the length of time between data up- loads. For instance, if you select 5 minutes, Amazon Lookout for Equipment will upload the real-time data to the source bucket once every 5 minutes. This frequency also determines how often Amazon Lookout for Equipment runs inference on your data. For more information, see Understanding the inference process . Possible values: o PT5M o PT10M o PT15M o PT30M o PT1H</param>
+    /// <param name="DataInputConfiguration">Specifies configuration information for the input data for the in- ference scheduler, including delimiter, format, and dataset loca- tion. S3InputConfiguration -&gt; (structure) Specifies configuration information for the input data for the inference, including Amazon S3 location of input data. Bucket -&gt; (string) [required] The bucket containing the input dataset for the inference. Constraints: o min: 3 o max: 63 o pattern: ^[a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9]$ Prefix -&gt; (string) The prefix for the S3 bucket used for the input data for the inference. Constraints: o min: 0 o max: 1024 o pattern: (^$)|([\u0009\u000A\u000D\u0020-\u00FF]{1,1023}/$) InputTimeZoneOffset -&gt; (string) Indicates the difference between your time zone and Coordinated Universal Time (UTC). Constraints: o pattern: ^(\+|\-)[0-9]{2}\:[0-9]{2}$ InferenceInputNameConfiguration -&gt; (structure) Specifies configuration information for the input data for the inference, including timestamp format and delimiter. TimestampFormat -&gt; (string) The format of the timestamp, whether Epoch time, or standard, with or without hyphens (-). Constraints: o pattern: ^EPOCH|yyyy-MM-dd-HH-mm-ss|yyyyMMddHHmmss$ ComponentTimestampDelimiter -&gt; (string) Indicates the delimiter character used between items in the data. Constraints: o min: 0 o max: 1 o pattern: ^(\-|\_|\s)?$ Shorthand Syntax: S3InputConfiguration={Bucket=string,Prefix=string},InputTimeZoneOffset=string,InferenceInputNameConfiguration={TimestampFormat=string,ComponentTimestampDelimiter=string} JSON Syntax: { "S3InputConfiguration": { "Bucket": "string", "Prefix": "string" }, "InputTimeZoneOffset": "string", "InferenceInputNameConfiguration": { "TimestampFormat": "string", "ComponentTimestampDelimiter": "string" } }</param>
+    /// <param name="DataOutputConfiguration">Specifies configuration information for the output results for the inference scheduler, including the S3 location for the output. S3OutputConfiguration -&gt; (structure) [required] Specifies configuration information for the output results from for the inference, output S3 location. Bucket -&gt; (string) [required] The bucket containing the output results from the inference Constraints: o min: 3 o max: 63 o pattern: ^[a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9]$ Prefix -&gt; (string) The prefix for the S3 bucket used for the output results from the inference. Constraints: o min: 0 o max: 1024 o pattern: (^$)|([\u0009\u000A\u000D\u0020-\u00FF]{1,1023}/$) KmsKeyId -&gt; (string) The ID number for the KMS key key used to encrypt the inference output. Constraints: o min: 1 o max: 2048 o pattern: ^[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,2048}$ Shorthand Syntax: S3OutputConfiguration={Bucket=string,Prefix=string},KmsKeyId=string JSON Syntax: { "S3OutputConfiguration": { "Bucket": "string", "Prefix": "string" }, "KmsKeyId": "string" }</param>
+    /// <param name="RoleArn">The Amazon Resource Name (ARN) of a role with permission to access the data source being used for the inference. Constraints: o min: 20 o max: 2048 o pattern: arn:aws(-[^:]+)?:iam::[0-9]{12}:role/.+</param>
+    public AwsLookoutequipmentCreateInferenceSchedulerOptions(
+        string ModelName,
+        string InferenceSchedulerName,
+        AwsLookoutequipmentCreateInferenceSchedulerDataUploadFrequency DataUploadFrequency,
+        string DataInputConfiguration,
+        string DataOutputConfiguration,
+        string RoleArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ModelName);
+        this.ModelName = ModelName;
+        global::System.ArgumentNullException.ThrowIfNull(InferenceSchedulerName);
+        this.InferenceSchedulerName = InferenceSchedulerName;
+        global::System.ArgumentNullException.ThrowIfNull(DataUploadFrequency);
+        this.DataUploadFrequency = DataUploadFrequency;
+        global::System.ArgumentNullException.ThrowIfNull(DataInputConfiguration);
+        this.DataInputConfiguration = DataInputConfiguration;
+        global::System.ArgumentNullException.ThrowIfNull(DataOutputConfiguration);
+        this.DataOutputConfiguration = DataOutputConfiguration;
+        global::System.ArgumentNullException.ThrowIfNull(RoleArn);
+        this.RoleArn = RoleArn;
+    }
+
+    private AwsLookoutequipmentCreateInferenceSchedulerOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsLookoutequipmentCreateInferenceSchedulerOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsLookoutequipmentCreateInferenceSchedulerOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the previously trained machine learning model being used to create the inference scheduler. Constraints: o min: 1 o max: 200 o pattern: ^[0-9a-zA-Z_-]{1,200}$
+    /// </summary>
+    [CliOption("--model-name")]
+    public string? ModelName { get; private init; }
+
+    /// <summary>
+    /// The name of the inference scheduler being created. Constraints: o min: 1 o max: 200 o pattern: ^[0-9a-zA-Z_-]{1,200}$
+    /// </summary>
     [CliOption("--inference-scheduler-name")]
-    public string? InferenceSchedulerName { get; set; }
+    public string? InferenceSchedulerName { get; private init; }
+
+    /// <summary>
+    /// How often data is uploaded to the source Amazon S3 bucket for the input data. The value chosen is the length of time between data up- loads. For instance, if you select 5 minutes, Amazon Lookout for Equipment will upload the real-time data to the source bucket once every 5 minutes. This frequency also determines how often Amazon Lookout for Equipment runs inference on your data. For more information, see Understanding the inference process . Possible values: o PT5M o PT10M o PT15M o PT30M o PT1H
+    /// </summary>
+    [CliOption("--data-upload-frequency")]
+    public AwsLookoutequipmentCreateInferenceSchedulerDataUploadFrequency? DataUploadFrequency { get; private init; }
+
+    /// <summary>
+    /// Specifies configuration information for the input data for the in- ference scheduler, including delimiter, format, and dataset loca- tion. S3InputConfiguration -&gt; (structure) Specifies configuration information for the input data for the inference, including Amazon S3 location of input data. Bucket -&gt; (string) [required] The bucket containing the input dataset for the inference. Constraints: o min: 3 o max: 63 o pattern: ^[a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9]$ Prefix -&gt; (string) The prefix for the S3 bucket used for the input data for the inference. Constraints: o min: 0 o max: 1024 o pattern: (^$)|([\u0009\u000A\u000D\u0020-\u00FF]{1,1023}/$) InputTimeZoneOffset -&gt; (string) Indicates the difference between your time zone and Coordinated Universal Time (UTC). Constraints: o pattern: ^(\+|\-)[0-9]{2}\:[0-9]{2}$ InferenceInputNameConfiguration -&gt; (structure) Specifies configuration information for the input data for the inference, including timestamp format and delimiter. TimestampFormat -&gt; (string) The format of the timestamp, whether Epoch time, or standard, with or without hyphens (-). Constraints: o pattern: ^EPOCH|yyyy-MM-dd-HH-mm-ss|yyyyMMddHHmmss$ ComponentTimestampDelimiter -&gt; (string) Indicates the delimiter character used between items in the data. Constraints: o min: 0 o max: 1 o pattern: ^(\-|\_|\s)?$ Shorthand Syntax: S3InputConfiguration={Bucket=string,Prefix=string},InputTimeZoneOffset=string,InferenceInputNameConfiguration={TimestampFormat=string,ComponentTimestampDelimiter=string} JSON Syntax: { "S3InputConfiguration": { "Bucket": "string", "Prefix": "string" }, "InputTimeZoneOffset": "string", "InferenceInputNameConfiguration": { "TimestampFormat": "string", "ComponentTimestampDelimiter": "string" } }
+    /// </summary>
+    [CliOption("--data-input-configuration")]
+    public string? DataInputConfiguration { get; private init; }
+
+    /// <summary>
+    /// Specifies configuration information for the output results for the inference scheduler, including the S3 location for the output. S3OutputConfiguration -&gt; (structure) [required] Specifies configuration information for the output results from for the inference, output S3 location. Bucket -&gt; (string) [required] The bucket containing the output results from the inference Constraints: o min: 3 o max: 63 o pattern: ^[a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9]$ Prefix -&gt; (string) The prefix for the S3 bucket used for the output results from the inference. Constraints: o min: 0 o max: 1024 o pattern: (^$)|([\u0009\u000A\u000D\u0020-\u00FF]{1,1023}/$) KmsKeyId -&gt; (string) The ID number for the KMS key key used to encrypt the inference output. Constraints: o min: 1 o max: 2048 o pattern: ^[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,2048}$ Shorthand Syntax: S3OutputConfiguration={Bucket=string,Prefix=string},KmsKeyId=string JSON Syntax: { "S3OutputConfiguration": { "Bucket": "string", "Prefix": "string" }, "KmsKeyId": "string" }
+    /// </summary>
+    [CliOption("--data-output-configuration")]
+    public string? DataOutputConfiguration { get; private init; }
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of a role with permission to access the data source being used for the inference. Constraints: o min: 20 o max: 2048 o pattern: arn:aws(-[^:]+)?:iam::[0-9]{12}:role/.+
+    /// </summary>
+    [CliOption("--role-arn")]
+    public string? RoleArn { get; private init; }
 
     /// <summary>
     /// The interval (in minutes) of planned delay at the start of each in- ference segment. For example, if inference is set to run every ten minutes, the delay is set to five minutes and the time is 09:08. The inference scheduler will wake up at the configured interval (which, without a delay configured, would be 09:10) plus the additional five minute delay time (so 09:15) to check your Amazon S3 bucket. The de- lay provides a buffer for you to upload data at the same frequency, so that you don't have to stop and restart the scheduler when up- loading new data. For more information, see Understanding the inference process . Constraints: o min: 0 o max: 60
     /// </summary>
     [CliOption("--data-delay-offset-in-minutes")]
     public int? DataDelayOffsetInMinutes { get; set; }
-
-    [CliOption("--data-upload-frequency")]
-    public string? DataUploadFrequency { get; set; }
-
-    [CliOption("--data-input-configuration")]
-    public string? DataInputConfiguration { get; set; }
-
-    [CliOption("--data-output-configuration")]
-    public string? DataOutputConfiguration { get; set; }
-
-    [CliOption("--role-arn")]
-    public string? RoleArn { get; set; }
 
     /// <summary>
     /// Provides the identifier of the KMS key used to encrypt inference scheduler data by Amazon Lookout for Equipment. Constraints: o min: 1 o max: 2048 o pattern: ^[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,2048}$
@@ -70,5 +143,22 @@ public record AwsLookoutequipmentCreateInferenceSchedulerOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

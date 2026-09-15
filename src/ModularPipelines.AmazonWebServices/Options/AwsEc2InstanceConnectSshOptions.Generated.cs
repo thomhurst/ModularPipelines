@@ -21,8 +21,25 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("ec2-instance-connect", "ssh")]
 public record AwsEc2InstanceConnectSshOptions : AwsOptions
 {
+    /// <summary>
+    /// Connect to your EC2 instance using your OpenSSH client.
+    /// </summary>
+    /// <param name="InstanceId"></param>
+    public AwsEc2InstanceConnectSshOptions(
+        string InstanceId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(InstanceId);
+        this.InstanceId = InstanceId;
+    }
+
+    public void Deconstruct(out string InstanceId)
+    {
+        InstanceId = this.InstanceId;
+    }
+
     [CliOption("--instance-id")]
-    public string? InstanceId { get; set; }
+    public string InstanceId { get; private init; }
 
     [CliOption("--instance-ip")]
     public string? InstanceIp { get; set; }

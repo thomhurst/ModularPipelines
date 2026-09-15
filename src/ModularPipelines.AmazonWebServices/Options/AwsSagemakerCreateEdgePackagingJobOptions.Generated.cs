@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,25 +20,96 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sagemaker", "create-edge-packaging-job")]
-public record AwsSagemakerCreateEdgePackagingJobOptions : AwsOptions
+public record AwsSagemakerCreateEdgePackagingJobOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Starts a SageMaker Edge Manager model packaging job. Edge Manager will use the model artifacts from the Amazon Simple Storage Service bucket that you specify. After the model has been packaged, Amazon SageMaker saves the resulting artifacts to an S3 bucket that you specify. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="EdgePackagingJobName">The name of the edge packaging job. Constraints: o min: 1 o max: 63 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}</param>
+    /// <param name="CompilationJobName">The name of the SageMaker Neo compilation job that will be used to locate model artifacts for packaging. Constraints: o min: 1 o max: 63 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}</param>
+    /// <param name="ModelName">The name of the model. Constraints: o min: 1 o max: 63 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}</param>
+    /// <param name="ModelVersion">The version of the model. Constraints: o min: 1 o max: 30 o pattern: [a-zA-Z0-9\ \_\.]+</param>
+    /// <param name="RoleArn">The Amazon Resource Name (ARN) of an IAM role that enables Amazon SageMaker to download and upload the model, and to contact SageMaker Neo. Constraints: o min: 20 o max: 2048 o pattern: arn:aws[a-z\-]*:iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+</param>
+    /// <param name="OutputConfig">Provides information about the output location for the packaged model. S3OutputLocation -&gt; (string) [required] The Amazon Simple Storage (S3) bucker URI. Constraints: o min: 0 o max: 1024 o pattern: (https|s3)://([^/]+)/?(.*) KmsKeyId -&gt; (string) The Amazon Web Services Key Management Service (Amazon Web Ser- vices KMS) key that Amazon SageMaker uses to encrypt data on the storage volume after compilation job. If you don't provide a KMS key ID, Amazon SageMaker uses the default KMS key for Amazon S3 for your role's account. Constraints: o min: 0 o max: 2048 o pattern: [a-zA-Z0-9:/_-]* PresetDeploymentType -&gt; (string) The deployment type SageMaker Edge Manager will create. Cur- rently only supports Amazon Web Services IoT Greengrass Version 2 components. Possible values: o GreengrassV2Component PresetDeploymentConfig -&gt; (string) The configuration used to create deployment artifacts. Specify configuration options with a JSON string. The available configu- ration options for each type are: o ComponentName (optional) - Name of the GreenGrass V2 compo- nent. If not specified, the default name generated consists of "SagemakerEdgeManager" and the name of your SageMaker Edge Manager packaging job. o ComponentDescription (optional) - Description of the compo- nent. o ComponentVersion (optional) - The version of the component. NOTE: Amazon Web Services IoT Greengrass uses semantic versions for components. Semantic versions follow a*major.minor.patch* number system. For example, version 1.0.0 represents the first major release for a component. For more information, see the semantic version specification . o PlatformOS (optional) - The name of the operating system for the platform. Supported platforms include Windows and Linux. o PlatformArchitecture (optional) - The processor architecture for the platform. Supported architectures Windows include: Windows32_x86, Windows64_x64. Supported architectures for Linux include: Linux x86_64, Linux ARMV8. Shorthand Syntax: S3OutputLocation=string,KmsKeyId=string,PresetDeploymentType=string,PresetDeploymentConfig=string JSON Syntax: { "S3OutputLocation": "string", "KmsKeyId": "string", "PresetDeploymentType": "GreengrassV2Component", "PresetDeploymentConfig": "string" }</param>
+    public AwsSagemakerCreateEdgePackagingJobOptions(
+        string EdgePackagingJobName,
+        string CompilationJobName,
+        string ModelName,
+        string ModelVersion,
+        string RoleArn,
+        string OutputConfig
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(EdgePackagingJobName);
+        this.EdgePackagingJobName = EdgePackagingJobName;
+        global::System.ArgumentNullException.ThrowIfNull(CompilationJobName);
+        this.CompilationJobName = CompilationJobName;
+        global::System.ArgumentNullException.ThrowIfNull(ModelName);
+        this.ModelName = ModelName;
+        global::System.ArgumentNullException.ThrowIfNull(ModelVersion);
+        this.ModelVersion = ModelVersion;
+        global::System.ArgumentNullException.ThrowIfNull(RoleArn);
+        this.RoleArn = RoleArn;
+        global::System.ArgumentNullException.ThrowIfNull(OutputConfig);
+        this.OutputConfig = OutputConfig;
+    }
+
+    private AwsSagemakerCreateEdgePackagingJobOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSagemakerCreateEdgePackagingJobOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSagemakerCreateEdgePackagingJobOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the edge packaging job. Constraints: o min: 1 o max: 63 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}
+    /// </summary>
     [CliOption("--edge-packaging-job-name")]
-    public string? EdgePackagingJobName { get; set; }
+    public string? EdgePackagingJobName { get; private init; }
 
+    /// <summary>
+    /// The name of the SageMaker Neo compilation job that will be used to locate model artifacts for packaging. Constraints: o min: 1 o max: 63 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}
+    /// </summary>
     [CliOption("--compilation-job-name")]
-    public string? CompilationJobName { get; set; }
+    public string? CompilationJobName { get; private init; }
 
+    /// <summary>
+    /// The name of the model. Constraints: o min: 1 o max: 63 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}
+    /// </summary>
     [CliOption("--model-name")]
-    public string? ModelName { get; set; }
+    public string? ModelName { get; private init; }
 
+    /// <summary>
+    /// The version of the model. Constraints: o min: 1 o max: 30 o pattern: [a-zA-Z0-9\ \_\.]+
+    /// </summary>
     [CliOption("--model-version")]
-    public string? ModelVersion { get; set; }
+    public string? ModelVersion { get; private init; }
 
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of an IAM role that enables Amazon SageMaker to download and upload the model, and to contact SageMaker Neo. Constraints: o min: 20 o max: 2048 o pattern: arn:aws[a-z\-]*:iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+
+    /// </summary>
     [CliOption("--role-arn")]
-    public string? RoleArn { get; set; }
+    public string? RoleArn { get; private init; }
 
+    /// <summary>
+    /// Provides information about the output location for the packaged model. S3OutputLocation -&gt; (string) [required] The Amazon Simple Storage (S3) bucker URI. Constraints: o min: 0 o max: 1024 o pattern: (https|s3)://([^/]+)/?(.*) KmsKeyId -&gt; (string) The Amazon Web Services Key Management Service (Amazon Web Ser- vices KMS) key that Amazon SageMaker uses to encrypt data on the storage volume after compilation job. If you don't provide a KMS key ID, Amazon SageMaker uses the default KMS key for Amazon S3 for your role's account. Constraints: o min: 0 o max: 2048 o pattern: [a-zA-Z0-9:/_-]* PresetDeploymentType -&gt; (string) The deployment type SageMaker Edge Manager will create. Cur- rently only supports Amazon Web Services IoT Greengrass Version 2 components. Possible values: o GreengrassV2Component PresetDeploymentConfig -&gt; (string) The configuration used to create deployment artifacts. Specify configuration options with a JSON string. The available configu- ration options for each type are: o ComponentName (optional) - Name of the GreenGrass V2 compo- nent. If not specified, the default name generated consists of "SagemakerEdgeManager" and the name of your SageMaker Edge Manager packaging job. o ComponentDescription (optional) - Description of the compo- nent. o ComponentVersion (optional) - The version of the component. NOTE: Amazon Web Services IoT Greengrass uses semantic versions for components. Semantic versions follow a*major.minor.patch* number system. For example, version 1.0.0 represents the first major release for a component. For more information, see the semantic version specification . o PlatformOS (optional) - The name of the operating system for the platform. Supported platforms include Windows and Linux. o PlatformArchitecture (optional) - The processor architecture for the platform. Supported architectures Windows include: Windows32_x86, Windows64_x64. Supported architectures for Linux include: Linux x86_64, Linux ARMV8. Shorthand Syntax: S3OutputLocation=string,KmsKeyId=string,PresetDeploymentType=string,PresetDeploymentConfig=string JSON Syntax: { "S3OutputLocation": "string", "KmsKeyId": "string", "PresetDeploymentType": "GreengrassV2Component", "PresetDeploymentConfig": "string" }
+    /// </summary>
     [CliOption("--output-config")]
-    public string? OutputConfig { get; set; }
+    public string? OutputConfig { get; private init; }
 
     /// <summary>
     /// The Amazon Web Services KMS key to use when encrypting the EBS vol- ume the edge packaging job runs on. Constraints: o min: 0 o max: 2048 o pattern: [a-zA-Z0-9:/_-]*
@@ -56,5 +128,22 @@ public record AwsSagemakerCreateEdgePackagingJobOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

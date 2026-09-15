@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --modellifecycle.
+/// Allowed values for --model-lifecycle.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsQconnectListModelsModelLifecycle
 {
     [EnumValue("ACTIVE")]
-    Active = 1,
+    Active,
 
     [EnumValue("LEGACY")]
-    Legacy = 2
+    Legacy
 }

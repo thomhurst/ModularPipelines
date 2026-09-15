@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,22 +21,82 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iotfleetwise", "create-campaign")]
-public record AwsIotfleetwiseCreateCampaignOptions : AwsOptions
+public record AwsIotfleetwiseCreateCampaignOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates an orchestration of data collection rules. The Amazon Web Ser- vices IoT FleetWise Edge Agent software running in vehicles uses cam- paigns to decide how to collect and transfer data to the cloud. You create campaigns in the cloud. After you or your team approve cam- paigns, Amazon Web Services IoT FleetWise automatically deploys them to vehicles. For more information, see Collect and transfer data with campaigns in the Amazon Web Services IoT FleetWise Developer Guide . WARNING: Access ...
+    /// </summary>
+    /// <param name="Name">The name of the campaign to create. Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z\d\-_:]+</param>
+    /// <param name="SignalCatalogArn">The Amazon Resource Name (ARN) of the signal catalog to associate with the campaign.</param>
+    /// <param name="TargetArn">The ARN of the vehicle or fleet to deploy a campaign to.</param>
+    /// <param name="CollectionScheme">The data collection scheme associated with the campaign. You can specify a scheme that collects data based on time or an event. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: timeBasedCollectionScheme, condition- BasedCollectionScheme. timeBasedCollectionScheme -&gt; (structure) Information about a collection scheme that uses a time period to decide how often to collect data. periodMs -&gt; (long) [required] The time period (in milliseconds) to decide how often to col- lect data. For example, if the time period is 60000 , the Edge Agent software collects data once every minute. Constraints: o min: 10000 o max: 86400000 conditionBasedCollectionScheme -&gt; (structure) Information about a collection scheme that uses a simple logical expression to recognize what data to collect. expression -&gt; (string) [required] The logical expression used to recognize what data to col- lect. For example, $variable.`Vehicle.OutsideAirTemperature` &gt;= 105.0 . Constraints: o min: 1 o max: 2048 minimumTriggerIntervalMs -&gt; (long) The minimum duration of time between two triggering events to collect data, in milliseconds. NOTE: If a signal changes often, you might want to collect data at a slower rate. Constraints: o min: 0 o max: 4294967295 triggerMode -&gt; (string) Whether to collect data for all triggering events (ALWAYS ). Specify (RISING_EDGE ), or specify only when the condition first evaluates to false. For example, triggering on "AirbagDeployed"; Users aren't interested on triggering when the airbag is already exploded; they only care about the change from not deployed =&gt; deployed. Possible values: o ALWAYS o RISING_EDGE conditionLanguageVersion -&gt; (integer) Specifies the version of the conditional expression language. Constraints: o min: 1 o max: 1 Shorthand Syntax: timeBasedCollectionScheme={periodMs=long},conditionBasedCollectionScheme={expression=string,minimumTriggerIntervalMs=long,triggerMode=string,conditionLanguageVersion=integer} JSON Syntax: { "timeBasedCollectionScheme": { "periodMs": long }, "conditionBasedCollectionScheme": { "expression": "string", "minimumTriggerIntervalMs": long, "triggerMode": "ALWAYS"|"RISING_EDGE", "conditionLanguageVersion": integer } }</param>
+    public AwsIotfleetwiseCreateCampaignOptions(
+        string Name,
+        string SignalCatalogArn,
+        string TargetArn,
+        string CollectionScheme
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(SignalCatalogArn);
+        this.SignalCatalogArn = SignalCatalogArn;
+        global::System.ArgumentNullException.ThrowIfNull(TargetArn);
+        this.TargetArn = TargetArn;
+        global::System.ArgumentNullException.ThrowIfNull(CollectionScheme);
+        this.CollectionScheme = CollectionScheme;
+    }
+
+    private AwsIotfleetwiseCreateCampaignOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsIotfleetwiseCreateCampaignOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsIotfleetwiseCreateCampaignOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the campaign to create. Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z\d\-_:]+
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the signal catalog to associate with the campaign.
+    /// </summary>
+    [CliOption("--signal-catalog-arn")]
+    public string? SignalCatalogArn { get; private init; }
+
+    /// <summary>
+    /// The ARN of the vehicle or fleet to deploy a campaign to.
+    /// </summary>
+    [CliOption("--target-arn")]
+    public string? TargetArn { get; private init; }
+
+    /// <summary>
+    /// The data collection scheme associated with the campaign. You can specify a scheme that collects data based on time or an event. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: timeBasedCollectionScheme, condition- BasedCollectionScheme. timeBasedCollectionScheme -&gt; (structure) Information about a collection scheme that uses a time period to decide how often to collect data. periodMs -&gt; (long) [required] The time period (in milliseconds) to decide how often to col- lect data. For example, if the time period is 60000 , the Edge Agent software collects data once every minute. Constraints: o min: 10000 o max: 86400000 conditionBasedCollectionScheme -&gt; (structure) Information about a collection scheme that uses a simple logical expression to recognize what data to collect. expression -&gt; (string) [required] The logical expression used to recognize what data to col- lect. For example, $variable.`Vehicle.OutsideAirTemperature` &gt;= 105.0 . Constraints: o min: 1 o max: 2048 minimumTriggerIntervalMs -&gt; (long) The minimum duration of time between two triggering events to collect data, in milliseconds. NOTE: If a signal changes often, you might want to collect data at a slower rate. Constraints: o min: 0 o max: 4294967295 triggerMode -&gt; (string) Whether to collect data for all triggering events (ALWAYS ). Specify (RISING_EDGE ), or specify only when the condition first evaluates to false. For example, triggering on "AirbagDeployed"; Users aren't interested on triggering when the airbag is already exploded; they only care about the change from not deployed =&gt; deployed. Possible values: o ALWAYS o RISING_EDGE conditionLanguageVersion -&gt; (integer) Specifies the version of the conditional expression language. Constraints: o min: 1 o max: 1 Shorthand Syntax: timeBasedCollectionScheme={periodMs=long},conditionBasedCollectionScheme={expression=string,minimumTriggerIntervalMs=long,triggerMode=string,conditionLanguageVersion=integer} JSON Syntax: { "timeBasedCollectionScheme": { "periodMs": long }, "conditionBasedCollectionScheme": { "expression": "string", "minimumTriggerIntervalMs": long, "triggerMode": "ALWAYS"|"RISING_EDGE", "conditionLanguageVersion": integer } }
+    /// </summary>
+    [CliOption("--collection-scheme")]
+    public string? CollectionScheme { get; private init; }
 
     /// <summary>
     /// An optional description of the campaign to help identify its pur- pose. Constraints: o min: 1 o max: 2048 o pattern: [^\u0000-\u001F\u007F]+
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
-
-    [CliOption("--signal-catalog-arn")]
-    public string? SignalCatalogArn { get; set; }
-
-    [CliOption("--target-arn")]
-    public string? TargetArn { get; set; }
 
     /// <summary>
     /// The time, in milliseconds, to deliver a campaign after it was ap- proved. If it's not specified, 0 is used. Default: 0
@@ -85,9 +146,6 @@ public record AwsIotfleetwiseCreateCampaignOptions : AwsOptions
     [CliOption("--signals-to-collect", GroupValues = true)]
     public IEnumerable<string>? SignalsToCollect { get; set; }
 
-    [CliOption("--collection-scheme")]
-    public string? CollectionScheme { get; set; }
-
     /// <summary>
     /// A list of vehicle attributes to associate with a campaign. Enrich the data with specified vehicle attributes. For example, add make and model to the campaign, and Amazon Web Services IoT Fleet- Wise will associate the data with those attributes as dimensions in Amazon Timestream. You can then query the data against make and model . Default: An empty array Constraints: o min: 0 o max: 5 (string) Constraints: o min: 1 o max: 150 o pattern: [a-zA-Z0-9_.]+ Syntax: "string" "string" ...
     /// </summary>
@@ -123,5 +181,22 @@ public record AwsIotfleetwiseCreateCampaignOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

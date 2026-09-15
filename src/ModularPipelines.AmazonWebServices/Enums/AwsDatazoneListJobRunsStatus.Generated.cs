@@ -16,27 +16,27 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsDatazoneListJobRunsStatus
 {
-    [EnumValue("SCHEDULED")]
-    Scheduled = 1,
-
-    [EnumValue("IN_PROGRESS")]
-    InProgress = 2,
-
-    [EnumValue("SUCCESS")]
-    Success = 3,
-
-    [EnumValue("PARTIALLY_SUCCEEDED")]
-    PartiallySucceeded = 4,
-
-    [EnumValue("FAILED")]
-    Failed = 5,
-
     [EnumValue("ABORTED")]
-    Aborted = 6,
-
-    [EnumValue("TIMED_OUT")]
-    TimedOut = 7,
+    Aborted,
 
     [EnumValue("CANCELED")]
-    Canceled = 8
+    Canceled,
+
+    [EnumValue("FAILED")]
+    Failed,
+
+    [EnumValue("IN_PROGRESS")]
+    InProgress,
+
+    [EnumValue("PARTIALLY_SUCCEEDED")]
+    PartiallySucceeded,
+
+    [EnumValue("SCHEDULED")]
+    Scheduled,
+
+    [EnumValue("SUCCESS")]
+    Success,
+
+    [EnumValue("TIMED_OUT")]
+    TimedOut
 }

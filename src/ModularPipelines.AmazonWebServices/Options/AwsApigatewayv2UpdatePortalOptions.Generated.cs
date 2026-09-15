@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,8 +20,47 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("apigatewayv2", "update-portal")]
-public record AwsApigatewayv2UpdatePortalOptions : AwsOptions
+public record AwsApigatewayv2UpdatePortalOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates a portal. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="PortalId">The portal identifier.</param>
+    public AwsApigatewayv2UpdatePortalOptions(
+        string PortalId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PortalId);
+        this.PortalId = PortalId;
+    }
+
+    private AwsApigatewayv2UpdatePortalOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsApigatewayv2UpdatePortalOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsApigatewayv2UpdatePortalOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The portal identifier.
+    /// </summary>
+    [CliOption("--portal-id")]
+    public string? PortalId { get; private init; }
+
     /// <summary>
     /// The authorization of the portal. CognitoConfig -&gt; (structure) The Amazon Cognito configuration. AppClientId -&gt; (string) [required] The app client ID. Constraints: o min: 1 o max: 256 UserPoolArn -&gt; (string) [required] The user pool ARN. Constraints: o min: 20 o max: 2048 UserPoolDomain -&gt; (string) [required] The user pool domain. Constraints: o min: 20 o max: 2048 None -&gt; (structure) Provide no authorization for your portal. This makes your portal publicly accesible on the web. Shorthand Syntax: CognitoConfig={AppClientId=string,UserPoolArn=string,UserPoolDomain=string},None={} JSON Syntax: { "CognitoConfig": { "AppClientId": "string", "UserPoolArn": "string", "UserPoolDomain": "string" }, "None": { } }
     /// </summary>
@@ -51,9 +91,6 @@ public record AwsApigatewayv2UpdatePortalOptions : AwsOptions
     [CliOption("--portal-content")]
     public string? PortalContent { get; set; }
 
-    [CliOption("--portal-id")]
-    public string? PortalId { get; set; }
-
     /// <summary>
     /// The CloudWatch RUM app monitor name. Constraints: o min: 0 o max: 255
     /// </summary>
@@ -65,5 +102,22 @@ public record AwsApigatewayv2UpdatePortalOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

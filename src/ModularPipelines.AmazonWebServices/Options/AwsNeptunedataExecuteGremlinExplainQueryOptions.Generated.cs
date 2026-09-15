@@ -21,7 +21,38 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("neptunedata", "execute-gremlin-explain-query")]
 public record AwsNeptunedataExecuteGremlinExplainQueryOptions : AwsOptions
 {
+    /// <summary>
+    /// Executes a Gremlin Explain query. Amazon Neptune has added a Gremlin feature named explain that provides is a self-service tool for understanding the execution approach being taken by the Neptune engine for the query. You invoke it by adding an explain parameter to an HTTP call that submits a Gremlin query. The explain feature provides information about the logical structure of query execution plans. You can use this information to identify poten- tial evaluation and execution bottlenecks and to...
+    /// </summary>
+    /// <param name="GremlinQuery">The Gremlin explain query string. outfile (string) [required] Filename where the content will be saved</param>
+    /// <param name="Outfile">The &lt;outfile&gt; operand.</param>
+    public AwsNeptunedataExecuteGremlinExplainQueryOptions(
+        string GremlinQuery,
+        string Outfile
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(GremlinQuery);
+        this.GremlinQuery = GremlinQuery;
+        global::System.ArgumentNullException.ThrowIfNull(Outfile);
+        this.Outfile = Outfile;
+    }
+
+    public void Deconstruct(out string GremlinQuery, out string Outfile)
+    {
+        GremlinQuery = this.GremlinQuery;
+        Outfile = this.Outfile;
+    }
+
+    /// <summary>
+    /// The Gremlin explain query string. outfile (string) [required] Filename where the content will be saved
+    /// </summary>
     [CliOption("--gremlin-query")]
-    public string? GremlinQuery { get; set; }
+    public string GremlinQuery { get; private init; }
+
+    /// <summary>
+    /// The &lt;outfile&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string Outfile { get; private init; }
 
 }

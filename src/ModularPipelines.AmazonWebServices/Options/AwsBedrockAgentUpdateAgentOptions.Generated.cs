@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,22 +21,82 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bedrock-agent", "update-agent")]
-public record AwsBedrockAgentUpdateAgentOptions : AwsOptions
+public record AwsBedrockAgentUpdateAgentOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--agent-id")]
-    public string? AgentId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Updates the configuration of an agent. See also: AWS API Documentation update-agent uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
+    /// </summary>
+    /// <param name="AgentId">The unique identifier of the agent. Constraints: o pattern: [0-9a-zA-Z]{10}</param>
+    /// <param name="AgentName">Specifies a new name for the agent. Constraints: o pattern: ([0-9a-zA-Z][_-]?){1,100}</param>
+    /// <param name="FoundationModel">The identifier for the model that you want to be used for orchestra- tion by the agent you create. The modelId to provide depends on the type of model or throughput that you use: o If you use a base model, specify the model ID or its ARN. For a list of model IDs for base models, see Amazon Bedrock base model IDs (on-demand throughput) in the Amazon Bedrock User Guide. o If you use an inference profile, specify the inference profile ID or its ARN. For a list of inference profile IDs, see Supported Re- gions and models for cross-region inference in the Amazon Bedrock User Guide. o If you use a provisioned model, specify the ARN of the Provisioned Throughput. For more information, see Run inference using a Provi- sioned Throughput in the Amazon Bedrock User Guide. o If you use a custom model, first purchase Provisioned Throughput for it. Then specify the ARN of the resulting provisioned model. For more information, see Use a custom model in Amazon Bedrock in the Amazon Bedrock User Guide. o If you use an imported model , specify the ARN of the imported model. You can get the model ARN from a successful call to CreateModelImportJob or from the Imported models page in the Ama- zon Bedrock console. Constraints: o min: 1 o max: 2048 o pattern: (arn:aws(-[^:]{1,12})?:(bedrock|sage- maker):[a-z0-9-]{1,20}:([0-9]{12})?:([a-z-]+/)?)?([a-zA-Z0-9.-]{1,63}){0,2}(([:][a-z0-9-]{1,63}){0,2})?(/[a-z0-9]{1,12})?</param>
+    /// <param name="AgentResourceRoleArn">The Amazon Resource Name (ARN) of the IAM role with permissions to invoke API operations on the agent. Constraints: o min: 0 o max: 2048 o pattern: arn:aws(-[^:]+)?:iam::([0-9]{12})?:role/.+</param>
+    public AwsBedrockAgentUpdateAgentOptions(
+        string AgentId,
+        string AgentName,
+        string FoundationModel,
+        string AgentResourceRoleArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AgentId);
+        this.AgentId = AgentId;
+        global::System.ArgumentNullException.ThrowIfNull(AgentName);
+        this.AgentName = AgentName;
+        global::System.ArgumentNullException.ThrowIfNull(FoundationModel);
+        this.FoundationModel = FoundationModel;
+        global::System.ArgumentNullException.ThrowIfNull(AgentResourceRoleArn);
+        this.AgentResourceRoleArn = AgentResourceRoleArn;
+    }
+
+    private AwsBedrockAgentUpdateAgentOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsBedrockAgentUpdateAgentOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsBedrockAgentUpdateAgentOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier of the agent. Constraints: o pattern: [0-9a-zA-Z]{10}
+    /// </summary>
+    [CliOption("--agent-id")]
+    public string? AgentId { get; private init; }
+
+    /// <summary>
+    /// Specifies a new name for the agent. Constraints: o pattern: ([0-9a-zA-Z][_-]?){1,100}
+    /// </summary>
     [CliOption("--agent-name")]
-    public string? AgentName { get; set; }
+    public string? AgentName { get; private init; }
+
+    /// <summary>
+    /// The identifier for the model that you want to be used for orchestra- tion by the agent you create. The modelId to provide depends on the type of model or throughput that you use: o If you use a base model, specify the model ID or its ARN. For a list of model IDs for base models, see Amazon Bedrock base model IDs (on-demand throughput) in the Amazon Bedrock User Guide. o If you use an inference profile, specify the inference profile ID or its ARN. For a list of inference profile IDs, see Supported Re- gions and models for cross-region inference in the Amazon Bedrock User Guide. o If you use a provisioned model, specify the ARN of the Provisioned Throughput. For more information, see Run inference using a Provi- sioned Throughput in the Amazon Bedrock User Guide. o If you use a custom model, first purchase Provisioned Throughput for it. Then specify the ARN of the resulting provisioned model. For more information, see Use a custom model in Amazon Bedrock in the Amazon Bedrock User Guide. o If you use an imported model , specify the ARN of the imported model. You can get the model ARN from a successful call to CreateModelImportJob or from the Imported models page in the Ama- zon Bedrock console. Constraints: o min: 1 o max: 2048 o pattern: (arn:aws(-[^:]{1,12})?:(bedrock|sage- maker):[a-z0-9-]{1,20}:([0-9]{12})?:([a-z-]+/)?)?([a-zA-Z0-9.-]{1,63}){0,2}(([:][a-z0-9-]{1,63}){0,2})?(/[a-z0-9]{1,12})?
+    /// </summary>
+    [CliOption("--foundation-model")]
+    public string? FoundationModel { get; private init; }
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the IAM role with permissions to invoke API operations on the agent. Constraints: o min: 0 o max: 2048 o pattern: arn:aws(-[^:]+)?:iam::([0-9]{12})?:role/.+
+    /// </summary>
+    [CliOption("--agent-resource-role-arn")]
+    public string? AgentResourceRoleArn { get; private init; }
 
     /// <summary>
     /// Specifies new instructions that tell the agent what it should do and how it should interact with users. Constraints: o min: 40 o max: 4000
     /// </summary>
     [CliOption("--instruction")]
     public string? Instruction { get; set; }
-
-    [CliOption("--foundation-model")]
-    public string? FoundationModel { get; set; }
 
     /// <summary>
     /// Specifies a new description of the agent. Constraints: o min: 1 o max: 200
@@ -60,9 +121,6 @@ public record AwsBedrockAgentUpdateAgentOptions : AwsOptions
     /// </summary>
     [CliOption("--idle-session-ttl-in-seconds")]
     public int? IdleSessionTtlInSeconds { get; set; }
-
-    [CliOption("--agent-resource-role-arn")]
-    public string? AgentResourceRoleArn { get; set; }
 
     /// <summary>
     /// The Amazon Resource Name (ARN) of the KMS key with which to encrypt the agent. Constraints: o min: 1 o max: 2048 o pattern: arn:aws(|-cn|-us-gov):kms:[a-zA-Z0-9-]*:[0-9]{12}:key/[a-zA-Z0-9-]{36}
@@ -99,5 +157,22 @@ public record AwsBedrockAgentUpdateAgentOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

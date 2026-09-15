@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,19 +20,62 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iotfleetwise", "create-fleet")]
-public record AwsIotfleetwiseCreateFleetOptions : AwsOptions
+public record AwsIotfleetwiseCreateFleetOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a fleet that represents a group of vehicles. NOTE: You must create both a signal catalog and vehicles before you can create a fleet. For more information, see Fleets in the Amazon Web Services IoT Fleet- Wise Developer Guide . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="FleetId">The unique ID of the fleet to create. Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z0-9:_-]+</param>
+    /// <param name="SignalCatalogArn">The Amazon Resource Name (ARN) of a signal catalog.</param>
+    public AwsIotfleetwiseCreateFleetOptions(
+        string FleetId,
+        string SignalCatalogArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(FleetId);
+        this.FleetId = FleetId;
+        global::System.ArgumentNullException.ThrowIfNull(SignalCatalogArn);
+        this.SignalCatalogArn = SignalCatalogArn;
+    }
+
+    private AwsIotfleetwiseCreateFleetOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsIotfleetwiseCreateFleetOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsIotfleetwiseCreateFleetOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique ID of the fleet to create. Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z0-9:_-]+
+    /// </summary>
     [CliOption("--fleet-id")]
-    public string? FleetId { get; set; }
+    public string? FleetId { get; private init; }
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of a signal catalog.
+    /// </summary>
+    [CliOption("--signal-catalog-arn")]
+    public string? SignalCatalogArn { get; private init; }
 
     /// <summary>
     /// A brief description of the fleet to create. Constraints: o min: 1 o max: 2048 o pattern: [^\u0000-\u001F\u007F]+
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
-
-    [CliOption("--signal-catalog-arn")]
-    public string? SignalCatalogArn { get; set; }
 
     /// <summary>
     /// Metadata that can be used to manage the fleet. Constraints: o min: 0 o max: 50 (structure) A set of key/value pairs that are used to manage the resource. Key -&gt; (string) [required] The tag's key. Constraints: o min: 1 o max: 128 Value -&gt; (string) [required] The tag's value. Constraints: o min: 0 o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
@@ -44,5 +88,22 @@ public record AwsIotfleetwiseCreateFleetOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

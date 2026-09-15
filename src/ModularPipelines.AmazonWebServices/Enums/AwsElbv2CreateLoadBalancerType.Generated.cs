@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsElbv2CreateLoadBalancerType
 {
     [EnumValue("application")]
-    Application = 1,
-
-    [EnumValue("network")]
-    Network = 2,
+    Application,
 
     [EnumValue("gateway")]
-    Gateway = 3
+    Gateway,
+
+    [EnumValue("network")]
+    Network
 }

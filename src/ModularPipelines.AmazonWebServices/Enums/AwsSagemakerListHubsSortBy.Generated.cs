@@ -11,20 +11,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --sortby.
+/// Allowed values for --sort-by.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsSagemakerListHubsSortBy
 {
-    [EnumValue("HubName")]
-    HubName = 1,
+    [EnumValue("AccountIdOwner")]
+    AccountIdOwner,
 
     [EnumValue("CreationTime")]
-    CreationTime = 2,
+    CreationTime,
+
+    [EnumValue("HubName")]
+    HubName,
 
     [EnumValue("HubStatus")]
-    HubStatus = 3,
-
-    [EnumValue("AccountIdOwner")]
-    AccountIdOwner = 4
+    HubStatus
 }

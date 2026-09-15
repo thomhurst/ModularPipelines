@@ -16,15 +16,15 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsPollyListSpeechSynthesisTasksStatus
 {
-    [EnumValue("scheduled")]
-    Scheduled = 1,
-
-    [EnumValue("inProgress")]
-    InProgress = 2,
-
     [EnumValue("completed")]
-    Completed = 3,
+    Completed,
 
     [EnumValue("failed")]
-    Failed = 4
+    Failed,
+
+    [EnumValue("inProgress")]
+    InProgress,
+
+    [EnumValue("scheduled")]
+    Scheduled
 }

@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,10 +22,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("mgn", "update-network-migration-definition")]
-public record AwsMgnUpdateNetworkMigrationDefinitionOptions : AwsOptions
+public record AwsMgnUpdateNetworkMigrationDefinitionOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates an existing network migration definition with new source or target configurations. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="NetworkMigrationDefinitionId">The unique identifier of the network migration definition to update. Constraints: o min: 21 o max: 21 o pattern: nmd-[0-9a-zA-Z]{17}</param>
+    public AwsMgnUpdateNetworkMigrationDefinitionOptions(
+        string NetworkMigrationDefinitionId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(NetworkMigrationDefinitionId);
+        this.NetworkMigrationDefinitionId = NetworkMigrationDefinitionId;
+    }
+
+    private AwsMgnUpdateNetworkMigrationDefinitionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsMgnUpdateNetworkMigrationDefinitionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsMgnUpdateNetworkMigrationDefinitionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier of the network migration definition to update. Constraints: o min: 21 o max: 21 o pattern: nmd-[0-9a-zA-Z]{17}
+    /// </summary>
     [CliOption("--network-migration-definition-id")]
-    public string? NetworkMigrationDefinitionId { get; set; }
+    public string? NetworkMigrationDefinitionId { get; private init; }
 
     /// <summary>
     /// The updated name of the network migration definition. Constraints: o min: 1 o max: 256 o pattern: [^\s\x00]( *[^\s\x00])*
@@ -63,6 +100,18 @@ public record AwsMgnUpdateNetworkMigrationDefinitionOptions : AwsOptions
     public AwsMgnUpdateNetworkMigrationDefinitionTargetDeployment? TargetDeployment { get; set; }
 
     /// <summary>
+    /// Updates whether the migration creates new target VPCs or uses exist- ing ones. Set to USE_EXISTING to migrate into existing VPCs in the target account, or to CREATE_NEW to provision new target VPCs. Possible values: o CREATE_NEW o USE_EXISTING
+    /// </summary>
+    [CliOption("--vpc-provisioning-strategy")]
+    public AwsMgnUpdateNetworkMigrationDefinitionVpcProvisioningStrategy? VpcProvisioningStrategy { get; set; }
+
+    /// <summary>
+    /// The updated list of CIDR mappings that map original source CIDR ranges to updated target CIDR ranges. CIDR mappings can be provided only when vpcProvisioningStrategy is set to USE_EXISTING . Constraints: o min: 0 o max: 50 (structure) Maps a source CIDR range to the corresponding target CIDR range to use in the target network. originalCidr -&gt; (string) [required] The original CIDR range in the source network. Constraints: o min: 9 o max: 18 o pattern: ((25[0-4]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])\.){3}(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])\/(1[6-9]|2[0-8]) updatedCidr -&gt; (string) [required] The updated CIDR range to use in the target network. Constraints: o min: 9 o max: 18 o pattern: ((25[0-4]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])\.){3}(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])\/(1[6-9]|2[0-8]) Shorthand Syntax: originalCidr=string,updatedCidr=string ... JSON Syntax: [ { "originalCidr": "string", "updatedCidr": "string" } ... ]
+    /// </summary>
+    [CliOption("--cidr-mappings", GroupValues = true)]
+    public IEnumerable<string>? CidrMappings { get; set; }
+
+    /// <summary>
     /// The updated scope tags for the network migration definition. Constraints: o min: 0 o max: 40 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: (?!aws:)[a-zA-Z0-9\s+\-=._:/@]* value -&gt; (string) Constraints: o min: 0 o max: 256 o pattern: [a-zA-Z0-9\s+\-=._:/@]* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--scope-tags", CollectionSeparator = ",")]
@@ -73,5 +122,22 @@ public record AwsMgnUpdateNetworkMigrationDefinitionOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -11,14 +11,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --logscope.
+/// Allowed values for --log-scope.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsWafv2ListLoggingConfigurationsLogScope
 {
+    [EnumValue("CLOUDWATCH_TELEMETRY_RULE_MANAGED")]
+    CloudwatchTelemetryRuleManaged,
+
     [EnumValue("CUSTOMER")]
-    Customer = 1,
+    Customer,
 
     [EnumValue("SECURITY_LAKE")]
-    SecurityLake = 2
+    SecurityLake
 }

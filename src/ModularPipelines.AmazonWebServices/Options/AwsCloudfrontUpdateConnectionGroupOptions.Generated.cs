@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,16 +20,62 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cloudfront", "update-connection-group")]
-public record AwsCloudfrontUpdateConnectionGroupOptions : AwsOptions
+public record AwsCloudfrontUpdateConnectionGroupOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates a connection group. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Id">The ID of the connection group.</param>
+    /// <param name="IfMatch">The value of the ETag header that you received when retrieving the connection group that you're updating.</param>
+    public AwsCloudfrontUpdateConnectionGroupOptions(
+        string Id,
+        string IfMatch
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Id);
+        this.Id = Id;
+        global::System.ArgumentNullException.ThrowIfNull(IfMatch);
+        this.IfMatch = IfMatch;
+    }
+
+    private AwsCloudfrontUpdateConnectionGroupOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCloudfrontUpdateConnectionGroupOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCloudfrontUpdateConnectionGroupOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the connection group.
+    /// </summary>
     [CliOption("--id")]
-    public string? Id { get; set; }
+    public string? Id { get; private init; }
 
-    [CliFlag("--ipv6-enabled")]
-    public bool? Ipv6Enabled { get; set; }
-
+    /// <summary>
+    /// The value of the ETag header that you received when retrieving the connection group that you're updating.
+    /// </summary>
     [CliOption("--if-match")]
-    public string? IfMatch { get; set; }
+    public string? IfMatch { get; private init; }
+
+    /// <summary>
+    /// Enable IPv6 for the connection group. For more information, see Enable IPv6 in the Amazon CloudFront Developer Guide .
+    /// </summary>
+    [CliFlag("--ipv6-enabled", NegatedName = "--no-ipv6-enabled")]
+    public bool? Ipv6Enabled { get; set; }
 
     /// <summary>
     /// The ID of the Anycast static IP list.
@@ -36,7 +83,10 @@ public record AwsCloudfrontUpdateConnectionGroupOptions : AwsOptions
     [CliOption("--anycast-ip-list-id")]
     public string? AnycastIpListId { get; set; }
 
-    [CliFlag("--enabled")]
+    /// <summary>
+    /// Whether the connection group is enabled.
+    /// </summary>
+    [CliFlag("--enabled", NegatedName = "--no-enabled")]
     public bool? Enabled { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -44,5 +94,22 @@ public record AwsCloudfrontUpdateConnectionGroupOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

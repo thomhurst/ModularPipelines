@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,16 +20,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("route53profiles", "associate-resource-to-profile")]
-public record AwsRoute53profilesAssociateResourceToProfileOptions : AwsOptions
+public record AwsRoute53profilesAssociateResourceToProfileOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Associates a DNS reource configuration to a Route 53 Profile. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Name">Name for the resource association. Constraints: o min: 0 o max: 64 o pattern: ^(?!^[0-9]+$)([a-zA-Z0-9\-_' ']+)$</param>
+    /// <param name="ProfileId">ID of the Profile. Constraints: o min: 1 o max: 64</param>
+    /// <param name="ResourceArn">Amazon resource number, ARN, of the DNS resource. Constraints: o min: 1 o max: 255</param>
+    public AwsRoute53profilesAssociateResourceToProfileOptions(
+        string Name,
+        string ProfileId,
+        string ResourceArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(ProfileId);
+        this.ProfileId = ProfileId;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceArn);
+        this.ResourceArn = ResourceArn;
+    }
+
+    private AwsRoute53profilesAssociateResourceToProfileOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRoute53profilesAssociateResourceToProfileOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRoute53profilesAssociateResourceToProfileOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Name for the resource association. Constraints: o min: 0 o max: 64 o pattern: ^(?!^[0-9]+$)([a-zA-Z0-9\-_' ']+)$
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
 
+    /// <summary>
+    /// ID of the Profile. Constraints: o min: 1 o max: 64
+    /// </summary>
     [CliOption("--profile-id")]
-    public string? ProfileId { get; set; }
+    public string? ProfileId { get; private init; }
 
+    /// <summary>
+    /// Amazon resource number, ARN, of the DNS resource. Constraints: o min: 1 o max: 255
+    /// </summary>
     [CliOption("--resource-arn")]
-    public string? ResourceArn { get; set; }
+    public string? ResourceArn { get; private init; }
 
     /// <summary>
     /// If you are adding a DNS Firewall rule group, include also a prior- ity. The priority indicates the processing order for the rule groups, starting with the priority assinged the lowest value. The allowed values for priority are between 100 and 9900.
@@ -41,5 +92,22 @@ public record AwsRoute53profilesAssociateResourceToProfileOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -11,11 +11,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --instancetype.
+/// Allowed values for --instance-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsCodecatalystUpdateDevEnvironmentInstanceType
 {
-    [EnumValue("dev")]
-    Dev = 1
+    [EnumValue("dev.standard1.large")]
+    DevStandard1Large,
+
+    [EnumValue("dev.standard1.medium")]
+    DevStandard1Medium,
+
+    [EnumValue("dev.standard1.small")]
+    DevStandard1Small,
+
+    [EnumValue("dev.standard1.xlarge")]
+    DevStandard1Xlarge
 }

@@ -11,11 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --groupingtype.
+/// Allowed values for --grouping-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsApplicationInsightsCreateApplicationGroupingType
 {
     [EnumValue("ACCOUNT_BASED")]
-    AccountBased = 1
+    AccountBased,
+
+    [EnumValue("o")]
+    O
 }

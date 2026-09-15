@@ -11,26 +11,26 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --connectorstatus.
+/// Allowed values for --connector-status.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsSecurityhubListConnectorsV2ConnectorStatus
 {
     [EnumValue("CONNECTED")]
-    Connected = 1,
+    Connected,
 
     [EnumValue("DEGRADED")]
-    Degraded = 2,
+    Degraded,
 
     [EnumValue("FAILED_TO_CONNECT")]
-    FailedToConnect = 3,
+    FailedToConnect,
 
     [EnumValue("PENDING_AUTHORIZATION")]
-    PendingAuthorization = 4,
+    PendingAuthorization,
 
     [EnumValue("PENDING_CONFIGURATION")]
-    PendingConfiguration = 5,
+    PendingConfiguration,
 
     [EnumValue("UNKNOWN")]
-    Unknown = 6
+    Unknown
 }

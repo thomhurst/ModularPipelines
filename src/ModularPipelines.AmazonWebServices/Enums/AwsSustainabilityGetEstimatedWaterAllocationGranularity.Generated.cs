@@ -16,18 +16,18 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsSustainabilityGetEstimatedWaterAllocationGranularity
 {
-    [EnumValue("YEARLY_CALENDAR")]
-    YearlyCalendar = 1,
-
-    [EnumValue("YEARLY_FISCAL")]
-    YearlyFiscal = 2,
+    [EnumValue("MONTHLY")]
+    Monthly,
 
     [EnumValue("QUARTERLY_CALENDAR")]
-    QuarterlyCalendar = 3,
+    QuarterlyCalendar,
 
     [EnumValue("QUARTERLY_FISCAL")]
-    QuarterlyFiscal = 4,
+    QuarterlyFiscal,
 
-    [EnumValue("MONTHLY")]
-    Monthly = 5
+    [EnumValue("YEARLY_CALENDAR")]
+    YearlyCalendar,
+
+    [EnumValue("YEARLY_FISCAL")]
+    YearlyFiscal
 }

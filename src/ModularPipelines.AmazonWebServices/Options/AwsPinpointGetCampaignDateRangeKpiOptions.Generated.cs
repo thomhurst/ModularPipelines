@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,22 +21,72 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("pinpoint", "get-campaign-date-range-kpi")]
-public record AwsPinpointGetCampaignDateRangeKpiOptions : AwsOptions
+public record AwsPinpointGetCampaignDateRangeKpiOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--application-id")]
-    public string? ApplicationId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Retrieves (queries) pre-aggregated data for a standard metric that ap- plies to a campaign. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ApplicationId">The unique identifier for the application. This identifier is dis- played as the Project ID on the Amazon Pinpoint console.</param>
+    /// <param name="CampaignId">The unique identifier for the campaign.</param>
+    /// <param name="KpiName">The name of the metric, also referred to as a key performance indi- cator (KPI) , to retrieve data for. This value describes the associ- ated metric and consists of two or more terms, which are comprised of lowercase alphanumeric characters, separated by a hyphen. Exam- ples are email-open-rate and successful-delivery-rate. For a list of valid values, see the Amazon Pinpoint Developer Guide .</param>
+    public AwsPinpointGetCampaignDateRangeKpiOptions(
+        string ApplicationId,
+        string CampaignId,
+        string KpiName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ApplicationId);
+        this.ApplicationId = ApplicationId;
+        global::System.ArgumentNullException.ThrowIfNull(CampaignId);
+        this.CampaignId = CampaignId;
+        global::System.ArgumentNullException.ThrowIfNull(KpiName);
+        this.KpiName = KpiName;
+    }
+
+    private AwsPinpointGetCampaignDateRangeKpiOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsPinpointGetCampaignDateRangeKpiOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsPinpointGetCampaignDateRangeKpiOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier for the application. This identifier is dis- played as the Project ID on the Amazon Pinpoint console.
+    /// </summary>
+    [CliOption("--application-id")]
+    public string? ApplicationId { get; private init; }
+
+    /// <summary>
+    /// The unique identifier for the campaign.
+    /// </summary>
     [CliOption("--campaign-id")]
-    public string? CampaignId { get; set; }
+    public string? CampaignId { get; private init; }
+
+    /// <summary>
+    /// The name of the metric, also referred to as a key performance indi- cator (KPI) , to retrieve data for. This value describes the associ- ated metric and consists of two or more terms, which are comprised of lowercase alphanumeric characters, separated by a hyphen. Exam- ples are email-open-rate and successful-delivery-rate. For a list of valid values, see the Amazon Pinpoint Developer Guide .
+    /// </summary>
+    [CliOption("--kpi-name")]
+    public string? KpiName { get; private init; }
 
     /// <summary>
     /// The last date and time to retrieve data for, as part of an inclusive date range that filters the query results. This value should be in extended ISO 8601 format and use Coordinated Universal Time (UTC), for example: 2019-07-26T20:00:00Z for 8:00 PM UTC July 26, 2019.
     /// </summary>
     [CliOption("--end-time")]
     public string? EndTime { get; set; }
-
-    [CliOption("--kpi-name")]
-    public string? KpiName { get; set; }
 
     /// <summary>
     /// The string that specifies which page of results to return in a pagi- nated response. This parameter is not supported for application, campaign, and journey metrics.
@@ -61,5 +112,22 @@ public record AwsPinpointGetCampaignDateRangeKpiOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

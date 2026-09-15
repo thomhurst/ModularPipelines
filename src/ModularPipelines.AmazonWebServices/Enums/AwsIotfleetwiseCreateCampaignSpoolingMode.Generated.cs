@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --spoolingmode.
+/// Allowed values for --spooling-mode.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsIotfleetwiseCreateCampaignSpoolingMode
 {
     [EnumValue("OFF")]
-    Off = 1,
+    Off,
 
     [EnumValue("TO_DISK")]
-    ToDisk = 2
+    ToDisk
 }

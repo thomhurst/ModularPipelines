@@ -11,20 +11,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --sortby.
+/// Allowed values for --sort-by.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsInspector2ListCisScansSortBy
 {
-    [EnumValue("STATUS")]
-    Status = 1,
-
-    [EnumValue("SCHEDULED_BY")]
-    ScheduledBy = 2,
+    [EnumValue("FAILED_CHECKS")]
+    FailedChecks,
 
     [EnumValue("SCAN_START_DATE")]
-    ScanStartDate = 3,
+    ScanStartDate,
 
-    [EnumValue("FAILED_CHECKS")]
-    FailedChecks = 4
+    [EnumValue("SCHEDULED_BY")]
+    ScheduledBy,
+
+    [EnumValue("STATUS")]
+    Status
 }

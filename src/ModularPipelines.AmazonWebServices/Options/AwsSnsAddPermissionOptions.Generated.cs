@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,24 +20,120 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sns", "add-permission")]
-public record AwsSnsAddPermissionOptions : AwsOptions
+public record AwsSnsAddPermissionOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Adds a statement to a topic's access control policy, granting access for the specified Amazon Web Services accounts to the specified ac- tions. NOTE: To remove the ability to change topic permissions, you must deny permissions to the AddPermission , RemovePermission , and SetTopi- cAttributes actions in your IAM policy. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="TopicArn">The ARN of the topic whose access control policy you wish to modify.</param>
+    /// <param name="Label">A unique identifier for the new policy statement.</param>
+    /// <param name="AwsAccountId">The Amazon Web Services account IDs of the users (principals) who will be given access to the specified actions. The users must have Amazon Web Services account, but do not need to be signed up for this service. (string) Syntax: "string" "string" ...</param>
+    /// <param name="ActionName">The action you want to allow for the specified principal(s). Valid values: Any Amazon SNS action name, for example Publish . (string) Syntax: "string" "string" ...</param>
+    public AwsSnsAddPermissionOptions(
+        string TopicArn,
+        string Label,
+        IEnumerable<string> AwsAccountId,
+        IEnumerable<string> ActionName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(TopicArn);
+        this.TopicArn = TopicArn;
+        global::System.ArgumentNullException.ThrowIfNull(Label);
+        this.Label = Label;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(AwsAccountId);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(AwsAccountId));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(AwsAccountId));
+            }
+
+            AwsAccountId = materialized;
+        }
+        this.AwsAccountId = AwsAccountId;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(ActionName);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(ActionName));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(ActionName));
+            }
+
+            ActionName = materialized;
+        }
+        this.ActionName = ActionName;
+    }
+
+    private AwsSnsAddPermissionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSnsAddPermissionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSnsAddPermissionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ARN of the topic whose access control policy you wish to modify.
+    /// </summary>
     [CliOption("--topic-arn")]
-    public string? TopicArn { get; set; }
+    public string? TopicArn { get; private init; }
 
+    /// <summary>
+    /// A unique identifier for the new policy statement.
+    /// </summary>
     [CliOption("--label")]
-    public string? Label { get; set; }
+    public string? Label { get; private init; }
 
+    /// <summary>
+    /// The Amazon Web Services account IDs of the users (principals) who will be given access to the specified actions. The users must have Amazon Web Services account, but do not need to be signed up for this service. (string) Syntax: "string" "string" ...
+    /// </summary>
     [CliOption("--aws-account-id", GroupValues = true)]
-    public IEnumerable<string>? AwsAccountId { get; set; }
+    public IEnumerable<string>? AwsAccountId { get; private init; }
 
+    /// <summary>
+    /// The action you want to allow for the specified principal(s). Valid values: Any Amazon SNS action name, for example Publish . (string) Syntax: "string" "string" ...
+    /// </summary>
     [CliOption("--action-name", GroupValues = true)]
-    public IEnumerable<string>? ActionName { get; set; }
+    public IEnumerable<string>? ActionName { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

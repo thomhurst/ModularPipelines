@@ -21,19 +21,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("glacier", "get-job-output")]
 public record AwsGlacierGetJobOutputOptions : AwsOptions
 {
+    /// <summary>
+    /// This operation downloads the output of the job you initiated using InitiateJob . Depending on the job type you specified when you initi- ated the job, the output will be either the content of an archive or a vault inventory. You can download all the job output or download a portion of the output by specifying a byte range. In the case of an archive retrieval job, depending on the byte range you specify, Amazon Glacier (Glacier) re- turns the checksum for the portion of the data. You can compute ...
+    /// </summary>
+    /// <param name="AccountId">The AccountId value is the AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '- ' (hyphen), in which case Amazon Glacier uses the AWS ac- count ID associated with the credentials used to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID.</param>
+    /// <param name="VaultName">The name of the vault.</param>
+    /// <param name="JobId">The job ID whose data is downloaded.</param>
+    /// <param name="Outfile">The &lt;outfile&gt; operand.</param>
+    public AwsGlacierGetJobOutputOptions(
+        string AccountId,
+        string VaultName,
+        string JobId,
+        string Outfile
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AccountId);
+        this.AccountId = AccountId;
+        global::System.ArgumentNullException.ThrowIfNull(VaultName);
+        this.VaultName = VaultName;
+        global::System.ArgumentNullException.ThrowIfNull(JobId);
+        this.JobId = JobId;
+        global::System.ArgumentNullException.ThrowIfNull(Outfile);
+        this.Outfile = Outfile;
+    }
+
+    public void Deconstruct(out string AccountId, out string VaultName, out string JobId, out string Outfile)
+    {
+        AccountId = this.AccountId;
+        VaultName = this.VaultName;
+        JobId = this.JobId;
+        Outfile = this.Outfile;
+    }
+
+    /// <summary>
+    /// The AccountId value is the AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '- ' (hyphen), in which case Amazon Glacier uses the AWS ac- count ID associated with the credentials used to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID.
+    /// </summary>
     [CliOption("--account-id")]
-    public string? AccountId { get; set; }
+    public string AccountId { get; private init; }
 
+    /// <summary>
+    /// The name of the vault.
+    /// </summary>
     [CliOption("--vault-name")]
-    public string? VaultName { get; set; }
+    public string VaultName { get; private init; }
 
+    /// <summary>
+    /// The job ID whose data is downloaded.
+    /// </summary>
     [CliOption("--job-id")]
-    public string? JobId { get; set; }
+    public string JobId { get; private init; }
 
     /// <summary>
     /// The range of bytes to retrieve from the output. For example, if you want to download the first 1,048,576 bytes, specify the range as bytes=0-1048575 . By default, this operation downloads the entire output. If the job output is large, then you can use a range to retrieve a portion of the output. This allows you to download the entire output in smaller chunks of bytes. For example, suppose you have 1 GB of job output you want to download and you decide to download 128 MB chunks of data at a time, which is a total of eight Get Job Output requests. You use the following process to download the job output: o Download a 128 MB chunk of output by specifying the appropriate byte range. Verify that all 128 MB of data was received. o Along with the data, the response includes a SHA256 tree hash of the payload. You compute the checksum of the payload on the client and compare it with the checksum you received in the response to ensure you received all the expected data. o Repeat steps 1 and 2 for all the eight 128 MB chunks of output data, each time specifying the appropriate byte range. o After downloading all the parts of the job output, you have a list of eight checksum values. Compute the tree hash of these values to find the checksum of the entire output. Using the DescribeJob API, obtain job information of the job that provided you the out- put. The response includes the checksum of the entire archive stored in Amazon Glacier. You compare this value with the checksum you computed to ensure you have downloaded the entire archive con- tent with no errors. outfile (string) [required] Filename where the content will be saved
     /// </summary>
     [CliOption("--range")]
     public string? Range { get; set; }
+
+    /// <summary>
+    /// The &lt;outfile&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string Outfile { get; private init; }
 
 }

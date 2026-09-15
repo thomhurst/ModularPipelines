@@ -16,30 +16,30 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsElbv2ModifyListenerProtocol
 {
+    [EnumValue("GENEVE")]
+    Geneve,
+
     [EnumValue("HTTP")]
-    Http = 1,
+    Http,
 
     [EnumValue("HTTPS")]
-    Https = 2,
-
-    [EnumValue("TCP")]
-    Tcp = 3,
-
-    [EnumValue("TLS")]
-    Tls = 4,
-
-    [EnumValue("UDP")]
-    Udp = 5,
-
-    [EnumValue("TCP_UDP")]
-    TcpUdp = 6,
-
-    [EnumValue("GENEVE")]
-    Geneve = 7,
+    Https,
 
     [EnumValue("QUIC")]
-    Quic = 8,
+    Quic,
+
+    [EnumValue("TCP")]
+    Tcp,
 
     [EnumValue("TCP_QUIC")]
-    TcpQuic = 9
+    TcpQuic,
+
+    [EnumValue("TCP_UDP")]
+    TcpUdp,
+
+    [EnumValue("TLS")]
+    Tls,
+
+    [EnumValue("UDP")]
+    Udp
 }

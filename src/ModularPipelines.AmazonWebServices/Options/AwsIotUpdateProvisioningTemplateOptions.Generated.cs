@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iot", "update-provisioning-template")]
-public record AwsIotUpdateProvisioningTemplateOptions : AwsOptions
+public record AwsIotUpdateProvisioningTemplateOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates a provisioning template. Requires permission to access the UpdateProvisioningTemplate action. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="TemplateName">The name of the provisioning template. Constraints: o min: 1 o max: 36 o pattern: ^[0-9A-Za-z_-]+$</param>
+    public AwsIotUpdateProvisioningTemplateOptions(
+        string TemplateName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(TemplateName);
+        this.TemplateName = TemplateName;
+    }
+
+    private AwsIotUpdateProvisioningTemplateOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsIotUpdateProvisioningTemplateOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsIotUpdateProvisioningTemplateOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the provisioning template. Constraints: o min: 1 o max: 36 o pattern: ^[0-9A-Za-z_-]+$
+    /// </summary>
     [CliOption("--template-name")]
-    public string? TemplateName { get; set; }
+    public string? TemplateName { get; private init; }
 
     /// <summary>
     /// The description of the provisioning template. Constraints: o min: 0 o max: 500 o pattern: [^\p{C}]*
@@ -30,7 +67,10 @@ public record AwsIotUpdateProvisioningTemplateOptions : AwsOptions
     [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CliFlag("--enabled")]
+    /// <summary>
+    /// True to enable the provisioning template, otherwise false.
+    /// </summary>
+    [CliFlag("--enabled", NegatedName = "--no-enabled")]
     public bool? Enabled { get; set; }
 
     /// <summary>
@@ -51,7 +91,10 @@ public record AwsIotUpdateProvisioningTemplateOptions : AwsOptions
     [CliOption("--pre-provisioning-hook")]
     public string? PreProvisioningHook { get; set; }
 
-    [CliFlag("--remove-pre-provisioning-hook")]
+    /// <summary>
+    /// Removes pre-provisioning hook template.
+    /// </summary>
+    [CliFlag("--remove-pre-provisioning-hook", NegatedName = "--no-remove-pre-provisioning-hook")]
     public bool? RemovePreProvisioningHook { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -59,5 +102,22 @@ public record AwsIotUpdateProvisioningTemplateOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

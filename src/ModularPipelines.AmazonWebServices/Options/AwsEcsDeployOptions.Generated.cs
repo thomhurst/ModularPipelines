@@ -21,14 +21,41 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("ecs", "deploy")]
 public record AwsEcsDeployOptions : AwsOptions
 {
+    /// <summary>
+    /// Deploys a new task definition to the specified ECS service. Only ser- vices that use CodeDeploy for deployments are supported. This command will register a new task definition, update the CodeDeploy appspec with the new task definition revision, create a CodeDeploy deployment, and wait for the deployment to successfully complete. This command will exit with a return code of 255 if the deployment does not succeed within 30 minutes by default or up to 10 minutes more than your deploy- ment group's...
+    /// </summary>
+    /// <param name="Service"></param>
+    /// <param name="TaskDefinition"></param>
+    /// <param name="CodedeployAppspec"></param>
+    public AwsEcsDeployOptions(
+        string Service,
+        string TaskDefinition,
+        string CodedeployAppspec
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Service);
+        this.Service = Service;
+        global::System.ArgumentNullException.ThrowIfNull(TaskDefinition);
+        this.TaskDefinition = TaskDefinition;
+        global::System.ArgumentNullException.ThrowIfNull(CodedeployAppspec);
+        this.CodedeployAppspec = CodedeployAppspec;
+    }
+
+    public void Deconstruct(out string Service, out string TaskDefinition, out string CodedeployAppspec)
+    {
+        Service = this.Service;
+        TaskDefinition = this.TaskDefinition;
+        CodedeployAppspec = this.CodedeployAppspec;
+    }
+
     [CliOption("--service")]
-    public string? Service { get; set; }
+    public string Service { get; private init; }
 
     [CliOption("--task-definition")]
-    public string? TaskDefinition { get; set; }
+    public string TaskDefinition { get; private init; }
 
     [CliOption("--codedeploy-appspec")]
-    public string? CodedeployAppspec { get; set; }
+    public string CodedeployAppspec { get; private init; }
 
     [CliOption("--cluster")]
     public string? Cluster { get; set; }

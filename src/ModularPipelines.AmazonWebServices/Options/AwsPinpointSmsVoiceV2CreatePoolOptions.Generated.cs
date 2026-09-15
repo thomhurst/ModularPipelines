@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +22,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("pinpoint-sms-voice-v2", "create-pool")]
-public record AwsPinpointSmsVoiceV2CreatePoolOptions : AwsOptions
+public record AwsPinpointSmsVoiceV2CreatePoolOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a new pool and associates the specified origination identity to the pool. A pool can include one or more phone numbers and SenderIds that are associated with your Amazon Web Services account. The new pool inherits its configuration from the specified origination identity. This includes keywords, message type, opt-out list, two-way configuration, and self-managed opt-out configuration. Deletion protec- tion isn't inherited from the origination identity and defaults to false. If the origin...
+    /// </summary>
+    /// <param name="OriginationIdentity">The origination identity to use such as a PhoneNumberId, PhoneNum- berArn, SenderId or SenderIdArn. You can use DescribePhoneNumbers to find the values for PhoneNumberId and PhoneNumberArn, and use DescribeSenderIds can be used to get the values for SenderId and SenderIdArn. After the pool is created you can add more origination identities to the pool by using AssociateOriginationIdentity . WARNING: If you are using a shared End User Messaging SMS resource then you must use the full Amazon Resource Name(ARN). Constraints: o min: 1 o max: 256 o pattern: [A-Za-z0-9_:/-]+</param>
+    /// <param name="MessageType">The type of message. Valid values are TRANSACTIONAL for messages that are critical or time-sensitive and PROMOTIONAL for messages that aren't critical or time-sensitive. After the pool is created the MessageType can't be changed. Possible values: o TRANSACTIONAL o PROMOTIONAL</param>
+    public AwsPinpointSmsVoiceV2CreatePoolOptions(
+        string OriginationIdentity,
+        AwsPinpointSmsVoiceV2CreatePoolMessageType MessageType
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(OriginationIdentity);
+        this.OriginationIdentity = OriginationIdentity;
+        global::System.ArgumentNullException.ThrowIfNull(MessageType);
+        this.MessageType = MessageType;
+    }
+
+    private AwsPinpointSmsVoiceV2CreatePoolOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsPinpointSmsVoiceV2CreatePoolOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsPinpointSmsVoiceV2CreatePoolOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The origination identity to use such as a PhoneNumberId, PhoneNum- berArn, SenderId or SenderIdArn. You can use DescribePhoneNumbers to find the values for PhoneNumberId and PhoneNumberArn, and use DescribeSenderIds can be used to get the values for SenderId and SenderIdArn. After the pool is created you can add more origination identities to the pool by using AssociateOriginationIdentity . WARNING: If you are using a shared End User Messaging SMS resource then you must use the full Amazon Resource Name(ARN). Constraints: o min: 1 o max: 256 o pattern: [A-Za-z0-9_:/-]+
+    /// </summary>
     [CliOption("--origination-identity")]
-    public string? OriginationIdentity { get; set; }
+    public string? OriginationIdentity { get; private init; }
+
+    /// <summary>
+    /// The type of message. Valid values are TRANSACTIONAL for messages that are critical or time-sensitive and PROMOTIONAL for messages that aren't critical or time-sensitive. After the pool is created the MessageType can't be changed. Possible values: o TRANSACTIONAL o PROMOTIONAL
+    /// </summary>
+    [CliOption("--message-type")]
+    public AwsPinpointSmsVoiceV2CreatePoolMessageType? MessageType { get; private init; }
 
     /// <summary>
     /// The new two-character code, in ISO 3166-1 alpha-2 format, for the country or region of the new pool. This field is optional and is not required for origination identity types that are not country-spe- cific, such as RCS agents. Constraints: o min: 2 o max: 2 o pattern: [A-Z]{2}
@@ -31,10 +79,10 @@ public record AwsPinpointSmsVoiceV2CreatePoolOptions : AwsOptions
     [CliOption("--iso-country-code")]
     public string? IsoCountryCode { get; set; }
 
-    [CliOption("--message-type")]
-    public string? MessageType { get; set; }
-
-    [CliFlag("--deletion-protection-enabled")]
+    /// <summary>
+    /// By default this is set to false. When set to true the pool can't be deleted. You can change this value using the UpdatePool action.
+    /// </summary>
+    [CliFlag("--deletion-protection-enabled", NegatedName = "--no-deletion-protection-enabled")]
     public bool? DeletionProtectionEnabled { get; set; }
 
     /// <summary>
@@ -55,5 +103,22 @@ public record AwsPinpointSmsVoiceV2CreatePoolOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

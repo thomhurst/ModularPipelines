@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,25 +21,82 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("events", "create-api-destination")]
-public record AwsEventsCreateApiDestinationOptions : AwsOptions
+public record AwsEventsCreateApiDestinationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates an API destination, which is an HTTP invocation endpoint con- figured as a target for events. API destinations do not support private destinations, such as interface VPC endpoints. For more information, see API destinations in the EventBridge User Guide . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Name">The name for the API destination to create. Constraints: o min: 1 o max: 64 o pattern: [\.\-_A-Za-z0-9]+</param>
+    /// <param name="ConnectionArn">The ARN of the connection to use for the API destination. The desti- nation endpoint must support the authorization type specified for the connection. Constraints: o min: 1 o max: 1600 o pattern: ^arn:aws([a-z]|\-)*:events:([a-z]|\d|\-)*:([0-9]{12})?:connec- tion\/[\.\-_A-Za-z0-9]+\/[\-A-Za-z0-9]+$</param>
+    /// <param name="InvocationEndpoint">The URL to the HTTP invocation endpoint for the API destination. Constraints: o min: 1 o max: 2048 o pattern: ^((%[0-9A-Fa-f]{2}|[-()_.!~*';/?:@\x26=+$,A-Za-z0-9])+)([).!';/?:,])?$</param>
+    /// <param name="HttpMethod">The method to use for the request to the HTTP invocation endpoint. Possible values: o POST o GET o HEAD o OPTIONS o PUT o PATCH o DELETE</param>
+    public AwsEventsCreateApiDestinationOptions(
+        string Name,
+        string ConnectionArn,
+        string InvocationEndpoint,
+        AwsEventsCreateApiDestinationHttpMethod HttpMethod
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(ConnectionArn);
+        this.ConnectionArn = ConnectionArn;
+        global::System.ArgumentNullException.ThrowIfNull(InvocationEndpoint);
+        this.InvocationEndpoint = InvocationEndpoint;
+        global::System.ArgumentNullException.ThrowIfNull(HttpMethod);
+        this.HttpMethod = HttpMethod;
+    }
+
+    private AwsEventsCreateApiDestinationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEventsCreateApiDestinationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEventsCreateApiDestinationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name for the API destination to create. Constraints: o min: 1 o max: 64 o pattern: [\.\-_A-Za-z0-9]+
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
+
+    /// <summary>
+    /// The ARN of the connection to use for the API destination. The desti- nation endpoint must support the authorization type specified for the connection. Constraints: o min: 1 o max: 1600 o pattern: ^arn:aws([a-z]|\-)*:events:([a-z]|\d|\-)*:([0-9]{12})?:connec- tion\/[\.\-_A-Za-z0-9]+\/[\-A-Za-z0-9]+$
+    /// </summary>
+    [CliOption("--connection-arn")]
+    public string? ConnectionArn { get; private init; }
+
+    /// <summary>
+    /// The URL to the HTTP invocation endpoint for the API destination. Constraints: o min: 1 o max: 2048 o pattern: ^((%[0-9A-Fa-f]{2}|[-()_.!~*';/?:@\x26=+$,A-Za-z0-9])+)([).!';/?:,])?$
+    /// </summary>
+    [CliOption("--invocation-endpoint")]
+    public string? InvocationEndpoint { get; private init; }
+
+    /// <summary>
+    /// The method to use for the request to the HTTP invocation endpoint. Possible values: o POST o GET o HEAD o OPTIONS o PUT o PATCH o DELETE
+    /// </summary>
+    [CliOption("--http-method")]
+    public AwsEventsCreateApiDestinationHttpMethod? HttpMethod { get; private init; }
 
     /// <summary>
     /// A description for the API destination to create. Constraints: o max: 512 o pattern: .*
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
-
-    [CliOption("--connection-arn")]
-    public string? ConnectionArn { get; set; }
-
-    [CliOption("--invocation-endpoint")]
-    public string? InvocationEndpoint { get; set; }
-
-    [CliOption("--http-method")]
-    public string? HttpMethod { get; set; }
 
     /// <summary>
     /// The maximum number of requests per second to send to the HTTP invo- cation endpoint. Constraints: o min: 1
@@ -50,5 +109,22 @@ public record AwsEventsCreateApiDestinationOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

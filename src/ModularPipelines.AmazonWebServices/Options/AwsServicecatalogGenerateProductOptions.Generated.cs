@@ -21,14 +21,81 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("servicecatalog", "generate", "product")]
 public record AwsServicecatalogGenerateProductOptions : AwsOptions
 {
+    /// <summary>
+    /// Create a new product using a CloudFormation template specified as a lo- cal file path
+    /// </summary>
+    /// <param name="ProductName"></param>
+    /// <param name="ProductOwner"></param>
+    /// <param name="ProductType"></param>
+    /// <param name="FilePath"></param>
+    /// <param name="BucketName"></param>
+    /// <param name="ProvisioningArtifactName"></param>
+    /// <param name="ProvisioningArtifactDescription"></param>
+    /// <param name="ProvisioningArtifactType"></param>
+    public AwsServicecatalogGenerateProductOptions(
+        string ProductName,
+        string ProductOwner,
+        string ProductType,
+        string FilePath,
+        string BucketName,
+        string ProvisioningArtifactName,
+        string ProvisioningArtifactDescription,
+        string ProvisioningArtifactType
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ProductName);
+        this.ProductName = ProductName;
+        global::System.ArgumentNullException.ThrowIfNull(ProductOwner);
+        this.ProductOwner = ProductOwner;
+        global::System.ArgumentNullException.ThrowIfNull(ProductType);
+        this.ProductType = ProductType;
+        global::System.ArgumentNullException.ThrowIfNull(FilePath);
+        this.FilePath = FilePath;
+        global::System.ArgumentNullException.ThrowIfNull(BucketName);
+        this.BucketName = BucketName;
+        global::System.ArgumentNullException.ThrowIfNull(ProvisioningArtifactName);
+        this.ProvisioningArtifactName = ProvisioningArtifactName;
+        global::System.ArgumentNullException.ThrowIfNull(ProvisioningArtifactDescription);
+        this.ProvisioningArtifactDescription = ProvisioningArtifactDescription;
+        global::System.ArgumentNullException.ThrowIfNull(ProvisioningArtifactType);
+        this.ProvisioningArtifactType = ProvisioningArtifactType;
+    }
+
+    public void Deconstruct(out string ProductName, out string ProductOwner, out string ProductType, out string FilePath, out string BucketName, out string ProvisioningArtifactName, out string ProvisioningArtifactDescription, out string ProvisioningArtifactType)
+    {
+        ProductName = this.ProductName;
+        ProductOwner = this.ProductOwner;
+        ProductType = this.ProductType;
+        FilePath = this.FilePath;
+        BucketName = this.BucketName;
+        ProvisioningArtifactName = this.ProvisioningArtifactName;
+        ProvisioningArtifactDescription = this.ProvisioningArtifactDescription;
+        ProvisioningArtifactType = this.ProvisioningArtifactType;
+    }
+
     [CliOption("--product-name")]
-    public string? ProductName { get; set; }
+    public string ProductName { get; private init; }
 
     [CliOption("--product-owner")]
-    public string? ProductOwner { get; set; }
+    public string ProductOwner { get; private init; }
 
     [CliOption("--product-type")]
-    public string? ProductType { get; set; }
+    public string ProductType { get; private init; }
+
+    [CliOption("--file-path")]
+    public string FilePath { get; private init; }
+
+    [CliOption("--bucket-name")]
+    public string BucketName { get; private init; }
+
+    [CliOption("--provisioning-artifact-name")]
+    public string ProvisioningArtifactName { get; private init; }
+
+    [CliOption("--provisioning-artifact-description")]
+    public string ProvisioningArtifactDescription { get; private init; }
+
+    [CliOption("--provisioning-artifact-type")]
+    public string ProvisioningArtifactType { get; private init; }
 
     [CliOption("--product-description")]
     public string? ProductDescription { get; set; }
@@ -39,25 +106,10 @@ public record AwsServicecatalogGenerateProductOptions : AwsOptions
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
-    [CliOption("--file-path")]
-    public string? FilePath { get; set; }
-
-    [CliOption("--bucket-name")]
-    public string? BucketName { get; set; }
-
     [CliOption("--support-description")]
     public string? SupportDescription { get; set; }
 
     [CliOption("--support-email")]
     public string? SupportEmail { get; set; }
-
-    [CliOption("--provisioning-artifact-name")]
-    public string? ProvisioningArtifactName { get; set; }
-
-    [CliOption("--provisioning-artifact-description")]
-    public string? ProvisioningArtifactDescription { get; set; }
-
-    [CliOption("--provisioning-artifact-type")]
-    public string? ProvisioningArtifactType { get; set; }
 
 }

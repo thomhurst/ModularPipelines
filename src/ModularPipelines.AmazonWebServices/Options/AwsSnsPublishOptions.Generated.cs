@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,8 +21,47 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sns", "publish")]
-public record AwsSnsPublishOptions : AwsOptions
+public record AwsSnsPublishOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Sends a message to an Amazon SNS topic, a text message (SMS message) directly to a phone number, or a message to a mobile platform endpoint (when you specify the TargetArn ). If you send a message to a topic, Amazon SNS delivers the message to each endpoint that is subscribed to the topic. The format of the mes- sage depends on the notification protocol for each subscribed endpoint. When a messageId is returned, the message is saved and Amazon SNS imme- diately delivers it to subscribers. To use...
+    /// </summary>
+    /// <param name="Message">The message you want to send. If you are publishing to a topic and you want to send the same mes- sage to all transport protocols, include the text of the message as a String value. If you want to send different messages for each transport protocol, set the value of the MessageStructure parameter to json and use a JSON object for the Message parameter. Constraints: o With the exception of SMS, messages must be UTF-8 encoded strings and at most 256 KB in size (262,144 bytes, not 262,144 charac- ters). o For SMS, each message can contain up to 140 characters. This char- acter limit depends on the encoding schema. For example, an SMS message can contain 160 GSM characters, 140 ASCII characters, or 70 UCS-2 characters. If you publish a message that exceeds this size limit, Amazon SNS sends the message as multiple messages, each fitting within the size limit. Messages aren't truncated mid-word but are cut off at whole-word boundaries. The total size limit for a single SMS Publish action is 1,600 characters. JSON-specific constraints: o Keys in the JSON object that correspond to supported transport protocols must have simple JSON string values. o The values will be parsed (unescaped) before they are used in out- going messages. o Outbound notifications are JSON encoded (meaning that the charac- ters will be reescaped for sending). o Values have a minimum length of 0 (the empty string, "", is al- lowed). o Values have a maximum length bounded by the overall message size (so, including multiple protocols may limit message sizes). o Non-string values will cause the key to be ignored. o Keys that do not correspond to supported transport protocols are ignored. o Duplicate keys are not allowed. o Failure to parse or validate any key or value in the message will cause the Publish call to return an error (no partial delivery).</param>
+    public AwsSnsPublishOptions(
+        string Message
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Message);
+        this.Message = Message;
+    }
+
+    private AwsSnsPublishOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSnsPublishOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSnsPublishOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The message you want to send. If you are publishing to a topic and you want to send the same mes- sage to all transport protocols, include the text of the message as a String value. If you want to send different messages for each transport protocol, set the value of the MessageStructure parameter to json and use a JSON object for the Message parameter. Constraints: o With the exception of SMS, messages must be UTF-8 encoded strings and at most 256 KB in size (262,144 bytes, not 262,144 charac- ters). o For SMS, each message can contain up to 140 characters. This char- acter limit depends on the encoding schema. For example, an SMS message can contain 160 GSM characters, 140 ASCII characters, or 70 UCS-2 characters. If you publish a message that exceeds this size limit, Amazon SNS sends the message as multiple messages, each fitting within the size limit. Messages aren't truncated mid-word but are cut off at whole-word boundaries. The total size limit for a single SMS Publish action is 1,600 characters. JSON-specific constraints: o Keys in the JSON object that correspond to supported transport protocols must have simple JSON string values. o The values will be parsed (unescaped) before they are used in out- going messages. o Outbound notifications are JSON encoded (meaning that the charac- ters will be reescaped for sending). o Values have a minimum length of 0 (the empty string, "", is al- lowed). o Values have a maximum length bounded by the overall message size (so, including multiple protocols may limit message sizes). o Non-string values will cause the key to be ignored. o Keys that do not correspond to supported transport protocols are ignored. o Duplicate keys are not allowed. o Failure to parse or validate any key or value in the message will cause the Publish call to return an error (no partial delivery).
+    /// </summary>
+    [CliOption("--message")]
+    public string? Message { get; private init; }
+
     /// <summary>
     /// The topic you want to publish to. If you don't specify a value for the TopicArn parameter, you must specify a value for the PhoneNumber or TargetArn parameters.
     /// </summary>
@@ -39,9 +79,6 @@ public record AwsSnsPublishOptions : AwsOptions
     /// </summary>
     [CliOption("--phone-number")]
     public string? PhoneNumber { get; set; }
-
-    [CliOption("--message")]
-    public string? Message { get; set; }
 
     /// <summary>
     /// Optional parameter to be used as the "Subject" line when the message is delivered to email endpoints. This field will also be included, if present, in the standard JSON messages delivered to other end- points. Constraints: Subjects must be UTF-8 text with no line breaks or con- trol characters, and less than 100 characters long.
@@ -78,5 +115,22 @@ public record AwsSnsPublishOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

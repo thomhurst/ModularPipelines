@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,68 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("gamelift", "get-game-session-log-url")]
-public record AwsGameliftGetGameSessionLogUrlOptions : AwsOptions
+public record AwsGameliftGetGameSessionLogUrlOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// This API works with the following fleet types: EC2 Retrieves the location of stored game session logs for a specified game session on Amazon GameLift Servers managed fleets. When a game session is terminated, Amazon GameLift Servers automatically stores the logs in Amazon S3 and retains them for 14 days. Use this URL to download the logs. NOTE: See the Amazon Web Services Service Limits page for maximum log file sizes. Log files that exceed this limit are not saved. All APIs by task See also: AW...
+    /// </summary>
+    /// <param name="GameSessionId">An identifier for the game session that is unique across all regions to get logs for. The value is always a full ARN in the following format: For Home Region game session - arn:aws:gamelift:&lt;home_re- gion&gt;::gamesession/&lt;fleet ID&gt;/&lt;ID string&gt; . For Remote Location game session - arn:aws:gamelift:&lt;home_region&gt;::gamesession/&lt;fleet ID&gt;/&lt;location&gt;/&lt;ID string&gt; . Constraints: o min: 1 o max: 512 o pattern: ^[a-zA-Z0-9:/-]+$</param>
+    public AwsGameliftGetGameSessionLogUrlOptions(
+        string GameSessionId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(GameSessionId);
+        this.GameSessionId = GameSessionId;
+    }
+
+    private AwsGameliftGetGameSessionLogUrlOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsGameliftGetGameSessionLogUrlOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsGameliftGetGameSessionLogUrlOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// An identifier for the game session that is unique across all regions to get logs for. The value is always a full ARN in the following format: For Home Region game session - arn:aws:gamelift:&lt;home_re- gion&gt;::gamesession/&lt;fleet ID&gt;/&lt;ID string&gt; . For Remote Location game session - arn:aws:gamelift:&lt;home_region&gt;::gamesession/&lt;fleet ID&gt;/&lt;location&gt;/&lt;ID string&gt; . Constraints: o min: 1 o max: 512 o pattern: ^[a-zA-Z0-9:/-]+$
+    /// </summary>
     [CliOption("--game-session-id")]
-    public string? GameSessionId { get; set; }
+    public string? GameSessionId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

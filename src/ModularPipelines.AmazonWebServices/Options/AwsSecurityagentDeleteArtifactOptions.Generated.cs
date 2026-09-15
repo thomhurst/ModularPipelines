@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("securityagent", "delete-artifact")]
-public record AwsSecurityagentDeleteArtifactOptions : AwsOptions
+public record AwsSecurityagentDeleteArtifactOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--agent-space-id")]
-    public string? AgentSpaceId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Deletes an artifact from an agent space. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="AgentSpaceId">The unique identifier of the agent space that contains the artifact.</param>
+    /// <param name="ArtifactId">The unique identifier of the artifact to delete.</param>
+    public AwsSecurityagentDeleteArtifactOptions(
+        string AgentSpaceId,
+        string ArtifactId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AgentSpaceId);
+        this.AgentSpaceId = AgentSpaceId;
+        global::System.ArgumentNullException.ThrowIfNull(ArtifactId);
+        this.ArtifactId = ArtifactId;
+    }
+
+    private AwsSecurityagentDeleteArtifactOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSecurityagentDeleteArtifactOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSecurityagentDeleteArtifactOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier of the agent space that contains the artifact.
+    /// </summary>
+    [CliOption("--agent-space-id")]
+    public string? AgentSpaceId { get; private init; }
+
+    /// <summary>
+    /// The unique identifier of the artifact to delete.
+    /// </summary>
     [CliOption("--artifact-id")]
-    public string? ArtifactId { get; set; }
+    public string? ArtifactId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

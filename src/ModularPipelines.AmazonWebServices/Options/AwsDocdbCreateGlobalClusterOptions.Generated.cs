@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("docdb", "create-global-cluster")]
-public record AwsDocdbCreateGlobalClusterOptions : AwsOptions
+public record AwsDocdbCreateGlobalClusterOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates an Amazon DocumentDB global cluster that can span multiple mul- tiple Amazon Web Services Regions. The global cluster contains one pri- mary cluster with read-write capability, and up-to 10 read-only sec- ondary clusters. Global clusters uses storage-based fast replication across regions with latencies less than one second, using dedicated in- frastructure with no impact to your workloads performance. You can create a global cluster that is initially empty, and then add a primary and a s...
+    /// </summary>
+    /// <param name="GlobalClusterIdentifier">The cluster identifier of the new global cluster. Constraints: o min: 1 o max: 255 o pattern: [A-Za-z][0-9A-Za-z-:._]*</param>
+    public AwsDocdbCreateGlobalClusterOptions(
+        string GlobalClusterIdentifier
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(GlobalClusterIdentifier);
+        this.GlobalClusterIdentifier = GlobalClusterIdentifier;
+    }
+
+    private AwsDocdbCreateGlobalClusterOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDocdbCreateGlobalClusterOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDocdbCreateGlobalClusterOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The cluster identifier of the new global cluster. Constraints: o min: 1 o max: 255 o pattern: [A-Za-z][0-9A-Za-z-:._]*
+    /// </summary>
     [CliOption("--global-cluster-identifier")]
-    public string? GlobalClusterIdentifier { get; set; }
+    public string? GlobalClusterIdentifier { get; private init; }
 
     /// <summary>
     /// The Amazon Resource Name (ARN) to use as the primary cluster of the global cluster. This parameter is optional.
@@ -42,7 +79,10 @@ public record AwsDocdbCreateGlobalClusterOptions : AwsOptions
     [CliOption("--engine-version")]
     public string? EngineVersion { get; set; }
 
-    [CliFlag("--deletion-protection")]
+    /// <summary>
+    /// The deletion protection setting for the new global cluster. The global cluster can't be deleted when deletion protection is enabled.
+    /// </summary>
+    [CliFlag("--deletion-protection", NegatedName = "--no-deletion-protection")]
     public bool? DeletionProtection { get; set; }
 
     /// <summary>
@@ -51,7 +91,10 @@ public record AwsDocdbCreateGlobalClusterOptions : AwsOptions
     [CliOption("--database-name")]
     public string? DatabaseName { get; set; }
 
-    [CliFlag("--storage-encrypted")]
+    /// <summary>
+    /// The storage encryption setting for the new global cluster.
+    /// </summary>
+    [CliFlag("--storage-encrypted", NegatedName = "--no-storage-encrypted")]
     public bool? StorageEncrypted { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -59,5 +102,22 @@ public record AwsDocdbCreateGlobalClusterOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

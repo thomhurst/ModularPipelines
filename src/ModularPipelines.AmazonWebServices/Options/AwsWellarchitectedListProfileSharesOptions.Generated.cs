@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,10 +22,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("wellarchitected", "list-profile-shares")]
-public record AwsWellarchitectedListProfileSharesOptions : AwsOptions
+public record AwsWellarchitectedListProfileSharesOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// List profile shares. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ProfileArn">The profile ARN. Constraints: o min: 0 o max: 2084 o pattern: arn:aws[-a-z]*:wellarchi- tected:[a-z]{2}(-gov)?-[a-z]+-\d:\d{12}:profile/[a-z0-9]+</param>
+    public AwsWellarchitectedListProfileSharesOptions(
+        string ProfileArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ProfileArn);
+        this.ProfileArn = ProfileArn;
+    }
+
+    private AwsWellarchitectedListProfileSharesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsWellarchitectedListProfileSharesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsWellarchitectedListProfileSharesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The profile ARN. Constraints: o min: 0 o max: 2084 o pattern: arn:aws[-a-z]*:wellarchi- tected:[a-z]{2}(-gov)?-[a-z]+-\d:\d{12}:profile/[a-z0-9]+
+    /// </summary>
     [CliOption("--profile-arn")]
-    public string? ProfileArn { get; set; }
+    public string? ProfileArn { get; private init; }
 
     /// <summary>
     /// The Amazon Web Services account ID, organization ID, or organiza- tional unit (OU) ID with which the profile is shared. Constraints: o min: 0 o max: 100
@@ -56,5 +93,22 @@ public record AwsWellarchitectedListProfileSharesOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

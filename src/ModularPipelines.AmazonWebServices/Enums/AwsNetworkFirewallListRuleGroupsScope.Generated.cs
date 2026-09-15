@@ -16,9 +16,9 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsNetworkFirewallListRuleGroupsScope
 {
-    [EnumValue("MANAGED")]
-    Managed = 1,
-
     [EnumValue("ACCOUNT")]
-    Account = 2
+    Account,
+
+    [EnumValue("MANAGED")]
+    Managed
 }

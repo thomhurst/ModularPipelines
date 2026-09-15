@@ -21,13 +21,60 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("sagemakerjobruntime", "sample")]
 public record AwsSagemakerjobruntimeSampleOptions : AwsOptions
 {
+    /// <summary>
+    /// Sends an inference request to the model during a job execution. The re- quest and response bodies are forwarded to and from the model without modification. Each turn (prompt and response) is captured for later use. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="JobArn">The job ARN that identifies which model session to route the infer- ence request to. Constraints: o min: 1 o max: 256 o pattern: arn:aws[a-z\-]*:sage- maker:[a-z0-9\-]*:[0-9]{12}:job/[a-zA-Z0-9_\-]+/[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}</param>
+    /// <param name="TrajectoryId">The trajectory ID for grouping turns into a single rollout. Each turn (prompt and response) is captured for later use. Constraints: o min: 1 o max: 256</param>
+    /// <param name="Body">The raw inference request body in OpenAI-compatible JSON format. outfile (string) [required] Filename where the content will be saved</param>
+    /// <param name="Outfile">The &lt;outfile&gt; operand.</param>
+    public AwsSagemakerjobruntimeSampleOptions(
+        string JobArn,
+        string TrajectoryId,
+        string Body,
+        string Outfile
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(JobArn);
+        this.JobArn = JobArn;
+        global::System.ArgumentNullException.ThrowIfNull(TrajectoryId);
+        this.TrajectoryId = TrajectoryId;
+        global::System.ArgumentNullException.ThrowIfNull(Body);
+        this.Body = Body;
+        global::System.ArgumentNullException.ThrowIfNull(Outfile);
+        this.Outfile = Outfile;
+    }
+
+    public void Deconstruct(out string JobArn, out string TrajectoryId, out string Body, out string Outfile)
+    {
+        JobArn = this.JobArn;
+        TrajectoryId = this.TrajectoryId;
+        Body = this.Body;
+        Outfile = this.Outfile;
+    }
+
+    /// <summary>
+    /// The job ARN that identifies which model session to route the infer- ence request to. Constraints: o min: 1 o max: 256 o pattern: arn:aws[a-z\-]*:sage- maker:[a-z0-9\-]*:[0-9]{12}:job/[a-zA-Z0-9_\-]+/[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}
+    /// </summary>
     [CliOption("--job-arn")]
-    public string? JobArn { get; set; }
+    public string JobArn { get; private init; }
 
+    /// <summary>
+    /// The trajectory ID for grouping turns into a single rollout. Each turn (prompt and response) is captured for later use. Constraints: o min: 1 o max: 256
+    /// </summary>
     [CliOption("--trajectory-id")]
-    public string? TrajectoryId { get; set; }
+    public string TrajectoryId { get; private init; }
 
+    /// <summary>
+    /// The raw inference request body in OpenAI-compatible JSON format. outfile (string) [required] Filename where the content will be saved
+    /// </summary>
     [CliOption("--body")]
-    public string? Body { get; set; }
+    public string Body { get; private init; }
+
+    /// <summary>
+    /// The &lt;outfile&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string Outfile { get; private init; }
 
 }

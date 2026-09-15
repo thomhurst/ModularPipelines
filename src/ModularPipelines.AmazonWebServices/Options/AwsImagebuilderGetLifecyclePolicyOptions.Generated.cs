@@ -10,24 +10,78 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Get details for the specified image lifecycle policy. See also: AWS API Documentation
+/// Retrieves details for the specified image lifecycle policy. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("imagebuilder", "get-lifecycle-policy")]
-public record AwsImagebuilderGetLifecyclePolicyOptions : AwsOptions
+public record AwsImagebuilderGetLifecyclePolicyOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Retrieves details for the specified image lifecycle policy. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="LifecyclePolicyArn">Specifies the Amazon Resource Name (ARN) of the image lifecycle pol- icy resource to get. Constraints: o max: 1024 o pattern: ^arn:aws(?:-[a-z]+)*:image- builder:[a-z]{2,}(?:-[a-z]+)+-[0-9]+:(?:[0-9]{12}|aws):lifecy- cle-policy/[a-z0-9-_]+$</param>
+    public AwsImagebuilderGetLifecyclePolicyOptions(
+        string LifecyclePolicyArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(LifecyclePolicyArn);
+        this.LifecyclePolicyArn = LifecyclePolicyArn;
+    }
+
+    private AwsImagebuilderGetLifecyclePolicyOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsImagebuilderGetLifecyclePolicyOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsImagebuilderGetLifecyclePolicyOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Specifies the Amazon Resource Name (ARN) of the image lifecycle pol- icy resource to get. Constraints: o max: 1024 o pattern: ^arn:aws(?:-[a-z]+)*:image- builder:[a-z]{2,}(?:-[a-z]+)+-[0-9]+:(?:[0-9]{12}|aws):lifecy- cle-policy/[a-z0-9-_]+$
+    /// </summary>
     [CliOption("--lifecycle-policy-arn")]
-    public string? LifecyclePolicyArn { get; set; }
+    public string? LifecyclePolicyArn { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

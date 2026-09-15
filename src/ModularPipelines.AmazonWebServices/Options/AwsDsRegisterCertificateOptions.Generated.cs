@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,13 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ds", "register-certificate")]
-public record AwsDsRegisterCertificateOptions : AwsOptions
+public record AwsDsRegisterCertificateOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--directory-id")]
-    public string? DirectoryId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Registers a certificate for a secure LDAP or client certificate authen- tication. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DirectoryId">The identifier of the directory. Constraints: o pattern: ^d-[0-9a-f]{10}$</param>
+    /// <param name="CertificateData">The certificate PEM string that needs to be registered. Constraints: o min: 1 o max: 8192</param>
+    public AwsDsRegisterCertificateOptions(
+        string DirectoryId,
+        string CertificateData
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DirectoryId);
+        this.DirectoryId = DirectoryId;
+        global::System.ArgumentNullException.ThrowIfNull(CertificateData);
+        this.CertificateData = CertificateData;
+    }
+
+    private AwsDsRegisterCertificateOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDsRegisterCertificateOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDsRegisterCertificateOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the directory. Constraints: o pattern: ^d-[0-9a-f]{10}$
+    /// </summary>
+    [CliOption("--directory-id")]
+    public string? DirectoryId { get; private init; }
+
+    /// <summary>
+    /// The certificate PEM string that needs to be registered. Constraints: o min: 1 o max: 8192
+    /// </summary>
     [CliOption("--certificate-data")]
-    public string? CertificateData { get; set; }
+    public string? CertificateData { get; private init; }
 
     /// <summary>
     /// The function that the registered certificate performs. Valid values include ClientLDAPS or ClientCertAuth . The default value is ClientLDAPS . Possible values: o ClientCertAuth o ClientLDAPS
@@ -45,5 +89,22 @@ public record AwsDsRegisterCertificateOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

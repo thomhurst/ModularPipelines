@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,28 +22,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("redshift", "create-cluster")]
-public record AwsRedshiftCreateClusterOptions : AwsOptions
+public record AwsRedshiftCreateClusterOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a new cluster with the specified parameters. To create a cluster in Virtual Private Cloud (VPC), you must provide a cluster subnet group name. The cluster subnet group identifies the sub- nets of your VPC that Amazon Redshift uses when creating the cluster. For more information about managing clusters, go to Amazon Redshift Clusters in the Amazon Redshift Cluster Management Guide . VPC Block Public Access (BPA) enables you to block resources in VPCs and subnets that you own in a Region f...
+    /// </summary>
+    /// <param name="ClusterIdentifier">A unique identifier for the cluster. You use this identifier to re- fer to the cluster for any subsequent cluster operations such as deleting or modifying. The identifier also appears in the Amazon Redshift console. Constraints: o Must contain from 1 to 63 alphanumeric characters or hyphens. o Alphabetic characters must be lowercase. o First character must be a letter. o Cannot end with a hyphen or contain two consecutive hyphens. o Must be unique for all clusters within an Amazon Web Services ac- count. Example: myexamplecluster Constraints: o max: 2147483647</param>
+    /// <param name="NodeType">The node type to be provisioned for the cluster. For information about node types, go to Working with Clusters in the Amazon Redshift Cluster Management Guide . Valid Values: dc2.large | dc2.8xlarge | rg.large | rg.xlarge | rg.4xlarge | rg.12xlarge | ra3.large | ra3.xlplus | ra3.4xlarge | ra3.16xlarge Constraints: o max: 2147483647</param>
+    /// <param name="MasterUsername">The user name associated with the admin user account for the cluster that is being created. Constraints: o Must be 1 - 128 alphanumeric characters or hyphens. The user name can't be PUBLIC . o Must contain only lowercase letters, numbers, underscore, plus sign, period (dot), at symbol (@), or hyphen. o The first character must be a letter. o Must not contain a colon (:) or a slash (/). o Cannot be a reserved word. A list of reserved words can be found in Reserved Words in the Amazon Redshift Database Developer Guide. Constraints: o max: 2147483647</param>
+    public AwsRedshiftCreateClusterOptions(
+        string ClusterIdentifier,
+        string NodeType,
+        string MasterUsername
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ClusterIdentifier);
+        this.ClusterIdentifier = ClusterIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(NodeType);
+        this.NodeType = NodeType;
+        global::System.ArgumentNullException.ThrowIfNull(MasterUsername);
+        this.MasterUsername = MasterUsername;
+    }
+
+    private AwsRedshiftCreateClusterOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRedshiftCreateClusterOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRedshiftCreateClusterOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A unique identifier for the cluster. You use this identifier to re- fer to the cluster for any subsequent cluster operations such as deleting or modifying. The identifier also appears in the Amazon Redshift console. Constraints: o Must contain from 1 to 63 alphanumeric characters or hyphens. o Alphabetic characters must be lowercase. o First character must be a letter. o Cannot end with a hyphen or contain two consecutive hyphens. o Must be unique for all clusters within an Amazon Web Services ac- count. Example: myexamplecluster Constraints: o max: 2147483647
+    /// </summary>
+    [CliOption("--cluster-identifier")]
+    public string? ClusterIdentifier { get; private init; }
+
+    /// <summary>
+    /// The node type to be provisioned for the cluster. For information about node types, go to Working with Clusters in the Amazon Redshift Cluster Management Guide . Valid Values: dc2.large | dc2.8xlarge | rg.large | rg.xlarge | rg.4xlarge | rg.12xlarge | ra3.large | ra3.xlplus | ra3.4xlarge | ra3.16xlarge Constraints: o max: 2147483647
+    /// </summary>
+    [CliOption("--node-type")]
+    public string? NodeType { get; private init; }
+
+    /// <summary>
+    /// The user name associated with the admin user account for the cluster that is being created. Constraints: o Must be 1 - 128 alphanumeric characters or hyphens. The user name can't be PUBLIC . o Must contain only lowercase letters, numbers, underscore, plus sign, period (dot), at symbol (@), or hyphen. o The first character must be a letter. o Must not contain a colon (:) or a slash (/). o Cannot be a reserved word. A list of reserved words can be found in Reserved Words in the Amazon Redshift Database Developer Guide. Constraints: o max: 2147483647
+    /// </summary>
+    [CliOption("--master-username")]
+    public string? MasterUsername { get; private init; }
+
     /// <summary>
     /// The name of the first database to be created when the cluster is created. To create additional databases after the cluster is created, connect to the cluster with a SQL client and use SQL commands to create a database. For more information, go to Create a Database in the Ama- zon Redshift Database Developer Guide. Default: dev Constraints: o Must contain 1 to 64 alphanumeric characters. o Must contain only lowercase letters. o Cannot be a word that is reserved by the service. A list of re- served words can be found in Reserved Words in the Amazon Redshift Database Developer Guide. Constraints: o max: 2147483647
     /// </summary>
     [CliOption("--db-name")]
     public string? DbName { get; set; }
 
-    [CliOption("--cluster-identifier")]
-    public string? ClusterIdentifier { get; set; }
-
     /// <summary>
     /// The type of the cluster. When cluster type is specified as o single-node , the NumberOfNodes parameter is not required. o multi-node , the NumberOfNodes parameter is required. Valid Values: multi-node | single-node Default: multi-node Constraints: o max: 2147483647
     /// </summary>
     [CliOption("--cluster-type")]
     public string? ClusterType { get; set; }
-
-    [CliOption("--node-type")]
-    public string? NodeType { get; set; }
-
-    [CliOption("--master-username")]
-    public string? MasterUsername { get; set; }
 
     /// <summary>
     /// The password associated with the admin user account for the cluster that is being created. You can't use MasterUserPassword if ManageMasterPassword is true . Constraints: o Must be between 8 and 64 characters in length. o Must contain at least one uppercase letter. o Must contain at least one lowercase letter. o Must contain one number. o Can be any printable ASCII character (ASCII code 33-126) except ' (single quote), " (double quote), \ , / , or @ .
@@ -103,7 +154,7 @@ public record AwsRedshiftCreateClusterOptions : AwsOptions
     /// The port number on which the cluster accepts incoming connections. The cluster is accessible only via the JDBC and ODBC connection strings. Part of the connection string requires the port on which the cluster will listen for incoming connections. Default: 5439 Valid Values: o For clusters with RG or RA3 nodes - Select a port within the ranges 5431-5455 or 8191-8215 . (If you have an existing cluster with RG or RA3 nodes, it isn't required that you change the port to these ranges.) o For clusters with dc2 nodes - Select a port within the range 1150-65535 .
     /// </summary>
     [CliOption("--port")]
-    public AwsRedshiftCreateClusterPort? Port { get; set; }
+    public int? Port { get; set; }
 
     /// <summary>
     /// The version of the Amazon Redshift engine software that you want to deploy on the cluster. The version selected runs on all the nodes in the cluster. Constraints: Only version 1.0 is currently available. Example: 1.0 Constraints: o max: 2147483647
@@ -111,7 +162,10 @@ public record AwsRedshiftCreateClusterOptions : AwsOptions
     [CliOption("--cluster-version")]
     public string? ClusterVersion { get; set; }
 
-    [CliFlag("--allow-version-upgrade")]
+    /// <summary>
+    /// If true , major version upgrades can be applied during the mainte- nance window to the Amazon Redshift engine that is running on the cluster. When a new major version of the Amazon Redshift engine is released, you can request that the service automatically apply upgrades during the maintenance window to the Amazon Redshift engine that is running on your cluster. Default: true
+    /// </summary>
+    [CliFlag("--allow-version-upgrade", NegatedName = "--no-allow-version-upgrade")]
     public bool? AllowVersionUpgrade { get; set; }
 
     /// <summary>
@@ -120,10 +174,16 @@ public record AwsRedshiftCreateClusterOptions : AwsOptions
     [CliOption("--number-of-nodes")]
     public int? NumberOfNodes { get; set; }
 
-    [CliFlag("--publicly-accessible")]
+    /// <summary>
+    /// If true , the cluster can be accessed from a public network. Default: false
+    /// </summary>
+    [CliFlag("--publicly-accessible", NegatedName = "--no-publicly-accessible")]
     public bool? PubliclyAccessible { get; set; }
 
-    [CliFlag("--encrypted")]
+    /// <summary>
+    /// If true , the data in the cluster is encrypted at rest. If you set the value on this parameter to false , the request will fail. Default: true
+    /// </summary>
+    [CliFlag("--encrypted", NegatedName = "--no-encrypted")]
     public bool? Encrypted { get; set; }
 
     /// <summary>
@@ -156,7 +216,10 @@ public record AwsRedshiftCreateClusterOptions : AwsOptions
     [CliOption("--kms-key-id")]
     public string? KmsKeyId { get; set; }
 
-    [CliFlag("--enhanced-vpc-routing")]
+    /// <summary>
+    /// An option that specifies whether to create the cluster with enhanced VPC routing enabled. To create a cluster that uses enhanced VPC routing, the cluster must be in a VPC. For more information, see Enhanced VPC Routing in the Amazon Redshift Cluster Management Guide. If this option is true , enhanced VPC routing is enabled. Default: false
+    /// </summary>
+    [CliFlag("--enhanced-vpc-routing", NegatedName = "--no-enhanced-vpc-routing")]
     public bool? EnhancedVpcRouting { get; set; }
 
     /// <summary>
@@ -183,7 +246,10 @@ public record AwsRedshiftCreateClusterOptions : AwsOptions
     [CliOption("--snapshot-schedule-identifier")]
     public string? SnapshotScheduleIdentifier { get; set; }
 
-    [CliFlag("--availability-zone-relocation")]
+    /// <summary>
+    /// The option to enable relocation for an Amazon Redshift cluster be- tween Availability Zones after the cluster is created.
+    /// </summary>
+    [CliFlag("--availability-zone-relocation", NegatedName = "--no-availability-zone-relocation")]
     public bool? AvailabilityZoneRelocation { get; set; }
 
     /// <summary>
@@ -204,13 +270,15 @@ public record AwsRedshiftCreateClusterOptions : AwsOptions
     [CliOption("--load-sample-data")]
     public string? LoadSampleData { get; set; }
 
-    [CliFlag("--manage-master-password")]
+    /// <summary>
+    /// If true , Amazon Redshift uses Secrets Manager to manage this clus- ter's admin credentials. You can't use MasterUserPassword if Manage- MasterPassword is true. If ManageMasterPassword is false or not set, Amazon Redshift uses MasterUserPassword for the admin user account's password.
+    /// </summary>
+    [CliFlag("--manage-master-password", NegatedName = "--no-manage-master-password")]
     public bool? ManageMasterPassword { get; set; }
 
     /// <summary>
     /// The ID of the Key Management Service (KMS) key used to encrypt and store the cluster's admin credentials secret. You can only use this parameter if ManageMasterPassword is true. Constraints: o max: 2147483647
     /// </summary>
-    [SecretValue]
     [CliOption("--master-password-secret-kms-key-id")]
     public string? MasterPasswordSecretKmsKeyId { get; set; }
 
@@ -220,7 +288,10 @@ public record AwsRedshiftCreateClusterOptions : AwsOptions
     [CliOption("--ip-address-type")]
     public string? IpAddressType { get; set; }
 
-    [CliFlag("--multi-az")]
+    /// <summary>
+    /// If true, Amazon Redshift will deploy the cluster in two Availability Zones (AZ).
+    /// </summary>
+    [CliFlag("--multi-az", NegatedName = "--no-multi-az")]
     public bool? MultiAz { get; set; }
 
     /// <summary>
@@ -235,7 +306,10 @@ public record AwsRedshiftCreateClusterOptions : AwsOptions
     [CliOption("--catalog-name")]
     public string? CatalogName { get; set; }
 
-    [CliFlag("--extra-compute-for-automatic-optimization")]
+    /// <summary>
+    /// tomatic-optimization (boolean) If true , allocates additional compute resources for running auto- matic optimization operations. Default: false
+    /// </summary>
+    [CliFlag("--extra-compute-for-automatic-optimization", NegatedName = "--no-extra-compute-for-automatic-optimization")]
     public bool? ExtraComputeForAutomaticOptimization { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -243,5 +317,22 @@ public record AwsRedshiftCreateClusterOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("codecommit", "update-repository-description")]
-public record AwsCodecommitUpdateRepositoryDescriptionOptions : AwsOptions
+public record AwsCodecommitUpdateRepositoryDescriptionOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Sets or changes the comment or description for a repository. NOTE: The description field for a repository accepts all HTML characters and all valid Unicode characters. Applications that do not HTML-en- code the description and display it in a webpage can expose users to potentially malicious code. Make sure that you HTML-encode the de- scription field in any application that uses this API to display the repository description on a webpage. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="RepositoryName">The name of the repository to set or change the comment or descrip- tion for. Constraints: o min: 1 o max: 100 o pattern: [\w\.-]+</param>
+    public AwsCodecommitUpdateRepositoryDescriptionOptions(
+        string RepositoryName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(RepositoryName);
+        this.RepositoryName = RepositoryName;
+    }
+
+    private AwsCodecommitUpdateRepositoryDescriptionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCodecommitUpdateRepositoryDescriptionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCodecommitUpdateRepositoryDescriptionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the repository to set or change the comment or descrip- tion for. Constraints: o min: 1 o max: 100 o pattern: [\w\.-]+
+    /// </summary>
     [CliOption("--repository-name")]
-    public string? RepositoryName { get; set; }
+    public string? RepositoryName { get; private init; }
 
     /// <summary>
     /// The new comment or description for the specified repository. Reposi- tory descriptions are limited to 1,000 characters. Constraints: o max: 1000
@@ -35,5 +72,22 @@ public record AwsCodecommitUpdateRepositoryDescriptionOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

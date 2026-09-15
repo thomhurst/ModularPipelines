@@ -11,11 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --failuremode.
+/// Allowed values for --failure-mode.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsConnectStartContactMediaProcessingFailureMode
 {
     [EnumValue("DELIVER_UNPROCESSED_MESSAGE")]
-    DeliverUnprocessedMessage = 1
+    DeliverUnprocessedMessage,
+
+    [EnumValue("DO_NOT_DELIVER_UNPROCESSED_MESSAGE")]
+    DoNotDeliverUnprocessedMessage
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,10 +21,86 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("logs", "update-scheduled-query")]
-public record AwsLogsUpdateScheduledQueryOptions : AwsOptions
+public record AwsLogsUpdateScheduledQueryOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates an existing scheduled query with new configuration. This opera- tion uses PUT semantics, allowing modification of query parameters, schedule, and destinations. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Identifier">The ARN or name of the scheduled query to update. Constraints: o min: 1 o max: 300</param>
+    /// <param name="QueryLanguage">The updated query language for the scheduled query. Possible values: o CWLI o SQL o PPL</param>
+    /// <param name="QueryString">The updated query string to execute. Constraints: o min: 0 o max: 10000</param>
+    /// <param name="ScheduleExpression">The updated cron expression that defines when the scheduled query runs. Constraints: o max: 256</param>
+    /// <param name="ExecutionRoleArn">The updated ARN of the IAM role that grants permissions to execute the query and deliver results. Constraints: o min: 1</param>
+    public AwsLogsUpdateScheduledQueryOptions(
+        string Identifier,
+        AwsLogsUpdateScheduledQueryQueryLanguage QueryLanguage,
+        string QueryString,
+        string ScheduleExpression,
+        string ExecutionRoleArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Identifier);
+        this.Identifier = Identifier;
+        global::System.ArgumentNullException.ThrowIfNull(QueryLanguage);
+        this.QueryLanguage = QueryLanguage;
+        global::System.ArgumentNullException.ThrowIfNull(QueryString);
+        this.QueryString = QueryString;
+        global::System.ArgumentNullException.ThrowIfNull(ScheduleExpression);
+        this.ScheduleExpression = ScheduleExpression;
+        global::System.ArgumentNullException.ThrowIfNull(ExecutionRoleArn);
+        this.ExecutionRoleArn = ExecutionRoleArn;
+    }
+
+    private AwsLogsUpdateScheduledQueryOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsLogsUpdateScheduledQueryOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsLogsUpdateScheduledQueryOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ARN or name of the scheduled query to update. Constraints: o min: 1 o max: 300
+    /// </summary>
     [CliOption("--identifier")]
-    public string? Identifier { get; set; }
+    public string? Identifier { get; private init; }
+
+    /// <summary>
+    /// The updated query language for the scheduled query. Possible values: o CWLI o SQL o PPL
+    /// </summary>
+    [CliOption("--query-language")]
+    public AwsLogsUpdateScheduledQueryQueryLanguage? QueryLanguage { get; private init; }
+
+    /// <summary>
+    /// The updated query string to execute. Constraints: o min: 0 o max: 10000
+    /// </summary>
+    [CliOption("--query-string")]
+    public string? QueryString { get; private init; }
+
+    /// <summary>
+    /// The updated cron expression that defines when the scheduled query runs. Constraints: o max: 256
+    /// </summary>
+    [CliOption("--schedule-expression")]
+    public string? ScheduleExpression { get; private init; }
+
+    /// <summary>
+    /// The updated ARN of the IAM role that grants permissions to execute the query and deliver results. Constraints: o min: 1
+    /// </summary>
+    [CliOption("--execution-role-arn")]
+    public string? ExecutionRoleArn { get; private init; }
 
     /// <summary>
     /// An updated description for the scheduled query. Constraints: o max: 1024
@@ -31,20 +108,11 @@ public record AwsLogsUpdateScheduledQueryOptions : AwsOptions
     [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CliOption("--query-language")]
-    public string? QueryLanguage { get; set; }
-
-    [CliOption("--query-string")]
-    public string? QueryString { get; set; }
-
     /// <summary>
     /// The updated array of log group names or ARNs to query. Constraints: o min: 1 o max: 50 (string) Constraints: o min: 1 o max: 2048 o pattern: [\w#+=/:,.@-]* Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--log-group-identifiers", GroupValues = true)]
     public IEnumerable<string>? LogGroupIdentifiers { get; set; }
-
-    [CliOption("--schedule-expression")]
-    public string? ScheduleExpression { get; set; }
 
     /// <summary>
     /// The updated timezone for evaluating the schedule expression. Constraints: o min: 1
@@ -82,9 +150,6 @@ public record AwsLogsUpdateScheduledQueryOptions : AwsOptions
     [CliOption("--schedule-end-time")]
     public int? ScheduleEndTime { get; set; }
 
-    [CliOption("--execution-role-arn")]
-    public string? ExecutionRoleArn { get; set; }
-
     /// <summary>
     /// The updated state of the scheduled query. Possible values: o ENABLED o DISABLED
     /// </summary>
@@ -96,5 +161,22 @@ public record AwsLogsUpdateScheduledQueryOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

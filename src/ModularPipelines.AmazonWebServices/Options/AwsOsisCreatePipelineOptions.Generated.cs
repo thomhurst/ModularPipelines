@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,19 +20,74 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("osis", "create-pipeline")]
-public record AwsOsisCreatePipelineOptions : AwsOptions
+public record AwsOsisCreatePipelineOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates an OpenSearch Ingestion pipeline. For more information, see Creating Amazon OpenSearch Ingestion pipelines . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="PipelineName">The name of the OpenSearch Ingestion pipeline to create. Pipeline names are unique across the pipelines owned by an account within an Amazon Web Services Region. Constraints: o min: 3 o max: 28 o pattern: [a-z][a-z0-9\-]+</param>
+    /// <param name="MinUnits">The minimum pipeline capacity, in Ingestion Compute Units (ICUs). Constraints: o min: 1</param>
+    /// <param name="MaxUnits">The maximum pipeline capacity, in Ingestion Compute Units (ICUs). Constraints: o min: 1</param>
+    /// <param name="PipelineConfigurationBody">The pipeline configuration in YAML format. The command accepts the pipeline configuration as a string or within a .yaml file. If you provide the configuration as a string, each new line must be escaped with \n . Constraints: o min: 1 o max: 100000</param>
+    public AwsOsisCreatePipelineOptions(
+        string PipelineName,
+        int MinUnits,
+        int MaxUnits,
+        string PipelineConfigurationBody
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PipelineName);
+        this.PipelineName = PipelineName;
+        this.MinUnits = MinUnits;
+        this.MaxUnits = MaxUnits;
+        global::System.ArgumentNullException.ThrowIfNull(PipelineConfigurationBody);
+        this.PipelineConfigurationBody = PipelineConfigurationBody;
+    }
+
+    private AwsOsisCreatePipelineOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsOsisCreatePipelineOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsOsisCreatePipelineOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the OpenSearch Ingestion pipeline to create. Pipeline names are unique across the pipelines owned by an account within an Amazon Web Services Region. Constraints: o min: 3 o max: 28 o pattern: [a-z][a-z0-9\-]+
+    /// </summary>
     [CliOption("--pipeline-name")]
-    public string? PipelineName { get; set; }
+    public string? PipelineName { get; private init; }
 
+    /// <summary>
+    /// The minimum pipeline capacity, in Ingestion Compute Units (ICUs). Constraints: o min: 1
+    /// </summary>
     [CliOption("--min-units")]
-    public int? MinUnits { get; set; }
+    public int? MinUnits { get; private init; }
 
+    /// <summary>
+    /// The maximum pipeline capacity, in Ingestion Compute Units (ICUs). Constraints: o min: 1
+    /// </summary>
     [CliOption("--max-units")]
-    public int? MaxUnits { get; set; }
+    public int? MaxUnits { get; private init; }
 
+    /// <summary>
+    /// The pipeline configuration in YAML format. The command accepts the pipeline configuration as a string or within a .yaml file. If you provide the configuration as a string, each new line must be escaped with \n . Constraints: o min: 1 o max: 100000
+    /// </summary>
     [CliOption("--pipeline-configuration-body")]
-    public string? PipelineConfigurationBody { get; set; }
+    public string? PipelineConfigurationBody { get; private init; }
 
     /// <summary>
     /// Key-value pairs to configure log publishing. IsLoggingEnabled -&gt; (boolean) Whether logs should be published. CloudWatchLogDestination -&gt; (structure) The destination for OpenSearch Ingestion logs sent to Amazon CloudWatch Logs. This parameter is required if IsLoggingEnabled is set to true . LogGroup -&gt; (string) [required] The name of the CloudWatch Logs group to send pipeline logs to. You can specify an existing log group or create a new one. For example, /aws/vendedlogs/OpenSearchService/pipelines . Constraints: o min: 1 o max: 512 o pattern: \/aws\/vendedlogs\/[\.\-_/#A-Za-z0-9]+ Shorthand Syntax: IsLoggingEnabled=boolean,CloudWatchLogDestination={LogGroup=string} JSON Syntax: { "IsLoggingEnabled": true|false, "CloudWatchLogDestination": { "LogGroup": "string" } }
@@ -74,5 +130,22 @@ public record AwsOsisCreatePipelineOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

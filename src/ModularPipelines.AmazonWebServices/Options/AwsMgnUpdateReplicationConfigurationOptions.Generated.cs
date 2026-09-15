@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,10 +22,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("mgn", "update-replication-configuration")]
-public record AwsMgnUpdateReplicationConfigurationOptions : AwsOptions
+public record AwsMgnUpdateReplicationConfigurationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Allows you to update multiple ReplicationConfigurations by Source Server ID. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="SourceServerId">Update replication configuration Source Server ID request. Constraints: o min: 19 o max: 19 o pattern: s-[0-9a-zA-Z]{17}</param>
+    public AwsMgnUpdateReplicationConfigurationOptions(
+        string SourceServerId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SourceServerId);
+        this.SourceServerId = SourceServerId;
+    }
+
+    private AwsMgnUpdateReplicationConfigurationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsMgnUpdateReplicationConfigurationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsMgnUpdateReplicationConfigurationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Update replication configuration Source Server ID request. Constraints: o min: 19 o max: 19 o pattern: s-[0-9a-zA-Z]{17}
+    /// </summary>
     [CliOption("--source-server-id")]
-    public string? SourceServerId { get; set; }
+    public string? SourceServerId { get; private init; }
 
     /// <summary>
     /// Update replication configuration name request. Constraints: o min: 0 o max: 128
@@ -38,7 +75,10 @@ public record AwsMgnUpdateReplicationConfigurationOptions : AwsOptions
     [CliOption("--staging-area-subnet-id")]
     public string? StagingAreaSubnetId { get; set; }
 
-    [CliFlag("--associate-default-security-group")]
+    /// <summary>
+    /// rity-group (boolean) Update replication configuration associate default Application Mi- gration Service Security group request.
+    /// </summary>
+    [CliFlag("--associate-default-security-group", NegatedName = "--no-associate-default-security-group")]
     public bool? AssociateDefaultSecurityGroup { get; set; }
 
     /// <summary>
@@ -53,7 +93,10 @@ public record AwsMgnUpdateReplicationConfigurationOptions : AwsOptions
     [CliOption("--replication-server-instance-type")]
     public string? ReplicationServerInstanceType { get; set; }
 
-    [CliFlag("--use-dedicated-replication-server")]
+    /// <summary>
+    /// tion-server (boolean) Update replication configuration use dedicated Replication Server request.
+    /// </summary>
+    [CliFlag("--use-dedicated-replication-server", NegatedName = "--no-use-dedicated-replication-server")]
     public bool? UseDedicatedReplicationServer { get; set; }
 
     /// <summary>
@@ -92,7 +135,10 @@ public record AwsMgnUpdateReplicationConfigurationOptions : AwsOptions
     [CliOption("--data-plane-routing")]
     public AwsMgnUpdateReplicationConfigurationDataPlaneRouting? DataPlaneRouting { get; set; }
 
-    [CliFlag("--create-public-ip")]
+    /// <summary>
+    /// Update replication configuration create Public IP request.
+    /// </summary>
+    [CliFlag("--create-public-ip", NegatedName = "--no-create-public-ip")]
     public bool? CreatePublicIp { get; set; }
 
     /// <summary>
@@ -101,7 +147,10 @@ public record AwsMgnUpdateReplicationConfigurationOptions : AwsOptions
     [CliOption("--staging-area-tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? StagingAreaTags { get; set; }
 
-    [CliFlag("--use-fips-endpoint")]
+    /// <summary>
+    /// Update replication configuration use Fips Endpoint.
+    /// </summary>
+    [CliFlag("--use-fips-endpoint", NegatedName = "--no-use-fips-endpoint")]
     public bool? UseFipsEndpoint { get; set; }
 
     /// <summary>
@@ -116,7 +165,10 @@ public record AwsMgnUpdateReplicationConfigurationOptions : AwsOptions
     [CliOption("--internet-protocol")]
     public AwsMgnUpdateReplicationConfigurationInternetProtocol? InternetProtocol { get; set; }
 
-    [CliFlag("--store-snapshot-on-local-zone")]
+    /// <summary>
+    /// Update replication configuration store snapshot on local zone.
+    /// </summary>
+    [CliFlag("--store-snapshot-on-local-zone", NegatedName = "--no-store-snapshot-on-local-zone")]
     public bool? StoreSnapshotOnLocalZone { get; set; }
 
     /// <summary>
@@ -130,5 +182,22 @@ public record AwsMgnUpdateReplicationConfigurationOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

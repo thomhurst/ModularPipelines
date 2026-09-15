@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,19 +20,63 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("importexport", "update-job")]
-public record AwsImportexportUpdateJobOptions : AwsOptions
+public record AwsImportexportUpdateJobOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// You use this operation to change the parameters specified in the origi- nal manifest file by supplying a new manifest file. The manifest file attached to this request replaces the original manifest file. You can only use the operation after a CreateJob request but before the data transfer starts and you can only use it on jobs you own. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="JobId"></param>
+    /// <param name="Manifest"></param>
+    /// <param name="JobType"></param>
+    /// <param name="ValidateOnly"></param>
+    public AwsImportexportUpdateJobOptions(
+        string JobId,
+        string Manifest,
+        string JobType,
+        bool ValidateOnly
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(JobId);
+        this.JobId = JobId;
+        global::System.ArgumentNullException.ThrowIfNull(Manifest);
+        this.Manifest = Manifest;
+        global::System.ArgumentNullException.ThrowIfNull(JobType);
+        this.JobType = JobType;
+        this.ValidateOnly = ValidateOnly;
+    }
+
+    private AwsImportexportUpdateJobOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsImportexportUpdateJobOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsImportexportUpdateJobOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
     [CliOption("--job-id")]
-    public string? JobId { get; set; }
+    public string? JobId { get; private init; }
 
     [CliOption("--manifest")]
-    public string? Manifest { get; set; }
+    public string? Manifest { get; private init; }
 
     [CliOption("--job-type")]
-    public string? JobType { get; set; }
+    public string? JobType { get; private init; }
 
-    [CliFlag("--validate-only")]
-    public bool? ValidateOnly { get; set; }
+    [CliFlag("--validate-only", NegatedName = "--no-validate-only")]
+    public bool? ValidateOnly { get; private init; }
 
     [CliOption("--api-version")]
     public string? ApiVersion { get; set; }
@@ -41,5 +86,22 @@ public record AwsImportexportUpdateJobOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

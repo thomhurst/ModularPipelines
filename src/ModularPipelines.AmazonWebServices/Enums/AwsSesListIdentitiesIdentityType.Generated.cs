@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --identitytype.
+/// Allowed values for --identity-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsSesListIdentitiesIdentityType
 {
-    [EnumValue("EmailAddress")]
-    EmailAddress = 1,
-
     [EnumValue("Domain")]
-    Domain = 2
+    Domain,
+
+    [EnumValue("EmailAddress")]
+    EmailAddress
 }

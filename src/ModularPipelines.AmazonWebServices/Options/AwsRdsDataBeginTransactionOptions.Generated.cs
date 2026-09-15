@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,14 +21,57 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("rds-data", "begin-transaction")]
-public record AwsRdsDataBeginTransactionOptions : AwsOptions
+public record AwsRdsDataBeginTransactionOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--resource-arn")]
-    public string? ResourceArn { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Starts a SQL transaction. NOTE: A transaction can run for a maximum of 24 hours. A transaction is terminated and rolled back automatically after 24 hours. A transaction times out if no calls use its transaction ID in three minutes. If a transaction times out before it's committed, it's rolled back automatically. For Aurora MySQL, DDL statements inside a transaction cause an im- plicit commit. We recommend that you run each MySQL DDL statement in a separate ExecuteStatement call with continueAfte...
+    /// </summary>
+    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the Aurora Serverless DB cluster. Constraints: o min: 11 o max: 570</param>
+    /// <param name="SecretArn">The name or ARN of the secret that enables access to the DB cluster. Constraints: o min: 11 o max: 570</param>
+    public AwsRdsDataBeginTransactionOptions(
+        string ResourceArn,
+        string SecretArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ResourceArn);
+        this.ResourceArn = ResourceArn;
+        global::System.ArgumentNullException.ThrowIfNull(SecretArn);
+        this.SecretArn = SecretArn;
+    }
+
+    private AwsRdsDataBeginTransactionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRdsDataBeginTransactionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRdsDataBeginTransactionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the Aurora Serverless DB cluster. Constraints: o min: 11 o max: 570
+    /// </summary>
+    [CliOption("--resource-arn")]
+    public string? ResourceArn { get; private init; }
+
+    /// <summary>
+    /// The name or ARN of the secret that enables access to the DB cluster. Constraints: o min: 11 o max: 570
+    /// </summary>
     [SecretValue]
     [CliOption("--secret-arn")]
-    public string? SecretArn { get; set; }
+    public string? SecretArn { get; private init; }
 
     /// <summary>
     /// The name of the database. Constraints: o min: 0 o max: 64
@@ -46,5 +90,22 @@ public record AwsRdsDataBeginTransactionOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

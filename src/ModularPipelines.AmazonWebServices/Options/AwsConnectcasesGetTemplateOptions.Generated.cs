@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("connectcases", "get-template")]
-public record AwsConnectcasesGetTemplateOptions : AwsOptions
+public record AwsConnectcasesGetTemplateOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--domain-id")]
-    public string? DomainId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Returns the details for the requested template. Other template APIs are: o CreateTemplate o DeleteTemplate o ListTemplates o UpdateTemplate See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DomainId">The unique identifier of the Cases domain. Constraints: o min: 1 o max: 500</param>
+    /// <param name="TemplateId">A unique identifier of a template. Constraints: o min: 1 o max: 500</param>
+    public AwsConnectcasesGetTemplateOptions(
+        string DomainId,
+        string TemplateId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DomainId);
+        this.DomainId = DomainId;
+        global::System.ArgumentNullException.ThrowIfNull(TemplateId);
+        this.TemplateId = TemplateId;
+    }
+
+    private AwsConnectcasesGetTemplateOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsConnectcasesGetTemplateOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsConnectcasesGetTemplateOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier of the Cases domain. Constraints: o min: 1 o max: 500
+    /// </summary>
+    [CliOption("--domain-id")]
+    public string? DomainId { get; private init; }
+
+    /// <summary>
+    /// A unique identifier of a template. Constraints: o min: 1 o max: 500
+    /// </summary>
     [CliOption("--template-id")]
-    public string? TemplateId { get; set; }
+    public string? TemplateId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

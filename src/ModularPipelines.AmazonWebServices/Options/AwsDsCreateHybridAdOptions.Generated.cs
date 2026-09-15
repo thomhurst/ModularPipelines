@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,14 +21,57 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ds", "create-hybrid-ad")]
-public record AwsDsCreateHybridAdOptions : AwsOptions
+public record AwsDsCreateHybridAdOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a hybrid directory that connects your self-managed Active Di- rectory (AD) infrastructure and Amazon Web Services. You must have a successful directory assessment using StartADAssess- ment to validate your environment compatibility before you use this op- eration. Updates are applied asynchronously. Use DescribeDirectories to monitor the progress of directory creation. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="SecretArn">The Amazon Resource Name (ARN) of the Amazon Web Services Secrets Manager secret that contains the credentials for the service account used to join hybrid domain controllers to your self-managed AD do- main. This secret is used once and not stored. The secret must contain key-value pairs with keys matching customer- AdAdminDomainUsername and customerAdAdminDomainPassword . For exam- ple: {"customerAdAdminDomainUsername":"carlos_salazar","customer- AdAdminDomainPassword":"ExamplePassword123!"} . Constraints: o pattern: ^arn:aws:secretsmanager:[a-z0-9-]+:\d{12}:se- cret:[a-zA-Z0-9/_+=.@-]+-[a-zA-Z0-9]{6}$</param>
+    /// <param name="AssessmentId">The unique identifier of the successful directory assessment that validates your self-managed AD environment. You must have a success- ful directory assessment before you create a hybrid directory. Constraints: o pattern: ^da-[0-9a-f]{18}$</param>
+    public AwsDsCreateHybridAdOptions(
+        string SecretArn,
+        string AssessmentId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SecretArn);
+        this.SecretArn = SecretArn;
+        global::System.ArgumentNullException.ThrowIfNull(AssessmentId);
+        this.AssessmentId = AssessmentId;
+    }
+
+    private AwsDsCreateHybridAdOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDsCreateHybridAdOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDsCreateHybridAdOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the Amazon Web Services Secrets Manager secret that contains the credentials for the service account used to join hybrid domain controllers to your self-managed AD do- main. This secret is used once and not stored. The secret must contain key-value pairs with keys matching customer- AdAdminDomainUsername and customerAdAdminDomainPassword . For exam- ple: {"customerAdAdminDomainUsername":"carlos_salazar","customer- AdAdminDomainPassword":"ExamplePassword123!"} . Constraints: o pattern: ^arn:aws:secretsmanager:[a-z0-9-]+:\d{12}:se- cret:[a-zA-Z0-9/_+=.@-]+-[a-zA-Z0-9]{6}$
+    /// </summary>
     [SecretValue]
     [CliOption("--secret-arn")]
-    public string? SecretArn { get; set; }
+    public string? SecretArn { get; private init; }
 
+    /// <summary>
+    /// The unique identifier of the successful directory assessment that validates your self-managed AD environment. You must have a success- ful directory assessment before you create a hybrid directory. Constraints: o pattern: ^da-[0-9a-f]{18}$
+    /// </summary>
     [CliOption("--assessment-id")]
-    public string? AssessmentId { get; set; }
+    public string? AssessmentId { get; private init; }
 
     /// <summary>
     /// The tags to be assigned to the directory. Each tag consists of a key and value pair. You can specify multiple tags as a list. (structure) Metadata assigned to a directory consisting of a key-value pair. Key -&gt; (string) [required] Required name of the tag. The string value can be Unicode characters and cannot be prefixed with "aws:". The string can contain only the set of Unicode letters, digits, white-space, '_', '.', '/', '=', '+', '-', ':', '@'(Java regex: "^([\p{L}\p{Z}\p{N}_.:/=+\-]*)$"). Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Value -&gt; (string) [required] The optional value of the tag. The string value can be Uni- code characters. The string can contain only the set of Uni- code letters, digits, white-space, '_', '.', '/', '=', '+', '-', ':', '@' (Java regex: "^([\p{L}\p{Z}\p{N}_.:/=+\-]*)$"). Constraints: o min: 0 o max: 256 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
@@ -40,5 +84,22 @@ public record AwsDsCreateHybridAdOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

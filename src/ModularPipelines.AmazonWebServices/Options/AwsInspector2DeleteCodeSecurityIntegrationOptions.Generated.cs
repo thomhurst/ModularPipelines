@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,68 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("inspector2", "delete-code-security-integration")]
-public record AwsInspector2DeleteCodeSecurityIntegrationOptions : AwsOptions
+public record AwsInspector2DeleteCodeSecurityIntegrationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Deletes a code security integration. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="IntegrationArn">The Amazon Resource Name (ARN) of the code security integration to delete. Constraints: o pattern: arn:(aws[a-zA-Z-]*)?:inspec- tor2:[a-z]{2}(-gov)?-[a-z]+-\d{1}:\d{12}:codesecurity-integra- tion/[a-f0-9-]{36}</param>
+    public AwsInspector2DeleteCodeSecurityIntegrationOptions(
+        string IntegrationArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(IntegrationArn);
+        this.IntegrationArn = IntegrationArn;
+    }
+
+    private AwsInspector2DeleteCodeSecurityIntegrationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsInspector2DeleteCodeSecurityIntegrationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsInspector2DeleteCodeSecurityIntegrationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the code security integration to delete. Constraints: o pattern: arn:(aws[a-zA-Z-]*)?:inspec- tor2:[a-z]{2}(-gov)?-[a-z]+-\d{1}:\d{12}:codesecurity-integra- tion/[a-f0-9-]{36}
+    /// </summary>
     [CliOption("--integration-arn")]
-    public string? IntegrationArn { get; set; }
+    public string? IntegrationArn { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

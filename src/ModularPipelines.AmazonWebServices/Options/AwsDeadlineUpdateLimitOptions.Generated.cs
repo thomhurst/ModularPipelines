@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +20,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("deadline", "update-limit")]
-public record AwsDeadlineUpdateLimitOptions : AwsOptions
+public record AwsDeadlineUpdateLimitOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--farm-id")]
-    public string? FarmId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Updates the properties of the specified limit. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="FarmId">The unique identifier of the farm that contains the limit. Constraints: o pattern: farm-[0-9a-f]{32}</param>
+    /// <param name="LimitId">The unique identifier of the limit to update. Constraints: o pattern: limit-[0-9a-f]{32}</param>
+    public AwsDeadlineUpdateLimitOptions(
+        string FarmId,
+        string LimitId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(FarmId);
+        this.FarmId = FarmId;
+        global::System.ArgumentNullException.ThrowIfNull(LimitId);
+        this.LimitId = LimitId;
+    }
+
+    private AwsDeadlineUpdateLimitOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDeadlineUpdateLimitOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDeadlineUpdateLimitOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier of the farm that contains the limit. Constraints: o pattern: farm-[0-9a-f]{32}
+    /// </summary>
+    [CliOption("--farm-id")]
+    public string? FarmId { get; private init; }
+
+    /// <summary>
+    /// The unique identifier of the limit to update. Constraints: o pattern: limit-[0-9a-f]{32}
+    /// </summary>
     [CliOption("--limit-id")]
-    public string? LimitId { get; set; }
+    public string? LimitId { get; private init; }
 
     /// <summary>
     /// The new display name of the limit. WARNING: This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field. Constraints: o min: 1 o max: 100
@@ -50,5 +94,22 @@ public record AwsDeadlineUpdateLimitOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

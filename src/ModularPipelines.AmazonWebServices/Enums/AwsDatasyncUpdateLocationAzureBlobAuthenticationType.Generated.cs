@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --authenticationtype.
+/// Allowed values for --authentication-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsDatasyncUpdateLocationAzureBlobAuthenticationType
 {
-    [EnumValue("SAS")]
-    Sas = 1,
-
     [EnumValue("NONE")]
-    None = 2
+    None,
+
+    [EnumValue("SAS")]
+    Sas
 }

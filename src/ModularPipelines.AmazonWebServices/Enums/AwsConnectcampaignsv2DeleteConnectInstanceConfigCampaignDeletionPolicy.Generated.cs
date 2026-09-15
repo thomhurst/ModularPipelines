@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --campaigndeletionpolicy.
+/// Allowed values for --campaign-deletion-policy.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsConnectcampaignsv2DeleteConnectInstanceConfigCampaignDeletionPolicy
 {
-    [EnumValue("RETAIN_ALL")]
-    RetainAll = 1,
-
     [EnumValue("DELETE_ALL")]
-    DeleteAll = 2
+    DeleteAll,
+
+    [EnumValue("RETAIN_ALL")]
+    RetainAll
 }

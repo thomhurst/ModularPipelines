@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("logs", "create-lookup-table")]
-public record AwsLogsCreateLookupTableOptions : AwsOptions
+public record AwsLogsCreateLookupTableOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a lookup table by uploading CSV data or from CloudWatch Logs query results. You can use lookup tables to enrich log data in Cloud- Watch Logs queries with reference data such as user details, applica- tion names, or error descriptions. The table name must be unique within your account and Region. You must specify either tableBody or queryId , but not both. If you use table- Body , the CSV content must include a header row with column names, use UTF-8 encoding, and not exceed 10 MB. See a...
+    /// </summary>
+    /// <param name="LookupTableName">The name of the lookup table. The name must be unique within your account and Region. The name can contain only alphanumeric charac- ters and underscores, and can be up to 256 characters long. Constraints: o min: 1 o max: 256 o pattern: ^[a-zA-Z0-9_]+$</param>
+    public AwsLogsCreateLookupTableOptions(
+        string LookupTableName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(LookupTableName);
+        this.LookupTableName = LookupTableName;
+    }
+
+    private AwsLogsCreateLookupTableOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsLogsCreateLookupTableOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsLogsCreateLookupTableOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the lookup table. The name must be unique within your account and Region. The name can contain only alphanumeric charac- ters and underscores, and can be up to 256 characters long. Constraints: o min: 1 o max: 256 o pattern: ^[a-zA-Z0-9_]+$
+    /// </summary>
     [CliOption("--lookup-table-name")]
-    public string? LookupTableName { get; set; }
+    public string? LookupTableName { get; private init; }
 
     /// <summary>
     /// A description of the lookup table. The description can be up to 1024 characters long. Constraints: o min: 0 o max: 1024
@@ -60,5 +97,22 @@ public record AwsLogsCreateLookupTableOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,12 +20,51 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iotsecuretunneling", "close-tunnel")]
-public record AwsIotsecuretunnelingCloseTunnelOptions : AwsOptions
+public record AwsIotsecuretunnelingCloseTunnelOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--tunnel-id")]
-    public string? TunnelId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
-    [CliFlag("--delete")]
+    /// <summary>
+    /// Closes a tunnel identified by the unique tunnel id. When a CloseTunnel request is received, we close the WebSocket connections between the client and proxy server so no data can be transmitted. Requires permission to access the CloseTunnel action. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="TunnelId">The ID of the tunnel to close. Constraints: o pattern: [a-zA-Z0-9_\-+=:]{1,128}</param>
+    public AwsIotsecuretunnelingCloseTunnelOptions(
+        string TunnelId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(TunnelId);
+        this.TunnelId = TunnelId;
+    }
+
+    private AwsIotsecuretunnelingCloseTunnelOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsIotsecuretunnelingCloseTunnelOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsIotsecuretunnelingCloseTunnelOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the tunnel to close. Constraints: o pattern: [a-zA-Z0-9_\-+=:]{1,128}
+    /// </summary>
+    [CliOption("--tunnel-id")]
+    public string? TunnelId { get; private init; }
+
+    /// <summary>
+    /// When set to true, IoT Secure Tunneling deletes the tunnel data imme- diately.
+    /// </summary>
+    [CliFlag("--delete", NegatedName = "--no-delete")]
     public bool? Delete { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -32,5 +72,22 @@ public record AwsIotsecuretunnelingCloseTunnelOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

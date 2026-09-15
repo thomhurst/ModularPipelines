@@ -21,14 +21,41 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("emr-containers", "create-role-associations")]
 public record AwsEmrContainersCreateRoleAssociationsOptions : AwsOptions
 {
+    /// <summary>
+    /// Creates role associations of given IAM role with EMR service accounts such that it can be used with Amazon EMR on EKS with the given name- space from the given EKS cluster. Note: The command would associate EMR service accounts with provided IAM role to EKS pod identity: o "emr-containers-sa-%(FRAMEWORK)s-%(COMPONENT)s-%(AWS_AC- COUNT_ID)s-%(BASE36_ENCODED_ROLE_NAME)s" Here: &lt;FRAMEWORK&gt; = EMR on EKS framework such as spark, flink, livy &lt;COMPONENT&gt; = Task component for the framework. Such as clie...
+    /// </summary>
+    /// <param name="ClusterName"></param>
+    /// <param name="Namespace"></param>
+    /// <param name="RoleName"></param>
+    public AwsEmrContainersCreateRoleAssociationsOptions(
+        string ClusterName,
+        string Namespace,
+        string RoleName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ClusterName);
+        this.ClusterName = ClusterName;
+        global::System.ArgumentNullException.ThrowIfNull(Namespace);
+        this.Namespace = Namespace;
+        global::System.ArgumentNullException.ThrowIfNull(RoleName);
+        this.RoleName = RoleName;
+    }
+
+    public void Deconstruct(out string ClusterName, out string Namespace, out string RoleName)
+    {
+        ClusterName = this.ClusterName;
+        Namespace = this.Namespace;
+        RoleName = this.RoleName;
+    }
+
     [CliOption("--cluster-name")]
-    public string? ClusterName { get; set; }
+    public string ClusterName { get; private init; }
 
     [CliOption("--namespace")]
-    public string? Namespace { get; set; }
+    public string Namespace { get; private init; }
 
     [CliOption("--role-name")]
-    public string? RoleName { get; set; }
+    public string RoleName { get; private init; }
 
     [CliOption("--type")]
     public string? Type { get; set; }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +20,74 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ec2", "describe-identity-id-format")]
-public record AwsEc2DescribeIdentityIdFormatOptions : AwsOptions
+public record AwsEc2DescribeIdentityIdFormatOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Describes the ID format settings for resources for the specified IAM user, IAM role, or root user. For example, you can view the resource types that are enabled for longer IDs. This request only returns infor- mation about resource types whose ID formats can be modified; it does not return information about other resource types. For more informa- tion, see Resource IDs in the Amazon Elastic Compute Cloud User Guide . The following resource types support longer IDs: bundle | conver- sion-task | c...
+    /// </summary>
+    /// <param name="PrincipalArn">The ARN of the principal, which can be an IAM role, IAM user, or the root user.</param>
+    public AwsEc2DescribeIdentityIdFormatOptions(
+        string PrincipalArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PrincipalArn);
+        this.PrincipalArn = PrincipalArn;
+    }
+
+    private AwsEc2DescribeIdentityIdFormatOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEc2DescribeIdentityIdFormatOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEc2DescribeIdentityIdFormatOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ARN of the principal, which can be an IAM role, IAM user, or the root user.
+    /// </summary>
+    [CliOption("--principal-arn")]
+    public string? PrincipalArn { get; private init; }
+
     /// <summary>
     /// The type of resource: bundle | conversion-task | customer-gateway | dhcp-options | elastic-ip-allocation | elastic-ip-association | ex- port-task | flow-log | image | import-task | instance | inter- net-gateway | network-acl | network-acl-association | network-inter- face | network-interface-attachment | prefix-list | reservation | route-table | route-table-association | security-group | snapshot | subnet | subnet-cidr-block-association | volume | vpc | vpc-cidr-block-association | vpc-endpoint | vpc-peering-connection | vpn-connection | vpn-gateway
     /// </summary>
     [CliOption("--resource")]
     public string? Resource { get; set; }
 
-    [CliOption("--principal-arn")]
-    public string? PrincipalArn { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

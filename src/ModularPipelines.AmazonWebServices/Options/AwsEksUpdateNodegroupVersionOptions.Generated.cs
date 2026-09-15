@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("eks", "update-nodegroup-version")]
-public record AwsEksUpdateNodegroupVersionOptions : AwsOptions
+public record AwsEksUpdateNodegroupVersionOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--cluster-name")]
-    public string? ClusterName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Updates the Kubernetes version or AMI version of an Amazon EKS managed node group. You can update a node group using a launch template only if the node group was originally deployed with a launch template. Additionally, the launch template ID or name must match what was used when the node group was created. You can update the launch template version with necessary changes. If you need to update a custom AMI in a node group that was deployed with a launch template, then update your custom AMI, sp...
+    /// </summary>
+    /// <param name="ClusterName">The name of your cluster.</param>
+    /// <param name="NodegroupName">The name of the managed node group to update.</param>
+    public AwsEksUpdateNodegroupVersionOptions(
+        string ClusterName,
+        string NodegroupName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ClusterName);
+        this.ClusterName = ClusterName;
+        global::System.ArgumentNullException.ThrowIfNull(NodegroupName);
+        this.NodegroupName = NodegroupName;
+    }
+
+    private AwsEksUpdateNodegroupVersionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEksUpdateNodegroupVersionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEksUpdateNodegroupVersionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of your cluster.
+    /// </summary>
+    [CliOption("--cluster-name")]
+    public string? ClusterName { get; private init; }
+
+    /// <summary>
+    /// The name of the managed node group to update.
+    /// </summary>
     [CliOption("--nodegroup-name")]
-    public string? NodegroupName { get; set; }
+    public string? NodegroupName { get; private init; }
 
     /// <summary>
     /// The AMI version of the Amazon EKS optimized AMI to use for the up- date. By default, the latest available AMI version for the node group's Kubernetes version is used. For information about Linux ver- sions, see Amazon EKS optimized Amazon Linux AMI versions in the Amazon EKS User Guide . Amazon EKS managed node groups support the November 2022 and later releases of the Windows AMIs. For informa- tion about Windows versions, see Amazon EKS optimized Windows AMI versions in the Amazon EKS User Guide . If you specify launchTemplate , and your launch template uses a cus- tom AMI, then don't specify releaseVersion , or the node group up- date will fail. For more information about using launch templates with Amazon EKS, see Customizing managed nodes with launch templates in the Amazon EKS User Guide .
@@ -40,7 +84,10 @@ public record AwsEksUpdateNodegroupVersionOptions : AwsOptions
     [CliOption("--launch-template")]
     public string? LaunchTemplate { get; set; }
 
-    [CliFlag("--force")]
+    /// <summary>
+    /// Force the update if any Pod on the existing node group can't be drained due to a Pod disruption budget issue. If an update fails be- cause all Pods can't be drained, you can force the update after it fails to terminate the old node whether or not any Pod is running on the node.
+    /// </summary>
+    [CliFlag("--force", NegatedName = "--no-force")]
     public bool? Force { get; set; }
 
     /// <summary>
@@ -61,5 +108,22 @@ public record AwsEksUpdateNodegroupVersionOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

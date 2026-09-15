@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iot", "reject-certificate-transfer")]
-public record AwsIotRejectCertificateTransferOptions : AwsOptions
+public record AwsIotRejectCertificateTransferOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Rejects a pending certificate transfer. After IoT rejects a certificate transfer, the certificate status changes from PENDING_TRANSFER to INAC- TIVE . To check for pending certificate transfers, call ListCertificates to enumerate your certificates. This operation can only be called by the transfer destination. After it is called, the certificate will be returned to the source's account in the INACTIVE state. Requires permission to access the RejectCertificateTransfer action. See also: AWS API Do...
+    /// </summary>
+    /// <param name="CertificateId">The ID of the certificate. (The last part of the certificate ARN contains the certificate ID.) Constraints: o min: 64 o max: 64 o pattern: (0x)?[a-fA-F0-9]+</param>
+    public AwsIotRejectCertificateTransferOptions(
+        string CertificateId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(CertificateId);
+        this.CertificateId = CertificateId;
+    }
+
+    private AwsIotRejectCertificateTransferOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsIotRejectCertificateTransferOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsIotRejectCertificateTransferOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the certificate. (The last part of the certificate ARN contains the certificate ID.) Constraints: o min: 64 o max: 64 o pattern: (0x)?[a-fA-F0-9]+
+    /// </summary>
     [CliOption("--certificate-id")]
-    public string? CertificateId { get; set; }
+    public string? CertificateId { get; private init; }
 
     /// <summary>
     /// The reason the certificate transfer was rejected. Constraints: o max: 128 o pattern: [\s\S]*
@@ -35,5 +72,22 @@ public record AwsIotRejectCertificateTransferOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

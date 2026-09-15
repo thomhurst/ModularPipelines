@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,24 +20,83 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("autoscaling", "detach-instances")]
-public record AwsAutoscalingDetachInstancesOptions : AwsOptions
+public record AwsAutoscalingDetachInstancesOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Removes one or more instances from the specified Auto Scaling group. After the instances are detached, you can manage them independent of the Auto Scaling group. If you do not specify the option to decrement the desired capacity, Amazon EC2 Auto Scaling launches instances to replace the ones that are detached. If there is a Classic Load Balancer attached to the Auto Scaling group, the instances are deregistered from the load balancer. If there are target groups attached to the Auto Scaling group...
+    /// </summary>
+    /// <param name="AutoScalingGroupName">The name of the Auto Scaling group. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*</param>
+    /// <param name="ShouldDecrementDesiredCapacity">pacity (boolean) [required] Indicates whether the Auto Scaling group decrements the desired ca- pacity value by the number of instances detached.</param>
+    public AwsAutoscalingDetachInstancesOptions(
+        string AutoScalingGroupName,
+        bool ShouldDecrementDesiredCapacity
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AutoScalingGroupName);
+        this.AutoScalingGroupName = AutoScalingGroupName;
+        this.ShouldDecrementDesiredCapacity = ShouldDecrementDesiredCapacity;
+    }
+
+    private AwsAutoscalingDetachInstancesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsAutoscalingDetachInstancesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsAutoscalingDetachInstancesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the Auto Scaling group. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*
+    /// </summary>
+    [CliOption("--auto-scaling-group-name")]
+    public string? AutoScalingGroupName { get; private init; }
+
+    /// <summary>
+    /// pacity (boolean) [required] Indicates whether the Auto Scaling group decrements the desired ca- pacity value by the number of instances detached.
+    /// </summary>
+    [CliFlag("--should-decrement-desired-capacity", NegatedName = "--no-should-decrement-desired-capacity")]
+    public bool? ShouldDecrementDesiredCapacity { get; private init; }
+
     /// <summary>
     /// The IDs of the instances. You can specify up to 20 instances. (string) Constraints: o min: 1 o max: 19 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]* Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--instance-ids", GroupValues = true)]
     public IEnumerable<string>? InstanceIds { get; set; }
 
-    [CliOption("--auto-scaling-group-name")]
-    public string? AutoScalingGroupName { get; set; }
-
-    [CliFlag("--should-decrement-desired-capacity")]
-    public bool? ShouldDecrementDesiredCapacity { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

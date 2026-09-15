@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("route53resolver", "delete-firewall-rule")]
-public record AwsRoute53resolverDeleteFirewallRuleOptions : AwsOptions
+public record AwsRoute53resolverDeleteFirewallRuleOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Deletes the specified firewall rule. Identify the rule using either FirewallDomainListId (for domain-list and DNS Firewall Advanced rules) or FirewallThreatProtectionId (for partner-managed and DNS Firewall Ad- vanced rules) together with FirewallRuleGroupId . DeleteFirewallRule is the only operation that succeeds against a rule whose Status is CREATION_FAILED . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="FirewallRuleGroupId">The unique identifier of the firewall rule group that you want to delete the rule from. Constraints: o min: 1 o max: 64</param>
+    public AwsRoute53resolverDeleteFirewallRuleOptions(
+        string FirewallRuleGroupId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(FirewallRuleGroupId);
+        this.FirewallRuleGroupId = FirewallRuleGroupId;
+    }
+
+    private AwsRoute53resolverDeleteFirewallRuleOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRoute53resolverDeleteFirewallRuleOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRoute53resolverDeleteFirewallRuleOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier of the firewall rule group that you want to delete the rule from. Constraints: o min: 1 o max: 64
+    /// </summary>
     [CliOption("--firewall-rule-group-id")]
-    public string? FirewallRuleGroupId { get; set; }
+    public string? FirewallRuleGroupId { get; private init; }
 
     /// <summary>
     /// The ID of the domain list that's used in the rule. Constraints: o min: 1 o max: 64
@@ -47,5 +84,22 @@ public record AwsRoute53resolverDeleteFirewallRuleOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

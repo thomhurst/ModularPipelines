@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --savingsestimationmode.
+/// Allowed values for --savings-estimation-mode.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsCostOptimizationHubUpdatePreferencesSavingsEstimationMode
 {
-    [EnumValue("BeforeDiscounts")]
-    BeforeDiscounts = 1,
-
     [EnumValue("AfterDiscounts")]
-    AfterDiscounts = 2
+    AfterDiscounts,
+
+    [EnumValue("BeforeDiscounts")]
+    BeforeDiscounts
 }

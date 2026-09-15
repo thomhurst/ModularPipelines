@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,23 +22,86 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("waf", "create-rate-based-rule")]
-public record AwsWafCreateRateBasedRuleOptions : AwsOptions
+public record AwsWafCreateRateBasedRuleOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// NOTE: This is AWS WAF Classic documentation. For more information, see AWS WAF Classic in the developer guide. For the latest version of AWS WAF , use the AWS WAFV2 API and see the AWS WAF Developer Guide . With the latest version, AWS WAF has a single set of endpoints for regional and global use. Creates a RateBasedRule . The RateBasedRule contains a RateLimit , which specifies the maximum number of requests that AWS WAF allows from a specified IP address in a five-minute period. The RateBasedR...
+    /// </summary>
+    /// <param name="Name">A friendly name or description of the RateBasedRule . You can't change the name of a RateBasedRule after you create it. Constraints: o min: 1 o max: 128 o pattern: .*\S.*</param>
+    /// <param name="MetricName">A friendly name or description for the metrics for this RateBase- dRule . The name can contain only alphanumeric characters (A-Z, a-z, 0-9), with maximum length 128 and minimum length one. It can't con- tain whitespace or metric names reserved for AWS WAF, including "All" and "Default_Action." You can't change the name of the metric after you create the RateBasedRule . Constraints: o min: 1 o max: 128 o pattern: .*\S.*</param>
+    /// <param name="RateKey">The field that AWS WAF uses to determine if requests are likely ar- riving from a single source and thus subject to rate monitoring. The only valid value for RateKey is IP . IP indicates that requests that arrive from the same IP address are subject to the RateLimit that is specified in the RateBasedRule . Possible values: o IP</param>
+    /// <param name="RateLimit">The maximum number of requests, which have an identical value in the field that is specified by RateKey , allowed in a five-minute pe- riod. If the number of requests exceeds the RateLimit and the other predicates specified in the rule are also met, AWS WAF triggers the action that is specified for this rule. Constraints: o min: 100 o max: 2000000000</param>
+    /// <param name="ChangeToken">The ChangeToken that you used to submit the CreateRateBasedRule re- quest. You can also use this value to query the status of the re- quest. For more information, see GetChangeTokenStatus . Constraints: o min: 1 o max: 128 o pattern: .*\S.*</param>
+    public AwsWafCreateRateBasedRuleOptions(
+        string Name,
+        string MetricName,
+        AwsWafCreateRateBasedRuleRateKey RateKey,
+        int RateLimit,
+        string ChangeToken
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(MetricName);
+        this.MetricName = MetricName;
+        global::System.ArgumentNullException.ThrowIfNull(RateKey);
+        this.RateKey = RateKey;
+        this.RateLimit = RateLimit;
+        global::System.ArgumentNullException.ThrowIfNull(ChangeToken);
+        this.ChangeToken = ChangeToken;
+    }
+
+    private AwsWafCreateRateBasedRuleOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsWafCreateRateBasedRuleOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsWafCreateRateBasedRuleOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A friendly name or description of the RateBasedRule . You can't change the name of a RateBasedRule after you create it. Constraints: o min: 1 o max: 128 o pattern: .*\S.*
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
 
+    /// <summary>
+    /// A friendly name or description for the metrics for this RateBase- dRule . The name can contain only alphanumeric characters (A-Z, a-z, 0-9), with maximum length 128 and minimum length one. It can't con- tain whitespace or metric names reserved for AWS WAF, including "All" and "Default_Action." You can't change the name of the metric after you create the RateBasedRule . Constraints: o min: 1 o max: 128 o pattern: .*\S.*
+    /// </summary>
     [CliOption("--metric-name")]
-    public string? MetricName { get; set; }
+    public string? MetricName { get; private init; }
 
+    /// <summary>
+    /// The field that AWS WAF uses to determine if requests are likely ar- riving from a single source and thus subject to rate monitoring. The only valid value for RateKey is IP . IP indicates that requests that arrive from the same IP address are subject to the RateLimit that is specified in the RateBasedRule . Possible values: o IP
+    /// </summary>
     [CliOption("--rate-key")]
-    public string? RateKey { get; set; }
+    public AwsWafCreateRateBasedRuleRateKey? RateKey { get; private init; }
 
+    /// <summary>
+    /// The maximum number of requests, which have an identical value in the field that is specified by RateKey , allowed in a five-minute pe- riod. If the number of requests exceeds the RateLimit and the other predicates specified in the rule are also met, AWS WAF triggers the action that is specified for this rule. Constraints: o min: 100 o max: 2000000000
+    /// </summary>
     [CliOption("--rate-limit")]
-    public int? RateLimit { get; set; }
+    public int? RateLimit { get; private init; }
 
+    /// <summary>
+    /// The ChangeToken that you used to submit the CreateRateBasedRule re- quest. You can also use this value to query the status of the re- quest. For more information, see GetChangeTokenStatus . Constraints: o min: 1 o max: 128 o pattern: .*\S.*
+    /// </summary>
     [SecretValue]
     [CliOption("--change-token")]
-    public string? ChangeToken { get; set; }
+    public string? ChangeToken { get; private init; }
 
     /// <summary>
     /// Constraints: o min: 1 (structure) NOTE: This is AWS WAF Classic documentation. For more information, see AWS WAF Classic in the developer guide. For the latest version of AWS WAF , use the AWS WAFV2 API and see the AWS WAF Developer Guide . With the latest version, AWS WAF has a single set of endpoints for re- gional and global use. A tag associated with an AWS resource. Tags are key:value pairs that you can use to categorize and manage your resources, for purposes like billing. For example, you might set the tag key to "customer" and the value to the customer name or ID. You can specify one or more tags to add to each AWS resource, up to 50 tags for a resource. Tagging is only available through the API, SDKs, and CLI. You can't manage or view tags through the AWS WAF Classic console. You can tag the AWS resources that you manage through AWS WAF Classic: web ACLs, rule groups, and rules. Key -&gt; (string) [required] Constraints: o min: 1 o max: 128 o pattern: .*\S.* Value -&gt; (string) [required] Constraints: o min: 0 o max: 256 o pattern: .* Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
@@ -49,5 +114,22 @@ public record AwsWafCreateRateBasedRuleOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

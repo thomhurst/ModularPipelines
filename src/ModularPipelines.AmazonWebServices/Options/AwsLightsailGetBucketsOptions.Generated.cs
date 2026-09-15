@@ -35,10 +35,16 @@ public record AwsLightsailGetBucketsOptions : AwsOptions
     [CliOption("--page-token")]
     public string? PageToken { get; set; }
 
-    [CliFlag("--include-connected-resources")]
+    /// <summary>
+    /// A Boolean value that indicates whether to include Lightsail in- stances that were given access to the bucket using the SetResourceAccessForBucket action.
+    /// </summary>
+    [CliFlag("--include-connected-resources", NegatedName = "--no-include-connected-resources")]
     public bool? IncludeConnectedResources { get; set; }
 
-    [CliFlag("--include-cors")]
+    /// <summary>
+    /// A Boolean value that indicates whether to include Lightsail bucket CORS configuration in the response. For more information, see Configuring cross-origin resource sharing (CORS) . NOTE: This parameter is only supported when getting a single bucket with bucketName specified. The default value for this parameter is False .
+    /// </summary>
+    [CliFlag("--include-cors", NegatedName = "--no-include-cors")]
     public bool? IncludeCors { get; set; }
 
     [CliOption("--cli-input-json")]

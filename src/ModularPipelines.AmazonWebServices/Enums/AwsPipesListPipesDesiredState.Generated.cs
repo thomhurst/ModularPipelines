@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --desiredstate.
+/// Allowed values for --desired-state.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsPipesListPipesDesiredState
 {
     [EnumValue("RUNNING")]
-    Running = 1,
+    Running,
 
     [EnumValue("STOPPED")]
-    Stopped = 2
+    Stopped
 }

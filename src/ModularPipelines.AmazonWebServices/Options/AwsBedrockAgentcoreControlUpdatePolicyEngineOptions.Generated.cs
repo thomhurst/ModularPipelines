@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bedrock-agentcore-control", "update-policy-engine")]
-public record AwsBedrockAgentcoreControlUpdatePolicyEngineOptions : AwsOptions
+public record AwsBedrockAgentcoreControlUpdatePolicyEngineOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates an existing policy engine within the AgentCore Policy system. This operation allows modification of the policy engine description while maintaining its identity. This is an asynchronous operation. Use the GetPolicyEngine operation to poll the status field to track comple- tion. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="PolicyEngineId">The unique identifier of the policy engine to be updated. Constraints: o min: 12 o max: 59 o pattern: [A-Za-z][A-Za-z0-9_]*-[a-z0-9_]{10}</param>
+    public AwsBedrockAgentcoreControlUpdatePolicyEngineOptions(
+        string PolicyEngineId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PolicyEngineId);
+        this.PolicyEngineId = PolicyEngineId;
+    }
+
+    private AwsBedrockAgentcoreControlUpdatePolicyEngineOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsBedrockAgentcoreControlUpdatePolicyEngineOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsBedrockAgentcoreControlUpdatePolicyEngineOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier of the policy engine to be updated. Constraints: o min: 12 o max: 59 o pattern: [A-Za-z][A-Za-z0-9_]*-[a-z0-9_]{10}
+    /// </summary>
     [CliOption("--policy-engine-id")]
-    public string? PolicyEngineId { get; set; }
+    public string? PolicyEngineId { get; private init; }
 
     /// <summary>
     /// The new description for the policy engine. optionalValue -&gt; (string) Represents an optional value that is used to update the hu- man-readable description of the resource. If not specified, it will clear the current description of the resource. Constraints: o min: 1 o max: 4096 Shorthand Syntax: optionalValue=string JSON Syntax: { "optionalValue": "string" }
@@ -35,5 +72,22 @@ public record AwsBedrockAgentcoreControlUpdatePolicyEngineOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

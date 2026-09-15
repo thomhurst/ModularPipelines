@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,89 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cloudhsmv2", "untag-resource")]
-public record AwsCloudhsmv2UntagResourceOptions : AwsOptions
+public record AwsCloudhsmv2UntagResourceOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--resource-id")]
-    public string? ResourceId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Removes the specified tag or tags from the specified CloudHSM cluster. Cross-account use: No. You cannot perform this operation on an CloudHSM resource in a different Amazon Web Services account. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ResourceId">The cluster identifier (ID) for the cluster whose tags you are re- moving. To find the cluster ID, use DescribeClusters . Constraints: o pattern: (?:cluster|backup)-[2-7a-zA-Z]{11,16}</param>
+    /// <param name="TagKeyList">A list of one or more tag keys for the tags that you are removing. Specify only the tag keys, not the tag values. Constraints: o min: 1 o max: 50 (string) Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Syntax: "string" "string" ...</param>
+    public AwsCloudhsmv2UntagResourceOptions(
+        string ResourceId,
+        IEnumerable<string> TagKeyList
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ResourceId);
+        this.ResourceId = ResourceId;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(TagKeyList);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(TagKeyList));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(TagKeyList));
+            }
+
+            TagKeyList = materialized;
+        }
+        this.TagKeyList = TagKeyList;
+    }
+
+    private AwsCloudhsmv2UntagResourceOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCloudhsmv2UntagResourceOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCloudhsmv2UntagResourceOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The cluster identifier (ID) for the cluster whose tags you are re- moving. To find the cluster ID, use DescribeClusters . Constraints: o pattern: (?:cluster|backup)-[2-7a-zA-Z]{11,16}
+    /// </summary>
+    [CliOption("--resource-id")]
+    public string? ResourceId { get; private init; }
+
+    /// <summary>
+    /// A list of one or more tag keys for the tags that you are removing. Specify only the tag keys, not the tag values. Constraints: o min: 1 o max: 50 (string) Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Syntax: "string" "string" ...
+    /// </summary>
     [CliOption("--tag-key-list", GroupValues = true)]
-    public IEnumerable<string>? TagKeyList { get; set; }
+    public IEnumerable<string>? TagKeyList { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

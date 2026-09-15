@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,27 +20,106 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("route53", "create-traffic-policy-instance")]
-public record AwsRoute53CreateTrafficPolicyInstanceOptions : AwsOptions
+public record AwsRoute53CreateTrafficPolicyInstanceOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates resource record sets in a specified hosted zone based on the settings in a specified traffic policy version. In addition, Create- TrafficPolicyInstance associates the resource record sets with a speci- fied domain name (such as example.com) or subdomain name (such as www.example.com). Amazon Route 53 responds to DNS queries for the do- main or subdomain name by using the resource record sets that Create- TrafficPolicyInstance created. NOTE: After you submit an CreateTrafficPolicyInstance...
+    /// </summary>
+    /// <param name="HostedZoneId">The ID of the hosted zone that you want Amazon Route 53 to create resource record sets in by using the configuration in a traffic pol- icy. Constraints: o max: 32</param>
+    /// <param name="Name">The domain name (such as example.com) or subdomain name (such as www.example.com) for which Amazon Route 53 responds to DNS queries by using the resource record sets that Route 53 creates for this traffic policy instance. Constraints: o max: 1024</param>
+    /// <param name="Ttl">(Optional) The TTL that you want Amazon Route 53 to assign to all of the resource record sets that it creates in the specified hosted zone. Constraints: o min: 0 o max: 2147483647</param>
+    /// <param name="TrafficPolicyId">The ID of the traffic policy that you want to use to create resource record sets in the specified hosted zone. Constraints: o min: 1 o max: 36</param>
+    /// <param name="TrafficPolicyVersion">The version of the traffic policy that you want to use to create re- source record sets in the specified hosted zone. Constraints: o min: 1 o max: 1000</param>
+    public AwsRoute53CreateTrafficPolicyInstanceOptions(
+        string HostedZoneId,
+        string Name,
+        int Ttl,
+        string TrafficPolicyId,
+        int TrafficPolicyVersion
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(HostedZoneId);
+        this.HostedZoneId = HostedZoneId;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        this.Ttl = Ttl;
+        global::System.ArgumentNullException.ThrowIfNull(TrafficPolicyId);
+        this.TrafficPolicyId = TrafficPolicyId;
+        this.TrafficPolicyVersion = TrafficPolicyVersion;
+    }
+
+    private AwsRoute53CreateTrafficPolicyInstanceOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRoute53CreateTrafficPolicyInstanceOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRoute53CreateTrafficPolicyInstanceOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the hosted zone that you want Amazon Route 53 to create resource record sets in by using the configuration in a traffic pol- icy. Constraints: o max: 32
+    /// </summary>
     [CliOption("--hosted-zone-id")]
-    public string? HostedZoneId { get; set; }
+    public string? HostedZoneId { get; private init; }
 
+    /// <summary>
+    /// The domain name (such as example.com) or subdomain name (such as www.example.com) for which Amazon Route 53 responds to DNS queries by using the resource record sets that Route 53 creates for this traffic policy instance. Constraints: o max: 1024
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
 
+    /// <summary>
+    /// (Optional) The TTL that you want Amazon Route 53 to assign to all of the resource record sets that it creates in the specified hosted zone. Constraints: o min: 0 o max: 2147483647
+    /// </summary>
     [CliOption("--ttl")]
-    public int? Ttl { get; set; }
+    public int? Ttl { get; private init; }
 
+    /// <summary>
+    /// The ID of the traffic policy that you want to use to create resource record sets in the specified hosted zone. Constraints: o min: 1 o max: 36
+    /// </summary>
     [CliOption("--traffic-policy-id")]
-    public string? TrafficPolicyId { get; set; }
+    public string? TrafficPolicyId { get; private init; }
 
+    /// <summary>
+    /// The version of the traffic policy that you want to use to create re- source record sets in the specified hosted zone. Constraints: o min: 1 o max: 1000
+    /// </summary>
     [CliOption("--traffic-policy-version")]
-    public int? TrafficPolicyVersion { get; set; }
+    public int? TrafficPolicyVersion { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

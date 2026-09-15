@@ -20,11 +20,30 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("s3", "sync")]
-public record AwsS3SyncOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Source,
-    [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Destination
-) : AwsOptions
+public record AwsS3SyncOptions : AwsOptions
 {
+    /// <summary>
+    /// Syncs directories and S3 prefixes. Recursively copies new and updated files from the source directory to the destination. Only creates fold- ers in the destination if they contain one or more files.
+    /// </summary>
+    /// <param name="Source">Source local path or S3 URI.</param>
+    /// <param name="Destination">Destination local path or S3 URI.</param>
+    public AwsS3SyncOptions(
+        string Source,
+        string Destination
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Source);
+        this.Source = Source;
+        global::System.ArgumentNullException.ThrowIfNull(Destination);
+        this.Destination = Destination;
+    }
+
+    public void Deconstruct(out string Source, out string Destination)
+    {
+        Source = this.Source;
+        Destination = this.Destination;
+    }
+
     [CliFlag("--dryrun")]
     public bool? Dryrun { get; set; }
 
@@ -40,7 +59,7 @@ public record AwsS3SyncOptions(
     [CliOption("--acl")]
     public string? Acl { get; set; }
 
-    [CliFlag("--follow-symlinks")]
+    [CliFlag("--follow-symlinks", NegatedName = "--no-follow-symlinks")]
     public bool? FollowSymlinks { get; set; }
 
     [CliFlag("--no-guess-mime-type")]
@@ -150,5 +169,17 @@ public record AwsS3SyncOptions(
 
     [CliFlag("--delete")]
     public bool? Delete { get; set; }
+
+    /// <summary>
+    /// Source local path or S3 URI.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Source { get; private init; }
+
+    /// <summary>
+    /// Destination local path or S3 URI.
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Destination { get; private init; }
 
 }

@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,8 +21,57 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sagemaker", "describe-device")]
-public record AwsSagemakerDescribeDeviceOptions : AwsOptions
+public record AwsSagemakerDescribeDeviceOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Describes the device. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DeviceName">The unique ID of the device. Constraints: o min: 1 o max: 63 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}</param>
+    /// <param name="DeviceFleetName">The name of the fleet the devices belong to. Constraints: o min: 1 o max: 63 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}</param>
+    public AwsSagemakerDescribeDeviceOptions(
+        string DeviceName,
+        string DeviceFleetName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DeviceName);
+        this.DeviceName = DeviceName;
+        global::System.ArgumentNullException.ThrowIfNull(DeviceFleetName);
+        this.DeviceFleetName = DeviceFleetName;
+    }
+
+    private AwsSagemakerDescribeDeviceOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSagemakerDescribeDeviceOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSagemakerDescribeDeviceOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique ID of the device. Constraints: o min: 1 o max: 63 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}
+    /// </summary>
+    [CliOption("--device-name")]
+    public string? DeviceName { get; private init; }
+
+    /// <summary>
+    /// The name of the fleet the devices belong to. Constraints: o min: 1 o max: 63 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}
+    /// </summary>
+    [CliOption("--device-fleet-name")]
+    public string? DeviceFleetName { get; private init; }
+
     /// <summary>
     /// Next token of device description. Constraints: o min: 0 o max: 8192 o pattern: .*
     /// </summary>
@@ -29,16 +79,27 @@ public record AwsSagemakerDescribeDeviceOptions : AwsOptions
     [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
-    [CliOption("--device-name")]
-    public string? DeviceName { get; set; }
-
-    [CliOption("--device-fleet-name")]
-    public string? DeviceFleetName { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

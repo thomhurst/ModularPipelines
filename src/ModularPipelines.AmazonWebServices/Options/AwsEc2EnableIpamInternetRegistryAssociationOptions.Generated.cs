@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,28 +21,102 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ec2", "enable-ipam-internet-registry-association")]
-public record AwsEc2EnableIpamInternetRegistryAssociationOptions : AwsOptions
+public record AwsEc2EnableIpamInternetRegistryAssociationOptions : AwsOptions, IValidatableObject
 {
-    [CliFlag("--dry-run")]
-    public bool? DryRun { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Enables Resource Public Key Infrastructure (RPKI) on an existing IPAM internet registry association by providing BGP Public Key Infrastruc- ture (BPKI) certificate details. After enabling, you can create Route Origin Authorizations (ROAs) for prefixes registered with the internet registry. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="IpamInternetRegistryAssociationId">The ID of the IPAM internet registry association to enable.</param>
+    /// <param name="RpkiVersion">The RPKI version to use from the Parent Response XML.</param>
+    /// <param name="ServiceUri">The RPKI service URI for the publication point from the Parent Re- sponse XML.</param>
+    /// <param name="ChildHandle">The child handle for the BPKI certificate hierarchy from the Parent Response XML.</param>
+    /// <param name="ParentHandle">The parent handle for the BPKI certificate hierarchy from the Parent Response XML.</param>
+    /// <param name="ParentBpkiTa">The parent BPKI Trust Anchor certificate in PEM format from the Par- ent Response XML.</param>
+    public AwsEc2EnableIpamInternetRegistryAssociationOptions(
+        string IpamInternetRegistryAssociationId,
+        string RpkiVersion,
+        string ServiceUri,
+        string ChildHandle,
+        string ParentHandle,
+        string ParentBpkiTa
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(IpamInternetRegistryAssociationId);
+        this.IpamInternetRegistryAssociationId = IpamInternetRegistryAssociationId;
+        global::System.ArgumentNullException.ThrowIfNull(RpkiVersion);
+        this.RpkiVersion = RpkiVersion;
+        global::System.ArgumentNullException.ThrowIfNull(ServiceUri);
+        this.ServiceUri = ServiceUri;
+        global::System.ArgumentNullException.ThrowIfNull(ChildHandle);
+        this.ChildHandle = ChildHandle;
+        global::System.ArgumentNullException.ThrowIfNull(ParentHandle);
+        this.ParentHandle = ParentHandle;
+        global::System.ArgumentNullException.ThrowIfNull(ParentBpkiTa);
+        this.ParentBpkiTa = ParentBpkiTa;
+    }
+
+    private AwsEc2EnableIpamInternetRegistryAssociationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEc2EnableIpamInternetRegistryAssociationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEc2EnableIpamInternetRegistryAssociationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the IPAM internet registry association to enable.
+    /// </summary>
     [CliOption("--ipam-internet-registry-association-id")]
-    public string? IpamInternetRegistryAssociationId { get; set; }
+    public string? IpamInternetRegistryAssociationId { get; private init; }
 
+    /// <summary>
+    /// The RPKI version to use from the Parent Response XML.
+    /// </summary>
     [CliOption("--rpki-version")]
-    public string? RpkiVersion { get; set; }
+    public string? RpkiVersion { get; private init; }
 
+    /// <summary>
+    /// The RPKI service URI for the publication point from the Parent Re- sponse XML.
+    /// </summary>
     [CliOption("--service-uri")]
-    public string? ServiceUri { get; set; }
+    public string? ServiceUri { get; private init; }
 
+    /// <summary>
+    /// The child handle for the BPKI certificate hierarchy from the Parent Response XML.
+    /// </summary>
     [CliOption("--child-handle")]
-    public string? ChildHandle { get; set; }
+    public string? ChildHandle { get; private init; }
 
+    /// <summary>
+    /// The parent handle for the BPKI certificate hierarchy from the Parent Response XML.
+    /// </summary>
     [CliOption("--parent-handle")]
-    public string? ParentHandle { get; set; }
+    public string? ParentHandle { get; private init; }
 
+    /// <summary>
+    /// The parent BPKI Trust Anchor certificate in PEM format from the Par- ent Response XML.
+    /// </summary>
     [CliOption("--parent-bpki-ta")]
-    public string? ParentBpkiTa { get; set; }
+    public string? ParentBpkiTa { get; private init; }
+
+    /// <summary>
+    /// Checks whether you have the required permissions for the operation, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
+    public bool? DryRun { get; set; }
 
     /// <summary>
     /// A unique, case-sensitive identifier to ensure that the operation completes no more than one time. If this token matches a previous request, the operation ignores the request, but does not return an error.
@@ -55,5 +130,22 @@ public record AwsEc2EnableIpamInternetRegistryAssociationOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

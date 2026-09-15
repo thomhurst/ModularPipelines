@@ -12,6 +12,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -21,19 +22,62 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("wisdom", "search-quick-responses")]
-public record AwsWisdomSearchQuickResponsesOptions : AwsOptions
+public record AwsWisdomSearchQuickResponsesOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Searches existing Wisdom quick responses in a Wisdom knowledge base. See also: AWS API Documentation search-quick-responses is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: results
+    /// </summary>
+    /// <param name="KnowledgeBaseId">The identifier of the knowledge base. This should be a QUICK_RE- SPONSES type knowledge base. Can be either the ID or the ARN. URLs cannot contain the ARN. Constraints: o pattern: ^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$|^arn:[a-z-]*?:wis- dom:[a-z0-9-]*?:[0-9]{12}:[a-z-]*?/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(?:/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12})?$</param>
+    /// <param name="SearchExpression">The search expression for querying the quick response. filters -&gt; (list) The configuration of filtering rules applied to quick response query results. Constraints: o min: 0 o max: 10 (structure) The quick response fields to filter the quick response query results by. The following is the list of supported field names. o name o description o shortcutKey o isActive o channels o language o contentType o createdTime o lastModifiedTime o lastModifiedBy o groupingConfiguration.criteria o groupingConfiguration.values includeNoExistence -&gt; (boolean) Whether to treat null value as a match for the attribute field. name -&gt; (string) [required] The name of the attribute field to filter the quick re- sponses by. Constraints: o min: 1 o max: 4096 operator -&gt; (string) [required] The operator to use for filtering. Possible values: o EQUALS o PREFIX values -&gt; (list) The values of attribute field to filter the quick re- sponse by. Constraints: o min: 1 o max: 5 (string) Constraints: o min: 1 o max: 2048 orderOnField -&gt; (structure) The quick response attribute fields on which the query results are ordered. name -&gt; (string) [required] The name of the attribute to order the quick response query results by. Constraints: o min: 1 o max: 4096 order -&gt; (string) The order at which the quick responses are sorted by. Possible values: o ASC o DESC queries -&gt; (list) The quick response query expressions. Constraints: o min: 0 o max: 4 (structure) The quick response fields to query quick responses by. The following is the list of supported field names. o content o name o description o shortcutKey allowFuzziness -&gt; (boolean) Whether the query expects only exact matches on the at- tribute field values. The results of the query will only include exact matches if this parameter is set to false. name -&gt; (string) [required] The name of the attribute to query the quick responses by. Constraints: o min: 1 o max: 4096 operator -&gt; (string) [required] The operator to use for matching attribute field values in the query. Possible values: o CONTAINS o CONTAINS_AND_PREFIX priority -&gt; (string) The importance of the attribute field when calculating query result relevancy scores. The value set for this pa- rameter affects the ordering of search results. Possible values: o HIGH o MEDIUM o LOW values -&gt; (list) [required] The values of the attribute to query the quick responses by. Constraints: o min: 1 o max: 5 (string) Constraints: o min: 1 o max: 1024 JSON Syntax: { "filters": [ { "includeNoExistence": true|false, "name": "string", "operator": "EQUALS"|"PREFIX", "values": ["string", ...] } ... ], "orderOnField": { "name": "string", "order": "ASC"|"DESC" }, "queries": [ { "allowFuzziness": true|false, "name": "string", "operator": "CONTAINS"|"CONTAINS_AND_PREFIX", "priority": "HIGH"|"MEDIUM"|"LOW", "values": ["string", ...] } ... ] }</param>
+    public AwsWisdomSearchQuickResponsesOptions(
+        string KnowledgeBaseId,
+        string SearchExpression
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(KnowledgeBaseId);
+        this.KnowledgeBaseId = KnowledgeBaseId;
+        global::System.ArgumentNullException.ThrowIfNull(SearchExpression);
+        this.SearchExpression = SearchExpression;
+    }
+
+    private AwsWisdomSearchQuickResponsesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsWisdomSearchQuickResponsesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsWisdomSearchQuickResponsesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the knowledge base. This should be a QUICK_RE- SPONSES type knowledge base. Can be either the ID or the ARN. URLs cannot contain the ARN. Constraints: o pattern: ^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$|^arn:[a-z-]*?:wis- dom:[a-z0-9-]*?:[0-9]{12}:[a-z-]*?/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(?:/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12})?$
+    /// </summary>
+    [CliOption("--knowledge-base-id")]
+    public string? KnowledgeBaseId { get; private init; }
+
+    /// <summary>
+    /// The search expression for querying the quick response. filters -&gt; (list) The configuration of filtering rules applied to quick response query results. Constraints: o min: 0 o max: 10 (structure) The quick response fields to filter the quick response query results by. The following is the list of supported field names. o name o description o shortcutKey o isActive o channels o language o contentType o createdTime o lastModifiedTime o lastModifiedBy o groupingConfiguration.criteria o groupingConfiguration.values includeNoExistence -&gt; (boolean) Whether to treat null value as a match for the attribute field. name -&gt; (string) [required] The name of the attribute field to filter the quick re- sponses by. Constraints: o min: 1 o max: 4096 operator -&gt; (string) [required] The operator to use for filtering. Possible values: o EQUALS o PREFIX values -&gt; (list) The values of attribute field to filter the quick re- sponse by. Constraints: o min: 1 o max: 5 (string) Constraints: o min: 1 o max: 2048 orderOnField -&gt; (structure) The quick response attribute fields on which the query results are ordered. name -&gt; (string) [required] The name of the attribute to order the quick response query results by. Constraints: o min: 1 o max: 4096 order -&gt; (string) The order at which the quick responses are sorted by. Possible values: o ASC o DESC queries -&gt; (list) The quick response query expressions. Constraints: o min: 0 o max: 4 (structure) The quick response fields to query quick responses by. The following is the list of supported field names. o content o name o description o shortcutKey allowFuzziness -&gt; (boolean) Whether the query expects only exact matches on the at- tribute field values. The results of the query will only include exact matches if this parameter is set to false. name -&gt; (string) [required] The name of the attribute to query the quick responses by. Constraints: o min: 1 o max: 4096 operator -&gt; (string) [required] The operator to use for matching attribute field values in the query. Possible values: o CONTAINS o CONTAINS_AND_PREFIX priority -&gt; (string) The importance of the attribute field when calculating query result relevancy scores. The value set for this pa- rameter affects the ordering of search results. Possible values: o HIGH o MEDIUM o LOW values -&gt; (list) [required] The values of the attribute to query the quick responses by. Constraints: o min: 1 o max: 5 (string) Constraints: o min: 1 o max: 1024 JSON Syntax: { "filters": [ { "includeNoExistence": true|false, "name": "string", "operator": "EQUALS"|"PREFIX", "values": ["string", ...] } ... ], "orderOnField": { "name": "string", "order": "ASC"|"DESC" }, "queries": [ { "allowFuzziness": true|false, "name": "string", "operator": "CONTAINS"|"CONTAINS_AND_PREFIX", "priority": "HIGH"|"MEDIUM"|"LOW", "values": ["string", ...] } ... ] }
+    /// </summary>
+    [CliOption("--search-expression")]
+    public string? SearchExpression { get; private init; }
+
     /// <summary>
     /// The user-defined Amazon Connect contact attributes to be resolved when search results are returned. key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--attributes", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Attributes { get; set; }
-
-    [CliOption("--knowledge-base-id")]
-    public string? KnowledgeBaseId { get; set; }
-
-    [CliOption("--search-expression")]
-    public string? SearchExpression { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
@@ -59,5 +103,22 @@ public record AwsWisdomSearchQuickResponsesOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

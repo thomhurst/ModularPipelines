@@ -21,11 +21,41 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("codeartifact", "login")]
 public record AwsCodeartifactLoginOptions : AwsOptions
 {
+    /// <summary>
+    /// Sets up the idiomatic tool for your package format to use your CodeArtifact repository. Your login information is valid for up to 12 hours after which you must login again.
+    /// </summary>
+    /// <param name="CodeartifactTool"></param>
+    /// <param name="Domain"></param>
+    /// <param name="Repository"></param>
+    public AwsCodeartifactLoginOptions(
+        string CodeartifactTool,
+        string Domain,
+        string Repository
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(CodeartifactTool);
+        this.CodeartifactTool = CodeartifactTool;
+        global::System.ArgumentNullException.ThrowIfNull(Domain);
+        this.Domain = Domain;
+        global::System.ArgumentNullException.ThrowIfNull(Repository);
+        this.Repository = Repository;
+    }
+
+    public void Deconstruct(out string CodeartifactTool, out string Domain, out string Repository)
+    {
+        CodeartifactTool = this.CodeartifactTool;
+        Domain = this.Domain;
+        Repository = this.Repository;
+    }
+
     [CliOption("--tool")]
-    public string? CodeartifactTool { get; set; }
+    public string CodeartifactTool { get; private init; }
 
     [CliOption("--domain")]
-    public string? Domain { get; set; }
+    public string Domain { get; private init; }
+
+    [CliOption("--repository")]
+    public string Repository { get; private init; }
 
     [CliOption("--domain-owner")]
     public string? DomainOwner { get; set; }
@@ -35,9 +65,6 @@ public record AwsCodeartifactLoginOptions : AwsOptions
 
     [CliOption("--duration-seconds")]
     public int? DurationSeconds { get; set; }
-
-    [CliOption("--repository")]
-    public string? Repository { get; set; }
 
     [CliOption("--endpoint-type")]
     public string? EndpointType { get; set; }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +21,84 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("license-manager-linux-subscriptions", "update-service-settings")]
-public record AwsLicenseManagerLinuxSubscriptionsUpdateServiceSettingsOptions : AwsOptions
+public record AwsLicenseManagerLinuxSubscriptionsUpdateServiceSettingsOptions : AwsOptions, IValidatableObject
 {
-    [CliFlag("--allow-update")]
-    public bool? AllowUpdate { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Updates the service settings for Linux subscriptions. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="LinuxSubscriptionsDiscovery">Describes if the discovery of Linux subscriptions is enabled. Possible values: o Enabled o Disabled</param>
+    /// <param name="LinuxSubscriptionsDiscoverySettings">The settings defined for Linux subscriptions discovery. The settings include if Organizations integration has been enabled, and which Re- gions data will be aggregated from. OrganizationIntegration -&gt; (string) [required] Details if you have enabled resource discovery across your ac- counts in Organizations. Possible values: o Enabled o Disabled SourceRegions -&gt; (list) [required] The Regions in which to discover data for Linux subscriptions. Constraints: o min: 1 o max: 100 (string) Constraints: o min: 1 o max: 100 Shorthand Syntax: OrganizationIntegration=string,SourceRegions=string,string JSON Syntax: { "OrganizationIntegration": "Enabled"|"Disabled", "SourceRegions": ["string", ...] }</param>
+    public AwsLicenseManagerLinuxSubscriptionsUpdateServiceSettingsOptions(
+        AwsLicenseManagerLinuxSubscriptionsUpdateServiceSettingsLinuxSubscriptionsDiscovery LinuxSubscriptionsDiscovery,
+        string LinuxSubscriptionsDiscoverySettings
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(LinuxSubscriptionsDiscovery);
+        this.LinuxSubscriptionsDiscovery = LinuxSubscriptionsDiscovery;
+        global::System.ArgumentNullException.ThrowIfNull(LinuxSubscriptionsDiscoverySettings);
+        this.LinuxSubscriptionsDiscoverySettings = LinuxSubscriptionsDiscoverySettings;
+    }
+
+    private AwsLicenseManagerLinuxSubscriptionsUpdateServiceSettingsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsLicenseManagerLinuxSubscriptionsUpdateServiceSettingsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsLicenseManagerLinuxSubscriptionsUpdateServiceSettingsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Describes if the discovery of Linux subscriptions is enabled. Possible values: o Enabled o Disabled
+    /// </summary>
     [CliOption("--linux-subscriptions-discovery")]
-    public string? LinuxSubscriptionsDiscovery { get; set; }
+    public AwsLicenseManagerLinuxSubscriptionsUpdateServiceSettingsLinuxSubscriptionsDiscovery? LinuxSubscriptionsDiscovery { get; private init; }
 
+    /// <summary>
+    /// The settings defined for Linux subscriptions discovery. The settings include if Organizations integration has been enabled, and which Re- gions data will be aggregated from. OrganizationIntegration -&gt; (string) [required] Details if you have enabled resource discovery across your ac- counts in Organizations. Possible values: o Enabled o Disabled SourceRegions -&gt; (list) [required] The Regions in which to discover data for Linux subscriptions. Constraints: o min: 1 o max: 100 (string) Constraints: o min: 1 o max: 100 Shorthand Syntax: OrganizationIntegration=string,SourceRegions=string,string JSON Syntax: { "OrganizationIntegration": "Enabled"|"Disabled", "SourceRegions": ["string", ...] }
+    /// </summary>
     [CliOption("--linux-subscriptions-discovery-settings")]
-    public string? LinuxSubscriptionsDiscoverySettings { get; set; }
+    public string? LinuxSubscriptionsDiscoverySettings { get; private init; }
+
+    /// <summary>
+    /// Describes if updates are allowed to the service settings for Linux subscriptions. If you allow updates, you can aggregate Linux sub- scription data in more than one home Region.
+    /// </summary>
+    [CliFlag("--allow-update", NegatedName = "--no-allow-update")]
+    public bool? AllowUpdate { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

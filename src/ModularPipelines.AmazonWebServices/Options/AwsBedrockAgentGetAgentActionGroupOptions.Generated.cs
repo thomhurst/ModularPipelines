@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +20,88 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bedrock-agent", "get-agent-action-group")]
-public record AwsBedrockAgentGetAgentActionGroupOptions : AwsOptions
+public record AwsBedrockAgentGetAgentActionGroupOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Gets information about an action group for an agent. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="AgentId">The unique identifier of the agent that the action group belongs to. Constraints: o pattern: [0-9a-zA-Z]{10}</param>
+    /// <param name="AgentVersion">The version of the agent that the action group belongs to. Constraints: o min: 1 o max: 5 o pattern: (DRAFT|[0-9]{0,4}[1-9][0-9]{0,4})</param>
+    /// <param name="ActionGroupId">The unique identifier of the action group for which to get informa- tion. Constraints: o pattern: [0-9a-zA-Z]{10}</param>
+    public AwsBedrockAgentGetAgentActionGroupOptions(
+        string AgentId,
+        string AgentVersion,
+        string ActionGroupId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AgentId);
+        this.AgentId = AgentId;
+        global::System.ArgumentNullException.ThrowIfNull(AgentVersion);
+        this.AgentVersion = AgentVersion;
+        global::System.ArgumentNullException.ThrowIfNull(ActionGroupId);
+        this.ActionGroupId = ActionGroupId;
+    }
+
+    private AwsBedrockAgentGetAgentActionGroupOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsBedrockAgentGetAgentActionGroupOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsBedrockAgentGetAgentActionGroupOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier of the agent that the action group belongs to. Constraints: o pattern: [0-9a-zA-Z]{10}
+    /// </summary>
     [CliOption("--agent-id")]
-    public string? AgentId { get; set; }
+    public string? AgentId { get; private init; }
 
+    /// <summary>
+    /// The version of the agent that the action group belongs to. Constraints: o min: 1 o max: 5 o pattern: (DRAFT|[0-9]{0,4}[1-9][0-9]{0,4})
+    /// </summary>
     [CliOption("--agent-version")]
-    public string? AgentVersion { get; set; }
+    public string? AgentVersion { get; private init; }
 
+    /// <summary>
+    /// The unique identifier of the action group for which to get informa- tion. Constraints: o pattern: [0-9a-zA-Z]{10}
+    /// </summary>
     [CliOption("--action-group-id")]
-    public string? ActionGroupId { get; set; }
+    public string? ActionGroupId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

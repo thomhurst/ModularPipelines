@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +21,88 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("connect", "disassociate-flow")]
-public record AwsConnectDisassociateFlowOptions : AwsOptions
+public record AwsConnectDisassociateFlowOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Disassociates a connect resource from a flow. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100</param>
+    /// <param name="ResourceId">The identifier of the resource. o Amazon Web Services End User Messaging SMS phone number ARN when using SMS_PHONE_NUMBER o Amazon Web Services End User Messaging Social phone number ARN when using WHATSAPP_MESSAGING_PHONE_NUMBER</param>
+    /// <param name="ResourceType">A valid resource type. Possible values: o SMS_PHONE_NUMBER o INBOUND_EMAIL o OUTBOUND_EMAIL o ANALYTICS_CONNECTOR o WHATSAPP_MESSAGING_PHONE_NUMBER</param>
+    public AwsConnectDisassociateFlowOptions(
+        string InstanceId,
+        string ResourceId,
+        AwsConnectDisassociateFlowResourceType ResourceType
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(InstanceId);
+        this.InstanceId = InstanceId;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceId);
+        this.ResourceId = ResourceId;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceType);
+        this.ResourceType = ResourceType;
+    }
+
+    private AwsConnectDisassociateFlowOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsConnectDisassociateFlowOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsConnectDisassociateFlowOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100
+    /// </summary>
     [CliOption("--instance-id")]
-    public string? InstanceId { get; set; }
+    public string? InstanceId { get; private init; }
 
+    /// <summary>
+    /// The identifier of the resource. o Amazon Web Services End User Messaging SMS phone number ARN when using SMS_PHONE_NUMBER o Amazon Web Services End User Messaging Social phone number ARN when using WHATSAPP_MESSAGING_PHONE_NUMBER
+    /// </summary>
     [CliOption("--resource-id")]
-    public string? ResourceId { get; set; }
+    public string? ResourceId { get; private init; }
 
+    /// <summary>
+    /// A valid resource type. Possible values: o SMS_PHONE_NUMBER o INBOUND_EMAIL o OUTBOUND_EMAIL o ANALYTICS_CONNECTOR o WHATSAPP_MESSAGING_PHONE_NUMBER
+    /// </summary>
     [CliOption("--resource-type")]
-    public string? ResourceType { get; set; }
+    public AwsConnectDisassociateFlowResourceType? ResourceType { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,16 +21,52 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iot", "search-index")]
-public record AwsIotSearchIndexOptions : AwsOptions
+public record AwsIotSearchIndexOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Searches the specified index. If a device has never connected to IoT Core or was disconnected for more than 1 hour before fleet indexing's thingConnectivityIndexingMode was enabled, the connectivity object for this device in the response will have the connected field set to false with no additional session details. Requires permission to access the SearchIndex action. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="QueryString">The search query string. For more information about the search query syntax, see Query syntax . Constraints: o min: 1</param>
+    public AwsIotSearchIndexOptions(
+        string QueryString
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(QueryString);
+        this.QueryString = QueryString;
+    }
+
+    private AwsIotSearchIndexOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsIotSearchIndexOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsIotSearchIndexOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The search query string. For more information about the search query syntax, see Query syntax . Constraints: o min: 1
+    /// </summary>
+    [CliOption("--query-string")]
+    public string? QueryString { get; private init; }
+
     /// <summary>
     /// The search index name. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9:_-]+
     /// </summary>
     [CliOption("--index-name")]
     public string? IndexName { get; set; }
-
-    [CliOption("--query-string")]
-    public string? QueryString { get; set; }
 
     /// <summary>
     /// The token used to get the next set of results, or null if there are no additional results.
@@ -55,5 +92,22 @@ public record AwsIotSearchIndexOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

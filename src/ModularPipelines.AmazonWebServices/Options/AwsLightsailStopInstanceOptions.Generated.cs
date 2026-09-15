@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,12 +20,51 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("lightsail", "stop-instance")]
-public record AwsLightsailStopInstanceOptions : AwsOptions
+public record AwsLightsailStopInstanceOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--instance-name")]
-    public string? InstanceName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
-    [CliFlag("--force")]
+    /// <summary>
+    /// Stops a specific Amazon Lightsail instance that is currently running. NOTE: When you start a stopped instance, Lightsail assigns a new public IP address to the instance. To use the same IP address after stopping and starting an instance, create a static IP address and attach it to the instance. For more information, see the Amazon Lightsail De- veloper Guide . The stop instance operation supports tag-based access control via re- source tags applied to the resource identified by instance name . F...
+    /// </summary>
+    /// <param name="InstanceName">The name of the instance (a virtual private server) to stop. Constraints: o pattern: \w[\w\-]*\w</param>
+    public AwsLightsailStopInstanceOptions(
+        string InstanceName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(InstanceName);
+        this.InstanceName = InstanceName;
+    }
+
+    private AwsLightsailStopInstanceOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsLightsailStopInstanceOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsLightsailStopInstanceOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the instance (a virtual private server) to stop. Constraints: o pattern: \w[\w\-]*\w
+    /// </summary>
+    [CliOption("--instance-name")]
+    public string? InstanceName { get; private init; }
+
+    /// <summary>
+    /// When set to True , forces a Lightsail instance that is stuck in a stopping state to stop. WARNING: Only use the force parameter if your instance is stuck in the stopping state. In any other state, your instance should stop normally without adding this parameter to your API request.
+    /// </summary>
+    [CliFlag("--force", NegatedName = "--no-force")]
     public bool? Force { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -32,5 +72,22 @@ public record AwsLightsailStopInstanceOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

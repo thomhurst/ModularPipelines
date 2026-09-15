@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,89 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("serverlessrepo", "put-application-policy")]
-public record AwsServerlessrepoPutApplicationPolicyOptions : AwsOptions
+public record AwsServerlessrepoPutApplicationPolicyOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--application-id")]
-    public string? ApplicationId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Sets the permission policy for an application. For the list of actions supported for this operation, see Application Permissions . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ApplicationId">The Amazon Resource Name (ARN) of the application.</param>
+    /// <param name="Statements">An array of policy statements applied to the application. (structure) Policy statement applied to the application. Actions -&gt; (list) [required] For the list of actions supported for this operation, see Application Permissions . (string) PrincipalOrgIDs -&gt; (list) An array of PrinciplalOrgIDs, which corresponds to AWS IAM aws:PrincipalOrgID global condition key. (string) Principals -&gt; (list) [required] An array of AWS account IDs, or * to make the application public. (string) StatementId -&gt; (string) A unique ID for the statement. Shorthand Syntax: Actions=string,string,PrincipalOrgIDs=string,string,Principals=string,string,StatementId=string ... JSON Syntax: [ { "Actions": ["string", ...], "PrincipalOrgIDs": ["string", ...], "Principals": ["string", ...], "StatementId": "string" } ... ]</param>
+    public AwsServerlessrepoPutApplicationPolicyOptions(
+        string ApplicationId,
+        IEnumerable<string> Statements
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ApplicationId);
+        this.ApplicationId = ApplicationId;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Statements);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Statements));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Statements));
+            }
+
+            Statements = materialized;
+        }
+        this.Statements = Statements;
+    }
+
+    private AwsServerlessrepoPutApplicationPolicyOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsServerlessrepoPutApplicationPolicyOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsServerlessrepoPutApplicationPolicyOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the application.
+    /// </summary>
+    [CliOption("--application-id")]
+    public string? ApplicationId { get; private init; }
+
+    /// <summary>
+    /// An array of policy statements applied to the application. (structure) Policy statement applied to the application. Actions -&gt; (list) [required] For the list of actions supported for this operation, see Application Permissions . (string) PrincipalOrgIDs -&gt; (list) An array of PrinciplalOrgIDs, which corresponds to AWS IAM aws:PrincipalOrgID global condition key. (string) Principals -&gt; (list) [required] An array of AWS account IDs, or * to make the application public. (string) StatementId -&gt; (string) A unique ID for the statement. Shorthand Syntax: Actions=string,string,PrincipalOrgIDs=string,string,Principals=string,string,StatementId=string ... JSON Syntax: [ { "Actions": ["string", ...], "PrincipalOrgIDs": ["string", ...], "Principals": ["string", ...], "StatementId": "string" } ... ]
+    /// </summary>
     [CliOption("--statements", GroupValues = true)]
-    public IEnumerable<string>? Statements { get; set; }
+    public IEnumerable<string>? Statements { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

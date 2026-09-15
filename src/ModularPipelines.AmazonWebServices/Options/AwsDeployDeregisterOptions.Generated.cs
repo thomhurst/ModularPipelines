@@ -21,8 +21,25 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("deploy", "deregister")]
 public record AwsDeployDeregisterOptions : AwsOptions
 {
+    /// <summary>
+    /// Removes any tags from the on-premises instance; deregisters the on-premises instance from AWS CodeDeploy; and, unless requested other- wise, deletes the IAM user for the on-premises instance.
+    /// </summary>
+    /// <param name="InstanceName"></param>
+    public AwsDeployDeregisterOptions(
+        string InstanceName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(InstanceName);
+        this.InstanceName = InstanceName;
+    }
+
+    public void Deconstruct(out string InstanceName)
+    {
+        InstanceName = this.InstanceName;
+    }
+
     [CliOption("--instance-name")]
-    public string? InstanceName { get; set; }
+    public string InstanceName { get; private init; }
 
     [CliFlag("--no-delete-iam-user")]
     public bool? NoDeleteIamUser { get; set; }

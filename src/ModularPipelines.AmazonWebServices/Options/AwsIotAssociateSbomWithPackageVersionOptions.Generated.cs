@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,16 +21,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iot", "associate-sbom-with-package-version")]
-public record AwsIotAssociateSbomWithPackageVersionOptions : AwsOptions
+public record AwsIotAssociateSbomWithPackageVersionOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Associates the selected software bill of materials (SBOM) with a spe- cific software package version. Requires permission to access the AssociateSbomWithPackageVersion ac- tion. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="PackageName">The name of the new software package. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9-_.]+</param>
+    /// <param name="VersionName">The name of the new package version. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9-_.]+</param>
+    /// <param name="Sbom">A specific software bill of matrerials associated with a software package version. s3Location -&gt; (structure) The S3 location. bucket -&gt; (string) The S3 bucket. Constraints: o min: 1 key -&gt; (string) The S3 key. Constraints: o min: 1 version -&gt; (string) The S3 bucket version. Shorthand Syntax: s3Location={bucket=string,key=string,version=string} JSON Syntax: { "s3Location": { "bucket": "string", "key": "string", "version": "string" } }</param>
+    public AwsIotAssociateSbomWithPackageVersionOptions(
+        string PackageName,
+        string VersionName,
+        string Sbom
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PackageName);
+        this.PackageName = PackageName;
+        global::System.ArgumentNullException.ThrowIfNull(VersionName);
+        this.VersionName = VersionName;
+        global::System.ArgumentNullException.ThrowIfNull(Sbom);
+        this.Sbom = Sbom;
+    }
+
+    private AwsIotAssociateSbomWithPackageVersionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsIotAssociateSbomWithPackageVersionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsIotAssociateSbomWithPackageVersionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the new software package. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9-_.]+
+    /// </summary>
     [CliOption("--package-name")]
-    public string? PackageName { get; set; }
+    public string? PackageName { get; private init; }
 
+    /// <summary>
+    /// The name of the new package version. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9-_.]+
+    /// </summary>
     [CliOption("--version-name")]
-    public string? VersionName { get; set; }
+    public string? VersionName { get; private init; }
 
+    /// <summary>
+    /// A specific software bill of matrerials associated with a software package version. s3Location -&gt; (structure) The S3 location. bucket -&gt; (string) The S3 bucket. Constraints: o min: 1 key -&gt; (string) The S3 key. Constraints: o min: 1 version -&gt; (string) The S3 bucket version. Shorthand Syntax: s3Location={bucket=string,key=string,version=string} JSON Syntax: { "s3Location": { "bucket": "string", "key": "string", "version": "string" } }
+    /// </summary>
     [CliOption("--sbom")]
-    public string? Sbom { get; set; }
+    public string? Sbom { get; private init; }
 
     /// <summary>
     /// A unique case-sensitive identifier that you can provide to ensure the idempotency of the request. Don't reuse this client token if a new idempotent request is required. Constraints: o min: 36 o max: 64 o pattern: \S{36,64}
@@ -43,5 +94,22 @@ public record AwsIotAssociateSbomWithPackageVersionOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

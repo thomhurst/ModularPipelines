@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --eventstatus.
+/// Allowed values for --event-status.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsInternetmonitorListHealthEventsEventStatus
 {
     [EnumValue("ACTIVE")]
-    Active = 1,
+    Active,
 
     [EnumValue("RESOLVED")]
-    Resolved = 2
+    Resolved
 }

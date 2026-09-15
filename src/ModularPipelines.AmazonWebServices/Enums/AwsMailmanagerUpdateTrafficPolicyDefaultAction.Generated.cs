@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --defaultaction.
+/// Allowed values for --default-action.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsMailmanagerUpdateTrafficPolicyDefaultAction
 {
     [EnumValue("ALLOW")]
-    Allow = 1,
+    Allow,
 
     [EnumValue("DENY")]
-    Deny = 2
+    Deny
 }

@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,12 +21,62 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("drs", "start-source-network-recovery")]
-public record AwsDrsStartSourceNetworkRecoveryOptions : AwsOptions
+public record AwsDrsStartSourceNetworkRecoveryOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--source-networks", GroupValues = true)]
-    public IEnumerable<string>? SourceNetworks { get; set; }
+    private readonly bool _requiresAlternateInput;
 
-    [CliFlag("--deploy-as-new")]
+    /// <summary>
+    /// Deploy VPC for the specified Source Network and modify launch templates to use this network. The VPC will be deployed using a dedicated Cloud- Formation stack. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="SourceNetworks">The Source Networks that we want to start a Recovery Job for. Constraints: o min: 1 o max: 100 (structure) An object representing the Source Network to recover. sourceNetworkID -&gt; (string) [required] The ID of the Source Network you want to recover. Constraints: o min: 20 o max: 20 o pattern: sn-[0-9a-zA-Z]{17} cfnStackName -&gt; (string) CloudFormation stack name to be used for recovering the net- work. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z][-a-zA-Z0-9]* Shorthand Syntax: sourceNetworkID=string,cfnStackName=string ... JSON Syntax: [ { "sourceNetworkID": "string", "cfnStackName": "string" } ... ]</param>
+    public AwsDrsStartSourceNetworkRecoveryOptions(
+        IEnumerable<string> SourceNetworks
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(SourceNetworks);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(SourceNetworks));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(SourceNetworks));
+            }
+
+            SourceNetworks = materialized;
+        }
+        this.SourceNetworks = SourceNetworks;
+    }
+
+    private AwsDrsStartSourceNetworkRecoveryOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDrsStartSourceNetworkRecoveryOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDrsStartSourceNetworkRecoveryOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Source Networks that we want to start a Recovery Job for. Constraints: o min: 1 o max: 100 (structure) An object representing the Source Network to recover. sourceNetworkID -&gt; (string) [required] The ID of the Source Network you want to recover. Constraints: o min: 20 o max: 20 o pattern: sn-[0-9a-zA-Z]{17} cfnStackName -&gt; (string) CloudFormation stack name to be used for recovering the net- work. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z][-a-zA-Z0-9]* Shorthand Syntax: sourceNetworkID=string,cfnStackName=string ... JSON Syntax: [ { "sourceNetworkID": "string", "cfnStackName": "string" } ... ]
+    /// </summary>
+    [CliOption("--source-networks", GroupValues = true)]
+    public IEnumerable<string>? SourceNetworks { get; private init; }
+
+    /// <summary>
+    /// Don't update existing CloudFormation Stack, recover the network us- ing a new stack.
+    /// </summary>
+    [CliFlag("--deploy-as-new", NegatedName = "--no-deploy-as-new")]
     public bool? DeployAsNew { get; set; }
 
     /// <summary>
@@ -39,5 +90,22 @@ public record AwsDrsStartSourceNetworkRecoveryOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

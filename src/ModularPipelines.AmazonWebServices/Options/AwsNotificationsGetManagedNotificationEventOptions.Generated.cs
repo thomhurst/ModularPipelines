@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +21,74 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("notifications", "get-managed-notification-event")]
-public record AwsNotificationsGetManagedNotificationEventOptions : AwsOptions
+public record AwsNotificationsGetManagedNotificationEventOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Returns a specified ManagedNotificationEvent . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Arn">The Amazon Resource Name (ARN) of the ManagedNotificationEvent to return. Constraints: o pattern: arn:[-.a-z0-9]{1,63}:notifications::[0-9]{12}:managed-no- tification-configuration/category/[a-zA-Z0-9\-]{3,64}/sub-cate- gory/[a-zA-Z0-9\-]{3,64}/event/[a-z0-9]{27}</param>
+    public AwsNotificationsGetManagedNotificationEventOptions(
+        string Arn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Arn);
+        this.Arn = Arn;
+    }
+
+    private AwsNotificationsGetManagedNotificationEventOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsNotificationsGetManagedNotificationEventOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsNotificationsGetManagedNotificationEventOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the ManagedNotificationEvent to return. Constraints: o pattern: arn:[-.a-z0-9]{1,63}:notifications::[0-9]{12}:managed-no- tification-configuration/category/[a-zA-Z0-9\-]{3,64}/sub-cate- gory/[a-zA-Z0-9\-]{3,64}/event/[a-z0-9]{27}
+    /// </summary>
     [CliOption("--arn")]
-    public string? Arn { get; set; }
+    public string? Arn { get; private init; }
 
     /// <summary>
     /// The locale code of the language used for the retrieved ManagedNoti- ficationEvent . The default locale is English (en_US) . Possible values: o de_DE o en_CA o en_US o en_UK o es_ES o fr_CA o fr_FR o id_ID o it_IT o ja_JP o ko_KR o pt_BR o tr_TR o zh_CN o zh_TW
     /// </summary>
     [CliOption("--locale")]
-    public string? Locale { get; set; }
+    public AwsNotificationsGetManagedNotificationEventLocale? Locale { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

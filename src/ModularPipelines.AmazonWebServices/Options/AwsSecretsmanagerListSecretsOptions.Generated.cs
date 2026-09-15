@@ -23,7 +23,10 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("secretsmanager", "list-secrets")]
 public record AwsSecretsmanagerListSecretsOptions : AwsOptions
 {
-    [CliFlag("--include-planned-deletion")]
+    /// <summary>
+    /// Specifies whether to include secrets scheduled for deletion. By de- fault, secrets scheduled for deletion aren't included.
+    /// </summary>
+    [CliFlag("--include-planned-deletion", NegatedName = "--no-include-planned-deletion")]
     public bool? IncludePlannedDeletion { get; set; }
 
     /// <summary>

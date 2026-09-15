@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,22 +21,83 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("wafv2", "create-regex-pattern-set")]
-public record AwsWafv2CreateRegexPatternSetOptions : AwsOptions
+public record AwsWafv2CreateRegexPatternSetOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--name")]
-    public string? Name { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates a RegexPatternSet , which you reference in a RegexPatternSe- tReferenceStatement , to have WAF inspect a web request component for the specified patterns. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Name">The name of the set. You cannot change the name after you create the set. Constraints: o min: 1 o max: 128 o pattern: ^[\w\-]+$</param>
+    /// <param name="Scope">Specifies whether this is for a global resource type, such as a Ama- zon CloudFront distribution. For an Amplify application, use CLOUD- FRONT . To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows: o CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1 . o API and SDKs - For all calls, use the Region endpoint us-east-1. Possible values: o CLOUDFRONT o REGIONAL</param>
+    /// <param name="RegularExpressionList">Array of regular expression strings. (structure) A single regular expression. This is used in a RegexPatternSet and also in the configuration for the Amazon Web Services Man- aged Rules rule group AWSManagedRulesAntiDDoSRuleSet . RegexString -&gt; (string) The string representing the regular expression. WAF enforces a quota on the maximum number of characters in a regex pat- tern. For the current limit, see WAF quotas in the WAF Devel- oper Guide . Constraints: o min: 1 o max: 512 o pattern: .* Shorthand Syntax: RegexString=string ... JSON Syntax: [ { "RegexString": "string" } ... ]</param>
+    public AwsWafv2CreateRegexPatternSetOptions(
+        string Name,
+        AwsWafv2CreateRegexPatternSetScope Scope,
+        IEnumerable<string> RegularExpressionList
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(Scope);
+        this.Scope = Scope;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(RegularExpressionList);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(RegularExpressionList));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(RegularExpressionList));
+            }
+
+            RegularExpressionList = materialized;
+        }
+        this.RegularExpressionList = RegularExpressionList;
+    }
+
+    private AwsWafv2CreateRegexPatternSetOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsWafv2CreateRegexPatternSetOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsWafv2CreateRegexPatternSetOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the set. You cannot change the name after you create the set. Constraints: o min: 1 o max: 128 o pattern: ^[\w\-]+$
+    /// </summary>
+    [CliOption("--name")]
+    public string? Name { get; private init; }
+
+    /// <summary>
+    /// Specifies whether this is for a global resource type, such as a Ama- zon CloudFront distribution. For an Amplify application, use CLOUD- FRONT . To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows: o CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1 . o API and SDKs - For all calls, use the Region endpoint us-east-1. Possible values: o CLOUDFRONT o REGIONAL
+    /// </summary>
     [CliOption("--scope")]
-    public string? Scope { get; set; }
+    public AwsWafv2CreateRegexPatternSetScope? Scope { get; private init; }
+
+    /// <summary>
+    /// Array of regular expression strings. (structure) A single regular expression. This is used in a RegexPatternSet and also in the configuration for the Amazon Web Services Man- aged Rules rule group AWSManagedRulesAntiDDoSRuleSet . RegexString -&gt; (string) The string representing the regular expression. WAF enforces a quota on the maximum number of characters in a regex pat- tern. For the current limit, see WAF quotas in the WAF Devel- oper Guide . Constraints: o min: 1 o max: 512 o pattern: .* Shorthand Syntax: RegexString=string ... JSON Syntax: [ { "RegexString": "string" } ... ]
+    /// </summary>
+    [CliOption("--regular-expression-list", GroupValues = true)]
+    public IEnumerable<string>? RegularExpressionList { get; private init; }
 
     /// <summary>
     /// A description of the set that helps with identification. Constraints: o min: 1 o max: 256 o pattern: ^[\w+=:#@/\-,\.][\w+=:#@/\-,\.\s]+[\w+=:#@/\-,\.]$
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
-
-    [CliOption("--regular-expression-list", GroupValues = true)]
-    public IEnumerable<string>? RegularExpressionList { get; set; }
 
     /// <summary>
     /// An array of key:value pairs to associate with the resource. Constraints: o min: 1 (structure) A tag associated with an Amazon Web Services resource. Tags are key:value pairs that you can use to categorize and manage your resources, for purposes like billing or other management. Typi- cally, the tag key represents a category, such as "environment", and the tag value represents a specific value within that cate- gory, such as "test," "development," or "production". Or you might set the tag key to "customer" and the value to the cus- tomer name or ID. You can specify one or more tags to add to each Amazon Web Services resource, up to 50 tags for a resource. You can tag the Amazon Web Services resources that you manage through WAF: web ACLs, rule groups, IP sets, and regex pattern sets. You can't manage or view tags through the WAF console. Key -&gt; (string) [required] Part of the key:value pair that defines a tag. You can use a tag key to describe a category of information, such as "cus- tomer." Tag keys are case-sensitive. Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Value -&gt; (string) [required] Part of the key:value pair that defines a tag. You can use a tag value to describe a specific value within a category, such as "companyA" or "companyB." Tag values are case-sensi- tive. Constraints: o min: 0 o max: 256 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
@@ -47,5 +110,22 @@ public record AwsWafv2CreateRegexPatternSetOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

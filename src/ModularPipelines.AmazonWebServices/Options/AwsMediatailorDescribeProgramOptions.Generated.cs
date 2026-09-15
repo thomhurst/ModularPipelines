@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("mediatailor", "describe-program")]
-public record AwsMediatailorDescribeProgramOptions : AwsOptions
+public record AwsMediatailorDescribeProgramOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--channel-name")]
-    public string? ChannelName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Describes a program within a channel. For information about programs, see Working with programs in the MediaTailor User Guide . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ChannelName">The name of the channel associated with this Program.</param>
+    /// <param name="ProgramName">The name of the program.</param>
+    public AwsMediatailorDescribeProgramOptions(
+        string ChannelName,
+        string ProgramName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ChannelName);
+        this.ChannelName = ChannelName;
+        global::System.ArgumentNullException.ThrowIfNull(ProgramName);
+        this.ProgramName = ProgramName;
+    }
+
+    private AwsMediatailorDescribeProgramOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsMediatailorDescribeProgramOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsMediatailorDescribeProgramOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the channel associated with this Program.
+    /// </summary>
+    [CliOption("--channel-name")]
+    public string? ChannelName { get; private init; }
+
+    /// <summary>
+    /// The name of the program.
+    /// </summary>
     [CliOption("--program-name")]
-    public string? ProgramName { get; set; }
+    public string? ProgramName { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

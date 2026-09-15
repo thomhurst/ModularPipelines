@@ -11,11 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --defaultforunmappedsignals.
+/// Allowed values for --default-for-unmapped-signals.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsIotfleetwiseUpdateDecoderManifestDefaultForUnmappedSignals
 {
     [EnumValue("CUSTOM_DECODING")]
-    CustomDecoding = 1
+    CustomDecoding,
+
+    [EnumValue("o")]
+    O
 }

@@ -12,6 +12,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -21,13 +22,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("workspaces-web", "create-session-logger")]
-public record AwsWorkspacesWebCreateSessionLoggerOptions : AwsOptions
+public record AwsWorkspacesWebCreateSessionLoggerOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--event-filter")]
-    public string? EventFilter { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates a session logger. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="EventFilter">The filter that specifies the events to monitor. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: all, include. all -&gt; (structure) The filter that monitors all of the available events, including any new events emitted in the future. include -&gt; (list) The filter that monitors only the listed set of events. New events are not auto-monitored. Constraints: o min: 1 o max: 100 (string) Possible values: o WebsiteInteract o FileDownloadFromSecureBrowserToRemoteDisk o FileTransferFromRemoteToLocalDisk o FileTransferFromLocalToRemoteDisk o FileUploadFromRemoteDiskToSecureBrowser o ContentPasteToWebsite o ContentTransferFromLocalToRemoteClipboard o ContentCopyFromWebsite o UrlLoad o TabOpen o TabClose o PrintJobSubmit o SessionConnect o SessionStart o SessionDisconnect o SessionEnd o UrlBlockByContentFilter Shorthand Syntax: all={},include=string,string JSON Syntax: { "all": { }, "include": ["WebsiteInteract"|"FileDownloadFromSecureBrowserToRemoteDisk"|"FileTransferFromRemoteToLocalDisk"|"FileTransferFromLocalToRemoteDisk"|"FileUploadFromRemoteDiskToSecureBrowser"|"ContentPasteToWebsite"|"ContentTransferFromLocalToRemoteClipboard"|"ContentCopyFromWebsite"|"UrlLoad"|"TabOpen"|"TabClose"|"PrintJobSubmit"|"SessionConnect"|"SessionStart"|"SessionDisconnect"|"SessionEnd"|"UrlBlockByContentFilter", ...] }</param>
+    /// <param name="LogConfiguration">The configuration that specifies where logs are delivered. s3 -&gt; (structure) The configuration for delivering the logs to S3. bucket -&gt; (string) [required] The S3 bucket name where logs are delivered. Constraints: o min: 1 o max: 256 o pattern: [a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9] keyPrefix -&gt; (string) The S3 path prefix that determines where log files are stored. Constraints: o min: 1 o max: 256 o pattern: [\d\w\-_/!().*']+ bucketOwner -&gt; (string) The expected bucket owner of the target S3 bucket. The caller must have permissions to write to the target bucket. Constraints: o pattern: [0-9]{12} logFileFormat -&gt; (string) [required] The format of the LogFile that is written to S3. Possible values: o JSONLines o Json folderStructure -&gt; (string) [required] The folder structure that defines the organizational struc- ture for log files in S3. Possible values: o Flat o NestedByDate Shorthand Syntax: s3={bucket=string,keyPrefix=string,bucketOwner=string,logFileFormat=string,folderStructure=string} JSON Syntax: { "s3": { "bucket": "string", "keyPrefix": "string", "bucketOwner": "string", "logFileFormat": "JSONLines"|"Json", "folderStructure": "Flat"|"NestedByDate" } }</param>
+    public AwsWorkspacesWebCreateSessionLoggerOptions(
+        string EventFilter,
+        string LogConfiguration
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(EventFilter);
+        this.EventFilter = EventFilter;
+        global::System.ArgumentNullException.ThrowIfNull(LogConfiguration);
+        this.LogConfiguration = LogConfiguration;
+    }
+
+    private AwsWorkspacesWebCreateSessionLoggerOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsWorkspacesWebCreateSessionLoggerOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsWorkspacesWebCreateSessionLoggerOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The filter that specifies the events to monitor. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: all, include. all -&gt; (structure) The filter that monitors all of the available events, including any new events emitted in the future. include -&gt; (list) The filter that monitors only the listed set of events. New events are not auto-monitored. Constraints: o min: 1 o max: 100 (string) Possible values: o WebsiteInteract o FileDownloadFromSecureBrowserToRemoteDisk o FileTransferFromRemoteToLocalDisk o FileTransferFromLocalToRemoteDisk o FileUploadFromRemoteDiskToSecureBrowser o ContentPasteToWebsite o ContentTransferFromLocalToRemoteClipboard o ContentCopyFromWebsite o UrlLoad o TabOpen o TabClose o PrintJobSubmit o SessionConnect o SessionStart o SessionDisconnect o SessionEnd o UrlBlockByContentFilter Shorthand Syntax: all={},include=string,string JSON Syntax: { "all": { }, "include": ["WebsiteInteract"|"FileDownloadFromSecureBrowserToRemoteDisk"|"FileTransferFromRemoteToLocalDisk"|"FileTransferFromLocalToRemoteDisk"|"FileUploadFromRemoteDiskToSecureBrowser"|"ContentPasteToWebsite"|"ContentTransferFromLocalToRemoteClipboard"|"ContentCopyFromWebsite"|"UrlLoad"|"TabOpen"|"TabClose"|"PrintJobSubmit"|"SessionConnect"|"SessionStart"|"SessionDisconnect"|"SessionEnd"|"UrlBlockByContentFilter", ...] }
+    /// </summary>
+    [CliOption("--event-filter")]
+    public string? EventFilter { get; private init; }
+
+    /// <summary>
+    /// The configuration that specifies where logs are delivered. s3 -&gt; (structure) The configuration for delivering the logs to S3. bucket -&gt; (string) [required] The S3 bucket name where logs are delivered. Constraints: o min: 1 o max: 256 o pattern: [a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9] keyPrefix -&gt; (string) The S3 path prefix that determines where log files are stored. Constraints: o min: 1 o max: 256 o pattern: [\d\w\-_/!().*']+ bucketOwner -&gt; (string) The expected bucket owner of the target S3 bucket. The caller must have permissions to write to the target bucket. Constraints: o pattern: [0-9]{12} logFileFormat -&gt; (string) [required] The format of the LogFile that is written to S3. Possible values: o JSONLines o Json folderStructure -&gt; (string) [required] The folder structure that defines the organizational struc- ture for log files in S3. Possible values: o Flat o NestedByDate Shorthand Syntax: s3={bucket=string,keyPrefix=string,bucketOwner=string,logFileFormat=string,folderStructure=string} JSON Syntax: { "s3": { "bucket": "string", "keyPrefix": "string", "bucketOwner": "string", "logFileFormat": "JSONLines"|"Json", "folderStructure": "Flat"|"NestedByDate" } }
+    /// </summary>
     [CliOption("--log-configuration")]
-    public string? LogConfiguration { get; set; }
+    public string? LogConfiguration { get; private init; }
 
     /// <summary>
     /// The human-readable display name for the session logger resource. Constraints: o min: 1 o max: 64 o pattern: [ _\-\d\w]+
@@ -65,5 +109,22 @@ public record AwsWorkspacesWebCreateSessionLoggerOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,13 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("networkmonitor", "update-probe")]
-public record AwsNetworkmonitorUpdateProbeOptions : AwsOptions
+public record AwsNetworkmonitorUpdateProbeOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--monitor-name")]
-    public string? MonitorName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Updates a monitor probe. This action requires both the monitorName and probeId parameters. Run ListMonitors to get a list of monitor names. Run GetMonitor to get a list of probes and probe IDs. You can update the following para create a monitor with probes using this command. For each probe, you define the following: o state The state of the probe. o destination The target destination IP address for the probe. o destinationPort Required only if the protocol is TCP . o protocol The communication ...
+    /// </summary>
+    /// <param name="MonitorName">The name of the monitor that the probe was updated for. Constraints: o min: 1 o max: 200 o pattern: [a-zA-Z0-9_-]+</param>
+    /// <param name="ProbeId">The ID of the probe to update. Constraints: o pattern: probe-[a-z0-9A-Z-]{21,64}</param>
+    public AwsNetworkmonitorUpdateProbeOptions(
+        string MonitorName,
+        string ProbeId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(MonitorName);
+        this.MonitorName = MonitorName;
+        global::System.ArgumentNullException.ThrowIfNull(ProbeId);
+        this.ProbeId = ProbeId;
+    }
+
+    private AwsNetworkmonitorUpdateProbeOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsNetworkmonitorUpdateProbeOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsNetworkmonitorUpdateProbeOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the monitor that the probe was updated for. Constraints: o min: 1 o max: 200 o pattern: [a-zA-Z0-9_-]+
+    /// </summary>
+    [CliOption("--monitor-name")]
+    public string? MonitorName { get; private init; }
+
+    /// <summary>
+    /// The ID of the probe to update. Constraints: o pattern: probe-[a-z0-9A-Z-]{21,64}
+    /// </summary>
     [CliOption("--probe-id")]
-    public string? ProbeId { get; set; }
+    public string? ProbeId { get; private init; }
 
     /// <summary>
     /// The state of the probe update. Possible values: o PENDING o ACTIVE o INACTIVE o ERROR o DELETING o DELETED
@@ -63,5 +107,22 @@ public record AwsNetworkmonitorUpdateProbeOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

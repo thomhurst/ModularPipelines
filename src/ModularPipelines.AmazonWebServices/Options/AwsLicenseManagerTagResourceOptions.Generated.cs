@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,89 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("license-manager", "tag-resource")]
-public record AwsLicenseManagerTagResourceOptions : AwsOptions
+public record AwsLicenseManagerTagResourceOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--resource-arn")]
-    public string? ResourceArn { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Adds the specified tags to the specified resource. The following re- sources support tagging in License Manager: o Licenses o Grants o License configurations o Report generators See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ResourceArn">Amazon Resource Name (ARN) of the resource. The following examples provide an example ARN for each supported resource in License Man- ager: o Licenses - arn:aws:license-manager::111122223333:license:l-EXAM- PLE2da7646d6861033667f20e895 o Grants - arn:aws:license-manager::111122223333:grant:g-EXAM- PLE7b19f4a0ab73679b0beb52707 o License configurations - arn:aws:license-man- ager:us-east-1:111122223333:license-configuration:lic-EXAM- PLE6a788d4c8acd4264ff0ecf2ed2d o Report generators - arn:aws:license-man- ager:us-east-1:111122223333:report-generator:r-EXAM- PLE825b4a4f8fe5a3e0c88824e5fc6</param>
+    /// <param name="Tags">One or more tags. (structure) Details about the tags for a resource. For more information about tagging support in License Manager, see the TagResource operation. Key -&gt; (string) The tag key. Value -&gt; (string) The tag value. Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]</param>
+    public AwsLicenseManagerTagResourceOptions(
+        string ResourceArn,
+        IEnumerable<string> Tags
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ResourceArn);
+        this.ResourceArn = ResourceArn;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Tags);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Tags));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Tags));
+            }
+
+            Tags = materialized;
+        }
+        this.Tags = Tags;
+    }
+
+    private AwsLicenseManagerTagResourceOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsLicenseManagerTagResourceOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsLicenseManagerTagResourceOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Amazon Resource Name (ARN) of the resource. The following examples provide an example ARN for each supported resource in License Man- ager: o Licenses - arn:aws:license-manager::111122223333:license:l-EXAM- PLE2da7646d6861033667f20e895 o Grants - arn:aws:license-manager::111122223333:grant:g-EXAM- PLE7b19f4a0ab73679b0beb52707 o License configurations - arn:aws:license-man- ager:us-east-1:111122223333:license-configuration:lic-EXAM- PLE6a788d4c8acd4264ff0ecf2ed2d o Report generators - arn:aws:license-man- ager:us-east-1:111122223333:report-generator:r-EXAM- PLE825b4a4f8fe5a3e0c88824e5fc6
+    /// </summary>
+    [CliOption("--resource-arn")]
+    public string? ResourceArn { get; private init; }
+
+    /// <summary>
+    /// One or more tags. (structure) Details about the tags for a resource. For more information about tagging support in License Manager, see the TagResource operation. Key -&gt; (string) The tag key. Value -&gt; (string) The tag value. Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// </summary>
     [CliOption("--tags", GroupValues = true)]
-    public IEnumerable<string>? Tags { get; set; }
+    public IEnumerable<string>? Tags { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

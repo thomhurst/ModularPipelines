@@ -11,17 +11,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --offlinestorestatusequals.
+/// Allowed values for --offline-store-status-equals.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsSagemakerListFeatureGroupsOfflineStoreStatusEquals
 {
     [EnumValue("Active")]
-    Active = 1,
+    Active,
 
     [EnumValue("Blocked")]
-    Blocked = 2,
+    Blocked,
 
     [EnumValue("Disabled")]
-    Disabled = 3
+    Disabled
 }

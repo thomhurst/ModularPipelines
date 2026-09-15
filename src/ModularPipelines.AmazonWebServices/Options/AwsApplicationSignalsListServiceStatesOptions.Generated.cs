@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,15 +21,61 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("application-signals", "list-service-states")]
-public record AwsApplicationSignalsListServiceStatesOptions : AwsOptions
+public record AwsApplicationSignalsListServiceStatesOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Returns information about the last deployment and other change states of services. This API provides visibility into recent changes that may have affected service performance, helping with troubleshooting and change correlation. See also: AWS API Documentation list-service-states is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --quer...
+    /// </summary>
+    /// <param name="StartTime">The start of the time period to retrieve service state information for. When used in a raw HTTP Query API, it is formatted as epoch time in seconds. For example, 1698778057 .</param>
+    /// <param name="EndTime">The end of the time period to retrieve service state information for. When used in a raw HTTP Query API, it is formatted as epoch time in seconds. For example, 1698778057 .</param>
+    public AwsApplicationSignalsListServiceStatesOptions(
+        string StartTime,
+        string EndTime
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(StartTime);
+        this.StartTime = StartTime;
+        global::System.ArgumentNullException.ThrowIfNull(EndTime);
+        this.EndTime = EndTime;
+    }
+
+    private AwsApplicationSignalsListServiceStatesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsApplicationSignalsListServiceStatesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsApplicationSignalsListServiceStatesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The start of the time period to retrieve service state information for. When used in a raw HTTP Query API, it is formatted as epoch time in seconds. For example, 1698778057 .
+    /// </summary>
     [CliOption("--start-time")]
-    public string? StartTime { get; set; }
+    public string? StartTime { get; private init; }
 
+    /// <summary>
+    /// The end of the time period to retrieve service state information for. When used in a raw HTTP Query API, it is formatted as epoch time in seconds. For example, 1698778057 .
+    /// </summary>
     [CliOption("--end-time")]
-    public string? EndTime { get; set; }
+    public string? EndTime { get; private init; }
 
-    [CliFlag("--include-linked-accounts")]
+    /// <summary>
+    /// If you are using this operation in a monitoring account, specify true to include service states from source accounts in the returned data.
+    /// </summary>
+    [CliFlag("--include-linked-accounts", NegatedName = "--no-include-linked-accounts")]
     public bool? IncludeLinkedAccounts { get; set; }
 
     /// <summary>
@@ -67,5 +114,22 @@ public record AwsApplicationSignalsListServiceStatesOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

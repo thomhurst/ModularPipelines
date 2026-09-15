@@ -17,23 +17,23 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsIotsitewiseListBulkImportJobsFilter
 {
     [EnumValue("ALL")]
-    All = 1,
-
-    [EnumValue("PENDING")]
-    Pending = 2,
-
-    [EnumValue("RUNNING")]
-    Running = 3,
+    All,
 
     [EnumValue("CANCELLED")]
-    Cancelled = 4,
-
-    [EnumValue("FAILED")]
-    Failed = 5,
-
-    [EnumValue("COMPLETED_WITH_FAILURES")]
-    CompletedWithFailures = 6,
+    Cancelled,
 
     [EnumValue("COMPLETED")]
-    Completed = 7
+    Completed,
+
+    [EnumValue("COMPLETED_WITH_FAILURES")]
+    CompletedWithFailures,
+
+    [EnumValue("FAILED")]
+    Failed,
+
+    [EnumValue("PENDING")]
+    Pending,
+
+    [EnumValue("RUNNING")]
+    Running
 }

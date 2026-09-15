@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +22,76 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("devops-agent", "create-backlog-task")]
-public record AwsDevopsAgentCreateBacklogTaskOptions : AwsOptions
+public record AwsDevopsAgentCreateBacklogTaskOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a new backlog task in the specified agent space See also: AWS API Documentation create-backlog-task uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested para- meters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
+    /// </summary>
+    /// <param name="AgentSpaceId">The unique identifier for the agent space where the task will be created Constraints: o min: 1 o max: 2048</param>
+    /// <param name="TaskType">The type of task being created Possible values: o INVESTIGATION o EVALUATION o RELEASE_READINESS_REVIEW o RELEASE_TESTING</param>
+    /// <param name="Title">The title of the backlog task Constraints: o min: 1 o max: 400</param>
+    /// <param name="Priority">The priority level of the task Possible values: o CRITICAL o HIGH o MEDIUM o LOW o MINIMAL</param>
+    public AwsDevopsAgentCreateBacklogTaskOptions(
+        string AgentSpaceId,
+        AwsDevopsAgentCreateBacklogTaskTaskType TaskType,
+        string Title,
+        AwsDevopsAgentCreateBacklogTaskPriority Priority
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AgentSpaceId);
+        this.AgentSpaceId = AgentSpaceId;
+        global::System.ArgumentNullException.ThrowIfNull(TaskType);
+        this.TaskType = TaskType;
+        global::System.ArgumentNullException.ThrowIfNull(Title);
+        this.Title = Title;
+        global::System.ArgumentNullException.ThrowIfNull(Priority);
+        this.Priority = Priority;
+    }
+
+    private AwsDevopsAgentCreateBacklogTaskOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDevopsAgentCreateBacklogTaskOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDevopsAgentCreateBacklogTaskOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier for the agent space where the task will be created Constraints: o min: 1 o max: 2048
+    /// </summary>
     [CliOption("--agent-space-id")]
-    public string? AgentSpaceId { get; set; }
+    public string? AgentSpaceId { get; private init; }
+
+    /// <summary>
+    /// The type of task being created Possible values: o INVESTIGATION o EVALUATION o RELEASE_READINESS_REVIEW o RELEASE_TESTING
+    /// </summary>
+    [CliOption("--task-type")]
+    public AwsDevopsAgentCreateBacklogTaskTaskType? TaskType { get; private init; }
+
+    /// <summary>
+    /// The title of the backlog task Constraints: o min: 1 o max: 400
+    /// </summary>
+    [CliOption("--title")]
+    public string? Title { get; private init; }
+
+    /// <summary>
+    /// The priority level of the task Possible values: o CRITICAL o HIGH o MEDIUM o LOW o MINIMAL
+    /// </summary>
+    [CliOption("--priority")]
+    public AwsDevopsAgentCreateBacklogTaskPriority? Priority { get; private init; }
 
     /// <summary>
     /// Optional reference information for the task system -&gt; (string) [required] The name of the external system Constraints: o min: 1 o max: 256 title -&gt; (string) Optional title for the reference Constraints: o min: 1 o max: 512 referenceId -&gt; (string) [required] The unique identifier in the external system Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_.-]+ referenceUrl -&gt; (string) [required] URL to access the reference in the external system Constraints: o min: 1 o max: 2048 associationId -&gt; (string) [required] Association identifier of the external system Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_.-]+ Shorthand Syntax: system=string,title=string,referenceId=string,referenceUrl=string,associationId=string JSON Syntax: { "system": "string", "title": "string", "referenceId": "string", "referenceUrl": "string", "associationId": "string" }
@@ -31,20 +99,11 @@ public record AwsDevopsAgentCreateBacklogTaskOptions : AwsOptions
     [CliOption("--reference")]
     public string? Reference { get; set; }
 
-    [CliOption("--task-type")]
-    public string? TaskType { get; set; }
-
-    [CliOption("--title")]
-    public string? Title { get; set; }
-
     /// <summary>
     /// Optional detailed description of the task Constraints: o min: 0 o max: 10000
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
-
-    [CliOption("--priority")]
-    public string? Priority { get; set; }
 
     /// <summary>
     /// Client-provided token for idempotent operations Constraints: o min: 1 o max: 64 o pattern: [\x21-\x7E]+
@@ -58,5 +117,22 @@ public record AwsDevopsAgentCreateBacklogTaskOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

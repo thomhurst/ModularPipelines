@@ -16,24 +16,24 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsDrsUpdateRecoveryPlanExecutionStepStatus
 {
-    [EnumValue("NOT_STARTED")]
-    NotStarted = 1,
+    [EnumValue("COMPLETED")]
+    Completed,
 
     [EnumValue("EXECUTING")]
-    Executing = 2,
-
-    [EnumValue("WAITING")]
-    Waiting = 3,
-
-    [EnumValue("COMPLETED")]
-    Completed = 4,
+    Executing,
 
     [EnumValue("FAILED")]
-    Failed = 5,
+    Failed,
 
-    [EnumValue("TIMED_OUT")]
-    TimedOut = 6,
+    [EnumValue("NOT_STARTED")]
+    NotStarted,
 
     [EnumValue("SKIPPED")]
-    Skipped = 7
+    Skipped,
+
+    [EnumValue("TIMED_OUT")]
+    TimedOut,
+
+    [EnumValue("WAITING")]
+    Waiting
 }

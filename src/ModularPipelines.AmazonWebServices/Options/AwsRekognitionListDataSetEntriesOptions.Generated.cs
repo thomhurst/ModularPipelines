@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("rekognition", "list-dataset-entries")]
-public record AwsRekognitionListDataSetEntriesOptions : AwsOptions
+public record AwsRekognitionListDataSetEntriesOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// NOTE: This operation applies only to Amazon Rekognition Custom Labels. Lists the entries (images) within a dataset. An entry is a JSON Line that contains the information for a single image, including the image location, assigned labels, and object location bounding boxes. For more information, see Creating a manifest file . JSON Lines in the response include information about non-terminal er- rors found in the dataset. Non terminal errors are reported in errors lists within each JSON Line. The s...
+    /// </summary>
+    /// <param name="DataSetArn">The Amazon Resource Name (ARN) for the dataset that you want to use. Constraints: o min: 20 o max: 2048 o pattern: (^arn:[a-z\d-]+:rekogni- tion:[a-z\d-]+:\d{12}:project\/[a-zA-Z0-9_.\-]{1,255}\/dataset\/(train|test)\/[0-9]+$)</param>
+    public AwsRekognitionListDataSetEntriesOptions(
+        string DataSetArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DataSetArn);
+        this.DataSetArn = DataSetArn;
+    }
+
+    private AwsRekognitionListDataSetEntriesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRekognitionListDataSetEntriesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRekognitionListDataSetEntriesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) for the dataset that you want to use. Constraints: o min: 20 o max: 2048 o pattern: (^arn:[a-z\d-]+:rekogni- tion:[a-z\d-]+:\d{12}:project\/[a-zA-Z0-9_.\-]{1,255}\/dataset\/(train|test)\/[0-9]+$)
+    /// </summary>
     [CliOption("--dataset-arn")]
-    public string? DataSetArn { get; set; }
+    public string? DataSetArn { get; private init; }
 
     /// <summary>
     /// Specifies a label filter for the response. The response includes an entry only if one or more of the labels in ContainsLabels exist in the entry. Constraints: o min: 1 o max: 10 (string) Constraints: o min: 1 o max: 255 o pattern: .{1,} Syntax: "string" "string" ...
@@ -31,7 +68,10 @@ public record AwsRekognitionListDataSetEntriesOptions : AwsOptions
     [CliOption("--contains-labels", GroupValues = true)]
     public IEnumerable<string>? ContainsLabels { get; set; }
 
-    [CliFlag("--labeled")]
+    /// <summary>
+    /// Specify true to get only the JSON Lines where the image is labeled. Specify false to get only the JSON Lines where the image isn't la- beled. If you don't specify Labeled , ListDatasetEntries returns JSON Lines for labeled and unlabeled images.
+    /// </summary>
+    [CliFlag("--labeled", NegatedName = "--no-labeled")]
     public bool? Labeled { get; set; }
 
     /// <summary>
@@ -40,7 +80,10 @@ public record AwsRekognitionListDataSetEntriesOptions : AwsOptions
     [CliOption("--source-ref-contains")]
     public string? SourceRefContains { get; set; }
 
-    [CliFlag("--has-errors")]
+    /// <summary>
+    /// Specifies an error filter for the response. Specify True to only in- clude entries that have errors.
+    /// </summary>
+    [CliFlag("--has-errors", NegatedName = "--no-has-errors")]
     public bool? HasErrors { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -67,5 +110,22 @@ public record AwsRekognitionListDataSetEntriesOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

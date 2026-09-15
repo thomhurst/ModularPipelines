@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("location", "get-device-position")]
-public record AwsLocationGetDevicePositionOptions : AwsOptions
+public record AwsLocationGetDevicePositionOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--tracker-name")]
-    public string? TrackerName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Retrieves a device's most recent position according to its sample time. NOTE: Device positions are deleted after 30 days. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="TrackerName">The tracker resource receiving the position update. Constraints: o min: 1 o max: 100 o pattern: [-._\w]+</param>
+    /// <param name="DeviceId">The device whose position you want to retrieve. Constraints: o min: 1 o max: 100 o pattern: [-._\p{L}\p{N}]+</param>
+    public AwsLocationGetDevicePositionOptions(
+        string TrackerName,
+        string DeviceId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(TrackerName);
+        this.TrackerName = TrackerName;
+        global::System.ArgumentNullException.ThrowIfNull(DeviceId);
+        this.DeviceId = DeviceId;
+    }
+
+    private AwsLocationGetDevicePositionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsLocationGetDevicePositionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsLocationGetDevicePositionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The tracker resource receiving the position update. Constraints: o min: 1 o max: 100 o pattern: [-._\w]+
+    /// </summary>
+    [CliOption("--tracker-name")]
+    public string? TrackerName { get; private init; }
+
+    /// <summary>
+    /// The device whose position you want to retrieve. Constraints: o min: 1 o max: 100 o pattern: [-._\p{L}\p{N}]+
+    /// </summary>
     [CliOption("--device-id")]
-    public string? DeviceId { get; set; }
+    public string? DeviceId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cloudformation", "execute-change-set")]
-public record AwsCloudformationExecuteChangeSetOptions : AwsOptions
+public record AwsCloudformationExecuteChangeSetOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates a stack using the input information that was provided when the specified change set was created. After the call successfully com- pletes, CloudFormation starts updating the stack. Use the De- scribeStacks action to view the status of the update. When you execute a change set, CloudFormation deletes all other change sets associated with the stack because they aren't valid for the up- dated stack. If a stack policy is associated with the stack, CloudFormation enforces the policy during the...
+    /// </summary>
+    /// <param name="ChangeSetName">The name or Amazon Resource Name (ARN) of the change set that you want use to update the specified stack. Constraints: o min: 1 o max: 1600 o pattern: [a-zA-Z][-a-zA-Z0-9]*|arn:[-a-zA-Z0-9:/]*</param>
+    public AwsCloudformationExecuteChangeSetOptions(
+        string ChangeSetName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ChangeSetName);
+        this.ChangeSetName = ChangeSetName;
+    }
+
+    private AwsCloudformationExecuteChangeSetOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCloudformationExecuteChangeSetOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCloudformationExecuteChangeSetOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name or Amazon Resource Name (ARN) of the change set that you want use to update the specified stack. Constraints: o min: 1 o max: 1600 o pattern: [a-zA-Z][-a-zA-Z0-9]*|arn:[-a-zA-Z0-9:/]*
+    /// </summary>
     [CliOption("--change-set-name")]
-    public string? ChangeSetName { get; set; }
+    public string? ChangeSetName { get; private init; }
 
     /// <summary>
     /// If you specified the name of a change set, specify the stack name or Amazon Resource Name (ARN) that's associated with the change set you want to execute. Constraints: o min: 1 o pattern: ([a-zA-Z][-a-zA-Z0-9]*)|(arn:\b(aws|aws-us-gov|aws-cn)\b:[-a-zA-Z0-9:/._+]*)
@@ -38,10 +75,16 @@ public record AwsCloudformationExecuteChangeSetOptions : AwsOptions
     [CliOption("--client-request-token")]
     public string? ClientRequestToken { get; set; }
 
-    [CliFlag("--disable-rollback")]
+    /// <summary>
+    /// Preserves the state of previously provisioned resources when an op- eration fails. This parameter can't be specified when the OnStack- Failure parameter to the CreateChangeSet API operation was speci- fied. o True - if the stack creation fails, do nothing. This is equivalent to specifying DO_NOTHING for the OnStackFailure parameter to the CreateChangeSet API operation. o False - if the stack creation fails, roll back the stack. This is equivalent to specifying ROLLBACK for the OnStackFailure parameter to the CreateChangeSet API operation. Default: True
+    /// </summary>
+    [CliFlag("--disable-rollback", NegatedName = "--no-disable-rollback")]
     public bool? DisableRollback { get; set; }
 
-    [CliFlag("--retain-except-on-create")]
+    /// <summary>
+    /// When set to true , newly created resources are deleted when the op- eration rolls back. This includes newly created resources marked with a deletion policy of Retain . Default: false
+    /// </summary>
+    [CliFlag("--retain-except-on-create", NegatedName = "--no-retain-except-on-create")]
     public bool? RetainExceptOnCreate { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -49,5 +92,22 @@ public record AwsCloudformationExecuteChangeSetOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

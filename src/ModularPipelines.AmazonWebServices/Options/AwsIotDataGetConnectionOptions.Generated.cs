@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,12 +20,51 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iot-data", "get-connection")]
-public record AwsIotDataGetConnectionOptions : AwsOptions
+public record AwsIotDataGetConnectionOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--client-id")]
-    public string? ClientId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
-    [CliFlag("--include-socket-information")]
+    /// <summary>
+    /// Retrieves connection information for the specified MQTT client. Requires permission to access the GetConnection action. See also: AWS API Documentation NOTE: For production code it is strongly recommended to use the custom endpoint for your account (retrievable via the iot describe-endpoint command) to ensure best availability and reachability of the ser- vice. The default endpoints (intended for testing purposes only) can be found at https://docs.aws.amazon.com/general/latest/gr/iot-core.html#i...
+    /// </summary>
+    /// <param name="ClientId">The unique identifier of the MQTT client to retrieve connection in- formation. The client ID can't start with a dollar sign ($). MQTT client IDs must be URL encoded (percent-encoded) when they con- tain characters that are not valid in HTTP requests, such as spaces, forward slashes (/), and UTF-8 characters. Constraints: o min: 1 o max: 128 o pattern: ^[^$].*</param>
+    public AwsIotDataGetConnectionOptions(
+        string ClientId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ClientId);
+        this.ClientId = ClientId;
+    }
+
+    private AwsIotDataGetConnectionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsIotDataGetConnectionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsIotDataGetConnectionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier of the MQTT client to retrieve connection in- formation. The client ID can't start with a dollar sign ($). MQTT client IDs must be URL encoded (percent-encoded) when they con- tain characters that are not valid in HTTP requests, such as spaces, forward slashes (/), and UTF-8 characters. Constraints: o min: 1 o max: 128 o pattern: ^[^$].*
+    /// </summary>
+    [CliOption("--client-id")]
+    public string? ClientId { get; private init; }
+
+    /// <summary>
+    /// Specifies if socket information (sourcePort, targetPort, sourceIp, targetIp) should be included in the GetConnection response. Set to TRUE to include socket information. Set to FALSE to omit socket in- formation. By default, this is set to FALSE . See the developer guide for how to authorize this parameter.
+    /// </summary>
+    [CliFlag("--include-socket-information", NegatedName = "--no-include-socket-information")]
     public bool? IncludeSocketInformation { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -32,5 +72,22 @@ public record AwsIotDataGetConnectionOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

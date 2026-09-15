@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +20,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("service-quotas", "get-service-quota")]
-public record AwsServiceQuotasGetServiceQuotaOptions : AwsOptions
+public record AwsServiceQuotasGetServiceQuotaOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--service-code")]
-    public string? ServiceCode { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Retrieves the applied quota value for the specified account-level or resource-level quota. For some quotas, only the default values are available. If the applied quota value is not available for a quota, the quota is not retrieved. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ServiceCode">Specifies the service identifier. To find the service code value for an Amazon Web Services service, use the ListServices operation. Constraints: o min: 1 o max: 63 o pattern: [a-zA-Z][a-zA-Z0-9-]{1,63}</param>
+    /// <param name="QuotaCode">Specifies the quota identifier. To find the quota code for a spe- cific quota, use the ListServiceQuotas operation, and look for the QuotaCode response in the output for the quota you want. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z][a-zA-Z0-9-]{1,128}</param>
+    public AwsServiceQuotasGetServiceQuotaOptions(
+        string ServiceCode,
+        string QuotaCode
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ServiceCode);
+        this.ServiceCode = ServiceCode;
+        global::System.ArgumentNullException.ThrowIfNull(QuotaCode);
+        this.QuotaCode = QuotaCode;
+    }
+
+    private AwsServiceQuotasGetServiceQuotaOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsServiceQuotasGetServiceQuotaOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsServiceQuotasGetServiceQuotaOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Specifies the service identifier. To find the service code value for an Amazon Web Services service, use the ListServices operation. Constraints: o min: 1 o max: 63 o pattern: [a-zA-Z][a-zA-Z0-9-]{1,63}
+    /// </summary>
+    [CliOption("--service-code")]
+    public string? ServiceCode { get; private init; }
+
+    /// <summary>
+    /// Specifies the quota identifier. To find the quota code for a spe- cific quota, use the ListServiceQuotas operation, and look for the QuotaCode response in the output for the quota you want. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z][a-zA-Z0-9-]{1,128}
+    /// </summary>
     [CliOption("--quota-code")]
-    public string? QuotaCode { get; set; }
+    public string? QuotaCode { get; private init; }
 
     /// <summary>
     /// Specifies the resource with an Amazon Resource Name (ARN).
@@ -38,5 +82,22 @@ public record AwsServiceQuotasGetServiceQuotaOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

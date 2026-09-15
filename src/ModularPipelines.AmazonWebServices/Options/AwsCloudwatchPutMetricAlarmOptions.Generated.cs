@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cloudwatch", "put-metric-alarm")]
-public record AwsCloudwatchPutMetricAlarmOptions : AwsOptions
+public record AwsCloudwatchPutMetricAlarmOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates or updates an alarm and associates it with the specified met- ric, metric math expression, anomaly detection model, Metrics Insights query, or PromQL query. For more information about using a Metrics In- sights query for an alarm, see Create alarms on Metrics Insights queries . Alarms based on anomaly detection models cannot have Auto Scaling ac- tions. When this operation creates an alarm, the alarm state is immediately set to INSUFFICIENT_DATA . For PromQL alarms, the alarm state is in...
+    /// </summary>
+    /// <param name="AlarmName">The name for the alarm. This name must be unique within the Region. The name must contain only UTF-8 characters, and can't contain ASCII control characters Constraints: o min: 1 o max: 255</param>
+    public AwsCloudwatchPutMetricAlarmOptions(
+        string AlarmName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AlarmName);
+        this.AlarmName = AlarmName;
+    }
+
+    private AwsCloudwatchPutMetricAlarmOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCloudwatchPutMetricAlarmOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCloudwatchPutMetricAlarmOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name for the alarm. This name must be unique within the Region. The name must contain only UTF-8 characters, and can't contain ASCII control characters Constraints: o min: 1 o max: 255
+    /// </summary>
     [CliOption("--alarm-name")]
-    public string? AlarmName { get; set; }
+    public string? AlarmName { get; private init; }
 
     /// <summary>
     /// The description for the alarm. Constraints: o min: 0 o max: 1024
@@ -31,7 +68,10 @@ public record AwsCloudwatchPutMetricAlarmOptions : AwsOptions
     [CliOption("--alarm-description")]
     public string? AlarmDescription { get; set; }
 
-    [CliFlag("--actions-enabled")]
+    /// <summary>
+    /// Indicates whether actions should be executed during any changes to the alarm state. The default is TRUE .
+    /// </summary>
+    [CliFlag("--actions-enabled", NegatedName = "--no-actions-enabled")]
     public bool? ActionsEnabled { get; set; }
 
     /// <summary>
@@ -74,7 +114,7 @@ public record AwsCloudwatchPutMetricAlarmOptions : AwsOptions
     /// The extended statistic for the metric specified in MetricName . When you call PutMetricAlarm and specify a MetricName , you must specify either Statistic or ExtendedStatistic but not both. If you specify ExtendedStatistic , the following are valid values: o p90 o tm90 o tc90 o ts90 o wm90 o IQM o PR(*n* :*m* ) where n and m are values of the metric o TC(*X* %:*X* %) where X is between 10 and 90 inclusive. o TM(*X* %:*X* %) where X is between 10 and 90 inclusive. o TS(*X* %:*X* %) where X is between 10 and 90 inclusive. o WM(*X* %:*X* %) where X is between 10 and 90 inclusive. For more information about these extended statistics, see CloudWatch statistics definitions .
     /// </summary>
     [CliOption("--extended-statistic")]
-    public AwsCloudwatchPutMetricAlarmExtendedStatistic? ExtendedStatistic { get; set; }
+    public string? ExtendedStatistic { get; set; }
 
     /// <summary>
     /// The dimensions for the metric specified in MetricName . Constraints: o max: 30 (structure) A dimension is a name/value pair that is part of the identity of a metric. Because dimensions are part of the unique identifier for a metric, whenever you add a unique name/value pair to one of your metrics, you are creating a new variation of that met- ric. For example, many Amazon EC2 metrics publish InstanceId as a dimension name, and the actual instance ID as the value for that dimension. You can assign up to 30 dimensions to a metric. Name -&gt; (string) [required] The name of the dimension. Dimension names must contain only ASCII characters, must include at least one non-whitespace character, and cannot start with a colon (: ). ASCII control characters are not supported as part of dimension names. Constraints: o min: 1 o max: 255 Value -&gt; (string) [required] The value of the dimension. Dimension values must contain only ASCII characters and must include at least one non-whitespace character. ASCII control characters are not supported as part of dimension values. Constraints: o min: 1 o max: 1024 Shorthand Syntax: Name=string,Value=string ... JSON Syntax: [ { "Name": "string", "Value": "string" } ... ]
@@ -177,5 +217,22 @@ public record AwsCloudwatchPutMetricAlarmOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

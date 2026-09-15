@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,12 +22,51 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("swf", "list-domains")]
-public record AwsSwfListDomainsOptions : AwsOptions
+public record AwsSwfListDomainsOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--registration-status")]
-    public string? RegistrationStatus { get; set; }
+    private readonly bool _requiresAlternateInput;
 
-    [CliFlag("--reverse-order")]
+    /// <summary>
+    /// Returns the list of domains registered in the account. The results may be split into multiple pages. To retrieve subsequent pages, make the call again using the nextPageToken returned by the initial call. NOTE: This operation is eventually consistent. The results are best effort and may not exactly reflect recent updates and changes. Access Control You can use IAM policies to control this action's access to Amazon SWF resources as follows: o Use a Resource element with the domain name to limit t...
+    /// </summary>
+    /// <param name="RegistrationStatus">Specifies the registration status of the domains to list. Possible values: o REGISTERED o DEPRECATED</param>
+    public AwsSwfListDomainsOptions(
+        AwsSwfListDomainsRegistrationStatus RegistrationStatus
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(RegistrationStatus);
+        this.RegistrationStatus = RegistrationStatus;
+    }
+
+    private AwsSwfListDomainsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSwfListDomainsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSwfListDomainsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Specifies the registration status of the domains to list. Possible values: o REGISTERED o DEPRECATED
+    /// </summary>
+    [CliOption("--registration-status")]
+    public AwsSwfListDomainsRegistrationStatus? RegistrationStatus { get; private init; }
+
+    /// <summary>
+    /// When set to true , returns the results in reverse order. By default, the results are returned in ascending alphabetical order by name of the domains.
+    /// </summary>
+    [CliFlag("--reverse-order", NegatedName = "--no-reverse-order")]
     public bool? ReverseOrder { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -52,5 +93,22 @@ public record AwsSwfListDomainsOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

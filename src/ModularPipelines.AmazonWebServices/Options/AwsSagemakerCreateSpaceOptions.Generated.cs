@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +20,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sagemaker", "create-space")]
-public record AwsSagemakerCreateSpaceOptions : AwsOptions
+public record AwsSagemakerCreateSpaceOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--domain-id")]
-    public string? DomainId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates a private space or a space used for real time collaboration in a domain. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DomainId">The ID of the associated domain. Constraints: o min: 0 o max: 63 o pattern: d-(-*[a-z0-9]){1,61}</param>
+    /// <param name="SpaceName">The name of the space. Constraints: o min: 0 o max: 63 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}</param>
+    public AwsSagemakerCreateSpaceOptions(
+        string DomainId,
+        string SpaceName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DomainId);
+        this.DomainId = DomainId;
+        global::System.ArgumentNullException.ThrowIfNull(SpaceName);
+        this.SpaceName = SpaceName;
+    }
+
+    private AwsSagemakerCreateSpaceOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSagemakerCreateSpaceOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSagemakerCreateSpaceOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the associated domain. Constraints: o min: 0 o max: 63 o pattern: d-(-*[a-z0-9]){1,61}
+    /// </summary>
+    [CliOption("--domain-id")]
+    public string? DomainId { get; private init; }
+
+    /// <summary>
+    /// The name of the space. Constraints: o min: 0 o max: 63 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}
+    /// </summary>
     [CliOption("--space-name")]
-    public string? SpaceName { get; set; }
+    public string? SpaceName { get; private init; }
 
     /// <summary>
     /// Tags to associated with the space. Each tag consists of a key and an optional value. Tag keys must be unique for each resource. Tags are searchable using the Search API. Constraints: o min: 0 o max: 50 (structure) A tag object that consists of a key and an optional value, used to manage metadata for SageMaker Amazon Web Services resources. You can add tags to notebook instances, training jobs, hyperpa- rameter tuning jobs, batch transform jobs, models, labeling jobs, work teams, endpoint configurations, and endpoints. For more information on adding tags to SageMaker resources, see AddTags . For more information on adding metadata to your Amazon Web Ser- vices resources with tagging, see Tagging Amazon Web Services resources . For advice on best practices for managing Amazon Web Services resources with tagging, see Tagging Best Practices: Im- plement an Effective Amazon Web Services Resource Tagging Strat- egy . Key -&gt; (string) [required] The tag key. Tag keys must be unique per resource. Constraints: o min: 1 o max: 128 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Value -&gt; (string) [required] The tag value. Constraints: o min: 0 o max: 256 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
@@ -62,5 +106,22 @@ public record AwsSagemakerCreateSpaceOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

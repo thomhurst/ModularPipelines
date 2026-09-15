@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,68 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ecr", "put-signing-configuration")]
-public record AwsEcrPutSigningConfigurationOptions : AwsOptions
+public record AwsEcrPutSigningConfigurationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates or updates the registry's signing configuration, which defines rules for automatically signing images with Amazon Web Services Signer. For more information, see Managed signing in the Amazon Elastic Con- tainer Registry User Guide . NOTE: To successfully generate a signature, the IAM principal pushing im- ages must have permission to sign payloads with the Amazon Web Ser- vices Signer signing profile referenced in the signing configura- tion. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="SigningConfiguration">The signing configuration to assign to the registry. rules -&gt; (list) [required] A list of signing rules. Each rule defines a signing profile and optional repository filters that determine which images are au- tomatically signed. Maximum of 10 rules. Constraints: o min: 0 o max: 10 (structure) A signing rule that specifies a signing profile and optional repository filters. When an image is pushed to a matching repository, a signing job is created using the specified pro- file. signingProfileArn -&gt; (string) [required] The ARN of the Amazon Web Services Signer signing profile to use for signing images that match this rule. For more information about signing profiles, see Signing profiles in the Amazon Web Services Signer Developer Guide . Constraints: o max: 200 o pattern: ^arn:aws(-[a-z]+)*:signer:[a-z0-9-]+:[0-9]{12}:\/sign- ing-profiles\/[a-zA-Z0-9_]{2,}$ repositoryFilters -&gt; (list) A list of repository filters that determine which reposi- tories have their images signed on push. If no filters are specified, all images pushed to the registry are signed using the rule's signing profile. Maximum of 100 filters per rule. Constraints: o min: 1 o max: 100 (structure) A repository filter used to determine which reposito- ries have their images automatically signed on push. Each filter consists of a filter type and filter value. filter -&gt; (string) [required] The filter value used to match repository names. When using WILDCARD_MATCH , the * character matches any sequence of characters. Examples: o myapp/* - Matches all repositories starting with myapp/ o */production - Matches all repositories ending with /production o *prod* - Matches all repositories containing prod Constraints: o min: 1 o max: 256 o pattern: ^(?:[a-z0-9*]+(?:[._-][a-z0-9*]+)*/)*[a-z0-9*]+(?:[._-][a-z0-9*]+)*$ filterType -&gt; (string) [required] The type of filter to apply. Currently, only WILD- CARD_MATCH is supported, which uses wildcard pat- terns to match repository names. Possible values: o WILDCARD_MATCH JSON Syntax: { "rules": [ { "signingProfileArn": "string", "repositoryFilters": [ { "filter": "string", "filterType": "WILDCARD_MATCH" } ... ] } ... ] }</param>
+    public AwsEcrPutSigningConfigurationOptions(
+        string SigningConfiguration
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SigningConfiguration);
+        this.SigningConfiguration = SigningConfiguration;
+    }
+
+    private AwsEcrPutSigningConfigurationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEcrPutSigningConfigurationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEcrPutSigningConfigurationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The signing configuration to assign to the registry. rules -&gt; (list) [required] A list of signing rules. Each rule defines a signing profile and optional repository filters that determine which images are au- tomatically signed. Maximum of 10 rules. Constraints: o min: 0 o max: 10 (structure) A signing rule that specifies a signing profile and optional repository filters. When an image is pushed to a matching repository, a signing job is created using the specified pro- file. signingProfileArn -&gt; (string) [required] The ARN of the Amazon Web Services Signer signing profile to use for signing images that match this rule. For more information about signing profiles, see Signing profiles in the Amazon Web Services Signer Developer Guide . Constraints: o max: 200 o pattern: ^arn:aws(-[a-z]+)*:signer:[a-z0-9-]+:[0-9]{12}:\/sign- ing-profiles\/[a-zA-Z0-9_]{2,}$ repositoryFilters -&gt; (list) A list of repository filters that determine which reposi- tories have their images signed on push. If no filters are specified, all images pushed to the registry are signed using the rule's signing profile. Maximum of 100 filters per rule. Constraints: o min: 1 o max: 100 (structure) A repository filter used to determine which reposito- ries have their images automatically signed on push. Each filter consists of a filter type and filter value. filter -&gt; (string) [required] The filter value used to match repository names. When using WILDCARD_MATCH , the * character matches any sequence of characters. Examples: o myapp/* - Matches all repositories starting with myapp/ o */production - Matches all repositories ending with /production o *prod* - Matches all repositories containing prod Constraints: o min: 1 o max: 256 o pattern: ^(?:[a-z0-9*]+(?:[._-][a-z0-9*]+)*/)*[a-z0-9*]+(?:[._-][a-z0-9*]+)*$ filterType -&gt; (string) [required] The type of filter to apply. Currently, only WILD- CARD_MATCH is supported, which uses wildcard pat- terns to match repository names. Possible values: o WILDCARD_MATCH JSON Syntax: { "rules": [ { "signingProfileArn": "string", "repositoryFilters": [ { "filter": "string", "filterType": "WILDCARD_MATCH" } ... ] } ... ] }
+    /// </summary>
     [CliOption("--signing-configuration")]
-    public string? SigningConfiguration { get; set; }
+    public string? SigningConfiguration { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

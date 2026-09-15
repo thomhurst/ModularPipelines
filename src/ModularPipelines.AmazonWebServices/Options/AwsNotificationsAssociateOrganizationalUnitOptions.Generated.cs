@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("notifications", "associate-organizational-unit")]
-public record AwsNotificationsAssociateOrganizationalUnitOptions : AwsOptions
+public record AwsNotificationsAssociateOrganizationalUnitOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--organizational-unit-id")]
-    public string? OrganizationalUnitId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Associates an organizational unit with a notification configuration. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="OrganizationalUnitId">The unique identifier of the organizational unit to associate. Constraints: o pattern: (Root|r-[0-9a-z]{4,32}|ou-[0-9a-z]{4,32}-[a-z0-9]{8,32})</param>
+    /// <param name="NotificationConfigurationArn">The Amazon Resource Name (ARN) of the notification configuration to associate with the organizational unit. Constraints: o pattern: arn:aws:notifications::[0-9]{12}:configura- tion/[a-z0-9]{27}</param>
+    public AwsNotificationsAssociateOrganizationalUnitOptions(
+        string OrganizationalUnitId,
+        string NotificationConfigurationArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(OrganizationalUnitId);
+        this.OrganizationalUnitId = OrganizationalUnitId;
+        global::System.ArgumentNullException.ThrowIfNull(NotificationConfigurationArn);
+        this.NotificationConfigurationArn = NotificationConfigurationArn;
+    }
+
+    private AwsNotificationsAssociateOrganizationalUnitOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsNotificationsAssociateOrganizationalUnitOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsNotificationsAssociateOrganizationalUnitOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier of the organizational unit to associate. Constraints: o pattern: (Root|r-[0-9a-z]{4,32}|ou-[0-9a-z]{4,32}-[a-z0-9]{8,32})
+    /// </summary>
+    [CliOption("--organizational-unit-id")]
+    public string? OrganizationalUnitId { get; private init; }
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the notification configuration to associate with the organizational unit. Constraints: o pattern: arn:aws:notifications::[0-9]{12}:configura- tion/[a-z0-9]{27}
+    /// </summary>
     [CliOption("--notification-configuration-arn")]
-    public string? NotificationConfigurationArn { get; set; }
+    public string? NotificationConfigurationArn { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

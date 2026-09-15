@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --securitylevel.
+/// Allowed values for --security-level.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsInspector2UpdateCisScanConfigurationSecurityLevel
 {
     [EnumValue("LEVEL_1")]
-    Level_1 = 1,
+    Level1,
 
     [EnumValue("LEVEL_2")]
-    Level_2 = 2
+    Level2
 }

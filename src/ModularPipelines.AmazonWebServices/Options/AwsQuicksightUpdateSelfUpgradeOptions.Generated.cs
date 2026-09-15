@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,24 +21,98 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("quicksight", "update-self-upgrade")]
-public record AwsQuicksightUpdateSelfUpgradeOptions : AwsOptions
+public record AwsQuicksightUpdateSelfUpgradeOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates a self-upgrade request for a Quick user by approving, denying, or verifying the request. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="AwsAccountId">The ID of the Amazon Web Services account that contains the self-up- grade request. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$</param>
+    /// <param name="Namespace">The Quick namespace for the self-upgrade request. Constraints: o max: 64 o pattern: ^[a-zA-Z0-9._-]*$</param>
+    /// <param name="UpgradeRequestId">The ID of the self-upgrade request to update.</param>
+    /// <param name="Action">The action to perform on the self-upgrade request. Valid values are APPROVE , DENY , or VERIFY . Possible values: o APPROVE o DENY o VERIFY</param>
+    public AwsQuicksightUpdateSelfUpgradeOptions(
+        string AwsAccountId,
+        string Namespace,
+        string UpgradeRequestId,
+        AwsQuicksightUpdateSelfUpgradeAction Action
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AwsAccountId);
+        this.AwsAccountId = AwsAccountId;
+        global::System.ArgumentNullException.ThrowIfNull(Namespace);
+        this.Namespace = Namespace;
+        global::System.ArgumentNullException.ThrowIfNull(UpgradeRequestId);
+        this.UpgradeRequestId = UpgradeRequestId;
+        global::System.ArgumentNullException.ThrowIfNull(Action);
+        this.Action = Action;
+    }
+
+    private AwsQuicksightUpdateSelfUpgradeOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsQuicksightUpdateSelfUpgradeOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsQuicksightUpdateSelfUpgradeOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the Amazon Web Services account that contains the self-up- grade request. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$
+    /// </summary>
     [CliOption("--aws-account-id")]
-    public string? AwsAccountId { get; set; }
+    public string? AwsAccountId { get; private init; }
 
+    /// <summary>
+    /// The Quick namespace for the self-upgrade request. Constraints: o max: 64 o pattern: ^[a-zA-Z0-9._-]*$
+    /// </summary>
     [CliOption("--namespace")]
-    public string? Namespace { get; set; }
+    public string? Namespace { get; private init; }
 
+    /// <summary>
+    /// The ID of the self-upgrade request to update.
+    /// </summary>
     [CliOption("--upgrade-request-id")]
-    public string? UpgradeRequestId { get; set; }
+    public string? UpgradeRequestId { get; private init; }
 
+    /// <summary>
+    /// The action to perform on the self-upgrade request. Valid values are APPROVE , DENY , or VERIFY . Possible values: o APPROVE o DENY o VERIFY
+    /// </summary>
     [CliOption("--action")]
-    public string? Action { get; set; }
+    public AwsQuicksightUpdateSelfUpgradeAction? Action { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

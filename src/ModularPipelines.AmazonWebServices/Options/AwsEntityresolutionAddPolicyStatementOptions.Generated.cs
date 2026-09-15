@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,22 +21,108 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("entityresolution", "add-policy-statement")]
-public record AwsEntityresolutionAddPolicyStatementOptions : AwsOptions
+public record AwsEntityresolutionAddPolicyStatementOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Adds a policy statement object. To retrieve a list of existing policy statements, use the GetPolicy API. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Arn">The Amazon Resource Name (ARN) of the resource that will be accessed by the principal. Constraints: o pattern: arn:(aws|aws-us-gov|aws-cn):entityresolu- tion:[a-z]{2}-[a-z]{1,10}-[0-9]:[0-9]{12}:((schemamapping|match- ingworkflow|idmappingworkflow|idnamespace)/[a-zA-Z_0-9-]{1,255})</param>
+    /// <param name="StatementId">A statement identifier that differentiates the statement from others in the same policy. Constraints: o min: 1 o max: 64 o pattern: [0-9A-Za-z]+</param>
+    /// <param name="Effect">Determines whether the permissions specified in the policy are to be allowed (Allow ) or denied (Deny ). WARNING: If you set the value of the effect parameter to Deny for the Ad- dPolicyStatement operation, you must also set the value of the effect parameter in the policy to Deny for the PutPolicy opera- tion. Possible values: o Allow o Deny</param>
+    /// <param name="Action">The action that the principal can use on the resource. For example, entityresolution:GetIdMappingJob , entityresolu- tion:GetMatchingJob . Constraints: o min: 1 (string) Constraints: o min: 3 o max: 64 o pattern: (entityresolution:[a-zA-Z0-9]+) Syntax: "string" "string" ...</param>
+    /// <param name="Principal">The Amazon Web Services service or Amazon Web Services account that can access the resource defined as ARN. Constraints: o min: 1 (string) Constraints: o min: 12 o max: 64 o pattern: ((\d{12})|([a-z0-9\.]+)) Syntax: "string" "string" ...</param>
+    public AwsEntityresolutionAddPolicyStatementOptions(
+        string Arn,
+        string StatementId,
+        AwsEntityresolutionAddPolicyStatementEffect Effect,
+        IEnumerable<string> Action,
+        IEnumerable<string> Principal
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Arn);
+        this.Arn = Arn;
+        global::System.ArgumentNullException.ThrowIfNull(StatementId);
+        this.StatementId = StatementId;
+        global::System.ArgumentNullException.ThrowIfNull(Effect);
+        this.Effect = Effect;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Action);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Action));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Action));
+            }
+
+            Action = materialized;
+        }
+        this.Action = Action;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Principal);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Principal));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Principal));
+            }
+
+            Principal = materialized;
+        }
+        this.Principal = Principal;
+    }
+
+    private AwsEntityresolutionAddPolicyStatementOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEntityresolutionAddPolicyStatementOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEntityresolutionAddPolicyStatementOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the resource that will be accessed by the principal. Constraints: o pattern: arn:(aws|aws-us-gov|aws-cn):entityresolu- tion:[a-z]{2}-[a-z]{1,10}-[0-9]:[0-9]{12}:((schemamapping|match- ingworkflow|idmappingworkflow|idnamespace)/[a-zA-Z_0-9-]{1,255})
+    /// </summary>
     [CliOption("--arn")]
-    public string? Arn { get; set; }
+    public string? Arn { get; private init; }
 
+    /// <summary>
+    /// A statement identifier that differentiates the statement from others in the same policy. Constraints: o min: 1 o max: 64 o pattern: [0-9A-Za-z]+
+    /// </summary>
     [CliOption("--statement-id")]
-    public string? StatementId { get; set; }
+    public string? StatementId { get; private init; }
 
+    /// <summary>
+    /// Determines whether the permissions specified in the policy are to be allowed (Allow ) or denied (Deny ). WARNING: If you set the value of the effect parameter to Deny for the Ad- dPolicyStatement operation, you must also set the value of the effect parameter in the policy to Deny for the PutPolicy opera- tion. Possible values: o Allow o Deny
+    /// </summary>
     [CliOption("--effect")]
-    public string? Effect { get; set; }
+    public AwsEntityresolutionAddPolicyStatementEffect? Effect { get; private init; }
 
+    /// <summary>
+    /// The action that the principal can use on the resource. For example, entityresolution:GetIdMappingJob , entityresolu- tion:GetMatchingJob . Constraints: o min: 1 (string) Constraints: o min: 3 o max: 64 o pattern: (entityresolution:[a-zA-Z0-9]+) Syntax: "string" "string" ...
+    /// </summary>
     [CliOption("--action", GroupValues = true)]
-    public IEnumerable<string>? Action { get; set; }
+    public IEnumerable<string>? Action { get; private init; }
 
+    /// <summary>
+    /// The Amazon Web Services service or Amazon Web Services account that can access the resource defined as ARN. Constraints: o min: 1 (string) Constraints: o min: 12 o max: 64 o pattern: ((\d{12})|([a-z0-9\.]+)) Syntax: "string" "string" ...
+    /// </summary>
     [CliOption("--principal", GroupValues = true)]
-    public IEnumerable<string>? Principal { get; set; }
+    public IEnumerable<string>? Principal { get; private init; }
 
     /// <summary>
     /// A set of condition keys that you can use in key policies. Constraints: o min: 1 o max: 40960
@@ -47,5 +135,22 @@ public record AwsEntityresolutionAddPolicyStatementOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

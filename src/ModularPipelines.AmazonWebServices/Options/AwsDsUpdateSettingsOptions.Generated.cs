@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,89 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ds", "update-settings")]
-public record AwsDsUpdateSettingsOptions : AwsOptions
+public record AwsDsUpdateSettingsOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--directory-id")]
-    public string? DirectoryId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Updates the configurable settings for the specified directory. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DirectoryId">The identifier of the directory for which to update settings. Constraints: o pattern: ^d-[0-9a-f]{10}$</param>
+    /// <param name="Settings">The list of Setting objects. (structure) Contains information about the configurable settings for a di- rectory. Name -&gt; (string) [required] The name of the directory setting. For example: TLS_1_0 Constraints: o min: 1 o max: 255 o pattern: ^[a-zA-Z0-9-/. _]*$ Value -&gt; (string) [required] The value of the directory setting for which to retrieve in- formation. For example, for TLS_1_0 , the valid values are: Enable and Disable . Constraints: o min: 1 o max: 255 o pattern: ^[a-zA-Z0-9_]*$ Shorthand Syntax: Name=string,Value=string ... JSON Syntax: [ { "Name": "string", "Value": "string" } ... ]</param>
+    public AwsDsUpdateSettingsOptions(
+        string DirectoryId,
+        IEnumerable<string> Settings
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DirectoryId);
+        this.DirectoryId = DirectoryId;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Settings);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Settings));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Settings));
+            }
+
+            Settings = materialized;
+        }
+        this.Settings = Settings;
+    }
+
+    private AwsDsUpdateSettingsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDsUpdateSettingsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDsUpdateSettingsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the directory for which to update settings. Constraints: o pattern: ^d-[0-9a-f]{10}$
+    /// </summary>
+    [CliOption("--directory-id")]
+    public string? DirectoryId { get; private init; }
+
+    /// <summary>
+    /// The list of Setting objects. (structure) Contains information about the configurable settings for a di- rectory. Name -&gt; (string) [required] The name of the directory setting. For example: TLS_1_0 Constraints: o min: 1 o max: 255 o pattern: ^[a-zA-Z0-9-/. _]*$ Value -&gt; (string) [required] The value of the directory setting for which to retrieve in- formation. For example, for TLS_1_0 , the valid values are: Enable and Disable . Constraints: o min: 1 o max: 255 o pattern: ^[a-zA-Z0-9_]*$ Shorthand Syntax: Name=string,Value=string ... JSON Syntax: [ { "Name": "string", "Value": "string" } ... ]
+    /// </summary>
     [CliOption("--settings", GroupValues = true)]
-    public IEnumerable<string>? Settings { get; set; }
+    public IEnumerable<string>? Settings { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

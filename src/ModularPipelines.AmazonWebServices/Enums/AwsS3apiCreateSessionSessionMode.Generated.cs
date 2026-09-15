@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --sessionmode.
+/// Allowed values for --session-mode.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsS3apiCreateSessionSessionMode
 {
     [EnumValue("ReadOnly")]
-    ReadOnly = 1,
+    ReadOnly,
 
     [EnumValue("ReadWrite")]
-    ReadWrite = 2
+    ReadWrite
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iot-managed-integrations", "deregister-account-association")]
-public record AwsIotManagedIntegrationsDeregisterAccountAssociationOptions : AwsOptions
+public record AwsIotManagedIntegrationsDeregisterAccountAssociationOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--managed-thing-id")]
-    public string? ManagedThingId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Deregister an account association from a managed thing. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ManagedThingId">The identifier of the managed thing to be deregistered from the ac- count association. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9:_-]*</param>
+    /// <param name="AccountAssociationId">The unique identifier of the account association to be deregistered. Constraints: o min: 1 o max: 64 o pattern: [0-9a-zA-Z]+</param>
+    public AwsIotManagedIntegrationsDeregisterAccountAssociationOptions(
+        string ManagedThingId,
+        string AccountAssociationId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ManagedThingId);
+        this.ManagedThingId = ManagedThingId;
+        global::System.ArgumentNullException.ThrowIfNull(AccountAssociationId);
+        this.AccountAssociationId = AccountAssociationId;
+    }
+
+    private AwsIotManagedIntegrationsDeregisterAccountAssociationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsIotManagedIntegrationsDeregisterAccountAssociationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsIotManagedIntegrationsDeregisterAccountAssociationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the managed thing to be deregistered from the ac- count association. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9:_-]*
+    /// </summary>
+    [CliOption("--managed-thing-id")]
+    public string? ManagedThingId { get; private init; }
+
+    /// <summary>
+    /// The unique identifier of the account association to be deregistered. Constraints: o min: 1 o max: 64 o pattern: [0-9a-zA-Z]+
+    /// </summary>
     [CliOption("--account-association-id")]
-    public string? AccountAssociationId { get; set; }
+    public string? AccountAssociationId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

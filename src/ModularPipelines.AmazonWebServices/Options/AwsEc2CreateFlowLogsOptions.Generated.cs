@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,9 +22,72 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ec2", "create-flow-logs")]
-public record AwsEc2CreateFlowLogsOptions : AwsOptions
+public record AwsEc2CreateFlowLogsOptions : AwsOptions, IValidatableObject
 {
-    [CliFlag("--dry-run")]
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates one or more flow logs to capture information about IP traffic for a specific network interface, subnet, or VPC. Flow log data for a monitored network interface is recorded as flow log records, which are log events consisting of fields that describe the traffic flow. For more information, see Flow log records in the Amazon VPC User Guide . When publishing to CloudWatch Logs, flow log records are published to a log group, and each network interface has a unique log stream in the log group....
+    /// </summary>
+    /// <param name="ResourceIds">The IDs of the resources to monitor. For example, if the resource type is VPC , specify the IDs of the VPCs. Constraints: Maximum of 25 for transit gateway resource types. Maxi- mum of 300 for the other resource types. (string) Syntax: "string" "string" ...</param>
+    /// <param name="ResourceType">The type of resource to monitor. Possible values: o VPC o Subnet o NetworkInterface o TransitGateway o TransitGatewayAttachment o RegionalNatGateway</param>
+    public AwsEc2CreateFlowLogsOptions(
+        IEnumerable<string> ResourceIds,
+        AwsEc2CreateFlowLogsResourceType ResourceType
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(ResourceIds);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(ResourceIds));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(ResourceIds));
+            }
+
+            ResourceIds = materialized;
+        }
+        this.ResourceIds = ResourceIds;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceType);
+        this.ResourceType = ResourceType;
+    }
+
+    private AwsEc2CreateFlowLogsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEc2CreateFlowLogsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEc2CreateFlowLogsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The IDs of the resources to monitor. For example, if the resource type is VPC , specify the IDs of the VPCs. Constraints: Maximum of 25 for transit gateway resource types. Maxi- mum of 300 for the other resource types. (string) Syntax: "string" "string" ...
+    /// </summary>
+    [CliOption("--resource-ids", GroupValues = true)]
+    public IEnumerable<string>? ResourceIds { get; private init; }
+
+    /// <summary>
+    /// The type of resource to monitor. Possible values: o VPC o Subnet o NetworkInterface o TransitGateway o TransitGatewayAttachment o RegionalNatGateway
+    /// </summary>
+    [CliOption("--resource-type")]
+    public AwsEc2CreateFlowLogsResourceType? ResourceType { get; private init; }
+
+    /// <summary>
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     /// <summary>
@@ -50,12 +114,6 @@ public record AwsEc2CreateFlowLogsOptions : AwsOptions
     /// </summary>
     [CliOption("--log-group-name")]
     public string? LogGroupName { get; set; }
-
-    [CliOption("--resource-ids", GroupValues = true)]
-    public IEnumerable<string>? ResourceIds { get; set; }
-
-    [CliOption("--resource-type")]
-    public string? ResourceType { get; set; }
 
     /// <summary>
     /// The type of traffic to monitor (accepted traffic, rejected traffic, or all traffic). This parameter is not supported for transit gateway resource types. It is required for the other resource types. Possible values: o ACCEPT o REJECT o ALL
@@ -110,5 +168,22 @@ public record AwsEc2CreateFlowLogsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -11,20 +11,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --imagetagmutability.
+/// Allowed values for --image-tag-mutability.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsEcrCreateRepositoryCreationTemplateImageTagMutability
 {
-    [EnumValue("MUTABLE")]
-    Mutable = 1,
-
     [EnumValue("IMMUTABLE")]
-    Immutable = 2,
+    Immutable,
 
     [EnumValue("IMMUTABLE_WITH_EXCLUSION")]
-    ImmutableWithExclusion = 3,
+    ImmutableWithExclusion,
+
+    [EnumValue("MUTABLE")]
+    Mutable,
 
     [EnumValue("MUTABLE_WITH_EXCLUSION")]
-    MutableWithExclusion = 4
+    MutableWithExclusion
 }

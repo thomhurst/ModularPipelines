@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsIotManagedIntegrationsGetSchemaVersionFormat
 {
     [EnumValue("AWS")]
-    Aws = 1,
-
-    [EnumValue("ZCL")]
-    Zcl = 2,
+    Aws,
 
     [EnumValue("CONNECTOR")]
-    Connector = 3
+    Connector,
+
+    [EnumValue("ZCL")]
+    Zcl
 }

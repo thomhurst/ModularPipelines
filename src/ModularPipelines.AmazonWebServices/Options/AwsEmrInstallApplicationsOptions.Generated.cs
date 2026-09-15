@@ -21,10 +21,55 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("emr", "install-applications")]
 public record AwsEmrInstallApplicationsOptions : AwsOptions
 {
-    [CliOption("--cluster-id")]
-    public string? ClusterId { get; set; }
+    /// <summary>
+    /// Installs applications on a running cluster. Currently only Hive and Pig can be installed using this command, and this command is only supported by AMI versions (3.x and 2.x).
+    /// </summary>
+    /// <param name="ClusterId">A unique string that identifies a cluster. The create-cluster com- mand returns this identifier. You can use the list-clusters command to get cluster IDs.</param>
+    /// <param name="Applications">The applications to be installed. Takes the following parameters: Name and Args . (structure) Name -&gt; (string) [required] Application name. Possible values: o MapR o HUE o HIVE o PIG o HBASE o IMPALA o GANGLIA o HADOOP o SPARK Args -&gt; (list) A list of arguments to pass to the application. (string) Shorthand Syntax: Name=string,Args=string,string ... JSON Syntax: [ { "Name": "MapR"|"HUE"|"HIVE"|"PIG"|"HBASE"|"IMPALA"|"GANGLIA"|"HADOOP"|"SPARK", "Args": ["string", ...] } ... ]</param>
+    public AwsEmrInstallApplicationsOptions(
+        string ClusterId,
+        IEnumerable<string> Applications
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ClusterId);
+        this.ClusterId = ClusterId;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Applications);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Applications));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Applications));
+            }
 
+            Applications = materialized;
+        }
+        this.Applications = Applications;
+    }
+
+    public void Deconstruct(out string ClusterId, out IEnumerable<string> Applications)
+    {
+        ClusterId = this.ClusterId;
+        Applications = this.Applications;
+    }
+
+    /// <summary>
+    /// A unique string that identifies a cluster. The create-cluster com- mand returns this identifier. You can use the list-clusters command to get cluster IDs.
+    /// </summary>
+    [CliOption("--cluster-id")]
+    public string ClusterId { get; private init; }
+
+    /// <summary>
+    /// The applications to be installed. Takes the following parameters: Name and Args . (structure) Name -&gt; (string) [required] Application name. Possible values: o MapR o HUE o HIVE o PIG o HBASE o IMPALA o GANGLIA o HADOOP o SPARK Args -&gt; (list) A list of arguments to pass to the application. (string) Shorthand Syntax: Name=string,Args=string,string ... JSON Syntax: [ { "Name": "MapR"|"HUE"|"HIVE"|"PIG"|"HBASE"|"IMPALA"|"GANGLIA"|"HADOOP"|"SPARK", "Args": ["string", ...] } ... ]
+    /// </summary>
     [CliOption("--applications", GroupValues = true)]
-    public IEnumerable<string>? Applications { get; set; }
+    public IEnumerable<string> Applications { get; private init; }
+
+    /// <summary>
+    /// The &lt;value&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough)]
+    public IEnumerable<string>? Value { get; set; }
 
 }

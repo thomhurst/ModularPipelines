@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,67 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("events", "remove-targets")]
-public record AwsEventsRemoveTargetsOptions : AwsOptions
+public record AwsEventsRemoveTargetsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Removes the specified targets from the specified rule. When the rule is triggered, those targets are no longer be invoked. NOTE: A successful execution of RemoveTargets doesn't guarantee all tar- gets are removed from the rule, it means that the target(s) listed in the request are removed. When you remove a target, when the associated rule triggers, removed targets might continue to be invoked. Allow a short period of time for changes to take effect. This action can partially fail if too many re...
+    /// </summary>
+    /// <param name="Rule">The name of the rule. Constraints: o min: 1 o max: 64 o pattern: [\.\-_A-Za-z0-9]+</param>
+    /// <param name="Ids">The IDs of the targets to remove from the rule. Constraints: o min: 1 o max: 100 (string) Constraints: o min: 1 o max: 64 o pattern: [\.\-_A-Za-z0-9]+ Syntax: "string" "string" ...</param>
+    public AwsEventsRemoveTargetsOptions(
+        string Rule,
+        IEnumerable<string> Ids
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Rule);
+        this.Rule = Rule;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Ids);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Ids));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Ids));
+            }
+
+            Ids = materialized;
+        }
+        this.Ids = Ids;
+    }
+
+    private AwsEventsRemoveTargetsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEventsRemoveTargetsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEventsRemoveTargetsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the rule. Constraints: o min: 1 o max: 64 o pattern: [\.\-_A-Za-z0-9]+
+    /// </summary>
     [CliOption("--rule")]
-    public string? Rule { get; set; }
+    public string? Rule { get; private init; }
+
+    /// <summary>
+    /// The IDs of the targets to remove from the rule. Constraints: o min: 1 o max: 100 (string) Constraints: o min: 1 o max: 64 o pattern: [\.\-_A-Za-z0-9]+ Syntax: "string" "string" ...
+    /// </summary>
+    [CliOption("--ids", GroupValues = true)]
+    public IEnumerable<string>? Ids { get; private init; }
 
     /// <summary>
     /// The name or ARN of the event bus associated with the rule. If you omit this, the default event bus is used. Constraints: o min: 1 o max: 1600 o pattern: (arn:aws[\w-]*:events:[a-z]+-[a-z]+-[\w-]+:[0-9]{12}:event-bus\/)?[/\.\-_A-Za-z0-9]+
@@ -30,10 +88,10 @@ public record AwsEventsRemoveTargetsOptions : AwsOptions
     [CliOption("--event-bus-name")]
     public string? EventBusName { get; set; }
 
-    [CliOption("--ids", GroupValues = true)]
-    public IEnumerable<string>? Ids { get; set; }
-
-    [CliFlag("--force")]
+    /// <summary>
+    /// If this is a managed rule, created by an Amazon Web Services service on your behalf, you must specify Force as True to remove targets. This parameter is ignored for rules that are not managed rules. You can check whether a rule is a managed rule by using DescribeRule or ListRules and checking the ManagedBy field of the response.
+    /// </summary>
+    [CliFlag("--force", NegatedName = "--no-force")]
     public bool? Force { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -41,5 +99,22 @@ public record AwsEventsRemoveTargetsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

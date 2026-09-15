@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --customkeystoretype.
+/// Allowed values for --custom-key-store-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsKmsCreateCustomKeyStoreCustomKeyStoreType
 {
     [EnumValue("AWS_CLOUDHSM")]
-    AwsCloudhsm = 1,
+    AwsCloudhsm,
 
     [EnumValue("EXTERNAL_KEY_STORE")]
-    ExternalKeyStore = 2
+    ExternalKeyStore
 }

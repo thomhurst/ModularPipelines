@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +20,88 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("pinpoint", "update-endpoint")]
-public record AwsPinpointUpdateEndpointOptions : AwsOptions
+public record AwsPinpointUpdateEndpointOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a new endpoint for an application or updates the settings and attributes of an existing endpoint for an application. You can also use this operation to define custom attributes for an endpoint. If an up- date includes one or more values for a custom attribute, Amazon Pin- point replaces (overwrites) any existing values with the new values. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ApplicationId">The unique identifier for the application. This identifier is dis- played as the Project ID on the Amazon Pinpoint console.</param>
+    /// <param name="EndpointId">The case insensitive unique identifier for the endpoint. The identi- fier can't contain $ , { or } .</param>
+    /// <param name="EndpointRequest">Specifies the channel type and other settings for an endpoint. Address -&gt; (string) The destination address for messages or push notifications that you send to the endpoint. The address varies by channel. For a push-notification channel, use the token provided by the push notification service, such as an Apple Push Notification service (APNs) device token or a Firebase Cloud Messaging (FCM) regis- tration token. For the SMS channel, use a phone number in E.164 format, such as +12065550100. For the email channel, use an email address. Attributes -&gt; (map) One or more custom attributes that describe the endpoint by as- sociating a name with an array of values. For example, the value of a custom attribute named Interests might be: ["Science", "Mu- sic", "Travel"]. You can use these attributes as filter criteria when you create segments. Attribute names are case sensitive. An attribute name can contain up to 50 characters. An attribute value can contain up to 100 characters. When you define the name of a custom attribute, avoid using the following characters: number sign (#), colon (:), question mark (?), backslash (), and slash (/). The Amazon Pinpoint console can't display attribute names that contain these characters. This restriction doesn't apply to attribute values. key -&gt; (string) value -&gt; (list) (string) ChannelType -&gt; (string) The channel to use when sending messages or push notifications to the endpoint. Possible values: o PUSH o GCM o APNS o APNS_SANDBOX o APNS_VOIP o APNS_VOIP_SANDBOX o ADM o SMS o VOICE o EMAIL o BAIDU o CUSTOM o IN_APP Demographic -&gt; (structure) The demographic information for the endpoint, such as the time zone and platform. AppVersion -&gt; (string) The version of the app that's associated with the endpoint. Locale -&gt; (string) The locale of the endpoint, in the following format: the ISO 639-1 alpha-2 code, followed by an underscore (_), followed by an ISO 3166-1 alpha-2 value. Make -&gt; (string) The manufacturer of the endpoint device, such as apple or samsung. Model -&gt; (string) The model name or number of the endpoint device, such as iPhone or SM-G900F. ModelVersion -&gt; (string) The model version of the endpoint device. Platform -&gt; (string) The platform of the endpoint device, such as ios. PlatformVersion -&gt; (string) The platform version of the endpoint device. Timezone -&gt; (string) The time zone of the endpoint, specified as a tz database name value, such as America/Los_Angeles. EffectiveDate -&gt; (string) The date and time, in ISO 8601 format, when the endpoint is up- dated. EndpointStatus -&gt; (string) Specifies whether to send messages or push notifications to the endpoint. Valid values are: ACTIVE, messages are sent to the endpoint; and, INACTIVE, messages arent sent to the endpoint. Amazon Pinpoint automatically sets this value to ACTIVE when you create an endpoint or update an existing endpoint. Amazon Pin- point automatically sets this value to INACTIVE if you update another endpoint that has the same address specified by the Ad- dress property. Location -&gt; (structure) The geographic information for the endpoint. City -&gt; (string) The name of the city where the endpoint is located. Country -&gt; (string) The two-character code, in ISO 3166-1 alpha-2 format, for the country or region where the endpoint is located. For example, US for the United States. Latitude -&gt; (double) The latitude coordinate of the endpoint location, rounded to one decimal place. Longitude -&gt; (double) The longitude coordinate of the endpoint location, rounded to one decimal place. PostalCode -&gt; (string) The postal or ZIP code for the area where the endpoint is lo- cated. Region -&gt; (string) The name of the region where the endpoint is located. For lo- cations in the United States, this value is the name of a state. Metrics -&gt; (map) One or more custom metrics that your app reports to Amazon Pin- point for the endpoint. key -&gt; (string) value -&gt; (double) OptOut -&gt; (string) Specifies whether the user who's associated with the endpoint has opted out of receiving messages and push notifications from you. Possible values are: ALL, the user has opted out and doesn't want to receive any messages or push notifications; and, NONE, the user hasn't opted out and wants to receive all mes- sages and push notifications. RequestId -&gt; (string) The unique identifier for the most recent request to update the endpoint. User -&gt; (structure) One or more custom attributes that describe the user who's asso- ciated with the endpoint. UserAttributes -&gt; (map) One or more custom attributes that describe the user by asso- ciating a name with an array of values. For example, the value of an attribute named Interests might be: ["Science", "Music", "Travel"]. You can use these attributes as filter criteria when you create segments. Attribute names are case sensitive. An attribute name can contain up to 50 characters. An at- tribute value can contain up to 100 characters. When you de- fine the name of a custom attribute, avoid using the follow- ing characters: number sign (#), colon (:), question mark (?), backslash (), and slash (/). The Amazon Pinpoint console can't display attribute names that contain these characters. This restriction doesn't apply to attribute values. key -&gt; (string) value -&gt; (list) (string) UserId -&gt; (string) The unique identifier for the user. JSON Syntax: { "Address": "string", "Attributes": {"string": ["string", ...] ...}, "ChannelType": "PUSH"|"GCM"|"APNS"|"APNS_SANDBOX"|"APNS_VOIP"|"APNS_VOIP_SANDBOX"|"ADM"|"SMS"|"VOICE"|"EMAIL"|"BAIDU"|"CUSTOM"|"IN_APP", "Demographic": { "AppVersion": "string", "Locale": "string", "Make": "string", "Model": "string", "ModelVersion": "string", "Platform": "string", "PlatformVersion": "string", "Timezone": "string" }, "EffectiveDate": "string", "EndpointStatus": "string", "Location": { "City": "string", "Country": "string", "Latitude": double, "Longitude": double, "PostalCode": "string", "Region": "string" }, "Metrics": {"string": double ...}, "OptOut": "string", "RequestId": "string", "User": { "UserAttributes": {"string": ["string", ...] ...}, "UserId": "string" } }</param>
+    public AwsPinpointUpdateEndpointOptions(
+        string ApplicationId,
+        string EndpointId,
+        string EndpointRequest
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ApplicationId);
+        this.ApplicationId = ApplicationId;
+        global::System.ArgumentNullException.ThrowIfNull(EndpointId);
+        this.EndpointId = EndpointId;
+        global::System.ArgumentNullException.ThrowIfNull(EndpointRequest);
+        this.EndpointRequest = EndpointRequest;
+    }
+
+    private AwsPinpointUpdateEndpointOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsPinpointUpdateEndpointOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsPinpointUpdateEndpointOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier for the application. This identifier is dis- played as the Project ID on the Amazon Pinpoint console.
+    /// </summary>
     [CliOption("--application-id")]
-    public string? ApplicationId { get; set; }
+    public string? ApplicationId { get; private init; }
 
+    /// <summary>
+    /// The case insensitive unique identifier for the endpoint. The identi- fier can't contain $ , { or } .
+    /// </summary>
     [CliOption("--endpoint-id")]
-    public string? EndpointId { get; set; }
+    public string? EndpointId { get; private init; }
 
+    /// <summary>
+    /// Specifies the channel type and other settings for an endpoint. Address -&gt; (string) The destination address for messages or push notifications that you send to the endpoint. The address varies by channel. For a push-notification channel, use the token provided by the push notification service, such as an Apple Push Notification service (APNs) device token or a Firebase Cloud Messaging (FCM) regis- tration token. For the SMS channel, use a phone number in E.164 format, such as +12065550100. For the email channel, use an email address. Attributes -&gt; (map) One or more custom attributes that describe the endpoint by as- sociating a name with an array of values. For example, the value of a custom attribute named Interests might be: ["Science", "Mu- sic", "Travel"]. You can use these attributes as filter criteria when you create segments. Attribute names are case sensitive. An attribute name can contain up to 50 characters. An attribute value can contain up to 100 characters. When you define the name of a custom attribute, avoid using the following characters: number sign (#), colon (:), question mark (?), backslash (), and slash (/). The Amazon Pinpoint console can't display attribute names that contain these characters. This restriction doesn't apply to attribute values. key -&gt; (string) value -&gt; (list) (string) ChannelType -&gt; (string) The channel to use when sending messages or push notifications to the endpoint. Possible values: o PUSH o GCM o APNS o APNS_SANDBOX o APNS_VOIP o APNS_VOIP_SANDBOX o ADM o SMS o VOICE o EMAIL o BAIDU o CUSTOM o IN_APP Demographic -&gt; (structure) The demographic information for the endpoint, such as the time zone and platform. AppVersion -&gt; (string) The version of the app that's associated with the endpoint. Locale -&gt; (string) The locale of the endpoint, in the following format: the ISO 639-1 alpha-2 code, followed by an underscore (_), followed by an ISO 3166-1 alpha-2 value. Make -&gt; (string) The manufacturer of the endpoint device, such as apple or samsung. Model -&gt; (string) The model name or number of the endpoint device, such as iPhone or SM-G900F. ModelVersion -&gt; (string) The model version of the endpoint device. Platform -&gt; (string) The platform of the endpoint device, such as ios. PlatformVersion -&gt; (string) The platform version of the endpoint device. Timezone -&gt; (string) The time zone of the endpoint, specified as a tz database name value, such as America/Los_Angeles. EffectiveDate -&gt; (string) The date and time, in ISO 8601 format, when the endpoint is up- dated. EndpointStatus -&gt; (string) Specifies whether to send messages or push notifications to the endpoint. Valid values are: ACTIVE, messages are sent to the endpoint; and, INACTIVE, messages arent sent to the endpoint. Amazon Pinpoint automatically sets this value to ACTIVE when you create an endpoint or update an existing endpoint. Amazon Pin- point automatically sets this value to INACTIVE if you update another endpoint that has the same address specified by the Ad- dress property. Location -&gt; (structure) The geographic information for the endpoint. City -&gt; (string) The name of the city where the endpoint is located. Country -&gt; (string) The two-character code, in ISO 3166-1 alpha-2 format, for the country or region where the endpoint is located. For example, US for the United States. Latitude -&gt; (double) The latitude coordinate of the endpoint location, rounded to one decimal place. Longitude -&gt; (double) The longitude coordinate of the endpoint location, rounded to one decimal place. PostalCode -&gt; (string) The postal or ZIP code for the area where the endpoint is lo- cated. Region -&gt; (string) The name of the region where the endpoint is located. For lo- cations in the United States, this value is the name of a state. Metrics -&gt; (map) One or more custom metrics that your app reports to Amazon Pin- point for the endpoint. key -&gt; (string) value -&gt; (double) OptOut -&gt; (string) Specifies whether the user who's associated with the endpoint has opted out of receiving messages and push notifications from you. Possible values are: ALL, the user has opted out and doesn't want to receive any messages or push notifications; and, NONE, the user hasn't opted out and wants to receive all mes- sages and push notifications. RequestId -&gt; (string) The unique identifier for the most recent request to update the endpoint. User -&gt; (structure) One or more custom attributes that describe the user who's asso- ciated with the endpoint. UserAttributes -&gt; (map) One or more custom attributes that describe the user by asso- ciating a name with an array of values. For example, the value of an attribute named Interests might be: ["Science", "Music", "Travel"]. You can use these attributes as filter criteria when you create segments. Attribute names are case sensitive. An attribute name can contain up to 50 characters. An at- tribute value can contain up to 100 characters. When you de- fine the name of a custom attribute, avoid using the follow- ing characters: number sign (#), colon (:), question mark (?), backslash (), and slash (/). The Amazon Pinpoint console can't display attribute names that contain these characters. This restriction doesn't apply to attribute values. key -&gt; (string) value -&gt; (list) (string) UserId -&gt; (string) The unique identifier for the user. JSON Syntax: { "Address": "string", "Attributes": {"string": ["string", ...] ...}, "ChannelType": "PUSH"|"GCM"|"APNS"|"APNS_SANDBOX"|"APNS_VOIP"|"APNS_VOIP_SANDBOX"|"ADM"|"SMS"|"VOICE"|"EMAIL"|"BAIDU"|"CUSTOM"|"IN_APP", "Demographic": { "AppVersion": "string", "Locale": "string", "Make": "string", "Model": "string", "ModelVersion": "string", "Platform": "string", "PlatformVersion": "string", "Timezone": "string" }, "EffectiveDate": "string", "EndpointStatus": "string", "Location": { "City": "string", "Country": "string", "Latitude": double, "Longitude": double, "PostalCode": "string", "Region": "string" }, "Metrics": {"string": double ...}, "OptOut": "string", "RequestId": "string", "User": { "UserAttributes": {"string": ["string", ...] ...}, "UserId": "string" } }
+    /// </summary>
     [CliOption("--endpoint-request")]
-    public string? EndpointRequest { get; set; }
+    public string? EndpointRequest { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

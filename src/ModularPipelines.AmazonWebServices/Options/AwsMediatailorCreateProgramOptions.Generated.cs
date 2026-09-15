@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,31 +21,88 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("mediatailor", "create-program")]
-public record AwsMediatailorCreateProgramOptions : AwsOptions
+public record AwsMediatailorCreateProgramOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a program within a channel. For information about programs, see Working with programs in the MediaTailor User Guide . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ChannelName">The name of the channel for this Program.</param>
+    /// <param name="ProgramName">The name of the Program.</param>
+    /// <param name="ScheduleConfiguration">The schedule configuration settings. Transition -&gt; (structure) [required] Program transition configurations. DurationMillis -&gt; (long) The duration of the live program in seconds. RelativePosition -&gt; (string) [required] The position where this program will be inserted relative to the RelativePosition . Possible values: o BEFORE_PROGRAM o AFTER_PROGRAM RelativeProgram -&gt; (string) The name of the program that this program will be inserted next to, as defined by RelativePosition . ScheduledStartTimeMillis -&gt; (long) The date and time that the program is scheduled to start, in epoch milliseconds. Type -&gt; (string) [required] Defines when the program plays in the schedule. You can set the value to ABSOLUTE or RELATIVE . ABSOLUTE - The program plays at a specific wall clock time. This setting can only be used for channels using the LINEAR PlaybackMode . Note the following considerations when using ABSOLUTE transi- tions: If the preceding program in the schedule has a duration that extends past the wall clock time, MediaTailor truncates the preceding program on a common segment boundary. If there are gaps in playback, MediaTailor plays the FillerS- late you configured for your linear channel. RELATIVE - The program is inserted into the schedule ei- ther before or after a program that you specify via Rela- tivePosition . ClipRange -&gt; (structure) Program clip range configuration. EndOffsetMillis -&gt; (long) The end offset of the clip range, in milliseconds, starting from the beginning of the VOD source associated with the pro- gram. StartOffsetMillis -&gt; (long) The start offset of the clip range, in milliseconds. This offset truncates the start at the number of milliseconds into the duration of the VOD source. Shorthand Syntax: Transition={DurationMillis=long,RelativePosition=string,RelativeProgram=string,ScheduledStartTimeMillis=long,Type=string},ClipRange={EndOffsetMillis=long,StartOffsetMillis=long} JSON Syntax: { "Transition": { "DurationMillis": long, "RelativePosition": "BEFORE_PROGRAM"|"AFTER_PROGRAM", "RelativeProgram": "string", "ScheduledStartTimeMillis": long, "Type": "string" }, "ClipRange": { "EndOffsetMillis": long, "StartOffsetMillis": long } }</param>
+    /// <param name="SourceLocationName">The name of the source location.</param>
+    public AwsMediatailorCreateProgramOptions(
+        string ChannelName,
+        string ProgramName,
+        string ScheduleConfiguration,
+        string SourceLocationName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ChannelName);
+        this.ChannelName = ChannelName;
+        global::System.ArgumentNullException.ThrowIfNull(ProgramName);
+        this.ProgramName = ProgramName;
+        global::System.ArgumentNullException.ThrowIfNull(ScheduleConfiguration);
+        this.ScheduleConfiguration = ScheduleConfiguration;
+        global::System.ArgumentNullException.ThrowIfNull(SourceLocationName);
+        this.SourceLocationName = SourceLocationName;
+    }
+
+    private AwsMediatailorCreateProgramOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsMediatailorCreateProgramOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsMediatailorCreateProgramOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the channel for this Program.
+    /// </summary>
+    [CliOption("--channel-name")]
+    public string? ChannelName { get; private init; }
+
+    /// <summary>
+    /// The name of the Program.
+    /// </summary>
+    [CliOption("--program-name")]
+    public string? ProgramName { get; private init; }
+
+    /// <summary>
+    /// The schedule configuration settings. Transition -&gt; (structure) [required] Program transition configurations. DurationMillis -&gt; (long) The duration of the live program in seconds. RelativePosition -&gt; (string) [required] The position where this program will be inserted relative to the RelativePosition . Possible values: o BEFORE_PROGRAM o AFTER_PROGRAM RelativeProgram -&gt; (string) The name of the program that this program will be inserted next to, as defined by RelativePosition . ScheduledStartTimeMillis -&gt; (long) The date and time that the program is scheduled to start, in epoch milliseconds. Type -&gt; (string) [required] Defines when the program plays in the schedule. You can set the value to ABSOLUTE or RELATIVE . ABSOLUTE - The program plays at a specific wall clock time. This setting can only be used for channels using the LINEAR PlaybackMode . Note the following considerations when using ABSOLUTE transi- tions: If the preceding program in the schedule has a duration that extends past the wall clock time, MediaTailor truncates the preceding program on a common segment boundary. If there are gaps in playback, MediaTailor plays the FillerS- late you configured for your linear channel. RELATIVE - The program is inserted into the schedule ei- ther before or after a program that you specify via Rela- tivePosition . ClipRange -&gt; (structure) Program clip range configuration. EndOffsetMillis -&gt; (long) The end offset of the clip range, in milliseconds, starting from the beginning of the VOD source associated with the pro- gram. StartOffsetMillis -&gt; (long) The start offset of the clip range, in milliseconds. This offset truncates the start at the number of milliseconds into the duration of the VOD source. Shorthand Syntax: Transition={DurationMillis=long,RelativePosition=string,RelativeProgram=string,ScheduledStartTimeMillis=long,Type=string},ClipRange={EndOffsetMillis=long,StartOffsetMillis=long} JSON Syntax: { "Transition": { "DurationMillis": long, "RelativePosition": "BEFORE_PROGRAM"|"AFTER_PROGRAM", "RelativeProgram": "string", "ScheduledStartTimeMillis": long, "Type": "string" }, "ClipRange": { "EndOffsetMillis": long, "StartOffsetMillis": long } }
+    /// </summary>
+    [CliOption("--schedule-configuration")]
+    public string? ScheduleConfiguration { get; private init; }
+
+    /// <summary>
+    /// The name of the source location.
+    /// </summary>
+    [CliOption("--source-location-name")]
+    public string? SourceLocationName { get; private init; }
+
     /// <summary>
     /// The ad break configuration settings. (structure) Ad break configuration parameters. MessageType -&gt; (string) The SCTE-35 ad insertion type. Accepted value: SPLICE_INSERT , TIME_SIGNAL . Possible values: o SPLICE_INSERT o TIME_SIGNAL OffsetMillis -&gt; (long) [required] How long (in milliseconds) after the beginning of the program that an ad starts. This value must fall within 100ms of a segment boundary, otherwise the ad break will be skipped. Slate -&gt; (structure) Ad break slate configuration. SourceLocationName -&gt; (string) The name of the source location where the slate VOD source is stored. VodSourceName -&gt; (string) The slate VOD source name. The VOD source must already exist in a source location before it can be used for slate. SpliceInsertMessage -&gt; (structure) This defines the SCTE-35 splice_insert() message inserted around the ad. For information about using splice_insert() , see the SCTE-35 specficiaiton, section 9.7.3.1. AvailNum -&gt; (integer) This is written to splice_insert.avail_num , as defined in section 9.7.3.1 of the SCTE-35 specification. The de- fault value is 0 . Values must be between 0 and 256 , in- clusive. AvailsExpected -&gt; (integer) This is written to splice_insert.avails_expected , as de- fined in section 9.7.3.1 of the SCTE-35 specification. The default value is 0 . Values must be between 0 and 256 , inclusive. SpliceEventId -&gt; (integer) This is written to splice_insert.splice_event_id , as de- fined in section 9.7.3.1 of the SCTE-35 specification. The default value is 1 . UniqueProgramId -&gt; (integer) This is written to splice_insert.unique_program_id , as defined in section 9.7.3.1 of the SCTE-35 specification. The default value is 0 . Values must be between 0 and 256 , inclusive. TimeSignalMessage -&gt; (structure) Defines the SCTE-35 time_signal message inserted around the ad. Programs on a channel's schedule can be configured with one or more ad breaks. You can attach a splice_insert SCTE-35 message to the ad break. This message provides basic metadata about the ad break. See section 9.7.4 of the 2022 SCTE-35 specification for more information. SegmentationDescriptors -&gt; (list) The configurations for the SCTE-35 segmentation_descrip- tor message(s) sent with the time_signal message. (structure) The segmentation_descriptor message can contain ad- vanced metadata fields, like content identifiers, to convey a wide range of information about the ad break. MediaTailor writes the ad metadata in the egress mani- fest as part of the EXT-X-DATERANGE or EventStream ad marker's SCTE-35 data. segmentation_descriptor messages must be sent with the time_signal message type. See the segmentation_descriptor() table of the 2022 SCTE-35 specification for more information. SegmentationEventId -&gt; (integer) The Event Identifier to assign to the segmenta- tion_descriptor.segmentation_event_id message, as defined in section 10.3.3.1 of the 2022 SCTE-35 specification. The default value is 1. SegmentationUpidType -&gt; (integer) The Upid Type to assign to the segmentation_de- scriptor.segmentation_upid_type message, as de- fined in section 10.3.3.1 of the 2022 SCTE-35 specification. Values must be between 0 and 256, inclusive. The default value is 14. SegmentationUpid -&gt; (string) The Upid to assign to the segmentation_descrip- tor.segmentation_upid message, as defined in sec- tion 10.3.3.1 of the 2022 SCTE-35 specification. The value must be a hexadecimal string containing only the characters 0 though 9 and A through F. The default value is "" (an empty string). SegmentationTypeId -&gt; (integer) The Type Identifier to assign to the segmenta- tion_descriptor.segmentation_type_id message, as defined in section 10.3.3.1 of the 2022 SCTE-35 specification. Values must be between 0 and 256, inclusive. The default value is 48. SegmentNum -&gt; (integer) The segment number to assign to the segmenta- tion_descriptor.segment_num message, as defined in section 10.3.3.1 of the 2022 SCTE-35 specification Values must be between 0 and 256, inclusive. The default value is 0. SegmentsExpected -&gt; (integer) The number of segments expected, which is assigned to the segmentation_descriptor.segments_expectedS message, as defined in section 10.3.3.1 of the 2022 SCTE-35 specification Values must be between 0 and 256, inclusive. The default value is 0. SubSegmentNum -&gt; (integer) The sub-segment number to assign to the segmenta- tion_descriptor.sub_segment_num message, as de- fined in section 10.3.3.1 of the 2022 SCTE-35 specification. Values must be between 0 and 256, inclusive. The defualt value is null. SubSegmentsExpected -&gt; (integer) The number of sub-segments expected, which is as- signed to the segmentation_descriptor.sub_seg- ments_expected message, as defined in section 10.3.3.1 of the 2022 SCTE-35 specification. Values must be between 0 and 256, inclusive. The default value is null. AdBreakMetadata -&gt; (list) Defines a list of key/value pairs that MediaTailor generates within the EXT-X-ASSET tag for SCTE35_ENHANCED output. (structure) For SCTE35_ENHANCED output, defines a key and correspond- ing value. MediaTailor generates these pairs within the EXT-X-ASSET tag. Key -&gt; (string) [required] For SCTE35_ENHANCED output, defines a key. MediaTailor takes this key, and its associated value, and gener- ates the key/value pair within the EXT-X-ASSET tag. If you specify a key, you must also specify a correspond- ing value. Value -&gt; (string) [required] For SCTE35_ENHANCED output, defines a value. MediaTai- lor; takes this value, and its associated key, and generates the key/value pair within the EXT-X-ASSET tag. If you specify a value, you must also specify a corresponding key. JSON Syntax: [ { "MessageType": "SPLICE_INSERT"|"TIME_SIGNAL", "OffsetMillis": long, "Slate": { "SourceLocationName": "string", "VodSourceName": "string" }, "SpliceInsertMessage": { "AvailNum": integer, "AvailsExpected": integer, "SpliceEventId": integer, "UniqueProgramId": integer }, "TimeSignalMessage": { "SegmentationDescriptors": [ { "SegmentationEventId": integer, "SegmentationUpidType": integer, "SegmentationUpid": "string", "SegmentationTypeId": integer, "SegmentNum": integer, "SegmentsExpected": integer, "SubSegmentNum": integer, "SubSegmentsExpected": integer } ... ] }, "AdBreakMetadata": [ { "Key": "string", "Value": "string" } ... ] } ... ]
     /// </summary>
     [CliOption("--ad-breaks", GroupValues = true)]
     public IEnumerable<string>? AdBreaks { get; set; }
 
-    [CliOption("--channel-name")]
-    public string? ChannelName { get; set; }
-
     /// <summary>
     /// The name of the LiveSource for this Program.
     /// </summary>
     [CliOption("--live-source-name")]
     public string? LiveSourceName { get; set; }
-
-    [CliOption("--program-name")]
-    public string? ProgramName { get; set; }
-
-    [CliOption("--schedule-configuration")]
-    public string? ScheduleConfiguration { get; set; }
-
-    [CliOption("--source-location-name")]
-    public string? SourceLocationName { get; set; }
 
     /// <summary>
     /// The name that's used to refer to a VOD source.
@@ -69,5 +127,22 @@ public record AwsMediatailorCreateProgramOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

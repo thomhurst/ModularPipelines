@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("pinpoint-sms-voice-v2", "describe-keywords")]
-public record AwsPinpointSmsVoiceV2DescribeKeywordsOptions : AwsOptions
+public record AwsPinpointSmsVoiceV2DescribeKeywordsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Describes the specified keywords or all keywords on your origination phone number or pool. A keyword is a word that you can search for on a particular phone num- ber or pool. It is also a specific word or phrase that an end user can send to your number to elicit a response, such as an informational mes- sage or a special offer. When your number receives a message that be- gins with a keyword, End User Messaging SMS responds with a customiz- able message. If you specify a keyword that isn't valid...
+    /// </summary>
+    /// <param name="OriginationIdentity">The origination identity to use such as a PhoneNumberId, PhoneNum- berArn, SenderId or SenderIdArn. You can use DescribePhoneNumbers to find the values for PhoneNumberId and PhoneNumberArn while De- scribeSenderIds can be used to get the values for SenderId and SenderIdArn. WARNING: If you are using a shared End User Messaging SMS resource then you must use the full Amazon Resource Name(ARN). Constraints: o min: 1 o max: 256 o pattern: [A-Za-z0-9_:/-]+</param>
+    public AwsPinpointSmsVoiceV2DescribeKeywordsOptions(
+        string OriginationIdentity
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(OriginationIdentity);
+        this.OriginationIdentity = OriginationIdentity;
+    }
+
+    private AwsPinpointSmsVoiceV2DescribeKeywordsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsPinpointSmsVoiceV2DescribeKeywordsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsPinpointSmsVoiceV2DescribeKeywordsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The origination identity to use such as a PhoneNumberId, PhoneNum- berArn, SenderId or SenderIdArn. You can use DescribePhoneNumbers to find the values for PhoneNumberId and PhoneNumberArn while De- scribeSenderIds can be used to get the values for SenderId and SenderIdArn. WARNING: If you are using a shared End User Messaging SMS resource then you must use the full Amazon Resource Name(ARN). Constraints: o min: 1 o max: 256 o pattern: [A-Za-z0-9_:/-]+
+    /// </summary>
     [CliOption("--origination-identity")]
-    public string? OriginationIdentity { get; set; }
+    public string? OriginationIdentity { get; private init; }
 
     /// <summary>
     /// An array of keywords to search for. Constraints: o min: 0 o max: 5 (string) Constraints: o min: 1 o max: 30 o pattern: [ \S]+ Syntax: "string" "string" ...
@@ -61,5 +98,22 @@ public record AwsPinpointSmsVoiceV2DescribeKeywordsOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

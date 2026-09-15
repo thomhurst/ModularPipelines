@@ -22,11 +22,54 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("omics", "get-read-set")]
 public record AwsOmicsGetReadSetOptions : AwsOptions
 {
-    [CliOption("--id")]
-    public string? Id { get; set; }
+    /// <summary>
+    /// Retrieves detailed information from parts of a read set and returns the read set in the same format that it was uploaded. You must have read sets uploaded to your sequence store in order to run this operation. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Id">The read set's ID. Constraints: o min: 10 o max: 36 o pattern: [0-9]+</param>
+    /// <param name="SequenceStoreId">The read set's sequence store ID. Constraints: o min: 10 o max: 36 o pattern: [0-9]+</param>
+    /// <param name="PartNumber">The part number to retrieve. Constraints: o min: 1 o max: 10000 outfile (string) [required] Filename where the content will be saved</param>
+    /// <param name="Outfile">The &lt;outfile&gt; operand.</param>
+    public AwsOmicsGetReadSetOptions(
+        string Id,
+        string SequenceStoreId,
+        int PartNumber,
+        string Outfile
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Id);
+        this.Id = Id;
+        global::System.ArgumentNullException.ThrowIfNull(SequenceStoreId);
+        this.SequenceStoreId = SequenceStoreId;
+        this.PartNumber = PartNumber;
+        global::System.ArgumentNullException.ThrowIfNull(Outfile);
+        this.Outfile = Outfile;
+    }
 
+    public void Deconstruct(out string Id, out string SequenceStoreId, out int PartNumber, out string Outfile)
+    {
+        Id = this.Id;
+        SequenceStoreId = this.SequenceStoreId;
+        PartNumber = this.PartNumber;
+        Outfile = this.Outfile;
+    }
+
+    /// <summary>
+    /// The read set's ID. Constraints: o min: 10 o max: 36 o pattern: [0-9]+
+    /// </summary>
+    [CliOption("--id")]
+    public string Id { get; private init; }
+
+    /// <summary>
+    /// The read set's sequence store ID. Constraints: o min: 10 o max: 36 o pattern: [0-9]+
+    /// </summary>
     [CliOption("--sequence-store-id")]
-    public string? SequenceStoreId { get; set; }
+    public string SequenceStoreId { get; private init; }
+
+    /// <summary>
+    /// The part number to retrieve. Constraints: o min: 1 o max: 10000 outfile (string) [required] Filename where the content will be saved
+    /// </summary>
+    [CliOption("--part-number")]
+    public int PartNumber { get; private init; }
 
     /// <summary>
     /// The file to retrieve. Possible values: o SOURCE1 o SOURCE2 o INDEX
@@ -34,7 +77,10 @@ public record AwsOmicsGetReadSetOptions : AwsOptions
     [CliOption("--file")]
     public AwsOmicsGetReadSetFile? File { get; set; }
 
-    [CliOption("--part-number")]
-    public int? PartNumber { get; set; }
+    /// <summary>
+    /// The &lt;outfile&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string Outfile { get; private init; }
 
 }

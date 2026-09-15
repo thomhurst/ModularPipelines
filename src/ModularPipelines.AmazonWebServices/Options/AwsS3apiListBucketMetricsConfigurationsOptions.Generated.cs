@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("s3api", "list-bucket-metrics-configurations")]
-public record AwsS3apiListBucketMetricsConfigurationsOptions : AwsOptions
+public record AwsS3apiListBucketMetricsConfigurationsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Lists the metrics configurations for the bucket. The metrics configura- tions are only for the request metrics of the bucket and do not provide information on daily storage metrics. You can have up to 1,000 configu- rations per bucket. NOTE: Directory buckets - For directory buckets, you must make requests for this API operation to the Regional endpoint. These endpoints support path-style requests in the format `` https://s3express-control.*region-code* .amazonaws.com/bucket-name `` . Virtual-ho...
+    /// </summary>
+    /// <param name="Bucket">The name of the bucket containing the metrics configurations to re- trieve. Directory buckets - When you use this operation with a directory bucket, you must use path-style requests in the format https://s3express-control.*region-code* .amazon- aws.com/*bucket-name* `` . Virtual-hosted-style requests aren't supported. Directory bucket names must be unique in the chosen Zone (Availability Zone or Local Zone). Bucket names must also follow the format `` *bucket-base-name* --*zone-id* --x-s3 (for example, `` DOC-EXAMPLE-BUCKET --usw2-az1 --x-s3`` ). For infor- mation about bucket naming restrictions, see Directory bucket naming rules in the Amazon S3 User Guide</param>
+    public AwsS3apiListBucketMetricsConfigurationsOptions(
+        string Bucket
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Bucket);
+        this.Bucket = Bucket;
+    }
+
+    private AwsS3apiListBucketMetricsConfigurationsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsS3apiListBucketMetricsConfigurationsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsS3apiListBucketMetricsConfigurationsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the bucket containing the metrics configurations to re- trieve. Directory buckets - When you use this operation with a directory bucket, you must use path-style requests in the format https://s3express-control.*region-code* .amazon- aws.com/*bucket-name* `` . Virtual-hosted-style requests aren't supported. Directory bucket names must be unique in the chosen Zone (Availability Zone or Local Zone). Bucket names must also follow the format `` *bucket-base-name* --*zone-id* --x-s3 (for example, `` DOC-EXAMPLE-BUCKET --usw2-az1 --x-s3`` ). For infor- mation about bucket naming restrictions, see Directory bucket naming rules in the Amazon S3 User Guide
+    /// </summary>
     [CliOption("--bucket")]
-    public string? Bucket { get; set; }
+    public string? Bucket { get; private init; }
 
     /// <summary>
     /// The marker that is used to continue a metrics configuration listing that has been truncated. Use the NextContinuationToken from a previ- ously truncated list response to continue the listing. The continua- tion token is an opaque value that Amazon S3 understands.
@@ -43,5 +80,22 @@ public record AwsS3apiListBucketMetricsConfigurationsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

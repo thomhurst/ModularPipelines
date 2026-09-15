@@ -11,38 +11,38 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --checksumalgorithm.
+/// Allowed values for --checksum-algorithm.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsS3apiPutBucketWebsiteChecksumAlgorithm
 {
     [EnumValue("CRC32")]
-    Crc32 = 1,
+    Crc32,
 
     [EnumValue("CRC32C")]
-    Crc32C = 2,
-
-    [EnumValue("SHA1")]
-    Sha1 = 3,
-
-    [EnumValue("SHA256")]
-    Sha256 = 4,
+    Crc32C,
 
     [EnumValue("CRC64NVME")]
-    Crc64Nvme = 5,
-
-    [EnumValue("SHA512")]
-    Sha512 = 6,
+    Crc64Nvme,
 
     [EnumValue("MD5")]
-    Md5 = 7,
+    Md5,
 
-    [EnumValue("XXHASH64")]
-    Xxhash64 = 8,
+    [EnumValue("SHA1")]
+    Sha1,
 
-    [EnumValue("XXHASH3")]
-    Xxhash3 = 9,
+    [EnumValue("SHA256")]
+    Sha256,
+
+    [EnumValue("SHA512")]
+    Sha512,
 
     [EnumValue("XXHASH128")]
-    Xxhash128 = 10
+    Xxhash128,
+
+    [EnumValue("XXHASH3")]
+    Xxhash3,
+
+    [EnumValue("XXHASH64")]
+    Xxhash64
 }

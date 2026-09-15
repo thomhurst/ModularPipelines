@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ses", "update-configuration-set-sending-enabled")]
-public record AwsSesUpdateConfigurationSetSendingEnabledOptions : AwsOptions
+public record AwsSesUpdateConfigurationSetSendingEnabledOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--configuration-set-name")]
-    public string? ConfigurationSetName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
-    [CliFlag("--enabled")]
-    public bool? Enabled { get; set; }
+    /// <summary>
+    /// Enables or disables email sending for messages sent using a specific configuration set in a given Amazon Web Services Region. You can use this operation in conjunction with Amazon CloudWatch alarms to tem- porarily pause email sending for a configuration set when the reputa- tion metrics for that configuration set (such as your bounce on com- plaint rate) exceed certain thresholds. You can execute this operation no more than once per second. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ConfigurationSetName">The name of the configuration set to update.</param>
+    /// <param name="Enabled">Describes whether email sending is enabled or disabled for the con- figuration set.</param>
+    public AwsSesUpdateConfigurationSetSendingEnabledOptions(
+        string ConfigurationSetName,
+        bool Enabled
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ConfigurationSetName);
+        this.ConfigurationSetName = ConfigurationSetName;
+        this.Enabled = Enabled;
+    }
+
+    private AwsSesUpdateConfigurationSetSendingEnabledOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSesUpdateConfigurationSetSendingEnabledOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSesUpdateConfigurationSetSendingEnabledOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the configuration set to update.
+    /// </summary>
+    [CliOption("--configuration-set-name")]
+    public string? ConfigurationSetName { get; private init; }
+
+    /// <summary>
+    /// Describes whether email sending is enabled or disabled for the con- figuration set.
+    /// </summary>
+    [CliFlag("--enabled", NegatedName = "--no-enabled")]
+    public bool? Enabled { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

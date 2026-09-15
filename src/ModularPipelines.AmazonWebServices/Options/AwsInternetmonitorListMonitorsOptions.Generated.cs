@@ -28,7 +28,10 @@ public record AwsInternetmonitorListMonitorsOptions : AwsOptions
     [CliOption("--monitor-status")]
     public string? MonitorStatus { get; set; }
 
-    [CliFlag("--include-linked-accounts")]
+    /// <summary>
+    /// A boolean option that you can set to TRUE to include monitors for linked accounts in a list of monitors, when you've set up cross-ac- count sharing in Amazon CloudWatch Internet Monitor. You configure cross-account sharing by using Amazon CloudWatch Observability Ac- cess Manager. For more information, see Internet Monitor cross-ac- count observability in the Amazon CloudWatch Internet Monitor User Guide.
+    /// </summary>
+    [CliFlag("--include-linked-accounts", NegatedName = "--no-include-linked-accounts")]
     public bool? IncludeLinkedAccounts { get; set; }
 
     [CliOption("--cli-input-json")]

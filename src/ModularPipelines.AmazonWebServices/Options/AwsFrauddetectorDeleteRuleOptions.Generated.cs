@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,68 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("frauddetector", "delete-rule")]
-public record AwsFrauddetectorDeleteRuleOptions : AwsOptions
+public record AwsFrauddetectorDeleteRuleOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Deletes the rule. You cannot delete a rule if it is used by an ACTIVE or INACTIVE detector version. When you delete a rule, Amazon Fraud Detector permanently deletes that rule and the data is no longer stored in Amazon Fraud Detector. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Rule">A rule. detectorId -&gt; (string) [required] The detector for which the rule is associated. Constraints: o min: 1 o max: 64 o pattern: ^[0-9a-z_-]+$ ruleId -&gt; (string) [required] The rule ID. Constraints: o min: 1 o max: 64 o pattern: ^[0-9a-z_-]+$ ruleVersion -&gt; (string) [required] The rule version. Constraints: o min: 1 o max: 5 o pattern: ^([1-9][0-9]*)$ Shorthand Syntax: detectorId=string,ruleId=string,ruleVersion=string JSON Syntax: { "detectorId": "string", "ruleId": "string", "ruleVersion": "string" }</param>
+    public AwsFrauddetectorDeleteRuleOptions(
+        string Rule
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Rule);
+        this.Rule = Rule;
+    }
+
+    private AwsFrauddetectorDeleteRuleOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsFrauddetectorDeleteRuleOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsFrauddetectorDeleteRuleOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A rule. detectorId -&gt; (string) [required] The detector for which the rule is associated. Constraints: o min: 1 o max: 64 o pattern: ^[0-9a-z_-]+$ ruleId -&gt; (string) [required] The rule ID. Constraints: o min: 1 o max: 64 o pattern: ^[0-9a-z_-]+$ ruleVersion -&gt; (string) [required] The rule version. Constraints: o min: 1 o max: 5 o pattern: ^([1-9][0-9]*)$ Shorthand Syntax: detectorId=string,ruleId=string,ruleVersion=string JSON Syntax: { "detectorId": "string", "ruleId": "string", "ruleVersion": "string" }
+    /// </summary>
     [CliOption("--rule")]
-    public string? Rule { get; set; }
+    public string? Rule { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

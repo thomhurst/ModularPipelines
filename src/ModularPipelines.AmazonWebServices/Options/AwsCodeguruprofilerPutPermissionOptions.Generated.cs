@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,16 +21,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("codeguruprofiler", "put-permission")]
-public record AwsCodeguruprofilerPutPermissionOptions : AwsOptions
+public record AwsCodeguruprofilerPutPermissionOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Adds permissions to a profiling group's resource-based policy that are provided using an action group. If a profiling group doesn't have a re- source-based policy, one is created for it using the permissions in the action group and the roles and users in the principals parameter. &lt;p&gt; The one supported action group that can be added is &lt;code&gt;agent- Permission&lt;/code&gt; which grants &lt;code&gt;ConfigureAgent&lt;/code&gt; and &lt;code&gt;PostAgent&lt;/code&gt; permissions. For more information, see &lt;a href="https://docs.aws...
+    /// </summary>
+    /// <param name="ActionGroup">Specifies an action group that contains permissions to add to a pro- filing group resource. One action group is supported, agentPermis- sions , which grants permission to perform actions required by the profiling agent, ConfigureAgent and PostAgentProfile permissions. Possible values: o agentPermissions</param>
+    /// <param name="Principals">A list ARNs for the roles and users you want to grant access to the profiling group. Wildcards are not are supported in the ARNs. Constraints: o min: 1 o max: 50 (string) Syntax: "string" "string" ...</param>
+    /// <param name="ProfilingGroupName">The name of the profiling group to grant access to. Constraints: o min: 1 o max: 255 o pattern: ^[\w-]+$</param>
+    public AwsCodeguruprofilerPutPermissionOptions(
+        AwsCodeguruprofilerPutPermissionActionGroup ActionGroup,
+        IEnumerable<string> Principals,
+        string ProfilingGroupName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ActionGroup);
+        this.ActionGroup = ActionGroup;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Principals);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Principals));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Principals));
+            }
+
+            Principals = materialized;
+        }
+        this.Principals = Principals;
+        global::System.ArgumentNullException.ThrowIfNull(ProfilingGroupName);
+        this.ProfilingGroupName = ProfilingGroupName;
+    }
+
+    private AwsCodeguruprofilerPutPermissionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCodeguruprofilerPutPermissionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCodeguruprofilerPutPermissionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Specifies an action group that contains permissions to add to a pro- filing group resource. One action group is supported, agentPermis- sions , which grants permission to perform actions required by the profiling agent, ConfigureAgent and PostAgentProfile permissions. Possible values: o agentPermissions
+    /// </summary>
     [CliOption("--action-group")]
-    public string? ActionGroup { get; set; }
+    public AwsCodeguruprofilerPutPermissionActionGroup? ActionGroup { get; private init; }
 
+    /// <summary>
+    /// A list ARNs for the roles and users you want to grant access to the profiling group. Wildcards are not are supported in the ARNs. Constraints: o min: 1 o max: 50 (string) Syntax: "string" "string" ...
+    /// </summary>
     [CliOption("--principals", GroupValues = true)]
-    public IEnumerable<string>? Principals { get; set; }
+    public IEnumerable<string>? Principals { get; private init; }
 
+    /// <summary>
+    /// The name of the profiling group to grant access to. Constraints: o min: 1 o max: 255 o pattern: ^[\w-]+$
+    /// </summary>
     [CliOption("--profiling-group-name")]
-    public string? ProfilingGroupName { get; set; }
+    public string? ProfilingGroupName { get; private init; }
 
     /// <summary>
     /// A universally unique identifier (UUID) for the revision of the pol- icy you are adding to the profiling group. Do not specify this when you add permissions to a profiling group for the first time. If a policy already exists on the profiling group, you must specify the revisionId . Constraints: o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}
@@ -41,5 +104,22 @@ public record AwsCodeguruprofilerPutPermissionOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

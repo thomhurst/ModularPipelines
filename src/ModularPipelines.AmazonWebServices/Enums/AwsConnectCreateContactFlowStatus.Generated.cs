@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsConnectCreateContactFlowStatus
 {
     [EnumValue("PUBLISHED")]
-    Published = 1,
+    Published,
 
     [EnumValue("SAVED")]
-    Saved = 2
+    Saved
 }

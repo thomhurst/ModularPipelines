@@ -11,20 +11,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --monitoringtypeequals.
+/// Allowed values for --monitoring-type-equals.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsSagemakerListMonitoringExecutionsMonitoringTypeEquals
 {
     [EnumValue("DataQuality")]
-    DataQuality = 1,
-
-    [EnumValue("ModelQuality")]
-    ModelQuality = 2,
+    DataQuality,
 
     [EnumValue("ModelBias")]
-    ModelBias = 3,
+    ModelBias,
 
     [EnumValue("ModelExplainability")]
-    ModelExplainability = 4
+    ModelExplainability,
+
+    [EnumValue("ModelQuality")]
+    ModelQuality
 }

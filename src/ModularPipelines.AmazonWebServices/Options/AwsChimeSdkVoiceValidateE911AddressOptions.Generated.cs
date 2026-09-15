@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,33 +20,128 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("chime-sdk-voice", "validate-e911-address")]
-public record AwsChimeSdkVoiceValidateE911AddressOptions : AwsOptions
+public record AwsChimeSdkVoiceValidateE911AddressOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Validates an address to be used for 911 calls made with Amazon Chime SDK Voice Connectors. You can use validated addresses in a Presence In- formation Data Format Location Object file that you include in SIP re- quests. That helps ensure that addresses are routed to the appropriate Public Safety Answering Point. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="AwsAccountId">The AWS account ID. Constraints: o pattern: .*\S.*</param>
+    /// <param name="StreetNumber">The address street number, such as 200 or 2121 . Constraints: o pattern: .*\S.*</param>
+    /// <param name="StreetInfo">The address street information, such as 8th Avenue . Constraints: o pattern: .*\S.*</param>
+    /// <param name="City">The address city, such as Portland . Constraints: o pattern: .*\S.*</param>
+    /// <param name="State">The address state, such as ME . Constraints: o pattern: .*\S.*</param>
+    /// <param name="Country">The country in the address being validated as two-letter country code in ISO 3166-1 alpha-2 format, such as US . For more informa- tion, see ISO 3166-1 alpha-2 in Wikipedia. Constraints: o pattern: .*\S.*</param>
+    /// <param name="PostalCode">The dress postal code, such 04352 . Constraints: o pattern: .*\S.*</param>
+    public AwsChimeSdkVoiceValidateE911AddressOptions(
+        string AwsAccountId,
+        string StreetNumber,
+        string StreetInfo,
+        string City,
+        string State,
+        string Country,
+        string PostalCode
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AwsAccountId);
+        this.AwsAccountId = AwsAccountId;
+        global::System.ArgumentNullException.ThrowIfNull(StreetNumber);
+        this.StreetNumber = StreetNumber;
+        global::System.ArgumentNullException.ThrowIfNull(StreetInfo);
+        this.StreetInfo = StreetInfo;
+        global::System.ArgumentNullException.ThrowIfNull(City);
+        this.City = City;
+        global::System.ArgumentNullException.ThrowIfNull(State);
+        this.State = State;
+        global::System.ArgumentNullException.ThrowIfNull(Country);
+        this.Country = Country;
+        global::System.ArgumentNullException.ThrowIfNull(PostalCode);
+        this.PostalCode = PostalCode;
+    }
+
+    private AwsChimeSdkVoiceValidateE911AddressOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsChimeSdkVoiceValidateE911AddressOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsChimeSdkVoiceValidateE911AddressOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The AWS account ID. Constraints: o pattern: .*\S.*
+    /// </summary>
     [CliOption("--aws-account-id")]
-    public string? AwsAccountId { get; set; }
+    public string? AwsAccountId { get; private init; }
 
+    /// <summary>
+    /// The address street number, such as 200 or 2121 . Constraints: o pattern: .*\S.*
+    /// </summary>
     [CliOption("--street-number")]
-    public string? StreetNumber { get; set; }
+    public string? StreetNumber { get; private init; }
 
+    /// <summary>
+    /// The address street information, such as 8th Avenue . Constraints: o pattern: .*\S.*
+    /// </summary>
     [CliOption("--street-info")]
-    public string? StreetInfo { get; set; }
+    public string? StreetInfo { get; private init; }
 
+    /// <summary>
+    /// The address city, such as Portland . Constraints: o pattern: .*\S.*
+    /// </summary>
     [CliOption("--city")]
-    public string? City { get; set; }
+    public string? City { get; private init; }
 
+    /// <summary>
+    /// The address state, such as ME . Constraints: o pattern: .*\S.*
+    /// </summary>
     [CliOption("--state")]
-    public string? State { get; set; }
+    public string? State { get; private init; }
 
+    /// <summary>
+    /// The country in the address being validated as two-letter country code in ISO 3166-1 alpha-2 format, such as US . For more informa- tion, see ISO 3166-1 alpha-2 in Wikipedia. Constraints: o pattern: .*\S.*
+    /// </summary>
     [CliOption("--country")]
-    public string? Country { get; set; }
+    public string? Country { get; private init; }
 
+    /// <summary>
+    /// The dress postal code, such 04352 . Constraints: o pattern: .*\S.*
+    /// </summary>
     [CliOption("--postal-code")]
-    public string? PostalCode { get; set; }
+    public string? PostalCode { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

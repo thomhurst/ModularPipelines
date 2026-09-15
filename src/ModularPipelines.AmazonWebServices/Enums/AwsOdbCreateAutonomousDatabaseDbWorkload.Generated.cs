@@ -11,20 +11,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --dbworkload.
+/// Allowed values for --db-workload.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsOdbCreateAutonomousDatabaseDbWorkload
 {
-    [EnumValue("OLTP")]
-    Oltp = 1,
-
     [EnumValue("AJD")]
-    Ajd = 2,
+    Ajd,
 
     [EnumValue("APEX")]
-    Apex = 3,
+    Apex,
 
     [EnumValue("LH")]
-    Lh = 4
+    Lh,
+
+    [EnumValue("OLTP")]
+    Oltp
 }

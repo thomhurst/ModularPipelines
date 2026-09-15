@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("codecommit", "update-repository-encryption-key")]
-public record AwsCodecommitUpdateRepositoryEncryptionKeyOptions : AwsOptions
+public record AwsCodecommitUpdateRepositoryEncryptionKeyOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--repository-name")]
-    public string? RepositoryName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Updates the Key Management Service encryption key used to encrypt and decrypt a CodeCommit repository. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="RepositoryName">The name of the repository for which you want to update the KMS en- cryption key used to encrypt and decrypt the repository. Constraints: o min: 1 o max: 100 o pattern: [\w\.-]+</param>
+    /// <param name="KmsKeyId">The ID of the encryption key. You can view the ID of an encryption key in the KMS console, or use the KMS APIs to programmatically re- trieve a key ID. For more information about acceptable values for keyID, see KeyId in the Decrypt API description in the Key Manage- ment Service API Reference . Constraints: o pattern: ^[a-zA-Z0-9:/_-]+$</param>
+    public AwsCodecommitUpdateRepositoryEncryptionKeyOptions(
+        string RepositoryName,
+        string KmsKeyId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(RepositoryName);
+        this.RepositoryName = RepositoryName;
+        global::System.ArgumentNullException.ThrowIfNull(KmsKeyId);
+        this.KmsKeyId = KmsKeyId;
+    }
+
+    private AwsCodecommitUpdateRepositoryEncryptionKeyOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCodecommitUpdateRepositoryEncryptionKeyOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCodecommitUpdateRepositoryEncryptionKeyOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the repository for which you want to update the KMS en- cryption key used to encrypt and decrypt the repository. Constraints: o min: 1 o max: 100 o pattern: [\w\.-]+
+    /// </summary>
+    [CliOption("--repository-name")]
+    public string? RepositoryName { get; private init; }
+
+    /// <summary>
+    /// The ID of the encryption key. You can view the ID of an encryption key in the KMS console, or use the KMS APIs to programmatically re- trieve a key ID. For more information about acceptable values for keyID, see KeyId in the Decrypt API description in the Key Manage- ment Service API Reference . Constraints: o pattern: ^[a-zA-Z0-9:/_-]+$
+    /// </summary>
     [CliOption("--kms-key-id")]
-    public string? KmsKeyId { get; set; }
+    public string? KmsKeyId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

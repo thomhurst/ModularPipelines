@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cloudcontrol", "get-resource")]
-public record AwsCloudcontrolGetResourceOptions : AwsOptions
+public record AwsCloudcontrolGetResourceOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Returns information about the current state of the specified resource. For details, see Reading a resource's current state . You can use this action to return information about an existing re- source in your account and Amazon Web Services Region, whether those resources were provisioned using Cloud Control API. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="TypeName">The name of the resource type. Constraints: o min: 10 o max: 196 o pattern: [A-Za-z0-9]{2,64}::[A-Za-z0-9]{2,64}::[A-Za-z0-9]{2,64}</param>
+    /// <param name="Identifier">The identifier for the resource. You can specify the primary identifier, or any secondary identifier defined for the resource type in its resource schema. You can only specify one identifier. Primary identifiers can be specified as a string or JSON; secondary identifiers must be specified as JSON. For compound primary identifiers (that is, one that consists of mul- tiple resource properties strung together), to specify the primary identifier as a string, list the property values in the order they are specified in the primary identifier definition, separated by | . For more information, see Identifying resources in the Amazon Web Services Cloud Control API User Guide . Constraints: o min: 1 o max: 1024 o pattern: .+</param>
+    public AwsCloudcontrolGetResourceOptions(
+        string TypeName,
+        string Identifier
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(TypeName);
+        this.TypeName = TypeName;
+        global::System.ArgumentNullException.ThrowIfNull(Identifier);
+        this.Identifier = Identifier;
+    }
+
+    private AwsCloudcontrolGetResourceOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCloudcontrolGetResourceOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCloudcontrolGetResourceOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the resource type. Constraints: o min: 10 o max: 196 o pattern: [A-Za-z0-9]{2,64}::[A-Za-z0-9]{2,64}::[A-Za-z0-9]{2,64}
+    /// </summary>
     [CliOption("--type-name")]
-    public string? TypeName { get; set; }
+    public string? TypeName { get; private init; }
+
+    /// <summary>
+    /// The identifier for the resource. You can specify the primary identifier, or any secondary identifier defined for the resource type in its resource schema. You can only specify one identifier. Primary identifiers can be specified as a string or JSON; secondary identifiers must be specified as JSON. For compound primary identifiers (that is, one that consists of mul- tiple resource properties strung together), to specify the primary identifier as a string, list the property values in the order they are specified in the primary identifier definition, separated by | . For more information, see Identifying resources in the Amazon Web Services Cloud Control API User Guide . Constraints: o min: 1 o max: 1024 o pattern: .+
+    /// </summary>
+    [CliOption("--identifier")]
+    public string? Identifier { get; private init; }
 
     /// <summary>
     /// For private resource types, the type version to use in this resource operation. If you do not specify a resource version, CloudFormation uses the default version. Constraints: o min: 1 o max: 128 o pattern: [A-Za-z0-9-]+
@@ -36,13 +83,27 @@ public record AwsCloudcontrolGetResourceOptions : AwsOptions
     [CliOption("--role-arn")]
     public string? RoleArn { get; set; }
 
-    [CliOption("--identifier")]
-    public string? Identifier { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

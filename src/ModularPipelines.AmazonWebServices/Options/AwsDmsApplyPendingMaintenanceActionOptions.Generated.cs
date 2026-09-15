@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +21,88 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("dms", "apply-pending-maintenance-action")]
-public record AwsDmsApplyPendingMaintenanceActionOptions : AwsOptions
+public record AwsDmsApplyPendingMaintenanceActionOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Applies a pending maintenance action to a resource (for example, to a replication instance). See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ReplicationInstanceArn">The Amazon Resource Name (ARN) of the DMS resource that the pending maintenance action applies to.</param>
+    /// <param name="ApplyAction">The pending maintenance action to apply to this resource. Valid values: os-upgrade , system-update , db-upgrade , os-patch</param>
+    /// <param name="OptInType">A value that specifies the type of opt-in request, or undoes an opt-in request. You can't undo an opt-in request of type immediate . Valid values: o immediate - Apply the maintenance action immediately. o next-maintenance - Apply the maintenance action during the next maintenance window for the resource. o undo-opt-in - Cancel any existing next-maintenance opt-in re- quests.</param>
+    public AwsDmsApplyPendingMaintenanceActionOptions(
+        string ReplicationInstanceArn,
+        AwsDmsApplyPendingMaintenanceActionApplyAction ApplyAction,
+        string OptInType
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ReplicationInstanceArn);
+        this.ReplicationInstanceArn = ReplicationInstanceArn;
+        global::System.ArgumentNullException.ThrowIfNull(ApplyAction);
+        this.ApplyAction = ApplyAction;
+        global::System.ArgumentNullException.ThrowIfNull(OptInType);
+        this.OptInType = OptInType;
+    }
+
+    private AwsDmsApplyPendingMaintenanceActionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDmsApplyPendingMaintenanceActionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDmsApplyPendingMaintenanceActionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the DMS resource that the pending maintenance action applies to.
+    /// </summary>
     [CliOption("--replication-instance-arn")]
-    public string? ReplicationInstanceArn { get; set; }
+    public string? ReplicationInstanceArn { get; private init; }
 
+    /// <summary>
+    /// The pending maintenance action to apply to this resource. Valid values: os-upgrade , system-update , db-upgrade , os-patch
+    /// </summary>
     [CliOption("--apply-action")]
-    public string? ApplyAction { get; set; }
+    public AwsDmsApplyPendingMaintenanceActionApplyAction? ApplyAction { get; private init; }
 
+    /// <summary>
+    /// A value that specifies the type of opt-in request, or undoes an opt-in request. You can't undo an opt-in request of type immediate . Valid values: o immediate - Apply the maintenance action immediately. o next-maintenance - Apply the maintenance action during the next maintenance window for the resource. o undo-opt-in - Cancel any existing next-maintenance opt-in re- quests.
+    /// </summary>
     [CliOption("--opt-in-type")]
-    public string? OptInType { get; set; }
+    public string? OptInType { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -11,11 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --applycancellationcharges.
+/// Allowed values for --apply-cancellation-charges.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsEc2CancelCapacityReservationApplyCancellationCharges
 {
     [EnumValue("commitment-wind-down")]
-    CommitmentWindDown = 1
+    CommitmentWindDown,
+
+    [EnumValue("o")]
+    O
 }
