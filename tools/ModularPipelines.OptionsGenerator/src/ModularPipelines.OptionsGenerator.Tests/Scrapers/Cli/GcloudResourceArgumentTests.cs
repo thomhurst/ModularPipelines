@@ -67,7 +67,9 @@ public class GcloudResourceArgumentTests
     {
         var help = await File.ReadAllTextAsync(Path.Combine(AppContext.BaseDirectory, "Fixtures", "Gcloud", "585.0.0", fixture));
         var nameLine = help.Split('\n')[1].Trim();
-        var commandPath = nameLine[..nameLine.IndexOf(" - ", StringComparison.Ordinal)].Replace("gcloud ", "");
+        var separator = nameLine.IndexOf(" - ", StringComparison.Ordinal);
+        await Assert.That(separator).IsGreaterThan(0);
+        var commandPath = nameLine[..separator].Replace("gcloud ", "");
         await new TestScraper().Parse(["gcloud", .. commandPath.Split(' ')], help);
         var command = (await ScrapeFixture(commandPath, help)).Single();
         await Assert.That(command.FullCommand).IsEqualTo("gcloud " + commandPath);

@@ -2274,6 +2274,8 @@ public abstract partial class CliScraperBase : ICliScraper
     {
         foreach (var option in command.Options)
         {
+            // Both validation checks describe this option's value syntax. Inherited group prose can
+            // describe sibling values, so it is not evidence of boolean or collection shape.
             var description = option.ValueShapeDescription ?? option.Description ?? string.Empty;
             var isBoolean = option.CSharpType is "bool" or "bool?";
             if (HelpDeclaresExplicitBooleanValue(description)
