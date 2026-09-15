@@ -1341,12 +1341,21 @@ public class SecretMaskingPatternTests
             CreateObfuscator(provider),
             provider);
 
-        var write = Task.Run(() => writer.WriteLine("dynamic-secret"));
+        // The fixture blocks the writer while this test waits for its start signal.
+        var write = Task.Factory.StartNew(
+            () => writer.WriteLine("dynamic-secret"),
+            CancellationToken.None,
+            TaskCreationOptions.LongRunning,
+            TaskScheduler.Default);
         var registration = Task.CompletedTask;
         try
         {
             await Assert.That(writeStarted.Wait(TimeSpan.FromSeconds(5))).IsTrue();
-            registration = Task.Run(() => provider.AddSecret("dynamic-secret"));
+            registration = Task.Factory.StartNew(
+                () => provider.AddSecret("dynamic-secret"),
+                CancellationToken.None,
+                TaskCreationOptions.LongRunning,
+                TaskScheduler.Default);
             await Assert.That(registrationStarted.Wait(TimeSpan.FromSeconds(5))).IsTrue();
             await registration.WaitAsync(TimeSpan.FromSeconds(5));
             await Assert.That(provider.Secrets).DoesNotContain("dynamic-secret");
@@ -1559,7 +1568,8 @@ public class SecretMaskingPatternTests
         using var emissionStarted = new ManualResetEventSlim();
         using var releaseEmission = new ManualResetEventSlim();
 
-        var emission = Task.Run(() => provider.ExecuteWithStableSecrets(
+        // Emission intentionally holds a synchronous gate until this test releases it.
+        var emission = Task.Factory.StartNew(() => provider.ExecuteWithStableSecrets(
             emissionStarted,
             started =>
             {
@@ -1568,7 +1578,7 @@ public class SecretMaskingPatternTests
                 {
                     throw new TimeoutException("Timed out waiting to release the emission.");
                 }
-            }));
+            }), CancellationToken.None, TaskCreationOptions.LongRunning, TaskScheduler.Default);
 
         long deferredVersion;
         try

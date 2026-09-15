@@ -1,0 +1,92 @@
+NAME
+    gcloud artifacts image-streaming-cache delete - removes the prewarmed state
+        of a specific artifact from a specific stream location
+
+SYNOPSIS
+    gcloud artifacts image-streaming-cache delete
+        ([ARTIFACT] [(--tag=TAG | --version=VERSION)
+          : [--package=PACKAGE : --location=LOCATION --repository=REPOSITORY]])
+        --stream-location=STREAM_LOCATION [GCLOUD_WIDE_FLAG ...]
+
+DESCRIPTION
+    Removes the prewarmed state of a specific artifact from a specific stream
+    location.
+
+EXAMPLES
+Removes the prewarmed state of a specific artifact using flags
+
+        $ gcloud artifacts image-streaming-cache delete --package=my-pkg \
+            --tag=latest --repository=my-repo --location=us-central1 \
+            --stream-location=us-east1
+
+Using full resource name
+
+        $ gcloud artifacts image-streaming-cache delete \
+            projects/my-proj/locations/us-central1/repositories/my-repo/\
+        packages/my-pkg/versions/sha256:abc123 --stream-location=us-east1
+
+POSITIONAL ARGUMENTS
+     Exactly one of these must be specified:
+
+       [ARTIFACT]
+          The full resource name of the version or tag to remove.
+
+       Or at least one of these can be specified:
+
+         Exactly one of these must be specified:
+
+           --tag=TAG
+              The tag to remove (e.g., 'latest').
+
+           --version=VERSION
+              The version to remove (e.g., 'sha256:abc123').
+
+         Package resource - The package to remove. The arguments in this group
+         can be used to specify the attributes of this resource. (NOTE) Some
+         attributes are not given arguments in this group but can be set in
+         other ways.
+
+         To set the project attribute:
+          - provide the argument --package on the command line with a fully
+            specified name;
+          - provide the argument --project on the command line;
+          - set the property core/project.
+
+         --package=PACKAGE
+            ID of the package or fully qualified identifier for the package.
+
+            To set the name attribute:
+            - provide the argument --package on the command line.
+
+            This flag argument must be specified if any of the other arguments
+            in this group are specified.
+
+         --location=LOCATION
+            Location of the package.
+
+            To set the location attribute:
+            - provide the argument --package on the command line with a fully
+              specified name;
+            - provide the argument --location on the command line;
+            - set the property artifacts/location.
+
+         --repository=REPOSITORY
+            Repository of the package.
+
+            To set the repository attribute:
+            - provide the argument --package on the command line with a fully
+              specified name;
+            - provide the argument --repository on the command line;
+            - set the property artifacts/repository.
+
+REQUIRED FLAGS
+     --stream-location=STREAM_LOCATION
+        The target Cloud Region where the artifact should be prewarmed.
+
+GCLOUD WIDE FLAGS
+    These flags are available to all commands: --access-token-file, --account,
+    --billing-project, --configuration, --flags-file, --flatten, --format,
+    --help, --impersonate-service-account, --log-http, --project, --quiet,
+    --trace-token, --user-output-enabled, --verbosity.
+
+    Run $ gcloud help for details.

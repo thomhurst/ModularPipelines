@@ -11,6 +11,9 @@ namespace ModularPipelines.OptionsGenerator.Models;
 /// </summary>
 public record CliOptionDefinition
 {
+    /// <summary>Option-local prose for shape validation, excluding inherited group documentation.</summary>
+    internal string? ValueShapeDescription { get; init; }
+
     private const string CollectionProbeTypeName = "CollectionShapeProbe.Probe";
     private static readonly ConcurrentDictionary<string, CollectionShapeResolution> CollectionShapes = new(StringComparer.Ordinal);
     private static readonly Lazy<CSharpCompilation> CollectionProbeCompilation = new(CreateCollectionProbeCompilation);

@@ -1,0 +1,200 @@
+NAME
+    gcloud compute tpus queued-resources scp - copy files to and from a Cloud
+        TPU Queued Resource via SCP
+
+SYNOPSIS
+    gcloud compute tpus queued-resources scp [[USER@]INSTANCE:]SRC
+        [[[USER@]INSTANCE:]SRC ...] [[USER@]INSTANCE:]DEST
+        [--batch-size=BATCH_SIZE; default=64] [--compress] [--dry-run]
+        [--force-key-file-overwrite] [--node=NODE; default="0"] [--plain]
+        [--recurse] [--scp-flag=SCP_FLAG] [--ssh-key-file=SSH_KEY_FILE]
+        [--strict-host-key-checking=STRICT_HOST_KEY_CHECKING]
+        [--worker=WORKER; default="0"] [--zone=ZONE]
+        [--internal-ip | --tunnel-through-iap]
+        [--ssh-key-expiration=SSH_KEY_EXPIRATION
+          | --ssh-key-expire-after=SSH_KEY_EXPIRE_AFTER] [GCLOUD_WIDE_FLAG ...]
+
+DESCRIPTION
+    Copy files to and from a Cloud TPU Queued Resource via SCP.
+
+EXAMPLES
+    To copy a file (for example, a text file in the local home directory) to a
+    Cloud Queued Resource, run:
+
+        $ gcloud compute tpus queued-resources scp ~/my-file my-qr:
+
+    To copy a file into all nodes and workers in a Cloud TPU Queued Resource
+    (with the default batch size), run:
+
+        $ gcloud compute tpus queued-resources scp ~/my-file my-qr: \
+          --worker=all --node=all
+
+    To copy a file into all nodes and workers in a Cloud TPU Queued Resource
+    with a batch size of 4, run:
+
+        $ gcloud compute tpus queued-resources scp ~/my-file my-qr: \
+          --worker=all --node=all --batch-size=4
+
+    To copy a file into all workers in the first node of a Cloud TPU Queued
+    Resource, run:
+
+        $ gcloud compute tpus queued-resources scp ~/my-file my-qr: \
+          --worker=all
+
+    To copy a file from a Cloud TPU Queued Resource to the home directory of
+    the local computer, run:
+
+        $ gcloud compute tpus queued-resources scp my-qr:~/my-file ~/
+
+    To copy all files in a folder to a Cloud TPU Queued Resource, run:
+
+        $ gcloud compute tpus queued-resources scp ~/my-folder/ my-qr: \
+          --recurse
+
+POSITIONAL ARGUMENTS
+     [[USER@]INSTANCE:]SRC [[[USER@]INSTANCE:]SRC ...]
+        Specifies the files to copy.
+
+     [[USER@]INSTANCE:]DEST
+        Specifies a destination for the source files.
+
+FLAGS
+     --batch-size=BATCH_SIZE; default=64
+        Batch size for simultaneous command execution on the client's side.
+        When using a comma-separated list (e.g. '1,4,6') or a range (e.g.
+        '1-3') or ``all`` keyword in --worker flag, it executes the command
+        concurrently in groups of the batch size. This flag takes a value
+        greater than 0 to specify the batch size to control the concurrent
+        connections that can be established with the TPU workers, or the
+        special keyword ``all`` to allow the concurrent command executions on
+        all the specified workers in --worker flag. Maximum value of this flag
+        should not be more than the number of specified workers, otherwise the
+        value will be treated as ``--batch-size=all``.
+
+     --compress
+        Enable compression.
+
+     --dry-run
+        Print the equivalent scp/ssh command that would be run to stdout,
+        instead of executing it.
+
+     --force-key-file-overwrite
+        If enabled, the gcloud command-line tool will regenerate and overwrite
+        the files associated with a broken SSH key without asking for
+        confirmation in both interactive and non-interactive environments.
+
+        If disabled, the files associated with a broken SSH key will not be
+        regenerated and will fail in both interactive and non-interactive
+        environments.
+
+     --node=NODE; default="0"
+        TPU node(s) to connect to. The supported value is a single 0-based
+        index of the node(s) in the case of a TPU Pod. It additionally supports
+        a comma-separated list (e.g. '1,4,6'), range (e.g. '1-3'), or special
+        keyword ``all" to run the command concurrently on each of the specified
+        node(s).
+
+        Note that when targeting multiple nodes, you should run 'ssh-add' with
+        your private key prior to executing the gcloud command. Default:
+        'ssh-add ~/.ssh/google_compute_engine'.
+
+     --plain
+        Suppress the automatic addition of ssh(1)/scp(1) flags. This flag is
+        useful if you want to take care of authentication yourself or use
+        specific ssh/scp features.
+
+     --recurse
+        Upload directories recursively.
+
+     --scp-flag=SCP_FLAG
+        Additional flags to be passed to scp(1). This flag may be repeated.
+
+     --ssh-key-file=SSH_KEY_FILE
+        The path to the SSH key file. By default, this is
+        ~\.ssh\google_compute_engine.
+
+     --strict-host-key-checking=STRICT_HOST_KEY_CHECKING
+        Override the default behavior of StrictHostKeyChecking for the
+        connection. By default, StrictHostKeyChecking is set to 'no' the first
+        time you connect to an instance, and will be set to 'yes' for all
+        subsequent connections. STRICT_HOST_KEY_CHECKING must be one of: yes,
+        no, ask.
+
+     --worker=WORKER; default="0"
+        TPU worker to connect to. The supported value is a single 0-based index
+        of the worker in the case of a TPU Pod. When also using the --command
+        flag, it additionally supports a comma-separated list (e.g. '1,4,6'),
+        range (e.g. '1-3'), or special keyword ``all" to run the command
+        concurrently on each of the specified workers.
+
+        Note that when targeting multiple workers, you should run 'ssh-add'
+        with your private key prior to executing the gcloud command. Default:
+        'ssh-add ~/.ssh/google_compute_engine'.
+
+     --zone=ZONE
+        Zone of the tpu to scp. If not specified and the compute/zone property
+        isn't set, you might be prompted to select a zone (interactive mode
+        only).
+
+        To avoid prompting when this flag is omitted, you can set the
+        compute/zone property:
+
+            $ gcloud config set compute/zone ZONE
+
+        A list of zones can be fetched by running:
+
+            $ gcloud compute zones list
+
+        To unset the property, run:
+
+            $ gcloud config unset compute/zone
+
+        Alternatively, the zone can be stored in the environment variable
+        CLOUDSDK_COMPUTE_ZONE.
+
+     At most one of these can be specified:
+
+       --internal-ip
+          Connect to TPU VMs using their internal IP addresses rather than
+          their external IP addresses. Use this to connect from a Google
+          Compute Engine VM to a TPU VM on the same VPC network, or between two
+          peered VPC networks.
+
+       --tunnel-through-iap
+          Tunnel the SSH connection through Cloud Identity-Aware Proxy for TCP
+          forwarding.
+
+          This flag must be specified to attempt to connect via IAP tunneling.
+          If it is not set, and connection to a Cloud TPU VM without external
+          IP address is attempted from outside the network, then the command
+          will fail.
+
+          To use IAP tunneling, there must be firewall access to the SSH port
+          for the IAP TCP IP address range for the network the TPU is created
+          in. See the user guide
+          (https://cloud.google.com/iap/docs/using-tcp-forwarding) for more
+          details.
+
+          To learn more, see the IAP for TCP forwarding documentation
+          (https://cloud.google.com/iap/docs/tcp-forwarding-overview).
+
+     At most one of these can be specified:
+
+       --ssh-key-expiration=SSH_KEY_EXPIRATION
+          The time when the ssh key will be valid until, such as
+          "2017-08-29T18:52:51.142Z." This is only valid if the instance is not
+          using OS Login. See $ gcloud topic datetimes for information on time
+          formats.
+
+       --ssh-key-expire-after=SSH_KEY_EXPIRE_AFTER
+          The maximum length of time an SSH key is valid for once created and
+          installed, e.g. 2m for 2 minutes. See $ gcloud topic datetimes for
+          information on duration formats.
+
+GCLOUD WIDE FLAGS
+    These flags are available to all commands: --access-token-file, --account,
+    --billing-project, --configuration, --flags-file, --flatten, --format,
+    --help, --impersonate-service-account, --log-http, --project, --quiet,
+    --trace-token, --user-output-enabled, --verbosity.
+
+    Run $ gcloud help for details.

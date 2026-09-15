@@ -1,0 +1,180 @@
+NAME
+    gcloud compute tpus tpu-vm ssh - SSH into a Cloud TPU VM
+
+SYNOPSIS
+    gcloud compute tpus tpu-vm ssh [USER@]TPU [--dry-run]
+        [--force-key-file-overwrite] [--internal-ip] [--plain]
+        [--ssh-flag=SSH_FLAG] [--ssh-key-file=SSH_KEY_FILE]
+        [--strict-host-key-checking=STRICT_HOST_KEY_CHECKING]
+        [--worker=WORKER; default="0"] [--zone=ZONE]
+        [--command=COMMAND --output-directory=OUTPUT_DIRECTORY]
+        [--ssh-key-expiration=SSH_KEY_EXPIRATION
+          | --ssh-key-expire-after=SSH_KEY_EXPIRE_AFTER] [GCLOUD_WIDE_FLAG ...]
+        [-- SSH_ARGS ...]
+
+DESCRIPTION
+    SSH into a Cloud TPU VM.
+
+EXAMPLES
+    To SSH into a Cloud TPU VM, run:
+
+        $ gcloud compute tpus tpu-vm ssh my-tpu
+
+    To SSH into worker 1 on a Cloud TPU VM Pod, run:
+
+        $ gcloud compute tpus tpu-vm ssh my-tpu --worker=1
+
+    To run an SSH command in a Cloud TPU VM (for example, to print the time
+    since last boot), run:
+
+        $ gcloud compute tpus tpu-vm ssh my-tpu --command="last boot"
+
+    To run the same command in all workers in a Cloud TPU VM simultaneously,
+    run:
+
+        $ gcloud compute tpus tpu-vm ssh my-tpu --command="last boot" \
+          --worker=all
+
+POSITIONAL ARGUMENTS
+     [USER@]TPU
+        Specifies the Cloud TPU VM to SSH into.
+
+        USER specifies the username with which to SSH. If omitted, the user
+        login name is used.
+
+        TPU specifies the name of the Cloud TPU VM to SSH into.
+
+     [-- SSH_ARGS ...]
+        Flags and positionals passed to the underlying ssh implementation.
+
+        The '--' argument must be specified between gcloud specific args on the
+        left and SSH_ARGS on the right. Example:
+
+            $ gcloud compute tpus tpu-vm ssh example-instance \
+            --zone=us-central1-a -- -vvv -L 80:%TPU%:80
+
+FLAGS
+     --dry-run
+        Print the equivalent scp/ssh command that would be run to stdout,
+        instead of executing it.
+
+     --force-key-file-overwrite
+        If enabled, the gcloud command-line tool will regenerate and overwrite
+        the files associated with a broken SSH key without asking for
+        confirmation in both interactive and non-interactive environments.
+
+        If disabled, the files associated with a broken SSH key will not be
+        regenerated and will fail in both interactive and non-interactive
+        environments.
+
+     --internal-ip
+        Connect to TPU VMs using their internal IP addresses rather than their
+        external IP addresses. Use this to connect from a Google Compute Engine
+        VM to a TPU VM on the same VPC network, or between two peered VPC
+        networks.
+
+     --plain
+        Suppress the automatic addition of ssh(1)/scp(1) flags. This flag is
+        useful if you want to take care of authentication yourself or use
+        specific ssh/scp features.
+
+     --ssh-flag=SSH_FLAG
+        Additional flags to be passed to ssh(1). It is recommended that flags
+        be passed using an assignment operator and quotes. Example:
+
+            $ gcloud compute tpus tpu-vm ssh example-instance \
+                --zone=us-central1-a --ssh-flag="-vvv" \
+                --ssh-flag="-L 80:localhost:80"
+
+        This flag will replace occurences of %USER% and %TPU% with their
+        dereferenced values. For example, passing ``80:%TPU%:80`` into the flag
+        is equivalent to passing 80:162.222.181.197:80 to ssh(1) if the
+        external IP address of 'example-instance' is 162.222.181.197.
+
+        If connecting to the instance's external IP, then %TPU% is replaced
+        with that, otherwise it is replaced with the internal IP.
+
+     --ssh-key-file=SSH_KEY_FILE
+        The path to the SSH key file. By default, this is
+        ~\.ssh\google_compute_engine.
+
+     --strict-host-key-checking=STRICT_HOST_KEY_CHECKING
+        Override the default behavior of StrictHostKeyChecking for the
+        connection. By default, StrictHostKeyChecking is set to 'no' the first
+        time you connect to an instance, and will be set to 'yes' for all
+        subsequent connections. STRICT_HOST_KEY_CHECKING must be one of: yes,
+        no, ask.
+
+     --worker=WORKER; default="0"
+        TPU worker to connect to. The supported value is a single 0-based index
+        of the worker in the case of a TPU Pod. When also using the --command
+        flag, it additionally supports a comma-separated list (e.g. '1,4,6'),
+        range (e.g. '1-3'), or special keyword ``all" to run the command
+        concurrently on each of the specified workers.
+
+        Note that when targeting multiple workers, you should run 'ssh-add'
+        with your private key prior to executing the gcloud command. Default:
+        'ssh-add ~/.ssh/google_compute_engine'.
+
+     --zone=ZONE
+        Zone of the tpu to ssh. If not specified and the compute/zone property
+        isn't set, you might be prompted to select a zone (interactive mode
+        only).
+
+        To avoid prompting when this flag is omitted, you can set the
+        compute/zone property:
+
+            $ gcloud config set compute/zone ZONE
+
+        A list of zones can be fetched by running:
+
+            $ gcloud compute zones list
+
+        To unset the property, run:
+
+            $ gcloud config unset compute/zone
+
+        Alternatively, the zone can be stored in the environment variable
+        CLOUDSDK_COMPUTE_ZONE.
+
+     These arguments are used to run commands using SSH.
+
+     --command=COMMAND
+        Command to run on the Cloud TPU VM.
+
+        Runs the command on the target Cloud TPU VM and then exits.
+
+        Note: in the case of a TPU Pod, it will only run the command in the
+        workers specified with the --worker flag (defaults to worker 0 if not
+        set).
+
+     --output-directory=OUTPUT_DIRECTORY
+        Path to the directory to output the logs of the commands.
+
+        The path can be relative or absolute. The directory must already exist.
+
+        If not specified, standard output will be used.
+
+        The logs will be written in files named {WORKER_ID}.log. For example:
+        "2.log".
+
+     At most one of these can be specified:
+
+       --ssh-key-expiration=SSH_KEY_EXPIRATION
+          The time when the ssh key will be valid until, such as
+          "2017-08-29T18:52:51.142Z." This is only valid if the instance is not
+          using OS Login. See $ gcloud topic datetimes for information on time
+          formats.
+
+       --ssh-key-expire-after=SSH_KEY_EXPIRE_AFTER
+          The maximum length of time an SSH key is valid for once created and
+          installed, e.g. 2m for 2 minutes. See $ gcloud topic datetimes for
+          information on duration formats.
+
+GCLOUD WIDE FLAGS
+    These flags are available to all commands: --access-token-file, --account,
+    --billing-project, --configuration, --flags-file, --flatten, --format,
+    --help, --impersonate-service-account, --log-http, --project, --quiet,
+    --trace-token, --user-output-enabled, --verbosity.
+
+    Run $ gcloud help for details.

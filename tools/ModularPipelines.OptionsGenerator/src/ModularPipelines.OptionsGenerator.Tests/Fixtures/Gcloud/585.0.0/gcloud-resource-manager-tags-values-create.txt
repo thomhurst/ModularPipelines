@@ -1,0 +1,64 @@
+NAME
+    gcloud resource-manager tags values create - creates a TagValue resource
+
+SYNOPSIS
+    gcloud resource-manager tags values create (SHORT_NAME --parent=PARENT)
+        [--async] [--description=DESCRIPTION] [GCLOUD_WIDE_FLAG ...]
+
+DESCRIPTION
+    Creates a TagValue resource given the short_name and description (optional)
+    as well as the parent, the of the TagValue. The parent of the TagValue can
+    be a TagKey or TagValue. The parent can be specified by its numeric ID or
+    its namespaced name.
+
+EXAMPLES
+    To create a TagValue with the short name test and the description
+    descriptio under a TagKey with a short name env under organizations/123,
+    run:
+
+        $ gcloud resource-manager tags values create test --parent=123/env \
+            --description=description
+
+    To create a TagValue with the short name test under TagKey with id 456,
+    run:
+
+        $ gcloud resource-manager tags values create test \
+            --parent=tagKeys/456 --description=description
+
+POSITIONAL ARGUMENTS
+     TagValue.
+
+     This must be specified.
+
+       SHORT_NAME
+          User specified, friendly name of the TagKey or TagValue. The field
+          must be 1-63 characters, beginning and ending with an alphanumeric
+          character ([a-z0-9A-Z]) with dashes (-), underscores ( _ ), dots (.),
+          and alphanumerics between.
+
+          This positional argument must be specified if any of the other
+          arguments in this group are specified.
+
+       --parent=PARENT
+          Parent of the TagValue in either in the form of tagKeys/{id} or
+          {org_id}/{tagkey_short_name}
+
+          This flag argument must be specified if any of the other arguments in
+          this group are specified.
+
+FLAGS
+     --async
+        Return immediately, without waiting for the operation in progress to
+        complete.
+
+     --description=DESCRIPTION
+        User-assigned description of the TagKey or TagValue. Must not exceed
+        256 characters.
+
+GCLOUD WIDE FLAGS
+    These flags are available to all commands: --access-token-file, --account,
+    --billing-project, --configuration, --flags-file, --flatten, --format,
+    --help, --impersonate-service-account, --log-http, --project, --quiet,
+    --trace-token, --user-output-enabled, --verbosity.
+
+    Run $ gcloud help for details.
