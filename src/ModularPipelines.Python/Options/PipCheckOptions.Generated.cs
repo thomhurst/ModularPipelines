@@ -21,12 +21,6 @@ namespace ModularPipelines.Python.Options;
 public record PipCheckOptions : PipOptions
 {
     /// <summary>
-    /// Show help.
-    /// </summary>
-    [CliOption("--help", ShortForm = "-h")]
-    public string? Help { get; set; }
-
-    /// <summary>
     /// Let unhandled exceptions propagate outside the main subroutine, instead of logging them to stderr.
     /// </summary>
     [CliOption("--debug")]
