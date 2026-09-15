@@ -119,8 +119,25 @@ internal sealed class ProcessTreeFixture : IAsyncDisposable
         }
 
         _disposed = true;
-        CapturePublishedProcesses();
-        _cancellation.Cancel();
+        List<Exception> cleanupErrors = [];
+        try
+        {
+            CapturePublishedProcesses();
+        }
+        catch (Exception exception)
+        {
+            cleanupErrors.Add(exception);
+        }
+
+        try
+        {
+            _cancellation.Cancel();
+        }
+        catch (Exception exception)
+        {
+            cleanupErrors.Add(exception);
+        }
+
         _forcefulCancellationReady.TrySetResult();
         try
         {
@@ -130,20 +147,39 @@ internal sealed class ProcessTreeFixture : IAsyncDisposable
         {
             // Retained process handles provide a fallback if command cancellation stalls.
         }
+        catch (Exception exception)
+        {
+            cleanupErrors.Add(exception);
+        }
+
+        try
+        {
+            await StopPublishedProcessesAsync();
+        }
+        catch (Exception exception)
+        {
+            cleanupErrors.Add(exception);
+        }
         finally
         {
-            try
-            {
-                await StopPublishedProcessesAsync();
-            }
-            finally
-            {
-                _cancellation.Dispose();
-            }
-
-            await ObserveExecutionAsync();
-            Directory.Delete(DirectoryPath, recursive: true);
+            _cancellation.Dispose();
         }
+
+        try
+        {
+            await ObserveExecutionAsync();
+        }
+        catch (Exception exception)
+        {
+            cleanupErrors.Add(exception);
+        }
+
+        if (cleanupErrors.Count > 0)
+        {
+            throw new AggregateException($"Process fixture cleanup failed. Diagnostics remain in {DirectoryPath}.", cleanupErrors);
+        }
+
+        Directory.Delete(DirectoryPath, recursive: true);
     }
 
     private async Task ObserveExecutionAsync()
@@ -165,8 +201,16 @@ internal sealed class ProcessTreeFixture : IAsyncDisposable
 
     private async Task StopPublishedProcessesAsync()
     {
-        CapturePublishedProcesses();
         List<Exception> cleanupErrors = [];
+        try
+        {
+            CapturePublishedProcesses();
+        }
+        catch (Exception exception)
+        {
+            cleanupErrors.Add(exception);
+        }
+
         foreach (var (identity, process) in _processes)
         {
             try
@@ -228,7 +272,7 @@ internal sealed class ProcessTreeFixture : IAsyncDisposable
                 return process;
             }
         }
-        catch (Exception exception) when (exception is ArgumentException or InvalidOperationException or Win32Exception)
+        catch (Exception exception) when (exception is ArgumentException or InvalidOperationException or Win32Exception or IOException or UnauthorizedAccessException)
         {
             // An exited or inaccessible process cannot be verified as belonging to this fixture.
         }

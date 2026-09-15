@@ -873,7 +873,7 @@ public class CommandTests : TestBase
         var child = await otherFixture.WaitForReadyProcessAsync("child", TimeSpan.FromSeconds(5));
         await using var staleFixture = new ProcessTreeFixture();
         var identity = ModularPipelines.ProcessTestHost.ProcessIdentity.Capture(parent);
-        var staleIdentity = identity with { StartTimeUtcTicks = identity.StartTimeUtcTicks - 1 };
+        var staleIdentity = identity with { StartTimeValue = identity.StartTimeValue - 1 };
         await File.WriteAllTextAsync(Path.Combine(staleFixture.DirectoryPath, "stale.pid"),
             System.Text.Json.JsonSerializer.Serialize(staleIdentity));
 
@@ -881,6 +881,42 @@ public class CommandTests : TestBase
 
         await Assert.That(parent.HasExited).IsFalse();
         await Assert.That(child.HasExited).IsFalse();
+    }
+
+    [Test]
+    [RequiresTool("dotnet")]
+    public async Task ProcessTreeFixture_Kills_Child_When_Identity_Publication_Fails()
+    {
+        await using var fixture = new ProcessTreeFixture();
+        Directory.CreateDirectory(Path.Combine(fixture.DirectoryPath, "child.pid"));
+        fixture.Start(await GetService<ICommandContext>(), "parent", TimeSpan.FromMilliseconds(50));
+        await Assert.ThrowsAsync<InvalidOperationException>(() =>
+            fixture.WaitForReadyAsync("unpublished-child", TimeSpan.FromSeconds(5)));
+        var identityJson = await File.ReadAllTextAsync(Directory.GetFiles(fixture.DirectoryPath, "child.pid.*.tmp").Single());
+        // Retain fallback ownership even when this regression fails before the fix.
+        await File.WriteAllTextAsync(Path.Combine(fixture.DirectoryPath, "failed-child.pid"), identityJson);
+        var identity = System.Text.Json.JsonSerializer.Deserialize<ModularPipelines.ProcessTestHost.ProcessIdentity>(identityJson);
+        var childIsRunning = false;
+        try
+        {
+            using var child = Process.GetProcessById(identity.Id);
+            childIsRunning = !child.HasExited && ModularPipelines.ProcessTestHost.ProcessIdentity.Capture(child) == identity;
+        }
+        catch (Exception exception) when (exception is ArgumentException or InvalidOperationException)
+        {
+            // The child exited before its process state could be inspected.
+        }
+
+        await Assert.That(childIsRunning).IsFalse();
+    }
+
+    [Test]
+    [Arguments("dotnet")]
+    [Arguments("worker ) with (spaces)")]
+    public async Task ProcessIdentity_Uses_Linux_Kernel_Start_Time(string processName)
+    {
+        var stat = $"123 ({processName}) R {string.Join(' ', Enumerable.Range(4, 18))} 987654321 0";
+        await Assert.That(ModularPipelines.ProcessTestHost.ProcessIdentity.ParseLinuxStartTime(stat)).IsEqualTo(987654321L);
     }
 
     private static string EscapePowerShellLiteral(string value) => value.Replace("'", "''");

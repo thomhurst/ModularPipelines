@@ -106,8 +106,35 @@ public static class Host
         }
 
         var child = Process.Start(startInfo)!;
-        Publish(directory, role + ".pid", JsonSerializer.Serialize(ProcessIdentity.Capture(child)));
-        return child;
+        try
+        {
+            Publish(directory, role + ".pid", JsonSerializer.Serialize(ProcessIdentity.Capture(child)));
+            return child;
+        }
+        catch (Exception publicationException)
+        {
+            using (child)
+            {
+                try
+                {
+                    if (!child.HasExited)
+                    {
+                        child.Kill(entireProcessTree: true);
+                    }
+
+                    if (!child.WaitForExit(5000))
+                    {
+                        throw new TimeoutException("Unpublished fixture child did not exit after termination.");
+                    }
+                }
+                catch (Exception cleanupException)
+                {
+                    throw new AggregateException("Fixture child publication and cleanup failed.", publicationException, cleanupException);
+                }
+            }
+
+            throw;
+        }
     }
 
     private static async Task WaitForTrigger(string directory, string name)
