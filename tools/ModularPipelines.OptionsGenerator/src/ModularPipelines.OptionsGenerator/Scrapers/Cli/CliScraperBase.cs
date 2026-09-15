@@ -800,17 +800,23 @@ public abstract partial class CliScraperBase : ICliScraper
             Options = options,
             Enums = [.. command.Enums.Where(definition => !ignoredEnumNames.Contains(definition.EnumName))],
             ArgumentGroups = FilterIgnoredArgumentGroups(command.ArgumentGroups, ignoredSwitches),
-            RequiredAlternativeGroups = [.. command.RequiredAlternativeGroups
-                .Select(group => group with
-                {
-                    Members = [.. group.Members.Where(member => member.OptionSwitch is { } optionSwitch
-                        ? !ignoredSwitches.Contains(optionSwitch)
-                        : member.PositionalArgumentPhase is not null || member.PositionalArgumentPositionIndex is not null
-                            || !ignoredProperties.Contains(member.PropertyName))],
-                })
-                .Where(group => group.Members.Count > 0)],
+            RequiredAlternativeGroups = FilterIgnoredRequiredAlternativeGroups(
+                command.RequiredAlternativeGroups, ignoredSwitches, ignoredProperties),
         };
     }
+
+    private static IReadOnlyList<CliRequiredAlternativeGroup> FilterIgnoredRequiredAlternativeGroups(
+        IReadOnlyList<CliRequiredAlternativeGroup> groups,
+        IReadOnlySet<string> ignoredSwitches,
+        IReadOnlySet<string> ignoredProperties) =>
+        [.. groups.Select(group => group with
+        {
+            Members = [.. group.Members.Where(member => member.OptionSwitch is { } optionSwitch
+                ? !ignoredSwitches.Contains(optionSwitch)
+                : member.PositionalArgumentPhase is not null || member.PositionalArgumentPositionIndex is not null
+                    || !ignoredProperties.Contains(member.PropertyName))],
+            Groups = FilterIgnoredRequiredAlternativeGroups(group.Groups, ignoredSwitches, ignoredProperties),
+        }).Where(group => group.Members.Count > 0 || group.Groups.Count > 0)];
 
     private static IReadOnlyList<CliArgumentGroup> FilterIgnoredArgumentGroups(
         IReadOnlyList<CliArgumentGroup> groups, IReadOnlySet<string> ignoredSwitches) =>
@@ -1061,14 +1067,26 @@ public abstract partial class CliScraperBase : ICliScraper
             return command.RequiredAlternativeGroups;
         }
 
-        return
-        [
-            .. command.RequiredAlternativeGroups,
-            .. usage.RequiredAlternativeGroups
-                .Select(group => TryResolveRequiredAlternativeGroup(command, group))
-                .OfType<CliRequiredAlternativeGroup>(),
-        ];
+        var groups = command.RequiredAlternativeGroups.ToList();
+        foreach (var inferred in usage.RequiredAlternativeGroups
+                     .Select(group => TryResolveRequiredAlternativeGroup(command, group))
+                     .OfType<CliRequiredAlternativeGroup>())
+        {
+            var identities = inferred.Members.Select(GetRequiredAlternativeIdentity).ToHashSet(StringComparer.Ordinal);
+            // A richer required help constraint already enforces presence over these members.
+            // Optional help constraints cannot replace a synopsis requirement.
+            if (!groups.Any(group => group.IsRequired && identities.SetEquals(GetAlternativeGroupIdentities(group))))
+            {
+                groups.Add(inferred);
+            }
+        }
+
+        return groups;
     }
+
+    private static IEnumerable<string> GetAlternativeGroupIdentities(CliRequiredAlternativeGroup group) =>
+        group.Members.Select(GetRequiredAlternativeIdentity)
+            .Concat(group.Groups.SelectMany(GetAlternativeGroupIdentities));
 
     private static CliRequiredAlternativeGroup? TryResolveRequiredAlternativeGroup(
         CliCommandDefinition command,

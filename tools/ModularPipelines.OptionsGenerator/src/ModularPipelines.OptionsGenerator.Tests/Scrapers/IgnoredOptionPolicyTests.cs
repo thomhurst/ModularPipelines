@@ -207,6 +207,47 @@ public class IgnoredOptionPolicyTests
     }
 
     [Test]
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task Nested_Alternative_Groups_Remove_Ignored_Members_And_Preserve_Surviving_Bundles(bool retainRootMember)
+    {
+        var ignoredMember = new CliRequiredAlternativeMember { PropertyName = "Help", OptionSwitch = "--help", IsRequired = true };
+        var retainedMember = new CliRequiredAlternativeMember { PropertyName = "Output", OptionSwitch = "--output", IsRequired = true };
+        var ignoredGroup = new CliRequiredAlternativeGroup { Members = [ignoredMember] };
+        var bundle = new CliRequiredAlternativeGroup
+        {
+            IsChoice = false,
+            Members = [ignoredMember, retainedMember],
+            Groups = [ignoredGroup],
+        };
+        var choice = new CliRequiredAlternativeGroup
+        {
+            IsRequired = false,
+            IsMutuallyExclusive = true,
+            Members = retainRootMember
+                ? [new() { PropertyName = "Mode", OptionSwitch = "--mode" }]
+                : [ignoredMember],
+            Groups = [bundle],
+        };
+        var scraper = new PolicyScraper(
+            [Option("--help", "Help"), Option("--output", "Output"), Option("--mode", "Mode")],
+            groups: [choice, new() { Members = [], Groups = [ignoredGroup] }]);
+
+        var command = (await Scrape(scraper)).Single();
+        var filteredChoice = command.RequiredAlternativeGroups.Single();
+        await Assert.That(filteredChoice.IsRequired).IsFalse();
+        await Assert.That(filteredChoice.IsChoice).IsTrue();
+        await Assert.That(filteredChoice.IsMutuallyExclusive).IsTrue();
+        await Assert.That(filteredChoice.Members.Select(member => member.PropertyName))
+            .IsEquivalentTo(retainRootMember ? ["Mode"] : Array.Empty<string>());
+        var filteredBundle = filteredChoice.Groups.Single();
+        await Assert.That(filteredBundle.IsRequired).IsTrue();
+        await Assert.That(filteredBundle.IsChoice).IsFalse();
+        await Assert.That(filteredBundle.Members).IsEquivalentTo([retainedMember]);
+        await Assert.That(filteredBundle.Groups).IsEmpty();
+    }
+
+    [Test]
     public async Task Ignored_Metadata_Is_Removed_While_Shared_Enums_And_Valid_Groups_Remain()
     {
         var discarded = new CliEnumDefinition { EnumName = "Discarded", Values = [] };

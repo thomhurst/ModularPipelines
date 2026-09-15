@@ -45,12 +45,11 @@ internal static class InheritedPropertyCollisionResolver
 
         return tool with
         {
-            Commands = tool.Commands
+            Commands = [.. tool.Commands
                 .Select(command => ResolveCommand(
                     command,
                     globalRenamedProperties,
-                    resolvedGlobalNames))
-                .ToArray(),
+                    resolvedGlobalNames))],
             GlobalOptions = globalOptions,
             SupplementalGlobalOptions = supplementalGlobalOptions,
         };
@@ -94,25 +93,19 @@ internal static class InheritedPropertyCollisionResolver
                         usedLocalNames),
                 })
             .ToArray();
+        CliRequiredAlternativeGroup ResolveGroup(CliRequiredAlternativeGroup group) => group with
+        {
+            Members = [.. group.Members.Select(member => member with
+            {
+                PropertyName = ResolveAlternativeMemberName(command, options, positionalArguments, member),
+            })],
+            Groups = [.. group.Groups.Select(ResolveGroup)],
+        };
         return command with
         {
             Options = options,
             PositionalArguments = positionalArguments,
-            RequiredAlternativeGroups = command.RequiredAlternativeGroups
-                .Select(group => group with
-                {
-                    Members = group.Members
-                        .Select(member => member with
-                        {
-                            PropertyName = ResolveAlternativeMemberName(
-                                command,
-                                options,
-                                positionalArguments,
-                                member),
-                        })
-                        .ToArray(),
-                })
-                .ToArray(),
+            RequiredAlternativeGroups = [.. command.RequiredAlternativeGroups.Select(ResolveGroup)],
             DocumentationExampleValues = command.DocumentationExampleValues
                 .ToDictionary(
                     pair => TryGetRename(
@@ -129,8 +122,8 @@ internal static class InheritedPropertyCollisionResolver
 
     private static string ResolveAlternativeMemberName(
         CliCommandDefinition command,
-        IReadOnlyList<CliOptionDefinition> options,
-        IReadOnlyList<CliPositionalArgument> positionalArguments,
+        CliOptionDefinition[] options,
+        CliPositionalArgument[] positionalArguments,
         CliRequiredAlternativeMember member)
     {
         if (member.OptionSwitch is { } optionSwitch
@@ -172,10 +165,10 @@ internal static class InheritedPropertyCollisionResolver
             $"Required alternative member {member.PropertyName} for {command.FullCommand} " +
             "does not identify exactly one generated member.");
 
-    private static IReadOnlyList<CliOptionDefinition> ResolveDuplicateOptionNames(
+    private static CliOptionDefinition[] ResolveDuplicateOptionNames(
         IReadOnlyList<CliOptionDefinition> options,
         HashSet<string> usedLocalNames) =>
-        options
+        [.. options
             .Select(option => usedLocalNames.Add(option.PropertyName)
                 ? option
                 : option with
@@ -184,12 +177,11 @@ internal static class InheritedPropertyCollisionResolver
                         option.PropertyName,
                         "Option",
                         usedLocalNames),
-                })
-            .ToArray();
+                })];
 
     private static string GetOrCreateArgumentName(
         string propertyName,
-        IDictionary<string, string> renamedArgumentNames,
+        Dictionary<string, string> renamedArgumentNames,
         HashSet<string> usedLocalNames)
     {
         if (renamedArgumentNames.TryGetValue(propertyName, out var renamedPropertyName))
@@ -228,18 +220,18 @@ internal static class InheritedPropertyCollisionResolver
 
     private static bool TryGetRename(
         string propertyName,
-        IReadOnlyDictionary<string, string> commandRenames,
+        Dictionary<string, string> commandRenames,
         IReadOnlyDictionary<string, string> globalRenames,
         out string renamedProperty) =>
         commandRenames.TryGetValue(propertyName, out renamedProperty!)
         || globalRenames.TryGetValue(propertyName, out renamedProperty!);
 
-    private static IReadOnlyList<CliOptionDefinition> ResolveOptions(
+    private static CliOptionDefinition[] ResolveOptions(
         IReadOnlyList<CliOptionDefinition> options,
         IReadOnlyList<string> commandParts,
         HashSet<string> occupiedNames,
         Dictionary<string, string>? renamedProperties) =>
-        options
+        [.. options
             .Select(option => option with
             {
                 PropertyName = ResolveName(
@@ -247,8 +239,7 @@ internal static class InheritedPropertyCollisionResolver
                     commandParts,
                     occupiedNames,
                     renamedProperties),
-            })
-            .ToArray();
+            })];
 
     private static string ResolveName(
         string propertyName,
@@ -302,10 +293,7 @@ internal static class InheritedPropertyCollisionResolver
         string renamedPropertyName,
         Dictionary<string, string>? renamedProperties)
     {
-        if (renamedProperties is not null)
-        {
-            renamedProperties[propertyName] = renamedPropertyName;
-        }
+        renamedProperties?[propertyName] = renamedPropertyName;
 
         return renamedPropertyName;
     }

@@ -221,6 +221,10 @@ internal static partial class CliArgumentGroupParser
         // Help headings are free-form prose, so classification is deliberately best-effort.
         // Tool adapters can retain the group tree even when their phrasing maps to None.
         var kind = CliArgumentGroupKind.None;
+        if (ExactlyOnePattern().IsMatch(description))
+        {
+            kind |= CliArgumentGroupKind.AtLeastOne | CliArgumentGroupKind.AtMostOne;
+        }
         if (AtMostOnePattern().IsMatch(description))
         {
             kind |= CliArgumentGroupKind.AtMostOne;
@@ -244,10 +248,16 @@ internal static partial class CliArgumentGroupParser
         return kind;
     }
 
+    internal static bool DescribesRequiredBundle(string? description) =>
+        RequiredBundleMarkerPattern().IsMatch(description ?? string.Empty);
+
+    [GeneratedRegex(@"\bThis must be specified(?:[.:]|$)", RegexOptions.IgnoreCase)]
+    private static partial Regex RequiredBundleMarkerPattern();
     private static bool StartsArgumentGroup(
         IEnumerable<string> lines,
         string? description) =>
         Classify(description) != CliArgumentGroupKind.None
+        || DescribesRequiredBundle(description)
         || lines.Any(line => SectionHeadingPattern().IsMatch(line.Trim()));
 
     private sealed class ArgumentGroupBuilder(int indentation, string? description)
@@ -285,6 +295,9 @@ internal static partial class CliArgumentGroupParser
 
     [GeneratedRegex(@"\bat most one\b", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant)]
     private static partial Regex AtMostOnePattern();
+
+    [GeneratedRegex(@"\bexactly one\b", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant)]
+    private static partial Regex ExactlyOnePattern();
 
     [GeneratedRegex(@"\bat least one\b", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant)]
     private static partial Regex AtLeastOnePattern();
