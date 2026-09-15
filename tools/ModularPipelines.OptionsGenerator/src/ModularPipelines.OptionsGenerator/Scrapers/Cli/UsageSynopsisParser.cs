@@ -315,11 +315,21 @@ public static class UsageSynopsisParser
         return
         [
             .. selected.RequiredAlternativeGroups.Where(group =>
-                !group.IsRequired || candidateMemberKeys.All(keys =>
-                    group.Members.Any(member => keys.Contains(GetAlternativeMemberKey(member))))),
+                group.IsRequired
+                    ? candidateMemberKeys.All(keys => group.Members.Any(member => keys.Contains(GetAlternativeMemberKey(member))))
+                    : candidates.All(candidate => candidate.RequiredAlternativeGroups.Any(alternative =>
+                        HaveSameConstraint(group, alternative)))),
             .. GetCrossSynopsisRequiredAlternativeGroups(candidates, selected.PositionalArguments),
         ];
     }
+
+    // An optional constraint may apply globally only when every accepted form declares it.
+    private static bool HaveSameConstraint(UsageRequiredAlternativeGroup left, UsageRequiredAlternativeGroup right) =>
+        left.IsRequired == right.IsRequired
+        && left.IsChoice == right.IsChoice
+        && left.Members.ToHashSet().SetEquals(right.Members)
+        && left.Groups.Count == right.Groups.Count
+        && left.Groups.All(group => right.Groups.Any(alternative => HaveSameConstraint(group, alternative)));
 
     private static IReadOnlyList<UsageRequiredAlternativeGroup> GetCrossSynopsisRequiredAlternativeGroups(
         IReadOnlyList<UsageSynopsisParseResult> candidates,

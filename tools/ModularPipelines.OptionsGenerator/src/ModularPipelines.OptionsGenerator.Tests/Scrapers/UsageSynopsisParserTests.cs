@@ -49,6 +49,37 @@ public class UsageSynopsisParserTests
     }
 
     [Test]
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task Optional_Bundle_Does_Not_Constrain_An_Alternate_Form(bool reverse)
+    {
+        string[] forms = ["tool run [RESOURCE --parent=PARENT]", "tool run RESOURCE"];
+        if (reverse)
+        {
+            Array.Reverse(forms);
+        }
+        var usage = UsageSynopsisParser.Parse("Usage: " + string.Join("\n       ", forms), ["tool", "run"]);
+        await Assert.That(usage.RequiredAlternativeGroups).IsEmpty();
+        var resolved = UsageSynopsisParser.ResolveOptionUsage(usage,
+            [new() { SwitchName = "--parent", PropertyName = "Parent", CSharpType = "string?" }]);
+        await Assert.That(resolved.RequiredAlternativeGroups).IsEmpty();
+    }
+
+    [Test]
+    [Arguments("[RESOURCE --parent=PARENT]")]
+    [Arguments("[RESOURCE [CHILD --parent=PARENT]]")]
+    public async Task Common_Optional_Bundles_Survive_Alternate_Forms(string bundle)
+    {
+        var usage = UsageSynopsisParser.Parse(
+            $"Usage: tool run {bundle}\n       tool run {bundle} [--quiet]", ["tool", "run"]);
+        await Assert.That(usage.RequiredAlternativeGroups.Count).IsEqualTo(1);
+        var resolved = UsageSynopsisParser.ResolveOptionUsage(usage,
+            [new() { SwitchName = "--parent", PropertyName = "Parent", CSharpType = "string?" },
+             new() { SwitchName = "--quiet", PropertyName = "Quiet", CSharpType = "bool?", IsFlag = true }]);
+        await Assert.That(resolved.RequiredAlternativeGroups.Count).IsEqualTo(1);
+    }
+
+    [Test]
     public async Task Optional_Flag_Bundle_Is_Resolved_After_Flag_Shapes_Are_Known()
     {
         var usage = UsageSynopsisParser.Parse("Usage: tool run [--verbose RESOURCE]", ["tool", "run"]);
