@@ -57,6 +57,7 @@ public class UsageSynopsisParserTests
     [Arguments("(RESOURCE : --location=LOCATION | --global)")]
     [Arguments("((--input=INPUT | --other=OTHER) : TARGET | ALTERNATIVE)")]
     [Arguments("((--input VALUE | --other=OTHER) : --network=NETWORK | --global)")]
+    [Arguments("((--input=INPUT | --other=OTHER) : --network=NETWORK | --global)")]
     public async Task Rejects_Ambiguous_Alternatives_Across_Colon_Groups(string group)
     {
         await Assert.That(() => UsageSynopsisParser.Parse(

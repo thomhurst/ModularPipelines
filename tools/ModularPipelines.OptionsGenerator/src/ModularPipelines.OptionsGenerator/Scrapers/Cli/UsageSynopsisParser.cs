@@ -1241,9 +1241,11 @@ public static class UsageSynopsisParser
 
         var content = TrimWrapper(normalizedToken).Trim();
         var nestedTokens = Tokenize(content);
-        if (nestedTokens.Contains(":") && ContainsOnlyInlineOptions(nestedTokens))
+        if (normalizedToken.StartsWith('[')
+            && nestedTokens.Contains(":")
+            && ContainsOnlyInlineOptions(nestedTokens))
         {
-            // Nested option choices can share selector flags without declaring operands.
+            // Optional option choices can share selector flags without declaring operands.
             return true;
         }
 
