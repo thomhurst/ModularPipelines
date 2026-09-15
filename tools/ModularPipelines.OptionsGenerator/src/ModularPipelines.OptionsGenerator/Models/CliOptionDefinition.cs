@@ -206,10 +206,7 @@ public record CliOptionDefinition
         CSharpCompilation compilation, ITypeSymbol propertyType, ITypeSymbol elementType, bool isArrayAssignable,
         bool retainUnsupportedCollections = false)
     {
-        var needsMutableSnapshot = retainUnsupportedCollections && propertyType.TypeKind == TypeKind.Interface
-            && (propertyType.OriginalDefinition.SpecialType is SpecialType.System_Collections_Generic_ICollection_T
-                or SpecialType.System_Collections_Generic_IList_T
-                || SymbolEqualityComparer.Default.Equals(propertyType, compilation.GetTypeByMetadataName("System.Collections.IList")));
+        var needsMutableSnapshot = retainUnsupportedCollections && IsMutableCollectionInterface(compilation, propertyType);
         if (isArrayAssignable && !needsMutableSnapshot)
         {
             return GetArraySnapshotExpression(compilation, propertyType, elementType, retainUnsupportedCollections);
@@ -259,6 +256,12 @@ public record CliOptionDefinition
             ? $"new global::System.Collections.ArrayList(global::System.Linq.Enumerable.ToArray({values}))"
             : null;
     }
+
+    private static bool IsMutableCollectionInterface(CSharpCompilation compilation, ITypeSymbol propertyType) =>
+        propertyType.TypeKind == TypeKind.Interface
+        && (propertyType.OriginalDefinition.SpecialType is SpecialType.System_Collections_Generic_ICollection_T
+            or SpecialType.System_Collections_Generic_IList_T
+            || SymbolEqualityComparer.Default.Equals(propertyType, compilation.GetTypeByMetadataName("System.Collections.IList")));
 
     private static string GetArraySnapshotExpression(
         CSharpCompilation compilation, ITypeSymbol propertyType, ITypeSymbol elementType, bool retainUnsupportedCollections)
