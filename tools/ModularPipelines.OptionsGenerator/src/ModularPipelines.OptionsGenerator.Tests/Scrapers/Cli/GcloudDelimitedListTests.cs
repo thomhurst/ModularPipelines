@@ -120,6 +120,11 @@ public partial class NestedArgumentGroupParsingTests
     [Arguments("[KEY=VALUE,...]", "A comma-separated list of KEY=VALUE pairs.", ",")]
     [Arguments("KEY=VALUE", "A comma-separated list of KEY=VALUE pairs.", ",")]
     [Arguments("[KEY=VALUE,...]", "Attribute mappings.", ",")]
+    [Arguments("[REVISION-NAME=PERCENTAGE,...]", "Traffic assignments.", ",")]
+    [Arguments("[TAG=PERCENTAGE,...]", "Traffic assignments.", ",")]
+    [Arguments("REVISION-NAME=PERCENTAGE,[REVISION-NAME=PERCENTAGE,...]", "Traffic assignments.", ",")]
+    [Arguments("[name=NAME,...]", "Structured fields.", null)]
+    [Arguments("[name=NAME,config=CONFIG,...]", "Structured fields.", null)]
     [Arguments("[KEY=VALUE,...]", "This flag can be repeated.", null)]
     [Arguments("[KEY=VALUE,...]", "Adds a volume to the Cloud Run resource. To add more than one volume, specify this flag multiple times.", null)]
     [Arguments("[KEY=VALUE,...]", "Specify this flag multiple times.", null)]
@@ -266,6 +271,8 @@ public partial class NestedArgumentGroupParsingTests
     [Arguments("iam-workload-identity-pools-list-attestation-rules", "iam workload-identity-pools list-attestation-rules", "--container-id-filter", ",")]
     [Arguments("scc-findings-list", "scc findings list", "--order-by", ",")]
     [Arguments("datastream-streams-update", "datastream streams update", "--update-mask", ",")]
+    [Arguments("run-services-update-traffic", "run services update-traffic", "--to-revisions", ",")]
+    [Arguments("run-services-update-traffic", "run services update-traffic", "--to-tags", ",")]
     public async Task Gcloud_Captured_Help_Preserves_Collection_Boundaries(
         string fixture, string commandPath, string switchName, string? separator, string version = "550.0.0")
     {

@@ -1,0 +1,162 @@
+NAME
+    gcloud run services update-traffic - adjust the traffic assignments for a
+        Cloud Run service
+
+SYNOPSIS
+    gcloud run services update-traffic [[SERVICE] --namespace=NAMESPACE]
+        [--async] [--region=REGION]
+        [--clear-tags | --set-tags=[TAG=REVISION,...]
+          | --remove-tags=[TAG,...] --update-tags=[TAG=REVISION,...]]
+        [--to-latest | --to-revisions=[REVISION-NAME=PERCENTAGE,...]
+          | --to-tags=[TAG=PERCENTAGE,...]] [GCLOUD_WIDE_FLAG ...]
+
+DESCRIPTION
+    Adjust the traffic assignments for a Cloud Run service.
+
+EXAMPLES
+    To assign 10% of traffic to revision myservice-s5sxn and 90% of traffic to
+    revision myservice-cp9kw run:
+
+        $ gcloud run services update-traffic myservice \
+          --to-revisions=myservice-s5sxn=10,myservice-cp9kw=90
+
+    To increase the traffic to revision myservice-s5sxn to 20% and by reducing
+    the traffic to revision myservice-cp9kw to 80% run:
+
+        $ gcloud run services update-traffic myservice \
+          --to-revisions=myservice-s5sxn=20
+
+    To rollback to revision myservice-cp9kw run:
+
+        $ gcloud run services update-traffic myservice \
+          --to-revisions=myservice-cp9kw=100
+
+    To assign 100% of traffic to the current or future LATEST revision run:
+
+        $ gcloud run services update-traffic myservice --to-latest
+
+    You can also refer to the current or future LATEST revision in
+    --to-revisions by the string "LATEST". For example, to set 10% of traffic
+    to always float to the latest revision:
+
+        $ gcloud run services update-traffic myservice \
+          --to-revisions=LATEST=10
+
+POSITIONAL ARGUMENTS
+     Service resource - Service to update the configuration of. The arguments
+     in this group can be used to specify the attributes of this resource.
+
+       [SERVICE]
+          ID of the service or fully qualified identifier for the service.
+
+          To set the service attribute:
+          + provide the argument SERVICE on the command line;
+          + specify the service name from an interactive prompt.
+
+       --namespace=NAMESPACE
+          Specific to Cloud Run for Anthos: Kubernetes namespace for the
+          service.
+
+          To set the namespace attribute:
+          + provide the argument SERVICE on the command line with a fully
+            specified name;
+          + specify the service name from an interactive prompt with a fully
+            specified name;
+          + provide the argument --namespace on the command line;
+          + set the property run/namespace;
+          + For Cloud Run on Kubernetes Engine, defaults to "default".
+            Otherwise, defaults to project ID.;
+          + provide the argument project on the command line;
+          + set the property core/project.
+
+FLAGS
+     --async
+        Return immediately, without waiting for the operation in progress to
+        complete.
+
+     --region=REGION
+        Region in which the resource can be found. Alternatively, set the
+        property [run/region].
+
+     Specify traffic tags. Traffic tags can be assigned to a revision by name
+     or to the latest ready revision. Assigning a tag to a revision generates a
+     URL prefixed with the tag that allows addressing that revision directly,
+     regardless of the percent traffic specified. Keys are tags. Values are
+     revision names or "LATEST" for the latest ready revision. For example,
+     --set-tags=candidate=LATEST,current=myservice-v1 assigns the tag
+     "candidate" to the latest ready revision and the tag "current" to the
+     revision with name "myservice-v1" and clears any existing tags. Changing
+     tags does not affect the traffic percentage assigned to revisions. When
+     using a tags flag and one or more of --to-latest and --to-revisions in the
+     same command, the tags change occurs first then the traffic percentage
+     change occurs.
+
+     At most one of these can be specified:
+
+       --clear-tags
+          Remove all tags.
+
+       --set-tags=[TAG=REVISION,...]
+          List of key-value pairs to set as tags. All existing tags will be
+          removed first.
+
+       Only --update-tags and --remove-tags can be used together. If both are
+       specified, --remove-tags will be applied first.
+
+         --remove-tags=[TAG,...]
+            List of tags to be removed.
+
+         --update-tags=[TAG=REVISION,...]
+            List of key-value pairs to set as tags.
+
+     At most one of these can be specified:
+
+       --to-latest
+          True to assign 100 percent of traffic to the 'latest' revision of
+          this service. Note that when a new revision is created, it will
+          become the 'latest' and traffic will be directed to it. Defaults to
+          False. Synonymous with '--to-revisions=LATEST=100'.
+
+       --to-revisions=[REVISION-NAME=PERCENTAGE,...]
+          Comma separated list of traffic assignments in the form
+          REVISION-NAME=PERCENTAGE. REVISION-NAME must be the name for a
+          revision for the service as returned by 'gcloud beta run list
+          revisions'. PERCENTAGE must be an integer percentage between 0 and
+          100 inclusive. Ex service-nw9hs=10,service-nw9hs=20 Up to 100 percent
+          of traffic may be assigned. If 100 percent of traffic is assigned,
+          the Service traffic is updated as specified. If under 100 percent of
+          traffic is assigned, the Service traffic is updated as specified for
+          revisions with assignments and traffic is scaled up or down down
+          proportionally as needed for revision that are currently serving
+          traffic but that do not have new assignments. For example assume
+          revision-1 is serving 40 percent of traffic and revision-2 is serving
+          60 percent. If revision-1 is assigned 45 percent of traffic and no
+          assignment is made for revision-2, the service is updated with
+          revsion-1 assigned 45 percent of traffic and revision-2 scaled down
+          to 55 percent. You can use "LATEST" as a special revision name to
+          always put the given percentage of traffic on the latest ready
+          revision.
+
+       --to-tags=[TAG=PERCENTAGE,...]
+          Comma separated list of traffic assignments in the form
+          TAG=PERCENTAGE. TAG must match a traffic tag on a revision of the
+          service. It may match a previously-set tag, or one assigned using the
+          --set-tags or --update-tags flags on this command. PERCENTAGE must be
+          an integer percentage between 0 and 100 inclusive. Up to 100 percent
+          of traffic may be assigned. If 100 percent of traffic is assigned,
+          the service traffic is updated as specified. If under 100 percent of
+          traffic is assigned, the service traffic is updated as specified to
+          the given tags, and other traffic is scaled up or down
+          proportionally. For example, assume the revision tagged next is
+          serving 40 percent of traffic and the revision tagged current is
+          serving 60 percent. If next is assigned 45 percent of traffic and no
+          assignment is made for current, the service is updated with next
+          assigned 45 percent of traffic and current scaled down to 55 percent.
+
+GCLOUD WIDE FLAGS
+    These flags are available to all commands: --access-token-file, --account,
+    --billing-project, --configuration, --flags-file, --flatten, --format,
+    --help, --impersonate-service-account, --log-http, --project, --quiet,
+    --trace-token, --user-output-enabled, --verbosity.
+
+    Run $ gcloud help for details.

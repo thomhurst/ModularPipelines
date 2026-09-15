@@ -780,7 +780,7 @@ public partial class GcloudCliScraper : CliScraperBase
         + @"(?:(?:the|individual|multiple)\s+)?[a-z][\w-]*(?=\s*(?:[.!?]|$))", RegexOptions.IgnoreCase)]
     private static partial Regex CommaSeparatedListDescriptionPattern();
 
-    [GeneratedRegex(@"^(?<outer>\[)?(?<key>[A-Z][A-Z0-9_]*)=(?<value>[A-Z][A-Z0-9_]*),\[\k<key>=\k<value>,\.{3}\](?(outer)\])$")]
+    [GeneratedRegex(@"^(?<outer>\[)?(?<key>[A-Z][A-Z0-9_-]*)=(?<value>[A-Z][A-Z0-9_-]*),(?:\[\k<key>=\k<value>,\.{3}\]|\.{3})(?(outer)\])$")]
     private static partial Regex RepeatedPairValueHintPattern();
 
     /// <summary>
